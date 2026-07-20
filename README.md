@@ -15,8 +15,9 @@ finance funding block per portfolio reconciled to `0.4 Budget Table (Fin)`.
 | `0.1 Squads` | Cost lookup: `Squad Type \| Size` → onshore / offshore cost |
 | `0.2 FY26 Budget` | FY26 budget by business segment |
 | `0.3 For Presentation Pack (2)` | Finance presentation pack extract (values frozen — external links removed) |
-| `0.4 Budget Table (Fin)` | Finance budget table incl. the people component of each portfolio's lights‑on |
+| `0.4 Budget Table (Fin)` | Finance budget table — fully live: every subtotal/total is a SUM of its components; echo rows are links. ±0.1 vs the printed pack = pack rounding |
 | `1.1 Ampol Retail` … `1.11 TDD Cyber` | Portfolio calculators (see below) |
+| `2.1 COE` | COE allocations (5 × $2.0m) with editable planned spend |
 | `2.0 Group Summary` | All portfolios side by side + reconciliation to the Data Config allocation |
 | `squad mapping` | Source mapping of portfolio → platform → squad → type/size |
 | `Lists` (hidden) | Dropdown lists (named ranges `SquadTypes`, `SquadSizes`, `OnOff`, `SupportPct`) |
