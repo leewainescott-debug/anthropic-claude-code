@@ -1,88 +1,67 @@
-# Ampol Retail — TDD Cost Calculator
+# TDD Cost Calc — portfolio cost calculators
 
-An interactive, portfolio‑level cost calculator for **Ampol Retail**. It builds cost
-from the bottom up — **Squad → Platform → Portfolio** — splits every dollar into
-**TDD‑funded** vs **Other**, and compares the implied TDD cost against the TDD
-lights‑on budget to reveal the funding gap.
+**File:** `TDD_Cost_Calc.xlsx`
 
-**File:** `Ampol_Retail_TDD_Cost_Calculator.xlsx`
+One calculator tab per portfolio, all following the same pattern: dropdown‑driven
+squad selections roll up **Squad → Platform → Portfolio**, split into **TDD‑funded**
+vs **Funded outside TDD**, compared against the TDD lights‑on budget, with a
+finance funding block per portfolio reconciled to `0.4 Budget Table (Fin)`.
 
----
+## Workbook map
 
-## How it works
-
-### 1. Squad level (your inputs)
-For every squad you choose four things from dropdowns (yellow cells, blue text):
-
-| Input | Options |
+| Tab | Purpose |
 |---|---|
-| **Squad Type** | Engineering · Configuration / Integration · Product · Operations · Enterprise Data and Insights · Build and Run |
-| **Size** | XS · S · M · L |
-| **On/Off** | Onshore · Offshore |
-| **Support %** | 0% · 20% · 100% |
+| `0.0 Data Config` | TDD budget allocation by portfolio; role build‑up of portfolio ($0.7495m) & platform ($0.165m) overheads |
+| `0.1 Squads` | Cost lookup: `Squad Type \| Size` → onshore / offshore cost |
+| `0.2 FY26 Budget` | FY26 budget by business segment |
+| `0.3 For Presentation Pack (2)` | Finance presentation pack extract (values frozen — external links removed) |
+| `0.4 Budget Table (Fin)` | Finance budget table incl. the people component of each portfolio's lights‑on |
+| `1.1 Ampol Retail` … `1.11 TDD Cyber` | Portfolio calculators (see below) |
+| `2.0 Group Summary` | All portfolios side by side + reconciliation to the Data Config allocation |
+| `squad mapping` | Source mapping of portfolio → platform → squad → type/size |
+| `Lists` (hidden) | Dropdown lists (named ranges `SquadTypes`, `SquadSizes`, `OnOff`, `SupportPct`) |
 
-The engine then derives:
+## Portfolio tabs
 
-- **Total Squad Cost** — looked up from the **Squads** sheet by *Squad Type × Size*.
-  Onshore uses the onshore rate; Offshore uses `onshore × 0.4` (offshore efficiency).
-- **Cost TDD** = `Total Squad Cost × Support %`
-- **Cost Other** = `Total Squad Cost × (1 − Support %)`
+| Tab | Platforms (squads) | TDD budget source |
+|---|---|---|
+| 1.1 Ampol Retail | Store Operations (POS, Payments, Retail Operations, Deployment) · Merch/Supply Chain · Pricing & WFM · AmPOS · Network/QSR · Data AU | Data Config `E11` (2.5) |
+| 1.2 Customer | Ampol Digital (App, Web, Digital Ops) · Customer Z (Z Energy Apps, Z Energy Martech) · Group Customer Platforms (Loyalty & Martech) | `E13+E14` (5.0) |
+| 1.3 Enterprise Data | Group Data (Data Science, Reporting & Analytics, Data Platforms, Enterprise Data Delivery) | `E22` TDD Data (3.5) |
+| 1.4 TDD Group Functions | Workplace & Ent Tooling, Network & Infra, DevOps & Eng, Integration | `E21` TDD (5.5) |
+| 1.5 P&C | P&C, P&C – RTA | `E18` (2.0) |
+| 1.6 Finance | AU Finance, NZ Finance | `E19` (2.0) |
+| 1.7 Infrastructure | Distribution · Manufacturing (M&GP, Tech Support) · Data & Insights | `E17` (2.5) |
+| 1.8 Energy Solutions & B2B | Energy Solutions (Energy, EVCI) · B2B | `E16` (2.5) |
+| 1.9 Commercial Fuels | Trading & Shipping (T&S, T&S Data) · Supply · CTRM | `E15` (2.5) |
+| 1.10 Z Retail | Z Supply · Z Customer (Site Systems, Z Retail Backend) | `E12` (2.5) |
+| 1.11 TDD Cyber | TDD Cyber | `E23` (1.5) |
 
-### 2. Platform level
-Each platform rolls its squads up and adds a fixed overhead:
+## How each tab works
 
-- **Platform Overhead (TDD‑funded)** = **$0.165m** — from *Data Config* (Delivery Manager + Tech Manager build‑up). Sits entirely in the TDD column.
-- **Support Cost** = Σ of the squads’ *Cost TDD* and *Cost Other*.
-- **Platform Total** = Overhead + Support, split TDD / Other.
+Per squad (yellow cells = your dropdowns): **Squad Type × Size** looks up the cost in
+`0.1 Squads` (Offshore = onshore × 0.4); **TDD Cost = Total × Support %**;
+**Funded outside TDD = Total × (1 − Support %)**. Each platform adds a $0.165m
+overhead; the portfolio adds $0.7495m. The funding block pulls that portfolio's
+Lights‑On / Initiatives / CapEx / Sig Items / Depreciation from `0.4 Budget Table
+(Fin)` and nets off the "amount that can be allocated to people" (editable) to show
+**Left to fund**.
 
-Ampol Retail contains five platforms:
+New tabs include a **Depreciation** line so `Total budget` reconciles to the Finance
+total; `1.1` retains its original 4‑line block (Retail depreciation = 0).
 
-| Platform | Squads |
-|---|---|
-| Store Operations | POS · Payments · Retail Operations · Deployment |
-| Merchandising / Supply Chain | Merchandising & Supply Chain |
-| Pricing & WFM | Pricing & WFM |
-| AmPOS | AmPOS |
-| Network / QSR | Network & QSR |
+## QA notes
 
-### 3. Portfolio level
-The summary at the top adds the portfolio overhead and totals everything:
+- All 1,188 formulas verified — zero errors; every platform cross‑foots; `2.0`
+  reconciles portfolio budgets (32.0) + COE allocations (10.0) = Data Config total (42.0).
+- ±0.1 deltas between a portfolio's budget components and Finance's total on
+  1.1 / 1.4 / 1.8 / 1.9 are roundings inside the Finance source table — shown, not hidden.
+- Cell comments (marked "QA") flag every normalised squad type/size default and
+  budget‑line approximation. Shorthand from `squad mapping` was normalised:
+  Config → Configuration / Integration · Data → Enterprise Data and Insights ·
+  Ops → Operations · Support & Maintain → Build and Run · Strat (CTRM) → Configuration / Integration.
+- `0.3` previously linked to the original Cost_calculator workbook; those cells are
+  frozen at their cached values so nothing breaks when the source file isn't present.
+- ~18,600 broken legacy defined names removed (file 281KB → 86KB).
 
-- **Total Portfolio Overhead (TDD)** = **$0.6945m** — from *Data Config* (Head of Tech + Business Partner + Domain Architect + Leadership build‑up).
-- **Total Platform Overhead (TDD)** = Σ of the five platform overheads.
-- **Total Support Costs** = Σ of every squad’s TDD and Other.
-- **TOTAL COST** = the three above, split into **Y (TDD total)** and **E (Other total)**.
-
-### 4. Budget & variance
-- **TDD Lights‑On Budget (Ampol Retail)** = **$2.5m** — pulled from *Data Config → TDD Budget Allocation*.
-- **Variance** = `Budget − Total TDD Cost`. Negative ⇒ a shortfall that has to be funded.
-
-With the illustrative default selections the model shows **TDD cost $4.20m vs. $2.5m
-budget → a ($1.70m) shortfall**. Change the dropdowns and every roll‑up, the variance
-and the verdict line update live.
-
----
-
-## Sheets
-
-| Sheet | Purpose |
-|---|---|
-| **Ampol Retail** | The calculator — summary, budget/variance, FY26 context, and the five platform blocks. |
-| **Squads** | Cost library: onshore/offshore cost per *Squad Type × Size*. Drives the lookups. |
-| **Data Config** | TDD budget allocation by area, and the role‑based build‑up of portfolio & platform overheads. |
-| **FY26 Budget** | FY2026 technology budget by business segment (Lights On, Initiatives, Depreciation, Significant Items, CapEx), pulled from the presentation pack. |
-
----
-
-## Assumptions & notes
-
-- **Squad types** are the six *costed* types in the Squads library; **AI** is excluded per brief.
-- Not every *Size* exists for every *Type* (e.g. only Configuration / Integration has an **XS**). An invalid combination returns $0 — pick a valid one.
-- The default squad selections are **illustrative** so the model shows live numbers; overwrite them with the real shape of each squad.
-- **Portfolio overhead is taken as $0.6945m** (the Data Config *Portfolio overhead subtotal*). If the intended figure is different, change it in *Data Config* and it flows through.
-- All figures are **$m per annum, FY2026**.
-
-## Colour key
-- **Yellow fill / blue text** — your inputs (dropdowns)
-- **Green text** — a value pulled from another sheet
-- **Black text** — a formula
+`scripts/` contains the generation/QA tooling.
