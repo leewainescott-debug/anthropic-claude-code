@@ -6,7 +6,8 @@ import formulas, logging, re, zipfile, shutil, os
 import xml.etree.ElementTree as ET
 import openpyxl
 
-SRC="Ampol_Retail_TDD_Cost_Calculator.xlsx"
+import sys
+SRC=sys.argv[1] if len(sys.argv)>1 else "Ampol_Retail_TDD_Cost_Calculator.xlsx"
 logging.getLogger().setLevel(logging.ERROR)
 
 # 1) compute all values
