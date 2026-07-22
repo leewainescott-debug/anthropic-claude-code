@@ -8,9 +8,9 @@ QA harness result: FAILS: 0 (exit 0). Three passes:
 
 ## Key numbers from this run
   PASS1: pt={'Business Partnering': 3.293, 'Transformation': 3.108} sad={'Strategy & Architecture': 4.321, 'Data': 2.233} cy={'Service Operations': 4.387, 'Cyber & Risk': 6.529} egi=4.666 BP_budget=3.720 SA_budget=3.400 ledger=120.038
-  KEY: model 89.054848478 actual 118.1987064031 BPbudget 3.72 SAbudget 3.4000000000000004 cyber 10.915989044 egi 4.665919350000001 restate -1.839
+  KEY: model 89.054848478 actual 118.1987064031 BPbudget 3.72 SAbudget 3.4000000000000004 cyber 10.915989044000002 egi 4.665919350000001 restate -1.839
 
-## The 60 named assertions (every one passed)
+## The 61 named assertions (every one passed)
     1. p1.divisions
     2. p1.sad_coe_n
     3. p1.sad_covers_techstrategy
@@ -70,6 +70,7 @@ QA harness result: FAILS: 0 (exit 0). Three passes:
    57. aunz.nz_total
    58. aunz.covers_squads_sanity
    59. t20.k24_net
-   60. off.flip
+   60. lever.offshore_04
+   61. lever.offshore_04
 
 ## Structural guards (fail the build if violated): 0

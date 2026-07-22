@@ -164,7 +164,8 @@ def f_model(row_here, paused_zero=True):
     return "=" + base
 
 def write_roster(ws, first, entries, cat_formula, paused_zero):
-    """entries: list of Sheet2 dict rows; cat_formula(row_here, s2_row) -> G formula"""
+    """no salaries for filled people - cost shows only on vacancies; a hidden
+    helper column T carries every row's model cost so summaries can foot"""
     for i, x in enumerate(entries):
         rr = first + i; r2r = x["r"]
         sc(ws, f"B{rr}", f_name(r2r), NORM)
@@ -172,16 +173,14 @@ def write_roster(ws, first, entries, cat_formula, paused_zero):
         sc(ws, f"D{rr}", f_dept(r2r), NORM)
         sc(ws, f"E{rr}", f_ctry(r2r), NORM)
         sc(ws, f"F{rr}", f_status(r2r), NORM, align="center")
-        sc(ws, f"G{rr}", cat_formula(rr, r2r), NORM)
-        sc(ws, f"H{rr}", "Onshore", NORM, YELL, align="center")
-        sc(ws, f"I{rr}", f_cost(r2r), NORM, fmt=D0, align="right")
-        sc(ws, f"J{rr}", f_model(rr, paused_zero), NORM, fmt=M2, align="right")
-    last = first + len(entries) - 1
-    dv = DataValidation(type="list", formula1='"Onshore,Offshore"', allow_blank=False,
-                        showErrorMessage=True)
-    ws.add_data_validation(dv)
-    dv.add(f"H{first}:H{last}")
-    return last
+        if x["typ"] in ("v", "pause"):
+            sc(ws, f"G{rr}", f_cost(r2r), NORM, fmt=D0, align="right")
+        helper = f"={S2}!$AA${r2r}/1000000"
+        if paused_zero:
+            helper = f'=IF($F{rr}="Paused",0,{S2}!$AA${r2r}/1000000)'
+        c = ws[f"T{rr}"]; c.value = helper; c.number_format = M2
+    ws.column_dimensions["T"].hidden = True
+    return first + len(entries) - 1
 
 def strip_dv_cf(ws):
     """remove stale data validations / conditional formats before a rebuild -
@@ -191,9 +190,8 @@ def strip_dv_cf(ws):
         del ws.conditional_formatting[rng.sqref]
 
 def roster_headers(ws, r):
-    for col, h in zip("BCDEFGHIJ", ["Name","Position Title","Department","Country",
-                                    "Status","Category","On/Off","Full Cost AUD ($)",
-                                    "Model cost ($m)"]):
+    for col, h in zip("BCDEFG", ["Name","Position Title","Department","Country",
+                                 "Status","Cost if hired ($)"]):
         sc(ws, f"{col}{r}", h, WHITEF, MIDBLU, align="center", wrap=True)
 
 # =====================================================================
@@ -203,23 +201,35 @@ ws = wb["2.3 BP&T"]
 strip_dv_cf(ws)
 clear_region(ws, 4, ws.max_row+4, 2, 12)
 sc(ws, "B4", "Summary", WHITEF, NAVY)
-for col, h in zip("BCDEFGH", ["Category","Roles","Filled","Vacant","Planned spend ($m)",
-                              "Budget to draw down ($m)","Left to fund ($m)"]):
+for col, h in zip("BCDEFGHIJ", ["Grouping","Roles","Filled","Vacant","Planned spend ($m)",
+                                "Budget to draw down ($m)","Left to fund ($m)",
+                                "Cost - AU ($m)","Cost - NZ ($m)"]):
     sc(ws, f"{col}5", h, WHITEF, MIDBLU, align="center", wrap=True)
 n_pt = len(PT)
-R1, R2 = 21, 21 + n_pt - 1   # roster block
-for i, cat in enumerate(["Business Partnering", "Transformation"]):
+R1, R2 = 21, 21 + n_pt - 1   # FTE block
+BPCRIT = [("TDD Business Partner",), ("Commercial",)]
+def dsum(rng_col, crits, extra=""):
+    terms = [f'SUMIFS({rng_col},$D${R1}:$D${R2},"{c[0]}"{extra})' for c in crits]
+    return "+".join(terms)
+for i, (cat, crits) in enumerate([("Business Partnering", [("TDD Business Partner",), ("Commercial",)]),
+                                  ("Transformation", [("Transformation",)])]):
     r = 6 + i
     sc(ws, f"B{r}", cat, BOLD)
-    sc(ws, f"C{r}", f'=COUNTIF($G${R1}:$G${R2},$B{r})', NORM, fmt="0", align="center")
-    sc(ws, f"D{r}", f'=COUNTIFS($G${R1}:$G${R2},$B{r},$F${R1}:$F${R2},"Filled")', NORM, fmt="0", align="center")
-    sc(ws, f"E{r}", f'=COUNTIFS($G${R1}:$G${R2},$B{r},$F${R1}:$F${R2},"Vacant")', NORM, fmt="0", align="center")
-    sc(ws, f"F{r}", f'=SUMIF($G${R1}:$G${R2},$B{r},$J${R1}:$J${R2})', NORM, fmt=M2, align="right")
+    cnt_t = "+".join(f'COUNTIFS($D${R1}:$D${R2},"{c[0]}")' for c in crits)
+    sc(ws, f"C{r}", f"={cnt_t}", NORM, fmt="0", align="center")
+    fil_t = "+".join(f'COUNTIFS($D${R1}:$D${R2},"{c[0]}",$F${R1}:$F${R2},"Filled")' for c in crits)
+    vac_t = "+".join(f'COUNTIFS($D${R1}:$D${R2},"{c[0]}",$F${R1}:$F${R2},"Vacant")' for c in crits)
+    sc(ws, f"D{r}", f"={fil_t}", NORM, fmt="0", align="center")
+    sc(ws, f"E{r}", f"={vac_t}", NORM, fmt="0", align="center")
+    sc(ws, f"F{r}", f'={dsum(f"$T${R1}:$T${R2}", crits)}', NORM, fmt=M2, align="right")
     sc(ws, f"H{r}", f"=MAX(0,F{r}-G{r})", NORM, fmt=M2, align="right")
-sc(ws, "G6", "=C15", NORM, fmt=M2, align="right")
-sc(ws, "G7", "=C16", NORM, fmt=M2, align="right")
+    au_t = "+".join(f'SUMIFS($T${R1}:$T${R2},$D${R1}:$D${R2},"{c[0]}",$E${R1}:$E${R2},"<>NZ")' for c in crits)
+    nz_t = "+".join(f'SUMIFS($T${R1}:$T${R2},$D${R1}:$D${R2},"{c[0]}",$E${R1}:$E${R2},"NZ")' for c in crits)
+    sc(ws, f"I{r}", f"={au_t}", NORM, fmt=M2, align="right")
+    sc(ws, f"J{r}", f"={nz_t}", NORM, fmt=M2, align="right")
+    sc(ws, f"G{r}", "=C15" if cat == "Business Partnering" else "=C16", NORM, fmt=M2, align="right")
 sc(ws, "B8", "Total", BOLD, LGREY)
-for col in "CDEFGH":
+for col in "CDEFGHIJ":
     fmt = "0" if col in "CDE" else M2
     sc(ws, f"{col}8", f"=SUM({col}6:{col}7)", BOLD, LGREY, fmt=fmt,
        align="center" if col in "CDE" else "right")
@@ -243,7 +253,7 @@ sc(ws, "B19", "Roles", WHITEF, NAVY)
 roster_headers(ws, 20)
 def cat_pt(rr, r2r):
     return f'=IF({S2}!$G${r2r}="Transformation","Transformation","Business Partnering")'
-last = write_roster(ws, R1, PT, cat_pt, paused_zero=False)
+last = write_roster(ws, R1, PT, None, paused_zero=False)
 sc(ws, f"B{last+1}", "Check - roles listed vs counted (must be 0)", NORM)
 sc(ws, f"C{last+1}", f"=COUNTA(B{R1}:B{last})-C8", NORM, fmt="0", align="center")
 sc(ws, f"B{last+3}",
@@ -259,24 +269,35 @@ ws = wb["2.4 SA&D"]
 strip_dv_cf(ws)
 clear_region(ws, 4, ws.max_row+6, 2, 12)
 sc(ws, "B4", "Summary", WHITEF, NAVY)
-for col, h in zip("BCDEFGHI", ["Category","Roles","Filled","Vacant","Paused",
-                               "Planned spend ($m)","Budget to draw down ($m)","Left to fund ($m)"]):
+for col, h in zip("BCDEFGHIJK", ["Grouping","Roles","Filled","Vacant","Paused",
+                                 "Planned spend ($m)","Budget to draw down ($m)","Left to fund ($m)",
+                                 "Cost - AU ($m)","Cost - NZ ($m)"]):
     sc(ws, f"{col}5", h, WHITEF, MIDBLU, align="center", wrap=True)
 n_sad = len(sad_coe)
 S1, S2R = 22, 22 + n_sad - 1
-for i, cat in enumerate(["Strategy & Architecture", "Data"]):
-    r = 6 + i
-    sc(ws, f"B{r}", cat, BOLD)
-    sc(ws, f"C{r}", f'=COUNTIF($G${S1}:$G${S2R},$B{r})', NORM, fmt="0", align="center")
-    sc(ws, f"D{r}", f'=COUNTIFS($G${S1}:$G${S2R},$B{r},$F${S1}:$F${S2R},"Filled")', NORM, fmt="0", align="center")
-    sc(ws, f"E{r}", f'=COUNTIFS($G${S1}:$G${S2R},$B{r},$F${S1}:$F${S2R},"Vacant")', NORM, fmt="0", align="center")
-    sc(ws, f"F{r}", f'=COUNTIFS($G${S1}:$G${S2R},$B{r},$F${S1}:$F${S2R},"Paused")', NORM, fmt="0", align="center")
-    sc(ws, f"G{r}", f'=SUMIF($G${S1}:$G${S2R},$B{r},$J${S1}:$J${S2R})', NORM, fmt=M2, align="right")
-    sc(ws, f"I{r}", f"=MAX(0,G{r}-H{r})", NORM, fmt=M2, align="right")
+TS, DS, ES, FS = f"$T${S1}:$T${S2R}", f"$D${S1}:$D${S2R}", f"$E${S1}:$E${S2R}", f"$F${S1}:$F${S2R}"
+sc(ws, "B6", "Strategy & Architecture", BOLD)
+sc(ws, "C6", f'=COUNTA($B${S1}:$B${S2R})-COUNTIFS({DS},"Group Data")', NORM, fmt="0", align="center")
+sc(ws, "D6", f'=COUNTIFS({FS},"Filled")-COUNTIFS({DS},"Group Data",{FS},"Filled")', NORM, fmt="0", align="center")
+sc(ws, "E6", f'=COUNTIFS({FS},"Vacant")-COUNTIFS({DS},"Group Data",{FS},"Vacant")', NORM, fmt="0", align="center")
+sc(ws, "F6", f'=COUNTIFS({FS},"Paused")-COUNTIFS({DS},"Group Data",{FS},"Paused")', NORM, fmt="0", align="center")
+sc(ws, "G6", f'=SUM({TS})-SUMIFS({TS},{DS},"Group Data")', NORM, fmt=M2, align="right")
 sc(ws, "H6", "=C15", NORM, fmt=M2, align="right")
+sc(ws, "I6", "=MAX(0,G6-H6)", NORM, fmt=M2, align="right")
+sc(ws, "J6", f'=SUMIFS({TS},{ES},"<>NZ")-SUMIFS({TS},{DS},"Group Data",{ES},"<>NZ")', NORM, fmt=M2, align="right")
+sc(ws, "K6", f'=SUMIFS({TS},{ES},"NZ")-SUMIFS({TS},{DS},"Group Data",{ES},"NZ")', NORM, fmt=M2, align="right")
+sc(ws, "B7", "Data", BOLD)
+sc(ws, "C7", f'=COUNTIFS({DS},"Group Data")', NORM, fmt="0", align="center")
+sc(ws, "D7", f'=COUNTIFS({DS},"Group Data",{FS},"Filled")', NORM, fmt="0", align="center")
+sc(ws, "E7", f'=COUNTIFS({DS},"Group Data",{FS},"Vacant")', NORM, fmt="0", align="center")
+sc(ws, "F7", f'=COUNTIFS({DS},"Group Data",{FS},"Paused")', NORM, fmt="0", align="center")
+sc(ws, "G7", f'=SUMIFS({TS},{DS},"Group Data")', NORM, fmt=M2, align="right")
 sc(ws, "H7", "=C16", NORM, fmt=M2, align="right")
+sc(ws, "I7", "=MAX(0,G7-H7)", NORM, fmt=M2, align="right")
+sc(ws, "J7", f'=SUMIFS({TS},{DS},"Group Data",{ES},"<>NZ")', NORM, fmt=M2, align="right")
+sc(ws, "K7", f'=SUMIFS({TS},{DS},"Group Data",{ES},"NZ")', NORM, fmt=M2, align="right")
 sc(ws, "B8", "Total", BOLD, LGREY)
-for col in "CDEFGHI":
+for col in "CDEFGHIJK":
     fmt = "0" if col in "CDEF" else M2
     sc(ws, f"{col}8", f"=SUM({col}6:{col}7)", BOLD, LGREY, fmt=fmt,
        align="center" if col in "CDEF" else "right")
@@ -296,14 +317,14 @@ for i, (lab, fx, fmt) in enumerate(fund):
     sc(ws, f"B{r}", lab, BOLD if bold else NORM)
     sc(ws, f"C{r}", fx, BOLD if bold else NORM, fmt=fmt, align="right")
 sc(ws, "B18", "Paused roles - cost if released ($m)", NORM)
-sc(ws, "C18", f'=SUMIFS($I${S1}:$I${S2R},$F${S1}:$F${S2R},"Paused")/1000000', NORM, fmt=M2, align="right")
+sc(ws, "C18", f'=SUMIFS($G${S1}:$G${S2R},$F${S1}:$F${S2R},"Paused")/1000000', NORM, fmt=M2, align="right")
 sc(ws, "B20", "Roles", WHITEF, NAVY)
 roster_headers(ws, 21)
 def cat_sad(rr, r2r):
     return f'=IF({S2}!$G${r2r}="Group Data","Data","Strategy & Architecture")'
 # (Holgate and the Data Capability team fall under Data; Architecture, Tech
 # Strategy & AI Capability, Delivery SADA and the GM office under S&A)
-last = write_roster(ws, S1, sad_coe, cat_sad, paused_zero=True)
+last = write_roster(ws, S1, sad_coe, None, paused_zero=True)
 sc(ws, f"B{last+1}", "Check - roles listed vs counted (must be 0)", NORM)
 sc(ws, f"C{last+1}", f"=COUNTA(B{S1}:B{last})-C8", NORM, fmt="0", align="center")
 sc(ws, f"B{last+3}",
@@ -320,17 +341,27 @@ strip_dv_cf(ws)
 n_cy = len(CYB)
 C1, C2R = 19, 19 + n_cy - 1
 clear_region(ws, 19, ws.max_row+6, 2, 12)
-for r in (6, 7):
-    cat = ["Cyber & Risk", "Service Operations"][r-6]
+TC, DC, EC, FC = f"$T${C1}:$T${C2R}", f"$D${C1}:$D${C2R}", f"$E${C1}:$E${C2R}", f"$F${C1}:$F${C2R}"
+for r, cat in ((6, "Cyber & Risk"), (7, "Service Operations")):
     sc(ws, f"B{r}", cat, BOLD)
-    sc(ws, f"C{r}", f'=COUNTIF($G${C1}:$G${C2R},$B{r})', NORM, fmt="0", align="center")
-    sc(ws, f"D{r}", f'=COUNTIFS($G${C1}:$G${C2R},$B{r},$F${C1}:$F${C2R},"Filled")', NORM, fmt="0", align="center")
-    sc(ws, f"E{r}", f'=COUNTIFS($G${C1}:$G${C2R},$B{r},$F${C1}:$F${C2R},"Vacant")', NORM, fmt="0", align="center")
-    sc(ws, f"F{r}", f'=SUMIF($G${C1}:$G${C2R},$B{r},$J${C1}:$J${C2R})', NORM, fmt=M2, align="right")
+    if cat == "Service Operations":
+        sc(ws, f"C{r}", f'=COUNTIFS({DC},"Service Op & Assurance")', NORM, fmt="0", align="center")
+        sc(ws, f"D{r}", f'=COUNTIFS({DC},"Service Op & Assurance",{FC},"Filled")', NORM, fmt="0", align="center")
+        sc(ws, f"E{r}", f'=COUNTIFS({DC},"Service Op & Assurance",{FC},"Vacant")', NORM, fmt="0", align="center")
+        sc(ws, f"F{r}", f'=SUMIFS({TC},{DC},"Service Op & Assurance")', NORM, fmt=M2, align="right")
+        sc(ws, f"I{r}", f'=SUMIFS({TC},{DC},"Service Op & Assurance",{EC},"<>NZ")', NORM, fmt=M2, align="right")
+        sc(ws, f"J{r}", f'=SUMIFS({TC},{DC},"Service Op & Assurance",{EC},"NZ")', NORM, fmt=M2, align="right")
+    else:
+        sc(ws, f"C{r}", f'=COUNTA($B${C1}:$B${C2R})-COUNTIFS({DC},"Service Op & Assurance")', NORM, fmt="0", align="center")
+        sc(ws, f"D{r}", f'=COUNTIFS({FC},"Filled")-COUNTIFS({DC},"Service Op & Assurance",{FC},"Filled")', NORM, fmt="0", align="center")
+        sc(ws, f"E{r}", f'=COUNTIFS({FC},"Vacant")-COUNTIFS({DC},"Service Op & Assurance",{FC},"Vacant")', NORM, fmt="0", align="center")
+        sc(ws, f"F{r}", f'=SUM({TC})-SUMIFS({TC},{DC},"Service Op & Assurance")', NORM, fmt=M2, align="right")
+        sc(ws, f"I{r}", f'=SUMIFS({TC},{EC},"<>NZ")-SUMIFS({TC},{DC},"Service Op & Assurance",{EC},"<>NZ")', NORM, fmt=M2, align="right")
+        sc(ws, f"J{r}", f'=SUMIFS({TC},{EC},"NZ")-SUMIFS({TC},{DC},"Service Op & Assurance",{EC},"NZ")', NORM, fmt=M2, align="right")
 def cat_cy(rr, r2r):
     return (f'=IF({S2}!$G${r2r}="Service Op & Assurance","Service Operations","Cyber & Risk")')
 roster_headers(ws, 18)
-last = write_roster(ws, C1, CYB, cat_cy, paused_zero=False)
+last = write_roster(ws, C1, CYB, None, paused_zero=False)
 sc(ws, f"B{last+1}", "Check - roles listed vs counted (must be 0)", NORM)
 sc(ws, f"C{last+1}", f"=COUNTA(B{C1}:B{last})-C8", NORM, fmt="0", align="center")
 sc(ws, f"B{last+3}",
@@ -356,7 +387,7 @@ ws["E9"].value = "=0"
 # the old "COE (unspecified)" parking block is gone - Sheet2 maps every role
 clear_region(ws, 23, 32, 2, 10)
 sc(ws, "B23",
-   "Every COE role is now mapped on 2.3, 2.4 or 2.5 from the updated rosters on Sheet2 - no unspecified roles remain.",
+   "Every COE role is now mapped on 2.3, 2.4 or 2.5 from the updated FTE lists on Sheet2 - no unspecified roles remain.",
    NORM, border=False)
 
 # =====================================================================
@@ -411,33 +442,32 @@ for tab, ecell, ftrow in PORTS:
     sc(ws, f"K{r}", f"=ROUND(I{r}-C{r},6)", NORM, fmt=M2, align="right")
     sc(ws, f"L{r}", '="-"' if cyber else f"=ROUND(J{r}-D{r},1)", NORM, fmt=M0, align="center")
     r += 1
-# COE rows - all live refs into 2.2 / 2.3 / 2.4
+# COE rows - dept-grouped, all live refs into the COE tabs
+def coe_ev(sheet, rng1, rng2, crits, status):
+    T_, D_, F_ = f"{sheet}!$T${rng1}:$T${rng2}", f"{sheet}!$D${rng1}:$D${rng2}", f"{sheet}!$F${rng1}:$F${rng2}"
+    if crits == "ALL":
+        return f'=SUMIFS({T_},{F_},"{status}")'
+    if crits == "NOT_GD":
+        return f'=SUMIFS({T_},{F_},"{status}")-SUMIFS({T_},{D_},"Group Data",{F_},"{status}")'
+    return "=" + "+".join(f'SUMIFS({T_},{D_},"{c}",{F_},"{status}")' for c in crits)
 coe_rows = [
-    # (2.2 label cell, archetype $, arch FTE, roster sheet, cat cell, Jrange, Frange, Grange, filled_cnt, vac_cnt)
-    ("'2.2 COE'!$B$6", "'2.3 BP&T'!$F$6", "'2.3 BP&T'!$C$12",
-     "'2.3 BP&T'", "'2.3 BP&T'!$B$6", f"$J${R1}:$J${PT_CHECK-1}", f"$F${R1}:$F${PT_CHECK-1}",
-     f"$G${R1}:$G${PT_CHECK-1}", "'2.3 BP&T'!$D$6", "'2.3 BP&T'!$E$6"),
-    ("'2.2 COE'!$B$7", "'2.3 BP&T'!$F$7", None,
-     "'2.3 BP&T'", "'2.3 BP&T'!$B$7", f"$J${R1}:$J${PT_CHECK-1}", f"$F${R1}:$F${PT_CHECK-1}",
-     f"$G${R1}:$G${PT_CHECK-1}", "'2.3 BP&T'!$D$7", "'2.3 BP&T'!$E$7"),
-    ("'2.2 COE'!$B$8", "'2.4 SA&D'!$G$6", "'2.4 SA&D'!$C$12",
-     "'2.4 SA&D'", "'2.4 SA&D'!$B$6", f"$J${S1}:$J${SAD_CHECK-1}", f"$F${S1}:$F${SAD_CHECK-1}",
-     f"$G${S1}:$G${SAD_CHECK-1}", "'2.4 SA&D'!$D$6", "'2.4 SA&D'!$E$6"),
-    ("'2.2 COE'!$B$9", "'2.4 SA&D'!$G$7", None,
-     "'2.4 SA&D'", "'2.4 SA&D'!$B$7", f"$J${S1}:$J${SAD_CHECK-1}", f"$F${S1}:$F${SAD_CHECK-1}",
-     f"$G${S1}:$G${SAD_CHECK-1}", "'2.4 SA&D'!$D$7", "'2.4 SA&D'!$E$7"),
+    ("'2.2 COE'!$B$6", "'2.3 BP&T'!$F$6", "'2.3 BP&T'!$C$12", "'2.3 BP&T'", R1, PT_CHECK-1,
+     ["TDD Business Partner", "Commercial"], "'2.3 BP&T'!$D$6", "'2.3 BP&T'!$E$6"),
+    ("'2.2 COE'!$B$7", "'2.3 BP&T'!$F$7", None, "'2.3 BP&T'", R1, PT_CHECK-1,
+     ["Transformation"], "'2.3 BP&T'!$D$7", "'2.3 BP&T'!$E$7"),
+    ("'2.2 COE'!$B$8", "'2.4 SA&D'!$G$6", "'2.4 SA&D'!$C$12", "'2.4 SA&D'", S1, SAD_CHECK-1,
+     "NOT_GD", "'2.4 SA&D'!$D$6", "'2.4 SA&D'!$E$6"),
+    ("'2.2 COE'!$B$9", "'2.4 SA&D'!$G$7", None, "'2.4 SA&D'", S1, SAD_CHECK-1,
+     ["Group Data"], "'2.4 SA&D'!$D$7", "'2.4 SA&D'!$E$7"),
+    (None, "'2.5 Cyber Roles'!$F$8", None, "'2.5 Cyber Roles'", C1, CY_CHECK-1,
+     "ALL", "'2.5 Cyber Roles'!$D$8", "'2.5 Cyber Roles'!$E$8"),
 ]
-coe_rows.append((None, "'2.5 Cyber Roles'!$F$8", None,
-                 "'2.5 Cyber Roles'", '"*"', f"$J${C1}:$J${CY_CHECK-1}",
-                 f"$F${C1}:$F${CY_CHECK-1}", f"$G${C1}:$G${CY_CHECK-1}",
-                 "'2.5 Cyber Roles'!$D$8", "'2.5 Cyber Roles'!$E$8"))
 COE_FIRST = r
-# COEs have NO squads behind them - every FTE-style column shows "-"
-for lab, arch, archfte, sheet, catcell, jr, fr, gr, dcnt, ecnt in coe_rows:
+for lab, arch, archfte, sheet, g1, g2, crits, dcnt, ecnt in coe_rows:
     sc(ws, f"B{r}", f"={lab}" if lab else "COE - Cyber, Risk & Service Operations", BOLD)
     sc(ws, f"C{r}", f"={arch}", NORM, fmt=M2, align="right")
-    sc(ws, f"E{r}", f'=SUMIFS({sheet}!{jr},{sheet}!{fr},"Filled",{sheet}!{gr},{catcell})', NORM, fmt=M2, align="right")
-    sc(ws, f"G{r}", f'=SUMIFS({sheet}!{jr},{sheet}!{fr},"Vacant",{sheet}!{gr},{catcell})', NORM, fmt=M2, align="right")
+    sc(ws, f"E{r}", coe_ev(sheet, g1, g2, crits, "Filled"), NORM, fmt=M2, align="right")
+    sc(ws, f"G{r}", coe_ev(sheet, g1, g2, crits, "Vacant"), NORM, fmt=M2, align="right")
     sc(ws, f"I{r}", f"=E{r}+G{r}", NORM, fmt=M2, align="right")
     sc(ws, f"K{r}", f"=ROUND(I{r}-C{r},6)", NORM, fmt=M2, align="right")
     for col in "DFHJL":
@@ -499,7 +529,7 @@ sc(ws, f"B{r}", "Restatement vs the Added data cost ledger ($m) - COE and cyber 
 sc(ws, f"I{r}", f"=ROUND(I{TOT_ROW}-SUM({AD}!$AA$2:$AA$549)/1000000,3)", NORM, fmt=M2, align="right")
 RESTATE_ROW = r
 r += 1
-sc(ws, f"B{r}", "Memo: EGI strategic delivery roster (Sheet2) - funded from Significant Items, not in the total above ($m)", NORM, border=False)
+sc(ws, f"B{r}", "Memo: EGI strategic delivery FTE (Sheet2) - funded from Significant Items, not in the total above ($m)", NORM, border=False)
 EGI_MEMO_ROW = r
 r += 1
 sc(ws, f"B{r}", "Archetype FTE covers squads. Leadership has no archetype FTE - it is funded as a dollar overhead inside the portfolio cost.", NORM, border=False)
@@ -520,11 +550,11 @@ for sheet in wb.worksheets:
                 cell.value = pat21.sub(lambda m: m.group(1) + REMAP.get(m.group(2), m.group(2)), v)
 
 # =====================================================================
-# 3.0 FTE View - EGI strategic delivery roster + role language
+# 3.0 FTE View - EGI strategic delivery FTE + role language
 # =====================================================================
 ws = wb["3.0 FTE View"]
 EGI_T = 167
-sc(ws, f"B{EGI_T}", "EGI strategic delivery roster (Sheet2) - funded from Significant Items, outside the archetype model", WHITEF, NAVY)
+sc(ws, f"B{EGI_T}", "EGI strategic delivery FTE (Sheet2) - funded from Significant Items, outside the archetype model", WHITEF, NAVY)
 for col, h in zip("BCDEF", ["Name", "Role", "Engagement", "Country", "Cost ($m)"]):
     sc(ws, f"{col}{EGI_T+1}", h, WHITEF, MIDBLU, align="center")
 for i, x in enumerate(EGI):
@@ -770,7 +800,7 @@ def sq_open(q): return q["st"] == "Vacant"
 status_diffs = [(x, q) for x, q in pairs
                 if s2_open(x) != sq_open(q) or (x["typ"] == "pause" and q["st"] == "Vacant")]
 
-qhdr("Sheet2 reconciliation - the updated rosters vs the raw data (Squads). Sheet2 drives 2.3 / 2.4 / 2.5 and the EGI roster; Squads drives the portfolio squads.")
+qhdr("Sheet2 reconciliation - the updated FTE lists vs the raw data (Squads). Sheet2 drives 2.3 / 2.4 / 2.5 and the EGI FTE list; Squads drives the portfolio squads.")
 qcols("Name (Sheet2)", "Role (Sheet2)", "Division", "Raw data status", "Sheet2 status")
 for x, q in status_diffs:
     sc(ws, f"B{qr}", f_name(x["r"]), NORM)
@@ -784,7 +814,7 @@ qr += 1
 qhdr("Roles in Sheet2 with no matching raw data row")
 qcols("Name (Sheet2)", "Role (Sheet2)", "Division", "Where it now shows")
 for x in s2_only:
-    if x["div"] == "EGI": where = "3.0 FTE View - EGI strategic delivery roster"
+    if x["div"] == "EGI": where = "3.0 FTE View - EGI strategic delivery FTE"
     elif x["port"] == "enterprise data" and not blankish(x["squad"]):
         where = "In an Enterprise Data squad per Sheet2 - needs a raw data row to join the 1.3 / 4.3 counts"
     elif x["port"] == "enterprise data": where = "Nowhere yet - needs a raw data row to join the Enterprise Data portfolio"
@@ -819,7 +849,7 @@ for rr in (260, 269, 270, 281):
 qnote("Sheet2 confirms these four roles sit in Partnering & Transformation (Commercial), inside the Business Partnering bucket on 2.3.")
 qr += 1
 qhdr("Cost bases")
-qnote("2.3 / 2.4 / 2.5 and the EGI roster are costed from Sheet2 (Full Cost AUD, column AA). Portfolio actuals on 2.1 are costed from the Added data ledger. The difference is the restatement line on 2.1.")
+qnote("2.3 / 2.4 / 2.5 and the EGI FTE list are costed from Sheet2 (Full Cost AUD, column AA). Portfolio actuals on 2.1 are costed from the Added data ledger. The difference is the restatement line on 2.1.")
 
 # =====================================================================
 # STAGE 4a: 2.0 Group Summary - the owner's column spec + AU/NZ variances
@@ -855,7 +885,8 @@ for sheet in wb.worksheets:
         for cell in row_:
             v = cell.value
             if isinstance(v, str) and v.startswith("=") and "'2.0 Group Summary'!" in v:
-                cell.value = v.replace("'2.0 Group Summary'!$J$", "'2.0 Group Summary'!$K$")
+                nv = v.replace("'2.0 Group Summary'!$J$6:$J$16", "'2.0 Group Summary'!$K$6:$K$16")
+                cell.value = nv.replace("'2.0 Group Summary'!$J$", "'2.0 Group Summary'!$K$")
 
 # =====================================================================
 # STAGE 4b: Fund toggles (AU/NZ) on every 1.x squad table + tab subtotals
@@ -920,16 +951,6 @@ for i, (lab, fx) in enumerate(aunz_rows):
     sc(g0, f"B{rr}", lab, BOLD if bold else NORM)
     sc(g0, f"C{rr}", fx, BOLD if bold else NORM, fmt=M2, align="right")
 sc(g0, f"B{r0+9}", "Portfolio overheads and platform overheads sit inside the COE and portfolio allocations on 0.0 Data Config.", NORM, border=False)
-# AU/NZ split on the COE tabs (by each role's country)
-for tab, jr1, jr2, er1, er2 in [("2.3 BP&T", R1, PT_CHECK-1, R1, PT_CHECK-1),
-                                 ("2.4 SA&D", S1, SAD_CHECK-1, S1, SAD_CHECK-1),
-                                 ("2.5 Cyber Roles", C1, CY_CHECK-1, C1, CY_CHECK-1)]:
-    ws = wb[tab]
-    sc(ws, "E10", "Cost - AU and other funded ($m)", NORM)
-    sc(ws, "F10", f'=SUMIF($E${er1}:$E${er2},"<>NZ",$J${jr1}:$J${jr2})', NORM, fmt=M2, align="right")
-    sc(ws, "E11", "Cost - NZ funded ($m)", NORM)
-    sc(ws, "F11", f'=SUMIF($E${er1}:$E${er2},"NZ",$J${jr1}:$J${jr2})', NORM, fmt=M2, align="right")
-
 # =====================================================================
 # STAGE 4c: working tabs 4.12 / 4.13 / 4.14 - every role gets a 4.x home
 # =====================================================================
@@ -965,7 +986,9 @@ def w_summary(ws, first, last, top=4):
              ("Vacant", f'=COUNTIF(E{first}:E{last},"Vacant")', "0"),
              ("Paused", f'=COUNTIF(E{first}:E{last},"Paused")', "0"),
              ("Cost to hire all vacancies ($m)", f'=SUMIF(E{first}:E{last},"Vacant",G{first}:G{last})/1000000', M2),
-             ("Cost of roles marked Hire ($m)", f'=SUMIF(F{first}:F{last},"Hire",G{first}:G{last})/1000000', M2)]
+             ("Cost of roles marked Hire ($m)", f'=SUMIF(F{first}:F{last},"Hire",G{first}:G{last})/1000000', M2),
+             ("Cost of calls - Hire + 0.4 x Offshore ($m)",
+              f'=(SUMIF(F{first}:F{last},"Hire",G{first}:G{last})+0.4*SUMIF(F{first}:F{last},"Offshore",G{first}:G{last}))/1000000', M2)]
     for i, (lab, fx, fmt) in enumerate(items):
         sc(ws, f"B{top+1+i}", lab, NORM)
         sc(ws, f"C{top+1+i}", fx, NORM, fmt=fmt, align="right")
@@ -978,7 +1001,7 @@ def w_money(ws, spend, budget, left):
 ws = mk_working("4.12 BP&T", "Business Partnering & Transformation working copy", "4.11 TDD Cyber")
 w_hdrs(ws, 13); last = w_rows_sheet2(ws, 14, PT); w_summary(ws, 14, last)
 w_money(ws, "='2.3 BP&T'!$F$8", "='2.3 BP&T'!$G$8", "='2.3 BP&T'!$H$8")
-sc(ws, f"B{last+2}", "Funding for these roles is on 2.3 BP&T. Roles and costs come from Sheet2.", NORM, border=False)
+sc(ws, f"B{last+2}", "Funding for these roles is on 2.3 BP&T. Roles and costs come from Sheet2 - costs show on vacancies only.", NORM, border=False)
 W412 = (14, last)
 ws = mk_working("4.13 SA&D", "Strategy, Architecture & Data working copy", "4.12 BP&T")
 w_hdrs(ws, 13); last = w_rows_sheet2(ws, 14, sad_coe); w_summary(ws, 14, last)
@@ -1076,12 +1099,12 @@ GUIDE = [
  ("t", "0.1 Squads - the archetype price library (type x size) and the offshore rate."),
  ("t", "1.x squad tables - squad type, size, On/Off, support %, and the Fund toggle (AU or NZ) that decides which budget the squad draws."),
  ("t", "Squads tab - the raw organisation and its model mapping (columns N to R). This drives every role count."),
- ("t", "Sheet2 - the updated rosters for BP&T, SA&D, Cyber and EGI. This drives 2.3, 2.4, 2.5 and the EGI roster."),
+ ("t", "Sheet2 - the updated FTE lists for BP&T, SA&D, Cyber and EGI. This drives 2.3, 2.4, 2.5 and the EGI FTE list."),
  ("t", "4.x Call cells - Hire or Hold on every vacancy."),
  ("h", "If you change X, Y updates"),
  ("t", "Change a squad type, size, On/Off, support % or Fund toggle on 1.x - the squad price, 2.0, 2.1 archetype column, 3.0 and the Exec Summary all update."),
  ("t", "Change a status or mapping in the Squads tab - role counts on 3.0 and 4.x, vacancy counts everywhere, and the actual columns of 2.1 update."),
- ("t", "Change a person or cost in Sheet2 - 2.3 / 2.4 / 2.5, the EGI roster, 2.2, the COE rows of 2.0 and 2.1, and tabs 4.12 / 4.13 / 4.14 update."),
+ ("t", "Change a person or cost in Sheet2 - 2.3 / 2.4 / 2.5, the EGI FTE list, 2.2, the COE rows of 2.0 and 2.1, and tabs 4.12 / 4.13 / 4.14 update."),
  ("t", "Change a budget on 0.0 Data Config - budget and variance columns on 2.0, the draw-downs on 2.2 / 2.3 / 2.4, and left to fund everywhere update."),
  ("t", "Make a Hire or Hold call on any 4.x tab - that tab's cost of roles marked Hire updates. Totals only move when a role is actually hired in the raw data."),
  ("h", "What each tab is"),
@@ -1145,6 +1168,10 @@ for i6, (lab6, fx6, fmt6) in enumerate(fundc):
        YELL if isinstance(fx6, float) else None, fmt=fmt6, align="right")
 wc["G8"].value = "=C14"
 wc["H8"].value = "=MAX(0,F8-G8)"
+sc(wc, "I8", "=SUM(I6:I7)", BOLD, LGREY, fmt=M2, align="right")
+sc(wc, "J8", "=SUM(J6:J7)", BOLD, LGREY, fmt=M2, align="right")
+sc(wc, "I5", "Cost - AU ($m)", WHITEF, MIDBLU, align="center", wrap=True)
+sc(wc, "J5", "Cost - NZ ($m)", WHITEF, MIDBLU, align="center", wrap=True)
 # 6b. remove the 1.11 portfolio tab - cyber lives once, as a COE
 for sheet6 in wb.worksheets:
     for row6 in sheet6.iter_rows():
@@ -1217,10 +1244,15 @@ for col6 in "CDEFGH":
     fmt6 = "0" if col6 in "CDE" else M2
     sc(w22, f"{col6}11", f"=SUM({col6}6:{col6}10)", BOLD, LGREY, fmt=fmt6,
        align="center" if col6 in "CDE" else "right")
-sc(w22, "B13", "Cost - AU and other funded ($m)", NORM)
-sc(w22, "C13", "='2.3 BP&T'!$F$10+'2.4 SA&D'!$F$10+'2.5 Cyber Roles'!$F$10", NORM, fmt=M2, align="right")
-sc(w22, "B14", "Cost - NZ funded ($m)", NORM)
-sc(w22, "C14", "='2.3 BP&T'!$F$11+'2.4 SA&D'!$F$11+'2.5 Cyber Roles'!$F$11", NORM, fmt=M2, align="right")
+sc(w22, "I5", "Cost - AU ($m)", WHITEF, MIDBLU, align="center", wrap=True)
+sc(w22, "J5", "Cost - NZ ($m)", WHITEF, MIDBLU, align="center", wrap=True)
+AUNZ_GRID = [("'2.3 BP&T'", "I6", "J6"), ("'2.3 BP&T'", "I7", "J7"), ("'2.4 SA&D'", "J6", "K6"),
+             ("'2.4 SA&D'", "J7", "K7"), ("'2.5 Cyber Roles'", "I8", "J8")]
+for i6, (sh6, a6, n6) in enumerate(AUNZ_GRID):
+    sc(w22, f"I{6+i6}", f"={sh6}!${a6[0]}${a6[1:]}", NORM, fmt=M2, align="right")
+    sc(w22, f"J{6+i6}", f"={sh6}!${n6[0]}${n6[1:]}", NORM, fmt=M2, align="right")
+for col6 in "IJ":
+    sc(w22, f"{col6}11", f"=SUM({col6}6:{col6}10)", BOLD, LGREY, fmt=M2, align="right")
 sc(w22, "B17", "TDD Corporate funding pool ($m)", WHITEF, NAVY)
 for col6, h6 in zip("BCDE", ["Funding line", "Pool ($m)", "Drawn ($m)", "Remaining ($m)"]):
     sc(w22, f"{col6}18", h6, WHITEF, MIDBLU, align="center")
@@ -1237,7 +1269,7 @@ for i6, (nm6, pf6, df6) in enumerate(POOL):
 sc(w22, "B22", "Total", BOLD, LGREY)
 for col6 in "CDE":
     sc(w22, f"{col6}22", f"=SUM({col6}19:{col6}21)", BOLD, LGREY, fmt=M2, align="right")
-sc(w22, "B24", "Roll-up only - budgets on 0.0 Data Config, rosters on Sheet2, detail on the three COE tabs.", NORM, border=False)
+sc(w22, "B24", "Roll-up only - budgets on 0.0 Data Config, FTE lists on Sheet2, detail on the three COE tabs.", NORM, border=False)
 cfg6 = wb["0.0 Data Config"]
 for addr6, ref6 in (("F6", "='2.2 COE'!$F$8"), ("F7", "='2.2 COE'!$F$10"), ("F8", "='2.2 COE'!$F$7"),
                     ("F9", "='2.2 COE'!$F$6"), ("F10", "='2.2 COE'!$F$9")):
@@ -1363,6 +1395,19 @@ for sheet6 in wb.worksheets:
                 nv6 = re6.sub(r"#([A-F])#", r"$\1$", nv6)
                 cell6.value = nv6
 
+
+# no 'roster' anywhere visible - the owner's word is FTE
+for sheet7 in wb.worksheets:
+    if sheet7.title in ("Squads", "Added data", "Sheet2", "0.4 Presentation Pack",
+                        "0.1 Budget Table (Fin)", "FY26 Budget (ref)", "Sheet1"):
+        continue
+    for row7 in sheet7.iter_rows():
+        for cell7 in row7:
+            v7 = cell7.value
+            if isinstance(v7, str) and not v7.startswith("=") and "roster" in v7.lower():
+                cell7.value = v7.replace("rosters", "FTE lists").replace("roster", "FTE list") \
+                                .replace("Rosters", "FTE lists").replace("Roster", "FTE list")
+
 # =====================================================================
 # STAGE 5: numbering = flow. Renumber tabs, rewrite every reference,
 # separators + tab colours, reorder, and stale text mentions fixed.
@@ -1461,21 +1506,21 @@ sc(gd, "B2", "How this workbook flows", Font(name="Calibri", size=16, bold=True,
 GUIDE2 = [
  ("h", "The flow - two streams that meet in the middle"),
  ("t", "STREAM 1, THE DESIGN: 0.1 Budget Table (the money Finance gave) feeds 0.2 Data Config (how it is allocated per portfolio, AU and NZ, plus overhead rates and the four $2m COE allocations). 0.3 Squad Archetypes prices the contract (type x size). Each GM's design sits on 1.1 to 1.11, priced from 0.3 and funded per 0.2."),
- ("t", "STREAM 2, THE ORG: the Squads tab holds every role actually raised (536, filled and vacant) and its model mapping. Sheet2 holds the updated rosters for BP&T, SA&D, Cyber and EGI. Added data holds what each person actually costs."),
- ("t", "THE ROLL-UP: the COE rosters (2.1 BP&T, 2.2 SA&D, 2.3 Cyber Roles) and their funding roll into 2.4 COE Summary. 2.5 Group Summary answers: can the budgets fund the design (with AU and NZ variance). 2.6 Total Cost is the test: the design vs what the org actually costs. 2.7 Squad Detail is the same test squad by squad."),
+ ("t", "STREAM 2, THE ORG: the Squads tab holds every role actually raised (536, filled and vacant) and its model mapping. Sheet2 holds the updated FTE lists for BP&T, SA&D, Cyber and EGI. Added data holds what each person actually costs."),
+ ("t", "THE ROLL-UP: the COE FTE lists (2.1 BP&T, 2.2 SA&D, 2.3 Cyber Roles) and their funding roll into 2.4 COE Summary. 2.5 Group Summary answers: can the budgets fund the design (with AU and NZ variance). 2.6 Total Cost is the test: the design vs what the org actually costs. 2.7 Squad Detail is the same test squad by squad."),
  ("t", "THE DECISIONS: tabs 4.1 to 4.14 - every role in the organisation appears on exactly one of them. GMs mark Hire or Hold on every vacancy. The Exec Summary tells the result. 5.0 Data QA is the evidence behind every number."),
  ("h", "What you can edit (yellow cells are inputs)"),
  ("t", "0.2 Data Config: budgets, rates, allocations. | 0.3 Squad Archetypes: prices and the offshore rate. | 1.x: squad type, size, On/Off, support %, Fund (AU or NZ). | 4.x: the Hire or Hold Call cells. | Squads / Sheet2 / Added data: your source data."),
  ("h", "If you change X, Y updates"),
  ("t", "A squad's type, size, On/Off, support % or Fund toggle on 1.x updates 2.5, 2.6, 2.7 and the Exec Summary."),
  ("t", "A status or mapping in the Squads tab updates every role count: 2.6, 2.7 and the 4.x tabs."),
- ("t", "A person or cost in Sheet2 updates 2.1, 2.2, 2.3, the EGI roster, 2.4, the COE lines of 2.5 and 2.6, and tabs 4.12 to 4.14."),
+ ("t", "A person or cost in Sheet2 updates 2.1, 2.2, 2.3, the EGI FTE list, 2.4, the COE lines of 2.5 and 2.6, and tabs 4.12 to 4.14."),
  ("t", "A budget on 0.2 updates the budget and variance columns of 2.5, the draw-downs on 2.1 / 2.2 / 2.4, and left to fund everywhere."),
  ("t", "A Hire or Hold call on 4.x updates that tab's cost of roles marked Hire. Totals move only when a role is actually hired in the raw data."),
  ("h", "What is safe to change in the source data - and what is not"),
  ("t", "SAFE: any number (cost, base, rate), any status, any person's details. All model cells are live references."),
  ("t", "CAUTION: renaming a person in Squads without renaming them in Added data breaks that person's cost lookup (it falls back to the title average); 5.0 shows the drift."),
- ("t", "NOT SAFE ALONE: renaming a squad or portfolio (counts match the name as text), deleting rows (references break loudly and 5.0 stops footing - change the status instead), or adding rows at the bottom (rosters need a refresh). Ask for a refresh after structural edits."),
+ ("t", "NOT SAFE ALONE: renaming a squad or portfolio (counts match the name as text), deleting rows (references break loudly and 5.0 stops footing - change the status instead), or adding rows at the bottom (the FTE lists need a refresh). Ask for a refresh after structural edits."),
  ("h", "How to trust it"),
  ("t", "Every row labelled Check must read 0. All reconciliations, the Sheet2 update log, the mapping change log and the raw data audit live on 5.0 Data QA. Every role has exactly one 4.x home - if one were missed, the checks would not foot."),
 ]

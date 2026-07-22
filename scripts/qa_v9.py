@@ -5,6 +5,7 @@ PASS 2: full formula-engine evaluation - zero formula errors on model tabs.
 PASS 3: assertion battery + second engine run with the offshore factor flipped.
 """
 import openpyxl, re, json, gc, sys, logging
+from openpyxl.utils import get_column_letter
 logging.getLogger().setLevel(logging.ERROR)
 SCR = "/tmp/claude-0/-home-user-anthropic-claude-code/6161aafe-2dad-5bc5-ad55-d8a92ce554cc/scratchpad/"
 SRC = SCR + "TDD_Cost_Calc_v9.xlsx"
@@ -190,6 +191,8 @@ for cat, col in (("Business Partnering", 6), ("Transformation", 7)):
     chk(f"bpt.{col}.filled", gn("2.1 BP&T", f"D{col}") == d["f"])
     chk(f"bpt.{col}.vacant", gn("2.1 BP&T", f"E{col}") == d["v"])
     chk(f"bpt.{col}.spend", close(gn("2.1 BP&T", f"F{col}"), d["spend"]), f'{g("2.1 BP&T", f"F{col}")} vs {d["spend"]}')
+    chk(f"bpt.{col}.aunz_foot", close(gn("2.1 BP&T", f"I{col}") + gn("2.1 BP&T", f"J{col}"),
+        gn("2.1 BP&T", f"F{col}")))
     chk(f"bpt.{col}.left", close(gn("2.1 BP&T", f"H{col}"),
         max(0.0, d["spend"] - (BP_BUDGET if col == 6 else TR_BUDGET))))
 chk("bpt.check0", gn("2.1 BP&T", f"C{A['PT_CHECK']}") == 0)
@@ -207,6 +210,8 @@ for cat, col in (("Strategy & Architecture", 6), ("Data", 7)):
     chk(f"sad.{col}.vacant", gn("2.2 SA&D", f"E{col}") == d["v"])
     chk(f"sad.{col}.paused", gn("2.2 SA&D", f"F{col}") == d["p"])
     chk(f"sad.{col}.spend", close(gn("2.2 SA&D", f"G{col}"), d["spend"]), f'{g("2.2 SA&D", f"G{col}")} vs {d["spend"]}')
+    chk(f"sad.{col}.aunz_foot", close(gn("2.2 SA&D", f"J{col}") + gn("2.2 SA&D", f"K{col}"),
+        gn("2.2 SA&D", f"G{col}")))
 paused_cost = sum(x["cost"] for x in sad_coe if x["status"] == "Paused") / 1e6
 chk("sad.paused_memo", close(gn("2.2 SA&D", "C18"), paused_cost), f'{g("2.2 SA&D", "C18")} vs {paused_cost}')
 chk("sad.check0", gn("2.2 SA&D", f"C{A['SAD_CHECK']}") == 0)
@@ -307,6 +312,9 @@ for tab, anch in A["GM"].items():
         if ws.cell(r, 2).value == "Cost to hire all vacancies ($m)":
             lever += gn(t, f"C{r}")
             break
+for rd in (64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75):
+    vv = g("Exec Summary", f"C{rd}")
+    chk(f"exec.drill.C{rd}", isinstance(vv, (int, float)) or vv is None, repr(vv))
 chk("exec.lever", close(gn("Exec Summary", "C52"), lever), f"{g('Exec Summary','C52')} vs {lever}")
 for t4, refs in (("4.12 BP&T", ("2.1 BP&T", "F8", "G8", "H8")),
                  ("4.13 SA&D", ("2.2 SA&D", "G8", "H8", "I8"))):
@@ -314,7 +322,7 @@ for t4, refs in (("4.12 BP&T", ("2.1 BP&T", "F8", "G8", "H8")),
         chk(f"wt.{t4}.money{i}", close(gn(t4, f"F{5+i}"), gn(refs[0], cell_)),
             f"{g(t4, f'F{5+i}')} vs {g(refs[0], cell_)}")
 # language / formatting guards
-BAN = ["seat", "your squads, your people", "decide hire or hold on every"]
+BAN = ["seat", "roster", "your squads, your people", "decide hire or hold on every"]
 DATA_TABS = {"Squads", "Added data", "Sheet2", "0.4 Presentation Pack",
              "0.1 Budget Table (Fin)", "0.3 Squad Archetypes", "0.2 Data Config", "Sheet1",
              "squad mapping", "Lists", "FY26 Budget (ref)"}
@@ -346,16 +354,38 @@ for t in ("FY26 Budget (ref)", "squad mapping", "Lists"):
 # sheet order
 names = wb2.sheetnames
 chk("order.49_410", names.index("4.9 Commercial Fuels") < names.index("4.10 Z Retail"))
-# roster cells are live refs (no typed data)
+# FTE rows are live refs; NO cost against filled people anywhere
 for tab, first, last_ in [("2.1 BP&T", A["PT_R1"], A["PT_CHECK"] - 1),
                           ("2.2 SA&D", A["SAD_R1"], A["SAD_CHECK"] - 1),
                           ("2.3 Cyber Roles", A["CY_R1"], A["CY_CHECK"] - 1)]:
     ws = wb2[tab]
     for r in range(first, last_ + 1):
-        for col in (2, 3, 4, 5, 6, 7, 9, 10):
+        for col in (2, 3, 4, 5, 6):
             v = ws.cell(r, col).value
             chk(f"liveref.{tab}.r{r}c{col}", isinstance(v, str) and v.startswith("="), repr(v)[:40])
-
+        tv = ws.cell(r, 20).value
+        chk(f"helper.{tab}.r{r}", isinstance(tv, str) and tv.startswith("="), repr(tv)[:30])
+        st = g(tab.upper(), f"F{r}")
+        gv = ws.cell(r, 7).value
+        if st == "Filled" or st == "Contractor":
+            chk(f"nocost.{tab}.r{r}", gv in (None, ""), f"filled row shows cost: {gv!r}")
+        else:
+            chk(f"vaccost.{tab}.r{r}", isinstance(gv, str) and gv.startswith("="), repr(gv)[:30])
+    chk(f"thidden.{tab}", ws.column_dimensions["T"].hidden)
+# 4.x: no cost against filled people on the working copies either
+for tab in list(A["GM"].keys()) + ["4.12 BP&T", "4.13 SA&D", "4.14 EGI & Central"]:
+    ws = wb2[tab]
+    costcol = 6 if tab in A["GM"] else 7
+    statcol = 4 if tab in A["GM"] else 5
+    for r in range(1, ws.max_row + 1):
+        sv = g(tab.upper(), f"{get_column_letter(statcol)}{r}") if False else None
+    # spot rule: every cost cell must sit on a row whose status resolves vacant-ish
+    for r in range(1, ws.max_row + 1):
+        cv = ws.cell(r, costcol).value
+        if isinstance(cv, str) and cv.startswith("=") and ("AA$" in cv or "Added data" in cv):
+            stv = g(tab.upper(), f"{get_column_letter(statcol)}{r}")
+            chk(f"nocost4.{tab}.r{r}", stv in ("Vacant", "Paused", None),
+                f"cost on status {stv!r}")
 # ---------------- raw data integrity vs the owner's upload ----------------
 UPLOAD = "/root/.claude/uploads/6161aafe-2dad-5bc5-ad55-d8a92ce554cc/4beb5516-Cost_Calc_Lee_edits22.xlsx"
 wu = openpyxl.load_workbook(UPLOAD, data_only=False)
@@ -507,23 +537,39 @@ chk("aunz.covers_squads_sanity", 0 < sum(au_terms) + sum(nz_terms) < dsum and 4 
 chk("t20.k24_net", close(gn("2.5 Group Summary", "K26"), gn("2.6 Total Cost", f"C{A['TOT']}")))
 del wu; gc.collect()
 
-# ---------------- offshore flip: prove the 40% lever ----------------
+# ---------------- the Offshore lever: prove the 0.4 x maths ----------------
 import shutil
 FLIP = SCR + "flip_v9.xlsx"
 shutil.copy(SRC, FLIP)
 wf = openpyxl.load_workbook(FLIP)
-# flip the first On/Off cell of 2.3's roster to Offshore and check J = I * K5
-wf["2.1 BP&T"][f"H{A['PT_R1']}"].value = "Offshore"
-wf.save(FLIP)
+gt = "4.1 Ampol Retail"
+anch = A["GM"][gt]
+wsf = wf[gt]
+target = None
+for r in range(anch["rost_hdr"] + 1, wsf.max_row + 1):
+    if wsf.cell(r, 5).value == "Hold" and isinstance(wsf.cell(r, 6).value, str):
+        target = r; break
+sqrow = None
+if target:
+    wsf.cell(target, 5).value = "Offshore"
+    wf.save(FLIP)
 del wf; gc.collect()
 vals2 = engine(FLIP)
-k5 = None
-try: k5 = float(vals2[("0.3 SQUAD ARCHETYPES", "K5")])
-except Exception: pass
-i1 = vals2.get(("2.1 BP&T", f"I{A['PT_R1']}"))
-j1 = vals2.get(("2.1 BP&T", f"J{A['PT_R1']}"))
-chk("off.flip", isinstance(i1, (int, float)) and isinstance(j1, (int, float)) and k5
-    and close(j1, i1 * k5 / 1e6), f"j={j1} i={i1} k5={k5}")
+if target:
+    ws4 = wb2[gt]
+    for rr in range(anch["hdr"] + 1, anch["tot"]):
+        gcell = str(ws4.cell(rr, 7).value or "")
+        mm = re.match(r'^=COUNTIF\(E(\d+):E(\d+),"Hire"\)$', gcell)
+        if mm and int(mm.group(1)) <= target <= int(mm.group(2)):
+            sqrow = rr; break
+if target and sqrow:
+    base_m = gn(gt, f"M{sqrow}")
+    cost = gn(gt, f"F{target}")
+    new_m = vals2.get((gt.upper(), f"M{sqrow}"))
+    chk("lever.offshore_04", isinstance(new_m, (int, float)) and close(new_m, base_m + 0.4 * cost / 1e6),
+        f"before {base_m} after {new_m} cost {cost}")
+else:
+    chk("lever.offshore_04", False, "no Hold row with cost found to flip")
 del vals2; gc.collect()
 
 print(f"KEY: model {g('2.6 Total Cost', 'C' + str(TOT))} actual {g('2.6 Total Cost', 'I' + str(TOT))} "
