@@ -20,20 +20,23 @@ def low(v): return str(v).strip().lower() if v is not None else ""
 
 # ---------------- PASS 1: independent recompute ----------------
 s2 = wb["Sheet2"]
+from openpyxl.utils import column_index_from_string
+REF = re.compile(r"\$?([A-Z]{1,2})\$?(\d+)")
+def eval_cell(ws, col, row, depth=0):
+    """evaluate a plain-arithmetic cell (numbers, same-sheet refs, + - * / parens)"""
+    v = ws.cell(row, col).value
+    if v is None: return 0.0
+    if isinstance(v, (int, float)): return float(v)
+    if not (isinstance(v, str) and v.startswith("=")): return 0.0
+    if depth > 4 or ":" in v: return 0.0
+    expr = REF.sub(lambda m: repr(eval_cell(ws, column_index_from_string(m.group(1)),
+                                            int(m.group(2)), depth + 1)), v[1:])
+    if not re.fullmatch(r"[0-9eE+\-*/(). ]+", expr): return 0.0
+    return float(eval(expr, {"__builtins__": {}}, {}))
 def cost_row(ws, r, ca=27):
-    """recompute Full Cost AUD from the row's own inputs, following the row's
-    own formula shape (contractor day-rate, NZ/SG additive medical, AU loaded)"""
-    f = ws.cell(r, ca).value
-    if not isinstance(f, str): return f or 0.0
-    n = lambda c: float(ws.cell(r, c).value or 0)
-    S, T, U = n(19), n(20), n(21)
-    V, W, X, Y, Z = n(22), n(23), n(24), n(25), n(26)
-    if re.match(r"^=S\d+\*222$", f): return S * 222
-    if "+Y" in f: return U * (1 + V + X + Z) + Y
-    if re.match(r"^=T\d+$", str(ws.cell(r, 21).value or "")):
-        U = T
-        return U * (1 + V + W + X + Y + Z)
-    return U * (1 + V + W + X + Y + Z)
+    """recompute Full Cost AUD from the row's own inputs by evaluating the
+    row's own formula - no shape assumptions"""
+    return eval_cell(ws, ca, r)
 rows2 = []
 for r in range(2, s2.max_row + 1):
     if s2.cell(r, 6).value is None: continue
@@ -157,7 +160,8 @@ def engine(path):
     gc.collect()
     return vals
 vals = engine(SRC)
-errs = [(k, v) for k, v in vals.items() if isinstance(v, str) and v.startswith("#")
+ERRTOK = ("#REF!", "#VALUE!", "#DIV/0!", "#N/A", "#NAME?", "#NULL!", "#NUM!")
+errs = [(k, v) for k, v in vals.items() if isinstance(v, str) and v in ERRTOK
         and k[0] not in ("SQUADS", "ADDED DATA", "SHEET2")]
 chk("p2.zero_engine_errors", len(errs) == 0, str(errs[:8]))
 def g(sheet, cell):
@@ -181,7 +185,7 @@ for cat, col in (("Business Partnering", 6), ("Transformation", 7)):
     chk(f"bpt.{col}.roles", gn("2.3 BP&T", f"C{col}") == d["n"], f"{g('2.3 BP&T', f'C{col}')} vs {d['n']}")
     chk(f"bpt.{col}.filled", gn("2.3 BP&T", f"D{col}") == d["f"])
     chk(f"bpt.{col}.vacant", gn("2.3 BP&T", f"E{col}") == d["v"])
-    chk(f"bpt.{col}.spend", close(gn("2.3 BP&T", f"F{col}"), d["spend"]))
+    chk(f"bpt.{col}.spend", close(gn("2.3 BP&T", f"F{col}"), d["spend"]), f'{g("2.3 BP&T", f"F{col}")} vs {d["spend"]}')
     chk(f"bpt.{col}.left", close(gn("2.3 BP&T", f"H{col}"),
         max(0.0, d["spend"] - (BP_BUDGET if col == 6 else TR_BUDGET))))
 chk("bpt.check0", gn("2.3 BP&T", f"C{A['PT_CHECK']}") == 0)
@@ -198,9 +202,9 @@ for cat, col in (("Strategy & Architecture", 6), ("Data", 7)):
     chk(f"sad.{col}.filled", gn("2.4 SA&D", f"D{col}") == d["f"])
     chk(f"sad.{col}.vacant", gn("2.4 SA&D", f"E{col}") == d["v"])
     chk(f"sad.{col}.paused", gn("2.4 SA&D", f"F{col}") == d["p"])
-    chk(f"sad.{col}.spend", close(gn("2.4 SA&D", f"G{col}"), d["spend"]))
+    chk(f"sad.{col}.spend", close(gn("2.4 SA&D", f"G{col}"), d["spend"]), f'{g("2.4 SA&D", f"G{col}")} vs {d["spend"]}')
 paused_cost = sum(x["cost"] for x in sad_coe if x["status"] == "Paused") / 1e6
-chk("sad.paused_memo", close(gn("2.4 SA&D", "C18"), paused_cost))
+chk("sad.paused_memo", close(gn("2.4 SA&D", "C18"), paused_cost), f'{g("2.4 SA&D", "C18")} vs {paused_cost}')
 chk("sad.check0", gn("2.4 SA&D", f"C{A['SAD_CHECK']}") == 0)
 chk("sad.roles_total", gn("2.4 SA&D", "C8") == len(sad_coe))
 # 2.5 Cyber
@@ -209,7 +213,7 @@ for cat, col in (("TDD COE", 6), ("TDD Cyber", 7)):
     chk(f"cy.{col}.roles", gn("2.5 Cyber Roles", f"C{col}") == d["n"])
     chk(f"cy.{col}.filled", gn("2.5 Cyber Roles", f"D{col}") == d["f"])
     chk(f"cy.{col}.vacant", gn("2.5 Cyber Roles", f"E{col}") == d["v"])
-    chk(f"cy.{col}.spend", close(gn("2.5 Cyber Roles", f"F{col}"), d["spend"]))
+    chk(f"cy.{col}.spend", close(gn("2.5 Cyber Roles", f"F{col}"), d["spend"]), f'{g("2.5 Cyber Roles", f"F{col}")} vs {d["spend"]}')
 chk("cy.total52", gn("2.5 Cyber Roles", "C8") == 52)
 chk("cy.check0", gn("2.5 Cyber Roles", f"C{A['CY_CHECK']}") == 0)
 chk("cy.tie_111", close(gn("1.11 TDD Cyber", "C8") + gn("1.11 TDD Cyber", "D8"),
@@ -250,9 +254,10 @@ chk("t21.total_c", close(gn("2.1 Total Cost", f"C{TOT}"), csum))
 chk("t21.total_i", close(gn("2.1 Total Cost", f"I{TOT}"),
                          sum(gn("2.1 Total Cost", f"I{r}") for r in range(6, TOT))))
 chk("t21.restate", close(gn("2.1 Total Cost", f"I{RESTATE}"),
-                         gn("2.1 Total Cost", f"I{TOT}") - ledger_total / 1e6, 0.01))
-chk("t21.egi_memo", close(gn("2.1 Total Cost", f"I{A['EGI_MEMO']}"), p1_egi))
-chk("t30.egi_total", close(gn("3.0 FTE View", f"F{A['EGI_TOT']}"), p1_egi))
+                         gn("2.1 Total Cost", f"I{TOT}") - ledger_total / 1e6, 0.01),
+    f"{g('2.1 Total Cost', 'I' + str(RESTATE))} vs {gn('2.1 Total Cost', 'I' + str(TOT)) - ledger_total / 1e6}")
+chk("t21.egi_memo", close(gn("2.1 Total Cost", f"I{A['EGI_MEMO']}"), p1_egi), f"{g('2.1 Total Cost', 'I' + str(A['EGI_MEMO']))} vs {p1_egi}")
+chk("t30.egi_total", close(gn("3.0 FTE View", f"F{A['EGI_TOT']}"), p1_egi), f"{g('3.0 FTE View', 'F' + str(A['EGI_TOT']))} vs {p1_egi}")
 chk("t30.egi_n", gn("3.0 FTE View", f"C{A['EGI_TOT']}") == 16)
 chk("t30.xcheck0", gn("3.0 FTE View", "C164") == 0, g("3.0 FTE View", "C164"))
 # exec ties
@@ -277,6 +282,10 @@ for tab, anch in A["GM"].items():
     chk(f"gm.{tab}.hdrE", ws.cell(rh, 5).value == "Call")
     chk(f"gm.{tab}.hdrH", ws.cell(hdr, 8).value == "Vacancies after calls")
     chk(f"gm.{tab}.hdrD", ws.cell(hdr, 4).value == "Archetype roles")
+    chk(f"gm.{tab}.hdrC", ws.cell(hdr, 3).value == "Archetype type and size")
+    for r in range(hdr + 1, tot):
+        cv = ws.cell(r, 3).value
+        chk(f"gm.{tab}.c_live_r{r}", isinstance(cv, str) and cv.startswith("="), repr(cv))
     # find the 'cost to hire all vacancies' row and add to lever
     for r in range(tot, rh):
         if ws.cell(r, 2).value == "Cost to hire all vacancies ($m)":

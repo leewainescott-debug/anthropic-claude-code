@@ -351,9 +351,11 @@ def countifs_port(row, status, cls):
             f"Squads!$R:$R,\"{status}\")")
 r = 6
 for tab, ecell, ftrow in PORTS:
+    cyber = tab == "1.11 TDD Cyber"
     sc(ws, f"B{r}", f"='{tab}'!$B$2", BOLD)
     sc(ws, f"C{r}", f"='{tab}'!$E${ecell}", NORM, fmt=M2, align="right")
-    sc(ws, f"D{r}", f"='3.0 FTE View'!$G${ftrow}", NORM, fmt=M0, align="center")
+    # cyber is priced from its actual roles (2.5) - no archetype FTE contract
+    sc(ws, f"D{r}", '="-"' if cyber else f"='3.0 FTE View'!$G${ftrow}", NORM, fmt=M0, align="center")
     for col, st in (("E", "Filled"), ("G", "Vacant")):
         parts = "+".join(sumifs_port(r, st, c) for c in ("Squad", "Strategic Program", "Leadership"))
         sc(ws, f"{col}{r}", f"=({parts})/1000000", NORM, fmt=M2, align="right")
@@ -363,7 +365,7 @@ for tab, ecell, ftrow in PORTS:
     sc(ws, f"I{r}", f"=E{r}+G{r}", NORM, fmt=M2, align="right")
     sc(ws, f"J{r}", f"=F{r}+H{r}", NORM, fmt="0", align="center")
     sc(ws, f"K{r}", f"=ROUND(I{r}-C{r},6)", NORM, fmt=M2, align="right")
-    sc(ws, f"L{r}", f"=ROUND(J{r}-D{r},1)", NORM, fmt=M0, align="center")
+    sc(ws, f"L{r}", '="-"' if cyber else f"=ROUND(J{r}-D{r},1)", NORM, fmt=M0, align="center")
     r += 1
 # COE rows - all live refs into 2.2 / 2.3 / 2.4
 coe_rows = [
@@ -574,14 +576,19 @@ for tab in GM_TABS:
             for c in range(7, 11):
                 ws.cell(r, c).fill = PatternFill(); ws.cell(r, c).border = Border()
     ws.cell(rost_hdr, 5).value = "Call"
-    # close the white gap: merge B:C on the summary block rows
-    for r in [2] + list(range(hdr-1, tot+1)):
-        if ws.cell(r, 3).value is None:
-            rng = f"B{r}:C{r}"
-            covered = any(rng == str(m) for m in ws.merged_cells.ranges)
-            if not covered:
-                try: ws.merge_cells(rng)
-                except Exception: pass
+    # close the white gap the way the owner hinted on 4.2 / 4.9: column C shows
+    # the archetype type and size, live from the same FTE View row D points at
+    sc(ws, f"C{hdr}", "Archetype type and size", WHITEF, MIDBLU, align="center", wrap=True)
+    for r in range(hdr+1, tot):
+        d = ws.cell(r, 4).value
+        m = re.match(r"^='3\.0 FTE View'!\$G\$(\d+)$", str(d or ""))
+        if m:
+            fr = m.group(1)
+            e_, f_ = f"'3.0 FTE View'!$E${fr}", f"'3.0 FTE View'!$F${fr}"
+            sc(ws, f"C{r}", f'=IF(OR({f_}=0,{f_}=""),{e_},{e_}&" - "&{f_})',
+               NORM, wrap=True)
+        else:
+            sc(ws, f"C{r}", '="-"', NORM, align="center")
     gm_anchor[tab] = dict(hdr=hdr, tot=tot, rost_hdr=rost_hdr,
                           blocks={k: v for k, v in blocks.items()})
 # sheet order: 4.9 before 4.10
@@ -597,6 +604,8 @@ EXEC_TXT = {
  "B7": "Each portfolio tab (1.x) shows the squads, sizes, support %, budget draw-downs and what is left to fund.",
  "B8": "Next step: agree funding for what is left to fund, and decide which vacancies to hire or hold.",
  "B36": "Roles the archetypes allow - squads at their set sizes",
+ "B41": "Filled - people in roles today",
+ "B55": "The main lever is the vacancies: they are raised but not hired, so holding them impacts nobody. Make the call role by role on the 4.x GM tab.",
  "B37": "Roles actually raised in those squads - filled + vacant",
  "B38": "Roles raised beyond the archetypes",
  "B39": "Roles in squads priced outside archetypes (AmPOS, EGI, cyber)",
@@ -620,6 +629,9 @@ for addr, txt in EXEC_TXT.items():
 # 3.1 Data QA - Sheet2 reconciliation with live refs (no typed data)
 # =====================================================================
 ws = wb["3.1 Data QA"]
+for addr, txt in [("B71", "Roles by model squad - raw data vs Added data (differences only)"),
+                  ("C72", "raw data roles"), ("D72", "Added data roles")]:
+    if ws[addr].value is not None: ws[addr].value = txt
 qr = ws.max_row + 3
 def qhdr(text):
     global qr
