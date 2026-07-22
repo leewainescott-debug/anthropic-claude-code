@@ -335,6 +335,103 @@ for tab, first, last_ in [("2.3 BP&T", A["PT_R1"], A["PT_CHECK"] - 1),
             v = ws.cell(r, col).value
             chk(f"liveref.{tab}.r{r}c{col}", isinstance(v, str) and v.startswith("="), repr(v)[:40])
 
+# ---------------- raw data integrity vs the owner's upload ----------------
+UPLOAD = "/root/.claude/uploads/6161aafe-2dad-5bc5-ad55-d8a92ce554cc/4beb5516-Cost_Calc_Lee_edits22.xlsx"
+wu = openpyxl.load_workbook(UPLOAD, data_only=False)
+def real_diffs(tab_v9, tab_up):
+    a, b = wb[tab_v9], wu[tab_up]
+    diffs = []
+    for r in range(1, max(a.max_row, b.max_row) + 1):
+        for c in range(1, max(a.max_column, b.max_column) + 1):
+            va, vb = a.cell(r, c).value, b.cell(r, c).value
+            va = getattr(va, "text", va); vb = getattr(vb, "text", vb)   # ArrayFormula
+            if va == vb: continue
+            if (va in (None, "") and vb in (None, "")): continue
+            if isinstance(va, float) and isinstance(vb, (int, float)) and abs(va - float(vb)) < 1e-6: continue
+            if str(va) == str(vb): continue
+            diffs.append((r, c, va, vb))
+    return diffs
+for tab in ("Squads", "Sheet2", "Added data"):
+    d = real_diffs(tab, tab)
+    chk(f"raw.{tab}.untouched", len(d) == 0, str(d[:5]))
+# owner's Hire/Hold calls preserved exactly on every GM tab
+for tab in A["GM"]:
+    a, b = wb[tab], wu[tab]
+    calls = [(r, a.cell(r, 5).value, b.cell(r, 5).value)
+             for r in range(1, max(a.max_row, b.max_row) + 1)
+             if a.cell(r, 5).value != b.cell(r, 5).value
+             and (a.cell(r, 5).value in ("Hire", "Hold") or b.cell(r, 5).value in ("Hire", "Hold"))]
+    chk(f"calls.{tab}.preserved", len(calls) == 0, str(calls[:4]))
+# per-row GM impact formulas + G block ranges point inside the right squad block
+for tab, anch in A["GM"].items():
+    ws = wb[tab]
+    hdr, tot, rh = anch["hdr"], anch["tot"], anch["rost_hdr"]
+    blocks, cur = {}, None
+    for r in range(rh + 1, ws.max_row + 1):
+        b = ws.cell(r, 2).value
+        if isinstance(b, str) and b.startswith("=Squads!"):
+            if cur: blocks[cur][1] = r
+        elif isinstance(b, str) and b.strip() and not b.startswith("="):
+            if b.startswith(("Check", "Cost", "Vacant", "Leadership", "Cyber", "vs archetype")): break
+            cur = b.strip(); blocks[cur] = [r + 1, r]
+    for r in range(hdr + 1, tot):
+        hcell, icell = ws.cell(r, 8).value, ws.cell(r, 9).value
+        chk(f"gm.{tab}.h_row{r}", hcell == f"=F{r}-G{r}", repr(hcell))
+        chk(f"gm.{tab}.i_row{r}", isinstance(icell, str) and f"E{r}+G{r}-D{r}" in icell, repr(icell))
+        gcell = str(ws.cell(r, 7).value or "")
+        mm = re.match(r'^=COUNTIF\(E(\d+):E(\d+),"Hire"\)$', gcell)
+        if mm:
+            name = str(ws.cell(r, 2).value or "").strip()
+            blk = blocks.get(name)
+            chk(f"gm.{tab}.g_range_row{r}", blk is not None and
+                int(mm.group(1)) >= blk[0] - 1 and int(mm.group(2)) <= blk[1],
+                f"{gcell} vs block {blk}")
+# no typed constants in the rebuilt 2.1 table body or Exec value cells
+w21 = wb["2.1 Total Cost"]
+for r in range(6, A["TOT"] + 1):
+    for c in range(3, 13):
+        v = w21.cell(r, c).value
+        chk(f"nohard.21.r{r}c{c}", v is None or (isinstance(v, str) and v.startswith("=")), repr(v))
+wex = wb["Exec Summary"]
+for r in range(19, 60):
+    v = wex.cell(r, 3).value
+    if v is not None and r != 63:
+        chk(f"nohard.exec.C{r}", isinstance(v, str) and v.startswith("="), repr(v)[:40])
+# SA&D partition completeness, read from the ARTIFACT (2.4 + 3.1 refs), not the rule
+ws24 = wb["2.4 SA&D"]
+refs24 = set()
+for r in range(A["SAD_R1"], A["SAD_CHECK"]):
+    m = re.match(r"^=Sheet2!\$B\$(\d+)$", str(ws24.cell(r, 2).value or ""))
+    if m: refs24.add(int(m.group(1)))
+ws31 = wb["3.1 Data QA"]
+refs31 = set()
+for row in ws31.iter_rows():
+    for cell in row:
+        m = re.match(r"^=Sheet2!\$B\$(\d+)$", str(cell.value or ""))
+        if m: refs31.add(int(m.group(1)))
+unaccounted = []
+for x in SAD:
+    r = x["r"]
+    nmx = str(s2.cell(r, 2).value)
+    in24 = r in refs24
+    insquad = not blankish(x["squad"])
+    mq = sq_match(x)
+    lead = bool(mq and mq["Q"] == "Leadership")
+    ed = bool(mq and mq["N"] == "Enterprise Data")
+    on31 = r in refs31
+    if not (in24 or insquad or lead or ed or on31):
+        unaccounted.append((r, nmx))
+    chk(f"sadpart.no_overlap.r{r}", not (in24 and (insquad or lead or ed)),
+        f"on 2.4 AND in portfolio: {nmx}")
+chk("sadpart.all_accounted", len(unaccounted) == 0, str(unaccounted[:5]))
+# every NAMED new joiner (no exact raw match) must be visible on 3.1
+for x in rows2:
+    nm = low(str(x.get("r") and s2.cell(x["r"], 2).value))
+    if "vacant" in nm or "ring fenced" in nm or x["div"] == "EGI": continue
+    if sq_match(x) is None:
+        chk(f"named_disclosed.{nm[:20]}", x["r"] in refs31, f"Sheet2 r{x['r']} not on 3.1")
+del wu; gc.collect()
+
 # ---------------- offshore flip: prove the 40% lever ----------------
 import shutil
 FLIP = SCR + "flip_v9.xlsx"

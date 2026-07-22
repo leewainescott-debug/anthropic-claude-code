@@ -14,9 +14,9 @@
  "CY_R1": 19,
  "CY_CHECK": 71,
  "N_SAD_COE": 19,
- "STATUS_DIFFS": 22,
- "S2_ONLY": 14,
- "SQ_ONLY": 2,
+ "STATUS_DIFFS": 16,
+ "S2_ONLY": 20,
+ "SQ_ONLY": 8,
  "GM": {
   "4.1 Ampol Retail": {
    "hdr": 5,

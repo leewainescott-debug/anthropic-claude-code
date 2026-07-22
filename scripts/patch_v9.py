@@ -311,6 +311,9 @@ ws["D8"].value  = "='2.4 SA&D'!$G$6"
 ws["F8"].value  = "='2.4 SA&D'!$I$6"
 ws["D12"].value = "='2.4 SA&D'!$G$7"
 ws["F12"].value = "='2.4 SA&D'!$I$7"
+# cyber COE line: keep the zeros as formulas, not typed constants
+ws["D9"].value = "=0"
+ws["E9"].value = "=0"
 # the old "COE (unspecified)" parking block is gone - Sheet2 maps every role
 clear_region(ws, 23, 32, 2, 10)
 sc(ws, "B23",
@@ -558,9 +561,16 @@ for tab in GM_TABS:
         ws.cell(r, 9).value = f'=IFERROR(E{r}+G{r}-D{r},"-")'
         ws.cell(r, 10).value = (f'=IF(ISNUMBER(D{r}),IF(E{r}>D{r},"Filled already over archetype",'
                                 f'IF(E{r}+G{r}>D{r},"Over archetype after hire calls","")),'
-                                f'"No archetype - review these roles")')
+                                f'"Outside the archetype model - no target set")')
     ws.cell(tot, 7).value = f"=SUM(G{hdr+1}:G{tot-1})"
     ws.cell(tot, 8).value = f"=SUM(H{hdr+1}:H{tot-1})"
+    # cyber: the archetype column has no target - say so plainly, no text-in-number cells
+    dvals = [ws.cell(r, 4).value for r in range(hdr+1, tot)]
+    if not any(isinstance(v, str) and v.startswith("=") for v in dvals):
+        for r in range(hdr+1, tot):
+            sc(ws, f"C{r}", "Priced from actual roles on 2.5", NORM, wrap=True)
+            sc(ws, f"D{r}", '="-"', NORM, align="center")
+        sc(ws, f"D{tot}", '="-"', BOLD, LGREY, align="center")
     # labels / language + roster band
     for r in range(1, ws.max_row+1):
         v = ws.cell(r, 2).value
@@ -575,6 +585,9 @@ for tab in GM_TABS:
             for c in range(2, 7): ws.cell(r, c).fill = NAVY; ws.cell(r, c).font = WHITEF
             for c in range(7, 11):
                 ws.cell(r, c).fill = PatternFill(); ws.cell(r, c).border = Border()
+            if ws.cell(r-1, 2).value is None:
+                sc(ws, f"B{r-1}", "vs archetype: positive = over the allowance, negative = under.",
+                   NORM, border=False)
     ws.cell(rost_hdr, 5).value = "Call"
     # close the white gap the way the owner hinted on 4.2 / 4.9: column C shows
     # the archetype type and size, live from the same FTE View row D points at
@@ -601,6 +614,9 @@ if idx9 > idx10:
 # =====================================================================
 ws = wb["Exec Summary"]
 EXEC_TXT = {
+ "B6": "The test: can each portfolio fund its archetype cost (TDD + business)? If yes, live within it. If not, start with the vacancies (4.x GM tabs), then archetype size (1.x dropdowns).",
+ "B11": "Squads are priced from the archetype library on 0.1 Squads (type x size). Offshore is priced at the offshore rate set on 0.1 Squads.",
+ "B12": "Each portfolio pays one overhead: Head of Tech, Business Partner and Domain Architect shares, and leadership - rates on 0.0 Data Config.",
  "B7": "Each portfolio tab (1.x) shows the squads, sizes, support %, budget draw-downs and what is left to fund.",
  "B8": "Next step: agree funding for what is left to fund, and decide which vacancies to hire or hold.",
  "B36": "Roles the archetypes allow - squads at their set sizes",
@@ -630,7 +646,9 @@ for addr, txt in EXEC_TXT.items():
 # =====================================================================
 ws = wb["3.1 Data QA"]
 for addr, txt in [("B71", "Roles by model squad - raw data vs Added data (differences only)"),
-                  ("C72", "raw data roles"), ("D72", "Added data roles")]:
+                  ("C72", "raw data roles"), ("D72", "Added data roles"),
+                  ("B11", "In Added data only - joined the org after the raw data cut, or naming mismatch"),
+                  ("B51", "In raw data only - left the org, or naming mismatch")]:
     if ws[addr].value is not None: ws[addr].value = txt
 qr = ws.max_row + 3
 def qhdr(text):
@@ -658,10 +676,13 @@ for x in rows2:
         or [q for q in sq_by_key.get(k, []) if q["r"] not in used]
     if cand:
         used.add(cand[0]["r"]); pairs.append((x, cand[0])); continue
-    tcand = [q for q in sq_by_div.get(low(x["div"]), [])
-             if q["r"] not in used and q["title"] == low(x["title"])]
-    if tcand:
-        used.add(tcand[0]["r"]); pairs.append((x, tcand[0])); continue
+    # title-only pairing is only safe for unnamed rows (Vacant / ring fenced);
+    # a NAMED person with no exact match is a new joiner and must be listed
+    if "vacant" in low(x["name"]) or "ring fenced" in low(x["name"]):
+        tcand = [q for q in sq_by_div.get(low(x["div"]), [])
+                 if q["r"] not in used and q["title"] == low(x["title"])]
+        if tcand:
+            used.add(tcand[0]["r"]); pairs.append((x, tcand[0])); continue
     s2_only.append(x)
 DIV4 = {"cyber, risk & operations", "egi", "partnering & transformation",
         "strategy, architecture & data"}
@@ -686,6 +707,8 @@ qhdr("Roles in Sheet2 with no matching raw data row")
 qcols("Name (Sheet2)", "Role (Sheet2)", "Division", "Where it now shows")
 for x in s2_only:
     if x["div"] == "EGI": where = "3.0 FTE View - EGI strategic delivery roster"
+    elif x["port"] == "enterprise data" and not blankish(x["squad"]):
+        where = "In an Enterprise Data squad per Sheet2 - needs a raw data row to join the 1.3 / 4.3 counts"
     elif x["port"] == "enterprise data": where = "Nowhere yet - needs a raw data row to join the Enterprise Data portfolio"
     elif x["div"] == "Cyber, Risk & Operations": where = "2.5 Cyber Roles"
     elif x["div"] == "Partnering & Transformation": where = "2.3 BP&T"
@@ -707,8 +730,8 @@ if sq_only:
         qr += 1
     qr += 1
 qhdr("Raw data integrity audit")
-qnote("Zero rows were added to the raw data: the Squads tab in this workbook matches the uploaded copy cell for cell (538 rows, checked on every populated cell).")
-qnote("16 mapping cells on 4 Commercial rows were changed in an earlier build (Unmapped to COE - Business Partnering): rows 260, 269, 270, 281, columns N to Q. The names below are live references to those rows.")
+qnote("Zero rows were added to the raw data: the Squads tab in this workbook matches the owner's uploaded copy cell for cell.")
+qnote("16 mapping cells on 4 Commercial rows were changed in an earlier build (Unmapped to COE - Business Partnering). The uploaded copy already includes that change, so the two files match today. The names below are live references to those rows.")
 for rr in (260, 269, 270, 281):
     sc(ws, f"B{qr}", f"=Squads!$B${rr}", NORM)
     sc(ws, f"C{qr}", f'=SUBSTITUTE(SUBSTITUTE(Squads!$C${rr},"–","-"),"—","-")', NORM)
