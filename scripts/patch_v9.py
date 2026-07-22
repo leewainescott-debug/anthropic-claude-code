@@ -193,6 +193,10 @@ def roster_headers(ws, r):
     for col, h in zip("BCDEFG", ["Name","Position Title","Department","Country",
                                  "Status","Cost if hired ($)"]):
         sc(ws, f"{col}{r}", h, WHITEF, MIDBLU, align="center", wrap=True)
+    for col in "HIJ":  # stale upload headers right of the roster (old On/Off, Full Cost)
+        cell = ws[f"{col}{r}"]
+        cell.value = None
+        cell.fill = PatternFill(); cell.border = Border(); cell.font = NORM
 
 # =====================================================================
 # 2.3 BP&T - roster from Sheet2, funding with real formulas, both budgets
@@ -341,6 +345,7 @@ strip_dv_cf(ws)
 n_cy = len(CYB)
 C1, C2R = 19, 19 + n_cy - 1
 clear_region(ws, 19, ws.max_row+6, 2, 12)
+sc(ws, "B5", "Grouping", WHITEF, MIDBLU, align="center")
 TC, DC, EC, FC = f"$T${C1}:$T${C2R}", f"$D${C1}:$D${C2R}", f"$E${C1}:$E${C2R}", f"$F${C1}:$F${C2R}"
 for r, cat in ((6, "Cyber & Risk"), (7, "Service Operations")):
     sc(ws, f"B{r}", cat, BOLD)
@@ -662,6 +667,10 @@ for tab in GM_TABS:
                 sc(ws, f"B{r-1}", "vs archetype: positive = over the allowance, negative = under.",
                    NORM, border=False)
     ws.cell(rost_hdr, 5).value = "Vacancy lever"
+    for dvv in ws.data_validations.dataValidation:
+        if dvv.formula1 and "Hire,Hold" in str(dvv.formula1) and "Offshore" not in str(dvv.formula1):
+            dvv.formula1 = '"Hire,Hold,Offshore"'
+
     # close the white gap the way the owner hinted on 4.2 / 4.9: column C shows
     # the archetype type and size, live from the same FTE View row D points at.
     # K/L: archetype cost vs real cost per squad - the detail the owner asked
@@ -690,7 +699,7 @@ for tab in GM_TABS:
             else:
                 sc(ws, f"L{r}", '="-"', NORM, align="center")
     sc(ws, f"M{hdr}", "Cost after calls ($m)", WHITEF, MIDBLU, align="center", wrap=True)
-    sc(ws, f"N{hdr}", "Change ($m)", WHITEF, MIDBLU, align="center", wrap=True)
+    sc(ws, f"N{hdr}", "Change vs actual ($m)", WHITEF, MIDBLU, align="center", wrap=True)
     ws.column_dimensions["M"].width = 13
     ws.column_dimensions["N"].width = 12
     for r in range(hdr+1, tot):
@@ -699,9 +708,21 @@ for tab in GM_TABS:
         lv = str(ws.cell(r, 12).value or "")
         if blk and lv.startswith("=") and "-" not in lv[:4]:
             a, b = blk
-            sc(ws, f"M{r}", f'=L{r}-(SUMIFS(F{a}:F{b},E{a}:E{b},"Hold")'
-                            f'+0.6*SUMIFS(F{a}:F{b},E{a}:E{b},"Offshore"))/1000000',
-               NORM, fmt=M2, align="right")
+            if cyber_tab or not title_ref:
+                # cyber's L and its roster block share one Sheet2 source, so held
+                # and offshored vacancies subtract from the same total cleanly
+                mf = (f'=L{r}-(SUMIFS(F{a}:F{b},E{a}:E{b},"Hold")'
+                      f'+0.6*SUMIFS(F{a}:F{b},E{a}:E{b},"Offshore"))/1000000')
+            else:
+                # squad landing cost: filled people at ledger cost, plus Hire at
+                # title rate and Offshore at 0.4x; a held vacancy adds nothing.
+                # L nets vacancies from ledger naming that may not match the
+                # block, so building up from Filled is the only floor-safe form.
+                mf = (f"=(SUMIFS('Added data'!$AA:$AA,'Added data'!$AC:$AC,{title_ref},"
+                      f"'Added data'!$AE:$AE,$B{r},'Added data'!$AG:$AG,\"Filled\")"
+                      f'+SUMIFS(F{a}:F{b},E{a}:E{b},"Hire")'
+                      f'+0.4*SUMIFS(F{a}:F{b},E{a}:E{b},"Offshore"))/1000000')
+            sc(ws, f"M{r}", mf, NORM, fmt=M2, align="right")
             sc(ws, f"N{r}", f"=M{r}-L{r}", NORM, fmt=M2, align="right")
         else:
             sc(ws, f"M{r}", '="-"', NORM, align="center")
@@ -964,7 +985,7 @@ def mk_working(name, title, after):
     sc(ws, "B2", title, Font(name="Calibri", size=14, bold=True, color="FF002F6C"), border=False)
     return ws
 def w_hdrs(ws, r):
-    for col, h in zip("BCDEFG", ["Name", "Role", "Department", "Status", "Call", "Cost if hired ($)"]):
+    for col, h in zip("BCDEFG", ["Name", "Role", "Department", "Status", "Vacancy lever", "Cost if hired ($)"]):
         sc(ws, f"{col}{r}", h, WHITEF, MIDBLU, align="center")
 def w_rows_sheet2(ws, first, entries):
     dv = DataValidation(type="list", formula1='"Hire,Hold,Offshore"', allow_blank=False, showErrorMessage=True)
@@ -1216,7 +1237,7 @@ g6["H19"].value = "='2.5 Cyber Roles'!$G$8"
 g6["I19"].value = "='2.5 Cyber Roles'!$H$8"
 g6["J19"].value = "=MAX(0,-E19)+I19"
 g6["K19"].value = "=D19"
-g6["C29"].value = "='2.2 COE'!$G$11+'0.0 Data Config'!$E$23"
+g6["C29"].value = "=SUM('0.0 Data Config'!$E$6:$E$10)+'0.0 Data Config'!$E$23"
 # 6d. COE Summary redesign - five COEs, one clean grid
 w22 = wb["2.2 COE"]
 strip_dv_cf(w22)
@@ -1287,6 +1308,10 @@ for r6, refs6 in {18: ("='0.0 Data Config'!$E$6", "='2.2 COE'!$F$8", "='2.2 COE'
     g6[f"I{r6}"].value = refs6[3]
     g6[f"J{r6}"].value = f"=MAX(0,-E{r6})+I{r6}"
     g6[f"K{r6}"].value = f"=D{r6}"
+
+wex6["B58"].value = "TDD Cyber - needs more than its buckets, see 2.3 Cyber Roles ($m)"
+cfg6["B7"].value = "COE - Cyber, Risk & Service Ops (see 2.3 Cyber Roles)"
+wb["Lists"]["K1"].value = "Archetype roles"
 # 6e. AU/NZ inside every 1.x Portfolio Summary + budget box variances
 CFGROW = {"1.1 Ampol Retail": (11,), "1.2 Customer": (13, 14), "1.3 Enterprise Data": (22,),
           "1.4 TDD Group Functions": (21,), "1.5 P&C": (18,), "1.6 Finance": (19,),
@@ -1359,16 +1384,32 @@ for i6, (lab6, fx6) in enumerate([
         sc(wex6, f"C{rr6}", fx6, Font(name="Calibri", size=12, bold=True, color="FF002F6C"),
            fmt="0.0", align="right", border=False)
 # 6g. Customer AI - the 1.2 archetype squad matches the raw data name
-for row6 in wb["1.2 Customer"].iter_rows():
-    for cell6 in row6:
-        if cell6.value == "AI Enablement": cell6.value = "Customer AI"
-ft6 = wb["3.0 FTE View"]
-for row6 in ft6.iter_rows():
-    for cell6 in row6:
-        v6 = cell6.value
-        if isinstance(v6, str) and '"AI Enablement"' in v6:
-            cell6.value = v6.replace('"AI Enablement"', '"Customer AI"')
-clear_region(ft6, 156, 156, 2, 12)
+import re as re6
+for sheet6 in wb.worksheets:
+    if sheet6.title in ("Squads", "Added data", "Sheet2"): continue
+    for row6 in sheet6.iter_rows():
+        for cell6 in row6:
+            v6 = cell6.value
+            if isinstance(v6, str) and "AI Enablement" in v6:
+                if v6.startswith("="):
+                    cell6.value = re6.sub(r'"AI Enablement\s*"', '"Customer AI"', v6)
+                elif v6.strip() == "AI Enablement":
+                    cell6.value = "Customer AI"
+clear_region(wb["3.0 FTE View"], 156, 156, 2, 12)
+# Customer AI is a real squad now (the owner renamed it) - class follows
+for r6 in range(2, sq.max_row + 1):
+    if (str(sq.cell(r6, 14).value) == "Customer" and str(sq.cell(r6, 16).value) == "Customer AI"
+            and str(sq.cell(r6, 17).value) == "Unmapped"):
+        CHANGELOG.append((r6, "Q", "Unmapped", "Squad", "Customer AI"))
+        sq.cell(r6, 17).value = "Squad"
+for r6 in range(2, ad_.max_row + 1):
+    if str(ad_.cell(r6, 31).value) == "Customer AI" and str(ad_.cell(r6, 32).value) == "Unmapped":
+        ad_.cell(r6, 32).value = "Squad"
+        ad_.cell(r6, 29).value = "Customer"
+# 'Other unmapped' residual subtracts only the two true overlap rows
+ftx = wb["3.0 FTE View"]
+ftx["I159"].value = '=COUNTIFS(Squads!$Q:$Q,"Unmapped",Squads!$R:$R,"Filled")-SUM(I157:I158)'
+ftx["J159"].value = '=COUNTIFS(Squads!$Q:$Q,"Unmapped",Squads!$R:$R,"Vacant")-SUM(J157:J158)' 
 
 
 # 6h. the 1.x summary columns moved (C AU, D NZ, E Other, F Total) - repoint
@@ -1505,7 +1546,7 @@ gd.column_dimensions["B"].width = 118
 sc(gd, "B2", "How this workbook flows", Font(name="Calibri", size=16, bold=True, color="FF002F6C"), border=False)
 GUIDE2 = [
  ("h", "The flow - two streams that meet in the middle"),
- ("t", "STREAM 1, THE DESIGN: 0.1 Budget Table (the money Finance gave) feeds 0.2 Data Config (how it is allocated per portfolio, AU and NZ, plus overhead rates and the four $2m COE allocations). 0.3 Squad Archetypes prices the contract (type x size). Each GM's design sits on 1.1 to 1.11, priced from 0.3 and funded per 0.2."),
+ ("t", "STREAM 1, THE DESIGN: 0.1 Budget Table (the money Finance gave) feeds 0.2 Data Config (how it is allocated per portfolio, AU and NZ, plus overhead rates and the four $2m COE allocations). 0.3 Squad Archetypes prices the contract (type x size). Each GM's design sits on 1.1 to 1.10, priced from 0.3 and funded per 0.2."),
  ("t", "STREAM 2, THE ORG: the Squads tab holds every role actually raised (536, filled and vacant) and its model mapping. Sheet2 holds the updated FTE lists for BP&T, SA&D, Cyber and EGI. Added data holds what each person actually costs."),
  ("t", "THE ROLL-UP: the COE FTE lists (2.1 BP&T, 2.2 SA&D, 2.3 Cyber Roles) and their funding roll into 2.4 COE Summary. 2.5 Group Summary answers: can the budgets fund the design (with AU and NZ variance). 2.6 Total Cost is the test: the design vs what the org actually costs. 2.7 Squad Detail is the same test squad by squad."),
  ("t", "THE DECISIONS: tabs 4.1 to 4.14 - every role in the organisation appears on exactly one of them. GMs mark Hire or Hold on every vacancy. The Exec Summary tells the result. 5.0 Data QA is the evidence behind every number."),

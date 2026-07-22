@@ -91,7 +91,7 @@ PAGES = {
  "coe":    [("2.4 COE Summary", 24, 8), ("2.1 BP&T", 48, 10)],
  "sadcyb": [("2.2 SA&D", 55, 10), ("2.3 Cyber Roles", 74, 10)],
  "fte":    [("2.7 Squad Detail", 187, 15)],
- "gm":     [("4.1 Ampol Retail", 106, 10), ("4.11 TDD Cyber", 64, 10)],
+ "gm":     [("4.1 Ampol Retail", 106, 14), ("4.11 TDD Cyber", 64, 14)],
  "qa":     [("5.0 Data QA", 260, 6)], "guide": [("0.0 Guide", 30, 3)], "wt": [("4.12 BP&T", 42, 8), ("4.13 SA&D", 48, 8), ("4.14 EGI & Central", 120, 8)],
 }
 page = sys.argv[1] if len(sys.argv) > 1 else "exec"

@@ -299,7 +299,7 @@ for tab, anch in A["GM"].items():
     chk(f"gm.{tab}.hdrK", ws.cell(hdr, 11).value == "Archetype cost ($m)")
     chk(f"gm.{tab}.hdrL", ws.cell(hdr, 12).value == "Actual cost ($m)")
     chk(f"gm.{tab}.hdrM", ws.cell(hdr, 13).value == "Cost after calls ($m)")
-    chk(f"gm.{tab}.hdrN", ws.cell(hdr, 14).value == "Change ($m)")
+    chk(f"gm.{tab}.hdrN", ws.cell(hdr, 14).value == "Change vs actual ($m)")
     for r_ in range(hdr + 1, tot):
         kv = str(ws.cell(r_, 11).value or "")
         lv = str(ws.cell(r_, 12).value or "")
@@ -340,6 +340,28 @@ for ws in wb2.worksheets:
                 chk(f"font.{ws.title}.{c.coordinate}", False, f"size {c.font.size}")
             if c.font and c.font.italic and v not in (None, ""):
                 chk(f"italic.{ws.title}.{c.coordinate}", False, str(v)[:40])
+# instruction-gate regression checks
+for wsx in wb2.worksheets:
+    if wsx.title in ("Squads", "Added data", "Sheet2"): continue
+    for rowx in wsx.iter_rows():
+        for cx in rowx:
+            if isinstance(cx.value, str):
+                chk(f"custai.{wsx.title}.{cx.coordinate}", "AI Enablement" not in cx.value, "AI Enablement survives")
+chk("recon.c32", gn("2.5 Group Summary", "C32") == 0 or abs(gn("2.5 Group Summary", "C32")) < 0.005,
+    g("2.5 Group Summary", "C32"))
+chk("cy.grouping_hdr", wb2["2.3 Cyber Roles"]["B5"].value == "Grouping")
+chk("cy.no_stale_hdrs", all(wb2["2.3 Cyber Roles"].cell(18, c).value is None for c in (8, 9, 10)),
+    "old On/Off / Full Cost headers must be cleared")
+for t4 in list(A["GM"].keys()):
+    dvs = wb2[t4].data_validations.dataValidation
+    lever_ok = any("Offshore" in str(d.formula1 or "") for d in dvs)
+    chk(f"lever.dv_offshore.{t4}", lever_ok)
+for t4 in ("4.12 BP&T", "4.13 SA&D", "4.14 EGI & Central"):
+    bad_call = []
+    for rowx in wb2[t4].iter_rows():
+        for cx in rowx:
+            if cx.value == "Call": bad_call.append(cx.coordinate)
+    chk(f"lever.no_call_hdr.{t4}", not bad_call, str(bad_call))
 # no hard-coded 11* in funding formulas
 for tab, addr in [("2.4 COE Summary", "E8"), ("2.4 COE Summary", "E11"), ("2.6 Total Cost", f"C{DED}"),
                   ("2.1 BP&T", "C13"), ("2.2 SA&D", "C13")]:
@@ -536,6 +558,15 @@ chk("aunz.covers_squads_sanity", 0 < sum(au_terms) + sum(nz_terms) < dsum and 4 
 # 2.0 K column = total cost, ties to old semantics
 chk("t20.k24_net", close(gn("2.5 Group Summary", "K26"), gn("2.6 Total Cost", f"C{A['TOT']}")))
 del wu; gc.collect()
+
+# ---------------- cost after calls can never land below zero ----------------
+for gt_, anch_ in sorted(A["GM"].items()):
+    negs = []
+    for rr in range(anch_["hdr"] + 1, anch_["tot"]):
+        mv = gn(gt_, f"M{rr}")
+        if isinstance(mv, (int, float)) and mv < -1e-9:
+            negs.append((rr, round(mv, 4)))
+    chk(f"gm.m_floor.{gt_}", not negs, f"negative M rows: {negs}")
 
 # ---------------- the Offshore lever: prove the 0.4 x maths ----------------
 import shutil
