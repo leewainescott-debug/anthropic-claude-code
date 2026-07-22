@@ -7,10 +7,10 @@ QA harness result: FAILS: 0 (exit 0). Three passes:
            toggle flipped to prove Offshore = exactly 40% of onshore cost
 
 ## Key numbers from this run
-  PASS1: pt={'Business Partnering': 3.293, 'Transformation': 3.108} sad={'Strategy & Architecture': 3.043, 'Data': 0.942} cy={'TDD Cyber': 4.387, 'TDD COE': 6.529} egi=4.666 BP_budget=3.892 SA_budget=3.540 ledger=120.038
-  KEY: model 87.089255418 actual 119.59554360310001 BPbudget 3.8920000000000003 SAbudget 3.54 cyber 10.915989044 egi 4.665919350000001 restate -0.443
+  PASS1: pt={'Business Partnering': 3.293, 'Transformation': 3.108} sad={'Strategy & Architecture': 4.321, 'Data': 2.233} cy={'Service Operations': 4.387, 'Cyber & Risk': 6.529} egi=4.666 BP_budget=3.892 SA_budget=3.540 ledger=120.038
+  KEY: model 89.65734847799999 actual 118.1987064031 BPbudget 3.8920000000000003 SAbudget 3.54 cyber 10.915989044 egi 4.665919350000001 restate -1.839
 
-## The 50 named assertions (every one passed)
+## The 58 named assertions (every one passed)
     1. p1.divisions
     2. p1.sad_coe_n
     3. p1.sad_covers_techstrategy
@@ -59,7 +59,15 @@ QA harness result: FAILS: 0 (exit 0). Three passes:
    46. exec.unmapped
    47. exec.lever
    48. order.49_410
-   49. sadpart.all_accounted
-   50. off.flip
+   49. raw.Squads.only_logged_changes
+   50. raw.Added.owner_cols_untouched
+   51. sadpart.all_accounted
+   52. cover.squads_all_on_4x
+   53. cover.sheet2_all_on_4x
+   54. aunz.au_total
+   55. aunz.nz_total
+   56. aunz.covers_squads_sanity
+   57. t20.k24_net
+   58. off.flip
 
 ## Structural guards (fail the build if violated): 0

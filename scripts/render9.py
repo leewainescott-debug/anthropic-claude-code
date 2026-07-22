@@ -87,12 +87,12 @@ import sys
 PAGES = {
  "exec":   [("Exec Summary", 76, 7)],
  "port":   [("1.1 Ampol Retail", 62, 10), ("1.11 TDD Cyber", 42, 10)],
- "group":  [("2.0 Group Summary", 36, 10), ("2.1 Total Cost", 30, 12)],
- "coe":    [("2.2 COE", 24, 8), ("2.3 BP&T", 48, 10)],
- "sadcyb": [("2.4 SA&D", 45, 10), ("2.5 Cyber Roles", 74, 10)],
- "fte":    [("3.0 FTE View", 187, 15)],
+ "group":  [("2.5 Group Summary", 47, 11), ("2.6 Total Cost", 30, 12)],
+ "coe":    [("2.4 COE Summary", 24, 8), ("2.1 BP&T", 48, 10)],
+ "sadcyb": [("2.2 SA&D", 55, 10), ("2.3 Cyber Roles", 74, 10)],
+ "fte":    [("2.7 Squad Detail", 187, 15)],
  "gm":     [("4.1 Ampol Retail", 106, 10), ("4.11 TDD Cyber", 64, 10)],
- "qa":     [("3.1 Data QA", 190, 6)],
+ "qa":     [("5.0 Data QA", 260, 6)], "guide": [("0.0 Guide", 30, 3)], "wt": [("4.12 BP&T", 42, 8), ("4.13 SA&D", 48, 8), ("4.14 EGI & Central", 120, 8)],
 }
 page = sys.argv[1] if len(sys.argv) > 1 else "exec"
 for (nm, mr, mc) in PAGES[page]:

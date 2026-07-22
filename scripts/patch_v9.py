@@ -92,23 +92,60 @@ def sq_match(x):
     return (div_c or cands or [None])[0]
 
 def blankish(v): return v in ("", "na")
-# 2.4 SA&D roster: not in a squad, and not an Enterprise Data / leadership seat
-# already carried in the portfolio model (those live on 1.3 / 3.0 FTE View)
-sad_coe, sad_skip = [], []
-for x in SAD:
-    if not blankish(x["squad"]):
-        sad_skip.append((x, "in squad " + x["squad"])); continue
+# 2.4 SA&D roster - THE OWNER'S RUTHLESS RULE (their pasted list, 30 roles):
+# all of Architecture, Technology Strategy & AI Capability, Delivery SADA and
+# the GM office ('na'), plus Group Data roles on the Data Capability team and
+# the Head of Technology. Engineering/Science/Operations/Reporting stay squads.
+def s2team(r): return str(s2.cell(r, 8).value or "").strip()
+def s2fte(r):
+    v = s2.cell(r, 15).value
+    return float(v) if isinstance(v, (int, float)) else 1.0
+def is_sad_coe(x):
+    d = x["dept"]
+    if d in ("Architecture", "Technology Strategy & AI Capability", "na"):
+        return True
+    if d == "Delivery, SADA":
+        # a Delivery role already seconded into a squad at partial FTE stays
+        # with the squad (the owner's 29/31 split - Kina Birkby)
+        return blankish(x["squad"]) or s2fte(x["r"]) >= 1.0
+    if d == "Group Data" and (s2team(x["r"]) == "Data Capability"
+                              or str(x["title"]).startswith("Head of Technology")):
+        return True
+    return False
+sad_coe = [x for x in SAD if is_sad_coe(x)]
+assert len(sad_coe) == 29, len(sad_coe)
+# update the raw-data MODEL columns (N-P/Q) where they contradict the owner's
+# rule - only rows matched inside the SA&D division; every change is logged
+CHANGELOG = []
+for x in sad_coe:
     m = sq_match(x)
-    if m and m["cls"] == "Leadership":
-        sad_skip.append((x, "leadership - funded via overheads, on 3.0")); continue
-    if m and m["N"] == "Enterprise Data":
-        sad_skip.append((x, "Enterprise Data portfolio - on 1.3 / 4.3")); continue
-    if not m and x["port"] == "enterprise data":
-        sad_skip.append((x, "NEW in Sheet2 - Enterprise Data, no raw data row")); continue
-    sad_coe.append(x)
-print("2.4 roster:", len(sad_coe), "| skipped:", len(sad_skip))
-for x, why in sad_skip:
-    if "NEW" in why: print("  NEW:", x["name"], "-", x["title"])
+    if not m or m["div"] != "strategy, architecture & data":
+        continue
+    bucket = "COE - Data" if x["dept"] == "Group Data" else "COE - Strategy Architecture"
+    row = m["r"]
+    for col, newv in ((14, "COE"), (15, bucket), (16, bucket), (17, "COE")):
+        old = sq.cell(row, col).value
+        if str(old or "").strip() != newv:
+            CHANGELOG.append((row, get_column_letter(col), old, newv, str(x["name"])))
+            sq.cell(row, col).value = newv
+print("2.4 roster:", len(sad_coe), "| raw mapping cells updated:", len(CHANGELOG))
+# mirror the mapping change into the Added data ledger helper columns (ours),
+# so the 2.1 actuals move with the roles and nothing is counted twice
+ad_ = wb["Added data"]
+AD_CHANGES = 0
+adx = {}
+for r in range(2, ad_.max_row + 1):
+    nm, tt = low(ad_.cell(r, 2).value), low(ad_.cell(r, 3).value)
+    if nm: adx.setdefault((nm, tt), []).append(r)
+for x in sad_coe:
+    m = sq_match(x)
+    if not m or m["div"] != "strategy, architecture & data": continue
+    bucket = "COE - Data" if x["dept"] == "Group Data" else "COE - Strategy Architecture"
+    for r in adx.get((low(x["name"]), low(x["title"])), []):
+        for c, newv in ((29, "COE"), (30, bucket), (31, bucket), (32, "COE")):
+            if str(ad_.cell(r, c).value or "").strip() != newv:
+                ad_.cell(r, c).value = newv; AD_CHANGES += 1
+print("Added data helper cells mirrored:", AD_CHANGES)
 
 # formula helpers - every cell a live ref into Sheet2
 def f_name(r):   return f"={S2}!$B${r}"
@@ -264,6 +301,8 @@ sc(ws, "B20", "Roles", WHITEF, NAVY)
 roster_headers(ws, 21)
 def cat_sad(rr, r2r):
     return f'=IF({S2}!$G${r2r}="Group Data","Data","Strategy & Architecture")'
+# (Holgate and the Data Capability team fall under Data; Architecture, Tech
+# Strategy & AI Capability, Delivery SADA and the GM office under S&A)
 last = write_roster(ws, S1, sad_coe, cat_sad, paused_zero=True)
 sc(ws, f"B{last+1}", "Check - roles listed vs counted (must be 0)", NORM)
 sc(ws, f"C{last+1}", f"=COUNTA(B{S1}:B{last})-C8", NORM, fmt="0", align="center")
@@ -282,14 +321,14 @@ n_cy = len(CYB)
 C1, C2R = 19, 19 + n_cy - 1
 clear_region(ws, 19, ws.max_row+6, 2, 12)
 for r in (6, 7):
-    cat = ["TDD COE", "TDD Cyber"][r-6]
+    cat = ["Cyber & Risk", "Service Operations"][r-6]
     sc(ws, f"B{r}", cat, BOLD)
     sc(ws, f"C{r}", f'=COUNTIF($G${C1}:$G${C2R},$B{r})', NORM, fmt="0", align="center")
     sc(ws, f"D{r}", f'=COUNTIFS($G${C1}:$G${C2R},$B{r},$F${C1}:$F${C2R},"Filled")', NORM, fmt="0", align="center")
     sc(ws, f"E{r}", f'=COUNTIFS($G${C1}:$G${C2R},$B{r},$F${C1}:$F${C2R},"Vacant")', NORM, fmt="0", align="center")
     sc(ws, f"F{r}", f'=SUMIF($G${C1}:$G${C2R},$B{r},$J${C1}:$J${C2R})', NORM, fmt=M2, align="right")
 def cat_cy(rr, r2r):
-    return (f'=IF({S2}!$G${r2r}="Service Op & Assurance","TDD Cyber","TDD COE")')
+    return (f'=IF({S2}!$G${r2r}="Service Op & Assurance","Service Operations","Cyber & Risk")')
 roster_headers(ws, 18)
 last = write_roster(ws, C1, CYB, cat_cy, paused_zero=False)
 sc(ws, f"B{last+1}", "Check - roles listed vs counted (must be 0)", NORM)
@@ -326,6 +365,8 @@ sc(ws, "B23",
 ws = wb["1.11 TDD Cyber"]
 ws["G24"].value = "='2.5 Cyber Roles'!$F$6"
 ws["G25"].value = "='2.5 Cyber Roles'!$F$7"
+ws["B24"].value = "Cyber & Risk"
+ws["B25"].value = "Service Operations"
 
 # =====================================================================
 # 2.1 Total Cost - ONE consolidated table: leadership + overheads inside
@@ -387,18 +428,16 @@ coe_rows = [
      f"$G${S1}:$G${SAD_CHECK-1}", "'2.4 SA&D'!$D$7", "'2.4 SA&D'!$E$7"),
 ]
 COE_FIRST = r
+# COEs have NO squads behind them - every FTE-style column shows "-"
 for lab, arch, archfte, sheet, catcell, jr, fr, gr, dcnt, ecnt in coe_rows:
     sc(ws, f"B{r}", f"={lab}", BOLD)
     sc(ws, f"C{r}", f"={arch}", NORM, fmt=M2, align="right")
-    sc(ws, f"D{r}", f"={archfte}" if archfte else '="-"', NORM, fmt=M0, align="center")
     sc(ws, f"E{r}", f'=SUMIFS({sheet}!{jr},{sheet}!{fr},"Filled",{sheet}!{gr},{catcell})', NORM, fmt=M2, align="right")
-    sc(ws, f"F{r}", f"={dcnt}", NORM, fmt="0", align="center")
     sc(ws, f"G{r}", f'=SUMIFS({sheet}!{jr},{sheet}!{fr},"Vacant",{sheet}!{gr},{catcell})', NORM, fmt=M2, align="right")
-    sc(ws, f"H{r}", f"={ecnt}", NORM, fmt="0", align="center")
     sc(ws, f"I{r}", f"=E{r}+G{r}", NORM, fmt=M2, align="right")
-    sc(ws, f"J{r}", f"=F{r}+H{r}", NORM, fmt="0", align="center")
     sc(ws, f"K{r}", f"=ROUND(I{r}-C{r},6)", NORM, fmt=M2, align="right")
-    sc(ws, f"L{r}", f'=IF(ISNUMBER(D{r}),ROUND(J{r}-D{r},1),"-")', NORM, fmt=M0, align="center")
+    for col in "DFHJL":
+        sc(ws, f"{col}{r}", '="-"', NORM, align="center")
     r += 1
 # central leadership + unmapped + de-dup
 LEAD_ROW = r
@@ -743,13 +782,434 @@ qr += 1
 qhdr("Cost bases")
 qnote("2.3 / 2.4 / 2.5 and the EGI roster are costed from Sheet2 (Full Cost AUD, column AA). Portfolio actuals on 2.1 are costed from the Added data ledger. The difference is the restatement line on 2.1.")
 
+# =====================================================================
+# STAGE 4a: 2.0 Group Summary - the owner's column spec + AU/NZ variances
+# =====================================================================
+g0 = wb["2.0 Group Summary"]
+HDR20 = {"C": "TDD Lights On Budget ($m)", "D": "Support Cost ($m)",
+         "E": "Variance ($m) = budget - cost", "G": "Cost of non-TDD funding ($m)",
+         "H": "Amount that can be recharged ($m)", "I": "Left to fund outside TDD ($m)",
+         "J": "Total still left to fund ($m)", "K": "Total Cost ($m)"}
+for col, h in HDR20.items():
+    sc(g0, f"{col}5", h, WHITEF, MIDBLU, align="center", wrap=True)
+for r in list(range(6, 17)) + list(range(18, 23)):
+    oldj = g0.cell(r, 10).value
+    if oldj is None: continue
+    sc(g0, f"K{r}", oldj, NORM, fmt=M2, align="right")
+    sc(g0, f"J{r}", f"=MAX(0,-E{r})+I{r}", NORM, fmt=M2, align="right")
+for r, kfx in ((17, "=SUM(K6:K16)"), (24, "=SUM(K17,K18,K19,K20,K21,K22)")):
+    sc(g0, f"K{r}", kfx, BOLD, LGREY, fmt=M2, align="right")
+    sc(g0, f"J{r}", "=SUM(J6:J16)" if r == 17 else "=SUM(J17,J18,J19,J20,J21,J22)",
+       BOLD, LGREY, fmt=M2, align="right")
+# net-cost lines move to K; note 2.0 is the archetype view
+for r in (25, 26):
+    v = g0.cell(r, 10).value
+    if v is not None:
+        sc(g0, f"K{r}", str(v).replace("J24", "K24"), BOLD, fmt=M2, align="right")
+        g0.cell(r, 10).value = None
+sc(g0, "B3", "Archetype view: what the designed model costs against the TDD budgets. The actual organisation is on 2.1.", NORM, border=False)
+# remap references to old 2.0 J cells (total cost) -> K
+patJ = re.compile(r"('2\.0 Group Summary'!\$?J\$?)(\d+)")
+for sheet in wb.worksheets:
+    if sheet.title in ("Squads", "Added data", "Sheet2", "2.0 Group Summary"): continue
+    for row_ in sheet.iter_rows():
+        for cell in row_:
+            v = cell.value
+            if isinstance(v, str) and v.startswith("=") and "'2.0 Group Summary'!" in v:
+                cell.value = v.replace("'2.0 Group Summary'!$J$", "'2.0 Group Summary'!$K$")
+
+# =====================================================================
+# STAGE 4b: Fund toggles (AU/NZ) on every 1.x squad table + tab subtotals
+# =====================================================================
+AUNZ = {}
+dvfund_all = []
+for tab in [t for t in wb.sheetnames if t.startswith("1.") and t[2] in ".0123456789"]:
+    ws = wb[tab]
+    tables = []
+    for r in range(15, ws.max_row + 1):
+        if ws.cell(r, 2).value == "Squad" and ws.cell(r, 8).value == "TDD Cost ($m)":
+            rows = []
+            rr = r + 1
+            while rr <= ws.max_row:
+                b = str(ws.cell(rr, 2).value or "")
+                if not b or "Overhead" in b or b.endswith("Total"): break
+                rows.append(rr); rr += 1
+            if rows: tables.append((r, rows))
+    if not tables: continue
+    allrows = [rr for _, rows in tables for rr in rows]
+    fcol = next(c for c in range(10, 15)
+                if all(ws.cell(rr, c).value is None for rr in allrows)
+                and all(ws.cell(h, c).value is None for h, _ in tables))
+    fL = get_column_letter(fcol)
+    dv = DataValidation(type="list", formula1='"AU,NZ"', allow_blank=False, showErrorMessage=True)
+    ws.add_data_validation(dv)
+    for h, rows in tables:
+        sc(ws, f"{fL}{h}", "Fund", WHITEF, MIDBLU, align="center")
+        plat = ""
+        for up in range(h - 1, max(1, h - 6), -1):
+            t_ = str(ws.cell(up, 2).value or "")
+            if t_.startswith("Platform"): plat = t_; break
+        default = "NZ" if (tab == "1.10 Z Retail" or " Z " in plat + " " or plat.startswith("Platform: Z")) else "AU"
+        for rr in rows:
+            sc(ws, f"{fL}{rr}", default, NORM, YELL, align="center")
+            dv.add(f"{fL}{rr}")
+    terms_au = "+".join(f'SUMIF({fL}{rows[0]}:{fL}{rows[-1]},"AU",H{rows[0]}:H{rows[-1]})' for _, rows in tables)
+    terms_nz = "+".join(f'SUMIF({fL}{rows[0]}:{fL}{rows[-1]},"NZ",H{rows[0]}:H{rows[-1]})' for _, rows in tables)
+    base = ws.max_row + 2
+    sc(ws, f"B{base}", "TDD squad cost - AU funded (Fund toggles) ($m)", NORM)
+    sc(ws, f"C{base}", f"={terms_au}", NORM, fmt=M2, align="right")
+    sc(ws, f"B{base+1}", "TDD squad cost - NZ funded (Fund toggles) ($m)", NORM)
+    sc(ws, f"C{base+1}", f"={terms_nz}", NORM, fmt=M2, align="right")
+    AUNZ[tab] = (f"C{base}", f"C{base+1}")
+au_sum = "+".join(f"'{t}'!${a.replace('C','C$')}" for t, (a, _) in AUNZ.items())
+nz_sum = "+".join(f"'{t}'!${b.replace('C','C$')}" for t, (_, b) in AUNZ.items())
+r0 = 37
+sc(g0, f"B{r0}", "AU / NZ funding split - from the squad Fund toggles on the 1.x tabs", WHITEF, NAVY)
+aunz_rows = [
+    ("AU budget - 0.0 Data Config ($m)", "='0.0 Data Config'!$C$27"),
+    ("AU allocated to COEs - 0.0 Data Config ($m)", "=SUM('0.0 Data Config'!$C$6:$C$10)"),
+    ("TDD squad cost - AU funded ($m)", f"={au_sum}"),
+    ("Variance vs AU budget ($m)", f"=C{r0+1}-C{r0+2}-C{r0+3}"),
+    ("NZ budget - 0.0 Data Config ($m)", "='0.0 Data Config'!$D$27"),
+    ("NZ allocated to COEs - 0.0 Data Config ($m)", "=SUM('0.0 Data Config'!$D$6:$D$10)"),
+    ("TDD squad cost - NZ funded ($m)", f"={nz_sum}"),
+    ("Variance vs NZ budget ($m)", f"=C{r0+5}-C{r0+6}-C{r0+7}"),
+]
+for i, (lab, fx) in enumerate(aunz_rows):
+    rr = r0 + 1 + i
+    bold = lab.startswith("Variance")
+    sc(g0, f"B{rr}", lab, BOLD if bold else NORM)
+    sc(g0, f"C{rr}", fx, BOLD if bold else NORM, fmt=M2, align="right")
+sc(g0, f"B{r0+9}", "Portfolio overheads and platform overheads sit inside the COE and portfolio allocations on 0.0 Data Config.", NORM, border=False)
+# AU/NZ split on the COE tabs (by each role's country)
+for tab, jr1, jr2, er1, er2 in [("2.3 BP&T", R1, PT_CHECK-1, R1, PT_CHECK-1),
+                                 ("2.4 SA&D", S1, SAD_CHECK-1, S1, SAD_CHECK-1),
+                                 ("2.5 Cyber Roles", C1, CY_CHECK-1, C1, CY_CHECK-1)]:
+    ws = wb[tab]
+    sc(ws, "E10", "Cost - AU and other funded ($m)", NORM)
+    sc(ws, "F10", f'=SUMIF($E${er1}:$E${er2},"<>NZ",$J${jr1}:$J${jr2})', NORM, fmt=M2, align="right")
+    sc(ws, "E11", "Cost - NZ funded ($m)", NORM)
+    sc(ws, "F11", f'=SUMIF($E${er1}:$E${er2},"NZ",$J${jr1}:$J${jr2})', NORM, fmt=M2, align="right")
+
+# =====================================================================
+# STAGE 4c: working tabs 4.12 / 4.13 / 4.14 - every role gets a 4.x home
+# =====================================================================
+def mk_working(name, title, after):
+    if name in wb.sheetnames: del wb[name]
+    ws = wb.create_sheet(name)
+    wb.move_sheet(name, offset=wb.sheetnames.index(after) - wb.sheetnames.index(name) + 1)
+    ws.sheet_view.showGridLines = False
+    for col, w in (("A", 3), ("B", 30), ("C", 40), ("D", 26), ("E", 12), ("F", 10), ("G", 16)):
+        ws.column_dimensions[col].width = w
+    sc(ws, "B2", title, Font(name="Calibri", size=14, bold=True, color="FF002F6C"), border=False)
+    return ws
+def w_hdrs(ws, r):
+    for col, h in zip("BCDEFG", ["Name", "Role", "Department", "Status", "Call", "Cost if hired ($)"]):
+        sc(ws, f"{col}{r}", h, WHITEF, MIDBLU, align="center")
+def w_rows_sheet2(ws, first, entries):
+    dv = DataValidation(type="list", formula1='"Hire,Hold"', allow_blank=False, showErrorMessage=True)
+    ws.add_data_validation(dv)
+    for i, x in enumerate(entries):
+        rr = first + i
+        sc(ws, f"B{rr}", f_name(x["r"]), NORM)
+        sc(ws, f"C{rr}", f_title(x["r"]), NORM, wrap=True)
+        sc(ws, f"D{rr}", f_dept(x["r"]), NORM)
+        sc(ws, f"E{rr}", f_status(x["r"]), NORM, align="center")
+        if x["typ"] in ("v", "pause"):
+            sc(ws, f"F{rr}", "Hold", NORM, YELL, align="center"); dv.add(f"F{rr}")
+            sc(ws, f"G{rr}", f_cost(x["r"]), NORM, fmt=D0, align="right")
+    return first + len(entries) - 1
+def w_summary(ws, first, last, top=4):
+    sc(ws, f"B{top}", "Position", WHITEF, NAVY)
+    items = [("Roles", f"=COUNTA(B{first}:B{last})", "0"),
+             ("Filled", f'=COUNTIF(E{first}:E{last},"Filled")+COUNTIF(E{first}:E{last},"Contractor")', "0"),
+             ("Vacant", f'=COUNTIF(E{first}:E{last},"Vacant")', "0"),
+             ("Paused", f'=COUNTIF(E{first}:E{last},"Paused")', "0"),
+             ("Cost to hire all vacancies ($m)", f'=SUMIF(E{first}:E{last},"Vacant",G{first}:G{last})/1000000', M2),
+             ("Cost of roles marked Hire ($m)", f'=SUMIF(F{first}:F{last},"Hire",G{first}:G{last})/1000000', M2)]
+    for i, (lab, fx, fmt) in enumerate(items):
+        sc(ws, f"B{top+1+i}", lab, NORM)
+        sc(ws, f"C{top+1+i}", fx, NORM, fmt=fmt, align="right")
+ws = mk_working("4.12 BP&T", "Business Partnering & Transformation GM working copy", "4.11 TDD Cyber")
+w_hdrs(ws, 13); last = w_rows_sheet2(ws, 14, PT); w_summary(ws, 14, last)
+sc(ws, f"B{last+2}", "Funding for these roles is on 2.3 BP&T. Roles and costs come from Sheet2.", NORM, border=False)
+W412 = (14, last)
+ws = mk_working("4.13 SA&D", "Strategy, Architecture & Data GM working copy", "4.12 BP&T")
+w_hdrs(ws, 13); last = w_rows_sheet2(ws, 14, sad_coe); w_summary(ws, 14, last)
+sc(ws, f"B{last+2}", "COE roles only - squad-based SA&D roles sit on 4.3 (Group Data portfolio). Funding is on 2.4 SA&D.", NORM, border=False)
+W413 = (14, last)
+ws = mk_working("4.14 EGI & Central", "EGI & Central Roles working copy", "4.13 SA&D")
+sc(ws, "B12", "EGI strategic delivery (Sheet2) - contractors, funded from Significant Items", WHITEF, NAVY)
+w_hdrs(ws, 13); last = w_rows_sheet2(ws, 14, EGI)
+egi_last = last
+# every Squads row must have a 4.x home: rows already referenced on 4.1-4.11,
+# COE rows carried by the Sheet2 rosters on 4.12/4.13, leadership here, and
+# EVERYTHING left over (unmapped, stray squads, raw EGI rows) here too
+refset = set()
+for t4 in [t for t in wb.sheetnames if t.startswith("4.") and t not in ("4.12 BP&T", "4.13 SA&D", "4.14 EGI & Central")]:
+    for row_ in wb[t4].iter_rows(min_col=2, max_col=2):
+        m_ = re.match(r"^=Squads!\$B\$(\d+)$", str(row_[0].value or ""))
+        if m_: refset.add(int(m_.group(1)))
+s2cov = set()
+for x in PT + sad_coe:            # rows carried on 4.12 / 4.13 via Sheet2
+    m_ = sq_match(x)
+    if m_: s2cov.add(m_["r"])
+lead_rows = [q for q in sq_rows if q["cls"] == "Leadership"]
+leftover_rows = [q for q in sq_rows if q["r"] not in refset and q["r"] not in s2cov
+                 and q["cls"] != "Leadership"]
+sec = last + 2
+sc(ws, f"B{sec}", "Leadership roles - funded via portfolio overheads", WHITEF, NAVY)
+w_hdrs(ws, sec + 1)
+dv2 = DataValidation(type="list", formula1='"Hire,Hold"', allow_blank=False, showErrorMessage=True)
+ws.add_data_validation(dv2)
+def w_rows_squads(ws, first, entries, dv):
+    for i, q in enumerate(entries):
+        rr = first + i; n = q["r"]
+        sc(ws, f"B{rr}", f'=IF(Squads!$R${n}="Vacant","Vacant",Squads!$B${n})', NORM)
+        sc(ws, f"C{rr}", f'=SUBSTITUTE(SUBSTITUTE(Squads!$C${n},"–","-"),"—","-")', NORM, wrap=True)
+        sc(ws, f"D{rr}", f"=Squads!$N${n}", NORM)
+        sc(ws, f"E{rr}", f"=Squads!$R${n}", NORM, align="center")
+        if q["st"] == "Vacant":
+            sc(ws, f"F{rr}", "Hold", NORM, YELL, align="center"); dv.add(f"F{rr}")
+            sc(ws, f"G{rr}", f"=SUMIF('Added data'!$C$2:$C$549,Squads!$C${n},'Added data'!$AA$2:$AA$549)"
+                             f"/COUNTIF('Added data'!$C$2:$C$549,Squads!$C${n})", NORM, fmt=D0, align="right")
+    return first + len(entries) - 1
+last = w_rows_squads(ws, sec + 2, lead_rows, dv2)
+LEAD_BLK = (sec + 2, last)
+sec2 = last + 2
+sc(ws, f"B{sec2}", "Every other role - unmapped, outside the archetype model, or raw data EGI rows", WHITEF, NAVY)
+w_hdrs(ws, sec2 + 1)
+last = w_rows_squads(ws, sec2 + 2, leftover_rows, dv2)
+UNM_BLK = (sec2 + 2, last)
+# new-in-Sheet2 people with no raw data row yet - they still need a 4.x home
+newins = [x for x in rows2 if x["div"] != "EGI" and x not in PT and x not in sad_coe
+          and sq_match(x) is None]
+sec3 = last + 2
+NEW_BLK = (0, -1)
+if newins:
+    sc(ws, f"B{sec3}", "New in Sheet2 - no raw data row yet. Add them to the Squads tab to join the portfolio counts.", WHITEF, NAVY)
+    w_hdrs(ws, sec3 + 1)
+    dv3 = DataValidation(type="list", formula1='"Hire,Hold"', allow_blank=False, showErrorMessage=True)
+    ws.add_data_validation(dv3)
+    first3 = sec3 + 2
+    for i, x in enumerate(newins):
+        rr = first3 + i
+        sc(ws, f"B{rr}", f_name(x["r"]), NORM)
+        sc(ws, f"C{rr}", f_title(x["r"]), NORM, wrap=True)
+        sc(ws, f"D{rr}", f"={S2}!$F${x['r']}", NORM)
+        sc(ws, f"E{rr}", f_status(x["r"]), NORM, align="center")
+        if x["typ"] in ("v", "pause"):
+            sc(ws, f"F{rr}", "Hold", NORM, YELL, align="center"); dv3.add(f"F{rr}")
+            sc(ws, f"G{rr}", f_cost(x["r"]), NORM, fmt=D0, align="right")
+    last = first3 + len(newins) - 1
+    NEW_BLK = (first3, last)
+w_summary(ws, 14, last)
+# roles count must span only the person rows of the blocks
+cnt = (f"=COUNTA(B14:B{egi_last})+COUNTA(B{LEAD_BLK[0]}:B{LEAD_BLK[1]})"
+       f"+COUNTA(B{UNM_BLK[0]}:B{UNM_BLK[1]})")
+if newins: cnt += f"+COUNTA(B{NEW_BLK[0]}:B{NEW_BLK[1]})"
+sc(ws, "C5", cnt, NORM, fmt="0", align="right")
+sc(ws, f"B{last+2}", "Every role that is not in a portfolio squad (4.1-4.11) or a COE (4.12-4.13) lives here - nothing is missed.", NORM, border=False)
+
+# =====================================================================
+# STAGE 4d: 0.5 Guide - how the whole workbook flows, what to edit
+# =====================================================================
+if "0.5 Guide" in wb.sheetnames: del wb["0.5 Guide"]
+gd = wb.create_sheet("0.5 Guide")
+wb.move_sheet("0.5 Guide", offset=wb.sheetnames.index("0.4 Budget Table (Fin)") - wb.sheetnames.index("0.5 Guide") + 1)
+gd.sheet_view.showGridLines = False
+gd.column_dimensions["A"].width = 3
+gd.column_dimensions["B"].width = 120
+sc(gd, "B2", "How this workbook flows", Font(name="Calibri", size=16, bold=True, color="FF002F6C"), border=False)
+GUIDE = [
+ ("h", "The spine"),
+ ("t", "Inputs (0.x) feed the archetype model (1.x), which rolls into the funding view (2.0). The actual organisation (Squads tab + Sheet2 + Added data) rolls into the affordability view (2.1). GMs make Hire or Hold calls on the working tabs (4.x). Evidence and checks live on 3.1."),
+ ("h", "What you can edit (yellow cells are inputs)"),
+ ("t", "0.0 Data Config - TDD budgets by portfolio (AU and NZ), overhead rates, COE allocations."),
+ ("t", "0.1 Squads - the archetype price library (type x size) and the offshore rate."),
+ ("t", "1.x squad tables - squad type, size, On/Off, support %, and the Fund toggle (AU or NZ) that decides which budget the squad draws."),
+ ("t", "Squads tab - the raw organisation and its model mapping (columns N to R). This drives every role count."),
+ ("t", "Sheet2 - the updated rosters for BP&T, SA&D, Cyber and EGI. This drives 2.3, 2.4, 2.5 and the EGI roster."),
+ ("t", "4.x Call cells - Hire or Hold on every vacancy."),
+ ("h", "If you change X, Y updates"),
+ ("t", "Change a squad type, size, On/Off, support % or Fund toggle on 1.x - the squad price, 2.0, 2.1 archetype column, 3.0 and the Exec Summary all update."),
+ ("t", "Change a status or mapping in the Squads tab - role counts on 3.0 and 4.x, vacancy counts everywhere, and the actual columns of 2.1 update."),
+ ("t", "Change a person or cost in Sheet2 - 2.3 / 2.4 / 2.5, the EGI roster, 2.2, the COE rows of 2.0 and 2.1, and tabs 4.12 / 4.13 / 4.14 update."),
+ ("t", "Change a budget on 0.0 Data Config - budget and variance columns on 2.0, the draw-downs on 2.2 / 2.3 / 2.4, and left to fund everywhere update."),
+ ("t", "Make a Hire or Hold call on any 4.x tab - that tab's cost of roles marked Hire updates. Totals only move when a role is actually hired in the raw data."),
+ ("h", "What each tab is"),
+ ("t", "Exec Summary - the whole story on one page. | 0.0-0.4 - inputs and reference tables. | 1.1-1.11 - one archetype build per portfolio. | 2.0 - archetype cost vs the TDD budgets (the funding view). | 2.1 - archetype vs what the org actually costs (the affordability view), portfolio level; squad detail on 3.0. | 2.2 - COE budget roll-up and the TDD corporate funding pool. | 2.3 / 2.4 / 2.5 - the COE and cyber rosters and their funding. | 3.0 - squad-level detail: archetype FTE and cost vs actual, drills 2.1. | 3.1 - data checks, reconciliations and the audit trail. | 4.1-4.11 - GM working copies per portfolio. | 4.12-4.14 - working copies for BP&T, SA&D and EGI & central roles. | Squads / Sheet2 / Added data - source data."),
+ ("h", "How to trust it"),
+ ("t", "Every tab with a row labelled Check must show 0. All reconciliations and the raw-data audit live on 3.1. Every role in the organisation appears on exactly one 4.x working tab - if a role were missed, the checks on 3.1 would not foot."),
+]
+gr_ = 4
+for kind, txt in GUIDE:
+    if kind == "h":
+        sc(gd, f"B{gr_}", txt, WHITEF, NAVY); gr_ += 1
+    else:
+        c = sc(gd, f"B{gr_}", txt, NORM, border=False, wrap=True)
+        gd.row_dimensions[gr_].height = max(15, 15 * (1 + len(txt) // 130))
+        gr_ += 1
+sc(gd, f"B{gr_+1}", "3.0 FTE View is the squad-level drill of 2.1. 2.0 shows the archetype view only - actuals live on 2.1.", NORM, border=False)
+
+# retitle 3.0 so its place in the flow is explicit
+wb["3.0 FTE View"]["B2"].value = "Squad detail - archetype vs actual by portfolio, platform and squad (drills 2.1)"
+# 2.2 header: roll-up only
+wb["2.2 COE"]["B3"].value = "Roll-up only - edit budgets on 0.0 Data Config, rosters on Sheet2. Detail on 2.3 / 2.4 / 2.5."
+
+# =====================================================================
+# STAGE 4e: the mapping change log on 3.1 (full disclosure)
+# =====================================================================
+if CHANGELOG:
+    qr += 1
+    qhdr("Model mapping updates made in this build - the owner's SA&D COE list (ruthless mapping)")
+    qcols("Raw row", "Cell", "Old value", "New value", "Role")
+    for row, colL, old, new, nm in CHANGELOG:
+        sc(ws31_ := wb["3.1 Data QA"], f"B{qr}", row, NORM, align="center")
+        sc(ws31_, f"C{qr}", f"{colL}{row}", NORM, align="center")
+        sc(ws31_, f"D{qr}", str(old), NORM)
+        sc(ws31_, f"E{qr}", new, NORM)
+        sc(ws31_, f"F{qr}", f"=Squads!$B${row}&\" - \"&Squads!$C${row}", NORM)
+        qr += 1
+    qnote("These cells were updated at the owner's direction: every role on the owner's SA&D COE list now maps to COE - Data or COE - Strategy Architecture. The Group Data portfolio keeps the engineering, science, operations and reporting squads.")
+
+# =====================================================================
+# STAGE 5: numbering = flow. Renumber tabs, rewrite every reference,
+# separators + tab colours, reorder, and stale text mentions fixed.
+# =====================================================================
+RENAME = {
+    "0.4 Budget Table (Fin)": "0.1 Budget Table (Fin)",
+    "0.0 Data Config": "0.2 Data Config",
+    "0.1 Squads": "0.3 Squad Archetypes",
+    "0.3 For Presentation Pack (2)": "0.4 Presentation Pack",
+    "0.5 Guide": "0.0 Guide",
+    "0.2 FY26 Budget": "FY26 Budget (ref)",
+    "2.3 BP&T": "2.1 BP&T",
+    "2.4 SA&D": "2.2 SA&D",
+    "2.5 Cyber Roles": "2.3 Cyber Roles",
+    "2.2 COE": "2.4 COE Summary",
+    "2.0 Group Summary": "2.5 Group Summary",
+    "2.1 Total Cost": "2.6 Total Cost",
+    "3.0 FTE View": "2.7 Squad Detail",
+    "3.1 Data QA": "5.0 Data QA",
+}
+# rewrite every formula reference (full quoted sheet names - unambiguous)
+for sheet in wb.worksheets:
+    for row_ in sheet.iter_rows():
+        for cell in row_:
+            v = cell.value
+            if isinstance(v, str) and v.startswith("=") and "'" in v:
+                nv = v
+                for old, new in RENAME.items():
+                    nv = nv.replace(f"'{old}'!", f"'{new}'!")
+                if nv != v: cell.value = nv
+# stale tab mentions inside plain text labels (ours only; longest first)
+TEXTMAP = [("2.3 to 2.5 and 3.1", "2.1 to 2.3 and 5.0"),
+           ("on 2.3, 2.4 or 2.5", "on 2.1, 2.2 or 2.3"),
+           ("2.3 / 2.4 / 2.5", "2.1 / 2.2 / 2.3"),
+           ("2.5 Cyber Roles", "2.3 Cyber Roles"),
+           ("2.3 BP&T", "2.1 BP&T"), ("2.4 SA&D", "2.2 SA&D"),
+           ("0.0 Data Config", "0.2 Data Config"), ("0.1 Squads", "0.3 Squad Archetypes"),
+           ("3.0 FTE View", "2.7 Squad Detail"), ("drills 2.1", "drills 2.6"),
+           ("see 3.1", "see 5.0"), ("and 3.1", "and 5.0"), ("on 3.1", "on 5.0"),
+           ("on 3.0", "on 2.7"), ("see 2.2 (", "see 2.4 ("), ("is on 2.1.", "is on 2.6."),
+           ("sit on 2.4", "sit on 2.2"), ("2.2 COE", "2.4 COE Summary")]
+SKIP_TXT = {"Squads", "Added data", "Sheet2", "0.4 Presentation Pack",
+            "0.1 Budget Table (Fin)", "FY26 Budget (ref)", "Sheet1"}
+for sheet in wb.worksheets:
+    if sheet.title in SKIP_TXT or sheet.title in ("0.3 For Presentation Pack (2)", "0.4 Budget Table (Fin)"):
+        continue
+    for row_ in sheet.iter_rows():
+        for cell in row_:
+            v = cell.value
+            if isinstance(v, str) and not v.startswith("="):
+                nv = v
+                for old, new in TEXTMAP: nv = nv.replace(old, new)
+                if nv != v: cell.value = nv
+for old, new in RENAME.items():
+    if old in wb.sheetnames: wb[old].title = new
+# separators + group colours
+GROUPS = [("- INPUTS -", "808080", ["0.0 Guide", "0.1 Budget Table (Fin)", "0.2 Data Config",
+                                    "0.3 Squad Archetypes", "0.4 Presentation Pack"]),
+          ("- DESIGNS -", "1F4E79", [f"1.{i} " for i in range(1, 12)]),
+          ("- ROLL-UP -", "002F6C", ["2.1 BP&T", "2.2 SA&D", "2.3 Cyber Roles", "2.4 COE Summary",
+                                     "2.5 Group Summary", "2.6 Total Cost", "2.7 Squad Detail"]),
+          ("- DECISIONS -", "BF8F00", [f"4.{i} " for i in range(1, 12)] + ["4.12 BP&T", "4.13 SA&D", "4.14 EGI & Central"]),
+          ("- EVIDENCE -", "375623", ["5.0 Data QA", "Squads", "Added data", "Sheet2"])]
+def color_of(title):
+    for gname, col, members in GROUPS:
+        for m in members:
+            if title == m or title.startswith(m): return col
+    return None
+for gname, col, _ in GROUPS:
+    if gname in wb.sheetnames: del wb[gname]
+    sp = wb.create_sheet(gname)
+    sp.sheet_properties.tabColor = col
+    sp.sheet_view.showGridLines = False
+    sp.column_dimensions["A"].width = 2
+    sp.column_dimensions["B"].width = 60
+    sc(sp, "B2", gname.strip("- ") + "  >>>", Font(name="Calibri", size=16, bold=True, color="FF" + col), border=False)
+for t in wb.sheetnames:
+    c = color_of(t)
+    if c: wb[t].sheet_properties.tabColor = c
+ORDER = (["Exec Summary", "- INPUTS -", "0.0 Guide", "0.1 Budget Table (Fin)", "0.2 Data Config",
+          "0.3 Squad Archetypes", "0.4 Presentation Pack", "- DESIGNS -"]
+         + [t for t in wb.sheetnames if t.startswith("1.")]
+         + ["- ROLL-UP -", "2.1 BP&T", "2.2 SA&D", "2.3 Cyber Roles", "2.4 COE Summary",
+            "2.5 Group Summary", "2.6 Total Cost", "2.7 Squad Detail", "- DECISIONS -"]
+         + [t for t in wb.sheetnames if t.startswith("4.")]
+         + ["- EVIDENCE -", "5.0 Data QA", "Squads", "Added data", "Sheet2"])
+rest = [t for t in wb.sheetnames if t not in ORDER]
+final = ORDER + rest
+wb._sheets = [wb[t] for t in final]
+if "Sheet1" in wb.sheetnames: wb["Sheet1"].sheet_state = "hidden"
+# guide rewrite: the two-stream flow with the final numbering
+gd = wb["0.0 Guide"]
+clear_region(gd, 2, gd.max_row + 2, 1, 6)
+gd.column_dimensions["B"].width = 118
+sc(gd, "B2", "How this workbook flows", Font(name="Calibri", size=16, bold=True, color="FF002F6C"), border=False)
+GUIDE2 = [
+ ("h", "The flow - two streams that meet in the middle"),
+ ("t", "STREAM 1, THE DESIGN: 0.1 Budget Table (the money Finance gave) feeds 0.2 Data Config (how it is allocated per portfolio, AU and NZ, plus overhead rates and the four $2m COE allocations). 0.3 Squad Archetypes prices the contract (type x size). Each GM's design sits on 1.1 to 1.11, priced from 0.3 and funded per 0.2."),
+ ("t", "STREAM 2, THE ORG: the Squads tab holds every role actually raised (536, filled and vacant) and its model mapping. Sheet2 holds the updated rosters for BP&T, SA&D, Cyber and EGI. Added data holds what each person actually costs."),
+ ("t", "THE ROLL-UP: the COE rosters (2.1 BP&T, 2.2 SA&D, 2.3 Cyber Roles) and their funding roll into 2.4 COE Summary. 2.5 Group Summary answers: can the budgets fund the design (with AU and NZ variance). 2.6 Total Cost is the test: the design vs what the org actually costs. 2.7 Squad Detail is the same test squad by squad."),
+ ("t", "THE DECISIONS: tabs 4.1 to 4.14 - every role in the organisation appears on exactly one of them. GMs mark Hire or Hold on every vacancy. The Exec Summary tells the result. 5.0 Data QA is the evidence behind every number."),
+ ("h", "What you can edit (yellow cells are inputs)"),
+ ("t", "0.2 Data Config: budgets, rates, allocations. | 0.3 Squad Archetypes: prices and the offshore rate. | 1.x: squad type, size, On/Off, support %, Fund (AU or NZ). | 4.x: the Hire or Hold Call cells. | Squads / Sheet2 / Added data: your source data."),
+ ("h", "If you change X, Y updates"),
+ ("t", "A squad's type, size, On/Off, support % or Fund toggle on 1.x updates 2.5, 2.6, 2.7 and the Exec Summary."),
+ ("t", "A status or mapping in the Squads tab updates every role count: 2.6, 2.7 and the 4.x tabs."),
+ ("t", "A person or cost in Sheet2 updates 2.1, 2.2, 2.3, the EGI roster, 2.4, the COE lines of 2.5 and 2.6, and tabs 4.12 to 4.14."),
+ ("t", "A budget on 0.2 updates the budget and variance columns of 2.5, the draw-downs on 2.1 / 2.2 / 2.4, and left to fund everywhere."),
+ ("t", "A Hire or Hold call on 4.x updates that tab's cost of roles marked Hire. Totals move only when a role is actually hired in the raw data."),
+ ("h", "What is safe to change in the source data - and what is not"),
+ ("t", "SAFE: any number (cost, base, rate), any status, any person's details. All model cells are live references."),
+ ("t", "CAUTION: renaming a person in Squads without renaming them in Added data breaks that person's cost lookup (it falls back to the title average); 5.0 shows the drift."),
+ ("t", "NOT SAFE ALONE: renaming a squad or portfolio (counts match the name as text), deleting rows (references break loudly and 5.0 stops footing - change the status instead), or adding rows at the bottom (rosters need a refresh). Ask for a refresh after structural edits."),
+ ("h", "How to trust it"),
+ ("t", "Every row labelled Check must read 0. All reconciliations, the Sheet2 update log, the mapping change log and the raw data audit live on 5.0 Data QA. Every role has exactly one 4.x home - if one were missed, the checks would not foot."),
+]
+gr_ = 4
+for kind, txt in GUIDE2:
+    if kind == "h":
+        sc(gd, f"B{gr_}", txt, WHITEF, NAVY); gr_ += 1
+    else:
+        sc(gd, f"B{gr_}", txt, NORM, border=False, wrap=True)
+        gd.row_dimensions[gr_].height = max(15, 15 * (1 + len(txt) // 115))
+        gr_ += 1
+
 wb.save(OUT)
+print("stage 5 saved. order:", wb.sheetnames[:12], "...")
+print("stage 4 saved. AUNZ:", AUNZ)
 print("stage 3 saved. GM anchors:", {t: (a["hdr"], a["tot"], a["rost_hdr"]) for t, a in gm_anchor.items()})
 json.dump(dict(DEDUP=DEDUP_ROW, TOT=TOT_ROW, UNM=UNM_ROW, LEAD=LEAD_ROW, COE_FIRST=COE_FIRST,
                RESTATE=RESTATE_ROW, EGI_MEMO=EGI_MEMO_ROW, EGI_TOT=EGI_TOT,
                PT_R1=R1, PT_CHECK=PT_CHECK, SAD_R1=S1, SAD_CHECK=SAD_CHECK,
                CY_R1=C1, CY_CHECK=CY_CHECK, N_SAD_COE=len(sad_coe),
                STATUS_DIFFS=len(status_diffs), S2_ONLY=len(s2_only), SQ_ONLY=len(sq_only),
-               GM={t: dict(hdr=a["hdr"], tot=a["tot"], rost_hdr=a["rost_hdr"]) for t, a in gm_anchor.items()}),
+               GM={t: dict(hdr=a["hdr"], tot=a["tot"], rost_hdr=a["rost_hdr"]) for t, a in gm_anchor.items()},
+               AUNZ=AUNZ, W412=W412, W413=W413, LEAD_BLK=LEAD_BLK, UNM_BLK=UNM_BLK,
+               CHANGELOG=[[c[0], c[1]] for c in CHANGELOG], AD_CHANGES=AD_CHANGES,
+               AUNZ_ROW=r0),
           open(SCR + "anchors_v9.json", "w"), indent=1)
 
