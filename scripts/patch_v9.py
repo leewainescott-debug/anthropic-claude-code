@@ -1838,8 +1838,9 @@ for sh7 in wb.worksheets:
             if isinstance(v7, str) and not v7.startswith("="):
                 nv7 = v7.replace("Cost of calls", "Cost of vacancy decisions")
                 nv7 = nv7.replace("after calls", "after vacancy decisions")
-                nv7 = re7.sub(r"\bcalls\b", "vacancy decisions", nv7)
-                nv7 = re7.sub(r"\bcall\b", "decision", nv7)
+                nv7 = nv7.replace("Hire or Hold Call cells", "Vacancy lever cells")
+                nv7 = re7.sub(r"\bcalls\b", "vacancy decisions", nv7, flags=re7.I)
+                nv7 = re7.sub(r"\bcall\b", "decision", nv7, flags=re7.I)
                 nv7 = nv7.replace("–", "-").replace("—", "-")
                 if nv7 != v7:
                     cl7.value = nv7
@@ -1937,6 +1938,190 @@ ORD7 = (["Exec Summary", "- INPUTS -", "0.0 Guide", "0.1 Budget Table (Fin)", "0
            "- EVIDENCE -", "4.0 Data QA", "Squads", "Added data", "Sheet2"])
 rest7 = [t7 for t7 in wb.sheetnames if t7 not in ORD7]
 wb._sheets = [wb[t7] for t7 in (ORD7 + rest7)]
+
+# =====================================================================
+# STAGE 8: the AU/NZ toggle goes INSIDE the squad table where the owner's
+# example put it (after On/Off), with proper column separation; and the
+# On/Off toggle on the 1.11 / 1.12 COE roles at 0.4x offshore.
+# =====================================================================
+import re as re8
+from copy import copy as cp8
+from openpyxl.utils import column_index_from_string as ci8
+
+DESIGN8 = ["1.1 Ampol Retail", "1.2 Customer", "1.3 Enterprise Data", "1.4 TDD Group Functions",
+           "1.5 P&C", "1.6 Finance", "1.7 Infrastructure", "1.8 Energy Solutions & B2B",
+           "1.9 Commercial Fuels", "1.10 Z Retail"]
+INS8 = 6   # new column F
+
+REF8 = re8.compile(r"(?:'([^']+)'!)?(\$?)([A-Z]{1,3})(\$?)(\d{1,5})"
+                   r"(?::(\$?)([A-Z]{1,3})(\$?)(\d{1,5}))?")
+def shift8(formula, on_tab, target):
+    """shift column letters >= F by one for refs belonging to `target` tab,
+    covering BOTH endpoints of a range under the same sheet prefix."""
+    def bump(col):
+        return get_column_letter(ci8(col) + 1) if ci8(col) >= INS8 else col
+    def rep(m):
+        sheet, d1, c1, d2, r1, e1, c2, e2, r2 = m.groups()
+        belongs = (sheet == target) or (sheet is None and on_tab == target)
+        if belongs:
+            c1 = bump(c1)
+            if c2: c2 = bump(c2)
+        pre = f"'{sheet}'!" if sheet else ""
+        out = f"{pre}{d1}{c1}{d2}{r1}"
+        if c2: out += f":{e1}{c2}{e2}{r2}"
+        return out
+    return REF8.sub(rep, formula)
+
+def shift_sqref8(sq):
+    out = []
+    for part in str(sq).split():
+        cells = part.split(":")
+        conv = []
+        for cref in cells:
+            m = re8.match(r"^(\$?)([A-Z]{1,3})(\$?)(\d+)$", cref)
+            if m and ci8(m.group(2)) >= INS8:
+                conv.append(m.group(1) + get_column_letter(ci8(m.group(2)) + 1) + m.group(3) + m.group(4))
+            else:
+                conv.append(cref)
+        out.append(":".join(conv))
+    return " ".join(out)
+
+for tab8 in DESIGN8:
+    ws8 = wb[tab8]
+    maxc8 = ws8.max_column + 1
+    # merges lifted first - a merged child cell is read-only during the shift
+    merges8 = [str(m8) for m8 in ws8.merged_cells.ranges]
+    for m8 in merges8:
+        ws8.unmerge_cells(m8)
+    # move every cell from F rightwards one column, styles included
+    for r8 in range(1, ws8.max_row + 1):
+        for c8 in range(maxc8, INS8 - 1, -1):
+            src8 = ws8.cell(r8, c8)
+            dst8 = ws8.cell(r8, c8 + 1)
+            dst8.value = src8.value
+            dst8.font = cp8(src8.font); dst8.fill = cp8(src8.fill)
+            dst8.border = cp8(src8.border); dst8.alignment = cp8(src8.alignment)
+            dst8.number_format = src8.number_format
+        f8 = ws8.cell(r8, INS8)
+        f8.value = None; f8.font = cp8(NORM); f8.fill = PatternFill()
+        f8.border = Border(); f8.alignment = Alignment(); f8.number_format = "General"
+    # widths follow, then the new column and proper separation
+    wd8 = {c: ws8.column_dimensions[c].width for c in list(ws8.column_dimensions)}
+    for c8 in range(ws8.max_column + 1, INS8 - 1, -1):
+        L8 = get_column_letter(c8); P8 = get_column_letter(c8 + 1)
+        if wd8.get(L8):
+            ws8.column_dimensions[P8].width = wd8[L8]
+    ws8.column_dimensions["F"].width = 10
+    ws8.column_dimensions["G"].width = 11
+    ws8.column_dimensions["H"].width = 17
+    ws8.column_dimensions["I"].width = 14
+    # merges re-applied at their shifted positions; validations follow
+    for m8 in merges8:
+        ws8.merge_cells(shift_sqref8(m8))
+    for dv8 in ws8.data_validations.dataValidation:
+        dv8.sqref = shift_sqref8(dv8.sqref)
+    for rng8 in list(ws8.conditional_formatting):
+        pass  # ranges keep working - the shifted columns carry their formats with them
+    # same-tab formulas follow the shift
+    for row8 in ws8.iter_rows():
+        for cl8 in row8:
+            if isinstance(cl8.value, str) and cl8.value.startswith("="):
+                nv8 = shift8(cl8.value, ws8.title, tab8)
+                if nv8 != cl8.value:
+                    cl8.value = nv8
+    # every other sheet's refs into this tab follow too
+    for oth8 in wb.worksheets:
+        if oth8.title == tab8:
+            continue
+        for row8 in oth8.iter_rows():
+            for cl8 in row8:
+                if isinstance(cl8.value, str) and cl8.value.startswith("=") and tab8 in cl8.value:
+                    nv8 = shift8(cl8.value, oth8.title, tab8)
+                    if nv8 != cl8.value:
+                        cl8.value = nv8
+    # the Fund column moves into the table at F, wherever this tab kept it
+    fund_dv8 = None
+    for dv8 in ws8.data_validations.dataValidation:
+        if dv8.formula1 and "AU,NZ" in str(dv8.formula1):
+            fund_dv8 = dv8
+    newsq8 = []
+    if fund_dv8 is not None:
+        cells8 = str(fund_dv8.sqref).split()
+        cols8 = sorted({re8.match(r"\$?([A-Z]+)", c8).group(1) for c8 in cells8})
+        for c8ref in cells8:
+            m8 = re8.match(r"\$?([A-Z]+)\$?(\d+)", c8ref)
+            colL8, rr8 = m8.group(1), int(m8.group(2))
+            lv8 = ws8[f"{colL8}{rr8}"].value
+            sc(ws8, f"F{rr8}", lv8 if lv8 in ("AU", "NZ") else "AU", NORM, YELL, align="center")
+            ws8[f"{colL8}{rr8}"].value = None
+            ws8[f"{colL8}{rr8}"].fill = PatternFill(); ws8[f"{colL8}{rr8}"].border = Border()
+            newsq8.append(f"F{rr8}")
+        for colL8 in cols8:
+            for rr8 in range(1, ws8.max_row + 1):
+                if ws8[f"{colL8}{rr8}"].value == "Fund":
+                    ws8[f"{colL8}{rr8}"].value = None
+                    ws8[f"{colL8}{rr8}"].fill = PatternFill(); ws8[f"{colL8}{rr8}"].border = Border()
+        fund_dv8.sqref = " ".join(newsq8)
+        for addr8 in ("C8", "C9", "D8", "D9"):
+            v8 = ws8[addr8].value
+            if isinstance(v8, str) and v8.startswith("="):
+                nv8 = v8
+                for colL8 in cols8:
+                    if colL8 not in ("C", "D", "E", "F", "G", "H", "I"):
+                        nv8 = re8.sub(colL8 + r"(\d+):" + colL8 + r"(\d+)", r"F\1:F\2", nv8)
+                if nv8 != v8:
+                    ws8[addr8].value = nv8
+    # header over the toggle on every squad table
+    for rr8 in range(1, ws8.max_row + 1):
+        if ws8.cell(rr8, 2).value == "Squad" and ws8.cell(rr8, 5).value == "On/Off":
+            sc(ws8, f"F{rr8}", "AU / NZ", WHITEF, MIDBLU, align="center")
+
+# ---------- On/Off toggle on the 1.11 / 1.12 COE roles, offshore at 0.4x ----------
+dvoo8 = None
+for coe8, hr8, r18, r28 in (("1.11 BP&T", 20, 21, 44), ("1.12 SA&D", 21, 22, 50)):
+    wc8 = wb[coe8]
+    sc(wc8, f"H{hr8}", "On/Off", WHITEF, MIDBLU, align="center", wrap=True)
+    wc8.column_dimensions["H"].width = 11
+    dvoo8 = DataValidation(type="list", formula1='"Onshore,Offshore"', allow_blank=True)
+    wc8.add_data_validation(dvoo8)
+    for r8 in range(r18, r28 + 1):
+        if wc8.cell(r8, 2).value is None:
+            continue
+        cell8 = sc(wc8, f"H{r8}", "Onshore", NORM, YELL, align="center")
+        dvoo8.add(cell8)
+        tv8 = wc8.cell(r8, 20).value   # T model cost helper
+        if isinstance(tv8, str) and tv8.startswith("=") and "IF($H" not in tv8:
+            wc8.cell(r8, 20).value = f'=({tv8[1:]})*IF($H{r8}="Offshore",0.4,1)'
+        gv8 = wc8.cell(r8, 7).value    # G cost if hired (vacant rows only)
+        if isinstance(gv8, str) and gv8.startswith("=") and "IF($H" not in gv8:
+            wc8.cell(r8, 7).value = f'=({gv8[1:]})*IF($H{r8}="Offshore",0.4,1)'
+    sc(wc8, f"B{r28+5}",
+       "On/Off: set a role to Offshore and it is priced at 40% of the onshore cost. The totals above and every summary follow.",
+       NORM, border=False, wrap=True)
+
+# ---------- register closures: freeze on role tabs, one dedup source,
+# red/green variance formats, yellow strictly for inputs ----------
+wb["1.11 BP&T"].freeze_panes = "A21"
+wb["1.12 SA&D"].freeze_panes = "A22"
+wb["1.13 Cyber Roles"].freeze_panes = "A19"
+wb["3.2 Total Cost"]["C23"].value = "=-('1.11 BP&T'!$C$13+'1.12 SA&D'!$C$13)"
+REDPOS8 = '[Red]#,##0.00;[Green](#,##0.00);"-"'
+REDNEG8 = '#,##0.00;[Red](#,##0.00);"-"'
+tc8b = wb["3.2 Total Cost"]
+for r8 in range(6, 25):
+    tc8b.cell(r8, 5).number_format = REDPOS8
+    tc8b.cell(r8, 7).number_format = REDPOS8
+gs8b = wb["3.1 Group Summary"]
+for r8 in range(6, 21):
+    gs8b.cell(r8, 5).number_format = REDNEG8
+    gs8b.cell(r8, 10).number_format = REDNEG8
+for tab8 in DESIGN8:
+    ws8b = wb[tab8]
+    for row8 in ws8b.iter_rows():
+        for cl8 in row8:
+            if (isinstance(cl8.value, str) and cl8.value.startswith("=") and cl8.fill
+                    and cl8.fill.patternType and getattr(cl8.fill.fgColor, "rgb", None) == "FFFFF2CC"):
+                cl8.fill = PatternFill()
 
 wb.save(OUT)
 print("stage 5 saved. order:", wb.sheetnames[:12], "...")

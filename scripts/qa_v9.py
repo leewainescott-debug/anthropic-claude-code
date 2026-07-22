@@ -244,11 +244,11 @@ DED, TOT, UNM, LEAD, RESTATE = A["DEDUP"], A["TOT"], A["UNM"], A["LEAD"], A["RES
 ports_order = ["1.1 Ampol Retail", "1.2 Customer", "1.3 Enterprise Data", "1.4 TDD Group Functions",
                "1.5 P&C", "1.6 Finance", "1.7 Infrastructure", "1.8 Energy Solutions & B2B",
                "1.9 Commercial Fuels", "1.10 Z Retail"]
-ecell = {"1.7 Infrastructure": "F10"}
+ecell = {"1.7 Infrastructure": "G10"}
 arch_sum = 0.0
 for i, tab in enumerate(ports_order):
     r = 6 + i
-    pv = gn(tab, ecell.get(tab, "F9"))
+    pv = gn(tab, ecell.get(tab, "G9"))
     arch_sum += pv
     chk(f"t21.{r}.arch", close(gn("3.2 Total Cost", f"C{r}"), pv), f"{g('3.2 Total Cost', f'C{r}')} vs {pv}")
     port = g("3.2 Total Cost", f"B{r}")
