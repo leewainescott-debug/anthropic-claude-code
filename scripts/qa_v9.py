@@ -287,6 +287,12 @@ for tab, anch in A["GM"].items():
     chk(f"gm.{tab}.hdrH", ws.cell(hdr, 8).value == "Vacancies after calls")
     chk(f"gm.{tab}.hdrD", ws.cell(hdr, 4).value == "Archetype roles")
     chk(f"gm.{tab}.hdrC", ws.cell(hdr, 3).value == "Archetype type and size")
+    chk(f"gm.{tab}.hdrK", ws.cell(hdr, 11).value == "Archetype cost ($m)")
+    chk(f"gm.{tab}.hdrL", ws.cell(hdr, 12).value == "Actual cost ($m)")
+    for r_ in range(hdr + 1, tot):
+        kv = str(ws.cell(r_, 11).value or "")
+        lv = str(ws.cell(r_, 12).value or "")
+        chk(f"gm.{tab}.kl_live_r{r_}", kv.startswith("=") and lv.startswith("="), f"{kv!r}/{lv!r}")
     for r in range(hdr + 1, tot):
         cv = ws.cell(r, 3).value
         chk(f"gm.{tab}.c_live_r{r}", isinstance(cv, str) and cv.startswith("="), repr(cv))
@@ -296,6 +302,11 @@ for tab, anch in A["GM"].items():
             lever += gn(t, f"C{r}")
             break
 chk("exec.lever", close(gn("Exec Summary", "C52"), lever), f"{g('Exec Summary','C52')} vs {lever}")
+for t4, refs in (("4.12 BP&T", ("2.1 BP&T", "F8", "G8", "H8")),
+                 ("4.13 SA&D", ("2.2 SA&D", "G8", "H8", "I8"))):
+    for i, cell_ in enumerate(refs[1:]):
+        chk(f"wt.{t4}.money{i}", close(gn(t4, f"F{5+i}"), gn(refs[0], cell_)),
+            f"{g(t4, f'F{5+i}')} vs {g(refs[0], cell_)}")
 # language / formatting guards
 BAN = ["seat", "your squads, your people", "decide hire or hold on every"]
 DATA_TABS = {"Squads", "Added data", "Sheet2", "0.4 Presentation Pack",

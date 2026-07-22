@@ -629,8 +629,15 @@ for tab in GM_TABS:
                    NORM, border=False)
     ws.cell(rost_hdr, 5).value = "Call"
     # close the white gap the way the owner hinted on 4.2 / 4.9: column C shows
-    # the archetype type and size, live from the same FTE View row D points at
+    # the archetype type and size, live from the same FTE View row D points at.
+    # K/L: archetype cost vs real cost per squad - the detail the owner asked
+    # for in every working copy.
     sc(ws, f"C{hdr}", "Archetype type and size", WHITEF, MIDBLU, align="center", wrap=True)
+    sc(ws, f"K{hdr}", "Archetype cost ($m)", WHITEF, MIDBLU, align="center", wrap=True)
+    sc(ws, f"L{hdr}", "Actual cost ($m)", WHITEF, MIDBLU, align="center", wrap=True)
+    ws.column_dimensions["K"].width = 13
+    ws.column_dimensions["L"].width = 13
+    cyber_tab = tab.endswith("TDD Cyber")
     for r in range(hdr+1, tot):
         d = ws.cell(r, 4).value
         m = re.match(r"^='3\.0 FTE View'!\$G\$(\d+)$", str(d or ""))
@@ -639,8 +646,17 @@ for tab in GM_TABS:
             e_, f_ = f"'3.0 FTE View'!$E${fr}", f"'3.0 FTE View'!$F${fr}"
             sc(ws, f"C{r}", f'=IF(OR({f_}=0,{f_}=""),{e_},{e_}&" - "&{f_})',
                NORM, wrap=True)
+            sc(ws, f"K{r}", f"='3.0 FTE View'!$M${fr}", NORM, fmt=M2, align="right")
+            sc(ws, f"L{r}", f"='3.0 FTE View'!$N${fr}", NORM, fmt=M2, align="right")
         else:
             sc(ws, f"C{r}", '="-"', NORM, align="center")
+            sc(ws, f"K{r}", '="-"', NORM, align="center")
+            if cyber_tab:
+                sc(ws, f"L{r}", "='2.5 Cyber Roles'!$F$8", NORM, fmt=M2, align="right")
+            else:
+                sc(ws, f"L{r}", '="-"', NORM, align="center")
+    for col in "KL":
+        sc(ws, f"{col}{tot}", f"=SUM({col}{hdr+1}:{col}{tot-1})", BOLD, LGREY, fmt=M2, align="right")
     gm_anchor[tab] = dict(hdr=hdr, tot=tot, rost_hdr=rost_hdr,
                           blocks={k: v for k, v in blocks.items()})
 # sheet order: 4.9 before 4.10
@@ -930,12 +946,20 @@ def w_summary(ws, first, last, top=4):
     for i, (lab, fx, fmt) in enumerate(items):
         sc(ws, f"B{top+1+i}", lab, NORM)
         sc(ws, f"C{top+1+i}", fx, NORM, fmt=fmt, align="right")
+def w_money(ws, spend, budget, left):
+    for i, (lab, fx) in enumerate([("Planned spend ($m)", spend),
+                                   ("Budget to draw down ($m)", budget),
+                                   ("Left to fund ($m)", left)]):
+        sc(ws, f"E{5+i}", lab, NORM)
+        sc(ws, f"F{5+i}", fx, NORM, fmt=M2, align="right")
 ws = mk_working("4.12 BP&T", "Business Partnering & Transformation GM working copy", "4.11 TDD Cyber")
 w_hdrs(ws, 13); last = w_rows_sheet2(ws, 14, PT); w_summary(ws, 14, last)
+w_money(ws, "='2.3 BP&T'!$F$8", "='2.3 BP&T'!$G$8", "='2.3 BP&T'!$H$8")
 sc(ws, f"B{last+2}", "Funding for these roles is on 2.3 BP&T. Roles and costs come from Sheet2.", NORM, border=False)
 W412 = (14, last)
 ws = mk_working("4.13 SA&D", "Strategy, Architecture & Data GM working copy", "4.12 BP&T")
 w_hdrs(ws, 13); last = w_rows_sheet2(ws, 14, sad_coe); w_summary(ws, 14, last)
+w_money(ws, "='2.4 SA&D'!$G$8", "='2.4 SA&D'!$H$8", "='2.4 SA&D'!$I$8")
 sc(ws, f"B{last+2}", "COE roles only - squad-based SA&D roles sit on 4.3 (Group Data portfolio). Funding is on 2.4 SA&D.", NORM, border=False)
 W413 = (14, last)
 ws = mk_working("4.14 EGI & Central", "EGI & Central Roles working copy", "4.13 SA&D")
