@@ -17,7 +17,7 @@ shutil.copy(SRC, OUT)
 wb = openpyxl.load_workbook(OUT, data_only=False)
 
 S2 = "Sheet2"
-NPORT = "COUNTA('2.0 Group Summary'!$B$6:$B$16)"   # live portfolio count (11)
+NPORT = "COUNTA('2.0 Group Summary'!$B$6:$B$15)"   # live portfolio count (10 - cyber is a COE)
 OFF = "'0.1 Squads'!$K$5"                           # offshore factor cell
 
 # ---------- shared style kit (matches the workbook's existing look) ----------
@@ -385,7 +385,7 @@ for i, h in enumerate(HDR21):
 PORTS = [("1.1 Ampol Retail", 9, 22), ("1.2 Customer", 9, 36), ("1.3 Enterprise Data", 9, 43),
          ("1.4 TDD Group Functions", 9, 51), ("1.5 P&C", 9, 57), ("1.6 Finance", 9, 63),
          ("1.7 Infrastructure", 10, 71), ("1.8 Energy Solutions & B2B", 9, 77),
-         ("1.9 Commercial Fuels", 9, 85), ("1.10 Z Retail", 9, 91), ("1.11 TDD Cyber", 9, 94)]
+         ("1.9 Commercial Fuels", 9, 85), ("1.10 Z Retail", 9, 91)]
 AD = "'Added data'"
 def sumifs_port(row, status, cls):
     return (f"SUMIFS({AD}!$AA:$AA,{AD}!$AC:$AC,$B{row},{AD}!$AF:$AF,\"{cls}\","
@@ -397,7 +397,7 @@ r = 6
 for tab, ecell, ftrow in PORTS:
     cyber = tab == "1.11 TDD Cyber"
     sc(ws, f"B{r}", f"='{tab}'!$B$2", BOLD)
-    sc(ws, f"C{r}", f"='{tab}'!$E${ecell}", NORM, fmt=M2, align="right")
+    sc(ws, f"C{r}", f"='{tab}'!$F${ecell}", NORM, fmt=M2, align="right")
     # cyber is priced from its actual roles (2.5) - no archetype FTE contract
     sc(ws, f"D{r}", '="-"' if cyber else f"='3.0 FTE View'!$G${ftrow}", NORM, fmt=M0, align="center")
     for col, st in (("E", "Filled"), ("G", "Vacant")):
@@ -414,23 +414,27 @@ for tab, ecell, ftrow in PORTS:
 # COE rows - all live refs into 2.2 / 2.3 / 2.4
 coe_rows = [
     # (2.2 label cell, archetype $, arch FTE, roster sheet, cat cell, Jrange, Frange, Grange, filled_cnt, vac_cnt)
-    ("'2.2 COE'!$B$11", "'2.3 BP&T'!$F$6", "'2.3 BP&T'!$C$12",
+    ("'2.2 COE'!$B$6", "'2.3 BP&T'!$F$6", "'2.3 BP&T'!$C$12",
      "'2.3 BP&T'", "'2.3 BP&T'!$B$6", f"$J${R1}:$J${PT_CHECK-1}", f"$F${R1}:$F${PT_CHECK-1}",
      f"$G${R1}:$G${PT_CHECK-1}", "'2.3 BP&T'!$D$6", "'2.3 BP&T'!$E$6"),
-    ("'2.2 COE'!$B$10", "'2.3 BP&T'!$F$7", None,
+    ("'2.2 COE'!$B$7", "'2.3 BP&T'!$F$7", None,
      "'2.3 BP&T'", "'2.3 BP&T'!$B$7", f"$J${R1}:$J${PT_CHECK-1}", f"$F${R1}:$F${PT_CHECK-1}",
      f"$G${R1}:$G${PT_CHECK-1}", "'2.3 BP&T'!$D$7", "'2.3 BP&T'!$E$7"),
     ("'2.2 COE'!$B$8", "'2.4 SA&D'!$G$6", "'2.4 SA&D'!$C$12",
      "'2.4 SA&D'", "'2.4 SA&D'!$B$6", f"$J${S1}:$J${SAD_CHECK-1}", f"$F${S1}:$F${SAD_CHECK-1}",
      f"$G${S1}:$G${SAD_CHECK-1}", "'2.4 SA&D'!$D$6", "'2.4 SA&D'!$E$6"),
-    ("'2.2 COE'!$B$12", "'2.4 SA&D'!$G$7", None,
+    ("'2.2 COE'!$B$9", "'2.4 SA&D'!$G$7", None,
      "'2.4 SA&D'", "'2.4 SA&D'!$B$7", f"$J${S1}:$J${SAD_CHECK-1}", f"$F${S1}:$F${SAD_CHECK-1}",
      f"$G${S1}:$G${SAD_CHECK-1}", "'2.4 SA&D'!$D$7", "'2.4 SA&D'!$E$7"),
 ]
+coe_rows.append((None, "'2.5 Cyber Roles'!$F$8", None,
+                 "'2.5 Cyber Roles'", '"*"', f"$J${C1}:$J${CY_CHECK-1}",
+                 f"$F${C1}:$F${CY_CHECK-1}", f"$G${C1}:$G${CY_CHECK-1}",
+                 "'2.5 Cyber Roles'!$D$8", "'2.5 Cyber Roles'!$E$8"))
 COE_FIRST = r
 # COEs have NO squads behind them - every FTE-style column shows "-"
 for lab, arch, archfte, sheet, catcell, jr, fr, gr, dcnt, ecnt in coe_rows:
-    sc(ws, f"B{r}", f"={lab}", BOLD)
+    sc(ws, f"B{r}", f"={lab}" if lab else "COE - Cyber, Risk & Service Operations", BOLD)
     sc(ws, f"C{r}", f"={arch}", NORM, fmt=M2, align="right")
     sc(ws, f"E{r}", f'=SUMIFS({sheet}!{jr},{sheet}!{fr},"Filled",{sheet}!{gr},{catcell})', NORM, fmt=M2, align="right")
     sc(ws, f"G{r}", f'=SUMIFS({sheet}!{jr},{sheet}!{fr},"Vacant",{sheet}!{gr},{catcell})', NORM, fmt=M2, align="right")
@@ -565,8 +569,8 @@ for tab in GM_TABS:
         if isinstance(v, str) and v.strip():
             title_ref = f"'{onex}'!${get_column_letter(c)}$2"
             break
-    ws["B2"].value = (f'=CONCATENATE({title_ref}," GM working copy")' if title_ref
-                      else f"{suffix} GM working copy")
+    ws["B2"].value = (f'=CONCATENATE({title_ref}," working copy")' if title_ref
+                      else f"{suffix} working copy")
     # locate the summary table and roster
     hdr = tot = rost_hdr = None
     for r in range(3, 45):
@@ -620,14 +624,14 @@ for tab in GM_TABS:
         elif "Vacant seats are priced" in v:
             ws.cell(r, 2).value = "Vacant roles are priced at standard title rates - indicative until an offer is made."
         elif v.startswith("Your people"):
-            ws.cell(r, 2).value = "Roster - Hire or Hold each vacancy"
+            ws.cell(r, 2).value = (f'=CONCATENATE({title_ref}," FTE")' if title_ref else "FTE")
             for c in range(2, 7): ws.cell(r, c).fill = NAVY; ws.cell(r, c).font = WHITEF
             for c in range(7, 11):
                 ws.cell(r, c).fill = PatternFill(); ws.cell(r, c).border = Border()
             if ws.cell(r-1, 2).value is None:
                 sc(ws, f"B{r-1}", "vs archetype: positive = over the allowance, negative = under.",
                    NORM, border=False)
-    ws.cell(rost_hdr, 5).value = "Call"
+    ws.cell(rost_hdr, 5).value = "Vacancy lever"
     # close the white gap the way the owner hinted on 4.2 / 4.9: column C shows
     # the archetype type and size, live from the same FTE View row D points at.
     # K/L: archetype cost vs real cost per squad - the detail the owner asked
@@ -655,8 +659,27 @@ for tab in GM_TABS:
                 sc(ws, f"L{r}", "='2.5 Cyber Roles'!$F$8", NORM, fmt=M2, align="right")
             else:
                 sc(ws, f"L{r}", '="-"', NORM, align="center")
+    sc(ws, f"M{hdr}", "Cost after calls ($m)", WHITEF, MIDBLU, align="center", wrap=True)
+    sc(ws, f"N{hdr}", "Change ($m)", WHITEF, MIDBLU, align="center", wrap=True)
+    ws.column_dimensions["M"].width = 13
+    ws.column_dimensions["N"].width = 12
+    for r in range(hdr+1, tot):
+        name = str(ws.cell(r, 2).value or "").strip()
+        blk = blocks.get(name)
+        lv = str(ws.cell(r, 12).value or "")
+        if blk and lv.startswith("=") and "-" not in lv[:4]:
+            a, b = blk
+            sc(ws, f"M{r}", f'=L{r}-(SUMIFS(F{a}:F{b},E{a}:E{b},"Hold")'
+                            f'+0.6*SUMIFS(F{a}:F{b},E{a}:E{b},"Offshore"))/1000000',
+               NORM, fmt=M2, align="right")
+            sc(ws, f"N{r}", f"=M{r}-L{r}", NORM, fmt=M2, align="right")
+        else:
+            sc(ws, f"M{r}", '="-"', NORM, align="center")
+            sc(ws, f"N{r}", '="-"', NORM, align="center")
     for col in "KL":
         sc(ws, f"{col}{tot}", f"=SUM({col}{hdr+1}:{col}{tot-1})", BOLD, LGREY, fmt=M2, align="right")
+    sc(ws, f"M{tot}", f"=SUM(M{hdr+1}:M{tot-1})", BOLD, LGREY, fmt=M2, align="right")
+    sc(ws, f"N{tot}", f"=SUM(N{hdr+1}:N{tot-1})", BOLD, LGREY, fmt=M2, align="right")
     gm_anchor[tab] = dict(hdr=hdr, tot=tot, rost_hdr=rost_hdr,
                           blocks={k: v for k, v in blocks.items()})
 # sheet order: 4.9 before 4.10
@@ -923,7 +946,7 @@ def w_hdrs(ws, r):
     for col, h in zip("BCDEFG", ["Name", "Role", "Department", "Status", "Call", "Cost if hired ($)"]):
         sc(ws, f"{col}{r}", h, WHITEF, MIDBLU, align="center")
 def w_rows_sheet2(ws, first, entries):
-    dv = DataValidation(type="list", formula1='"Hire,Hold"', allow_blank=False, showErrorMessage=True)
+    dv = DataValidation(type="list", formula1='"Hire,Hold,Offshore"', allow_blank=False, showErrorMessage=True)
     ws.add_data_validation(dv)
     for i, x in enumerate(entries):
         rr = first + i
@@ -952,12 +975,12 @@ def w_money(ws, spend, budget, left):
                                    ("Left to fund ($m)", left)]):
         sc(ws, f"E{5+i}", lab, NORM)
         sc(ws, f"F{5+i}", fx, NORM, fmt=M2, align="right")
-ws = mk_working("4.12 BP&T", "Business Partnering & Transformation GM working copy", "4.11 TDD Cyber")
+ws = mk_working("4.12 BP&T", "Business Partnering & Transformation working copy", "4.11 TDD Cyber")
 w_hdrs(ws, 13); last = w_rows_sheet2(ws, 14, PT); w_summary(ws, 14, last)
 w_money(ws, "='2.3 BP&T'!$F$8", "='2.3 BP&T'!$G$8", "='2.3 BP&T'!$H$8")
 sc(ws, f"B{last+2}", "Funding for these roles is on 2.3 BP&T. Roles and costs come from Sheet2.", NORM, border=False)
 W412 = (14, last)
-ws = mk_working("4.13 SA&D", "Strategy, Architecture & Data GM working copy", "4.12 BP&T")
+ws = mk_working("4.13 SA&D", "Strategy, Architecture & Data working copy", "4.12 BP&T")
 w_hdrs(ws, 13); last = w_rows_sheet2(ws, 14, sad_coe); w_summary(ws, 14, last)
 w_money(ws, "='2.4 SA&D'!$G$8", "='2.4 SA&D'!$H$8", "='2.4 SA&D'!$I$8")
 sc(ws, f"B{last+2}", "COE roles only - squad-based SA&D roles sit on 4.3 (Group Data portfolio). Funding is on 2.4 SA&D.", NORM, border=False)
@@ -984,7 +1007,7 @@ leftover_rows = [q for q in sq_rows if q["r"] not in refset and q["r"] not in s2
 sec = last + 2
 sc(ws, f"B{sec}", "Leadership roles - funded via portfolio overheads", WHITEF, NAVY)
 w_hdrs(ws, sec + 1)
-dv2 = DataValidation(type="list", formula1='"Hire,Hold"', allow_blank=False, showErrorMessage=True)
+dv2 = DataValidation(type="list", formula1='"Hire,Hold,Offshore"', allow_blank=False, showErrorMessage=True)
 ws.add_data_validation(dv2)
 def w_rows_squads(ws, first, entries, dv):
     for i, q in enumerate(entries):
@@ -1013,7 +1036,7 @@ NEW_BLK = (0, -1)
 if newins:
     sc(ws, f"B{sec3}", "New in Sheet2 - no raw data row yet. Add them to the Squads tab to join the portfolio counts.", WHITEF, NAVY)
     w_hdrs(ws, sec3 + 1)
-    dv3 = DataValidation(type="list", formula1='"Hire,Hold"', allow_blank=False, showErrorMessage=True)
+    dv3 = DataValidation(type="list", formula1='"Hire,Hold,Offshore"', allow_blank=False, showErrorMessage=True)
     ws.add_data_validation(dv3)
     first3 = sec3 + 2
     for i, x in enumerate(newins):
@@ -1096,6 +1119,249 @@ if CHANGELOG:
         sc(ws31_, f"F{qr}", f"=Squads!$B${row}&\" - \"&Squads!$C${row}", NORM)
         qr += 1
     qnote("These cells were updated at the owner's direction: every role on the owner's SA&D COE list now maps to COE - Data or COE - Strategy Architecture. The Group Data portfolio keeps the engineering, science, operations and reporting squads.")
+
+# =====================================================================
+# STAGE 6: cyber is ONE COE (3 funding buckets), COE Summary redesign,
+# AU/NZ inside each 1.x Portfolio Summary, exec story, Customer AI
+# =====================================================================
+# 6a. cyber funding buckets on the roles tab
+wc = wb["2.5 Cyber Roles"]
+clear_region(wc, 10, 16, 2, 4)
+fundc = [
+    ("Funding buckets to draw down", None, None),
+    ("COE - Cyber allocation ($m) - 0.0 Data Config", "='0.0 Data Config'!$E$7", M2),
+    ("TDD Cyber budget ($m) - 0.0 Data Config", "='0.0 Data Config'!$E$23", M2),
+    ("Cyber CapEx - Monitoring ($m) - input", 0.5, M2),
+    ("Total budget to draw down ($m)", "=SUM(C11:C13)", M2),
+    ("Left to fund ($m)", "=MAX(0,F8-C14)", M2),
+]
+for i6, (lab6, fx6, fmt6) in enumerate(fundc):
+    rr6 = 10 + i6
+    if fx6 is None:
+        sc(wc, f"B{rr6}", lab6, WHITEF, NAVY); continue
+    bold6 = lab6.startswith(("Total", "Left"))
+    sc(wc, f"B{rr6}", lab6, BOLD if bold6 else NORM)
+    sc(wc, f"C{rr6}", fx6, BOLD if bold6 else NORM,
+       YELL if isinstance(fx6, float) else None, fmt=fmt6, align="right")
+wc["G8"].value = "=C14"
+wc["H8"].value = "=MAX(0,F8-G8)"
+# 6b. remove the 1.11 portfolio tab - cyber lives once, as a COE
+for sheet6 in wb.worksheets:
+    for row6 in sheet6.iter_rows():
+        for cell6 in row6:
+            v6 = cell6.value
+            if isinstance(v6, str) and v6.startswith("=") and "'1.11 TDD Cyber'!" in v6:
+                if "$C$9" in v6 or "$E$9" in v6:
+                    cell6.value = v6.replace("'1.11 TDD Cyber'!$C$9", "'2.5 Cyber Roles'!$F$8").replace("'1.11 TDD Cyber'!$E$9", "'2.5 Cyber Roles'!$F$8")
+                elif "$H$5" in v6:
+                    cell6.value = v6.replace("'1.11 TDD Cyber'!$H$5", "('0.0 Data Config'!$E$7+'0.0 Data Config'!$E$23)")
+                elif "I$13" in v6:
+                    cell6.value = v6.replace("+'1.11 TDD Cyber'!$I$13", "").replace("'1.11 TDD Cyber'!$I$13", "0")
+                elif "$B$2" in v6:
+                    cell6.value = "TDD Cyber working copy"
+                else:
+                    cell6.value = "='2.5 Cyber Roles'!$F$8"
+w411f = wb["4.11 TDD Cyber"]
+for r6 in range(3, 20):
+    if r6 != 2 and w411f.cell(r6, 2).value == "TDD Cyber working copy":
+        w411f.cell(r6, 2).value = "TDD Cyber FTE"
+ftc = wb["3.0 FTE View"]
+ftc["E92"].value = "Strategic Programs"
+ftc["F92"].value = "-"
+ftc["M92"].value = "='2.5 Cyber Roles'!$F$8"
+ftc["N92"].value = "='2.5 Cyber Roles'!$F$8"
+del wb["1.11 TDD Cyber"]
+# 6c. Group Summary: cyber out of the portfolio block, real COE cyber row
+g6 = wb["2.0 Group Summary"]
+clear_region(g6, 16, 16, 2, 12)
+for col6 in "CDEFGHIJK":
+    v17 = g6[f"{col6}17"].value
+    if isinstance(v17, str):
+        g6[f"{col6}17"].value = v17.replace(f"{col6}6:{col6}16", f"{col6}6:{col6}15")
+for r6 in range(6, 16):
+    g6[f"E{r6}"].value = f"=C{r6}-D{r6}"
+g6["B19"].value = "COE - Cyber, Risk & Service Operations"
+g6["C19"].value = "='0.0 Data Config'!$E$7+'0.0 Data Config'!$E$23"
+g6["D19"].value = "='2.5 Cyber Roles'!$F$8"
+g6["E19"].value = "=C19-D19"
+g6["G19"].value = "=0"
+g6["H19"].value = "='2.5 Cyber Roles'!$G$8"
+g6["I19"].value = "='2.5 Cyber Roles'!$H$8"
+g6["J19"].value = "=MAX(0,-E19)+I19"
+g6["K19"].value = "=D19"
+g6["C29"].value = "='2.2 COE'!$G$11+'0.0 Data Config'!$E$23"
+# 6d. COE Summary redesign - five COEs, one clean grid
+w22 = wb["2.2 COE"]
+strip_dv_cf(w22)
+clear_region(w22, 2, w22.max_row + 2, 2, 10)
+sc(w22, "B2", "COE Summary", Font(name="Calibri", size=14, bold=True, color="FF002F6C"), border=False)
+sc(w22, "B4", "The five COEs - roles, spend and funding", WHITEF, NAVY)
+for col6, h6 in zip("BCDEFGH", ["COE", "Roles", "Filled", "Vacant", "Planned spend ($m)",
+                                "Budget to draw down ($m)", "Left to fund ($m)"]):
+    sc(w22, f"{col6}5", h6, WHITEF, MIDBLU, align="center", wrap=True)
+COEG = [("Business Partnering", "'2.3 BP&T'", ["C6", "D6", "E6", "F6", "G6", "H6"]),
+        ("Transformation", "'2.3 BP&T'", ["C7", "D7", "E7", "F7", "G7", "H7"]),
+        ("Strategy & Architecture", "'2.4 SA&D'", ["C6", "D6", "E6", "G6", "H6", "I6"]),
+        ("Data", "'2.4 SA&D'", ["C7", "D7", "E7", "G7", "H7", "I7"]),
+        ("Cyber, Risk & Service Operations", "'2.5 Cyber Roles'", ["C8", "D8", "E8", "F8", "G8", "H8"])]
+for i6, (nm6, sh6, cells6) in enumerate(COEG):
+    rr6 = 6 + i6
+    sc(w22, f"B{rr6}", nm6, BOLD)
+    for j6, cl6 in enumerate(cells6):
+        col6 = "CDEFGH"[j6]
+        fmt6 = "0" if col6 in "CDE" else M2
+        sc(w22, f"{col6}{rr6}", f"={sh6}!${cl6[0]}${cl6[1:]}", NORM, fmt=fmt6,
+           align="center" if col6 in "CDE" else "right")
+sc(w22, "B11", "Total", BOLD, LGREY)
+for col6 in "CDEFGH":
+    fmt6 = "0" if col6 in "CDE" else M2
+    sc(w22, f"{col6}11", f"=SUM({col6}6:{col6}10)", BOLD, LGREY, fmt=fmt6,
+       align="center" if col6 in "CDE" else "right")
+sc(w22, "B13", "Cost - AU and other funded ($m)", NORM)
+sc(w22, "C13", "='2.3 BP&T'!$F$10+'2.4 SA&D'!$F$10+'2.5 Cyber Roles'!$F$10", NORM, fmt=M2, align="right")
+sc(w22, "B14", "Cost - NZ funded ($m)", NORM)
+sc(w22, "C14", "='2.3 BP&T'!$F$11+'2.4 SA&D'!$F$11+'2.5 Cyber Roles'!$F$11", NORM, fmt=M2, align="right")
+sc(w22, "B17", "TDD Corporate funding pool ($m)", WHITEF, NAVY)
+for col6, h6 in zip("BCDE", ["Funding line", "Pool ($m)", "Drawn ($m)", "Remaining ($m)"]):
+    sc(w22, f"{col6}18", h6, WHITEF, MIDBLU, align="center")
+POOL = [("OpEx Initiatives", "='0.4 Budget Table (Fin)'!$N$5", "=0"),
+        ("Significant Items", "='0.4 Budget Table (Fin)'!$O$5",
+         "='1.3 Enterprise Data'!$I$13+'1.4 TDD Group Functions'!$I$13"),
+        ("CapEx", "='0.4 Budget Table (Fin)'!$P$5", "='1.9 Commercial Fuels'!$I$15+'2.5 Cyber Roles'!$C$13")]
+for i6, (nm6, pf6, df6) in enumerate(POOL):
+    rr6 = 19 + i6
+    sc(w22, f"B{rr6}", nm6, NORM)
+    sc(w22, f"C{rr6}", pf6, NORM, fmt=M2, align="right")
+    sc(w22, f"D{rr6}", df6, NORM, fmt=M2, align="right")
+    sc(w22, f"E{rr6}", f"=C{rr6}-D{rr6}", NORM, fmt=M2, align="right")
+sc(w22, "B22", "Total", BOLD, LGREY)
+for col6 in "CDE":
+    sc(w22, f"{col6}22", f"=SUM({col6}19:{col6}21)", BOLD, LGREY, fmt=M2, align="right")
+sc(w22, "B24", "Roll-up only - budgets on 0.0 Data Config, rosters on Sheet2, detail on the three COE tabs.", NORM, border=False)
+cfg6 = wb["0.0 Data Config"]
+for addr6, ref6 in (("F6", "='2.2 COE'!$F$8"), ("F7", "='2.2 COE'!$F$10"), ("F8", "='2.2 COE'!$F$7"),
+                    ("F9", "='2.2 COE'!$F$6"), ("F10", "='2.2 COE'!$F$9")):
+    cfg6[addr6].value = ref6
+wex6 = wb["Exec Summary"]
+wex6["C59"].value = "='2.2 COE'!$H$11"
+for r6, refs6 in {18: ("='0.0 Data Config'!$E$6", "='2.2 COE'!$F$8", "='2.2 COE'!$G$8", "='2.2 COE'!$H$8"),
+                  20: ("='0.0 Data Config'!$E$8", "='2.2 COE'!$F$7", "='2.2 COE'!$G$7", "='2.2 COE'!$H$7"),
+                  21: ("='0.0 Data Config'!$E$9", "='2.2 COE'!$F$6", "='2.2 COE'!$G$6", "='2.2 COE'!$H$6"),
+                  22: ("='0.0 Data Config'!$E$10", "='2.2 COE'!$F$9", "='2.2 COE'!$G$9", "='2.2 COE'!$H$9")}.items():
+    g6[f"C{r6}"].value = refs6[0]
+    g6[f"D{r6}"].value = refs6[1]
+    g6[f"E{r6}"].value = f"=C{r6}-D{r6}"
+    g6[f"H{r6}"].value = refs6[2]
+    g6[f"I{r6}"].value = refs6[3]
+    g6[f"J{r6}"].value = f"=MAX(0,-E{r6})+I{r6}"
+    g6[f"K{r6}"].value = f"=D{r6}"
+# 6e. AU/NZ inside every 1.x Portfolio Summary + budget box variances
+CFGROW = {"1.1 Ampol Retail": (11,), "1.2 Customer": (13, 14), "1.3 Enterprise Data": (22,),
+          "1.4 TDD Group Functions": (21,), "1.5 P&C": (18,), "1.6 Finance": (19,),
+          "1.7 Infrastructure": (17,), "1.8 Energy Solutions & B2B": (16,),
+          "1.9 Commercial Fuels": (15,), "1.10 Z Retail": (12,)}
+AUNZ2 = {}
+for tab6, cfgrows6 in CFGROW.items():
+    ws6 = wb[tab6]
+    rows6 = {}
+    hdr6 = None
+    for r6 in range(3, 14):
+        b6 = str(ws6.cell(r6, 2).value or "")
+        if b6 == "Cost": hdr6 = r6
+        for key6, tag6 in (("Portfolio Overhead", "ovh"), ("Platform Overheads", "plat"),
+                           ("Squad Support Costs", "squad"), ("Total Cost", "tot")):
+            if b6.startswith(key6): rows6[tag6] = r6
+    if len(rows6) < 4 or hdr6 is None:
+        print("AUNZ skip", tab6, rows6); continue
+    aub6 = "+".join(f"'0.0 Data Config'!$C${cr}" for cr in cfgrows6)
+    nzb6 = "+".join(f"'0.0 Data Config'!$D${cr}" for cr in cfgrows6)
+    for col6, h6 in zip("CDEF", ["TDD AU ($m)", "TDD NZ ($m)", "Other ($m)", "Total ($m)"]):
+        sc(ws6, f"{col6}{hdr6}", h6, WHITEF, MIDBLU, align="center", wrap=True)
+    au_c, nz_c = AUNZ.get(tab6, (None, None))
+    for tag6 in ("ovh", "plat", "squad"):
+        r6 = rows6[tag6]
+        oldC6 = str(ws6.cell(r6, 3).value or "0")
+        oldD6 = str(ws6.cell(r6, 4).value or "")
+        body6 = oldC6[1:] if oldC6.startswith("=") else oldC6
+        if tag6 == "squad" and au_c:
+            au_f6 = str(ws6.cell(int(au_c[1:]), 3).value)
+            nz_f6 = str(ws6.cell(int(nz_c[1:]), 3).value)
+            sc(ws6, f"C{r6}", au_f6, NORM, fmt=M2, align="right")
+            sc(ws6, f"D{r6}", nz_f6, NORM, fmt=M2, align="right")
+        else:
+            sc(ws6, f"C{r6}", f"=IF(({nzb6})>({aub6}),0,{body6})", NORM, fmt=M2, align="right")
+            sc(ws6, f"D{r6}", f"=IF(({nzb6})>({aub6}),{body6},0)", NORM, fmt=M2, align="right")
+        sc(ws6, f"E{r6}", oldD6 if oldD6.startswith("=") else "=0", NORM, fmt=M2, align="right")
+        sc(ws6, f"F{r6}", f"=C{r6}+D{r6}+E{r6}", NORM, fmt=M2, align="right")
+    r6 = rows6["tot"]
+    a6, b6_ = rows6["ovh"], rows6["squad"]
+    for col6 in "CDEF":
+        sc(ws6, f"{col6}{r6}", f"=SUM({col6}{a6}:{col6}{b6_})", BOLD, LGREY, fmt=M2, align="right")
+    for i6, (lab6, fx6) in enumerate([("AU Budget ($m)", f"={aub6}"), ("NZ Budget ($m)", f"={nzb6}"),
+                                      ("AU Variance ($m)", f"=H6-C{r6}"), ("NZ Variance ($m)", f"=H7-D{r6}")]):
+        rr6 = 6 + i6
+        sc(ws6, f"G{rr6}", lab6, BOLD if "Variance" in lab6 else NORM)
+        sc(ws6, f"H{rr6}", fx6, BOLD if "Variance" in lab6 else NORM, fmt=M2, align="right")
+    if au_c:
+        clear_region(ws6, int(au_c[1:]), int(nz_c[1:]), 2, 4)
+        AUNZ2[tab6] = (f"C{rows6['squad']}", f"D{rows6['squad']}")
+if AUNZ2:
+    AUNZ = AUNZ2
+    au_sum6 = "+".join(f"'{t6}'!${a6[0]}${a6[1:]}" for t6, (a6, b6_) in AUNZ.items())
+    nz_sum6 = "+".join(f"'{t6}'!${b6_[0]}${b6_[1:]}" for t6, (a6, b6_) in AUNZ.items())
+    g6[f"C{r0+3}"].value = f"={au_sum6}"
+    g6[f"C{r0+7}"].value = f"={nz_sum6}"
+# 6f. the exec story - five lines a CTO can read cold
+for i6, (lab6, fx6) in enumerate([
+        ("The story", None),
+        ("1. The contract: squad archetypes were set as the design - they allow this many squad roles", "='3.0 FTE View'!$G$4"),
+        ("2. What happened: roles actually raised across squads, leadership and COEs - a third vacant", "='3.0 FTE View'!$C$4"),
+        ("3. What the raised organisation costs today ($m)", "='2.1 Total Cost'!$I$24"),
+        ("4. Over the archetype design by ($m)", "='2.1 Total Cost'!$K$24"),
+        ("5. The decision: hire, hold or offshore every vacancy on the 4.x working copies - value on the table ($m)", "='2.1 Total Cost'!$G$24")]):
+    rr6 = 4 + i6
+    if fx6 is None:
+        sc(wex6, f"B{rr6}", lab6, WHITEF, NAVY)
+    else:
+        sc(wex6, f"B{rr6}", lab6, BOLD, border=False)
+        sc(wex6, f"C{rr6}", fx6, Font(name="Calibri", size=12, bold=True, color="FF002F6C"),
+           fmt="0.0", align="right", border=False)
+# 6g. Customer AI - the 1.2 archetype squad matches the raw data name
+for row6 in wb["1.2 Customer"].iter_rows():
+    for cell6 in row6:
+        if cell6.value == "AI Enablement": cell6.value = "Customer AI"
+ft6 = wb["3.0 FTE View"]
+for row6 in ft6.iter_rows():
+    for cell6 in row6:
+        v6 = cell6.value
+        if isinstance(v6, str) and '"AI Enablement"' in v6:
+            cell6.value = v6.replace('"AI Enablement"', '"Customer AI"')
+clear_region(ft6, 156, 156, 2, 12)
+
+
+# 6h. the 1.x summary columns moved (C AU, D NZ, E Other, F Total) - repoint
+# every external reference to the old C/D/E total cells
+TOTROW = {"1.1 Ampol Retail": 9, "1.2 Customer": 9, "1.3 Enterprise Data": 9,
+          "1.4 TDD Group Functions": 9, "1.5 P&C": 9, "1.6 Finance": 9,
+          "1.7 Infrastructure": 10, "1.8 Energy Solutions & B2B": 9,
+          "1.9 Commercial Fuels": 9, "1.10 Z Retail": 9}
+import re as re6
+for sheet6 in wb.worksheets:
+    if sheet6.title in TOTROW: continue
+    for row6 in sheet6.iter_rows():
+        for cell6 in row6:
+            v6 = cell6.value
+            if not (isinstance(v6, str) and v6.startswith("=")): continue
+            nv6 = v6
+            for tab6, t6 in TOTROW.items():
+                q6 = f"'{tab6}'!"
+                if q6 not in nv6: continue
+                nv6 = nv6.replace(f"{q6}$E${t6}", f"{q6}#F#{t6}")
+                nv6 = nv6.replace(f"{q6}$D${t6}", f"{q6}#E#{t6}")
+                nv6 = nv6.replace(f"{q6}$C${t6}", f"({q6}#C#{t6}+{q6}#D#{t6})")
+            if nv6 != v6:
+                nv6 = re6.sub(r"#([A-F])#", r"$\1$", nv6)
+                cell6.value = nv6
 
 # =====================================================================
 # STAGE 5: numbering = flow. Renumber tabs, rewrite every reference,

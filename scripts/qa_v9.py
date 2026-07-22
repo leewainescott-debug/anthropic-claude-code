@@ -113,7 +113,7 @@ E6c = num(cfg, "C6") + num(cfg, "D6"); E8c = num(cfg, "C8") + num(cfg, "D8")
 E9c = num(cfg, "C9") + num(cfg, "D9"); E10c = num(cfg, "C10") + num(cfg, "D10")
 g20 = wb["2.5 Group Summary"]
 nport = sum(1 for r in range(6, 17) if g20.cell(r, 2).value not in (None, ""))
-chk("p1.nport", nport == 11, nport)
+chk("p1.nport", nport == 10, nport)
 BP_BUDGET = E9c + nport * L7
 TR_BUDGET = E8c
 SA_BUDGET = E6c + nport * L8
@@ -220,26 +220,30 @@ for cat, col in (("Cyber & Risk", 6), ("Service Operations", 7)):
     chk(f"cy.{col}.spend", close(gn("2.3 Cyber Roles", f"F{col}"), d["spend"]), f'{g("2.3 Cyber Roles", f"F{col}")} vs {d["spend"]}')
 chk("cy.total52", gn("2.3 Cyber Roles", "C8") == 52)
 chk("cy.check0", gn("2.3 Cyber Roles", f"C{A['CY_CHECK']}") == 0)
-chk("cy.tie_111", close(gn("1.11 TDD Cyber", "C8") + gn("1.11 TDD Cyber", "D8"),
-                        gn("2.3 Cyber Roles", "F8")))
-chk("cy.flows_to_21", close(gn("2.6 Total Cost", "C16"), gn("1.11 TDD Cyber", "E9")))
+CYROW = A["COE_FIRST"] + 4
+chk("cy.coe_row_26", close(gn("2.6 Total Cost", f"C{CYROW}"), gn("2.3 Cyber Roles", "F8")),
+    f"{g('2.6 Total Cost', 'C' + str(CYROW))} vs {g('2.3 Cyber Roles', 'F8')}")
+chk("cy.buckets", close(gn("2.3 Cyber Roles", "C14"),
+    gn("0.2 Data Config", "E7") + gn("0.2 Data Config", "E23") + 0.5))
+chk("cy.grid_24", close(gn("2.4 COE Summary", "F10"), gn("2.3 Cyber Roles", "F8")))
+chk("cy.group_row19", close(gn("2.5 Group Summary", "D19"), gn("2.3 Cyber Roles", "F8")))
 # 2.4 COE Summary
-chk("coe.e8", close(gn("2.4 COE Summary", "E8"), SA_BUDGET))
-chk("coe.e11", close(gn("2.4 COE Summary", "E11"), BP_BUDGET))
-chk("coe.d8_ref", close(gn("2.4 COE Summary", "D8"), gn("2.2 SA&D", "G6")))
-chk("coe.d12_ref", close(gn("2.4 COE Summary", "D12"), gn("2.2 SA&D", "G7")))
-chk("coe.d10_ref", close(gn("2.4 COE Summary", "D10"), gn("2.1 BP&T", "F7")))
-chk("coe.d11_ref", close(gn("2.4 COE Summary", "D11"), gn("2.1 BP&T", "F6")))
+chk("coe.grid_bp", close(gn("2.4 COE Summary", "F6"), gn("2.1 BP&T", "F6")))
+chk("coe.grid_tr", close(gn("2.4 COE Summary", "F7"), gn("2.1 BP&T", "F7")))
+chk("coe.grid_sa", close(gn("2.4 COE Summary", "F8"), gn("2.2 SA&D", "G6")))
+chk("coe.grid_data", close(gn("2.4 COE Summary", "F9"), gn("2.2 SA&D", "G7")))
+chk("coe.grid_budget_bp", close(gn("2.4 COE Summary", "G6"), BP_BUDGET))
+chk("coe.grid_budget_sa", close(gn("2.4 COE Summary", "G8"), SA_BUDGET))
 # 2.1 consolidated
 DED, TOT, UNM, LEAD, RESTATE = A["DEDUP"], A["TOT"], A["UNM"], A["LEAD"], A["RESTATE"]
 ports_order = ["1.1 Ampol Retail", "1.2 Customer", "1.3 Enterprise Data", "1.4 TDD Group Functions",
                "1.5 P&C", "1.6 Finance", "1.7 Infrastructure", "1.8 Energy Solutions & B2B",
-               "1.9 Commercial Fuels", "1.10 Z Retail", "1.11 TDD Cyber"]
-ecell = {"1.7 Infrastructure": "E10"}
+               "1.9 Commercial Fuels", "1.10 Z Retail"]
+ecell = {"1.7 Infrastructure": "F10"}
 arch_sum = 0.0
 for i, tab in enumerate(ports_order):
     r = 6 + i
-    pv = gn(tab, ecell.get(tab, "E9"))
+    pv = gn(tab, ecell.get(tab, "F9"))
     arch_sum += pv
     chk(f"t21.{r}.arch", close(gn("2.6 Total Cost", f"C{r}"), pv), f"{g('2.6 Total Cost', f'C{r}')} vs {pv}")
     port = g("2.6 Total Cost", f"B{r}")
@@ -278,17 +282,19 @@ for tab, anch in A["GM"].items():
     ws = wb2[tab]
     hdr, tot, rh = anch["hdr"], anch["tot"], anch["rost_hdr"]
     t = tab.upper()
-    chk(f"gm.{tab}.title", isinstance(g(t, "B2"), str) and g(t, "B2").endswith(" GM working copy"), g(t, "B2"))
+    chk(f"gm.{tab}.title", isinstance(g(t, "B2"), str) and g(t, "B2").endswith(" working copy"), g(t, "B2"))
     chk(f"gm.{tab}.h_is_f_minus_g", close(gn(t, f"H{tot}"), gn(t, f"F{tot}") - gn(t, f"G{tot}")))
     for r in range(hdr + 1, tot):
         gcell = ws.cell(r, 7).value
         chk(f"gm.{tab}.g_formula_r{r}", isinstance(gcell, str) and gcell.startswith("="), repr(gcell))
-    chk(f"gm.{tab}.hdrE", ws.cell(rh, 5).value == "Call")
+    chk(f"gm.{tab}.hdrE", ws.cell(rh, 5).value == "Vacancy lever")
     chk(f"gm.{tab}.hdrH", ws.cell(hdr, 8).value == "Vacancies after calls")
     chk(f"gm.{tab}.hdrD", ws.cell(hdr, 4).value == "Archetype roles")
     chk(f"gm.{tab}.hdrC", ws.cell(hdr, 3).value == "Archetype type and size")
     chk(f"gm.{tab}.hdrK", ws.cell(hdr, 11).value == "Archetype cost ($m)")
     chk(f"gm.{tab}.hdrL", ws.cell(hdr, 12).value == "Actual cost ($m)")
+    chk(f"gm.{tab}.hdrM", ws.cell(hdr, 13).value == "Cost after calls ($m)")
+    chk(f"gm.{tab}.hdrN", ws.cell(hdr, 14).value == "Change ($m)")
     for r_ in range(hdr + 1, tot):
         kv = str(ws.cell(r_, 11).value or "")
         lv = str(ws.cell(r_, 12).value or "")
@@ -493,7 +499,7 @@ nz_terms = [gn(t, b) for t, (a, b) in A["AUNZ"].items()]
 R0 = A["AUNZ_ROW"]
 chk("aunz.au_total", close(gn("2.5 Group Summary", f"C{R0+3}"), sum(au_terms)))
 chk("aunz.nz_total", close(gn("2.5 Group Summary", f"C{R0+7}"), sum(nz_terms)))
-dsum = sum(gn("2.5 Group Summary", f"D{r}") for r in range(6, 17))
+dsum = sum(gn("2.5 Group Summary", f"D{r}") for r in range(6, 16))
 oh_gap = dsum - (sum(au_terms) + sum(nz_terms))
 chk("aunz.covers_squads_sanity", 0 < sum(au_terms) + sum(nz_terms) < dsum and 4 < oh_gap < 22,
     f"au+nz={sum(au_terms)+sum(nz_terms):.2f} dsum={dsum:.2f} overhead_gap={oh_gap:.2f}")
