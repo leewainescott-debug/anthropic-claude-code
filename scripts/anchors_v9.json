@@ -1,0 +1,77 @@
+{
+ "DEDUP": 23,
+ "TOT": 24,
+ "UNM": 22,
+ "LEAD": 21,
+ "COE_FIRST": 17,
+ "RESTATE": 26,
+ "EGI_MEMO": 27,
+ "EGI_TOT": 185,
+ "PT_R1": 21,
+ "PT_CHECK": 45,
+ "SAD_R1": 22,
+ "SAD_CHECK": 41,
+ "CY_R1": 19,
+ "CY_CHECK": 71,
+ "N_SAD_COE": 19,
+ "STATUS_DIFFS": 22,
+ "S2_ONLY": 14,
+ "SQ_ONLY": 2,
+ "GM": {
+  "4.1 Ampol Retail": {
+   "hdr": 5,
+   "tot": 15,
+   "rost_hdr": 22
+  },
+  "4.2 Customer": {
+   "hdr": 5,
+   "tot": 13,
+   "rost_hdr": 20
+  },
+  "4.3 Enterprise Data": {
+   "hdr": 5,
+   "tot": 10,
+   "rost_hdr": 17
+  },
+  "4.4 TDD Group Functions": {
+   "hdr": 5,
+   "tot": 11,
+   "rost_hdr": 18
+  },
+  "4.5 P&C": {
+   "hdr": 5,
+   "tot": 9,
+   "rost_hdr": 16
+  },
+  "4.6 Finance": {
+   "hdr": 5,
+   "tot": 9,
+   "rost_hdr": 16
+  },
+  "4.7 Infrastructure": {
+   "hdr": 5,
+   "tot": 10,
+   "rost_hdr": 17
+  },
+  "4.8 Energy Solutions & B2B": {
+   "hdr": 5,
+   "tot": 9,
+   "rost_hdr": 16
+  },
+  "4.10 Z Retail": {
+   "hdr": 5,
+   "tot": 9,
+   "rost_hdr": 16
+  },
+  "4.9 Commercial Fuels": {
+   "hdr": 5,
+   "tot": 10,
+   "rost_hdr": 17
+  },
+  "4.11 TDD Cyber": {
+   "hdr": 5,
+   "tot": 7,
+   "rost_hdr": 15
+  }
+ }
+}
