@@ -8,9 +8,9 @@ QA harness result: FAILS: 0 (exit 0). Three passes:
 
 ## Key numbers from this run
   PASS1: pt={'Business Partnering': 3.293, 'Transformation': 3.108} sad={'Strategy & Architecture': 4.321, 'Data': 2.233} cy={'Service Operations': 4.387, 'Cyber & Risk': 6.529} egi=4.666 BP_budget=3.720 SA_budget=3.400 ledger=120.038
-  KEY: model 89.054848478 actual 118.1987064031 BPbudget 3.72 SAbudget 3.4000000000000004 cyber 10.915989044000002 egi 4.665919350000001 restate -1.839
+  KEY: model 89.054848478 actual 118.19870640309999 BPbudget 3.72 SAbudget 3.4000000000000004 cyber 10.915989044000002 egi 4.665919350000001 restate -1.839
 
-## The 61 named assertions (every one passed)
+## The 64 named assertions (every one passed)
     1. p1.divisions
     2. p1.sad_coe_n
     3. p1.sad_covers_techstrategy
@@ -60,17 +60,20 @@ QA harness result: FAILS: 0 (exit 0). Three passes:
    47. exec.dedup
    48. exec.unmapped
    49. exec.lever
-   50. order.49_410
-   51. raw.Squads.only_logged_changes
-   52. raw.Added.owner_cols_untouched
-   53. sadpart.all_accounted
-   54. cover.squads_all_on_4x
-   55. cover.sheet2_all_on_4x
-   56. aunz.au_total
-   57. aunz.nz_total
-   58. aunz.covers_squads_sanity
-   59. t20.k24_net
-   60. lever.offshore_04
-   61. lever.offshore_04
+   50. recon.c32
+   51. cy.grouping_hdr
+   52. cy.no_stale_hdrs
+   53. order.49_410
+   54. raw.Squads.only_logged_changes
+   55. raw.Added.owner_cols_untouched
+   56. sadpart.all_accounted
+   57. cover.squads_all_on_4x
+   58. cover.sheet2_all_on_4x
+   59. aunz.au_total
+   60. aunz.nz_total
+   61. aunz.covers_squads_sanity
+   62. t20.k24_net
+   63. lever.offshore_04
+   64. lever.offshore_04
 
 ## Structural guards (fail the build if violated): 0
