@@ -112,7 +112,7 @@ L7 = num(cfg, "J7") * num(cfg, "K7")
 L8 = num(cfg, "J8") * num(cfg, "K8")
 E6c = num(cfg, "C6") + num(cfg, "D6"); E8c = num(cfg, "C8") + num(cfg, "D8")
 E9c = num(cfg, "C9") + num(cfg, "D9"); E10c = num(cfg, "C10") + num(cfg, "D10")
-g20 = wb["2.5 Group Summary"]
+g20 = wb["3.1 Group Summary"]
 nport = sum(1 for r in range(6, 17) if g20.cell(r, 2).value not in (None, ""))
 chk("p1.nport", nport == 10, nport)
 BP_BUDGET = E9c + nport * L7
@@ -178,67 +178,67 @@ def gn(sheet, cell):
 def close(a, b, tol=0.005): return abs(a - b) <= tol
 
 # ---------------- PASS 3: assertions ----------------
-# 2.1 BP&T
-chk("bpt.nport", gn("2.1 BP&T", "C10") == nport)
-chk("bpt.fte_funded", close(gn("2.1 BP&T", "C12"), nport * num(cfg, "K7"), 1e-9))
-chk("bpt.draw", close(gn("2.1 BP&T", "C13"), nport * L7))
-chk("bpt.budget_both", close(gn("2.1 BP&T", "C15"), BP_BUDGET))
-chk("bpt.g6_budget", close(gn("2.1 BP&T", "G6"), BP_BUDGET))
-chk("bpt.g7_budget", close(gn("2.1 BP&T", "G7"), TR_BUDGET))
+# 1.11 BP&T
+chk("bpt.nport", gn("1.11 BP&T", "C10") == nport)
+chk("bpt.fte_funded", close(gn("1.11 BP&T", "C12"), nport * num(cfg, "K7"), 1e-9))
+chk("bpt.draw", close(gn("1.11 BP&T", "C13"), nport * L7))
+chk("bpt.budget_both", close(gn("1.11 BP&T", "C15"), BP_BUDGET))
+chk("bpt.g6_budget", close(gn("1.11 BP&T", "G6"), BP_BUDGET))
+chk("bpt.g7_budget", close(gn("1.11 BP&T", "G7"), TR_BUDGET))
 for cat, col in (("Business Partnering", 6), ("Transformation", 7)):
     d = p1_pt[cat]
-    chk(f"bpt.{col}.roles", gn("2.1 BP&T", f"C{col}") == d["n"], f"{g('2.1 BP&T', f'C{col}')} vs {d['n']}")
-    chk(f"bpt.{col}.filled", gn("2.1 BP&T", f"D{col}") == d["f"])
-    chk(f"bpt.{col}.vacant", gn("2.1 BP&T", f"E{col}") == d["v"])
-    chk(f"bpt.{col}.spend", close(gn("2.1 BP&T", f"F{col}"), d["spend"]), f'{g("2.1 BP&T", f"F{col}")} vs {d["spend"]}')
-    chk(f"bpt.{col}.aunz_foot", close(gn("2.1 BP&T", f"I{col}") + gn("2.1 BP&T", f"J{col}"),
-        gn("2.1 BP&T", f"F{col}")))
-    chk(f"bpt.{col}.left", close(gn("2.1 BP&T", f"H{col}"),
+    chk(f"bpt.{col}.roles", gn("1.11 BP&T", f"C{col}") == d["n"], f"{g('1.11 BP&T', f'C{col}')} vs {d['n']}")
+    chk(f"bpt.{col}.filled", gn("1.11 BP&T", f"D{col}") == d["f"])
+    chk(f"bpt.{col}.vacant", gn("1.11 BP&T", f"E{col}") == d["v"])
+    chk(f"bpt.{col}.spend", close(gn("1.11 BP&T", f"F{col}"), d["spend"]), f'{g("1.11 BP&T", f"F{col}")} vs {d["spend"]}')
+    chk(f"bpt.{col}.aunz_foot", close(gn("1.11 BP&T", f"I{col}") + gn("1.11 BP&T", f"J{col}"),
+        gn("1.11 BP&T", f"F{col}")))
+    chk(f"bpt.{col}.left", close(gn("1.11 BP&T", f"H{col}"),
         max(0.0, d["spend"] - (BP_BUDGET if col == 6 else TR_BUDGET))))
-chk("bpt.check0", gn("2.1 BP&T", f"C{A['PT_CHECK']}") == 0)
-# 2.2 SA&D
-chk("sad.nport", gn("2.2 SA&D", "C10") == nport)
-chk("sad.fte_funded", close(gn("2.2 SA&D", "C12"), nport * num(cfg, "K8"), 1e-9))
-chk("sad.draw", close(gn("2.2 SA&D", "C13"), DA_DRAW))
-chk("sad.budget_both", close(gn("2.2 SA&D", "C15"), SA_BUDGET))
-chk("sad.h6_budget", close(gn("2.2 SA&D", "H6"), SA_BUDGET))
-chk("sad.h7_budget", close(gn("2.2 SA&D", "H7"), DATA_BUDGET))
+chk("bpt.check0", gn("1.11 BP&T", f"C{A['PT_CHECK']}") == 0)
+# 1.12 SA&D
+chk("sad.nport", gn("1.12 SA&D", "C10") == nport)
+chk("sad.fte_funded", close(gn("1.12 SA&D", "C12"), nport * num(cfg, "K8"), 1e-9))
+chk("sad.draw", close(gn("1.12 SA&D", "C13"), DA_DRAW))
+chk("sad.budget_both", close(gn("1.12 SA&D", "C15"), SA_BUDGET))
+chk("sad.h6_budget", close(gn("1.12 SA&D", "H6"), SA_BUDGET))
+chk("sad.h7_budget", close(gn("1.12 SA&D", "H7"), DATA_BUDGET))
 for cat, col in (("Strategy & Architecture", 6), ("Data", 7)):
     d = p1_sad.get(cat, dict(n=0, f=0, v=0, p=0, spend=0.0))
-    chk(f"sad.{col}.roles", gn("2.2 SA&D", f"C{col}") == d["n"], f"{g('2.2 SA&D', f'C{col}')} vs {d['n']}")
-    chk(f"sad.{col}.filled", gn("2.2 SA&D", f"D{col}") == d["f"])
-    chk(f"sad.{col}.vacant", gn("2.2 SA&D", f"E{col}") == d["v"])
-    chk(f"sad.{col}.paused", gn("2.2 SA&D", f"F{col}") == d["p"])
-    chk(f"sad.{col}.spend", close(gn("2.2 SA&D", f"G{col}"), d["spend"]), f'{g("2.2 SA&D", f"G{col}")} vs {d["spend"]}')
-    chk(f"sad.{col}.aunz_foot", close(gn("2.2 SA&D", f"J{col}") + gn("2.2 SA&D", f"K{col}"),
-        gn("2.2 SA&D", f"G{col}")))
+    chk(f"sad.{col}.roles", gn("1.12 SA&D", f"C{col}") == d["n"], f"{g('1.12 SA&D', f'C{col}')} vs {d['n']}")
+    chk(f"sad.{col}.filled", gn("1.12 SA&D", f"D{col}") == d["f"])
+    chk(f"sad.{col}.vacant", gn("1.12 SA&D", f"E{col}") == d["v"])
+    chk(f"sad.{col}.paused", gn("1.12 SA&D", f"F{col}") == d["p"])
+    chk(f"sad.{col}.spend", close(gn("1.12 SA&D", f"G{col}"), d["spend"]), f'{g("1.12 SA&D", f"G{col}")} vs {d["spend"]}')
+    chk(f"sad.{col}.aunz_foot", close(gn("1.12 SA&D", f"J{col}") + gn("1.12 SA&D", f"K{col}"),
+        gn("1.12 SA&D", f"G{col}")))
 paused_cost = sum(x["cost"] for x in sad_coe if x["status"] == "Paused") / 1e6
-chk("sad.paused_memo", close(gn("2.2 SA&D", "C18"), paused_cost), f'{g("2.2 SA&D", "C18")} vs {paused_cost}')
-chk("sad.check0", gn("2.2 SA&D", f"C{A['SAD_CHECK']}") == 0)
-chk("sad.roles_total", gn("2.2 SA&D", "C8") == len(sad_coe))
+chk("sad.paused_memo", close(gn("1.12 SA&D", "C18"), paused_cost), f'{g("1.12 SA&D", "C18")} vs {paused_cost}')
+chk("sad.check0", gn("1.12 SA&D", f"C{A['SAD_CHECK']}") == 0)
+chk("sad.roles_total", gn("1.12 SA&D", "C8") == len(sad_coe))
 # 2.5 Cyber
 for cat, col in (("Cyber & Risk", 6), ("Service Operations", 7)):
     d = p1_cy[cat]
-    chk(f"cy.{col}.roles", gn("2.3 Cyber Roles", f"C{col}") == d["n"])
-    chk(f"cy.{col}.filled", gn("2.3 Cyber Roles", f"D{col}") == d["f"])
-    chk(f"cy.{col}.vacant", gn("2.3 Cyber Roles", f"E{col}") == d["v"])
-    chk(f"cy.{col}.spend", close(gn("2.3 Cyber Roles", f"F{col}"), d["spend"]), f'{g("2.3 Cyber Roles", f"F{col}")} vs {d["spend"]}')
-chk("cy.total52", gn("2.3 Cyber Roles", "C8") == 52)
-chk("cy.check0", gn("2.3 Cyber Roles", f"C{A['CY_CHECK']}") == 0)
+    chk(f"cy.{col}.roles", gn("1.13 Cyber Roles", f"C{col}") == d["n"])
+    chk(f"cy.{col}.filled", gn("1.13 Cyber Roles", f"D{col}") == d["f"])
+    chk(f"cy.{col}.vacant", gn("1.13 Cyber Roles", f"E{col}") == d["v"])
+    chk(f"cy.{col}.spend", close(gn("1.13 Cyber Roles", f"F{col}"), d["spend"]), f'{g("1.13 Cyber Roles", f"F{col}")} vs {d["spend"]}')
+chk("cy.total52", gn("1.13 Cyber Roles", "C8") == 52)
+chk("cy.check0", gn("1.13 Cyber Roles", f"C{A['CY_CHECK']}") == 0)
 CYROW = A["COE_FIRST"] + 4
-chk("cy.coe_row_26", close(gn("2.6 Total Cost", f"C{CYROW}"), gn("2.3 Cyber Roles", "F8")),
-    f"{g('2.6 Total Cost', 'C' + str(CYROW))} vs {g('2.3 Cyber Roles', 'F8')}")
-chk("cy.buckets", close(gn("2.3 Cyber Roles", "C14"),
+chk("cy.coe_row_26", close(gn("3.2 Total Cost", f"C{CYROW}"), gn("1.13 Cyber Roles", "F8")),
+    f"{g('3.2 Total Cost', 'C' + str(CYROW))} vs {g('1.13 Cyber Roles', 'F8')}")
+chk("cy.buckets", close(gn("1.13 Cyber Roles", "C14"),
     gn("0.2 Data Config", "E7") + gn("0.2 Data Config", "E23") + 0.5))
-chk("cy.grid_24", close(gn("2.4 COE Summary", "F10"), gn("2.3 Cyber Roles", "F8")))
-chk("cy.group_row19", close(gn("2.5 Group Summary", "D19"), gn("2.3 Cyber Roles", "F8")))
-# 2.4 COE Summary
-chk("coe.grid_bp", close(gn("2.4 COE Summary", "F6"), gn("2.1 BP&T", "F6")))
-chk("coe.grid_tr", close(gn("2.4 COE Summary", "F7"), gn("2.1 BP&T", "F7")))
-chk("coe.grid_sa", close(gn("2.4 COE Summary", "F8"), gn("2.2 SA&D", "G6")))
-chk("coe.grid_data", close(gn("2.4 COE Summary", "F9"), gn("2.2 SA&D", "G7")))
-chk("coe.grid_budget_bp", close(gn("2.4 COE Summary", "G6"), BP_BUDGET))
-chk("coe.grid_budget_sa", close(gn("2.4 COE Summary", "G8"), SA_BUDGET))
+chk("cy.grid_24", close(gn("3.4 COE Summary", "F10"), gn("1.13 Cyber Roles", "F8")))
+chk("cy.group_row19", close(gn("3.1 Group Summary", "D19"), gn("1.13 Cyber Roles", "F8")))
+# 3.4 COE Summary
+chk("coe.grid_bp", close(gn("3.4 COE Summary", "F6"), gn("1.11 BP&T", "F6")))
+chk("coe.grid_tr", close(gn("3.4 COE Summary", "F7"), gn("1.11 BP&T", "F7")))
+chk("coe.grid_sa", close(gn("3.4 COE Summary", "F8"), gn("1.12 SA&D", "G6")))
+chk("coe.grid_data", close(gn("3.4 COE Summary", "F9"), gn("1.12 SA&D", "G7")))
+chk("coe.grid_budget_bp", close(gn("3.4 COE Summary", "G6"), BP_BUDGET))
+chk("coe.grid_budget_sa", close(gn("3.4 COE Summary", "G8"), SA_BUDGET))
 # 2.1 consolidated
 DED, TOT, UNM, LEAD, RESTATE = A["DEDUP"], A["TOT"], A["UNM"], A["LEAD"], A["RESTATE"]
 ports_order = ["1.1 Ampol Retail", "1.2 Customer", "1.3 Enterprise Data", "1.4 TDD Group Functions",
@@ -250,36 +250,36 @@ for i, tab in enumerate(ports_order):
     r = 6 + i
     pv = gn(tab, ecell.get(tab, "F9"))
     arch_sum += pv
-    chk(f"t21.{r}.arch", close(gn("2.6 Total Cost", f"C{r}"), pv), f"{g('2.6 Total Cost', f'C{r}')} vs {pv}")
-    port = g("2.6 Total Cost", f"B{r}")
-    chk(f"t21.{r}.filled_$", close(gn("2.6 Total Cost", f"E{r}"), led_sum(port, "Filled")),
-        f"{g('2.6 Total Cost', f'E{r}')} vs {led_sum(port, 'Filled')}")
-    chk(f"t21.{r}.vac_$", close(gn("2.6 Total Cost", f"G{r}"), led_sum(port, "Vacant")))
-    chk(f"t21.{r}.filled_fte", gn("2.6 Total Cost", f"F{r}") == sq_cnt(port, "Filled"))
-    chk(f"t21.{r}.vac_fte", gn("2.6 Total Cost", f"H{r}") == sq_cnt(port, "Vacant"))
-    chk(f"t21.{r}.i", close(gn("2.6 Total Cost", f"I{r}"),
-                            gn("2.6 Total Cost", f"E{r}") + gn("2.6 Total Cost", f"G{r}")))
-    chk(f"t21.{r}.k", close(gn("2.6 Total Cost", f"K{r}"),
-                            gn("2.6 Total Cost", f"I{r}") - gn("2.6 Total Cost", f"C{r}")))
-chk("t21.dedup", close(gn("2.6 Total Cost", f"C{DED}"), -(nport * L7 + nport * L8)))
-csum = sum(gn("2.6 Total Cost", f"C{r}") for r in range(6, TOT))
-chk("t21.total_c", close(gn("2.6 Total Cost", f"C{TOT}"), csum))
-chk("t21.total_i", close(gn("2.6 Total Cost", f"I{TOT}"),
-                         sum(gn("2.6 Total Cost", f"I{r}") for r in range(6, TOT))))
-chk("t21.restate", close(gn("2.6 Total Cost", f"I{RESTATE}"),
-                         gn("2.6 Total Cost", f"I{TOT}") - ledger_total / 1e6, 0.01),
-    f"{g('2.6 Total Cost', 'I' + str(RESTATE))} vs {gn('2.6 Total Cost', 'I' + str(TOT)) - ledger_total / 1e6}")
-chk("t21.egi_memo", close(gn("2.6 Total Cost", f"I{A['EGI_MEMO']}"), p1_egi), f"{g('2.6 Total Cost', 'I' + str(A['EGI_MEMO']))} vs {p1_egi}")
-chk("t30.egi_total", close(gn("2.7 Squad Detail", f"F{A['EGI_TOT']}"), p1_egi), f"{g('2.7 Squad Detail', 'F' + str(A['EGI_TOT']))} vs {p1_egi}")
-chk("t30.egi_n", gn("2.7 Squad Detail", f"C{A['EGI_TOT']}") == 16)
-chk("t30.xcheck0", gn("2.7 Squad Detail", "C164") == 0, g("2.7 Squad Detail", "C164"))
+    chk(f"t21.{r}.arch", close(gn("3.2 Total Cost", f"C{r}"), pv), f"{g('3.2 Total Cost', f'C{r}')} vs {pv}")
+    port = g("3.2 Total Cost", f"B{r}")
+    chk(f"t21.{r}.filled_$", close(gn("3.2 Total Cost", f"K{r}"), led_sum(port, "Filled")),
+        f"{g('3.2 Total Cost', f'K{r}')} vs {led_sum(port, 'Filled')}")
+    chk(f"t21.{r}.vac_$", close(gn("3.2 Total Cost", f"L{r}"), led_sum(port, "Vacant")))
+    chk(f"t21.{r}.filled_fte", gn("3.2 Total Cost", f"I{r}") == sq_cnt(port, "Filled"))
+    chk(f"t21.{r}.vac_fte", gn("3.2 Total Cost", f"M{r}") == sq_cnt(port, "Vacant"))
+    chk(f"t21.{r}.i", close(gn("3.2 Total Cost", f"D{r}"),
+                            gn("3.2 Total Cost", f"K{r}") + gn("3.2 Total Cost", f"L{r}")))
+    chk(f"t21.{r}.k", close(gn("3.2 Total Cost", f"E{r}"),
+                            gn("3.2 Total Cost", f"D{r}") - gn("3.2 Total Cost", f"C{r}")))
+chk("t21.dedup", close(gn("3.2 Total Cost", f"C{DED}"), -(nport * L7 + nport * L8)))
+csum = sum(gn("3.2 Total Cost", f"C{r}") for r in range(6, TOT))
+chk("t21.total_c", close(gn("3.2 Total Cost", f"C{TOT}"), csum))
+chk("t21.total_i", close(gn("3.2 Total Cost", f"D{TOT}"),
+                         sum(gn("3.2 Total Cost", f"D{r}") for r in range(6, TOT))))
+chk("t21.restate", close(gn("3.2 Total Cost", f"D{RESTATE}"),
+                         gn("3.2 Total Cost", f"D{TOT}") - ledger_total / 1e6, 0.01),
+    f"{g('3.2 Total Cost', 'D' + str(RESTATE))} vs {gn('3.2 Total Cost', 'D' + str(TOT)) - ledger_total / 1e6}")
+chk("t21.egi_memo", close(gn("3.2 Total Cost", f"I{A['EGI_MEMO']}"), p1_egi), f"{g('3.2 Total Cost', 'I' + str(A['EGI_MEMO']))} vs {p1_egi}")
+chk("t30.egi_total", close(gn("3.3 FTE View", f"F{A['EGI_TOT']}"), p1_egi), f"{g('3.3 FTE View', 'F' + str(A['EGI_TOT']))} vs {p1_egi}")
+chk("t30.egi_n", gn("3.3 FTE View", f"C{A['EGI_TOT']}") == 16)
+chk("t30.xcheck0", gn("3.3 FTE View", "C164") == 0, g("3.3 FTE View", "C164"))
 # exec ties
-chk("exec.model", close(gn("Exec Summary", "C26"), gn("2.6 Total Cost", f"C{TOT}")))
-chk("exec.actual", close(gn("Exec Summary", "C30"), gn("2.6 Total Cost", f"I{TOT}")))
-chk("exec.filled", close(gn("Exec Summary", "C31"), gn("2.6 Total Cost", f"E{TOT}")))
-chk("exec.vacant", close(gn("Exec Summary", "C32"), gn("2.6 Total Cost", f"G{TOT}")))
-chk("exec.dedup", close(gn("Exec Summary", "C25"), gn("2.6 Total Cost", f"C{DED}")))
-chk("exec.unmapped", close(gn("Exec Summary", "C57"), gn("2.6 Total Cost", f"I{UNM}")))
+chk("exec.model", close(gn("Exec Summary", "C26"), gn("3.2 Total Cost", f"C{TOT}")))
+chk("exec.actual", close(gn("Exec Summary", "C30"), gn("3.2 Total Cost", f"D{TOT}")))
+chk("exec.filled", close(gn("Exec Summary", "C31"), gn("3.2 Total Cost", f"K{TOT}")))
+chk("exec.vacant", close(gn("Exec Summary", "C32"), gn("3.2 Total Cost", f"L{TOT}")))
+chk("exec.dedup", close(gn("Exec Summary", "C25"), gn("3.2 Total Cost", f"C{DED}")))
+chk("exec.unmapped", close(gn("Exec Summary", "C57"), gn("3.2 Total Cost", f"D{UNM}")))
 # GM tabs
 wb2 = wb
 lever = 0.0
@@ -293,13 +293,14 @@ for tab, anch in A["GM"].items():
         gcell = ws.cell(r, 7).value
         chk(f"gm.{tab}.g_formula_r{r}", isinstance(gcell, str) and gcell.startswith("="), repr(gcell))
     chk(f"gm.{tab}.hdrE", ws.cell(rh, 5).value == "Vacancy lever")
-    chk(f"gm.{tab}.hdrH", ws.cell(hdr, 8).value == "Vacancies after calls")
+    chk(f"gm.{tab}.hdrH", ws.cell(hdr, 8).value == "Vacancies remaining")
     chk(f"gm.{tab}.hdrD", ws.cell(hdr, 4).value == "Archetype roles")
-    chk(f"gm.{tab}.hdrC", ws.cell(hdr, 3).value == "Archetype type and size")
+    chk(f"gm.{tab}.hdrC", ws.cell(hdr, 3).value == "Archetype type")
+    chk(f"gm.{tab}.hdrO", ws.cell(hdr, 15).value == "Archetype size")
     chk(f"gm.{tab}.hdrK", ws.cell(hdr, 11).value == "Archetype cost ($m)")
     chk(f"gm.{tab}.hdrL", ws.cell(hdr, 12).value == "Actual cost ($m)")
-    chk(f"gm.{tab}.hdrM", ws.cell(hdr, 13).value == "Cost after calls ($m)")
-    chk(f"gm.{tab}.hdrN", ws.cell(hdr, 14).value == "Change vs actual ($m)")
+    chk(f"gm.{tab}.hdrM", ws.cell(hdr, 13).value == "Cost after vacancy decisions ($m)")
+    chk(f"gm.{tab}.hdrN", ws.cell(hdr, 14).value == "New Variance ($m)")
     for r_ in range(hdr + 1, tot):
         kv = str(ws.cell(r_, 11).value or "")
         lv = str(ws.cell(r_, 12).value or "")
@@ -316,8 +317,8 @@ for rd in (64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75):
     vv = g("Exec Summary", f"C{rd}")
     chk(f"exec.drill.C{rd}", isinstance(vv, (int, float)) or vv is None, repr(vv))
 chk("exec.lever", close(gn("Exec Summary", "C52"), lever), f"{g('Exec Summary','C52')} vs {lever}")
-for t4, refs in (("4.12 BP&T", ("2.1 BP&T", "F8", "G8", "H8")),
-                 ("4.13 SA&D", ("2.2 SA&D", "G8", "H8", "I8"))):
+for t4, refs in (("2.12 BP&T", ("1.11 BP&T", "F8", "G8", "H8")),
+                 ("2.13 SA&D", ("1.12 SA&D", "G8", "H8", "I8"))):
     for i, cell_ in enumerate(refs[1:]):
         chk(f"wt.{t4}.money{i}", close(gn(t4, f"F{5+i}"), gn(refs[0], cell_)),
             f"{g(t4, f'F{5+i}')} vs {g(refs[0], cell_)}")
@@ -347,39 +348,40 @@ for wsx in wb2.worksheets:
         for cx in rowx:
             if isinstance(cx.value, str):
                 chk(f"custai.{wsx.title}.{cx.coordinate}", "AI Enablement" not in cx.value, "AI Enablement survives")
-chk("recon.c32", gn("2.5 Group Summary", "C32") == 0 or abs(gn("2.5 Group Summary", "C32")) < 0.005,
-    g("2.5 Group Summary", "C32"))
-chk("cy.grouping_hdr", wb2["2.3 Cyber Roles"]["B5"].value == "Grouping")
-chk("cy.no_stale_hdrs", all(wb2["2.3 Cyber Roles"].cell(18, c).value is None for c in (8, 9, 10)),
+chk("recon.c32", gn("3.1 Group Summary", "C32") == 0 or abs(gn("3.1 Group Summary", "C32")) < 0.005,
+    g("3.1 Group Summary", "C32"))
+chk("cy.grouping_hdr", wb2["1.13 Cyber Roles"]["B5"].value == "Grouping")
+chk("cy.no_stale_hdrs", all(wb2["1.13 Cyber Roles"].cell(18, c).value is None for c in (8, 9, 10)),
     "old On/Off / Full Cost headers must be cleared")
 for t4 in list(A["GM"].keys()):
     dvs = wb2[t4].data_validations.dataValidation
     lever_ok = any("Offshore" in str(d.formula1 or "") for d in dvs)
     chk(f"lever.dv_offshore.{t4}", lever_ok)
-for t4 in ("4.12 BP&T", "4.13 SA&D", "4.14 EGI & Central"):
+for t4 in ("2.12 BP&T", "2.13 SA&D", "2.14 EGI & Central"):
     bad_call = []
     for rowx in wb2[t4].iter_rows():
         for cx in rowx:
             if cx.value == "Call": bad_call.append(cx.coordinate)
     chk(f"lever.no_call_hdr.{t4}", not bad_call, str(bad_call))
 # no hard-coded 11* in funding formulas
-for tab, addr in [("2.4 COE Summary", "E8"), ("2.4 COE Summary", "E11"), ("2.6 Total Cost", f"C{DED}"),
-                  ("2.1 BP&T", "C13"), ("2.2 SA&D", "C13")]:
+for tab, addr in [("3.4 COE Summary", "E8"), ("3.4 COE Summary", "E11"), ("3.2 Total Cost", f"C{DED}"),
+                  ("1.11 BP&T", "C13"), ("1.12 SA&D", "C13")]:
     v = wb2[tab][addr].value
     chk(f"nohard11.{tab}.{addr}", isinstance(v, str) and "11*" not in v, repr(v))
-for tab in ("2.1 BP&T", "2.2 SA&D"):
+for tab in ("1.11 BP&T", "1.12 SA&D"):
     v = wb2[tab]["C10"].value
     chk(f"nohard.portcount.{tab}", isinstance(v, str) and v.startswith("=COUNTA"), repr(v))
 # hidden sheets stay hidden
-for t in ("FY26 Budget (ref)", "squad mapping", "Lists"):
+for t in ("FY26 Budget (superseded)", "squad mapping (superseded)", "Lists"):
     chk(f"hidden.{t}", wb2[t].sheet_state == "hidden")
+chk("gone.Sheet1", "Sheet1" not in wb2.sheetnames)
 # sheet order
 names = wb2.sheetnames
-chk("order.49_410", names.index("4.9 Commercial Fuels") < names.index("4.10 Z Retail"))
+chk("order.49_410", names.index("2.9 Commercial Fuels") < names.index("2.10 Z Retail"))
 # FTE rows are live refs; NO cost against filled people anywhere
-for tab, first, last_ in [("2.1 BP&T", A["PT_R1"], A["PT_CHECK"] - 1),
-                          ("2.2 SA&D", A["SAD_R1"], A["SAD_CHECK"] - 1),
-                          ("2.3 Cyber Roles", A["CY_R1"], A["CY_CHECK"] - 1)]:
+for tab, first, last_ in [("1.11 BP&T", A["PT_R1"], A["PT_CHECK"] - 1),
+                          ("1.12 SA&D", A["SAD_R1"], A["SAD_CHECK"] - 1),
+                          ("1.13 Cyber Roles", A["CY_R1"], A["CY_CHECK"] - 1)]:
     ws = wb2[tab]
     for r in range(first, last_ + 1):
         for col in (2, 3, 4, 5, 6):
@@ -395,7 +397,7 @@ for tab, first, last_ in [("2.1 BP&T", A["PT_R1"], A["PT_CHECK"] - 1),
             chk(f"vaccost.{tab}.r{r}", isinstance(gv, str) and gv.startswith("="), repr(gv)[:30])
     chk(f"thidden.{tab}", ws.column_dimensions["T"].hidden)
 # 4.x: no cost against filled people on the working copies either
-for tab in list(A["GM"].keys()) + ["4.12 BP&T", "4.13 SA&D", "4.14 EGI & Central"]:
+for tab in list(A["GM"].keys()) + ["2.12 BP&T", "2.13 SA&D", "2.14 EGI & Central"]:
     ws = wb2[tab]
     costcol = 6 if tab in A["GM"] else 7
     statcol = 4 if tab in A["GM"] else 5
@@ -438,7 +440,7 @@ for tab in ("Squads", "Sheet2", "Added data"):
         chk(f"raw.{tab}.untouched", len(d) == 0, str(d[:5]))
 # owner's Hire/Hold calls preserved exactly on every GM tab
 for tab in A["GM"]:
-    a, b = wb[tab], wu[tab]
+    a, b = wb[tab], wu["4." + tab.split(".", 1)[1]]
     calls = [(r, a.cell(r, 5).value, b.cell(r, 5).value)
              for r in range(1, max(a.max_row, b.max_row) + 1)
              if a.cell(r, 5).value != b.cell(r, 5).value
@@ -458,7 +460,7 @@ for tab, anch in A["GM"].items():
             cur = b.strip(); blocks[cur] = [r + 1, r]
     for r in range(hdr + 1, tot):
         hcell, icell = ws.cell(r, 8).value, ws.cell(r, 9).value
-        chk(f"gm.{tab}.h_row{r}", hcell == f"=F{r}-G{r}", repr(hcell))
+        chk(f"gm.{tab}.h_row{r}", isinstance(hcell, str) and hcell.startswith(f"=F{r}-G{r}"), repr(hcell))
         chk(f"gm.{tab}.i_row{r}", isinstance(icell, str) and f"E{r}+G{r}-D{r}" in icell, repr(icell))
         gcell = str(ws.cell(r, 7).value or "")
         mm = re.match(r'^=COUNTIF\(E(\d+):E(\d+),"Hire"\)$', gcell)
@@ -469,7 +471,7 @@ for tab, anch in A["GM"].items():
                 int(mm.group(1)) >= blk[0] - 1 and int(mm.group(2)) <= blk[1],
                 f"{gcell} vs block {blk}")
 # no typed constants in the rebuilt 2.1 table body or Exec value cells
-w21 = wb["2.6 Total Cost"]
+w21 = wb["3.2 Total Cost"]
 for r in range(6, A["TOT"] + 1):
     for c in range(3, 13):
         v = w21.cell(r, c).value
@@ -480,12 +482,12 @@ for r in range(19, 60):
     if v is not None and r != 63:
         chk(f"nohard.exec.C{r}", isinstance(v, str) and v.startswith("="), repr(v)[:40])
 # SA&D partition completeness, read from the ARTIFACT (2.4 + 3.1 refs), not the rule
-ws24 = wb["2.2 SA&D"]
+ws24 = wb["1.12 SA&D"]
 refs24 = set()
 for r in range(A["SAD_R1"], A["SAD_CHECK"]):
     m = re.match(r"^=Sheet2!\$B\$(\d+)$", str(ws24.cell(r, 2).value or ""))
     if m: refs24.add(int(m.group(1)))
-ws31 = wb["5.0 Data QA"]
+ws31 = wb["4.0 Data QA"]
 refs31 = set()
 for row in ws31.iter_rows():
     for cell in row:
@@ -514,14 +516,14 @@ for x in rows2:
     if "vacant" in nm or "ring fenced" in nm or x["div"] == "EGI": continue
     if sq_match(x) is None:
         chk(f"named_disclosed.{nm[:20]}", x["r"] in refs31, f"Sheet2 r{x['r']} not on 3.1")
-# ---------------- every single role on a 4.x tab ----------------
+# ---------------- every single role on a 2.x working tab ----------------
 refset4 = set()
-for t4 in [t for t in wb.sheetnames if t.startswith("4.")]:
+for t4 in [t for t in wb.sheetnames if t.startswith("2.")]:
     for row_ in wb[t4].iter_rows(min_col=2, max_col=2):
         m4 = re.match(r"^=(?:IF\(Squads!\$R\$(\d+)=.*|Squads!\$B\$(\d+))$", str(row_[0].value or ""))
         if m4: refset4.add(int(m4.group(1) or m4.group(2)))
 s2ref4 = set()
-for t4 in ("4.12 BP&T", "4.13 SA&D", "4.14 EGI & Central"):
+for t4 in ("2.12 BP&T", "2.13 SA&D", "2.14 EGI & Central"):
     for row_ in wb[t4].iter_rows(min_col=2, max_col=2):
         m4 = re.match(r"^=Sheet2!\$B\$(\d+)$", str(row_[0].value or ""))
         if m4: s2ref4.add(int(m4.group(1)))
@@ -549,17 +551,17 @@ chk("cover.sheet2_all_on_4x", len(missing_s2) == 0, str(missing_s2[:6]))
 au_terms = [gn(t, a) for t, (a, b) in A["AUNZ"].items()]
 nz_terms = [gn(t, b) for t, (a, b) in A["AUNZ"].items()]
 R0 = A["AUNZ_ROW"]
-chk("aunz.au_total", close(gn("2.5 Group Summary", f"C{R0+3}"), sum(au_terms)))
-chk("aunz.nz_total", close(gn("2.5 Group Summary", f"C{R0+7}"), sum(nz_terms)))
-dsum = sum(gn("2.5 Group Summary", f"D{r}") for r in range(6, 16))
+chk("aunz.au_total", close(gn("3.1 Group Summary", f"C{R0+3}"), sum(au_terms)))
+chk("aunz.nz_total", close(gn("3.1 Group Summary", f"C{R0+7}"), sum(nz_terms)))
+dsum = sum(gn("3.1 Group Summary", f"D{r}") for r in range(6, 16))
 oh_gap = dsum - (sum(au_terms) + sum(nz_terms))
 chk("aunz.covers_squads_sanity", 0 < sum(au_terms) + sum(nz_terms) < dsum and 4 < oh_gap < 22,
     f"au+nz={sum(au_terms)+sum(nz_terms):.2f} dsum={dsum:.2f} overhead_gap={oh_gap:.2f}")
 # 2.0 K column = total cost, ties to old semantics
-chk("t20.k24_net", close(gn("2.5 Group Summary", "K26"), gn("2.6 Total Cost", f"C{A['TOT']}")))
+chk("t20.k24_net", close(gn("3.1 Group Summary", "K26"), gn("3.2 Total Cost", f"C{A['TOT']}")))
 del wu; gc.collect()
 
-# ---------------- cost after calls can never land below zero ----------------
+# ---------------- cost after vacancy decisions can never land below zero ----------------
 for gt_, anch_ in sorted(A["GM"].items()):
     negs = []
     for rr in range(anch_["hdr"] + 1, anch_["tot"]):
@@ -573,7 +575,7 @@ import shutil
 FLIP = SCR + "flip_v9.xlsx"
 shutil.copy(SRC, FLIP)
 wf = openpyxl.load_workbook(FLIP)
-gt = "4.1 Ampol Retail"
+gt = "2.1 Ampol Retail"
 anch = A["GM"][gt]
 wsf = wf[gt]
 target = None
@@ -603,9 +605,9 @@ else:
     chk("lever.offshore_04", False, "no Hold row with cost found to flip")
 del vals2; gc.collect()
 
-print(f"KEY: model {g('2.6 Total Cost', 'C' + str(TOT))} actual {g('2.6 Total Cost', 'I' + str(TOT))} "
-      f"BPbudget {g('2.1 BP&T', 'C15')} SAbudget {g('2.2 SA&D', 'C15')} cyber {g('2.3 Cyber Roles', 'F8')} "
-      f"egi {g('2.7 Squad Detail', 'F' + str(A['EGI_TOT']))} restate {g('2.6 Total Cost', 'I' + str(RESTATE))}")
+print(f"KEY: model {g('3.2 Total Cost', 'C' + str(TOT))} actual {g('3.2 Total Cost', 'D' + str(TOT))} "
+      f"BPbudget {g('1.11 BP&T', 'C15')} SAbudget {g('1.12 SA&D', 'C15')} cyber {g('1.13 Cyber Roles', 'F8')} "
+      f"egi {g('3.3 FTE View', 'F' + str(A['EGI_TOT']))} restate {g('3.2 Total Cost', 'D' + str(RESTATE))}")
 print("FAILS:", len(fails))
 for f in fails[:60]: print("  -", f)
 sys.exit(0 if not fails else 1)

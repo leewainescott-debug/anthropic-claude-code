@@ -1,0 +1,363 @@
+# =====================================================================
+# STAGE 7: the owner's structure. 1.x = designs + COE roles, 2.x = the
+# working tabs, 3.x = summaries, 4.0 = evidence. Flow wired 1 > 2 > 3.
+# Plus the confirmed audit fixes and the banned words purged.
+# =====================================================================
+import re as re7
+
+# ---------- (A) content fixes on current names, before any renaming ----------
+# A1. working tabs: type and size separated, vacancies remaining includes
+# Offshore, headers in the owner's words, New Variance vs archetype.
+for gt7, an7 in gm_anchor.items():
+    w7 = wb[gt7]
+    h7, t7 = an7["hdr"], an7["tot"]
+    w7.cell(h7, 3).value = "Archetype type"
+    sc(w7, f"O{h7}", "Archetype size", WHITEF, MIDBLU, align="center", wrap=True)
+    w7.column_dimensions["O"].width = 11
+    w7.cell(h7, 8).value = "Vacancies remaining"
+    w7.cell(h7, 13).value = "Cost after vacancy decisions ($m)"
+    w7.cell(h7, 14).value = "New Variance ($m)"
+    for r7 in range(h7 + 1, t7):
+        kf7 = str(w7.cell(r7, 11).value or "")
+        mfr7 = re7.search(r"'2\.7 Squad Detail'!\$M\$(\d+)", kf7)
+        if mfr7:
+            fr7 = mfr7.group(1)
+            w7.cell(r7, 3).value = f"='2.7 Squad Detail'!$E${fr7}"
+            sc(w7, f"O{r7}", f"='2.7 Squad Detail'!$F${fr7}", NORM, align="center")
+            w7.cell(r7, 14).value = f"=M{r7}-K{r7}"
+        else:
+            sc(w7, f"O{r7}", '="-"', NORM, align="center")
+        gf7 = str(w7.cell(r7, 7).value or "")
+        mg7 = re7.match(r'^=COUNTIF\(E(\d+):E(\d+),"Hire"\)$', gf7)
+        if mg7:
+            a7, b7 = mg7.group(1), mg7.group(2)
+            w7.cell(r7, 8).value = (f'=F{r7}-G{r7}-COUNTIF(E{a7}:E{b7},"Offshore")')
+    sc(w7, f"O{t7}", '="-"', BOLD, LGREY, align="center")
+    w7.freeze_panes = f"A{h7+1}"
+
+# A2. FTE view: the working tab results land here. Vacancies remaining and
+# cost after vacancy decisions per squad, live from the levers.
+ft7 = wb["2.7 Squad Detail"]
+sc(ft7, "O6", "Vacancies remaining", WHITEF, MIDBLU, align="center", wrap=True)
+sc(ft7, "P6", "Cost after vacancy decisions ($m)", WHITEF, MIDBLU, align="center", wrap=True)
+ft7.column_dimensions["O"].width = 12
+ft7.column_dimensions["P"].width = 14
+for gt7, an7 in gm_anchor.items():
+    w7 = wb[gt7]
+    for r7 in range(an7["hdr"] + 1, an7["tot"]):
+        kf7 = str(w7.cell(r7, 11).value or "")
+        mfr7 = re7.search(r"'2\.7 Squad Detail'!\$M\$(\d+)", kf7)
+        if mfr7:
+            fr7 = int(mfr7.group(1))
+            sc(ft7, f"O{fr7}", f"='{gt7}'!$H${r7}", NORM, fmt=M0, align="center")
+            sc(ft7, f"P{fr7}", f"='{gt7}'!$M${r7}", NORM, fmt=M2, align="right")
+sc(ft7, "O95", "=SUM(O7:O94)", BOLD, LGREY, fmt=M0, align="center")
+sc(ft7, "P95", "=SUM(P7:P94)", BOLD, LGREY, fmt=M2, align="right")
+ft7["K95"].value = "=J95-G95"
+ft7.freeze_panes = "A7"
+
+# A3. Total Cost in the owner's pasted structure: Archetype cost, Actual cost,
+# Variance, Cost after vacancy decisions, New Variance, then the FTE columns,
+# detail kept to the right so nothing downstream loses its source.
+tc7 = wb["2.6 Total Cost"]
+old7 = {}
+for r7 in range(6, TOT_ROW + 1):
+    old7[r7] = {c7: tc7.cell(r7, c7).value for c7 in range(3, 13)}
+HD7 = ["Portfolio", "Archetype cost ($m)", "Actual cost ($m)", "Variance ($m)",
+       "Cost after vacancy decisions ($m)", "New Variance ($m)", "Archetype FTE",
+       "Filled FTE", "FTE variance", "Actual Filled ($m)", "Actual Vacant ($m)",
+       "Vacant FTE", "Total FTE"]
+for i7, hh7 in enumerate(HD7):
+    sc(tc7, f"{get_column_letter(2+i7)}5", hh7, WHITEF, MIDBLU, align="center", wrap=True)
+for c7, wd7 in zip("CDEFGHIJKLMN", (13, 13, 12, 16, 13, 11, 10, 11, 14, 14, 10, 10)):
+    tc7.column_dimensions[c7].width = wd7
+for r7 in range(6, TOT_ROW):
+    o7 = old7[r7]
+    bv7 = str(tc7.cell(r7, 2).value or "")
+    tc7.cell(r7, 11).value = o7[5]   # K actual filled $  (old E)
+    tc7.cell(r7, 12).value = o7[7]   # L actual vacant $  (old G)
+    tc7.cell(r7, 8).value = o7[4]    # H archetype fte    (old D)
+    tc7.cell(r7, 9).value = o7[6]    # I filled fte       (old F)
+    tc7.cell(r7, 13).value = o7[8]   # M vacant fte       (old H)
+    dash7 = isinstance(o7[4], str) and o7[4].startswith('="-"')
+    tc7.cell(r7, 14).value = '="-"' if dash7 else f"=H{r7}+M{r7}"    # N total fte
+    tc7.cell(r7, 10).value = '="-"' if dash7 else f"=I{r7}-H{r7}"    # J fte variance
+    tc7.cell(r7, 4).value = f"=K{r7}+L{r7}"                          # D actual $
+    tc7.cell(r7, 5).value = f"=ROUND(D{r7}-C{r7},6)"                 # E variance
+    m17 = re7.match(r"^='(1\.\d+ [^']+)'!\$B\$2$", bv7)
+    if m17:                       # portfolio row: after decisions from its working tab
+        gm7 = "4." + m17.group(1).split(" ", 1)[0].split(".")[1] + " " + m17.group(1).split(" ", 1)[1]
+        tc7.cell(r7, 6).value = f"='{gm7}'!$M${gm_anchor[gm7]['tot']}"
+    elif r7 == COE_FIRST + 4:     # cyber row
+        tc7.cell(r7, 6).value = f"='4.11 TDD Cyber'!$M${gm_anchor['4.11 TDD Cyber']['tot']}"
+    elif r7 == DEDUP_ROW:
+        tc7.cell(r7, 6).value = f"=C{r7}"
+    else:                         # COE, leadership, unmapped: filled people, vacancies held
+        tc7.cell(r7, 6).value = f"=K{r7}"
+    tc7.cell(r7, 7).value = f"=ROUND(F{r7}-C{r7},6)"                 # G new variance
+    for c7, fm7 in ((4, M2), (5, M2), (6, M2), (7, M2), (11, M2), (12, M2)):
+        tc7.cell(r7, c7).number_format = fm7
+for c7 in "CDEFGHIJKLMN":
+    sc(tc7, f"{c7}{TOT_ROW}", f"=SUM({c7}6:{c7}{TOT_ROW-1})", BOLD, LGREY,
+       fmt=(M2 if c7 in "CDEFGKL" else M0),
+       align=("right" if c7 in "CDEFGKL" else "center"))
+tc7.cell(RESTATE_ROW, 4).value = str(old7.get(RESTATE_ROW, {}).get(9) or tc7.cell(RESTATE_ROW, 9).value or "").replace("I24", "D24") or None
+rst7 = tc7.cell(RESTATE_ROW, 9).value
+if isinstance(rst7, str) and rst7.startswith("="):
+    tc7.cell(RESTATE_ROW, 4).value = rst7.replace(f"I{TOT_ROW}", f"D{TOT_ROW}")
+    tc7.cell(RESTATE_ROW, 4).number_format = M2
+    tc7.cell(RESTATE_ROW, 9).value = None
+sc(tc7, f"B{RESTATE_ROW+1}",
+   "Role counts come from the Squads tab; dollars come from the Added data ledger. They are different snapshots and the difference is reconciled on the Data QA tab.",
+   NORM, border=False, wrap=True)
+sc(tc7, f"B{RESTATE_ROW+2}",
+   "FTE columns cover the portfolio squads. COE and cyber roles are counted on their own role tabs.",
+   NORM, border=False, wrap=True)
+tc7.freeze_panes = "A6"
+# every external reference into 2.6 follows the new column layout
+COLMAP7 = {"D": "H", "E": "K", "F": "I", "G": "L", "H": "M", "I": "D", "J": "N", "K": "E", "L": "J"}
+pat7 = re7.compile(r"('2\.6 Total Cost'!\$?)([D-L])(\$?\d+)")
+for sh7 in wb.worksheets:
+    if sh7.title == "2.6 Total Cost":
+        continue
+    for row7 in sh7.iter_rows():
+        for cl7 in row7:
+            v7 = cl7.value
+            if isinstance(v7, str) and v7.startswith("=") and "2.6 Total Cost" in v7:
+                nv7 = pat7.sub(lambda m7: m7.group(1) + COLMAP7[m7.group(2)] + m7.group(3), v7)
+                if nv7 != v7:
+                    cl7.value = nv7
+
+# A4. Group Summary in the owner's pasted words, plus the Total to fund block.
+gs7 = wb["2.5 Group Summary"]
+gs7["C5"].value = "TDD Lights On Budget ($m)"
+gs7["D5"].value = "Archetype Support Cost ($m)"
+gs7["G5"].value = "Cost of FTE non TDD funded ($m)"
+gs7["H5"].value = "Amount identified as rechargeable ($m)"
+tf7 = r0 + 11
+sc(gs7, f"B{tf7}", "Total to fund", WHITEF, NAVY)
+sc(gs7, f"C{tf7}", "", WHITEF, NAVY)
+sc(gs7, f"B{tf7+1}", "TDD Variance", NORM)
+sc(gs7, f"C{tf7+1}", "=J17-I17", NORM, fmt=M2, align="right")
+sc(gs7, f"B{tf7+2}", "Other Variance", NORM)
+sc(gs7, f"C{tf7+2}", "=I17", NORM, fmt=M2, align="right")
+sc(gs7, f"B{tf7+3}", "Total", BOLD, LGREY)
+sc(gs7, f"C{tf7+3}", f"=C{tf7+1}+C{tf7+2}", BOLD, LGREY, fmt=M2, align="right")
+gs7.freeze_panes = "A6"
+
+# A5. the audit fixes on model formulas (owner inputs untouched)
+wb["0.2 Data Config"]["C27"].value = "='0.1 Budget Table (Fin)'!G5+'0.1 Budget Table (Fin)'!G7"
+cf7 = wb["1.9 Commercial Fuels"]
+cf7["E11"].value = "=SUM(H12:H14)+SUM(H16:H17)"
+if isinstance(cf7["G15"].value, str) and "central" not in cf7["G15"].value:
+    cf7["G15"].value = cf7["G15"].value.rstrip() + " (central pool, reference only)"
+zr7 = wb["1.10 Z Retail"]
+if str(zr7["I18"].value).strip() == "=D9":
+    zr7["I18"].value = "=E9"
+zr7["I19"].value = "=I18-I17"
+es7 = wb["1.8 Energy Solutions & B2B"]
+if isinstance(es7["G17"].value, str) and "Finance" not in es7["G17"].value:
+    es7["G17"].value = es7["G17"].value.rstrip() + " (not yet in the Finance table)"
+# strategic program squads: show the real people cost beside the owner input
+for tb7, rr7 in (("1.1 Ampol Retail", 46), ("1.1 Ampol Retail", 64),
+                 ("1.2 Customer", 52), ("1.4 TDD Group Functions", 33),
+                 ("1.5 P&C", 31), ("1.6 Finance", 31)):
+    d17 = wb[tb7]
+    nm7 = d17.cell(rr7, 2).value
+    if nm7:
+        sc(d17, f"M{rr7}",
+           f'="People in this program today cost "&TEXT(SUMIFS(\'Added data\'!$AA:$AA,\'Added data\'!$AE:$AE,$B{rr7})/1000000,"0.00")&"m. Set the agreed cost in the yellow cell."',
+           NORM, border=False)
+# input formatting on 0.2 Data Config: yellow marks every true input
+dc7 = wb["0.2 Data Config"]
+BLUF7 = Font(name="Calibri", size=11, color="FF0000FF")
+for rng7 in ("C6:D25", "J6:K9", "J14:K15"):
+    for row7 in dc7[rng7]:
+        for cl7 in row7:
+            if cl7.value is not None and not (isinstance(cl7.value, str) and cl7.value.startswith("=")):
+                cl7.fill = YELL
+                cl7.font = BLUF7
+# provenance beside the hard typed funding allocations
+for tb7, r17, r27 in (("1.2 Customer", 13, 21), ("1.8 Energy Solutions & B2B", 13, 19),
+                      ("1.9 Commercial Fuels", 13, 17)):
+    d17 = wb[tb7]
+    if d17["K12"].value is None:
+        sc(d17, "K12", "Agreed by / date", NORM, align="center", wrap=True)
+        for rr7 in range(r17, r27 + 1):
+            if d17.cell(rr7, 11).value is None:
+                sc(d17, f"K{rr7}", "", NORM, fill=YELL)
+# owner working notes move to the evidence tab, logged with their source
+qa7 = wb["5.0 Data QA"]
+nr7 = qa7.max_row + 3
+sc(qa7, f"B{nr7}", "Owner working notes (moved off the presentation tabs, preserved verbatim)", WHITEF, NAVY)
+nr7 += 1
+co7 = wb["2.4 COE Summary"]
+for rr7 in range(7, 12):
+    for cc7 in (11, 12):
+        v7 = co7.cell(rr7, cc7).value
+        if v7 is not None:
+            sc(qa7, f"B{nr7}", f"2.4 COE Summary {get_column_letter(cc7)}{rr7}", NORM)
+            sc(qa7, f"C{nr7}", str(v7), NORM)
+            co7.cell(rr7, cc7).value = None
+            nr7 += 1
+for tb7, cells7 in (("1.1 Ampol Retail", ("J33", "J46", "J47", "J58", "J63")),
+                    ("1.2 Customer", ("J37", "J38", "J39")),
+                    ("1.4 TDD Group Functions", ("J25",)),
+                    ("1.8 Energy Solutions & B2B", ("J6", "J28"))):
+    d17 = wb[tb7]
+    for ad7 in cells7:
+        v7 = d17[ad7].value
+        if isinstance(v7, str) and v7.strip():
+            sc(qa7, f"B{nr7}", f"{tb7} {ad7}", NORM)
+            sc(qa7, f"C{nr7}", v7, NORM)
+            d17[ad7].value = None
+            nr7 += 1
+# vacancy coverage: the working tabs must cover the raw counts exactly
+nr7 += 2
+sc(qa7, f"B{nr7}", "Vacancy coverage check (must read 0)", WHITEF, NAVY); nr7 += 1
+sc(qa7, f"B{nr7}", "Vacant on all working tabs", NORM)
+terms7 = "+".join(f"COUNTIF('{t7}'!$F$1:$F$500,\"Vacant\")" for t7 in sorted(gm_anchor))
+terms7 += "+COUNTIF('4.12 BP&T'!$F$1:$F$500,\"Vacant\")+COUNTIF('4.13 SA&D'!$F$1:$F$500,\"Vacant\")+COUNTIF('4.14 EGI & Central'!$F$1:$F$500,\"Vacant\")"
+sc(qa7, f"C{nr7}", f"={terms7}", NORM, align="center"); cov7 = nr7; nr7 += 1
+sc(qa7, f"B{nr7}", "Vacant in Squads (the 166)", NORM)
+sc(qa7, f"C{nr7}", '=COUNTIF(Squads!$R$2:$R$1000,"Vacant")', NORM, align="center"); nr7 += 1
+sc(qa7, f"B{nr7}", "Vacant in Sheet2 (COE and cyber FTE lists)", NORM)
+sc(qa7, f"C{nr7}", '=SUMPRODUCT(--(LOWER(Sheet2!$Q$2:$Q$200)="v"))', NORM, align="center"); nr7 += 1
+sc(qa7, f"B{nr7}", "Check - coverage minus raw counts", BOLD)
+sc(qa7, f"C{nr7}", f"=C{cov7}-C{cov7+1}-C{cov7+2}", BOLD, LGREY, align="center"); nr7 += 1
+sc(qa7, f"B{nr7}", "Squads with a size the archetype library cannot price (must be 0)", NORM)
+chksz7 = "+".join(f"COUNTIF('1.{i7} {n7}'!$G$20:$G$70,\"check size\")"
+                  for i7, n7 in ((1, "Ampol Retail"), (2, "Customer"), (3, "Enterprise Data"),
+                                 (4, "TDD Group Functions"), (5, "P&C"), (6, "Finance"),
+                                 (7, "Infrastructure"), (8, "Energy Solutions & B2B"),
+                                 (9, "Commercial Fuels"), (10, "Z Retail")))
+sc(qa7, f"C{nr7}", f"={chksz7}", NORM, align="center"); nr7 += 1
+sc(qa7, f"B{nr7}", "Stray totals parked below the Added data ledger (bounded references keep them out of every sum)", NORM)
+sc(qa7, f"C{nr7}", "=COUNT('Added data'!$AA$550:$AA$1000)", NORM, align="center"); nr7 += 1
+qa7.freeze_panes = "A6"
+# stale hidden sheets clearly out of play
+if "Sheet1" in wb.sheetnames:
+    del wb["Sheet1"]
+for old7s, new7s in (("squad mapping", "squad mapping (superseded)"),
+                     ("FY26 Budget (ref)", "FY26 Budget (superseded)")):
+    if old7s in wb.sheetnames:
+        wb[old7s].title = new7s
+# exec: the lever line in the owner's words, plus the snapshot disclosure
+ex7 = wb["Exec Summary"]
+ex7["B55"].value = ("The main lever is the vacancies: they are raised but not hired, so holding them impacts nobody. "
+                    "Decide role by role on the 2.x working tab.")
+sc(ex7, "B77",
+   "Role counts come from the Squads tab; dollars come from the Added data ledger. Different snapshots, reconciled on the Data QA tab.",
+   NORM, border=False, wrap=True)
+
+# ---------- (B) the banned words purged from every authored label ----------
+SKIP7 = {"Squads", "Added data", "Sheet2", "0.4 Presentation Pack",
+         "0.1 Budget Table (Fin)", "FY26 Budget (superseded)", "squad mapping (superseded)"}
+for sh7 in wb.worksheets:
+    if sh7.title in SKIP7:
+        continue
+    for row7 in sh7.iter_rows():
+        for cl7 in row7:
+            v7 = cl7.value
+            if isinstance(v7, str) and not v7.startswith("="):
+                nv7 = v7.replace("Cost of calls", "Cost of vacancy decisions")
+                nv7 = nv7.replace("after calls", "after vacancy decisions")
+                nv7 = re7.sub(r"\bcalls\b", "vacancy decisions", nv7)
+                nv7 = re7.sub(r"\bcall\b", "decision", nv7)
+                nv7 = nv7.replace("–", "-").replace("—", "-")
+                if nv7 != v7:
+                    cl7.value = nv7
+
+# ---------- (C) renumber to the owner's structure and rewrite every ref ----------
+REN7A = {"2.1 BP&T": "1.11 BP&T", "2.2 SA&D": "1.12 SA&D", "2.3 Cyber Roles": "1.13 Cyber Roles",
+         "2.4 COE Summary": "3.4 COE Summary", "2.5 Group Summary": "3.1 Group Summary",
+         "2.6 Total Cost": "3.2 Total Cost", "2.7 Squad Detail": "3.3 FTE View",
+         "5.0 Data QA": "4.0 Data QA"}
+REN7B = {f"4.{i7} {n7}": f"2.{i7} {n7}" for i7, n7 in
+         ((1, "Ampol Retail"), (2, "Customer"), (3, "Enterprise Data"), (4, "TDD Group Functions"),
+          (5, "P&C"), (6, "Finance"), (7, "Infrastructure"), (8, "Energy Solutions & B2B"),
+          (9, "Commercial Fuels"), (10, "Z Retail"), (11, "TDD Cyber"), (12, "BP&T"),
+          (13, "SA&D"), (14, "EGI & Central"))}
+REN7 = {**REN7A, **REN7B}
+for sh7 in wb.worksheets:
+    for row7 in sh7.iter_rows():
+        for cl7 in row7:
+            v7 = cl7.value
+            if isinstance(v7, str) and v7.startswith("=") and "'" in v7:
+                nv7 = v7
+                for o7, n7 in REN7.items():
+                    nv7 = nv7.replace(f"'{o7}'!", f"'{n7}'!")
+                if nv7 != v7:
+                    cl7.value = nv7
+for o7, n7 in REN7A.items():
+    if o7 in wb.sheetnames:
+        wb[o7].title = n7
+for o7, n7 in REN7B.items():
+    if o7 in wb.sheetnames:
+        wb[o7].title = n7
+gm_anchor = {REN7.get(k7, k7): v7 for k7, v7 in gm_anchor.items()}
+# stale numbering inside authored prose
+TXT7 = [("2.1 to 2.3 and 5.0", "1.11 to 1.13 and 4.0"),
+        ("2.1 / 2.2 / 2.3", "1.11 / 1.12 / 1.13"),
+        ("on 2.1, 2.2 or 2.3", "on 1.11, 1.12 or 1.13"),
+        ("tabs 4.12 / 4.13 / 4.14", "tabs 2.12 / 2.13 / 2.14"),
+        ("4.12 / 4.13", "2.12 / 2.13"), ("4.12/4.13/4.14", "2.12/2.13/2.14"),
+        ("2.1 BP&T", "1.11 BP&T"), ("2.2 SA&D", "1.12 SA&D"),
+        ("2.3 Cyber Roles", "1.13 Cyber Roles"), ("2.4 COE Summary", "3.4 COE Summary"),
+        ("2.5 Group Summary", "3.1 Group Summary"), ("2.6 Total Cost", "3.2 Total Cost"),
+        ("2.7 Squad Detail", "3.3 FTE View"), ("5.0 Data QA", "4.0 Data QA"),
+        ("drills 2.6", "drills 3.2"), ("is on 2.6.", "is on 3.2."),
+        ("on 2.7", "on 3.3"), ("see 5.0", "see 4.0"), ("on 5.0", "on 4.0"),
+        ("and 5.0", "and 4.0"), ("live on 5.0", "live on 4.0"),
+        ("one 4.x home", "one 2.x home"), ("the 4.x GM tab", "the 2.x working tab"),
+        ("the 4.x GM lever", "the 2.x working tab lever"),
+        ("the 4.x tabs", "the 2.x working tabs"), ("4.x GM tabs", "2.x working tabs"),
+        ("the 4.x working", "the 2.x working"), ("4.x", "2.x"),
+        ("2.0, 2.1 archetype", "the summaries' archetype"),
+        ("counts on 3.0", "counts on 3.3"), ("2.3 to 2.5 and 3.1", "1.11 to 1.13 and 4.0")]
+for sh7 in wb.worksheets:
+    if sh7.title in SKIP7:
+        continue
+    for row7 in sh7.iter_rows():
+        for cl7 in row7:
+            v7 = cl7.value
+            if isinstance(v7, str) and not v7.startswith("="):
+                nv7 = v7
+                for o7, n7 in TXT7:
+                    nv7 = nv7.replace(o7, n7)
+                if nv7 != v7:
+                    cl7.value = nv7
+
+# ---------- (D) separators, colours, order: numbering = flow ----------
+for g7 in ("- ROLL-UP -", "- DESIGNS -", "- DECISIONS -", "- SUMMARIES -"):
+    if g7 in wb.sheetnames:
+        del wb[g7]
+G7 = [("- DESIGNS -", "1F4E79"), ("- DECISIONS -", "BF8F00"), ("- SUMMARIES -", "002F6C")]
+for g7, col7 in G7:
+    sp7 = wb.create_sheet(g7)
+    sp7.sheet_properties.tabColor = col7
+    sp7.sheet_view.showGridLines = False
+    sp7.column_dimensions["A"].width = 2
+    sp7.column_dimensions["B"].width = 60
+    sc(sp7, "B2", g7.strip("- ") + "  >>>", Font(name="Calibri", size=16, bold=True, color="FF" + col7), border=False)
+def col7_of(t7):
+    if t7.startswith("1."): return "1F4E79"
+    if t7.startswith("2."): return "BF8F00"
+    if t7.startswith("3."): return "002F6C"
+    if t7 in ("4.0 Data QA", "Squads", "Added data", "Sheet2"): return "375623"
+    return None
+for t7 in wb.sheetnames:
+    c7 = col7_of(t7)
+    if c7:
+        wb[t7].sheet_properties.tabColor = c7
+def keyn7(t7):
+    return float(t7.split(" ")[0].split(".")[1]) if "." in t7.split(" ")[0] else 0
+ORD7 = (["Exec Summary", "- INPUTS -", "0.0 Guide", "0.1 Budget Table (Fin)", "0.2 Data Config",
+         "0.3 Squad Archetypes", "0.4 Presentation Pack", "- DESIGNS -"]
+        + sorted([t7 for t7 in wb.sheetnames if t7.startswith("1.")], key=keyn7)
+        + ["- DECISIONS -"]
+        + sorted([t7 for t7 in wb.sheetnames if t7.startswith("2.")], key=keyn7)
+        + ["- SUMMARIES -", "3.1 Group Summary", "3.2 Total Cost", "3.3 FTE View", "3.4 COE Summary",
+           "- EVIDENCE -", "4.0 Data QA", "Squads", "Added data", "Sheet2"])
+rest7 = [t7 for t7 in wb.sheetnames if t7 not in ORD7]
+wb._sheets = [wb[t7] for t7 in (ORD7 + rest7)]

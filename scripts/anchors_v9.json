@@ -18,57 +18,57 @@
  "S2_ONLY": 20,
  "SQ_ONLY": 8,
  "GM": {
-  "4.1 Ampol Retail": {
+  "2.1 Ampol Retail": {
    "hdr": 5,
    "tot": 15,
    "rost_hdr": 22
   },
-  "4.2 Customer": {
+  "2.2 Customer": {
    "hdr": 5,
    "tot": 13,
    "rost_hdr": 20
   },
-  "4.3 Enterprise Data": {
+  "2.3 Enterprise Data": {
    "hdr": 5,
    "tot": 10,
    "rost_hdr": 17
   },
-  "4.4 TDD Group Functions": {
+  "2.4 TDD Group Functions": {
    "hdr": 5,
    "tot": 11,
    "rost_hdr": 18
   },
-  "4.5 P&C": {
+  "2.5 P&C": {
    "hdr": 5,
    "tot": 9,
    "rost_hdr": 16
   },
-  "4.6 Finance": {
+  "2.6 Finance": {
    "hdr": 5,
    "tot": 9,
    "rost_hdr": 16
   },
-  "4.7 Infrastructure": {
+  "2.7 Infrastructure": {
    "hdr": 5,
    "tot": 10,
    "rost_hdr": 17
   },
-  "4.8 Energy Solutions & B2B": {
+  "2.8 Energy Solutions & B2B": {
    "hdr": 5,
    "tot": 9,
    "rost_hdr": 16
   },
-  "4.10 Z Retail": {
+  "2.10 Z Retail": {
    "hdr": 5,
    "tot": 9,
    "rost_hdr": 16
   },
-  "4.9 Commercial Fuels": {
+  "2.9 Commercial Fuels": {
    "hdr": 5,
    "tot": 10,
    "rost_hdr": 17
   },
-  "4.11 TDD Cyber": {
+  "2.11 TDD Cyber": {
    "hdr": 5,
    "tot": 7,
    "rost_hdr": 15
