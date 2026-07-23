@@ -26,7 +26,8 @@ PMAP={"ampol retail":"Ampol Retail","retail":"Ampol Retail","z":"Z Retail","cust
 "commercial fuels":"Commercial Fuels","finance":"Finance","p&c":"P&C","p&c, finance & legal":"P&C",
 "egi":"EGI & Central","coe - cyber, risk & operations":"COE Cyber",
 "coe - partnering & transformation":"COE BP&T","coe - strategy, architecture, data":"COE SA&D"}
-def isvac(r): return str(rc(r,'Q') or "").strip().lower()=="v"
+def isvac(r):
+    return str(rc(r,'B') or "").strip().lower()=="vacant"   # vacancy IS the name
 def mtab(r): return PMAP.get(str(rc(r,'I') or "").strip().lower())
 
 # ---- curated mapping from Squads: EE -> Model Squad / Class, and rawK -> Model Squad ----
@@ -48,6 +49,14 @@ def curated(r):
     if kl in k2sq: return k2sq[kl],False
     if kl=="": return "(unassigned)",False
     return {"na":"(all roles)"}.get(kl,k),False
+
+# ---- fix MStatus (AK): a role is Vacant when its NAME is "Vacant" (or Q flags it) ----
+AK=ci("AK")
+for r in range(2,rev.max_row+1):
+    if not rev.cell(r,2).value: continue
+    rev.cell(r,AK).value=(f'=IF($B{r}="Vacant","Vacant",'
+        f'IF(LOWER($Q{r})="pause","Paused",'
+        f'IF(OR(LOWER($Q{r})="cxc",$Q{r}="Contractor"),"Contractor","Filled")))')
 
 # ---- REVIEW helpers: MSquadC (AP), MLead (AQ) as values; collect roles per tab/squad ----
 AP=ci("AP"); AQ=ci("AQ")
