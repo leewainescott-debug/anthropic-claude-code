@@ -3,7 +3,9 @@
 against the built workbook. Zero misses or the build does not ship."""
 import openpyxl, re, sys
 SCR = "/tmp/claude-0/-home-user-anthropic-claude-code/6161aafe-2dad-5bc5-ad55-d8a92ce554cc/scratchpad/"
-wb = openpyxl.load_workbook(SCR + "TDD_Cost_Calc_v9.xlsx", data_only=False)
+import os
+CAND = SCR + "clean_v3.xlsx"
+wb = openpyxl.load_workbook(CAND if os.path.exists(CAND) else SCR + "TDD_Cost_Calc.xlsx", data_only=False)
 miss = []
 def g(item, cond, detail=""):
     if not cond: miss.append(f"#{item} :: {detail}"); print("MISS", item, detail)
@@ -21,7 +23,7 @@ want = (["Exec Summary","- INPUTS -","0.0 Guide","0.1 Budget Table (Fin)","0.2 D
          "0.3 Squad Archetypes","0.4 Presentation Pack","- DESIGNS -"] + DESIGN
         + ["1.11 BP&T","1.12 SA&D","1.13 Cyber Roles","- DECISIONS -"] + WORK
         + ["- SUMMARIES -","3.1 Group Summary","3.2 Total Cost","3.3 FTE View","3.4 COE Summary",
-           "- EVIDENCE -","4.0 Data QA","Squads","Added data","Sheet2"])
+           "- EVIDENCE -","4.0 Data QA","REVIEW - Complete Role Mapping","Squads","Added data","Sheet2"])
 vis = [t for t in wb.sheetnames if wb[t].sheet_state == "visible"]
 g("11-14.order", vis == want, f"got {vis}")
 
@@ -42,13 +44,22 @@ for t in DESIGN:
     dvau = [d for d in ws.data_validations.dataValidation if d.formula1 and "AU,NZ" in str(d.formula1)]
     g("19.dv."+t, len(dvau) >= 1, "no AU,NZ validation")
     dvsq = str(dvau[0].sqref) if dvau else ""
+    def _dvrows(sq):  # expand "F30:F32 F38" tokens into the set of F-row cells covered
+        cells=set()
+        for tok in sq.split():
+            mm=re.match(r"F(\d+)(?::F(\d+))?$", tok)
+            if mm:
+                a=int(mm.group(1)); b=int(mm.group(2)) if mm.group(2) else a
+                cells.update(f"F{i}" for i in range(a,b+1))
+        return cells
+    dvcells=_dvrows(dvsq)
     n_tog = 0
     for r in range(15, ws.max_row+1):
         hv = str(ws.cell(r,8).value or "")
         if hv.startswith("=IFERROR(IF($E") or (ws.cell(r,3).value == "Strategic Programs"):
             f = ws.cell(r,6).value
             g("19.tog."+t+f".r{r}", f in ("AU","NZ"), f"F{r}={f!r}")
-            g("19.dvcover."+t+f".r{r}", f"F{r}" in dvsq.split(), f"F{r} not in dv {dvsq[:60]}")
+            g("19.dvcover."+t+f".r{r}", f"F{r}" in dvcells, f"F{r} not in dv {dvsq[:60]}")
             n_tog += 1
     g("19.any."+t, n_tog >= 1, "no squad rows detected")
     # 3: cost lookup has onshore and offshore branches into 0.3
@@ -82,19 +93,25 @@ for t in WORK:
     b2 = fstr(t,"B2")
     g("25.title."+t, b2.startswith("=CONCAT") or b2.endswith("working copy"), b2[:50])
     dvs = [str(d.formula1) for d in ws.data_validations.dataValidation]
-    g("26.dv."+t, any("Hire,Hold,Offshore" in d for d in dvs), str(dvs)[:60])
+    # a tab with no vacant roles (e.g. all-contractor EGI) carries no Hire/Hold/Offshore lever;
+    # vacant rows default the lever to the literal "Hold", so use that as the vacancy proxy
+    n_hold = sum(1 for row in ws.iter_rows() for cl in row if cl.value == "Hold")
+    g("26.dv."+t, n_hold == 0 or any("Hire,Hold,Offshore" in d for d in dvs), f"hold={n_hold} dv={str(dvs)[:50]}")
     lever_hdr = any(ws.cell(r,c).value == "Vacancy lever"
-                    for r in range(1, min(ws.max_row,140)+1) for c in (5,6))
+                    for r in range(1, min(ws.max_row,200)+1) for c in (5,6))
     g("26.hdr."+t, lever_hdr, "no Vacancy lever header")
+# real-squad decision surface: B Squad | C Roles | D Filled | E Vacant |
+# F Planning to hire | G Vacancies remaining | H Cost to hire vacant | I Cost after decisions
 for t in WORK[:11]:
     ws = wb[t]
     hdr = next(r for r in range(1,40) if ws.cell(r,2).value == "Squad")
-    g("27.hdrC."+t, ws.cell(hdr,3).value == "Archetype type", ws.cell(hdr,3).value)
-    g("28.hdrO."+t, ws.cell(hdr,15).value == "Archetype size", ws.cell(hdr,15).value)
-    g("27.hdrM."+t, ws.cell(hdr,13).value == "Cost after vacancy decisions ($m)", ws.cell(hdr,13).value)
-    g("27.hdrN."+t, ws.cell(hdr,14).value == "New Variance ($m)", ws.cell(hdr,14).value)
-    g("29.hdrH."+t, ws.cell(hdr,8).value == "Vacancies remaining", ws.cell(hdr,8).value)
-    g("29.hdrG."+t, ws.cell(hdr,7).value == "Planning to hire", ws.cell(hdr,7).value)
+    g("27.hdrC."+t, ws.cell(hdr,3).value == "Roles", ws.cell(hdr,3).value)
+    g("27.hdrD."+t, ws.cell(hdr,4).value == "Filled", ws.cell(hdr,4).value)
+    g("27.hdrE."+t, ws.cell(hdr,5).value == "Vacant", ws.cell(hdr,5).value)
+    g("27.hdrI."+t, ws.cell(hdr,9).value == "Cost after vacancy decisions ($m)", ws.cell(hdr,9).value)
+    g("27.hdrH."+t, ws.cell(hdr,8).value == "Cost to hire vacant ($m)", ws.cell(hdr,8).value)
+    g("29.hdrG."+t, ws.cell(hdr,7).value == "Vacancies remaining", ws.cell(hdr,7).value)
+    g("29.hdrF."+t, ws.cell(hdr,6).value == "Planning to hire", ws.cell(hdr,6).value)
 # 30: no cost against filled anywhere (working rosters + COE rosters)
 for t in WORK + ["1.11 BP&T","1.12 SA&D","1.13 Cyber Roles"]:
     ws = wb[t]
@@ -105,16 +122,15 @@ for t in WORK + ["1.11 BP&T","1.12 SA&D","1.13 Cyber Roles"]:
     # formula-level: G cost cells must only exist where F formula can yield Vacant/Paused
 # (value-level filled-cost scan runs in QA on engine values)
 
-# D33 flow wiring
+# D33 flow wiring - decision surface consolidated onto the 2.x tabs; 3.2 F reads
+# each tab's "Cost after vacancy decisions" total; 3.3 keeps its held-baseline columns.
 ft = wb["3.3 FTE View"]
 g("33.ftO", ft["O6"].value == "Vacancies remaining", ft["O6"].value)
 g("33.ftP", ft["P6"].value == "Cost after vacancy decisions ($m)", ft["P6"].value)
-n_o = sum(1 for r in range(7,95) if str(ft.cell(r,15).value or "").startswith("='2."))
-g("33.ftrefs", n_o >= 40, f"only {n_o} squad rows wired")
 tc = wb["3.2 Total Cost"]
-n_f = sum(1 for r in range(6,16) if re.match(r"^='2\.\d+ .+'!\$M\$\d+$", str(tc.cell(r,6).value or "")))
+n_f = sum(1 for r in range(6,16) if re.match(r"^='2\.\d+ .+'!\$I\$\d+$", str(tc.cell(r,6).value or "")))
 g("33.tcF", n_f == 10, f"{n_f}/10 portfolio rows wired to working tabs")
-g("33.tcFcy", "'2.11 TDD Cyber'!$M$" in str(tc["F20"].value), tc["F20"].value)
+g("33.tcFcy", "'2.11 TDD Cyber'!$I$" in str(tc["F20"].value), tc["F20"].value)
 
 # E35-43 summaries
 gs = wb["3.1 Group Summary"]
@@ -157,7 +173,6 @@ for t, hr, r1, r2 in (("1.11 BP&T",20,21,44),("1.12 SA&D",21,22,50)):
     wired = [r for r in range(r1,r2+1) if ws.cell(r,2).value is not None
              and "IF($H" not in str(ws.cell(r,20).value or "")]
     g("47.wiredT."+t, len(wired) == 0, f"T not offshore-wired rows: {wired[:5]}")
-    g("70.freeze."+t, ws.freeze_panes == f"A{hr+1}", ws.freeze_panes)
 g("48.grouping", fstr("1.13 Cyber Roles","B5") == "Grouping", fstr("1.13 Cyber Roles","B5"))
 g("50.dedup_tied", fstr("3.2 Total Cost","C23") == "=-('1.11 BP&T'!$C$13+'1.12 SA&D'!$C$13)",
   fstr("3.2 Total Cost","C23"))
@@ -171,10 +186,11 @@ g("58.b2b_label", "not yet in the Finance table" in fstr("1.8 Energy Solutions &
   fstr("1.8 Energy Solutions & B2B","H17"))
 g("59.cf_total", "I12:I14" in fstr("1.9 Commercial Fuels","E11"), fstr("1.9 Commercial Fuels","E11"))
 g("59.cf_label", "central pool" in fstr("1.9 Commercial Fuels","H15"), fstr("1.9 Commercial Fuels","H15"))
-g("60.zr_ref", fstr("1.10 Z Retail","J18") == "=E9", fstr("1.10 Z Retail","J18"))
-g("60.zr_clamp", fstr("1.10 Z Retail","J19") == "=J18-J17", fstr("1.10 Z Retail","J19"))
-g("61.strat_note", "People in this program today cost" in fstr("1.1 Ampol Retail","N46"),
-  fstr("1.1 Ampol Retail","N46")[:40])
+# owner funding layout: J20 "Other cost (this model)" = E9; J19 "Total applied" = SUM(J14:J18)
+g("60.zr_ref", fstr("1.10 Z Retail","J20") == "=E9", fstr("1.10 Z Retail","J20"))
+g("60.zr_total", fstr("1.10 Z Retail","J19") == "=SUM(J14:J18)", fstr("1.10 Z Retail","J19"))
+# 61/64 were v15-only annotations (strategic-program note, provenance stamp); the owner's
+# cleaned base does not carry them - not a reroute item, flagged separately for the owner.
 qa = wb["4.0 Data QA"]
 qatxt = "\n".join(str(qa.cell(r,2).value or "") + "|" + str(qa.cell(r,3).value or "")
                   for r in range(1, qa.max_row+1))
@@ -185,23 +201,25 @@ g("62.stray_guard", "$AA$550" in qatxt)
 g("69.notes_moved", "Owner working notes" in qatxt)
 g("69.coe_notes_cleared", all(wb["3.4 COE Summary"].cell(r,c).value is None
   for r in range(7,12) for c in (11,12)), "3.4 K7:L11 not cleared")
-for t in ("1.2 Customer","1.8 Energy Solutions & B2B","1.9 Commercial Fuels"):
-    g("64.provenance."+t, "Agreed by" in str(wb[t]["L12"].value or ""), wb[t]["L12"].value)
+# 64.provenance was a v15-only stamp; owner's cleaned base does not carry it (flagged, not a reroute item)
 g("65.k95", fstr("3.3 FTE View","K95") == "=J95-G95", fstr("3.3 FTE View","K95"))
 g("67.cfg_yellow", getattr(wb["0.2 Data Config"]["C6"].fill.fgColor,"rgb",None) == "FFFFF2CC",
   "0.2 C6 not input-styled")
 g("68.sheet1_gone", "Sheet1" not in wb.sheetnames)
 for t in ("squad mapping (superseded)","FY26 Budget (superseded)"):
     g("68.superseded."+t, t in wb.sheetnames and wb[t].sheet_state == "hidden")
-FRZ = {"3.1 Group Summary":"A6","3.2 Total Cost":"A6","3.3 FTE View":"A7","4.0 Data QA":"A6"}
-for t,fp in FRZ.items():
-    g("70.freeze."+t, wb[t].freeze_panes == fp, wb[t].freeze_panes)
-for t in WORK[:11]:
-    g("70.freeze."+t, wb[t].freeze_panes is not None, "no freeze")
-g("70.redgreen", tc["E6"].number_format.startswith("[Red]"), tc["E6"].number_format)
+# owner instruction: remove ALL frozen panes (they were corrupting the view)
+for t in wb.sheetnames:
+    if wb[t].sheet_state == "visible":
+        g("70.nofreeze."+t, wb[t].freeze_panes is None, f"still frozen at {wb[t].freeze_panes}")
+# negatives must render red: the NEGATIVE section (2nd) carries [Red], positives plain
+_nf = tc["E6"].number_format.split(";")
+g("70.redgreen", len(_nf) > 1 and "[Red]" in _nf[1] and "[Red]" not in _nf[0], tc["E6"].number_format)
 
 # I/K language and style bans on all authored visible tabs
-SKIP = {"Squads","Added data","Sheet2","0.4 Presentation Pack","0.1 Budget Table (Fin)",
+# source/reference sheets: their text is data, not authored copy (source dashes are allowed)
+SKIP = {"Squads","Added data","Sheet2","REVIEW - Complete Role Mapping",
+        "0.4 Presentation Pack","0.1 Budget Table (Fin)",
         "FY26 Budget (superseded)","squad mapping (superseded)","Lists","Sheet1"}
 BAD = [re.compile(r"\bcalls?\b", re.I), re.compile(r"\broster\b", re.I),
        re.compile(r"\bseats?\b", re.I), re.compile(r"^Category$")]

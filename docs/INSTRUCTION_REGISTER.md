@@ -135,3 +135,28 @@ S2. The separate 1.11 cyber design tab (cyber is one COE).
 S3. "Cost after calls" wording (now Cost after vacancy decisions, and the word is banned).
 S4. Earlier ask to show cost for filled and vacant on COE tabs (replaced by: no filled costs anywhere).
 S5. The joined "type - size" archetype column on working tabs (size is its own column).
+
+## L. Reroute to REVIEW - Complete Role Mapping (single source of truth)
+
+90. The 2.x working tabs read the REVIEW sheet, not Squads. Each tab is grouped by the
+    REAL squads in the data (small typos and naming variants folded by logic), and the
+    FTE list below references REVIEW rows live (name, role, status, cost) so nothing is a
+    literal and the source cost/status formulas stay authoritative.
+91. Working-tab decision surface columns: Squad, Roles, Filled, Vacant, Planning to hire,
+    Vacancies remaining, Cost to hire vacant ($m), Cost after vacancy decisions ($m).
+    Vacancy lever (Hire/Hold/Offshore) sits on each vacant FTE row; Offshore is priced at 0.4x.
+92. Cost after vacancy decisions per squad = filled cost from REVIEW + Hire (full) + 0.4 x Offshore.
+    3.2 Total Cost F reads each tab's cost-after-decisions total; Exec C52 reads each tab's
+    cost-to-hire-vacant total.
+93. Archetype-vs-actual comparison lives at portfolio level (3.2) and design-squad level (3.3),
+    because the real squads have no per-squad archetype target.
+94. All frozen panes removed (owner instruction); pane and selection cleared so Excel does not
+    repair the view.
+
+## Flagged for the owner (not reroute items)
+
+F1. Two v15 annotations are absent from the owner's cleaned base and were not re-added:
+    the strategic-program note on 1.1 (N46) and the provenance stamp on 1.2 (L12).
+F2. Squads / Added data / Sheet2 are retained: 3.3 FTE View (design-squad archetype detail),
+    the COE cost rows on 3.2, and the 1.11-1.13 COE role tabs still read them. Retiring them
+    is the next phase and needs the design-vs-real squad call on 3.3.
