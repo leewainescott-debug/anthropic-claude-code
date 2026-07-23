@@ -160,3 +160,38 @@ F1. Two v15 annotations are absent from the owner's cleaned base and were not re
 F2. Squads / Added data / Sheet2 are retained: 3.3 FTE View (design-squad archetype detail),
     the COE cost rows on 3.2, and the 1.11-1.13 COE role tabs still read them. Retiring them
     is the next phase and needs the design-vs-real squad call on 3.3.
+
+## M. v2 round - owner file is base, REVIEW is the only ledger
+
+95. The owner's uploaded TDD_Cost_Calc_v2.xlsx is the build base. Owner edits kept as-is:
+    vacancy = the Name column says Vacant (status is Vacant/Filled only, no Paused or
+    Contractor classes); BP allocation 0.44 x 50%; 1.6 row insert; 1.11 Variance =
+    budget minus spend; sheet order; lever decisions on 2.x.
+96. Squads, Added data and Sheet2 are RETIRED from the model. Every count and dollar on
+    Exec / 1.x / 2.x / 3.1 / 3.2 / 3.3 / 3.4 / 4.0 reads REVIEW (AJ tab, AP curated
+    squad, AK status, AQ leadership, AA cost). The single exception is 3.5 Source
+    Reconciliation, which exists to compare REVIEW against the old Squads sheet.
+97. "EGI & Central" was an invented name - the bucket is EGI (per the data), with its own
+    row in 3.1 and 3.2 so group totals tie to REVIEW (527 roles).
+98. COE lines show gross AND net: 3.4 carries Gross people cost and Funded-by-portfolios
+    columns; planned spend is net (matches 1.11/1.12); no group Less line; the 3.1
+    double-subtract is removed. GMs see full headcount: portfolio rows include their
+    leadership FTE and cost.
+99. 3.1 carries the overhead coverage block: overheads charged into the archetypes vs
+    the draws on them (BP and Domain Architect allocations + leadership actual), with an
+    explicit not-covered / headroom line.
+100. 1.x: all conditional formatting stripped; variance is plain over/(under) budget for
+     AU, NZ and TDD (positive = over). No red/green judgement colouring.
+101. 2.x rosters: the vacancy lever sits on every role row (Filled added as an option);
+     salaries appear ONLY on vacant roles.
+
+## Open with the owner (do not build until answered)
+
+O1. Cyber split: TDD Cyber portfolio (2.0 lights-on + 0.5 CapEx) vs the Cyber COE - which
+    departments of the 46 REVIEW cyber roles go where, and what budget does the COE get.
+O2. 3.2 J column basis: owner changed row 6 to Total minus Filled; other rows are Total
+    minus Archetype. One basis must be picked.
+O3. AmPOS platform overhead: blank in the 1.1 design, charged 0.165 on 3.3.
+O4. Data NZ squad row is in the 1.10 design but absent from 3.3's squad table.
+O5. One 2.13 role ("Vacant - Enterprise Data Architect", paused) exists only in Sheet2,
+    not in REVIEW - dropped by the reroute unless added to REVIEW.
