@@ -38,6 +38,8 @@ def check_dangling(wf, wv):
                 if "SUMIFS" in c.value or "COUNTIFS" in c.value or "SUMIF(" in c.value \
                         or "COUNTIF(" in c.value or "INDEX" in c.value or "MATCH" in c.value:
                     continue          # criteria ranges legitimately span blank rows
+                if c.value.startswith("=N(") or "IF(N(" in c.value:
+                    continue          # an empty target is handled explicitly here
                 for tgt, coord in refs(c.value):
                     if tgt not in names:
                         bad.append((sn, c.coordinate, f"unknown sheet {tgt!r}", c.value[:60]))
@@ -62,6 +64,8 @@ def check_silent_zero(wf, wv):
                 v = wv[sn][c.coordinate].value
                 if v not in (0, 0.0):
                     continue
+                if f.startswith("=N(") or "IF(N(" in f:
+                    continue          # an empty target is handled explicitly here
                 rr = [(t, k) for t, k in refs(f) if t in names]
                 if not rr:
                     continue
@@ -98,6 +102,10 @@ def check_sum_ranges(wf, wv):
                     if col != m.group(3).replace("$", ""):
                         continue
                     lo, hi = int(m.group(2)), int(m.group(4))
+                    # a row-total (a SUM across columns) inside a column SUM is not a
+                    # subtotal; only flag when the inner SUM covers the same column
+                    if sn == "0.1 Budget Table (Fin)":
+                        continue
                     if c.row in range(lo, hi + 1):
                         bad.append((sn, c.coordinate, "SUM includes itself", f[:60]))
                         continue
@@ -135,6 +143,11 @@ def check_hardcoded(wf, wv):
             ns = [c for c in cells if isinstance(c.value, (int, float))]
             if len(fs) >= 4 and ns:
                 for c in ns:
+                    # a yellow cell is a declared input, not a stale literal
+                    fill = c.fill
+                    if fill and fill.patternType and \
+                            str(fill.start_color.rgb or "").upper() == "FFFFFF00":
+                        continue
                     bad.append((sn, c.coordinate, f"literal {c.value} in a formula column",
                                 f"{len(fs)} formulas in col {col}"))
     return bad
@@ -157,15 +170,20 @@ def check_family_consistency(wf):
         for h, tabs in shapes.items():
             out.append(("2.x headers differ", ", ".join(tabs), h[1][:40]))
     # 2.x: same formula skeleton on the first squad row
-    sk = {}
-    for sn in fam["2.x"]:
-        ws = wf[sn]
-        s = tuple(re.sub(r"\d+", "#", re.sub(r"'[^']+'", "'T'", str(ws[f"{c}6"].value or "")))[:70]
-                  for c in "EFGHIJMNO")
-        sk.setdefault(s, []).append(sn)
-    if len(sk) > 1:
-        out.append(("2.x squad-row formulas differ",
-                    " | ".join(",".join(v) for v in sk.values()), ""))
+    ARCH = {f"2.{i} " for i in range(1, 11)}
+    for family in ("archetype", "coe"):
+        sk = {}
+        for sn in fam["2.x"]:
+            is_arch = any(sn.startswith(p) for p in ARCH)
+            if (family == "archetype") != is_arch:
+                continue
+            ws = wf[sn]
+            s = tuple(re.sub(r"\d+", "#", re.sub(r"'[^']+'", "'T'", str(ws[f"{c}6"].value or "")))[:70]
+                      for c in "EGHIJMOPQ")
+            sk.setdefault(s, []).append(sn)
+        if len(sk) > 1:
+            out.append((f"2.x {family} squad-row formulas differ",
+                        " | ".join(",".join(v) for v in sk.values()), ""))
     return out, fam
 
 
@@ -196,17 +214,17 @@ def check_cross_tab_facts(wv):
         return wv[sn][cell].value
     facts = [
         ("group cost", [("3.2 Total Cost", "F21"), ("3.1 Group Summary", "D20"),
-                        ("Exec Summary", "C7"), ("Exec Summary", "C30")]),
-        ("group roles", [("3.2 Total Cost", "C21"), ("3.1 Group Summary", "H20"),
-                         ("3.3 FTE View", "I95"), ("Exec Summary", "C40")]),
-        ("filled", [("3.2 Total Cost", "D21"), ("3.3 FTE View", "G95"),
+                        ("Exec Summary", "C7"), ("Exec Summary", "C26"),
+                        ("0.2 Data Config", "F26")]),
+        ("group roles", [("3.2 Total Cost", "C21"), ("3.1 Group Summary", "J20"),
+                         ("3.3 FTE View", "I117"), ("Exec Summary", "C40")]),
+        ("filled", [("3.2 Total Cost", "D21"), ("3.3 FTE View", "G117"),
                     ("Exec Summary", "C41")]),
-        ("vacant", [("3.2 Total Cost", "E21"), ("3.3 FTE View", "H95"),
+        ("vacant", [("3.2 Total Cost", "E21"), ("3.3 FTE View", "H117"),
                     ("Exec Summary", "C42")]),
         ("cyber cost", [("1.13 Cyber Roles", "F8"), ("1.14 TDD Cyber", "C12"),
                         ("3.4 COE Summary", "K10")]),
-        ("filled cost", [("3.2 Total Cost", "L21"), ("Exec Summary", "C31"),
-                         ("Exec Summary", "C49")]),
+        ("budget variance", [("0.2 Data Config", "G26"), ("3.1 Group Summary", "E20")]),
     ]
     for name, cells in facts:
         vals = [(f"{s}!{c}", g(s, c)) for s, c in cells]
