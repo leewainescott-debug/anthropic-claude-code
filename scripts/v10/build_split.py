@@ -35,7 +35,7 @@ REV = f"'{model.REVIEW}'"
 LR = model.LAST_ROW
 A3 = "'0.3 Squad Archetypes'"
 BOLD = Font(bold=True)
-ITAL = Font(italic=True)
+ITAL = Font(bold=False)
 OH_LINES = ["Head of Technology", "Business Partner", "Domain Architect",
             "Delivery Manager", "Technology Manager"]
 
@@ -113,10 +113,14 @@ def build(wb, roles):
             ws[f"I{r}"] = f'=COUNTIFS({RL("F")},$B{r},{RL("D")},"Vacant",{RL("E")},"Hold")'
             # Hold is the only lever that removes a role; Offshore keeps the headcount
             ws[f"J{r}"] = f'=$E{r}-COUNTIFS({RL("F")},$B{r},{RL("E")},"Hold")'
-            ws[f"M{r}"] = f"=SUMIFS({RL('G')},{RL('F')},$B{r})/1000000"
-            ws[f"O{r}"] = f"=SUMIFS({RL('H')},{RL('F')},$B{r})/1000000"
+            ws[f"M{r}"] = (f'=SUMIFS({REV}!$AA$2:$AA${LR},{REV}!$AJ$2:$AJ${LR},"{pf}",'
+                           f'{REV}!$AT$2:$AT${LR},$B{r})/1000000')
+            ws[f"O{r}"] = (f'=(SUMIFS({REV}!$AA$2:$AA${LR},{REV}!$AJ$2:$AJ${LR},"{pf}",'
+                           f'{REV}!$AT$2:$AT${LR},$B{r},{REV}!$AK$2:$AK${LR},"Filled")'
+                           f"+SUMIFS({RL('H')},{RL('F')},$B{r}))/1000000")
             ws[f"P{r}"] = f"=$O{r}-$M{r}"
-            ws[f"Q{r}"] = f'=SUMIFS({RL("G")},{RL("F")},$B{r},{RL("D")},"Vacant")/1000000'
+            ws[f"Q{r}"] = (f'=SUMIFS({REV}!$AA$2:$AA${LR},{REV}!$AJ$2:$AJ${LR},"{pf}",'
+                           f'{REV}!$AT$2:$AT${LR},$B{r},{REV}!$AK$2:$AK${LR},"Vacant")/1000000')
 
         # ---- Block A: delivery squads, compared to the archetype ----
         for i, sq in enumerate(squads):
@@ -143,8 +147,21 @@ def build(wb, roles):
                            f'IF($J{r}<$D{r},"Under archetype","On archetype")))')
         ws[f"B{asub}"] = "Delivery squads"
         ws[f"B{asub}"].font = BOLD
-        for col in "DEFGHIJLMNOPQ":
+        for col in "DEGHIJLOPQ":
             ws[f"{col}{asub}"] = f"=SUM({col}{a0}:{col}{a1})"
+        ws[f"M{asub}"] = f"=SUM(M{a0}:M{a1})"
+        # F and N compare like with like: only the squads 0.3 actually prices. Summing
+        # every squad row put unpriced squads (Strategic Programs, EGI, no-archetype)
+        # on the actual side of a variance whose design side never counted them.
+        # SUMIF skips the text dashes, so both sides of the variance cover exactly the
+        # squads 0.3 prices - roles raised in matched squads less seats those squads allow
+        ws[f"F{asub}"] = (f"=SUMPRODUCT(--ISNUMBER($D${a0}:$D${a1}),$E${a0}:$E${a1})"
+                          f'-SUMIF($D${a0}:$D${a1},">=0")')
+        ws[f"N{asub}"] = (f"=SUMPRODUCT(--ISNUMBER($L${a0}:$L${a1}),$M${a0}:$M${a1})"
+                          f'-SUMIF($L${a0}:$L${a1},">=0")')
+        ws[f"D{asub}"] = f'=SUMIF($D${a0}:$D${a1},">=0")'
+        ws[f"L{asub}"] = f'=SUMIF($L${a0}:$L${a1},">=0")'
+        ws[f"B{asub}"] = "Delivery squads"
 
         # ---- Block B: overhead roles that sit inside this portfolio ----
         ws[f"B{bhdr}"] = "Overhead roles inside this portfolio - compared to the allowance"
@@ -189,7 +206,7 @@ def build(wb, roles):
             ws[f"B{rr}"].font = ITAL
 
         # ---- role list ----
-        ws.cell(rl_hdr - 1, 2).value = f"{pf} roles - one row per named role, from REVIEW"
+        ws.cell(rl_hdr - 1, 2).value = f"{pf} FTE"
         ws.cell(rl_hdr - 1, 2).font = ITAL
         for col, h in ROLE_HDRS.items():
             c = ws[f"{col}{rl_hdr}"]
@@ -208,8 +225,7 @@ def build(wb, roles):
             ws[f"D{r}"] = f"=INDEX({REV}!$AK:$AK,{src})"
             ws[f"E{r}"] = rec["lever"]
             # one row per role, landing in its squad OR its overhead line, never both
-            ws[f"F{r}"] = (f'=IF(INDEX({REV}!$AR:$AR,{src})="Squad",'
-                           f"INDEX({REV}!$AP:$AP,{src}),INDEX({REV}!$AR:$AR,{src}))")
+            ws[f"F{r}"] = f"=INDEX({REV}!$AT:$AT,{src})"
             ws[f"G{r}"] = f"=INDEX({REV}!$AA:$AA,{src})"
             ws[f"H{r}"] = (f"=$G{r}*IFERROR(INDEX(Lists!$AD:$AD,"
                            f"MATCH($E{r},Lists!$AC:$AC,0)),1)")
@@ -223,6 +239,7 @@ def build(wb, roles):
 
         dv = DataValidation(type="list", formula1="=Lists!$AC$2:$AC$5", allow_blank=False)
         dv.errorTitle, dv.error = "Vacancy lever", "Choose a lever from Lists AC2:AC5."
+        dv.showErrorMessage = True; dv.errorStyle = "stop"
         ws.add_data_validation(dv)
         dv.add(f"E{rl0}:E{rl1}")
         ws.cell(2, 2).value = title
@@ -244,12 +261,12 @@ def load_roles(path):
         out.append(dict(row=i, name=str(nm).strip(),
                         portfolio=ws.cell(i, 36).value,        # AJ
                         status=ws.cell(i, 37).value,           # AK
-                        squad=ws.cell(i, 42).value,            # AP
+                        squad=ws.cell(i, 46).value,            # AT
                         line=ws.cell(i, 44).value,             # AR
                         cost=cost if isinstance(cost, (int, float)) else 0.0,
                         vacant=str(ws.cell(i, 37).value) == "Vacant"))
     for r in out:
-        r["lever"] = "Hold" if r["vacant"] else "Filled"
+        r["lever"] = "Hire" if r["vacant"] else "Filled"
     wv.close()
     return out
 
