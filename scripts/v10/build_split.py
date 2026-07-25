@@ -61,10 +61,13 @@ def build(wb, roles):
             continue
         ws = wb[tab]
         mine = [r for r in roles if r["portfolio"] == pf]
-        squads = sorted({r["squad"] for r in mine if r["line"] == "Squad"},
-                        key=lambda s: (-sum(1 for r in mine
-                                            if r["line"] == "Squad" and r["squad"] == s), s))
-        ohs = [l for l in OH_LINES if any(r["line"] == l for r in mine)]
+        # every row on the tab is a distinct value of AT. A row is overhead only if AT
+        # names an overhead line, which happens inside the ten delivery portfolios and
+        # never inside a COE - a COE's partners and architects are its delivery.
+        groups = {r["squad"] for r in mine}
+        ohs = [l for l in OH_LINES if l in groups]
+        squads = sorted(groups - set(ohs),
+                        key=lambda s: (-sum(1 for r in mine if r["squad"] == s), s))
 
         title = ws.cell(2, 2).value
         for r in range(4, ws.max_row + 1):
@@ -164,8 +167,10 @@ def build(wb, roles):
         ws[f"B{asub}"] = "Delivery squads"
 
         # ---- Block B: overhead roles that sit inside this portfolio ----
-        ws[f"B{bhdr}"] = "Overhead roles inside this portfolio - compared to the allowance"
-        ws[f"B{bhdr}"].font = ITAL
+        if ohs:
+            ws[f"B{bhdr}"] = ("Overhead roles inside this portfolio - compared to the "
+                              "allowance")
+            ws[f"B{bhdr}"].font = ITAL
         for i, l in enumerate(ohs):
             r = b0 + i
             ws[f"B{r}"] = l
@@ -177,18 +182,24 @@ def build(wb, roles):
             ws[f"F{r}"] = '="-"'
             ws[f"N{r}"] = '="-"'
             ws[f"K{r}"] = '="Overhead"'
-        ws[f"B{bsub}"] = "Overhead roles"
-        ws[f"B{bsub}"].font = BOLD
-        for col in "EGHIJMOPQ":
-            # 2.11 and 2.14 carry no overhead roles at all; an empty block must read 0,
-            # not SUM over an inverted range
-            ws[f"{col}{bsub}"] = (f"=SUM({col}{b0}:{col}{b1})" if ohs else 0)
+        if ohs:
+            ws[f"B{bsub}"] = "Overhead roles"
+            ws[f"B{bsub}"].font = BOLD
+        # a centre of excellence has no overhead block at all, so nothing is written
+        # there - a typed 0 would read as a measured nil
+        if ohs:
+            for col in "EGHIJMOPQ":
+                ws[f"{col}{bsub}"] = f"=SUM({col}{b0}:{col}{b1})"
 
         # ---- Total: the two blocks are the whole portfolio ----
+        if not ohs:
+            ws[f"B{bhdr}"] = ("This is a centre of excellence: it carries no overhead "
+                              "line, every role is its own delivery.")
         ws[f"B{tot}"] = "Total portfolio"
         ws[f"B{tot}"].font = BOLD
         for col in "EGHIJMOPQ":
-            ws[f"{col}{tot}"] = f"=${col}{asub}+${col}{bsub}"
+            ws[f"{col}{tot}"] = (f"=${col}{asub}+${col}{bsub}" if ohs
+                                 else f"=${col}{asub}")
         for col in "DL":
             ws[f"{col}{tot}"] = f"=${col}{asub}"
         ws[f"F{tot}"] = f'=IFERROR($E{asub}-$D{asub},"-")'
@@ -214,9 +225,8 @@ def build(wb, roles):
             c.font = BOLD
             c.fill = SUB_FILL
             c.alignment = Alignment(wrap_text=True, vertical="bottom")
-        ordered = sorted(mine, key=lambda x: (x["line"] != "Squad",
-                                              [*squads, *ohs].index(x["squad"] if x["line"]
-                                                                    == "Squad" else x["line"]),
+        order_ix = {g: i for i, g in enumerate([*squads, *ohs])}
+        ordered = sorted(mine, key=lambda x: (order_ix.get(x["squad"], 99),
                                               x["vacant"], x["name"]))
         for i, rec in enumerate(ordered):
             r, src = rl0 + i, rec["row"]

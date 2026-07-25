@@ -46,8 +46,10 @@ def run(src, dst):
         ws[f"F{r}"]=f'=SUMIFS({REV}!$AA$2:$AA${LR},{REV}!$AJ$2:$AJ${LR},$B{r})/1000000'
         ws[f"G{r}"]=f"='{t}'!$E${g['asub']}"
         ws[f"H{r}"]=f"='{t}'!$M${g['asub']}"
-        ws[f"L{r}"]=f"='{t}'!$E${g['bsub']}"
-        ws[f"M{r}"]=f"='{t}'!$M${g['bsub']}"
+        # a centre of excellence has no overhead block, so its overhead is nil by
+        # construction rather than a reference to a cell that does not exist
+        ws[f"L{r}"]=(f"='{t}'!$E${g['bsub']}" if g['ohs'] else "=0")
+        ws[f"M{r}"]=(f"='{t}'!$M${g['bsub']}" if g['ohs'] else "=0")
         ws[f"N{r}"]=f"='{t}'!$O${g['tot']}"
         if t in ARCH:
             ws[f"I{r}"]=f"='{t}'!$D${g['asub']}"
@@ -66,7 +68,8 @@ def run(src, dst):
         ws[f"E{r}"]=f'=COUNTIFS({REV}!$AJ$2:$AJ${LR},$B{r},{REV}!$AK$2:$AK${LR},"Vacant")'
         ws[f"F{r}"]=f'=SUMIFS({REV}!$AA$2:$AA${LR},{REV}!$AJ$2:$AJ${LR},$B{r})/1000000'
         ws[f"G{r}"]=f"='{t}'!$E${g['asub']}"; ws[f"H{r}"]=f"='{t}'!$M${g['asub']}"
-        ws[f"L{r}"]=f"='{t}'!$E${g['bsub']}"; ws[f"M{r}"]=f"='{t}'!$M${g['bsub']}"
+        ws[f"L{r}"]=(f"='{t}'!$E${g['bsub']}" if g['ohs'] else "=0")
+        ws[f"M{r}"]=(f"='{t}'!$M${g['bsub']}" if g['ohs'] else "=0")
         ws[f"N{r}"]=f"='{t}'!$O${g['tot']}"
         ws[f"I{r}"]='="-"'; ws[f"J{r}"]='="-"'; ws[f"K{r}"]='="-"'
     tr=sub+1+len(order)-n

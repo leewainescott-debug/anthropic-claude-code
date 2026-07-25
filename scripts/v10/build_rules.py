@@ -50,9 +50,14 @@ def run(src,dst):
             f'ISNUMBER(SEARCH("technology manger",$C{i})),'
             f'ISNUMBER(SEARCH("tech manager",$C{i}))),"Technology Manager",'
             f'"Squad"))))))')
-        # AT: the row a role lands on - its squad, or its overhead line
-        ws[f"AT{i}"]=(f'=IF(TRIM($B{i})="","",IF($AR{i}<>"Squad",$AR{i},'
-                      f'IF($AP{i}="Leadership","Leadership - squad not stated",$AP{i})))')
+        # AT: the row a role lands on. The overhead split applies only inside the ten
+        # delivery portfolios. A COE has no overhead - a Business Partner IS what BP&T
+        # delivers and a Domain Architect IS what SA&D delivers - so inside a COE, and
+        # inside EGI, every role groups by its own team.
+        ws[f"AT{i}"]=(f'=IF(TRIM($B{i})="","",'
+                      f'IF(OR(LEFT($AJ{i},3)="COE",$AJ{i}="EGI"),$AP{i},'
+                      f'IF($AR{i}<>"Squad",$AR{i},'
+                      f'IF($AP{i}="Leadership","Leadership - squad not stated",$AP{i}))))')
     ws["AT1"]="Squad or overhead line"; ws["AT1"].font=Font(bold=True)
     out.append("REVIEW AR widened to 'head of'; AT added as the single grouping column")
 

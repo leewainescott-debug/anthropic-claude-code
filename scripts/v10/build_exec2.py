@@ -6,10 +6,21 @@ import model, build_3x2
 
 ITAL=Font(italic=True); REV=f"'{model.REVIEW}'"; LR=model.LAST_ROW
 G32="'3.2 Total Cost'"; G33="'3.3 FTE View'"; G31="'3.1 Group Summary'"
-SUB,TOT,OHT,ORG,GT,T31 = 16,21,36,37,117,20
+SUB, TOT, OHT, ORG, T31 = 16, 21, 36, 37, 20
+
+
+def anchors(wb):
+    """Find 3.3's group-total row rather than assuming it. The row moves whenever a tab
+    gains or loses a block, which is exactly how the Exec Summary went stale before."""
+    h = wb["3.3 FTE View"]
+    for r in range(1, h.max_row + 1):
+        if str(h.cell(r, 3).value or "") == "Group total":
+            return r
+    raise AssertionError("3.3 group total row not found")
 
 def run(src,dst):
     wb=openpyxl.load_workbook(src); ws=wb["Exec Summary"]
+    GT=anchors(wb)
     order=list(dict.fromkeys(model.TAB_PORTFOLIO.values()))
     VAC=f'SUMIFS({REV}!$AA$2:$AA${LR},{REV}!$AK$2:$AK${LR},"Vacant")/1000000'
     FIL=f'SUMIFS({REV}!$AA$2:$AA${LR},{REV}!$AK$2:$AK${LR},"Filled")/1000000'
