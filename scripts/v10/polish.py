@@ -46,15 +46,14 @@ ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Confi
          "2.8 Energy Solutions & B2B", "2.9 Commercial Fuels", "2.10 Z Retail",
          "2.11 COE Cyber", "2.12 BP&T", "2.13 SA&D", "2.14 EGI", "- SUMMARIES -",
          "3.1 Group Summary", "3.2 Total Cost", "3.3 Squad Detail", "3.4 COE Detail",
-         "- EVIDENCE -", "3.5 Source Reconciliation", "4.0 Data QA"]
+         "- EVIDENCE -", "4.0 Data QA"]
 GREY, DESIGN, WORK, SUMM, EVID = ("FF808080", "FF1F4E79", "FFBF8F00", "FF002F6C",
                                   "FF375623")
 HIDE = ["Lists"]
 # the owner's own source tabs. Their palette is whatever Finance and the deck arrived in,
 # and repainting evidence is not tidying.
 SOURCE = {"0.1 Budget Table (Fin)", "0.4 Presentation Pack"}
-RETIRED = {"Squads", "Added data", "Sheet2", "FY26 Budget (superseded)",
-           "squad mapping (superseded)"}
+RETIRED = set()          # the retired sources are deleted, not skipped
 DIVIDER = re.compile(r"^- .* -$")
 
 JUDGE = {"FFFF0000", "FFC00000", "FF008000", "FF00B050", "FF0000FF", "FF00B0F0",

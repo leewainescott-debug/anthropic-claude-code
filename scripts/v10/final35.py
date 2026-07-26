@@ -9,8 +9,8 @@ What 3.4 is for now is the thing no other tab shows: where COE cost sits geograp
 and which COE roles carry an overhead title. It reads the same squad grouping as every
 other tab rather than a second cut built off the department column.
 
-3.5 reconciles the retired Squads tab to REVIEW. It stays as evidence; it was the only
-visible tab still showing Excel gridlines, and its headers used a Greek delta.
+3.5 Source Reconciliation is gone. Its only job was reconciling the retired Squads tab to
+REVIEW, and REVIEW is the only source of truth, so there is nothing to reconcile it against.
 """
 import json
 
@@ -148,12 +148,9 @@ def run(src, dst):
     wb = openpyxl.load_workbook(src)
     anchors = json.load(open("anchors_final.json"))
     a34 = build_34(wb, anchors)
-    n = build_35(wb)
     wb.save(dst)
     return [f"3.4 COE detail rebuilt: squad by squad, AU / NZ / elsewhere, "
-            f"overhead titles, total row {a34['total']}",
-            f"3.5 Source Reconciliation restyled to {n} rows, gridlines off, "
-            "plain-English headers"]
+            f"overhead titles, total row {a34['total']}"]
 
 
 if __name__ == "__main__":

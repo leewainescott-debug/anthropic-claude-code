@@ -490,21 +490,22 @@ COE tab has a Category column, so no number was ever affected - but the columns 
 ruled out were still in the file and would have reappeared in any dropdown built off a
 name. Names deleted, cells cleared.
 
-### D55. Cyber is six roles short of Sheet2 and this one is not mine to close.
-`Sheet2`'s "Cyber, Risk & Operations" division has **52 roles, 10 of them vacant**. REVIEW's
-COE Cyber has **46 roles, 4 vacant**, and 1.13 reports 46 and 4 because it reads REVIEW
-correctly. The six missing are all vacancies: a Cyber Architect backfill, two Operations
-Analysts, two Data Risk Analysts and a second Tech Support Technician, about $1.02m.
+### D55. The retired sources are deleted, not hidden. Owner's instruction.
+`Sheet2` held an older cyber list - 52 roles, 10 vacant - against REVIEW's 46 and 4. That
+disagreement got reported to the owner as a six-role hole in the ledger. It was not a hole.
+It was a stale tab that should not have been in the file, and his answer was immediate: we
+only care about REVIEW.
 
-`1.13!E7` carries the owner's own threaded comment - *"This is incorrect there are a total
-of 8 vacant roles"* - against a cell reading 4. So Sheet2 says 10, the owner says 8, REVIEW
-says 4, and no two of the three agree.
+Deleted: `Sheet2`, `Squads`, `Added data`, `FY26 Budget (superseded)`,
+`squad mapping (superseded)`, and `3.5 Source Reconciliation`. No formula read any of them
+except 3.5, whose entire job - thirty-three formulas - was reconciling the retired Squads tab
+to REVIEW. Once Squads is gone, 3.5 is comparing the source of truth against a source that
+does not exist. The note on 1.13 claiming "roles and costs come straight from Sheet2" went
+with them; it had not been true since that list was repointed at REVIEW.
 
-**Why no QA pass catches it:** every check in the toolchain tests the model against REVIEW,
-because REVIEW is the source of truth by instruction 18. A question about whether REVIEW
-itself is complete is outside what any of them can see, by construction. Adding six roles
-would move the $115,113,262.27 the owner has anchored on, so it is his call, not a build
-decision.
+44 sheets, one hidden (`Lists`). A hidden stale tab is still a stale tab: it ships, it can be
+unhidden, and it will be read as a second opinion. `purge.py` refuses to delete a sheet any
+formula still reads, so the check is in the build rather than in my head.
 
 ### D52c. An empty-looking block is not always an empty block.
 1.5's EGI P&C block was collapsed as a shell because its funded input is blank. The squad is

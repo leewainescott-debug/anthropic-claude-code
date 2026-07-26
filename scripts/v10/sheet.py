@@ -19,8 +19,7 @@ ORDER = {"1": ["1.1 Ampol Retail", "1.2 Customer", "1.3 Enterprise Data",
                "2.4 TDD Group Functions", "2.5 P&C", "2.6 Finance", "2.7 Infrastructure",
                "2.8 Energy Solutions & B2B", "2.9 Commercial Fuels", "2.10 Z Retail",
                "2.11 COE Cyber", "2.12 BP&T", "2.13 SA&D", "2.14 EGI"],
-         "3": ["3.1 Group Summary", "3.2 Total Cost", "3.3 Squad Detail", "3.4 COE Detail",
-               "3.5 Source Reconciliation"]}
+         "3": ["3.1 Group Summary", "3.2 Total Cost", "3.3 Squad Detail", "3.4 COE Detail"]}
 
 
 def stem(n):
