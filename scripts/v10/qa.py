@@ -10,6 +10,9 @@ import openpyxl
 ERRS = ("#REF!", "#N/A", "#VALUE!", "#DIV/0!", "#NAME?", "#NULL!", "#NUM!", "Err:")
 REVIEW = "REVIEW - Complete Role Mapping"
 SHEET_RE = re.compile(r"(?:'([^']+)'|([A-Za-z0-9_.&\- ]+))!\$?([A-Z]{1,3})\$?(\d+)")
+# FFFF00 is the bright yellow the rules call for; FFF2CC is the cream already on 0.2 and
+# the 1.x budget blocks. Both currently mean "typed input".
+INPUT_FILLS = {"FFFFFF00", "FFFFF2CC"}
 
 
 def load(path):
@@ -141,12 +144,14 @@ def check_hardcoded(wf, wv):
         for col, cells in bycol.items():
             fs = [c for c in cells if isinstance(c.value, str) and c.value.startswith("=")]
             ns = [c for c in cells if isinstance(c.value, (int, float))]
-            if len(fs) >= 4 and ns:
+            if len(fs) >= 3 and ns:
                 for c in ns:
-                    # a yellow cell is a declared input, not a stale literal
+                    # a shaded cell is a declared input, not a stale literal. Two shades
+                    # are in use across the file and both are treated as declared here;
+                    # picking one is an open item with the owner.
                     fill = c.fill
                     if fill and fill.patternType and \
-                            str(fill.start_color.rgb or "").upper() == "FFFFFF00":
+                            str(fill.start_color.rgb or "").upper() in INPUT_FILLS:
                         continue
                     bad.append((sn, c.coordinate, f"literal {c.value} in a formula column",
                                 f"{len(fs)} formulas in col {col}"))
@@ -187,47 +192,99 @@ def check_family_consistency(wf):
     return out, fam
 
 
+SUMMARY_BLOCK = ["Portfolio Summary", "Cost", "Portfolio Overhead",
+                 "Platform Overheads", "Squad Support Costs", "Total Cost"]
+FUNDING_BLOCK = ["Funding position ($m)", "Over/(under) TDD budget",
+                 "Still to fund outside TDD", "Total to fund"]
+
+
 def check_1x_consistency(wf, wv):
-    """The 10 portfolio design tabs should have the same summary block."""
+    """The 10 portfolio design tabs must present the same way.
+
+    The earlier version of this check compared the SET of labels in rows 4 to 13, so it
+    fired on every tab forever: "Total Customer budget" and "Total Infrastructure budget"
+    are different strings and always will be. A check that always fires is a check
+    everyone learns to scroll past. It now tests the two things that actually matter.
+
+    1  The Portfolio Summary block starts on the same row on every tab, so the table does
+       not jump when you flick between them.
+    2  Each labelled block is contiguous - no blank row between a header and its lines.
+    """
     out = []
     tabs = [s for s in wf.sheetnames if re.match(r"^1\.(10|[1-9]) ", s)]
-    layout = {}
+
+    def find(ws, text):
+        for r in range(1, 40):
+            if str(ws[f"B{r}"].value or "").strip().startswith(text):
+                return r
+        return None
+
+    starts = {}
     for sn in tabs:
         ws = wf[sn]
-        rows = {}
-        for r in range(4, 14):
-            lab = str(ws[f"B{r}"].value or "").strip()[:26]
-            if lab:
-                rows[lab] = r
-        key = tuple(sorted(rows))
-        layout.setdefault(key, []).append(sn)
-    if len(layout) > 1:
-        for k, v in layout.items():
-            out.append(("1.x summary block differs", ", ".join(v), " / ".join(k)[:90]))
+        for name, block in (("summary", SUMMARY_BLOCK), ("funding", FUNDING_BLOCK)):
+            rows = [find(ws, t) for t in block]
+            if any(r is None for r in rows):
+                if name == "summary":
+                    out.append((sn, "summary block incomplete", str(rows)))
+                continue
+            if rows != list(range(rows[0], rows[0] + len(block))):
+                out.append((sn, f"{name} block has a gap in it",
+                            " / ".join(f"{t}=r{r}" for t, r in zip(block, rows))))
+            if name == "summary":
+                starts.setdefault(rows[0], []).append(sn)
+    if len(starts) > 1:
+        for r, v in sorted(starts.items()):
+            out.append(("summary block starts on different rows",
+                        f"row {r}", ", ".join(v)))
+    # the funding block sits directly under each tab's own budget table, and those tables
+    # are different heights per portfolio, so its start row is not expected to match
     return out
 
 
-def check_cross_tab_facts(wv):
-    """The same fact stated on two tabs must agree."""
+def find_row(wf, sheet, col, label, limit=240):
+    """Row whose `col` cell equals `label`. Rows move; labels do not."""
+    ws = wf[sheet]
+    for r in range(1, min(ws.max_row, limit) + 1):
+        if str(ws[f"{col}{r}"].value or "").strip() == label:
+            return r
+    return None
+
+
+def check_cross_tab_facts(wf, wv):
+    """The same fact stated on two tabs must agree, and must be stated at all.
+
+    3.3's group-total row is found by its label. It has moved twice already, and the
+    previous version of this check named row 117 - which by then was empty. An empty
+    cell is not a disagreement, so the check passed while the fact was missing. A cell
+    that holds no number is now a finding in its own right.
+    """
     out = []
-    def g(sn, cell):
-        return wv[sn][cell].value
+    gt = find_row(wf, "3.3 FTE View", "C", "Group total")
+    if gt is None:
+        out.append(("3.3 FTE View", "no 'Group total' row found", ""))
+        gt = 0
+
     facts = [
         ("group cost", [("3.2 Total Cost", "F21"), ("3.1 Group Summary", "D20"),
                         ("Exec Summary", "C7"), ("Exec Summary", "C26"),
                         ("0.2 Data Config", "F26")]),
         ("group roles", [("3.2 Total Cost", "C21"), ("3.1 Group Summary", "J20"),
-                         ("3.3 FTE View", "I117"), ("Exec Summary", "C40")]),
-        ("filled", [("3.2 Total Cost", "D21"), ("3.3 FTE View", "G117"),
+                         ("3.3 FTE View", f"I{gt}"), ("Exec Summary", "C40")]),
+        ("filled", [("3.2 Total Cost", "D21"), ("3.3 FTE View", f"G{gt}"),
                     ("Exec Summary", "C41")]),
-        ("vacant", [("3.2 Total Cost", "E21"), ("3.3 FTE View", "H117"),
+        ("vacant", [("3.2 Total Cost", "E21"), ("3.3 FTE View", f"H{gt}"),
                     ("Exec Summary", "C42")]),
         ("cyber cost", [("1.13 Cyber Roles", "F8"), ("1.14 TDD Cyber", "C12"),
                         ("3.4 COE Summary", "K10")]),
         ("budget variance", [("0.2 Data Config", "G26"), ("3.1 Group Summary", "E20")]),
     ]
     for name, cells in facts:
-        vals = [(f"{s}!{c}", g(s, c)) for s, c in cells]
+        vals = [(f"{s}!{c}", wv[s][c].value) for s, c in cells if gt or "3.3" not in s]
+        blank = [k for k, v in vals if not isinstance(v, (int, float))]
+        if blank:
+            out.append((name, "stated nowhere on " + ", ".join(blank),
+                        "; ".join(f"{k}={v}" for k, v in vals)))
         nums = [v for _, v in vals if isinstance(v, (int, float))]
         if not nums:
             out.append((name, "no numeric value anywhere", str(vals)))
@@ -247,7 +304,7 @@ def run(path):
     fam, _ = check_family_consistency(wf)
     report["2.x inconsistency"] = fam
     report["1.x inconsistency"] = check_1x_consistency(wf, wv)
-    report["cross-tab disagreements"] = check_cross_tab_facts(wv)
+    report["cross-tab disagreements"] = check_cross_tab_facts(wf, wv)
     return report
 
 
