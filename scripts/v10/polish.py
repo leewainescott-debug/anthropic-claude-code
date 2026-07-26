@@ -29,6 +29,11 @@ import opts
 
 DEAD = ["1.14 TDD Cyber"]
 RENAME = {"Portfolios": "- PORTFOLIOS -", "ACTUAL WORKBOOKS": "- WORKING -"}
+# tabs whose name contradicted their own title. 3.3 is headed "Squad Detail", 3.4 "COE
+# detail", and 2.11 carries "COE Cyber" in its title and portfolio cell while the tab said
+# TDD Cyber - the ledger calls it COE Cyber everywhere else.
+RETITLE = {"3.3 FTE View": "3.3 Squad Detail", "3.4 COE Summary": "3.4 COE Detail",
+           "2.11 TDD Cyber": "2.11 COE Cyber"}
 ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Config",
          "0.3 Squad Archetypes", "0.4 Presentation Pack",
          "REVIEW - Complete Role Mapping", "- PORTFOLIOS -",
@@ -39,8 +44,8 @@ ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Confi
          "2.1 Ampol Retail", "2.2 Customer", "2.3 Enterprise Data",
          "2.4 TDD Group Functions", "2.5 P&C", "2.6 Finance", "2.7 Infrastructure",
          "2.8 Energy Solutions & B2B", "2.9 Commercial Fuels", "2.10 Z Retail",
-         "2.11 TDD Cyber", "2.12 BP&T", "2.13 SA&D", "2.14 EGI", "- SUMMARIES -",
-         "3.1 Group Summary", "3.2 Total Cost", "3.3 FTE View", "3.4 COE Summary",
+         "2.11 COE Cyber", "2.12 BP&T", "2.13 SA&D", "2.14 EGI", "- SUMMARIES -",
+         "3.1 Group Summary", "3.2 Total Cost", "3.3 Squad Detail", "3.4 COE Detail",
          "- EVIDENCE -", "3.5 Source Reconciliation", "4.0 Data QA"]
 GREY, DESIGN, WORK, SUMM, EVID = ("FF808080", "FF1F4E79", "FFBF8F00", "FF002F6C",
                                   "FF375623")
@@ -76,6 +81,32 @@ def drop_dead(wb):
         else:
             del wb[name]
             out.append(f"{name}: removed, nothing referenced it")
+    return out
+
+
+def retitle(wb):
+    """Rename a tab and repoint everything that named it - formulas and labels both.
+
+    A reference is rewritten before the sheet is renamed, because openpyxl does not follow
+    a rename into formula text: the tab would be called one thing and every formula would
+    still point at the other, which is a #REF! on open.
+    """
+    out = []
+    for old, new in RETITLE.items():
+        if old not in wb.sheetnames or new in wb.sheetnames:
+            continue
+        n = 0
+        for ws in wb.worksheets:
+            for row in ws.iter_rows():
+                for c in row:
+                    v = c.value
+                    if not isinstance(v, str) or old not in v:
+                        continue
+                    c.value = (v.replace(f"'{old}'", f"'{new}'").replace(old, new)
+                               if v.startswith("=") else v.replace(old, new))
+                    n += 1
+        wb[old].title = new
+        out.append(f"{old} -> {new}, {n} references and labels repointed")
     return out
 
 
@@ -433,7 +464,7 @@ def run(src, dst, ledger=None):
     if ledger:
         lw = openpyxl.load_workbook(ledger, data_only=True)
         vals = {t: lw[t] for t in lw.sheetnames if t in wb.sheetnames}
-    out = (drop_dead(wb) + order_and_colour(wb) + no_red_formats(wb)
+    out = (drop_dead(wb) + retitle(wb) + order_and_colour(wb) + no_red_formats(wb)
            + no_judgement_colour(wb) + strays(wb) + en_dash(wb)
            + gutters_and_grid(wb) + bars_and_headers(wb, vals) + widen_bars(wb)
            + lone_headers(wb) + build_notes(wb)

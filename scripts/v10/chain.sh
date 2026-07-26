@@ -1,5 +1,6 @@
 set -e
-cp ../../TDD_Cost_Calc.xlsx w0.xlsx
+# base_ship.xlsx is the previous commit's workbook: git show HEAD~1:TDD_Cost_Calc.xlsx
+cp base_ship.xlsx w0.xlsx
 python3 overrides.py w0.xlsx w1.xlsx
 python3 -c "import wbio,shutil; shutil.copy(wbio.recalc('w1.xlsx'),'w1r.xlsx')"
 python3 final2x.py w1r.xlsx w2.xlsx

@@ -36,7 +36,7 @@ a visible override table on `Lists`, not by editing Lee's raw columns.
                    0.4 Presentation Pack   REVIEW - Complete Role Mapping
 1.x  design        1.1 - 1.10 portfolios   1.11 BP&T  1.12 SA&D  1.13 Cyber Roles
 2.x  working       2.1 - 2.14, one per portfolio, this is where decisions get made
-3.x  summaries     3.1 Group  3.2 Total Cost  3.3 Squad Detail  3.4 COE detail
+3.x  summaries     3.1 Group  3.2 Total Cost  3.3 Squad Detail  3.4 COE Detail
 4.0  Data QA       live checks, with 3.5 Source Reconciliation as evidence
 Exec Summary       the story
 ```
@@ -92,6 +92,7 @@ banned list. Still live except where superseded below.
 | 35 | The directly funded programmes all sit somewhere. Say where, and price them against what they are funded. | Done |
 | 36 | Viren Khatri stays in Ampol Retail. EGI P&C is a squad; leave it. | Done |
 | 37 | Do not call it design. It is the archetype. | Done |
+| 38 | A tab's name must match its own title. | Done |
 
 ## 5. How the cost is compared
 

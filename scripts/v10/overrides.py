@@ -71,11 +71,15 @@ def run(src, dst):
     l = wb["Lists"]
     out = []
 
-    # the columns the new table needs must be empty before it is written there
-    for c in (43, 45):                                  # AQ, AS
-        for r in range(1, 40):
-            if l.cell(r, c).value is not None:
-                raise SystemExit(f"Lists!{L(c)}{r} is not empty - pick another column")
+    # The columns the new table needs must be empty, or already hold this table from a
+    # previous run - the build has to be re-runnable against its own output, or the second
+    # run stops on the header the first one wrote.
+    OURS = {43: "Overhead line override", 45: "Portfolios (10)"}
+    for c, mine in OURS.items():
+        if l.cell(1, c).value in (None, mine):
+            continue
+        raise SystemExit(f"Lists!{L(c)}1 holds {l.cell(1, c).value!r}, not "
+                         f"{mine!r} - pick another column")
 
     # the table already carries the earlier agreed moves (r283 and r313 to the Data COE,
     # r528 to AU Finance). Append, never overwrite - writing over row 2 silently pulled

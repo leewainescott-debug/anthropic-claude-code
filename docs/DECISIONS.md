@@ -475,6 +475,22 @@ Owner's instruction. Every column, header, tile, check name and block label that
 tabs are still where the archetype is priced; the word just does not appear as a
 measurement.
 
+### D52a. A tab's name must match its own title.
+`3.3 FTE View` was headed "Squad Detail", `3.4 COE Summary` was headed "COE detail", and
+`2.11 TDD Cyber` carried "COE Cyber" in its title and its portfolio cell while the ledger
+calls it COE Cyber everywhere. Renamed to `3.3 Squad Detail`, `3.4 COE Detail` and
+`2.11 COE Cyber`, with 105 references and labels repointed. The references are rewritten
+before the sheet is renamed, because openpyxl does not follow a rename into formula text:
+the tab would carry one name and every formula the other, which is a `#REF!` on open.
+
+### D52b. The build has to run against its own output.
+`overrides.py` asserted that the Lists columns it writes to are empty, so the second run
+stopped on the header the first one wrote. Worse, `fix1x.py`'s empty-shell collapse read a
+wider empty span each time it ran and ate three more rows on 1.5 on the second pass. The
+assertion now accepts its own header, and the shipped file is built single-pass from the
+previous commit's workbook rather than from the file the last run produced -
+`scripts/v10/chain.sh` is that build, in order, and `base_ship.xlsx` is its input.
+
 ### D52. 1.14 TDD Cyber is gone.
 A copy of 1.9 that reported $1.2925m for Cyber against the $9.898m on 1.13, with three black
 bars from a theme fill, twenty styled rows holding nothing, and a 276-character build

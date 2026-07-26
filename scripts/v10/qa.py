@@ -272,9 +272,11 @@ def check_cross_tab_facts(wf, wv):
     passed while the fact was missing. A cell holding no number is now a finding.
     """
     out = []
+    # the squad-detail tab was renamed to match its own title, so it is found by prefix
+    detail = next((t for t in wf.sheetnames if t.startswith("3.3 ")), "3.3 Squad Detail")
     rows = {"3.1 Group Summary": "Cost of the organisation today",
             "3.2 Total Cost": "Cost of the organisation today",
-            "3.3 FTE View": "Group total"}
+            detail: "Group total"}
     at = {}
     for tab, lab in rows.items():
         r = find_row(wf, tab, "B", lab)
@@ -289,14 +291,14 @@ def check_cross_tab_facts(wf, wv):
         return f"{c}{at[tab]}"
 
     facts = [("group cost", "Actual cost ($m)", ("3.1 Group Summary", "3.2 Total Cost",
-                                                 "3.3 FTE View")),
+                                                 detail)),
              ("design cost", "Archetype cost ($m)", ("3.1 Group Summary", "3.2 Total Cost")),
              ("group roles", "Roles", ("3.1 Group Summary", "3.2 Total Cost",
-                                       "3.3 FTE View")),
-             ("filled", "Filled", ("3.1 Group Summary", "3.3 FTE View")),
-             ("vacant", "Vacant", ("3.1 Group Summary", "3.3 FTE View")),
+                                       detail)),
+             ("filled", "Filled", ("3.1 Group Summary", detail)),
+             ("vacant", "Vacant", ("3.1 Group Summary", detail)),
              ("roles after decisions", "Roles after decisions",
-              ("3.1 Group Summary", "3.3 FTE View"))]
+              ("3.1 Group Summary", detail))]
     for name, header, tabs in facts:
         vals = []
         for tab in tabs:
