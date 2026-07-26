@@ -102,7 +102,6 @@ SIGNS = {
 HEADERS = {"1.4 TDD Group Functions": {"F20": "AU / NZ", "F29": "AU / NZ"},
            "1.5 P&C": {"F24": "AU / NZ"}}
 
-
 def fix_signs(wb):
     out = []
     for tab, cells in SIGNS.items():

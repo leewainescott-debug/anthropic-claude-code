@@ -29,7 +29,26 @@ REVIEW = "REVIEW - Complete Role Mapping"
 LAST = 528
 N = 11                                  # override window runs Lists!$AN$2:$AN$11
 
-NEW = [(136, None, "Ampol Web", None)]
+NEW = []
+
+# Folds to take back out of Lists!W:X. The table is meant to fix typing - AmPos to AmPOS,
+# Manuacturing to Manufacturing - and three rows in it were doing something else:
+#
+#   Customer, AI      -> Customer AI              a rename, not a typo. The owner's column
+#                                                 K has the comma and so does his own list.
+#   Z Energy Martech  -> Z Loyalty & Martech      two real squads merged into one
+#   AU CRM & Martech  -> Ampol Loyalty & Martech  two real squads merged into one
+#
+# Merging them hid two of Customer's twelve squads completely: the owner's list has
+# AU CRM & Martech at 2.0 FTE and Z Energy Martech at 2.0, and neither appeared anywhere in
+# the workbook. Undoing the merge also puts Ampol Loyalty & Martech back to 6.8 and
+# Z Loyalty & Martech back to 12.6, which is what his column K says.
+UNFOLD = ["Customer, AI", "Z Energy Martech", "AU CRM & Martech"]
+
+# The move of Jasper Na off the one-person Energy squad was mine, not the owner's, and his
+# own reconciliation lists Energy at 1.0 FTE. It comes out. The three moves he did instruct -
+# r283 and r313 to the Data COE, r528 to AU Finance - stay.
+DROP_OVERRIDE = [136]
 
 # A filled role priced at zero. REVIEW row 491, Nidhi Aggarwal, Snr Engineer - Boomi, NZ,
 # FTE 1.0, status Filled. Column T carries her local base of 150,000 but U is empty, and the
@@ -64,6 +83,27 @@ KEYWORD = ('IF(ISNUMBER(SEARCH("head of ",$C{r})),"Head of Technology",'
            'IF(OR(ISNUMBER(SEARCH("technology manager",$C{r})),'
            'ISNUMBER(SEARCH("technology manger",$C{r})),'
            'ISNUMBER(SEARCH("tech manager",$C{r}))),"Technology Manager","Squad"))))')
+
+
+# Where a design tab and the ledger disagree on a squad name, the design tab is renamed -
+# the ledger is the source of truth. This has to happen before the working tabs are built:
+# they decide which section a squad belongs in by looking its name up on the design tab, and
+# renaming afterwards left "Customer, AI" filed under "no archetype" with a 0.80 archetype
+# sitting beside it.
+SQUAD_RENAME = {"1.2 Customer": {"Customer AI": "Customer, AI"}}
+
+
+def rename_squads(wb):
+    out = []
+    for tab, pairs in SQUAD_RENAME.items():
+        ws = wb[tab]
+        for r in range(1, min(ws.max_row, 95) + 1):
+            v = ws.cell(r, 2).value
+            if isinstance(v, str) and v.strip() in pairs:
+                new = pairs[v.strip()]
+                ws.cell(r, 2).value = new
+                out.append(f"{tab}!B{r} {v.strip()!r} -> {new!r}, to match the ledger")
+    return out
 
 
 def ovr(col):
@@ -103,11 +143,24 @@ def run(src, dst):
     # the table already carries the earlier agreed moves (r283 and r313 to the Data COE,
     # r528 to AU Finance). Append, never overwrite - writing over row 2 silently pulled
     # two roles back out of COE SA&D and moved a third out of SAP ERP.
+    # ---- take the three merges back out of the fold table ----
+    gone = []
+    for r in range(2, 20):
+        if str(l.cell(r, 23).value or "").strip() in UNFOLD:
+            gone.append(f"{l.cell(r, 23).value} -> {l.cell(r, 24).value}")
+            l.cell(r, 23).value = None
+            l.cell(r, 24).value = None
+    if gone:
+        out.append("fold removed: " + "; ".join(gone))
+
     keep = []
     for r in range(2, 40):
         row = l.cell(r, 40).value
-        if isinstance(row, (int, float)):
+        if isinstance(row, (int, float)) and int(row) not in DROP_OVERRIDE:
             keep.append((int(row), l.cell(r, 41).value, l.cell(r, 42).value, None))
+        elif isinstance(row, (int, float)):
+            out.append(f"override removed: REVIEW row {int(row)} -> "
+                       f"{l.cell(r, 42).value!r}")
     have = {k[0] for k in keep}
     moves = keep + [m for m in NEW if m[0] not in have]
     if len(moves) + 1 > N:
@@ -189,6 +242,7 @@ def run(src, dst):
     for ref, val in LABELS.items():
         R[ref].value = val
     out.append("REVIEW: build notes removed, AS1 relabelled")
+    out += rename_squads(wb)
 
     # ---- the allowance stops counting rows on a summary tab ----
     fixed = 0

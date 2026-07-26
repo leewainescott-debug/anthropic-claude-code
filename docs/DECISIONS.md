@@ -575,6 +575,42 @@ decisions, Squad cost after decisions.
 All fourteen 2.x tabs measure as a single structural profile - identical column widths,
 identical header text, identical section order.
 
+### D76. Customer, reconciled to the owner's own figures.
+He sent his squad-and-FTE list for Customer and asked for it to be reflected on 1.x, 2.2 and
+3.x. It is column K of REVIEW summed on column O, exactly, and four things in the build were
+standing between his data and the workbook:
+
+- **Two real squads were merged away.** `Lists!W:X` folded `Z Energy Martech` into
+  `Z Loyalty & Martech` and `AU CRM & Martech` into `Ampol Loyalty & Martech`. Both are 2.0
+  FTE squads in his own list and neither appeared anywhere in the file. Undoing it also puts
+  Ampol Loyalty & Martech back to 6.8 and Z Loyalty & Martech to 12.6. Supersedes D6.
+- **A squad was renamed.** The same table rewrote `Customer, AI` as `Customer AI`. His column
+  K has the comma; the fold went the wrong way round, so the fold is out and the design tab
+  is renamed to match the ledger instead - which is D4, applied properly.
+- **A role I moved.** `Energy` is a one-person squad and I had moved Jasper Na off it onto
+  Ampol Web. That was my call, not his, and his list has Energy at 1.0. The override is out.
+  The three moves he did instruct stay.
+- **FTE was not in the workbook at all.** He reconciles in FTE; the tabs counted heads. Seven
+  roles in the ledger are part-time, so Customer is 83 people and 82.4 FTE, and his figures
+  are the second one. FTE now sits beside Total roles on every working tab rather than
+  replacing it - "525 roles" is used throughout the file and in every control.
+
+Eleven of his twelve squads now match to the decimal and the portfolio total ties at 82.4
+FTE. The twelfth is the open question in D77.
+
+### D77. Open: the eight overhead roles inside Customer's squads.
+His list has `Leadership` at 12.0 FTE and `Z Loyalty & Martech` at 12.6. The workbook reads
+5.0 and 11.6, because eight roles whose titles make them overhead - two Heads of Technology,
+two Delivery Managers, four Technology Managers - are lifted out of their squads onto their
+own lines so they can be measured against the allowance.
+
+The two instructions genuinely conflict. His list wants every person shown in the squad his
+column K puts them in; his instruction of the previous round wants the overhead FTE and
+allowance stated per portfolio, which needs them on their own lines. The portfolio total is
+82.4 FTE either way - this is only about which line each of the eight sits on. Put to him
+rather than guessed, because it changes the shape of all fourteen working tabs and the whole
+allowance comparison.
+
 ### D74. The archetype prices overhead, and the working tabs were ignoring it.
 Owner: "taking energy solutions & b2b as an example, we have 7.9m as the total cost for the
 archetype, however, the actual total cost for the archetype is 9.03? ... you cannot only

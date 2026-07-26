@@ -44,16 +44,22 @@ LAST = 528
 # Hold and so read as though a cancelled vacancy were still outstanding. Roles after
 # decisions is roles less anything put On hold, which is what D20 promised: pull Hold and
 # the headcount moves, not just the cost.
-S = dict(squad=2, type=3, size=4, aroles=5, roles=6, filled=7, vacant=8, hire=9,
-         offshore=10, hold=11, rafter=12, acost=13, actual=14, var=15, after=16,
-         newvar=17)
+# FTE sits beside the headcount because the owner reconciles in FTE, not heads: seven roles
+# in the ledger are part-time, so Customer is 83 people and 82.4 FTE and his own figures are
+# the second one. Both are stated rather than one replacing the other - "525 roles" is used
+# throughout the file and in every control.
+S = dict(squad=2, type=3, size=4, aroles=5, roles=6, fte=7, filled=8, vacant=9, hire=10,
+         offshore=11, hold=12, rafter=13, acost=14, actual=15, var=16, after=17,
+         newvar=18)
 # The owner's own column names, taken off his markup of 2.8.
-S_HDR = ["Squad", "Archetype Type", "Squad Size", "Archetype roles", "Total roles",
+S_HDR = ["Squad", "Archetype Type", "Squad Size", "Archetype roles", "Total roles", "FTE",
          "Filled", "Vacant", "To hire", "To offshore", "On hold",
          "Total roles after decisions", "Archetype cost ($m)", "Actual cost ($m)",
          "Variance to archetype ($m)", "Squad cost after decisions ($m)",
          "New variance ($m)"]
-SECTION = {"arch": "Squads priced by an archetype",
+# the owner renamed these on his own copy - "Squads" and "Total" - so the build uses his
+# words rather than overwriting them on the next run
+SECTION = {"arch": "Squads",
            "direct": "Directly funded programmes and platforms",
            "none": "Groups with no archetype and no funded figure",
            "oh": "Overhead roles"}
@@ -81,7 +87,7 @@ OH_RATE = {"Head of Technology": ("$L$6", "$K$6", False),
            "Technology Manager": ("$L$15", "$K$15", True)}
 CFG = "'0.2 Data Config'"
 ELSEWHERE = ("Allowed for in the archetype, sitting outside this portfolio")
-S_W = [30, 26, 11, 11, 9, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
+S_W = [30, 26, 11, 11, 9, 8, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
 P = dict(name=2, role=3, status=4, lever=5, cost=6, after=7)
@@ -409,7 +415,8 @@ def build(wb, wv, tab, rows, bounds):
         # count, so it counts nothing rather than counting a range that starts at row 0 -
         # COUNTIFS($D$0:$D$0,"Filled") is #NAME?, and it took Exec down with it.
         if not people.get(g):
-            for k in ("roles", "filled", "vacant", "hire", "offshore", "hold", "rafter"):
+            for k in ("roles", "fte", "filled", "vacant", "hire", "offshore", "hold",
+                      "rafter"):
                 _m(ws, rw, S[k], "=0", opts.CT)
             for k in ("actual", "after"):
                 _m(ws, rw, S[k], "=0")
@@ -422,6 +429,9 @@ def build(wb, wv, tab, rows, bounds):
                          ("hold", f'=COUNTIFS({lev},"Hold")'),
                          ("rafter", f'=${L(S["roles"])}{rw}-${L(S["hold"])}{rw}')):
                 _m(ws, rw, S[k], f, opts.CT)
+            _m(ws, rw, S["fte"],
+               f"=ROUND(SUMIFS({REV}!$O$2:$O${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
+               f"{REV}!$AT$2:$AT${LAST},${L(S['squad'])}{rw}),2)", opts.C1)
             _m(ws, rw, S["actual"],
                f"=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
                f"{REV}!$AT$2:$AT${LAST},${L(S['squad'])}{rw})/1000000")
@@ -436,7 +446,7 @@ def build(wb, wv, tab, rows, bounds):
         ws.cell(rw, S["type"]).value = why
         ws.cell(rw, S["type"]).font = opts.BODY
         ws.cell(rw, S["type"]).alignment = opts.LFT
-        for k in ("size", "aroles", "roles", "filled", "vacant", "hire", "offshore",
+        for k in ("size", "aroles", "roles", "fte", "filled", "vacant", "hire", "offshore",
                   "hold", "rafter", "acost", "actual", "var", "after", "newvar"):
             x = ws.cell(rw, S[k])
             x.value = '="-"'
@@ -455,7 +465,7 @@ def build(wb, wv, tab, rows, bounds):
         opts.row(ws, rw, 2, [label] + [None] * (len(S_HDR) - 1),
                  [None] * len(S_HDR), bg=bg, bold=True, top=line)
         ws.cell(rw, S["squad"]).alignment = opts.LFT
-        for k in ("aroles", "roles", "filled", "vacant", "hire", "offshore", "hold",
+        for k in ("aroles", "roles", "fte", "filled", "vacant", "hire", "offshore", "hold",
                   "rafter", "acost", "actual", "var", "after", "newvar"):
             c = S[k]
             x = ws.cell(rw, c)
@@ -504,7 +514,7 @@ def build(wb, wv, tab, rows, bounds):
            f"=ROUND(SUM({CFG}!$K$6:$K$9)+SUM({CFG}!$K$14:$K$15)*({PLAT})-({nfte}),6)",
            opts.C1)
         _m(ws, oh_else, S["acost"], f"=ROUND({ALLOW}-({drawn}),6)")
-        for k in ("size", "roles", "filled", "vacant", "hire", "offshore", "hold",
+        for k in ("size", "roles", "fte", "filled", "vacant", "hire", "offshore", "hold",
                   "rafter", "actual", "var", "after", "newvar"):
             x = ws.cell(oh_else, S[k])
             x.value = '="-"'
@@ -515,14 +525,14 @@ def build(wb, wv, tab, rows, bounds):
                  [None] * len(S_HDR), bg=opts.PALE, bold=True)
         ws.cell(label[kind], 2).alignment = opts.LFT
         if kind in sub:
-            total(sub[kind], f"{SECTION[kind]} total", label[kind] + 1, sub[kind] - 1,
-                  opts.GREY)
+            total(sub[kind], "Total" if kind == "arch" else f"{SECTION[kind]} total",
+                  label[kind] + 1, sub[kind] - 1, opts.GREY)
 
     opts.row(ws, r_tot, 2, ["Total portfolio"] + [None] * (len(S_HDR) - 1),
              [None] * len(S_HDR), bg=opts.MID, bold=True, top=True)
     ws.cell(r_tot, S["squad"]).alignment = opts.LFT
     src = [anchor[kk] for kk in live] + ([oh_else] if oh_else else [])
-    for k in ("aroles", "roles", "filled", "vacant", "hire", "offshore", "hold",
+    for k in ("aroles", "roles", "fte", "filled", "vacant", "hire", "offshore", "hold",
               "rafter", "acost", "actual", "var", "after", "newvar"):
         c = S[k]
         x = ws.cell(r_tot, c)
