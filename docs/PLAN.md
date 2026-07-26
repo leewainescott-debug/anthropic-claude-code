@@ -36,6 +36,7 @@ a visible override table on `Lists`, not by editing Lee's raw columns.
                    0.4 Presentation Pack   REVIEW - Complete Role Mapping
 1.x  design        1.1 - 1.10 portfolios   1.11 BP&T  1.12 SA&D  1.13 Cyber Roles
 2.x  working       2.1 - 2.14, one per portfolio, this is where decisions get made
+                   one table per tab: archetyped squads, directly funded, overhead
 3.x  summaries     3.1 Cost Bridge  3.2 Overhead & Leadership
                    3.3 Squad Detail  3.4 COE Detail
 4.0  Data QA       live checks
@@ -150,6 +151,7 @@ carries the one line that reconciles the block to 3.1.
 | 3.1 / 3.2 / 3.3 / 3.4 / Exec | all tie to the ledger |
 | Every control row | 0 |
 | 4.0 live checks | 56, all zero |
+| Recomputed from the ledger | every reader-visible figure, 0 disagreements |
 | Formula errors after full recalculation | 0 |
 | Adversarial QA (`qa.py`), eight checks | 0 findings |
 | Layout QA (`verify.py`), five checks | 0 findings |
@@ -199,7 +201,22 @@ Every design squad now has people in it. The three that did not are gone.
 | Frozen panes | Register item 70 asks for them on every long table, item 94 records that they were all removed. Applied consistently on every table over 25 rows. One line to reverse. | Lee to pick |
 | Bridge tab | One page walking archetype cost to actual cost, line by line. Explained; not yet built. | Lee to say yes or no |
 
-## 9. How to work on this
+## 9. The five QA passes
+
+`scripts/v10/qaall.sh` runs all five against a built workbook. They are deliberately
+different in what they can see, because four of them passed while two variance bugs were
+live - both were internally consistent additions of the wrong things.
+
+| Pass | What it can see |
+|---|---|
+| `wbio.audit` | formula errors, and formula cells shipped with no cached value |
+| `4.0 Data QA` | 56 live checks inside the workbook, every difference must read zero |
+| `qa.py` | adversarial: silent zeros, dangling references, bad SUM ranges, stale literals, family drift, cross-tab disagreement |
+| `verify.py` | layout: truncated headers measured against their own column width, bars against the table under them, role coverage, banned words |
+| `recompute.py` | every figure a reader sees, rebuilt from REVIEW in Python. Knows nothing about the workbook's formulas |
+| lever test | a vacancy set to Hold, the workbook recalculated, and cost and headcount checked all the way through |
+
+## 10. How to work on this
 
 1. Read this file and `docs/DECISIONS.md` first.
 2. Definitions before formulas. Most rework on this job came from building against a
