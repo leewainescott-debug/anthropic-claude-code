@@ -26,7 +26,7 @@ BARF = Font(bold=True, size=11, color="FFFFFFFF")
 HDRF = Font(bold=True, size=10, color="FFFFFFFF")
 BOLD = Font(bold=True, size=10)
 BODY = Font(size=10)
-NOTE = Font(size=9, color="FF595959")
+NOTE = Font(size=10)
 M2 = '#,##0.00;(#,##0.00);"-"'
 M0 = '#,##0;(#,##0);"-"'
 CT = '#,##0;(#,##0);"-"'

@@ -9,10 +9,15 @@ Every table in the file uses these and nothing else. The rules:
   a portfolio UNDER budget showed red and one OVER budget showed black, which is
   backwards. No judgement colouring anywhere.
 - yellow means an input you can change, and nothing else is yellow
+- notes are plain black at 10pt. The first version of this file set them 9pt grey, which
+  breaks two of the owner's standing rules at once: nothing under 10pt, and no grey note
+  styling. A formatting standard that breaks the formatting rules is worse than none.
 """
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 
-NAVY = "FF1F4E79"
+FN = "Calibri"          # openpyxl defaults to Cambria, a serif. The file is Calibri.
+BAR = "FF002F6C"        # section bar, the darker navy from 1.11 BP&T
+NAVY = "FF1F4E79"       # column header row, the lighter navy
 PALE = "FFDDEBF7"
 GREY = "FFF2F2F2"
 MID = "FFD9D9D9"
@@ -24,11 +29,12 @@ SUB_FILL = PatternFill("solid", start_color=GREY, end_color=GREY)
 TOT_FILL = PatternFill("solid", start_color=MID, end_color=MID)
 IN_FILL = PatternFill("solid", start_color=YELLOW, end_color=YELLOW)
 
-HDR_FONT = Font(bold=True, color="FFFFFFFF", size=11)
-BOLD = Font(bold=True, size=11)
-BODY = Font(size=11)
-TITLE = Font(bold=True, size=15)
-SECTION = Font(bold=True, size=12)
+BAR_FILL = PatternFill("solid", start_color=BAR, end_color=BAR)
+HDR_FONT = Font(name=FN, bold=True, color="FFFFFFFF", size=11)
+BOLD = Font(name=FN, bold=True, size=11)
+BODY = Font(name=FN, size=11)
+TITLE = Font(name=FN, bold=True, size=16)
+SECTION = Font(name=FN, bold=True, size=12)
 
 WRAP = Alignment(horizontal="left", vertical="center", wrap_text=True)
 RIGHT = Alignment(horizontal="right", vertical="center")

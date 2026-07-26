@@ -25,17 +25,23 @@ from openpyxl.utils import get_column_letter as L
 SP = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(SP, "mocks2")
 
+# two navies, taken from 1.11 BP&T: the section bar is the darker one, the column
+# header the lighter. Collapsing them into one is what made the mockups read as a slab.
+BARC = "FF002F6C"
 NAVY, PALE, GREY, MID, YEL = "FF1F4E79", "FFDDEBF7", "FFF2F2F2", "FFD9D9D9", "FFFFFF00"
+# openpyxl's default theme font is Cambria, a serif. The owner's tabs are Calibri, so
+# every Font below names it explicitly or the render comes out in the wrong typeface.
+FN = "Calibri"
 thin = Side(style="thin", color="FFBFBFBF")
 BOX = Border(left=thin, right=thin, top=thin, bottom=thin)
 TOPR = Border(top=Side(style="medium", color="FF1F4E79"), left=thin, right=thin,
               bottom=thin)
-TITLE = Font(bold=True, size=14)
-BARF = Font(bold=True, size=11, color="FFFFFFFF")
-HDRF = Font(bold=True, size=10, color="FFFFFFFF")
-BOLD = Font(bold=True, size=10)
-BODY = Font(size=10)
-NOTE = Font(size=9, color="FF595959")
+TITLE = Font(name=FN, bold=True, size=16)
+BARF = Font(name=FN, bold=True, size=11, color="FFFFFFFF")
+HDRF = Font(name=FN, bold=True, size=11, color="FFFFFFFF")
+BOLD = Font(name=FN, bold=True, size=11)
+BODY = Font(name=FN, size=11)
+NOTE = Font(name=FN, size=11)
 M2 = '#,##0.00;(#,##0.00);"-"'
 M0 = '#,##0;(#,##0);"-"'
 CT = '#,##0;(#,##0);"-"'
@@ -53,7 +59,7 @@ def fill(c):
 def bar(ws, r, c0, n, text):
     for i in range(n):
         x = ws.cell(r, c0 + i)
-        x.fill = fill(NAVY)
+        x.fill = fill(BARC)
         x.font = BARF
     ws.cell(r, c0).value = text
     ws.cell(r, c0).alignment = LFT
@@ -321,7 +327,7 @@ def one_D():
         h = ws.cell(4, c)
         h.value, h.font, h.fill, h.alignment, h.border = lab, HDRF, fill(NAVY), CEN, BOX
         x = ws.cell(5, c)
-        x.value, x.font, x.number_format = v, Font(bold=True, size=16), M2
+        x.value, x.font, x.number_format = v, Font(name=FN, bold=True, size=16), M2
         x.alignment, x.border, x.fill = CEN, BOX, fill(GREY)
         ws.column_dimensions[L(c)].width = 19
         c += 1
@@ -385,7 +391,7 @@ def _t31(ws, mode):
             h = ws.cell(4, 2 + i)
             h.value, h.font, h.fill, h.alignment, h.border = lab, HDRF, fill(NAVY), CEN, BOX
             x = ws.cell(5, 2 + i)
-            x.value, x.font, x.number_format = v, Font(bold=True, size=15), f
+            x.value, x.font, x.number_format = v, Font(name=FN, bold=True, size=15), f
             x.alignment, x.border, x.fill = CEN, BOX, fill(GREY)
             ws.column_dimensions[L(2 + i)].width = 15
         ws.row_dimensions[5].height = 28
