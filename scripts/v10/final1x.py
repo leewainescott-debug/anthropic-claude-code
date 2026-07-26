@@ -117,51 +117,39 @@ def tidy(wb):
                     n_note += 1
 
         # ---- section bars take the darker navy, found by label ----
+        # Bars sit in column B and in column H. The column H ones carry theme colour 1,
+        # which is black, so they rendered as white text on a black bar while the column
+        # B ones were navy. Same tab, two bar colours.
         INPUTS = {"FFFFFF00", "FFFFF2CC"}
         n_bar = 0
         for row in ws.iter_rows():
-            c = ws.cell(row[0].row, 2)
-            if not (isinstance(c.value, str) and c.value.strip().startswith(BAR_LABELS)):
-                continue
-            if str(ws.cell(c.row, 3).value or "").strip():
-                continue                       # a header row, not a bar
-            c.fill = opts.fl(opts.BARC)
-            c.font = opts.BARF
-            for cc in range(3, 13):
-                x = ws.cell(c.row, cc)
-                fl = x.fill
-                rgb = str(fl.start_color.rgb or "").upper() \
-                    if fl and fl.patternType else ""
-                if rgb in INPUTS or x.value is not None:
-                    break
-                if not (fl and fl.patternType):
-                    break
-                x.fill = opts.fl(opts.BARC)
-            n_bar += 1
-
-        # ---- the orange reconciliation box joins the rest ----
-        for row in ws.iter_rows():
-            for c in row:
-                fl = c.fill
-                rgb = str(getattr(fl.start_color, "rgb", "") or "").upper() \
-                    if fl and fl.patternType else ""
-                if rgb in ("FFED7D31", "FFF4B183", "FFFCE4D6", "FFFFC000"):
-                    c.fill = opts.fl(opts.GREY)
-                    c.font = opts.BOLD
-
-        # ---- notes at the foot, in plain black, under everything ----
-        if notes:
-            last = max((c.row for row in ws.iter_rows() for c in row
-                        if c.value is not None), default=60)
-            r = last + 2
-            for t in notes:
-                ws.cell(r, 2).value = t
-                ws.cell(r, 2).font = opts.BODY
-                ws.cell(r, 2).alignment = Alignment(horizontal="left",
-                                                    vertical="center")
-                r += 1
+            r = row[0].row
+            for anchor in (2, 8):
+                c = ws.cell(r, anchor)
+                if not (isinstance(c.value, str)
+                        and c.value.strip().startswith(BAR_LABELS)):
+                    continue
+                if str(ws.cell(r, anchor + 1).value or "").strip():
+                    continue                   # a header row, not a bar
+                c.fill = opts.fl(opts.BARC)
+                c.font = opts.BARF
+                for cc in range(anchor + 1, anchor + 11):
+                    x = ws.cell(r, cc)
+                    fl = x.fill
+                    if not (fl and fl.patternType) or x.value is not None:
+                        break
+                    try:
+                        rgb = str(fl.start_color.rgb or "").upper()
+                    except Exception:
+                        rgb = ""
+                    if rgb in INPUTS:
+                        break
+                    x.fill = opts.fl(opts.BARC)
+                n_bar += 1
 
         # ---- header rows wrap, and get the height to show the wrap ----
+        # H, I, J and K each serve two tables, so no single width fits both. Wrap plus
+        # row height is what actually stops the truncation.
         n_hdr = 0
         for row in ws.iter_rows():
             r = row[0].row
@@ -169,9 +157,12 @@ def tidy(wb):
             for cc in range(2, 13):
                 x = ws.cell(r, cc)
                 fl = x.fill
-                if fl and fl.patternType and \
-                        str(fl.start_color.rgb or "").upper() == "FF1F4E79" \
-                        and isinstance(x.value, str) and x.value.strip():
+                try:
+                    rgb = str(fl.start_color.rgb or "").upper() \
+                        if fl and fl.patternType else ""
+                except Exception:
+                    rgb = ""
+                if rgb == "FF1F4E79" and isinstance(x.value, str) and x.value.strip():
                     navy += 1
             if navy >= 2:                       # a column-header row, not a bar
                 for cc in range(2, 13):
