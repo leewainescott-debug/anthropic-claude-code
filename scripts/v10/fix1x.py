@@ -237,6 +237,34 @@ NOTE_FIX = {
 }
 
 
+# the five strategic-programme notes are built by formula, so the text swaps have to reach
+# inside a formula string too - that is why "Set the agreed cost in the yellow cell" was
+# still on 1.1, 1.4, 1.5 and 1.6 after the recolour. The same five formulas also read
+# REVIEW rows 529 and 530, which are outside the 528-row window every other formula uses,
+# and grouped on column AP instead of AT, the grouping column the rest of the model joins on.
+IN_FORMULA = {"yellow cell": "cream cell",
+              "$AA$2:$AA$530": "$AA$2:$AA$528",
+              "$AP$2:$AP$530": "$AT$2:$AT$528"}
+
+
+def fix_formula_notes(wb):
+    n = 0
+    for ws in wb.worksheets:
+        for row in ws.iter_rows():
+            for c in row:
+                v = c.value
+                if not (isinstance(v, str) and v.startswith("=")):
+                    continue
+                new = v
+                for old, rep in IN_FORMULA.items():
+                    new = new.replace(old, rep)
+                if new != v:
+                    c.value = new
+                    n += 1
+    return [f"{n} formula-built notes corrected - the cream wording, the 528-row window "
+            f"and the AT grouping column"]
+
+
 def fix_notes(wb):
     n = 0
     for ws in wb.worksheets:
@@ -261,7 +289,7 @@ def run(src, dst, ledger="w1r.xlsx"):
     wv = openpyxl.load_workbook(src, data_only=True)
     lg = openpyxl.load_workbook(ledger, data_only=True)[REVIEW]
     out = (extend_lists(wb, lg) + offshore_line(wb) + collapse_shells(wb, wv)
-           + fix_notes(wb))
+           + fix_notes(wb) + fix_formula_notes(wb))
     wb.save(dst)
     return out
 
