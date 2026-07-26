@@ -7,17 +7,20 @@ two title styles, because three different scripts had written them over time).
 Layout, top to bottom:
 
     title
-    Squad summary          bar
-      header
-      one row per delivery squad
-      Delivery squads      subtotal
-    Overhead roles         bar + header + rows + subtotal   (absent on the COEs and EGI)
+    Squad summary          bar + header + squads the archetype prices + subtotal
+    No archetype           bar + header + directly funded programmes + subtotal
+    Overhead roles         bar + header + overhead lines + subtotal
     Total portfolio
     two control lines, both must read 0
     <Portfolio> FTE        bar
       header
       squad band carrying that squad's two totals
         one row per person, the lever the only yellow cell
+
+All three blocks appear on all fourteen tabs. Where a portfolio has nothing in a block the
+block carries one row reading "None" rather than being dropped, so the fourteen tabs are
+structurally identical and the absence is stated rather than left to be inferred - the COEs
+have no overhead by decision, and a reader should be able to see that on the tab.
 """
 import collections
 import copy
@@ -37,14 +40,18 @@ A3 = "'0.3 Squad Archetypes'"
 LAST = 528
 
 # ---- squad summary columns, B onwards ----
+# "Roles after decisions" replaced "Vacancies remaining", which counted vacancies set to
+# Hold and so read as though a cancelled vacancy were still outstanding. Roles after
+# decisions is roles less anything put On hold, which is what D20 promised: pull Hold and
+# the headcount moves, not just the cost.
 S = dict(squad=2, type=3, size=4, aroles=5, roles=6, filled=7, vacant=8, hire=9,
-         offshore=10, hold=11, remaining=12, acost=13, actual=14, var=15, after=16,
+         offshore=10, hold=11, rafter=12, acost=13, actual=14, var=15, after=16,
          newvar=17)
 S_HDR = ["Squad", "Archetype Type", "Size", "Archetype roles", "Roles", "Filled",
-         "Vacant", "To hire", "To offshore", "On hold", "Vacancies remaining",
+         "Vacant", "To hire", "To offshore", "On hold", "Roles after decisions",
          "Archetype cost ($m)", "Actual cost ($m)", "Variance to archetype ($m)",
          "Cost after vacancy decisions ($m)", "New variance ($m)"]
-S_W = [30, 26, 7, 11, 7, 7, 8, 8, 11, 8, 12, 13, 12, 14, 17, 14]
+S_W = [30, 26, 7, 11, 7, 7, 8, 8, 11, 8, 13, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
 P = dict(name=2, role=3, status=4, lever=5, cost=6, after=7)
@@ -81,6 +88,30 @@ def groups(rows):
     return delivery, overhead
 
 
+def has_archetype(wb, wv, design, squad):
+    """True when the squad appears in the design tab's squad table AND that row carries a
+    type and size the archetype library prices. Strategic programmes deliberately do not
+    (register item 21), and a squad missing from the design cannot either.
+
+    This partition matters: the old build put the archetype for SOME squads against the
+    actual for ALL of them in one subtotal, so the group read 11.49m over design when the
+    squads that actually have an archetype are 0.56m under it.
+    """
+    if design is None:
+        return False
+    lo, hi = squad_table_bounds(wb, design)
+    ws = wv[design]
+    keys = {str(wv["0.3 Squad Archetypes"].cell(r, 1).value or "").strip()
+            for r in range(5, 24)}
+    for r in range(lo, hi + 1):
+        if str(ws.cell(r, 2).value or "").strip() != squad:
+            continue
+        ty = str(ws.cell(r, 3).value or "").strip()
+        sz = str(ws.cell(r, 4).value or "").strip()
+        return f"{ty}|{sz}" in keys
+    return False
+
+
 def wipe(ws):
     blank = copy.copy(openpyxl.cell.cell.Cell(ws)._style)
     for m in list(ws.merged_cells.ranges):
@@ -105,30 +136,48 @@ def build(wb, wv, tab, rows, bounds):
     pf = rows[0]["pf"]
     delivery, overhead = groups(rows)
     lo, hi = bounds[design] if design else (0, 0)
+    # split the delivery squads by whether the archetype library actually prices them
+    arch = [g for g in delivery if has_archetype(wb, wv, design, g)]
+    noarch = [g for g in delivery if g not in arch]
     wipe(ws)
     ws.column_dimensions["A"].width = 2
 
     # ---- plan every row position first ----
+    # Every block gets at least one row. An empty block used to collapse to a subtotal
+    # whose SUM range ran backwards from the header - SUM(M7:M6), which Excel reads as
+    # SUM(M6:M7) and so includes the subtotal cell itself. That was a circular reference
+    # on all four COE tabs.
     HDR = 6
     r = HDR + 1
-    srow = {}
-    for g in delivery:
+    srow, empty = {}, set()
+    r_arch0 = r
+    for g in arch or ["-arch"]:
         srow[g] = r
         r += 1
+    if not arch:
+        empty.add("arch")
     r_del = r
-    r += 1
-    r_ohbar = r_ohhdr = r_oh = None
-    if overhead:
+    r += 2
+    r_nabar, r_nahdr = r, r + 1
+    r = r_nahdr + 1
+    r_na0 = r
+    for g in noarch or ["-noarch"]:
+        srow[g] = r
         r += 1
-        r_ohbar = r
-        r_ohhdr = r + 1
-        r = r_ohhdr + 1
-        for g in overhead:
-            srow[g] = r
-            r += 1
-        r_oh = r
+    if not noarch:
+        empty.add("noarch")
+    r_na = r
+    r += 2
+    r_ohbar, r_ohhdr = r, r + 1
+    r = r_ohhdr + 1
+    r_oh0 = r
+    for g in overhead or ["-oh"]:
+        srow[g] = r
         r += 1
-    r += 1
+    if not overhead:
+        empty.add("oh")
+    r_oh = r
+    r += 2
     r_tot = r
     r += 2
     r_ctl = r
@@ -151,7 +200,8 @@ def build(wb, wv, tab, rows, bounds):
     ws.cell(3, 2).font = opts.BOLD
     ws.cell(3, 3).value = pf
     ws.cell(3, 3).font = opts.BODY
-    opts.bar(ws, 4, 2, len(S_HDR), "Squad summary")
+    opts.bar(ws, 4, 2, len(S_HDR),
+             "Squads priced by an archetype - design against actual")
     opts.head(ws, HDR, 2, S_HDR, S_W)
     ws.row_dimensions[5].height = 6
 
@@ -206,7 +256,7 @@ def build(wb, wv, tab, rows, bounds):
                      ("hire", f'=COUNTIFS({st},"Vacant",{lev},"Hire")'),
                      ("offshore", f'=COUNTIFS({lev},"Offshore")'),
                      ("hold", f'=COUNTIFS({lev},"Hold")'),
-                     ("remaining", f'=COUNTIFS({st},"Vacant",{lev},"Hold")')):
+                     ("rafter", f'=${L(S["roles"])}{rw}-${L(S["hold"])}{rw}')):
             _m(ws, rw, S[k], f, opts.CT)
         _m(ws, rw, S["actual"],
            f"=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
@@ -214,17 +264,37 @@ def build(wb, wv, tab, rows, bounds):
         _m(ws, rw, S["after"],
            f"=SUM(${L(P['after'])}${a}:${L(P['after'])}${b})/1000000")
 
-    for g in delivery:
+    def none_row(rw, why):
+        """A block with nothing in it still gets a row, so the tab states the absence."""
+        ws.cell(rw, S["squad"]).value = "None"
+        ws.cell(rw, S["squad"]).font = opts.BODY
+        ws.cell(rw, S["squad"]).alignment = opts.LFT
+        ws.cell(rw, S["type"]).value = why
+        ws.cell(rw, S["type"]).font = opts.BODY
+        ws.cell(rw, S["type"]).alignment = opts.LFT
+        for k in ("size", "aroles", "roles", "filled", "vacant", "hire", "offshore",
+                  "hold", "rafter", "acost", "actual", "var", "after", "newvar"):
+            x = ws.cell(rw, S[k])
+            x.value = '="-"'
+            x.font, x.alignment = opts.BODY, opts.RGT
+
+    for g in arch + noarch:
         squad(srow[g], g, False)
     for g in overhead:
         squad(srow[g], g, True)
+    if "arch" in empty:
+        none_row(srow["-arch"], "No squad here is priced by an archetype")
+    if "noarch" in empty:
+        none_row(srow["-noarch"], "Every squad here is priced by an archetype")
+    if "oh" in empty:
+        none_row(srow["-oh"], "The COEs carry no overhead")
 
     def total(rw, label, r0, r1, bg, line=False):
         opts.row(ws, rw, 2, [label] + [None] * (len(S_HDR) - 1),
                  [None] * len(S_HDR), bg=bg, bold=True, top=line)
         ws.cell(rw, S["squad"]).alignment = opts.LFT
         for k in ("aroles", "roles", "filled", "vacant", "hire", "offshore", "hold",
-                  "remaining", "acost", "actual", "var", "after", "newvar"):
+                  "rafter", "acost", "actual", "var", "after", "newvar"):
             c = S[k]
             x = ws.cell(rw, c)
             x.value = f"=SUM({L(c)}{r0}:{L(c)}{r1})"
@@ -232,21 +302,24 @@ def build(wb, wv, tab, rows, bounds):
                                (opts.C1 if k == "aroles" else opts.CT))
             x.alignment = opts.RGT
 
-    total(r_del, "Delivery squads", HDR + 1, r_del - 1, opts.GREY)
-    if overhead:
-        opts.bar(ws, r_ohbar, 2, len(S_HDR), "Overhead roles")
-        opts.head(ws, r_ohhdr, 2, S_HDR, S_W)
-        total(r_oh, "Overhead roles total", r_ohhdr + 1, r_oh - 1, opts.GREY)
+    total(r_del, "Squads priced by an archetype", r_arch0, r_del - 1, opts.GREY)
+    opts.bar(ws, r_nabar, 2, len(S_HDR),
+             "Squads and programmes with no archetype - directly funded, the design does "
+             "not price them")
+    opts.head(ws, r_nahdr, 2, S_HDR, S_W)
+    total(r_na, "No archetype total", r_na0, r_na - 1, opts.GREY)
+    opts.bar(ws, r_ohbar, 2, len(S_HDR), "Overhead roles - against the allowance on 3.2")
+    opts.head(ws, r_ohhdr, 2, S_HDR, S_W)
+    total(r_oh, "Overhead roles total", r_oh0, r_oh - 1, opts.GREY)
 
     opts.row(ws, r_tot, 2, ["Total portfolio"] + [None] * (len(S_HDR) - 1),
              [None] * len(S_HDR), bg=opts.MID, bold=True, top=True)
     ws.cell(r_tot, S["squad"]).alignment = opts.LFT
     for k in ("aroles", "roles", "filled", "vacant", "hire", "offshore", "hold",
-              "remaining", "acost", "actual", "var", "after", "newvar"):
+              "rafter", "acost", "actual", "var", "after", "newvar"):
         c = S[k]
         x = ws.cell(r_tot, c)
-        x.value = (f"=N({L(c)}{r_del})+N({L(c)}{r_oh})" if overhead
-                   else f"=N({L(c)}{r_del})")
+        x.value = "=" + "+".join(f"N({L(c)}{p})" for p in (r_del, r_na, r_oh))
         x.number_format = (opts.M2 if c >= S["acost"] else
                            (opts.C1 if k == "aroles" else opts.CT))
         x.alignment = opts.RGT
@@ -300,8 +373,9 @@ def build(wb, wv, tab, rows, bounds):
 
     ws.freeze_panes = f"C{HDR + 1}"
     return {"tab": tab, "pf": pf, "total_row": r_tot, "delivery_row": r_del,
-            "overhead_row": r_oh, "header_row": HDR, "first_squad": HDR + 1,
-            "last_squad": r_del - 1, "squads": delivery, "overhead": overhead,
+            "noarch_row": r_na, "overhead_row": r_oh, "header_row": HDR,
+            "first_squad": r_arch0, "last_squad": r_del - 1,
+            "squads": arch, "noarch": noarch, "overhead": overhead,
             "srow": srow, "people": sum(len(v) for v in people.values()),
             "cols": S}
 
@@ -331,8 +405,8 @@ def run(src, dst):
             pf = next(p for p in bypf if p and tab.endswith(str(p)))
         a = build(wb, wv, tab, bypf[pf], bounds)
         anchors[tab] = a
-        out.append(f"{tab}: {len(a['squads'])} squads, {len(a['overhead'])} overhead, "
-                   f"{a['people']} people")
+        out.append(f"{tab}: {len(a['squads'])} archetyped, {len(a['noarch'])} no "
+                   f"archetype, {len(a['overhead'])} overhead, {a['people']} people")
     json.dump(anchors, open("anchors_final.json", "w"), indent=1)
     wb.save(dst)
     return out
