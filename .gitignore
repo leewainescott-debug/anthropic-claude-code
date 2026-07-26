@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+scripts/**/*.xlsx
+scripts/**/recalc_*/
+scripts/lohome/
+scripts/v10/anchors*.json
