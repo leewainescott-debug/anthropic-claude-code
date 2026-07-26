@@ -575,6 +575,53 @@ decisions, Squad cost after decisions.
 All fourteen 2.x tabs measure as a single structural profile - identical column widths,
 identical header text, identical section order.
 
+### D69. A figure that restates the actual is not a comparison.
+Owner, on the 2.x tabs: "we don't need the archetype cost of the strategic progs because they
+are just exactly the actual cost, that's all we need to put in there."
+
+He was right, and it was worse than a redundant column. The build forced `acost = actual` for
+every EGI programme and for every COE squad. That did three things:
+
+- printed rows whose archetype column was the actual written twice, with a variance of nil;
+- **threw away a real figure**: EGI Retail has 1.52 typed on 1.1, and the column showed the
+  actual 1.22 instead, hiding a 0.30 underspend the owner had set up himself;
+- padded every total above it. 3.1's "everything with a figure to compare" read 108.74
+  against 113.98 with 27.77 of COE and 4.01 of EGI on both sides of it, moving nothing.
+
+One rule now, everywhere: a figure goes in the archetype column only where something prices
+that cost independently of what it cost. Otherwise a dash. So a directly funded programme
+compares against the amount typed on its 1.x tab, and where that is blank or zero - five of
+the six EGI rows - there is nothing to compare it to and the column says so. The comparable
+subtotal is 77.25 against 82.19, and every dollar in it is on both sides.
+
+### D70. The overhead lines stay on the 2.x tabs. Asked, and answered.
+Owner: "what is the purpose of having separate overhead columns? is there a reason? ... it
+seems imbalanced if the overhead is not included in the archetype total and is only included
+in the actual total."
+
+They stay, because they are 43 real people costing $11.65m. The 2.x tabs are the layer that
+reconciles to the ledger; take those lines off and the portfolio total stops being what the
+portfolio costs, and the control at the foot of the tab fails by design. They are a separate
+block because no archetype prices them: an archetype sizes a squad, and a Head of Technology
+is not in a squad.
+
+The imbalance he saw was real, and it was mine. `SUM` over a block of dashes is 0, so the
+overhead subtotal printed **0.00** in the archetype column - reading as "an archetype priced
+these 43 people at nothing" - beside a real $1.12m of actual. Same on the two other blocks.
+A subtotal is now only a total where every row under it carries a figure; one row short and
+the archetype side is smaller than the actual side by construction, and it reads "-".
+
+Nothing on any 2.x tab now puts an archetype that covers part of a block against an actual
+that covers all of it. The like-for-like comparison is on "squads priced by an archetype",
+where it belongs.
+
+### D71. A check that hardcodes a row number is the bug it is meant to catch.
+Splitting 3.1's directly funded step moved its subtotal, and two checks on 4.0 broke with
+`#VALUE!` because they read `'3.1 Cost Bridge'!$D$27` by row number. Both are now built from
+the same anchors the tab is built from. One of them was also comparing three separately
+rounded variances against one difference rounded once, and reporting the $1 residual as a
+failure; both sides are now built off the same two cells.
+
 ### D62. Actual against archetype on the 1.x tabs, in two options.
 Asked for a row beside the squad detail showing actual cost against archetype, driven by
 formula off cost-after-decisions, on the squad tables and on the platform and portfolio

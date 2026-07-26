@@ -132,25 +132,58 @@ def build_31(wb, anchors):
         for i, k in enumerate(("roles", "filled", "vacant", "rafter")):
             f2._m(ws, rw, 8 + i, f"='{tab}'!${L(S[k])}${src}", opts.CT)
 
-    def sub(rw, text, r0, r1, blank=()):
+    def sub(rw, text, r0, r1, blank=(), rows=None):
         opts.row(ws, rw, 2, [text] + [None] * (len(H31) - 1), [None] * len(H31),
                  bg=opts.GREY, bold=True)
         ws.cell(rw, 2).alignment = opts.LFT
+        pick = rows if rows is not None else list(range(r0, r1 + 1))
         for c in range(FIRST, LASTC + 1):
             x = ws.cell(rw, c)
             # the variance on a total is actual less archetype, never the sum of the row
             # variances: a row with no archetype carries "-" in that column and drops out
             # of a SUM, so the directly funded subtotal read 0.13 against a real 1.44 and
             # the group read 5.07 against 6.38
-            x.value = ('="-"' if c in blank else
-                       f"=ROUND($E{rw}-$D{rw},6)" if c == 6
-                       else f"=SUM({L(c)}{r0}:{L(c)}{r1})")
+            if c in blank:
+                x.value = '="-"'
+            elif c == 6:
+                x.value = f'=IF(ISNUMBER($D{rw}),ROUND($E{rw}-$D{rw},6),"-")'
+            elif c == 4:
+                # the archetype side is a total only if every row under it has a figure.
+                # SUM over a block of dashes is 0, which would put a whole step's actual
+                # against an archetype of nothing and call the difference overspend.
+                cells = ",".join(f"$D{k}" for k in pick)
+                x.value = f'=IF(COUNT({cells})={len(pick)},SUM({cells}),"-")'
+            else:
+                x.value = "=" + "+".join(f"N({L(c)}{k})" for k in pick)
             x.number_format, x.alignment = NUM[c], opts.RGT
 
     def label(rw, text):
         opts.row(ws, rw, 2, [text] + [None] * (len(H31) - 1), [None] * len(H31),
                  bg=opts.PALE, bold=True)
         ws.cell(rw, 2).alignment = opts.LFT
+
+    def split(rw, text, r0, r1, priced):
+        """One half of a block: the rows that carry a figure to compare, or the rest.
+
+        Both halves are driven off ISNUMBER of the archetype column rather than off a list
+        worked out at build time, so the split follows the workbook. Set a funded figure on
+        a 1.x tab and that programme moves up a line on its own.
+        """
+        opts.row(ws, rw, 2, [text] + [None] * (len(H31) - 1), [None] * len(H31),
+                 bg=opts.GREY, bold=True)
+        ws.cell(rw, 2).alignment = opts.LFT
+        pick = f"--{'' if priced else 'NOT('}ISNUMBER($D{r0}:$D{r1}){'' if priced else ')'}"
+        for c in range(FIRST, LASTC + 1):
+            x = ws.cell(rw, c)
+            if c == 4:
+                x.value = (f'=IF(COUNT($D{r0}:$D{r1})=0,"-",SUM($D{r0}:$D{r1}))'
+                           if priced else '="-"')
+            elif c == 6:
+                x.value = (f'=IF(ISNUMBER($D{rw}),ROUND($E{rw}-$D{rw},6),"-")'
+                           if priced else '="-"')
+            else:
+                x.value = f"=SUMPRODUCT({pick},{L(c)}{r0}:{L(c)}{r1})"
+            x.number_format, x.alignment = NUM[c], opts.RGT
 
     # ---- step 1: the squads an archetype prices, one line per portfolio ----
     label(r, "Squads priced by an archetype - detail on 3.3")
@@ -174,19 +207,33 @@ def build_31(wb, anchors):
             line(r, g, pf, tab, a["srow"][g],
                  f"='{tab}'!${L(S['acost'])}${a['srow'][g]}")
             r += 1
-    sub(r, "Directly funded programmes and platforms", st, r - 1)
+    en = r - 1
+    # Two subtotals, not one. Some of these programmes have a funded figure set against
+    # them on the 1.x tab and some do not, and a single subtotal put an archetype side
+    # covering two of eight rows against an actual side covering all eight - the imbalance
+    # the owner picked up on the 2.x overhead lines, one level up. The split is by formula,
+    # so a figure typed into a 1.x tab tomorrow moves its programme to the top line by
+    # itself.
+    split(r, "Directly funded, where the funded figure is set", st, en, True)
     s2 = r
+    r += 1
+    split(r, "Directly funded, where no funded figure is set yet", st, en, False)
+    s2c = r
     r += 1
 
     # ---- step 4: the COEs and EGI ----
-    label(r, "COEs and EGI - priced off the planned spend on their own 1.x tabs")
+    # No figure prices these independently of what they cost. The column used to read the
+    # planned spend off their own 1.x tabs, and planned spend is the same SUMIFS over the
+    # ledger that the actual column is - EGI read the identical cell on both sides. Four
+    # lines of 27.77 against 27.77 padded the comparable total by a quarter of the group
+    # and moved nothing. The comparison is a dash and the step sits below the line.
+    label(r, "COEs and EGI - nothing prices these apart from what they cost")
     r += 1
     st = r
     for pf, tab, a in coes:
-        line(r, pf, pf, tab, a["total_row"],
-             COE_DESIGN.get(pf, f"='{tab}'!${L(S['actual'])}${a['total_row']}"))
+        line(r, pf, pf, tab, a["total_row"], '="-"')
         r += 1
-    sub(r, "COEs and EGI", st, r - 1)
+    sub(r, "COEs and EGI", st, r - 1, blank=(4, 6))
     s3 = r
     r += 1
 
@@ -211,13 +258,18 @@ def build_31(wb, anchors):
         ws.cell(r, c).font = opts.BOLD
     s4 = r
     r += 1
+    # Only the steps whose archetype side covers the whole of their own actual side. The
+    # COEs came out because their figure was the actual restated, and the directly funded
+    # programmes with no funded figure came out for the same reason. Adding a step whose
+    # archetype is a dash counts it as zero on one side and in full on the other, which is
+    # the difference between a variance and a subtraction.
     opts.row(ws, r, 2, ["Everything with a figure to compare"] + [None] * (len(H31) - 1),
              [None] * len(H31), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
     for c in range(FIRST, LASTC + 1):
         x = ws.cell(r, c)
         x.value = (f"=ROUND($E{r}-$D{r},6)" if c == 6
-                   else "=" + "+".join(f"N({L(c)}{p})" for p in (s1, s2, s3, s4)))
+                   else "=" + "+".join(f"N({L(c)}{p})" for p in (s1, s2, s4)))
         x.number_format, x.alignment = NUM[c], opts.RGT
     cmp_row = r
     r += 1
@@ -247,8 +299,13 @@ def build_31(wb, anchors):
     ws.cell(r, 2).alignment = opts.LFT
     for c in range(FIRST, LASTC + 1):
         x = ws.cell(r, c)
-        x.value = ('="-"' if c == 6
-                   else "=" + "+".join(f"N({L(c)}{p})" for p in (s1, s2, s2b, s3, s4)))
+        # the archetype column is a dash here too, not just the variance. It prices three
+        # of the six steps above, so a figure on this row reads as the archetype cost of
+        # all 525 roles when it is the archetype cost of about two thirds of them. The
+        # cross-foot belongs on the comparable subtotal, which is where it is.
+        x.value = ('="-"' if c in (4, 6)
+                   else "=" + "+".join(f"N({L(c)}{p})"
+                                       for p in (s1, s2, s2c, s2b, s3, s4)))
         x.number_format, x.alignment = NUM[c], opts.RGT
     gt = r
     r += 1
@@ -271,7 +328,7 @@ def build_31(wb, anchors):
     ws.cell(r, 2).alignment = opts.LFT
     for c in range(FIRST, LASTC + 1):
         x = ws.cell(r, c)
-        x.value = ('="-"' if c == 6 else f"={L(c)}{gt}+{L(c)}{gm}")
+        x.value = ('="-"' if c in (4, 6) else f"=N({L(c)}{gt})+N({L(c)}{gm})")
         x.number_format, x.alignment = NUM[c], opts.RGT
     grand = r
     r += 2
@@ -286,7 +343,8 @@ def build_31(wb, anchors):
         f2._m(ws, r, col, f, nf)
         r += 1
     return {"total": gt, "grand": grand, "gm": gm, "arch": s1, "direct": s2,
-            "nofig": s2b, "coe": s3, "overhead": s4, "comparable": cmp_row}
+            "direct_unpriced": s2c, "nofig": s2b, "coe": s3, "overhead": s4,
+            "comparable": cmp_row}
 
 
 # 3.2 was "Total Cost" and restated 3.1's four subtotals in a second table. It gave a

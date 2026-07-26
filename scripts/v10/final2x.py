@@ -250,14 +250,15 @@ def build(wb, wv, tab, rows, bounds):
                     x.value = '="-"'
                     x.alignment = opts.RGT
             else:
-                # a COE squad has no archetype and no per-squad design row. Its design is
-                # what its own roles cost, which is how the owner asked the COEs to be
-                # compared, so the variance is nil by construction and says so.
-                _m(ws, rw, S["acost"], f'=${L(S["actual"])}{rw}')
-                _m(ws, rw, S["var"],
-                   f'=ROUND(${L(S["actual"])}{rw}-${L(S["acost"])}{rw},6)')
-                _m(ws, rw, S["newvar"],
-                   f'=ROUND(${L(S["after"])}{rw}-${L(S["acost"])}{rw},6)')
+                # A COE squad has no archetype and nothing else prices it either. The
+                # column used to carry "=actual", which made every COE row show a variance
+                # of exactly nil - not a comparison, the same number written twice. A
+                # figure that is the actual restated tells the reader nothing and inflates
+                # both sides of every total above it, so it is a dash.
+                for k in ("acost", "var", "newvar"):
+                    x = ws.cell(rw, S[k])
+                    x.value = '="-"'
+                    x.alignment = opts.RGT
         else:
             key = f'${L(S["type"])}{rw}&"|"&${L(S["size"])}{rw}'
             m = f"MATCH(${L(S['squad'])}{rw},'{design}'!$B${lo}:$B${hi},0)"
@@ -277,19 +278,24 @@ def build(wb, wv, tab, rows, bounds):
                    f"INDEX({A3}!$H$5:$H$23,MATCH({key},{A3}!$A$5:$A$23,0)),"
                    f'INDEX({A3}!$G$5:$G$23,MATCH({key},{A3}!$A$5:$A$23,0))),"-")')
             else:
-                # Directly funded. No archetype prices it - the owner's instruction is
-                # that strategic programmes are directly funded and do not fit one - so
-                # the design figure is the amount typed against the programme on its own
-                # platform block, column H of the design tab. EGI is the exception: the
-                # owner ruled EGI is actuals, and four of the six EGI inputs are typed
-                # zero or left blank, so pricing off them would report the whole of EGI
-                # as overspend against nothing.
+                # Directly funded. No archetype prices a strategic programme - the owner's
+                # instruction - so the figure to compare against is the amount he typed on
+                # its own platform block, column H of the 1.x tab.
+                #
+                # EGI used to be forced to "=actual" here. That did two things wrong. It
+                # printed six rows whose funded column was the actual written twice, with a
+                # variance of nil, which is what the owner picked up. And on EGI Retail it
+                # threw away a real figure: 1.52 is typed on 1.1 and the column showed the
+                # actual 1.22 instead, hiding a 0.30 underspend he had set up himself.
+                #
+                # The rule is now the same for every directly funded row. Where a funded
+                # figure is set, compare against it. Where it is blank or zero - five of the
+                # six EGI rows - there is nothing to compare against and the column says so,
+                # rather than manufacturing a comparison out of the actual.
                 _m(ws, rw, S["aroles"], '="-"', opts.C1)
-                if g.startswith("EGI"):
-                    _m(ws, rw, S["acost"], f'=${L(S["actual"])}{rw}')
-                else:
-                    _m(ws, rw, S["acost"],
-                       f"=IFERROR(INDEX('{design}'!$H${lo}:$H${hi},{m}),\"-\")")
+                idx = f"INDEX('{design}'!$H${lo}:$H${hi},{m})"
+                _m(ws, rw, S["acost"],
+                   f'=IFERROR(IF(N({idx})=0,"-",{idx}),"-")')
             # rounded, or a squad priced exactly at its archetype shows (0.00) on a
             # residual of a few billionths
             _m(ws, rw, S["var"],
@@ -353,12 +359,20 @@ def build(wb, wv, tab, rows, bounds):
             # directly funded subtotal on six of the fourteen tabs.
             # and where the block has no archetype at all - the overhead lines - the
             # variance is a dash, not the whole cost measured against zero
-            if k == "var":
-                x.value = (f'=IF(N(${L(S["acost"])}{rw})=0,"-",'
-                           f"ROUND(${L(S['actual'])}{rw}-${L(S['acost'])}{rw},6))")
+            if k == "acost":
+                # SUM over a block of dashes is 0, and the overhead subtotal printed 0.00
+                # as though an archetype had priced 43 people at nothing. It is only a
+                # total if every row in the block has a figure; one row short and the
+                # archetype side is smaller than the actual side by construction, which is
+                # the imbalance the owner picked up.
+                x.value = (f'=IF(COUNT({L(c)}{r0}:{L(c)}{r1})={r1 - r0 + 1},'
+                           f'SUM({L(c)}{r0}:{L(c)}{r1}),"-")')
+            elif k == "var":
+                x.value = (f'=IF(ISNUMBER(${L(S["acost"])}{rw}),'
+                           f"ROUND(${L(S['actual'])}{rw}-${L(S['acost'])}{rw},6),\"-\")")
             elif k == "newvar":
-                x.value = (f'=IF(N(${L(S["acost"])}{rw})=0,"-",'
-                           f"ROUND(${L(S['after'])}{rw}-${L(S['acost'])}{rw},6))")
+                x.value = (f'=IF(ISNUMBER(${L(S["acost"])}{rw}),'
+                           f"ROUND(${L(S['after'])}{rw}-${L(S['acost'])}{rw},6),\"-\")")
             else:
                 x.value = f"=SUM({L(c)}{r0}:{L(c)}{r1})"
             x.number_format = (opts.M2 if c >= S["acost"] else

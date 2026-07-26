@@ -267,9 +267,15 @@ def build_qa(wb, a, a2):
         ("Total including the GM layer against the ledger plus the GM input ($m)",
          f"={G1}!${C31['actual']}${a['grand']}",
          f"=SUM({REV}!$AA$2:$AA${LAST})/1000000+N(Lists!$AG$12)", opts.M2),
-        ("Archetype variance - the four steps against the comparable subtotal ($m)",
-         "=" + "+".join(f"N({G1}!${C31['var']}${a[k]})"
-                        for k in ("arch", "direct", "coe", "overhead")),
+        ("Archetype variance - the comparable steps against the comparable subtotal ($m)",
+         # the COEs came out of the comparable subtotal when their archetype column stopped
+         # restating the actual, so they come out of the check that reconciles to it.
+         # Built off each step's own two cells rather than off its rounded variance: three
+         # figures rounded to six places and then added differ from one difference rounded
+         # once, and the check was reporting that $1 as a failure.
+         "=ROUND(" + "+".join(
+             f"(N({G1}!${C31['actual']}${a[k]})-N({G1}!${C31['acost']}${a[k]}))"
+             for k in ("arch", "direct", "overhead")) + ",6)",
          f"={G1}!${C31['var']}${a['comparable']}", opts.M2),
         ("Roles including the GM layer against 525 plus the GM count",
          f"={G1}!${C31['roles']}${a['grand']}",
@@ -282,7 +288,7 @@ def build_qa(wb, a, a2):
         ("Directly funded amount, squad by squad on 3.3, against 3.1 ($m)",
          f"=SUMIFS({G3}!${C33['acost']}${lo33}:${C33['acost']}${hi33},"
          f'{G3}!${C33["kind"]}${lo33}:${C33["kind"]}${hi33},"Directly funded")',
-         f"={G1}!${C31['acost']}${a['direct']}+{G1}!${C31['acost']}${a['coe']}", opts.M2),
+         f"={G1}!${C31['acost']}${a['direct']}", opts.M2),
         ("Archetype roles on 3.3 against the priced-per-portfolio list on Lists",
          f"=SUMIFS({G3}!${C33['aroles']}${lo33}:${C33['aroles']}${hi33},"
          f'{G3}!${C33["kind"]}${lo33}:${C33["kind"]}${hi33},"Archetype")',

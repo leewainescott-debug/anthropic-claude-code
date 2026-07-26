@@ -121,27 +121,35 @@ column says so rather than measuring a cost against a zero.
 |---|---|---|---|---|
 | Squads priced by an archetype, one line per portfolio | 64.20 | 63.98 | (0.22) | 316 |
 | AmPOS | 1.40 | 2.12 | 0.71 | 10 |
-| EGI Retail | 1.22 | 1.22 | - | 6 |
-| EGI TDD (Ampol Retail) | 0.30 | 0.30 | - | 1 |
-| EGI Customer | 2.21 | 2.21 | - | 10 |
-| EGI TDD (TDD Group Functions) | 1.02 | 1.02 | - | 4 |
-| EGI P&C | 0.24 | 0.24 | - | 1 |
-| EGI Finance | 0.24 | 0.24 | - | 1 |
+| EGI Retail | 1.52 | 1.22 | (0.30) | 6 |
+| EGI TDD (Ampol Retail) | - | 0.30 | - | 1 |
+| EGI Customer | - | 2.21 | - | 10 |
+| EGI TDD (TDD Group Functions) | - | 1.02 | - | 4 |
+| EGI P&C | - | 0.24 | - | 1 |
+| EGI Finance | - | 0.24 | - | 1 |
 | CTRM | 3.80 | 3.22 | (0.58) | 14 |
-| **Directly funded programmes and platforms** | **10.44** | **10.57** | **0.13** | **47** |
-| COEs and EGI, off their own 1.x tabs | 27.77 | 27.77 | - | 113 |
+| **Directly funded, where the funded figure is set** | **6.72** | **6.56** | **(0.17)** | **30** |
+| **Directly funded, where no funded figure is set yet** | **-** | **4.01** | **-** | **17** |
+| COE Cyber, COE BP&T, COE SA&D, EGI | - | 27.77 | - | 113 |
+| **COEs and EGI** | **-** | **27.77** | **-** | **113** |
 | Overhead roles in the portfolios, against the allowance | 6.33 | 11.65 | 5.33 | 43 |
-| **Everything with a figure to compare** | **108.74** | **113.98** | **5.24** | **519** |
+| **Everything with a figure to compare** | **77.25** | **82.19** | **4.94** | **389** |
 | Leadership (Customer) | - | 1.05 | - | 5 |
 | Leadership (Infrastructure) | - | 0.26 | - | 1 |
 | **Groups with no archetype and no funded figure** | **-** | **1.30** | **-** | **6** |
-| **Cost of the 525 roles in the ledger** | **108.74** | **115.28** | **-** | **525** |
+| **Cost of the 525 roles in the ledger** | **-** | **115.28** | **-** | **525** |
 | Leadership - the 8 GMs, outside the ledger | 3.00 | 5.10 | 2.10 | 8 |
-| **Total cost of TDD including the GM layer** | **111.74** | **120.38** | **-** | **533** |
+| **Total cost of TDD including the GM layer** | **-** | **120.38** | **-** | **533** |
 
-The ledger total and the grand total carry no variance. Their archetype column prices four of
-the five steps above them and their actual column covers all five, so no single figure on
-either row could be true; the comparable subtotal is the row that can carry one.
+Only three steps carry an archetype figure that prices the whole of their own actual, and
+those three are what the comparable subtotal adds. The ledger total and the grand total carry
+neither an archetype nor a variance: the archetype column prices about two thirds of the
+ledger, so a figure on either row would read as the archetype cost of all 525 roles when it
+is not.
+
+Six of the eight directly funded programmes have no funded figure set against them on their
+1.x tab, so there is nothing to compare them to and the column says so. Set one and that
+programme moves to the line above by itself - the split is a formula, not a list.
 
 Of the $115.11m, $86.58m is people in seat and $28.53m is 135 vacancies nobody has been
 hired into yet. Both are on 3.2 and on Exec, so the headline is not read as payroll.

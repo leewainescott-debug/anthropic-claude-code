@@ -117,35 +117,52 @@ def run(path, anchors="anchors_final.json"):
               for g in v["direct"] + v["squads"] + v["nofig"] + v["overhead"])
     ncoe = sum(roles[(v["pf"], g)] for v in a.values() if v["pf"] in COE
                for g in v["direct"] + v["squads"] + v["nofig"] + v["overhead"])
-    for lab, c, n in (("Squads priced by an archetype", arch, narch),
-                      ("Directly funded programmes and platforms", direct, ndir),
-                      ("COEs and EGI", coe, ncoe),
-                      ("Groups with no archetype and no funded figure", nofig, nnof),
-                      ("Overhead roles in the portfolios", ohcost["pf"], ohroles["pf"])):
-        r = find(ws, lab)
-        if r is None:
-            out.append(f"3.1 has no row {lab!r}")
+    # the directly funded step is two subtotals, split by whether a funded figure is set,
+    # so its actual cost is the pair added
+    DIRECT = ("Directly funded, where the funded figure is set",
+              "Directly funded, where no funded figure is set yet")
+    for labs, c, n in ((("Squads priced by an archetype",), arch, narch),
+                       (DIRECT, direct, ndir),
+                       (("COEs and EGI",), coe, ncoe),
+                       (("Groups with no archetype and no funded figure",), nofig, nnof),
+                       (("Overhead roles in the portfolios",), ohcost["pf"],
+                        ohroles["pf"])):
+        rs = [find(ws, x) for x in labs]
+        if any(x is None for x in rs):
+            out.append(f"3.1 has no row {labs!r}")
             continue
-        check(out, f"3.1 {lab} cost", ws.cell(r, ca).value, c / 1e6)
-        check(out, f"3.1 {lab} roles", ws.cell(r, cr).value, n, True)
+        name = labs[0]
+        check(out, f"3.1 {name} cost",
+              round(sum(ws.cell(x, ca).value or 0 for x in rs), 9), round(c / 1e6, 9))
+        check(out, f"3.1 {name} roles", sum(ws.cell(x, cr).value or 0 for x in rs), n, True)
     total = sum(cost.values())
     r = find(ws, "Cost of the 525 roles in the ledger")
     check(out, "3.1 ledger cost", ws.cell(r, ca).value, total / 1e6)
     check(out, "3.1 ledger roles", ws.cell(r, cr).value, sum(roles.values()), True)
-    # the archetype side of the bridge is a design figure, so it is checked for internal
-    # consistency: the four steps must add to the ledger line
+    # The archetype side is a design figure, so it is checked for internal consistency:
+    # the steps that carry one must add to the comparable subtotal. It used to be checked
+    # against the ledger line, which only worked while every step had an archetype - and
+    # three of them only had one because the column was restating the actual.
     steps = [find(ws, x) for x in
              ("Squads priced by an archetype",
-              "Directly funded programmes and platforms",
-              "Groups with no archetype and no funded figure", "COEs and EGI",
+              "Directly funded, where the funded figure is set",
               "Overhead roles in the portfolios - the allowance is on 3.2")]
-    steps = [x for x in steps if x]
-    # the no-figure step carries "-" in the archetype column, so only the numeric steps add
-    check(out, "3.1 archetype steps add to the ledger line",
-          round(sum(v for v in (ws.cell(x, cc).value for x in steps)
-                    if isinstance(v, (int, float))), 6),
-          round(ws.cell(r, cc).value, 6) if isinstance(ws.cell(r, cc).value, (int, float))
-          else None)
+    cmp_row = find(ws, "Everything with a figure to compare")
+    if None in steps or cmp_row is None:
+        out.append("3.1 is missing one of the comparable steps")
+    else:
+        for col, what in ((cc, "archetype"), (ca, "actual")):
+            check(out, f"3.1 comparable steps add up - {what}",
+                  round(sum(v for v in (ws.cell(x, col).value for x in steps)
+                            if isinstance(v, (int, float))), 6),
+                  round(ws.cell(cmp_row, col).value, 6))
+    # nothing that prices only part of the ledger may print a total on the ledger row
+    for lab in ("Cost of the 525 roles in the ledger",
+                "Total cost of TDD including the GM layer"):
+        k = find(ws, lab)
+        if isinstance(ws.cell(k, cc).value, (int, float)):
+            out.append(f"3.1 {lab!r} states an archetype cost of "
+                       f"{ws.cell(k, cc).value!r} over steps that are not all priced")
     gm = wv["Lists"]["AG12"].value
     g = find(ws, "Total cost of TDD including the GM layer")
     check(out, "3.1 grand total", ws.cell(g, ca).value, total / 1e6 + gm)
