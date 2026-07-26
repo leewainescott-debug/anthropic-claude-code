@@ -170,6 +170,7 @@ Every design squad now has people in it. The three that did not are gone.
 | Overhead allowance basis | The allowance prices half a Head of Technology per portfolio (0.1375 of 0.275) and 30% of a Delivery or Technology Manager per platform, against 43 whole heads costing $11.65m. The variance is labelled "not covered by the allowance" rather than overspend, but the basis itself is a judgement only Lee can confirm. | Lee to confirm |
 | The 8 GMs | $5.1m, no role in REVIEW, so they sit above the 525-role ledger. Stated as a line on 3.2 against a $3.0m allowance; not added into the group total, because the ledger is the source of truth. | Lee to confirm |
 | Frozen panes | Register item 70 asks for them on every long table, item 94 records that they were all removed. Applied consistently on every table over 25 rows. One line to reverse. | Lee to pick |
+| Cyber vacancy count | Sheet2 says 52 roles / 10 vacant, REVIEW says 46 / 4, and Lee's own comment on `1.13!E7` says 8 vacant. Six vacancies worth about $1.02m are in Sheet2 and not in REVIEW. No QA pass can see this: they all test against REVIEW. | Lee to settle |
 | Bridge tab | One page walking archetype cost to actual cost, line by line. Explained; not yet built. | Lee to say yes or no |
 
 ## 9. How to work on this

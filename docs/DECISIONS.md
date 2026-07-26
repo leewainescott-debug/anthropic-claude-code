@@ -475,6 +475,37 @@ Owner's instruction. Every column, header, tile, check name and block label that
 tabs are still where the archetype is priced; the word just does not appear as a
 measurement.
 
+### D53. A total that ignores the line above it.
+`1.11!C15` "Total Business Partnering budget ($m)" was `=C14`, so `C13` - the $2.20m of
+Business Partner cost funded out of portfolio overheads, sitting on the line directly above
+it - fed nothing in the workbook. "Left to fund" read **2.400562** against a real
+**0.200562**. Same shape on 1.12: the $1.40m of Domain Architect funding was unused and
+left-to-fund read 2.529494 against 1.129494. Register item 44 asks for portfolio funding
+plus both allocations. Nothing outside the two tabs reads those cells, so the fix is
+contained - the COE figure 3.1 reads is planned spend, not budget.
+
+### D54. The banned Category columns survived as defined names.
+`BPTCat`, `SADCat` and `CYBCat` still pointed at `Lists!E2:G4`. No formula used them and no
+COE tab has a Category column, so no number was ever affected - but the columns the owner
+ruled out were still in the file and would have reappeared in any dropdown built off a
+name. Names deleted, cells cleared.
+
+### D55. Cyber is six roles short of Sheet2 and this one is not mine to close.
+`Sheet2`'s "Cyber, Risk & Operations" division has **52 roles, 10 of them vacant**. REVIEW's
+COE Cyber has **46 roles, 4 vacant**, and 1.13 reports 46 and 4 because it reads REVIEW
+correctly. The six missing are all vacancies: a Cyber Architect backfill, two Operations
+Analysts, two Data Risk Analysts and a second Tech Support Technician, about $1.02m.
+
+`1.13!E7` carries the owner's own threaded comment - *"This is incorrect there are a total
+of 8 vacant roles"* - against a cell reading 4. So Sheet2 says 10, the owner says 8, REVIEW
+says 4, and no two of the three agree.
+
+**Why no QA pass catches it:** every check in the toolchain tests the model against REVIEW,
+because REVIEW is the source of truth by instruction 18. A question about whether REVIEW
+itself is complete is outside what any of them can see, by construction. Adding six roles
+would move the $115,113,262.27 the owner has anchored on, so it is his call, not a build
+decision.
+
 ### D52c. An empty-looking block is not always an empty block.
 1.5's EGI P&C block was collapsed as a shell because its funded input is blank. The squad is
 real and carries a role in the ledger; the blank is an input the owner has not set. Restored
