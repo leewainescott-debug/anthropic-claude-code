@@ -598,18 +598,24 @@ standing between his data and the workbook:
 Eleven of his twelve squads now match to the decimal and the portfolio total ties at 82.4
 FTE. The twelfth is the open question in D77.
 
-### D77. Open: the eight overhead roles inside Customer's squads.
+### D77. The eight overhead roles keep their own lines. Lee, asked and answered.
 His list has `Leadership` at 12.0 FTE and `Z Loyalty & Martech` at 12.6. The workbook reads
-5.0 and 11.6, because eight roles whose titles make them overhead - two Heads of Technology,
-two Delivery Managers, four Technology Managers - are lifted out of their squads onto their
-own lines so they can be measured against the allowance.
+5.0 and 11.6, because eight roles whose titles make them overhead are lifted out of those
+squads onto their own lines so they can be measured against the allowance:
 
-The two instructions genuinely conflict. His list wants every person shown in the squad his
-column K puts them in; his instruction of the previous round wants the overhead FTE and
-allowance stated per portfolio, which needs them on their own lines. The portfolio total is
-82.4 FTE either way - this is only about which line each of the eight sits on. Put to him
-rather than guessed, because it changes the shape of all fourteen working tabs and the whole
-allowance comparison.
+| Overhead line | FTE | Comes out of |
+|---|---|---|
+| Head of Technology | 2.0 | Leadership |
+| Delivery Manager | 2.0 | Leadership 1.0, Z Loyalty & Martech 1.0 |
+| Technology Manager | 4.0 | Leadership |
+
+So Leadership 12.0 = 5.0 on its own line plus 7.0 across the three; Z Loyalty & Martech
+12.6 = 11.6 plus the 1.0 Delivery Manager. The portfolio total is 82.4 FTE either way.
+
+This was the one place his list and his previous instruction pointed different ways, so it
+was put to him rather than guessed. He chose the overhead lines. The named people behind each
+line are in the FTE block at the foot of the same tab, so the 12.0 can be traced back by
+hand.
 
 ### D74. The archetype prices overhead, and the working tabs were ignoring it.
 Owner: "taking energy solutions & b2b as an example, we have 7.9m as the total cost for the
