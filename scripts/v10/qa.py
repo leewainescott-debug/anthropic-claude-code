@@ -124,6 +124,17 @@ def check_sum_ranges(wf, wv):
     return bad
 
 
+def blocks_of(cells, gap=2):
+    """Split a column's populated cells into tables, on a run of empty rows between them."""
+    out, run = [], []
+    for c in sorted(cells, key=lambda x: x.row):
+        if run and c.row - run[-1].row > gap:
+            out.append(run)
+            run = []
+        run.append(c)
+    return out + ([run] if run else [])
+
+
 def check_hardcoded(wf, wv):
     """Numbers typed into a column whose other rows are formulas - a stale literal."""
     bad = []
@@ -142,9 +153,16 @@ def check_hardcoded(wf, wv):
                     continue
                 bycol[c.column_letter].append(c)
         for col, cells in bycol.items():
-            fs = [c for c in cells if isinstance(c.value, str) and c.value.startswith("=")]
-            ns = [c for c in cells if isinstance(c.value, (int, float))]
-            if len(fs) >= 3 and ns:
+            # per block, not per column. A stale literal is a typed number sitting among
+            # formulas in the same table; a table fifteen rows further down the same column
+            # is a different table, and judging them together reported the owner's own
+            # Published Roles figures on 1.6 as stale the moment a new table used column L.
+            for cells in blocks_of(cells):
+                fs = [c for c in cells
+                      if isinstance(c.value, str) and c.value.startswith("=")]
+                ns = [c for c in cells if isinstance(c.value, (int, float))]
+                if len(fs) < 3 or not ns:
+                    continue
                 for c in ns:
                     # a shaded cell is a declared input, not a stale literal. Two shades
                     # are in use across the file and both are treated as declared here;
@@ -154,7 +172,7 @@ def check_hardcoded(wf, wv):
                             str(fill.start_color.rgb or "").upper() in INPUT_FILLS:
                         continue
                     bad.append((sn, c.coordinate, f"literal {c.value} in a formula column",
-                                f"{len(fs)} formulas in col {col}"))
+                                f"{len(fs)} formulas around it in col {col}"))
     return bad
 
 

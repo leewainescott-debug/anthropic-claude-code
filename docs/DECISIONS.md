@@ -575,6 +575,84 @@ decisions, Squad cost after decisions.
 All fourteen 2.x tabs measure as a single structural profile - identical column widths,
 identical header text, identical section order.
 
+### D62. Actual against archetype on the 1.x tabs, in two options.
+Asked for a row beside the squad detail showing actual cost against archetype, driven by
+formula off cost-after-decisions, on the squad tables and on the platform and portfolio
+tables, as two workbooks with a different design each.
+
+Both are built from the shipped file by `scripts/v10/chainAB.sh` and differ only in
+placement. Option A appends two columns to every squad table and platform total. Option B
+leaves every existing table exactly as it is and adds one table at the foot of each tab.
+Neither changes a single existing formula, and neither changes a single column width.
+
+### D63. A variance needs two figures on the same basis, at every level.
+EGI P&C on 1.5 has no archetype - its size is a blank input the owner has not set - so
+`actual - archetype` read its whole $0.24m as an overspend against nothing. The same shape
+that produced D58 twice already, one level further down.
+
+Three rules now, applied to every row of both options:
+- a squad row states a variance only when both sides are figures, otherwise a dash;
+- a platform total states one only when an archetype prices every squad in the block, so a
+  block that is short a squad on the archetype side cannot report the gap as overspend;
+- the portfolio block splits "squads priced by an archetype" from "squads with no archetype
+  to price them" rather than adding them, which is exactly what 3.1 does.
+
+On nine of ten tabs the second line does not appear at all, because there is nothing on it.
+
+### D64. Nothing on the shipped tabs may be lost, and the checker has to prove it.
+Option A first appended its two columns at a fixed K and L. The squad tables are not all the
+same width: 1.4, 1.5 and 1.6 carry five more columns the owner added - Nbr Archetype Roles,
+Published Roles, Review Outcome, Vacant Now, FY27 - and on 1.6 the first two of those were
+silently replaced. Every one of the six QA passes stayed green. They hold typed numbers, so
+nothing recalculated, no total moved and no check could see it.
+
+The columns are now placed per tab, in the first adjacent pair that is empty on every row
+the writer touches - K and L on nine tabs, P and Q on 1.6, after the owner's own columns.
+A seventh pass compares every cell of the shipped workbook against the variant, formula and
+cached value, and nothing may be lost.
+
+### D65. Widening a table pushes the notes beside it along, and says so.
+The owner's free-floating notes sit to the right of the squad tables - "Fully funded by
+CTRM", "People in this program today cost 0.24m. Set the agreed cost in the cream cell." -
+and run across the empty columns beside them. Two new columns in that space truncate them
+to the first few words without touching a cell.
+
+Placing the columns beyond the widest note instead left eleven blank columns between a table
+and its own figures on three tabs, which is worse. So eight notes move along their own row to
+the far side of the new columns, verbatim, and each move is listed in the build log and
+reported by the QA pass as a move rather than folded into "unchanged". The first attempt at
+this carried six table headers out of their own tables, because it walked left from the new
+column and took whatever it found; it now only moves a cell that is past that block's own
+last header column.
+
+### D66. A checker must not inherit the writer's assumptions.
+The first version of the 1.x QA pass found squad rows with the same block-walking code the
+writer used, so a table the writer never saw would have been invisible to both. It now finds
+its columns by reading the header text - which is how it survived the columns moving from K
+to P on 1.6 - and finds its rows by matching against the group names on the working tab.
+
+Three of its own bugs were found and fixed this way: it read the tab title on 1.5 as a squad
+row, because the portfolio and one of its squads are both called P&C; it skipped every row of
+option B, because those rows carry a B:C merge and the title filter keyed on merges; and it
+compared a cached note string against a row of formulas and reported a moved note as lost.
+
+### D67. The stale-literal check is scoped to a block, not a column.
+`qa.py` flagged the owner's own Published Roles figures on 1.6 the moment option B put nine
+formulas in the same column, forty rows below. A stale literal is a typed number sitting
+among formulas in the same table; a table fifteen rows further down is a different table.
+The check now splits a column into blocks on a run of empty rows. Confirmed still live by
+planting a literal inside option B's own formula column and watching it fire.
+
+### D68. The COE tabs say why they carry no comparison.
+1.11, 1.12 and 1.13 are the only 1.x tabs with no actual-against-archetype figure. They are
+COEs, funded by allocation, and no archetype prices them. Their summaries group by department
+- Business Partnering is Commercial plus TDD Business Partner - while the working tabs group
+by squad, so the split cannot be taken from either tab without inventing a mapping, and
+inventing one would put a figure in front of the owner that nothing supports.
+
+Each carries one line under its summary saying so and pointing at 3.4 COE Detail and the
+working tab. A silent gap on three of thirteen tabs reads as an oversight.
+
 ### D53. A total that ignores the line above it.
 `1.11!C15` "Total Business Partnering budget ($m)" was `=C14`, so `C13` - the $2.20m of
 Business Partner cost funded out of portfolio overheads, sitting on the line directly above

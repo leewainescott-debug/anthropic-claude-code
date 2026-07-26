@@ -207,15 +207,43 @@ Every design squad now has people in it. The three that did not are gone.
 |---|---|---|
 | Overhead allowance basis | The allowance prices half a Head of Technology per portfolio (0.1375 of 0.275) and 30% of a Delivery or Technology Manager per platform, against 43 whole heads costing $11.65m. The variance is labelled "not covered by the allowance" rather than overspend, but the basis itself is a judgement only Lee can confirm. | Lee to confirm |
 | Cyber vacancies | `1.13!E7` carries your comment "there are a total of 8 vacant roles" against a cell reading 4. REVIEW has 4. If 8 is right, four vacancies are missing from REVIEW and the fix belongs there. | Lee to settle |
-| 1.5 EGI P&C funded amount | `1.5!H32` is a blank cream input, so that platform prices at zero while the squad's one role costs $0.24m. | Lee to set |
+| 1.5 EGI P&C funded amount | `1.5!H32` is a blank cream input, so that platform prices at zero while the squad's one role costs $0.24m. Until it is set, both option workbooks state that squad's variance as a dash and hold its $0.24m on a separate "squads with no archetype to price them" line rather than adding it to a comparison it is not part of. | Lee to set |
+| Which option ships | Option A or Option B, or a mix - inline on the tabs read most, consolidated on the rest. | Lee to pick |
 | Frozen panes | Register item 70 asks for them on every long table, item 94 records that they were all removed. Applied consistently on every table over 25 rows. One line to reverse. | Lee to pick |
 | Bridge tab | One page walking archetype cost to actual cost, line by line. Explained; not yet built. | Lee to say yes or no |
 
-## 9. The five QA passes
+## 8a. Actual against archetype on the 1.x tabs - two options
 
-`scripts/v10/qaall.sh` runs all five against a built workbook. They are deliberately
-different in what they can see, because four of them passed while two variance bugs were
-live - both were internally consistent additions of the wrong things.
+Two workbooks, same figures, same ledger, different placement. Both are built from the
+shipped `TDD_Cost_Calc.xlsx` by `scripts/v10/chainAB.sh`, so they differ only in the design.
+
+| | Option A - `TDD_Cost_Calc_Option_A.xlsx` | Option B - `TDD_Cost_Calc_Option_B.xlsx` |
+|---|---|---|
+| Where the comparison sits | two columns appended to every squad table and every platform total | one "Archetype against actual" table at the foot of each tab |
+| Existing tables | widened by two columns | untouched |
+| Reading a single squad | on the row you are already on | scroll to the foot |
+| Reading the tab as a whole | six separate blocks | one table, every squad, platform subtotals |
+
+Both end each tab with the same portfolio block: squads an archetype prices, squads it does
+not, overhead roles, anything on the working tab with no row on this tab, the total, and a
+control that must read 0. All ten controls read 0 in both workbooks.
+
+Every figure is `=INDEX(...MATCH(...))` into the working tab's cost-after-decisions column,
+matched on the squad name, so pulling a lever moves the 1.x tab. Proved by test rather than
+asserted: a $176,565 filled role set to Hold moves that squad's figure by exactly that
+amount and moves no other squad.
+
+1.11, 1.12 and 1.13 carry no comparison and say why. They are COEs, funded by allocation, and
+no archetype prices them; their groupings are by department while the working tab groups by
+squad, so the split cannot be taken from either tab without inventing a mapping.
+
+## 9. The seven QA passes
+
+`scripts/v10/qaall.sh` runs the five standing passes against a built workbook, and
+`scripts/v10/qa1x.py` adds two more for the 1.x comparison. They are deliberately different
+in what they can see, because four of them passed while two variance bugs were live - both
+were internally consistent additions of the wrong things - and six of them passed while two
+of the owner's own columns had been overwritten on 1.6.
 
 | Pass | What it can see |
 |---|---|
@@ -225,6 +253,8 @@ live - both were internally consistent additions of the wrong things.
 | `verify.py` | layout: truncated headers measured against their own column width, bars against the table under them, role coverage, banned words |
 | `recompute.py` | every figure a reader sees, rebuilt from REVIEW in Python. Knows nothing about the workbook's formulas |
 | lever test | a vacancy set to Hold, the workbook recalculated, and cost and headcount checked all the way through |
+| `qa1x.py` figures | every new 1.x figure rebuilt from the ledger, columns found by reading header text so the checker cannot inherit the writer's placement, plus its own lever test |
+| `qa1x.py` untouched | every cell of the shipped workbook, formula and value, against the variant. Nothing may be lost; a note that moves along its own row is reported as a move, not folded into "unchanged" |
 
 ## 10. How to work on this
 
