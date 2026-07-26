@@ -120,7 +120,7 @@ def tidy(wb):
         # Bars sit in column B and in column H. The column H ones carry theme colour 1,
         # which is black, so they rendered as white text on a black bar while the column
         # B ones were navy. Same tab, two bar colours.
-        INPUTS = {"FFFFFF00", "FFFFF2CC"}
+        INPUTS = {"FFFFFF00", "FFFFF2CC"}   # both, until the recolour above has run
         n_bar = 0
         for row in ws.iter_rows():
             r = row[0].row
@@ -146,6 +146,20 @@ def tidy(wb):
                         break
                     x.fill = opts.fl(opts.BARC)
                 n_bar += 1
+
+        # ---- one input colour: cream ----
+        n_in = 0
+        for row in ws.iter_rows():
+            for c in row:
+                fl = c.fill
+                try:
+                    rgb = str(fl.start_color.rgb or "").upper() \
+                        if fl and fl.patternType else ""
+                except Exception:
+                    rgb = ""
+                if rgb == "FFFFFF00":
+                    c.fill = opts.fl("FFFFF2CC")
+                    n_in += 1
 
         # ---- header rows wrap, and get the height to show the wrap ----
         # H, I, J and K each serve two tables, so no single width fits both. Wrap plus
@@ -186,8 +200,8 @@ def tidy(wb):
                         x.font = opts.BOLD
 
         ws.sheet_view.showGridLines = False
-        out.append(f"{tab}: {n_lab} labels, {n_bar} bars, {n_hdr} headers wrapped, "
-                   f"{n_red} red cells, {n_note} notes removed")
+        out.append(f"{tab}: {n_lab} labels, {n_bar} bars, {n_in} inputs to cream, "
+                   f"{n_hdr} headers wrapped, {n_red} red, {n_note} notes removed")
     return out
 
 

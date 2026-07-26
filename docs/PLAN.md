@@ -5,8 +5,8 @@ Companion file: `docs/DECISIONS.md` (what was decided and why).
 The original 101-item brief is `docs/INSTRUCTION_REGISTER.md` and still stands except
 where superseded below.
 
-Last updated: after the cost-after-decisions fix. QA is at zero findings on all eight
-checks and the workbook is ready to review.
+Last updated: after the 2A / 3D rebuild. Four QA passes clean, 37 of 37 live checks
+zero, lever proven end to end.
 
 ---
 
@@ -81,6 +81,12 @@ banned list. Still live except where superseded below.
 | 25 | Do not bring me things I did not ask for. | Standing |
 | 26 | Plain English, in the workbook and in chat. | Standing |
 | 27 | Keep a plan file and a decisions file, updated as we go. | This file and `DECISIONS.md` |
+| 28 | Leave the 1.x tabs as they are. Tidy the formatting, language and logic only. | Done |
+| 29 | Forget budget. Compare full actual cost to archetype. | Done |
+| 30 | Archetype cost must include the COEs so the comparison is comparable. | Done |
+| 31 | The COEs and EGI are actuals. | Done |
+| 32 | Inputs are cream, not bright yellow. | Done |
+| 33 | Layout: 2A on the working tabs, 3D on the summaries. | Done |
 
 ## 5. Where the model stands
 

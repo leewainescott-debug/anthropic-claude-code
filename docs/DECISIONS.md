@@ -95,6 +95,26 @@ in a yellow cell in column AU with a note beside it rather than being buried as 
 
 **To overturn:** clear `REVIEW!AU172` and he prices from his components like everyone else.
 
+### D10a. The COEs and EGI are actuals. Lee.
+They have no squad archetype. Their design cost is the planned spend on their own 1.x tab,
+which is built from the real roles: 1.11 gives 6.400562, 1.12 gives 6.529494, 1.13 gives
+9.897858, each equal to its actual. EGI is actuals too. So all four read a nil variance,
+and that is the honest statement rather than a gap invented to fill a column.
+
+Two earlier attempts at this line were wrong and are recorded so they are not repeated:
+
+- **3.4's "budget to draw down" as the design.** 12.00 against 27.77 actual, presented as
+  the COEs being 15.77m over design. That is the budget comparison Lee had just ruled out,
+  wearing a different word. There is no COE archetype for it to be a variance against.
+- **EGI priced off the strategic-programme inputs.** 1.52 against 4.94, reported as a
+  3.42m gap. Those inputs are not a design for EGI.
+
+### D10b. One input colour: cream. Lee.
+`FFFFF2CC`. The file had bright yellow and cream both meaning "typed input", side by side
+on the same tabs. Every input in the live model is now cream. Bright yellow remains only on
+the retired raw-data tabs - `Squads`, `Added data`, `Sheet2` - which are not part of the
+model and carry Lee's own marks.
+
 ### D11. Cost is stated gross everywhere. Build, to end a contradiction you flagged.
 The same $3.6m used to appear gross on 3.1 and 3.2 and net on 3.4, 0.2, 1.11 and 1.12,
 with notes on 1.11 and 1.12 claiming net while their formulas were gross.
@@ -212,6 +232,24 @@ AS design squad name, AT grouping column, AU agreed cost override.
 ---
 
 ## E. Summaries and reconciliation
+
+### D23a. No budget on the summaries. Lee.
+"Forget budget because you're confused on the split." "No point using the budget."
+
+3.1, 3.2 and 3.3 compare **design cost to actual cost**, full cost both sides. No budget
+column anywhere on them.
+
+**Why it had to go.** I had put the 0.2 allocation against full actual cost - 50.5 against
+115.11 - which can only ever read massively over, because 36.01m of the design is
+explicitly funded outside TDD and the actual has no TDD/outside split at all. Lee's
+words: "How is that relevant. They will always be over budget?"
+
+The file also holds three different figures that all get called the budget, which is why
+this went round twice. For Ampol Retail: 5.50 (the 0.2 allocation), 11.58 (the amount that
+can be allocated to people, summed across every funding line on 1.1) and 33.80 (the full
+budget including non-people). Against 14.01 of actual cost the variance is +8.51, +2.42 or
+-19.79 depending which you pick. Dropping budget from the summaries removes the ambiguity
+rather than resolving it; the funding tables on the 1.x tabs still carry all three.
 
 ### D24. One sign convention. Build, at your instruction.
 **Variance = actual minus budget. Positive means over.** Everywhere.

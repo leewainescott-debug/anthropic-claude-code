@@ -36,20 +36,16 @@ COE_ORDER = ["COE Cyber", "COE BP&T", "COE SA&D", "EGI"]
 COE_DESIGN = {"COE BP&T": "='1.11 BP&T'!$F$6+'1.11 BP&T'!$F$7",
               "COE SA&D": "='1.12 SA&D'!$G$6+'1.12 SA&D'!$G$7",
               "COE Cyber": "='1.13 Cyber Roles'!$F$6+'1.13 Cyber Roles'!$F$7"}
-# EGI has no COE tab. Its design sits in the strategic-programme rows on the portfolio
-# design tabs, where the total cost is a yellow input the owner sets. Those inputs
-# currently total 1.52m against 4.94m of real people, which is register item 61 and is
-# the owner's number to set, not mine to invent.
-EGI_DESIGN_CELLS = [("1.1 Ampol Retail", 66), ("1.2 Customer", 54),
-                    ("1.4 TDD Group Functions", 30), ("1.6 Finance", 33)]
+# EGI is actuals. Like the three COEs, its design is what its real roles cost, so the
+# variance is nil. An earlier version pointed it at the strategic-programme inputs on the
+# portfolio tabs (1.52 against 4.94 actual) and reported a 3.42 gap, which was not a
+# design gap at all.
 
 
-def coe_design_ref(pf):
+def coe_design_ref(pf, tab=None, row=None):
     if pf in COE_DESIGN:
         return COE_DESIGN[pf]
-    if pf == "EGI":
-        return "=" + "+".join(f"N('{t}'!$H${r})" for t, r in EGI_DESIGN_CELLS)
-    return "=0"
+    return f"='{tab}'!${L(S['actual'])}${row}"
 
 
 def order(anchors):
@@ -89,7 +85,7 @@ def build_31(wb, anchors):
             act = f"'{tab}'!${L(S['actual'])}${d if squad_only else t}"
             aft = f"'{tab}'!${L(S['after'])}${d if squad_only else t}"
             des = (f"='{tab}'!${L(S['acost'])}${d}" if squad_only
-                   else coe_design_ref(pf))
+                   else coe_design_ref(pf, tab, t))
             f2._m(ws, r, 3, des)
             f2._m(ws, r, 4, f"={act}")
             f2._m(ws, r, 5, f"=$D{r}-$C{r}")

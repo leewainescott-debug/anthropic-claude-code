@@ -256,6 +256,33 @@ def build_qa(wb, a, a2):
     return len(checks)
 
 
+# The retired raw-data tabs keep whatever marks the owner put on them. Everything in the
+# live model uses one input colour.
+RETIRED = {"Squads", "Added data", "Sheet2", "FY26 Budget (superseded)",
+           "squad mapping (superseded)"}
+
+
+def cream(wb):
+    """One input colour across the live model. The file had bright yellow and cream both
+    meaning 'typed input', side by side on the same tabs."""
+    n = 0
+    for ws in wb.worksheets:
+        if ws.title in RETIRED:
+            continue
+        for row in ws.iter_rows():
+            for c in row:
+                fl = c.fill
+                try:
+                    rgb = str(fl.start_color.rgb or "").upper() \
+                        if fl and fl.patternType else ""
+                except Exception:
+                    rgb = ""
+                if rgb == "FFFFFF00":
+                    c.fill = opts.fl("FFFFF2CC")
+                    n += 1
+    return n
+
+
 def run(src, dst):
     wb = openpyxl.load_workbook(src)
     a = anchors(wb)
@@ -263,8 +290,10 @@ def run(src, dst):
     n = repoint(wb, a)
     build_exec(wb, a)
     k = build_qa(wb, a, a2)
+    nc = cream(wb)
     wb.save(dst)
     return [f"{n} formulas repointed at the rebuilt 3.x rows",
+            f"{nc} inputs recoloured to cream across the live model",
             "Exec Summary rebuilt on design against actual, with a portfolio drill-down",
             f"4.0 Data QA rebuilt: {k} checks, model / expected / difference",
             f"anchors: 3.1 total r{a['g31']}, 3.2 total r{a['g32']}, "

@@ -1,0 +1,4 @@
+                    pf_after     pf_actual      pf_roles  pf_remaining     g31_after    g31_actual     g32_after     g33_after   exec_impact
+Hire                  6.4184        6.4184            28             0      115.1133      115.1133      115.1133      115.1133             0
+Hold                  6.2156        6.4184            28             1      114.9104      115.1133      114.9104      114.9104       -0.2029
+Offshore              6.2967        6.4184            28             0      114.9916      115.1133      114.9916      114.9916       -0.1217

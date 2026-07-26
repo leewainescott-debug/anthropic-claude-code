@@ -19,8 +19,10 @@ SRC = os.path.join(SP, "base.xlsx")
 REVIEW = "REVIEW - Complete Role Mapping"
 
 FN = "Calibri"
+# one input colour: cream. The file had bright yellow and cream both meaning
+# "typed input", side by side on the same tabs.
 BARC, NAVY, PALE, GREY, MID, YEL = ("FF002F6C", "FF1F4E79", "FFDDEBF7",
-                                    "FFF2F2F2", "FFD9D9D9", "FFFFFF00")
+                                    "FFF2F2F2", "FFD9D9D9", "FFFFF2CC")
 thin = Side(style="thin", color="FFBFBFBF")
 BOX = Border(left=thin, right=thin, top=thin, bottom=thin)
 TOPR = Border(top=Side(style="medium", color=BARC), left=thin, right=thin, bottom=thin)
