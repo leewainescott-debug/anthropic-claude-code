@@ -10,7 +10,8 @@ python3 final35.py w4.xlsx w5.xlsx
 python3 fix1x.py w5.xlsx w6.xlsx w1r.xlsx
 python3 fixcoe.py w6.xlsx w6a.xlsx
 python3 purge.py w6a.xlsx w6b.xlsx
-python3 polish.py w6b.xlsx w7.xlsx w1r.xlsx
+python3 polish.py w6b.xlsx w7a.xlsx w1r.xlsx
+python3 finish.py w7a.xlsx w7.xlsx
 python3 -c "
 import wbio
 rc,st=wbio.build('w7.xlsx','cand.xlsx'); print('  injected',st)

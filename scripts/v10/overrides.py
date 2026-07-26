@@ -31,6 +31,25 @@ N = 11                                  # override window runs Lists!$AN$2:$AN$1
 
 NEW = [(136, None, "Ampol Web", None)]
 
+# A filled role priced at zero. REVIEW row 491, Nidhi Aggarwal, Snr Engineer - Boomi, NZ,
+# FTE 1.0, status Filled. Column T carries her local base of 150,000 but U is empty, and the
+# cost formula prices off U, so she counted in the 525 headcount and contributed nothing to
+# the total. She is the only role in the ledger with T populated and U empty, and no check in
+# the workbook could see it: all fifty-six reconcile TO the ledger, and a zero inside the
+# ledger reconciles perfectly.
+#
+# The figure is derived from her own cohort, not invented. Every one of the thirteen other NZ
+# roles in TDD Group Functions prices the same way: U = T x 0.92, then STI 0.15, pensions
+# 0.05, CPI 0.03, no payroll component. 150,000 x 0.92 x 1.23 = 169,740. It goes in the
+# cost-override column the formula already honours, so her raw columns stay untouched.
+COST = {491: (169740.0,
+              "Priced from her local base of 150,000 at the 0.92 rate her cohort uses, "
+              "then STI 0.15, pensions 0.05, CPI 0.03 - the pattern all thirteen other NZ "
+              "roles in this portfolio use. Column U was blank, so the formula read zero.")}
+# build scaffolding and stray input colour left in the ledger
+CLEAR_NOTES = [(191, 29), (491, 29)]
+LABELS = {"AS1": "Squad name on the 1.x tab"}
+
 PORTFOLIOS = ["Ampol Retail", "Customer", "Enterprise Data", "TDD Group Functions",
               "P&C", "Finance", "Infrastructure", "Energy Solutions & B2B",
               "Commercial Fuels", "Z Retail"]
@@ -157,6 +176,19 @@ def run(src, dst):
             R.cell(r, col).value = f
         n += 1
     out.append(f"REVIEW AJ / AR / AT rebuilt on {n} rows")
+
+    # ---- a filled role priced at zero, and the scaffolding around it ----
+    for row, (cost, why) in COST.items():
+        R.cell(row, 47).value = cost                     # AU, the cost override
+        R.cell(row, 47).number_format = '#,##0'
+        R.cell(row, 48).value = why                      # AV, its provenance
+        R.cell(row, 48).font = opts.BODY
+        out.append(f"REVIEW row {row}: cost override {cost:,.0f} - {why[:48]}...")
+    for row, col in CLEAR_NOTES:
+        R.cell(row, col).value = None
+    for ref, val in LABELS.items():
+        R[ref].value = val
+    out.append("REVIEW: build notes removed, AS1 relabelled")
 
     # ---- the allowance stops counting rows on a summary tab ----
     fixed = 0

@@ -23,7 +23,7 @@ through to the group.
 ## 2. The one rule everything else follows
 
 **`REVIEW - Complete Role Mapping` is the only source of truth.** 525 roles,
-$115,113,262.27, 390 filled, 135 vacant.
+$115,283,002.27, 390 filled, 135 vacant.
 
 Nothing overrides it. Where the design tabs disagreed with REVIEW on a squad name, the
 design tab was renamed - never the reverse. Where a role needs re-assigning, that sits in
@@ -102,6 +102,7 @@ banned list. Still live except where superseded below.
 | 43 | 3.2 Total Cost gave nothing. Delete it, replace it. | Done - it is Overhead & Leadership |
 | 44 | The word "seat" is never used. | Done |
 | 45 | The 2.x overheads belong in the table up top, not in a second table below. | Done - one table, one header |
+| 46 | Do not give me something that is not right. | Standing |
 
 ## 5. How the cost is compared
 
@@ -113,25 +114,34 @@ over an archetype that prices two thirds of the roles.
 prices and walks, one named line at a time, to what TDD actually costs. Every directly
 funded programme is on the page by name.
 
+Every variance on the page is like for like. Where there is nothing to compare against, the
+column says so rather than measuring a cost against a zero.
+
 | Step | Archetype / funded | Actual | Variance | Roles |
 |---|---|---|---|---|
-| Squads priced by an archetype, one line per portfolio | 64.20 | 63.81 | (0.39) | 316 |
+| Squads priced by an archetype, one line per portfolio | 64.20 | 63.98 | (0.22) | 316 |
 | AmPOS | 1.40 | 2.12 | 0.71 | 10 |
 | EGI Retail | 1.22 | 1.22 | - | 6 |
 | EGI TDD (Ampol Retail) | 0.30 | 0.30 | - | 1 |
 | EGI Customer | 2.21 | 2.21 | - | 10 |
-| Leadership (Customer) | - | 1.05 | - | 5 |
 | EGI TDD (TDD Group Functions) | 1.02 | 1.02 | - | 4 |
 | EGI P&C | 0.24 | 0.24 | - | 1 |
 | EGI Finance | 0.24 | 0.24 | - | 1 |
-| Leadership (Infrastructure) | - | 0.26 | - | 1 |
 | CTRM | 3.80 | 3.22 | (0.58) | 14 |
-| **Directly funded programmes and platforms** | **10.44** | **11.88** | **1.44** | **53** |
+| **Directly funded programmes and platforms** | **10.44** | **10.57** | **0.13** | **47** |
 | COEs and EGI, off their own 1.x tabs | 27.77 | 27.77 | - | 113 |
 | Overhead roles in the portfolios, against the allowance | 6.33 | 11.65 | 5.33 | 43 |
-| **Cost of the 525 roles in the ledger** | **108.74** | **115.11** | **6.38** | **525** |
+| **Everything with a figure to compare** | **108.74** | **113.98** | **5.24** | **519** |
+| Leadership (Customer) | - | 1.05 | - | 5 |
+| Leadership (Infrastructure) | - | 0.26 | - | 1 |
+| **Groups with no archetype and no funded figure** | **-** | **1.30** | **-** | **6** |
+| **Cost of the 525 roles in the ledger** | **108.74** | **115.28** | **-** | **525** |
 | Leadership - the 8 GMs, outside the ledger | 3.00 | 5.10 | 2.10 | 8 |
-| **Total cost of TDD including the GM layer** | **111.74** | **120.21** | **8.48** | **533** |
+| **Total cost of TDD including the GM layer** | **111.74** | **120.38** | **-** | **533** |
+
+The ledger total and the grand total carry no variance. Their archetype column prices four of
+the five steps above them and their actual column covers all five, so no single figure on
+either row could be true; the comparable subtotal is the row that can carry one.
 
 Of the $115.11m, $86.58m is people in seat and $28.53m is 135 vacancies nobody has been
 hired into yet. Both are on 3.2 and on Exec, so the headline is not read as payroll.
@@ -146,7 +156,7 @@ carries the one line that reconciles the block to 3.1.
 
 | Check | Result |
 |---|---|
-| Ledger | 525 roles, $115,113,262.27 |
+| Ledger | 525 roles, $115,283,002.27 |
 | On a 2.x tab | 525, none twice, none missing |
 | 3.1 / 3.2 / 3.3 / 3.4 / Exec | all tie to the ledger |
 | Every control row | 0 |

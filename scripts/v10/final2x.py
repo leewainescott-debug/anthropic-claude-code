@@ -55,10 +55,15 @@ S_HDR = ["Squad", "Archetype Type", "Squad Size", "Archetype roles", "Total role
          "New variance ($m)"]
 SECTION = {"arch": "Squads priced by an archetype",
            "direct": "Directly funded programmes and platforms",
+           "none": "Groups with no archetype and no funded figure",
            "oh": "Overhead roles"}
-NONE_TEXT = {"arch": "No squad here is priced by an archetype",
-             "direct": "No directly funded programme here",
-             "oh": "The COEs carry no overhead"}
+# the label goes in the Squad column, not the Archetype Type column - a sentence in a data
+# column is still a sentence in a data column
+NONE_TEXT = {"arch": "None - no squad here is priced by an archetype",
+             "direct": "None - no directly funded programme here",
+             "none": "None - every group here has a figure to compare",
+             "oh": "None - the COEs carry no overhead"}
+KINDS = ("arch", "direct", "none", "oh")
 S_W = [30, 26, 11, 11, 9, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
@@ -120,6 +125,16 @@ def has_archetype(wb, wv, design, squad):
     return False
 
 
+def in_design(wb, wv, design, squad):
+    """True when the design tab's squad table has a row for this squad."""
+    if design is None:
+        return False
+    lo, hi = squad_table_bounds(wb, design)
+    ws = wv[design]
+    return any(str(ws.cell(r, 2).value or "").strip() == squad
+               for r in range(lo, hi + 1))
+
+
 def wipe(ws):
     blank = copy.copy(openpyxl.cell.cell.Cell(ws)._style)
     for m in list(ws.merged_cells.ranges):
@@ -146,7 +161,14 @@ def build(wb, wv, tab, rows, bounds):
     lo, hi = bounds[design] if design else (0, 0)
     # split the delivery squads by whether the archetype library actually prices them
     arch = [g for g in delivery if has_archetype(wb, wv, design, g)]
-    direct = [g for g in delivery if g not in arch]
+    rest = [g for g in delivery if g not in arch]
+    # a directly funded programme has an amount typed against it on the design tab, or is
+    # EGI (priced at actual on the owner's ruling), or sits on a COE tab where the planned
+    # spend is the comparison. Anything else - the two Leadership groups - has no figure to
+    # compare at all, and mixing it in made the subtotal charge 1.30 of cost against nothing.
+    direct = [g for g in rest
+              if design is None or g.startswith("EGI") or in_design(wb, wv, design, g)]
+    nofig = [g for g in rest if g not in direct]
     wipe(ws)
     ws.column_dimensions["A"].width = 2
 
@@ -158,7 +180,8 @@ def build(wb, wv, tab, rows, bounds):
     HDR = 6
     r = HDR + 1
     srow, empty, label, sub = {}, set(), {}, {}
-    for kind, names in (("arch", arch), ("direct", direct), ("oh", overhead)):
+    for kind, names in (("arch", arch), ("direct", direct), ("none", nofig),
+                        ("oh", overhead)):
         label[kind] = r
         r += 1
         if names:
@@ -312,6 +335,8 @@ def build(wb, wv, tab, rows, bounds):
         squad(srow[g], g, "arch")
     for g in direct:
         squad(srow[g], g, "direct")
+    for g in nofig:
+        squad(srow[g], g, "direct")
     for g in overhead:
         squad(srow[g], g, "oh")
 
@@ -340,7 +365,7 @@ def build(wb, wv, tab, rows, bounds):
                                (opts.C1 if k == "aroles" else opts.CT))
             x.alignment = opts.RGT
 
-    for kind in ("arch", "direct", "oh"):
+    for kind in KINDS:
         opts.row(ws, label[kind], 2, [SECTION[kind]] + [None] * (len(S_HDR) - 1),
                  [None] * len(S_HDR), bg=opts.PALE, bold=True)
         ws.cell(label[kind], 2).alignment = opts.LFT
@@ -360,12 +385,15 @@ def build(wb, wv, tab, rows, bounds):
         # variances, not actual less archetype: the archetype column only prices the first
         # block, so actual-less-archetype at portfolio level would charge the overhead cost
         # against a squad archetype. Each block variance is already on one basis.
-        if k in ("var", "newvar"):
-            x.value = "=" + "+".join(f"N({L(c)}{sub[kk]})"
-                                     for kk in ("arch", "direct", "oh"))
-        else:
-            x.value = "=" + "+".join(f"N({L(c)}{sub[kk]})"
-                                     for kk in ("arch", "direct", "oh"))
+        # The portfolio total states no comparison. Its archetype column prices two of the
+        # four sections and its actual covers all four, so no single variance on that row can
+        # be true - it read (0.06) on 2.1 beside two cells whose own difference was +1.20.
+        # The comparison belongs on the section subtotals, where both sides are on one basis.
+        if k in ("acost", "var", "newvar"):
+            x.value = '="-"'
+            x.number_format, x.alignment = opts.M2, opts.RGT
+            continue
+        x.value = "=" + "+".join(f"N({L(c)}{sub[kk]})" for kk in KINDS)
         x.number_format = (opts.M2 if c >= S["acost"] else
                            (opts.C1 if k == "aroles" else opts.CT))
         x.alignment = opts.RGT
@@ -421,9 +449,10 @@ def build(wb, wv, tab, rows, bounds):
 
     # no frozen panes anywhere in this workbook - owner's instruction
     return {"tab": tab, "pf": pf, "total_row": r_tot, "delivery_row": sub["arch"],
-            "direct_row": sub["direct"], "overhead_row": sub["oh"], "header_row": HDR,
+            "direct_row": sub["direct"], "nofig_row": sub["none"],
+            "overhead_row": sub["oh"], "header_row": HDR,
             "first_squad": label["arch"] + 1, "last_squad": sub["arch"] - 1,
-            "squads": arch, "direct": direct, "overhead": overhead,
+            "squads": arch, "direct": direct, "nofig": nofig, "overhead": overhead,
             "srow": srow, "people": sum(len(v) for v in people.values()),
             "cols": S}
 
@@ -454,7 +483,8 @@ def run(src, dst):
         a = build(wb, wv, tab, bypf[pf], bounds)
         anchors[tab] = a
         out.append(f"{tab}: {len(a['squads'])} archetyped, {len(a['direct'])} directly "
-                   f"funded, {len(a['overhead'])} overhead, {a['people']} people")
+                   f"funded, {len(a['nofig'])} with no figure, {len(a['overhead'])} "
+                   f"overhead, {a['people']} people")
     json.dump(anchors, open("anchors_final.json", "w"), indent=1)
     wb.save(dst)
     return out

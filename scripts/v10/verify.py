@@ -233,9 +233,9 @@ def lever(path):
     detail = next(t for t in wb.sheetnames if t.startswith("3.3 "))
     LEDGER = "Cost of the 525 roles in the ledger"
     PROBE = [
-        (bridge, LEDGER, "Squad cost after decisions ($m)", "cost after decisions",
+        (bridge, LEDGER, "Cost after decisions ($m)", "cost after decisions",
          -cost / 1000000),
-        (detail, "Group total", "Squad cost after decisions ($m)",
+        (detail, "Group total", "Cost after decisions ($m)",
          "cost after decisions", -cost / 1000000),
         ("Exec Summary", "Cost after the decisions set today ($m)", None,
          "cost after decisions", -cost / 1000000),

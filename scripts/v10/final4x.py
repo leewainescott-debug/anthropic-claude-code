@@ -51,7 +51,7 @@ def anchors(wb):
     s2, s3 = wb[G2.strip("'")], wb[G3.strip("'")]
     a = dict(a3["3.1"])
     a["ohtot32"] = find_row(s2, "Every overhead line")
-    a["ohpf32"] = find_row(s2, "Of which drawn in the portfolios")
+    a["ohpf32"] = find_row(s2, "Of which sits in the 525-role ledger")
     a["g33"] = find_row(s3, "Group total")
     a["first33"] = find_row(s3, "Portfolio") + 1
     return a
@@ -136,7 +136,11 @@ def build_exec(wb, a, a2):
         # 8.478, because the total includes the GM layer and nothing listed it
         ("The 8 GMs - over/(under) their allowance ($m)",
          f"={G1}!${C31['var']}${a['gm']}", opts.M2),
-        ("Total over/(under) archetype ($m)", f"={G1}!${C31['var']}${a['grand']}", opts.M2)])
+        ("Total over/(under) archetype, everything comparable ($m)",
+         f"={G1}!${C31['var']}${a['comparable']}+{G1}!${C31['var']}${a['gm']}",
+         opts.M2),
+        ("Groups with no archetype and no funded figure ($m)",
+         f"={G1}!${C31['actual']}${a['nofig']}", opts.M2)])
 
     r = block(r, "The vacancy decision", [
         ("Vacant roles", f"={G1}!${C31['vacant']}${gt}", opts.CT),
@@ -177,11 +181,13 @@ def build_exec(wb, a, a2):
     # because the overhead allowance is a group figure and sits on one row for all ten.
     lo3, hi3 = a["first33"], a["g33"] - 1
     def s33(col, kind=None):
-        f = (f"=SUMIFS({G3}!${col}${lo3}:${col}${hi3},"
+        # rounded to six places: summing 3.3's already-rounded per-squad variances gave
+        # (0.766475) against (0.766476) for the same fact on 3.1
+        f = (f"=ROUND(SUMIFS({G3}!${col}${lo3}:${col}${hi3},"
              f"{G3}!${C33['pf']}${lo3}:${C33['pf']}${hi3},$C${sel}")
         if kind:
             f += f',{G3}!${C33["kind"]}${lo3}:${C33["kind"]}${hi3},"{kind}"'
-        return f + ")"
+        return f + "),6)"
 
     for lab, f, nf in (
             ("Roles", s33(C33["roles"]), opts.CT),
@@ -261,10 +267,10 @@ def build_qa(wb, a, a2):
         ("Total including the GM layer against the ledger plus the GM input ($m)",
          f"={G1}!${C31['actual']}${a['grand']}",
          f"=SUM({REV}!$AA$2:$AA${LAST})/1000000+N(Lists!$AG$12)", opts.M2),
-        ("Archetype variance - the five blocks against the total ($m)",
-         f"={G1}!${C31['var']}${a['arch']}+{G1}!${C31['var']}${a['direct']}+{G1}!${C31['var']}${a['coe']}"
-         f"+{G1}!${C31['var']}${a['overhead']}+{G1}!${C31['var']}${a['gm']}",
-         f"={G1}!${C31['var']}${a['grand']}", opts.M2),
+        ("Archetype variance - the four steps against the comparable subtotal ($m)",
+         "=" + "+".join(f"N({G1}!${C31['var']}${a[k]})"
+                        for k in ("arch", "direct", "coe", "overhead")),
+         f"={G1}!${C31['var']}${a['comparable']}", opts.M2),
         ("Roles including the GM layer against 525 plus the GM count",
          f"={G1}!${C31['roles']}${a['grand']}",
          f"=COUNTA({REV}!$B$2:$B${LAST})+N(Lists!$AG$11)", opts.CT),

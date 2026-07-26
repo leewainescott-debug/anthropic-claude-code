@@ -47,10 +47,14 @@ def ledger(wv):
 
 
 def find(ws, label, col=2):
-    for r in range(1, ws.max_row + 1):
-        v = ws.cell(r, col).value
-        if isinstance(v, str) and v.strip() == label:
-            return r
+    """Exact match first, then a prefix, so a label that gains a clause still resolves."""
+    for exact in (True, False):
+        for r in range(1, ws.max_row + 1):
+            v = ws.cell(r, col).value
+            if not isinstance(v, str):
+                continue
+            if (v.strip() == label) if exact else v.strip().startswith(label):
+                return r
     return None
 
 
@@ -64,7 +68,10 @@ def col_of(ws, header, limit=12):
 
 
 def check(out, name, got, exp, count=False):
-    ok = (got == exp) if count else (got is not None and abs(got - exp) < TOL)
+    if got is None or exp is None:
+        out.append(f"{name}: tab {got!r}, recomputed {exp!r}")
+        return False
+    ok = (got == exp) if count else abs(got - exp) < TOL
     if not ok:
         out.append(f"{name}: tab {got!r}, recomputed {exp!r}")
     return ok
@@ -82,7 +89,7 @@ def run(path, anchors="anchors_final.json"):
     S = a[list(a)[0]]["cols"]
     for v in a.values():
         ws = wv[tab_of[v["pf"]]]
-        for g in v["squads"] + v["direct"] + v["overhead"]:
+        for g in v["squads"] + v["direct"] + v["nofig"] + v["overhead"]:
             r, k = v["srow"][g], (v["pf"], g)
             for key, exp, cnt in (("actual", cost[k] / 1e6, False),
                                   ("roles", roles[k], True),
@@ -102,15 +109,19 @@ def run(path, anchors="anchors_final.json"):
                  for g in v["direct"])
     ndir = sum(roles[(v["pf"], g)] for v in a.values() if v["pf"] in PF
                for g in v["direct"])
+    nofig = sum(cost[(v["pf"], g)] for v in a.values() if v["pf"] in PF
+                for g in v["nofig"])
+    nnof = sum(roles[(v["pf"], g)] for v in a.values() if v["pf"] in PF
+               for g in v["nofig"])
     coe = sum(cost[(v["pf"], g)] for v in a.values() if v["pf"] in COE
-              for g in v["direct"] + v["squads"] + v["overhead"])
+              for g in v["direct"] + v["squads"] + v["nofig"] + v["overhead"])
     ncoe = sum(roles[(v["pf"], g)] for v in a.values() if v["pf"] in COE
-               for g in v["direct"] + v["squads"] + v["overhead"])
+               for g in v["direct"] + v["squads"] + v["nofig"] + v["overhead"])
     for lab, c, n in (("Squads priced by an archetype", arch, narch),
                       ("Directly funded programmes and platforms", direct, ndir),
                       ("COEs and EGI", coe, ncoe),
-                      ("Overhead roles in the portfolios", ohcost["pf"],
-                       ohroles["pf"])):
+                      ("Groups with no archetype and no funded figure", nofig, nnof),
+                      ("Overhead roles in the portfolios", ohcost["pf"], ohroles["pf"])):
         r = find(ws, lab)
         if r is None:
             out.append(f"3.1 has no row {lab!r}")
@@ -123,12 +134,18 @@ def run(path, anchors="anchors_final.json"):
     check(out, "3.1 ledger roles", ws.cell(r, cr).value, sum(roles.values()), True)
     # the archetype side of the bridge is a design figure, so it is checked for internal
     # consistency: the four steps must add to the ledger line
-    steps = [find(ws, x) for x in ("Squads priced by an archetype",
-                                  "Directly funded programmes and platforms",
-                                  "COEs and EGI", "Overhead roles in the portfolios")]
+    steps = [find(ws, x) for x in
+             ("Squads priced by an archetype",
+              "Directly funded programmes and platforms",
+              "Groups with no archetype and no funded figure", "COEs and EGI",
+              "Overhead roles in the portfolios - the allowance is on 3.2")]
+    steps = [x for x in steps if x]
+    # the no-figure step carries "-" in the archetype column, so only the numeric steps add
     check(out, "3.1 archetype steps add to the ledger line",
-          round(sum(ws.cell(x, cc).value or 0 for x in steps), 6),
-          round(ws.cell(r, cc).value, 6))
+          round(sum(v for v in (ws.cell(x, cc).value for x in steps)
+                    if isinstance(v, (int, float))), 6),
+          round(ws.cell(r, cc).value, 6) if isinstance(ws.cell(r, cc).value, (int, float))
+          else None)
     gm = wv["Lists"]["AG12"].value
     g = find(ws, "Total cost of TDD including the GM layer")
     check(out, "3.1 grand total", ws.cell(g, ca).value, total / 1e6 + gm)
@@ -136,7 +153,7 @@ def run(path, anchors="anchors_final.json"):
     # ---- 3.2 overhead, portfolios against the COEs ----
     o = next(t for t in wv.sheetnames if t.startswith("3.2 "))
     ws = wv[o]
-    r = find(ws, "Of which drawn in the portfolios - the 3.1 overhead line")
+    r = find(ws, "Of which sits in the 525-role ledger")
     check(out, "3.2 portfolio overhead cost",
           ws.cell(r, col_of(ws, "Cost in the portfolios ($m)")).value,
           ohcost["pf"] / 1e6)

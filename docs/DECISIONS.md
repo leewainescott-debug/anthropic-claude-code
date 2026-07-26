@@ -13,7 +13,7 @@ Last updated: after the squad-assignment and design-rename build.
 ## A. Source of truth and data handling
 
 ### D1. `REVIEW - Complete Role Mapping` is the only ledger. Lee.
-525 roles, $115,113,262.27, 390 filled, 135 vacant.
+525 roles, $115,283,002.27, 390 filled, 135 vacant.
 
 Every count and every dollar on Exec, 1.x, 2.x, 3.1, 3.2, 3.3, 3.4 and 4.0 reads REVIEW.
 `Squads`, `Added data` and `Sheet2` are retired from the model. The one exception is
@@ -401,7 +401,7 @@ overspend read as headroom.
 **The GMs:** $5.1m, eight people, no role in REVIEW. Leaving them out of the headline
 understated TDD by $5.1m on the one page a GM reads first, so 3.1, 3.2 and Exec now all
 carry the ledger total, the GM line beneath it, and a grand total of **$120.213m / 533
-roles**. The ledger row is untouched at $115,113,262.27 and every control and check still
+roles**. The ledger row is untouched at $115,283,002.27 and every control and check still
 ties to it. 4.0 tests the grand total against the ledger plus the GM input, and tests that
 the five variance lines on Exec add to the total shown - they did not, because the total
 included the GM layer and nothing listed it.
@@ -436,7 +436,7 @@ override as well as portfolio and squad.
 **A near miss worth recording:** the first version of this wrote the new moves over rows 2
 to 4 of the table, which already held the three agreed moves. That silently pulled two roles
 back out of COE SA&D and moved a third out of SAP ERP - the ledger still totalled
-$115,113,262.27 and no control failed. The table is appended to, never overwritten. Widening
+$115,283,002.27 and no control failed. The table is appended to, never overwritten. Widening
 the key range from `$AN$2:$AN$4` to `$AN$2:$AN$11` and leaving `$AO$2:$AO$4` alone was the
 same class of bug: a match at position four indexed past the end of a three-row range, so an
 override in a new slot returned nothing.
@@ -478,6 +478,49 @@ Owner's instruction. Every column, header, tile, check name and block label that
 "design cost", "over/(under) design" or "variance to design" now says archetype. The 1.x
 tabs are still where the archetype is priced; the word just does not appear as a
 measurement.
+
+### D62. A filled role priced at zero, and why nothing in the workbook could see it.
+REVIEW row 491, Nidhi Aggarwal, Snr Engineer - Boomi, NZ, FTE 1.0, **status Filled, cost
+$0**. Column T carries her local base of 150,000; column U, which the cost formula prices
+off, is empty. She counted in the 525 headcount and contributed nothing to the total. She is
+the only role in the ledger with T populated and U blank.
+
+**Every one of the fifty-six live checks passed.** They all reconcile *to* the ledger, and a
+zero inside the ledger reconciles perfectly. So does every control row, every cross-tab
+agreement, and the recomputation pass, because that also builds from REVIEW. Only a reviewer
+reading the raw columns found it.
+
+The figure is derived from her own cohort, not invented: all thirteen other NZ roles in TDD
+Group Functions price U = T x 0.92, then STI 0.15, pensions 0.05, CPI 0.03, no payroll
+component. 150,000 x 0.92 x 1.23 = **169,740**. It sits in the cost-override column the
+formula already honours, with its provenance in the cell beside it, so her raw columns stay
+untouched. The ledger is now **$115,283,002.27**.
+
+### D63. A total's variance must be measured on one basis, and where it cannot be, it says so.
+Three rows were asserting a variance across two bases, and all three added up, which is why
+four QA passes let them through.
+
+- **The 2.x "Total portfolio" row.** Its archetype column prices two of the four sections and
+  its actual covers all four. On 2.1 it read **(0.06)** beside two cells whose own difference
+  was **+1.20**, and the sign was wrong on four tabs. It now carries a dash: the comparison
+  belongs on the section subtotals, where both sides are on one basis.
+- **The directly funded step.** It held eight programmes with a funded figure and two
+  Leadership groups with none, so the subtotal charged **1.30 of leadership cost against
+  nothing** and read 1.44 where the real comparison is 0.13. The groups with no figure are
+  their own step now, on 2.x and on 3.1.
+- **The ledger total and the grand total on 3.1.** Same arithmetic, same fix: a dash, with a
+  new "Everything with a figure to compare" subtotal - **108.74 against 113.98, 5.24 over** -
+  carrying the number that can be stated.
+
+### D64. 0.1 and 0.4 are hidden, not restyled.
+They are raw pastes: a red / amber / green traffic-light grid with the letters R, A and G in
+the cells, 741 red number formats, Arial and Aptos, four blues that are not in the palette,
+hidden columns, and a note reading "input retail SI number manually". Restyling evidence is
+not tidying it, and it cannot ship visible. 0.2 Data Config is the built interface to both.
+
+### D65. The [Red] strip was case-sensitive and Excel writes [RED].
+971 number formats across 0.2, 1.11, 1.12, 1.13, REVIEW, 0.1 and 0.4 still printed negatives
+in red after a pass that reported stripping zero. The test now lowercases.
 
 ### D56. 3.1 is a cost bridge. That is what 3D meant and the last build did not deliver it.
 The owner picked layout 3D off the options paper. 3D is a cost bridge: start at the
