@@ -179,21 +179,30 @@ def build(wb, wv, tab, rows, bounds):
     # on all four COE tabs.
     HDR = 6
     r = HDR + 1
-    srow, empty, label, sub = {}, set(), {}, {}
+    # A section with nothing in it is not on the tab at all. It used to print a label, a
+    # filler row reading "None - every group here has a figure to compare" and a subtotal of
+    # dashes: three rows saying nothing, on most tabs twice over.
+    #
+    # A section with one row does not get a subtotal either. "Directly funded programmes and
+    # platforms total, 10" directly under "EGI Customer, 10" is the same number twice, and
+    # the tab carried five total rows where it needed three - which is what buried the one
+    # total that matters.
+    srow, empty, label, sub, anchor = {}, set(), {}, {}, {}
     for kind, names in (("arch", arch), ("direct", direct), ("none", nofig),
                         ("oh", overhead)):
+        if not names:
+            empty.add(kind)
+            continue
         label[kind] = r
         r += 1
-        if names:
-            for g in names:
-                srow[g] = r
-                r += 1
-        else:
-            empty.add(kind)
-            srow[f"-{kind}"] = r
+        for g in names:
+            srow[g] = r
             r += 1
-        sub[kind] = r
-        r += 1
+        if len(names) > 1:
+            sub[kind] = r
+            r += 1
+        anchor[kind] = sub.get(kind, srow[names[-1]])
+    live = [k for k in KINDS if k not in empty]
     r_tot = r
     r += 2
     r_ctl = r
@@ -379,35 +388,38 @@ def build(wb, wv, tab, rows, bounds):
                                (opts.C1 if k == "aroles" else opts.CT))
             x.alignment = opts.RGT
 
-    for kind in KINDS:
+    for kind in live:
         opts.row(ws, label[kind], 2, [SECTION[kind]] + [None] * (len(S_HDR) - 1),
                  [None] * len(S_HDR), bg=opts.PALE, bold=True)
         ws.cell(label[kind], 2).alignment = opts.LFT
-        if kind in empty:
-            none_row(srow[f"-{kind}"], NONE_TEXT[kind])
-        total(sub[kind], f"{SECTION[kind]} total", label[kind] + 1, sub[kind] - 1,
-              opts.GREY)
+        if kind in sub:
+            total(sub[kind], f"{SECTION[kind]} total", label[kind] + 1, sub[kind] - 1,
+                  opts.GREY)
 
     opts.row(ws, r_tot, 2, ["Total portfolio"] + [None] * (len(S_HDR) - 1),
              [None] * len(S_HDR), bg=opts.MID, bold=True, top=True)
     ws.cell(r_tot, S["squad"]).alignment = opts.LFT
+    src = [anchor[kk] for kk in live]
     for k in ("aroles", "roles", "filled", "vacant", "hire", "offshore", "hold",
               "rafter", "acost", "actual", "var", "after", "newvar"):
         c = S[k]
         x = ws.cell(r_tot, c)
-        # Across the whole portfolio the variance is the sum of the three block
-        # variances, not actual less archetype: the archetype column only prices the first
-        # block, so actual-less-archetype at portfolio level would charge the overhead cost
-        # against a squad archetype. Each block variance is already on one basis.
-        # The portfolio total states no comparison. Its archetype column prices two of the
-        # four sections and its actual covers all four, so no single variance on that row can
-        # be true - it read (0.06) on 2.1 beside two cells whose own difference was +1.20.
-        # The comparison belongs on the section subtotals, where both sides are on one basis.
-        if k in ("acost", "var", "newvar"):
-            x.value = '="-"'
-            x.number_format, x.alignment = opts.M2, opts.RGT
-            continue
-        x.value = "=" + "+".join(f"N({L(c)}{sub[kk]})" for kk in KINDS)
+        # The archetype total is what the archetype prices across the whole portfolio, and
+        # the variance beside it is actual less that. It is the number the owner asked for
+        # and it is the same one the 1.x tab states; what it must not do is pretend the
+        # archetype covers everything. It does not - the overhead lines and any programme
+        # with no funded figure carry a dash and are not in it - so the label says which
+        # rows it prices and the sections above show exactly which those are.
+        if k in ("var", "newvar"):
+            a, b = L(S["acost"]), L(S["actual"] if k == "var" else S["after"])
+            x.value = (f'=IF(ISNUMBER(${a}{r_tot}),'
+                       f'ROUND(${b}{r_tot}-${a}{r_tot},6),"-")')
+        elif k == "acost":
+            # SUM ignores the dashes, so this is the archetype where there is one
+            x.value = (f'=IF(COUNT({",".join(f"{L(c)}{s}" for s in src)})=0,"-",'
+                       f'SUM({",".join(f"{L(c)}{s}" for s in src)}))')
+        else:
+            x.value = "=" + "+".join(f"N({L(c)}{s})" for s in src)
         x.number_format = (opts.M2 if c >= S["acost"] else
                            (opts.C1 if k == "aroles" else opts.CT))
         x.alignment = opts.RGT
@@ -462,10 +474,15 @@ def build(wb, wv, tab, rows, bounds):
                f"MATCH(${L(P['lever'])}{rw},Lists!$AC:$AC,0)),1)", opts.M0)
 
     # no frozen panes anywhere in this workbook - owner's instruction
-    return {"tab": tab, "pf": pf, "total_row": r_tot, "delivery_row": sub["arch"],
-            "direct_row": sub["direct"], "nofig_row": sub["none"],
-            "overhead_row": sub["oh"], "header_row": HDR,
-            "first_squad": label["arch"] + 1, "last_squad": sub["arch"] - 1,
+    # A section that is not on the tab has no anchor, and a one-row section anchors on its
+    # own row rather than on a subtotal it no longer has. Every consumer reads these rather
+    # than working a row number out for itself.
+    return {"tab": tab, "pf": pf, "total_row": r_tot,
+            "delivery_row": anchor.get("arch"), "direct_row": anchor.get("direct"),
+            "nofig_row": anchor.get("none"), "overhead_row": anchor.get("oh"),
+            "header_row": HDR,
+            "first_squad": min(srow.values()) if srow else HDR + 1,
+            "last_squad": max(srow.values()) if srow else HDR + 1,
             "squads": arch, "direct": direct, "nofig": nofig, "overhead": overhead,
             "srow": srow, "people": sum(len(v) for v in people.values()),
             "cols": S}

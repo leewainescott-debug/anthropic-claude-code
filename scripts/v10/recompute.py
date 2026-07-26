@@ -156,13 +156,19 @@ def run(path, anchors="anchors_final.json"):
                   round(sum(v for v in (ws.cell(x, col).value for x in steps)
                             if isinstance(v, (int, float))), 6),
                   round(ws.cell(cmp_row, col).value, 6))
-    # nothing that prices only part of the ledger may print a total on the ledger row
-    for lab in ("Cost of the 525 roles in the ledger",
-                "Total cost of TDD including the GM layer"):
-        k = find(ws, lab)
-        if isinstance(ws.cell(k, cc).value, (int, float)):
-            out.append(f"3.1 {lab!r} states an archetype cost of "
-                       f"{ws.cell(k, cc).value!r} over steps that are not all priced")
+    # the totals carry the comparison, so the archetype on the ledger row has to be exactly
+    # the steps that have one - no more, and nothing dropped
+    priced = [find(ws, x) for x in ("Squads priced by an archetype",
+                                    "Directly funded, where the funded figure is set",
+                                    "Overhead roles in the portfolios - the allowance")]
+    k = find(ws, "Cost of the 525 roles in the ledger")
+    check(out, "3.1 ledger archetype is the priced steps",
+          round(ws.cell(k, cc).value, 6),
+          round(sum(ws.cell(x, cc).value for x in priced if x), 6))
+    g2 = find(ws, "Total cost of TDD including the GM layer")
+    check(out, "3.1 grand total variance is actual less archetype",
+          round(ws.cell(g2, 6).value, 6),
+          round(ws.cell(g2, ca).value - ws.cell(g2, cc).value, 6))
     gm = wv["Lists"]["AG12"].value
     g = find(ws, "Total cost of TDD including the GM layer")
     check(out, "3.1 grand total", ws.cell(g, ca).value, total / 1e6 + gm)

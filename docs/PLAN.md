@@ -137,15 +137,17 @@ column says so rather than measuring a cost against a zero.
 | Leadership (Customer) | - | 1.05 | - | 5 |
 | Leadership (Infrastructure) | - | 0.26 | - | 1 |
 | **Groups with no archetype and no funded figure** | **-** | **1.30** | **-** | **6** |
-| **Cost of the 525 roles in the ledger** | **-** | **115.28** | **-** | **525** |
+| **Cost of the 525 roles in the ledger** | **77.25** | **115.28** | **38.03** | **525** |
 | Leadership - the 8 GMs, outside the ledger | 3.00 | 5.10 | 2.10 | 8 |
-| **Total cost of TDD including the GM layer** | **-** | **120.38** | **-** | **533** |
+| **Total cost of TDD including the GM layer** | **80.25** | **120.38** | **40.13** | **533** |
 
 Only three steps carry an archetype figure that prices the whole of their own actual, and
-those three are what the comparable subtotal adds. The ledger total and the grand total carry
-neither an archetype nor a variance: the archetype column prices about two thirds of the
-ledger, so a figure on either row would read as the archetype cost of all 525 roles when it
-is not.
+those three are what the comparable subtotal adds. The totals below it carry the comparison
+too, on the owner's instruction: archetype against actual with the difference beside it. The
+38.03 on the ledger row is everything the archetype does not reach - the COEs, the programmes
+with no funded figure set, Leadership - plus the overspend on what it does. Every one of
+those is a named line above with a dash in the archetype column, so the figure cannot be read
+as anything else.
 
 Six of the eight directly funded programmes have no funded figure set against them on their
 1.x tab, so there is nothing to compare them to and the column says so. Set one and that
@@ -216,25 +218,22 @@ Every design squad now has people in it. The three that did not are gone.
 | Overhead allowance basis | The allowance prices half a Head of Technology per portfolio (0.1375 of 0.275) and 30% of a Delivery or Technology Manager per platform, against 43 whole heads costing $11.65m. The variance is labelled "not covered by the allowance" rather than overspend, but the basis itself is a judgement only Lee can confirm. | Lee to confirm |
 | Cyber vacancies | `1.13!E7` carries your comment "there are a total of 8 vacant roles" against a cell reading 4. REVIEW has 4. If 8 is right, four vacancies are missing from REVIEW and the fix belongs there. | Lee to settle |
 | 1.5 EGI P&C funded amount | `1.5!H32` is a blank cream input, so that platform prices at zero while the squad's one role costs $0.24m. Until it is set, both option workbooks state that squad's variance as a dash and hold its $0.24m on a separate "squads with no archetype to price them" line rather than adding it to a comparison it is not part of. | Lee to set |
-| Which option ships | Option A or Option B, or a mix - inline on the tabs read most, consolidated on the rest. | Lee to pick |
+| ~~Which option ships~~ | Settled: Option A. `TDD_Cost_Calc.xlsx` is Option A; Option B is not built. | done |
 | Frozen panes | Register item 70 asks for them on every long table, item 94 records that they were all removed. Applied consistently on every table over 25 rows. One line to reverse. | Lee to pick |
 | Bridge tab | One page walking archetype cost to actual cost, line by line. Explained; not yet built. | Lee to say yes or no |
 
 ## 8a. Actual against archetype on the 1.x tabs - two options
 
-Two workbooks, same figures, same ledger, different placement. Both are built from the
-shipped `TDD_Cost_Calc.xlsx` by `scripts/v10/chainAB.sh`, so they differ only in the design.
+The owner picked Option A. `scripts/v10/chainA.sh` builds it and it ships as
+`TDD_Cost_Calc.xlsx`. Option B is kept in `actuals.py` but is not built.
 
-| | Option A - `TDD_Cost_Calc_Option_A.xlsx` | Option B - `TDD_Cost_Calc_Option_B.xlsx` |
-|---|---|---|
-| Where the comparison sits | two columns appended to every squad table and every platform total | one "Archetype against actual" table at the foot of each tab |
-| Existing tables | widened by two columns | untouched |
-| Reading a single squad | on the row you are already on | scroll to the foot |
-| Reading the tab as a whole | six separate blocks | one table, every squad, platform subtotals |
+Two columns are appended to every squad table and every platform total on 1.1 - 1.10:
+*Actual cost after decisions ($m)* and *Variance to archetype ($m)*. They go in K and L on
+nine tabs and in P and Q on 1.6, where the owner's own five columns run out to O.
 
-Both end each tab with the same portfolio block: squads an archetype prices, squads it does
-not, overhead roles, anything on the working tab with no row on this tab, the total, and a
-control that must read 0. All ten controls read 0 in both workbooks.
+Each tab then ends with a portfolio block: squads an archetype prices, squads it does not,
+overhead roles, anything on the working tab with no row on this tab, the total, and a control
+that must read 0. All ten controls read 0.
 
 Every figure is `=INDEX(...MATCH(...))` into the working tab's cost-after-decisions column,
 matched on the squad name, so pulling a lever moves the 1.x tab. Proved by test rather than

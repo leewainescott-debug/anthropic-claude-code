@@ -190,6 +190,10 @@ def build_31(wb, anchors):
     r += 1
     st = r
     for pf, tab, a in pfs:
+        # a portfolio with no archetyped squad has no row to read - the section is not on
+        # its tab at all - so it does not get a line here either
+        if not a["delivery_row"]:
+            continue
         line(r, pf, pf, tab, a["delivery_row"],
              f"='{tab}'!${L(S['acost'])}${a['delivery_row']}")
         r += 1
@@ -299,13 +303,21 @@ def build_31(wb, anchors):
     ws.cell(r, 2).alignment = opts.LFT
     for c in range(FIRST, LASTC + 1):
         x = ws.cell(r, c)
-        # the archetype column is a dash here too, not just the variance. It prices three
-        # of the six steps above, so a figure on this row reads as the archetype cost of
-        # all 525 roles when it is the archetype cost of about two thirds of them. The
-        # cross-foot belongs on the comparable subtotal, which is where it is.
-        x.value = ('="-"' if c in (4, 6)
-                   else "=" + "+".join(f"N({L(c)}{p})"
-                                       for p in (s1, s2, s2c, s2b, s3, s4)))
+        # The ledger row carries the comparison, on the owner's instruction: the archetype
+        # total against the actual total, and the difference. The archetype side prices
+        # three of the six steps above it, so the difference is everything the archetype
+        # does not reach - the COEs, the programmes with no funded figure set, Leadership -
+        # plus the overspend on what it does reach. Every one of those steps is a named
+        # line above with a dash in this column, so the figure cannot be read as anything
+        # else. Same treatment as the Total portfolio row on every 2.x tab.
+        steps = (s1, s2, s2c, s2b, s3, s4)
+        if c == 4:
+            cells = ",".join(f"{L(c)}{p}" for p in steps)
+            x.value = f'=IF(COUNT({cells})=0,"-",SUM({cells}))'
+        elif c == 6:
+            x.value = f'=IF(ISNUMBER($D{r}),ROUND($E{r}-$D{r},6),"-")'
+        else:
+            x.value = "=" + "+".join(f"N({L(c)}{p})" for p in steps)
         x.number_format, x.alignment = NUM[c], opts.RGT
     gt = r
     r += 1
@@ -328,7 +340,8 @@ def build_31(wb, anchors):
     ws.cell(r, 2).alignment = opts.LFT
     for c in range(FIRST, LASTC + 1):
         x = ws.cell(r, c)
-        x.value = ('="-"' if c in (4, 6) else f"=N({L(c)}{gt})+N({L(c)}{gm})")
+        x.value = (f'=IF(ISNUMBER($D{r}),ROUND($E{r}-$D{r},6),"-")' if c == 6
+                   else f"=N({L(c)}{gt})+N({L(c)}{gm})")
         x.number_format, x.alignment = NUM[c], opts.RGT
     grand = r
     r += 2

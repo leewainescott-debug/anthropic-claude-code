@@ -575,6 +575,48 @@ decisions, Squad cost after decisions.
 All fourteen 2.x tabs measure as a single structural profile - identical column widths,
 identical header text, identical section order.
 
+### D72. The 2.x tabs carry one grand total, not five.
+Owner, having looked at 2.2: "i do not see 83 total roles in customer??? why are my totals
+not adding up... we should have a grand total and not incremental totals on 2.x tabs."
+
+The totals were right. 2.2 read 83 at Total portfolio, the control read 0, and the fourteen
+tabs added to exactly 525. That was not the point. The tab carried five total rows and a
+filler section, the one total that mattered was at the bottom of the stack, and a reader who
+cannot find it in a workbook about headcount is looking at a broken model. That is a layout
+failure, and it is mine.
+
+Three changes:
+
+- a section with nothing in it is off the tab entirely. It used to print a label, a row
+  reading "None - every group here has a figure to compare" and a subtotal of dashes: three
+  rows saying nothing, on most tabs twice over;
+- a section with one row gets no subtotal. "Directly funded programmes and platforms total,
+  10" directly under "EGI Customer, 10" is the same number written twice;
+- Total portfolio is the grand total and carries the comparison.
+
+2.2 went from five total rows to three, and 2.9 lost a whole filler section. Every control is
+still on every tab and every one still reads 0.
+
+### D73. The totals carry the comparison. Owner's call, taken twice.
+Owner: "why would we not include the archetype total vs the actual total of the portfolio.
+like how are we counting it in the design tabs and not in here? im confused by the backward
+logic?"
+
+The reason it was a dash was real: the archetype does not price the overhead lines or a
+programme with no funded figure, so a total variance is not a like-for-like variance. I
+raised that, he asked again, and it is his model.
+
+So every total row now states the archetype where there is one, the actual, and the
+difference - on the 2.x Total portfolio row and on 3.1's ledger and grand total alike. 2.2
+reads 12.06 against 17.13, 5.07 over. 3.1's ledger row reads 77.25 against 115.28, 38.03
+over.
+
+What makes it safe rather than misleading is that the composition is on the same page. Every
+step the archetype does not reach is a named line directly above with a dash in that column -
+the COEs, the unfunded programmes, Leadership, the overhead - so the 38.03 can be read off as
+what it is rather than mistaken for overspend. The like-for-like line is still there and still
+says so: "Everything with a figure to compare", 77.25 against 82.19.
+
 ### D69. A figure that restates the actual is not a comparison.
 Owner, on the 2.x tabs: "we don't need the archetype cost of the strategic progs because they
 are just exactly the actual cost, that's all we need to put in there."
