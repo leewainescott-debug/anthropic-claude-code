@@ -260,24 +260,21 @@ def check_cross_tab_facts(wf, wv):
     that holds no number is now a finding in its own right.
     """
     out = []
-    gt = find_row(wf, "3.3 FTE View", "C", "Group total")
+    gt = find_row(wf, "3.3 FTE View", "B", "Group total")
     if gt is None:
         out.append(("3.3 FTE View", "no 'Group total' row found", ""))
         gt = 0
 
+    g1 = find_row(wf, "3.1 Group Summary", "B", "Group total") or 0
+    g2 = find_row(wf, "3.2 Total Cost", "B", "Cost of the organisation today") or 0
     facts = [
-        ("group cost", [("3.2 Total Cost", "F21"), ("3.1 Group Summary", "D20"),
-                        ("Exec Summary", "C7"), ("Exec Summary", "C26"),
-                        ("0.2 Data Config", "F26")]),
-        ("group roles", [("3.2 Total Cost", "C21"), ("3.1 Group Summary", "J20"),
-                         ("3.3 FTE View", f"I{gt}"), ("Exec Summary", "C40")]),
-        ("filled", [("3.2 Total Cost", "D21"), ("3.3 FTE View", f"G{gt}"),
-                    ("Exec Summary", "C41")]),
-        ("vacant", [("3.2 Total Cost", "E21"), ("3.3 FTE View", f"H{gt}"),
-                    ("Exec Summary", "C42")]),
-        ("cyber cost", [("1.13 Cyber Roles", "F8"), ("1.14 TDD Cyber", "C12"),
-                        ("3.4 COE Summary", "K10")]),
-        ("budget variance", [("0.2 Data Config", "G26"), ("3.1 Group Summary", "E20")]),
+        ("group cost", [("3.1 Group Summary", f"D{g1}"), ("3.2 Total Cost", f"D{g2}"),
+                        ("3.3 FTE View", f"K{gt}")]),
+        ("design cost", [("3.1 Group Summary", f"C{g1}"), ("3.2 Total Cost", f"C{g2}")]),
+        ("group roles", [("3.1 Group Summary", f"G{g1}"), ("3.2 Total Cost", f"G{g2}"),
+                         ("3.3 FTE View", f"G{gt}")]),
+        ("filled", [("3.1 Group Summary", f"H{g1}"), ("3.3 FTE View", f"H{gt}")]),
+        ("vacant", [("3.1 Group Summary", f"I{g1}"), ("3.3 FTE View", f"I{gt}")]),
     ]
     for name, cells in facts:
         vals = [(f"{s}!{c}", wv[s][c].value) for s, c in cells if gt or "3.3" not in s]
