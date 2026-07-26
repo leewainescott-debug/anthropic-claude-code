@@ -272,11 +272,10 @@ def check_cross_tab_facts(wf, wv):
     passed while the fact was missing. A cell holding no number is now a finding.
     """
     out = []
-    # the squad-detail tab was renamed to match its own title, so it is found by prefix
-    detail = next((t for t in wf.sheetnames if t.startswith("3.3 ")), "3.3 Squad Detail")
-    rows = {"3.1 Group Summary": "Cost of the organisation today",
-            "3.2 Total Cost": "Cost of the organisation today",
-            detail: "Group total"}
+    # the tabs are found by number prefix, so a rename cannot break the check
+    detail = next(t for t in wf.sheetnames if t.startswith("3.3 "))
+    bridge = next(t for t in wf.sheetnames if t.startswith("3.1 "))
+    rows = {bridge: "Cost of the 525 roles in the ledger", detail: "Group total"}
     at = {}
     for tab, lab in rows.items():
         r = find_row(wf, tab, "B", lab)
@@ -290,15 +289,12 @@ def check_cross_tab_facts(wf, wv):
             return None
         return f"{c}{at[tab]}"
 
-    facts = [("group cost", "Actual cost ($m)", ("3.1 Group Summary", "3.2 Total Cost",
-                                                 detail)),
-             ("design cost", "Archetype cost ($m)", ("3.1 Group Summary", "3.2 Total Cost")),
-             ("group roles", "Roles", ("3.1 Group Summary", "3.2 Total Cost",
-                                       detail)),
-             ("filled", "Filled", ("3.1 Group Summary", detail)),
-             ("vacant", "Vacant", ("3.1 Group Summary", detail)),
-             ("roles after decisions", "Roles after decisions",
-              ("3.1 Group Summary", detail))]
+    facts = [("group cost", "Actual cost ($m)", (bridge, detail)),
+             ("group roles", "Total roles", (bridge, detail)),
+             ("filled", "Filled", (bridge, detail)),
+             ("vacant", "Vacant", (bridge, detail)),
+             ("roles after decisions", "Total roles after decisions",
+              (bridge, detail))]
     for name, header, tabs in facts:
         vals = []
         for tab in tabs:

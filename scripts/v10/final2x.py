@@ -47,26 +47,19 @@ LAST = 528
 S = dict(squad=2, type=3, size=4, aroles=5, roles=6, filled=7, vacant=8, hire=9,
          offshore=10, hold=11, rafter=12, acost=13, actual=14, var=15, after=16,
          newvar=17)
-S_HDR = ["Squad", "Archetype Type", "Size", "Archetype roles", "Roles", "Filled",
-         "Vacant", "To hire", "To offshore", "On hold", "Roles after decisions",
-         "Archetype cost ($m)", "Actual cost ($m)", "Variance to archetype ($m)",
-         "Cost after vacancy decisions ($m)", "New variance ($m)"]
-# The design column means something different in each block, so each block says which.
-# Heading the directly funded block "Archetype cost" was wrong on its face: no archetype
-# prices those squads, which is why they are in that block.
-HDR_BY_BLOCK = {
-    "direct": {11: "Funded on the 1.x tab ($m)", 13: "Variance to funding ($m)",
-               15: "New variance to funding ($m)"},
-    "oh": {11: "Allowance - stated on 3.2", 13: "Variance", 15: "New variance"},
-}
-
-
-def block_hdr(kind):
-    h = list(S_HDR)
-    for i, t in HDR_BY_BLOCK.get(kind, {}).items():
-        h[i] = t
-    return h
-S_W = [30, 26, 7, 11, 7, 7, 8, 8, 11, 8, 13, 13, 12, 14, 17, 14]
+# The owner's own column names, taken off his markup of 2.8.
+S_HDR = ["Squad", "Archetype Type", "Squad Size", "Archetype roles", "Total roles",
+         "Filled", "Vacant", "To hire", "To offshore", "On hold",
+         "Total roles after decisions", "Archetype cost ($m)", "Actual cost ($m)",
+         "Variance to archetype ($m)", "Squad cost after decisions ($m)",
+         "New variance ($m)"]
+SECTION = {"arch": "Squads priced by an archetype",
+           "direct": "Directly funded programmes and platforms",
+           "oh": "Overhead roles"}
+NONE_TEXT = {"arch": "No squad here is priced by an archetype",
+             "direct": "No directly funded programme here",
+             "oh": "The COEs carry no overhead"}
+S_W = [30, 26, 11, 11, 9, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
 P = dict(name=2, role=3, status=4, lever=5, cost=6, after=7)
@@ -164,35 +157,20 @@ def build(wb, wv, tab, rows, bounds):
     # on all four COE tabs.
     HDR = 6
     r = HDR + 1
-    srow, empty = {}, set()
-    r_arch0 = r
-    for g in arch or ["-arch"]:
-        srow[g] = r
+    srow, empty, label, sub = {}, set(), {}, {}
+    for kind, names in (("arch", arch), ("direct", direct), ("oh", overhead)):
+        label[kind] = r
         r += 1
-    if not arch:
-        empty.add("arch")
-    r_del = r
-    r += 2
-    r_nabar, r_nahdr = r, r + 1
-    r = r_nahdr + 1
-    r_na0 = r
-    for g in direct or ["-direct"]:
-        srow[g] = r
+        if names:
+            for g in names:
+                srow[g] = r
+                r += 1
+        else:
+            empty.add(kind)
+            srow[f"-{kind}"] = r
+            r += 1
+        sub[kind] = r
         r += 1
-    if not direct:
-        empty.add("direct")
-    r_na = r
-    r += 2
-    r_ohbar, r_ohhdr = r, r + 1
-    r = r_ohhdr + 1
-    r_oh0 = r
-    for g in overhead or ["-oh"]:
-        srow[g] = r
-        r += 1
-    if not overhead:
-        empty.add("oh")
-    r_oh = r
-    r += 2
     r_tot = r
     r += 2
     r_ctl = r
@@ -215,11 +193,10 @@ def build(wb, wv, tab, rows, bounds):
     ws.cell(3, 2).font = opts.BOLD
     ws.cell(3, 3).value = pf
     ws.cell(3, 3).font = opts.BODY
-    opts.bar(ws, 4, 2, len(S_HDR),
-             "Squads priced by an archetype - archetype cost against actual cost")
-    # One width list for all three block headers. Three copies meant the last call reset
-    # a column the second had widened: "New variance to funding ($m)" needed four lines in
-    # the width "New variance" left behind, and its first line rendered off the top.
+    opts.bar(ws, 4, 2, len(S_HDR), f"{pf} - archetype cost against actual cost")
+    # One table, one header row, the overhead lines inside it. They used to sit in a second
+    # table below with a header of their own; the owner's instruction is that the overheads
+    # belong up top with everything else.
     W = list(S_W)
     opts.head(ws, HDR, 2, list(S_HDR), W)
     ws.row_dimensions[5].height = 6
@@ -337,12 +314,6 @@ def build(wb, wv, tab, rows, bounds):
         squad(srow[g], g, "direct")
     for g in overhead:
         squad(srow[g], g, "oh")
-    if "arch" in empty:
-        none_row(srow["-arch"], "No squad here is priced by an archetype")
-    if "direct" in empty:
-        none_row(srow["-direct"], "Every squad here is priced by an archetype")
-    if "oh" in empty:
-        none_row(srow["-oh"], "The COEs carry no overhead")
 
     def total(rw, label, r0, r1, bg, line=False):
         opts.row(ws, rw, 2, [label] + [None] * (len(S_HDR) - 1),
@@ -352,20 +323,31 @@ def build(wb, wv, tab, rows, bounds):
                   "rafter", "acost", "actual", "var", "after", "newvar"):
             c = S[k]
             x = ws.cell(rw, c)
-            x.value = f"=SUM({L(c)}{r0}:{L(c)}{r1})"
+            # a variance on a total is actual less archetype. Summing the row variances
+            # drops every row whose archetype column holds "-", which understated the
+            # directly funded subtotal on six of the fourteen tabs.
+            # and where the block has no archetype at all - the overhead lines - the
+            # variance is a dash, not the whole cost measured against zero
+            if k == "var":
+                x.value = (f'=IF(N(${L(S["acost"])}{rw})=0,"-",'
+                           f"ROUND(${L(S['actual'])}{rw}-${L(S['acost'])}{rw},6))")
+            elif k == "newvar":
+                x.value = (f'=IF(N(${L(S["acost"])}{rw})=0,"-",'
+                           f"ROUND(${L(S['after'])}{rw}-${L(S['acost'])}{rw},6))")
+            else:
+                x.value = f"=SUM({L(c)}{r0}:{L(c)}{r1})"
             x.number_format = (opts.M2 if c >= S["acost"] else
                                (opts.C1 if k == "aroles" else opts.CT))
             x.alignment = opts.RGT
 
-    total(r_del, "Squads priced by an archetype", r_arch0, r_del - 1, opts.GREY)
-    opts.bar(ws, r_nabar, 2, len(S_HDR),
-             "Directly funded programmes and platforms - no archetype prices them, so the "
-             "figure to compare is the amount funded on the 1.x tab")
-    opts.head(ws, r_nahdr, 2, block_hdr("direct"), W)
-    total(r_na, "Directly funded total", r_na0, r_na - 1, opts.GREY)
-    opts.bar(ws, r_ohbar, 2, len(S_HDR), "Overhead roles - against the allowance on 3.2")
-    opts.head(ws, r_ohhdr, 2, block_hdr("oh"), W)
-    total(r_oh, "Overhead roles total", r_oh0, r_oh - 1, opts.GREY)
+    for kind in ("arch", "direct", "oh"):
+        opts.row(ws, label[kind], 2, [SECTION[kind]] + [None] * (len(S_HDR) - 1),
+                 [None] * len(S_HDR), bg=opts.PALE, bold=True)
+        ws.cell(label[kind], 2).alignment = opts.LFT
+        if kind in empty:
+            none_row(srow[f"-{kind}"], NONE_TEXT[kind])
+        total(sub[kind], f"{SECTION[kind]} total", label[kind] + 1, sub[kind] - 1,
+              opts.GREY)
 
     opts.row(ws, r_tot, 2, ["Total portfolio"] + [None] * (len(S_HDR) - 1),
              [None] * len(S_HDR), bg=opts.MID, bold=True, top=True)
@@ -374,7 +356,16 @@ def build(wb, wv, tab, rows, bounds):
               "rafter", "acost", "actual", "var", "after", "newvar"):
         c = S[k]
         x = ws.cell(r_tot, c)
-        x.value = "=" + "+".join(f"N({L(c)}{p})" for p in (r_del, r_na, r_oh))
+        # Across the whole portfolio the variance is the sum of the three block
+        # variances, not actual less archetype: the archetype column only prices the first
+        # block, so actual-less-archetype at portfolio level would charge the overhead cost
+        # against a squad archetype. Each block variance is already on one basis.
+        if k in ("var", "newvar"):
+            x.value = "=" + "+".join(f"N({L(c)}{sub[kk]})"
+                                     for kk in ("arch", "direct", "oh"))
+        else:
+            x.value = "=" + "+".join(f"N({L(c)}{sub[kk]})"
+                                     for kk in ("arch", "direct", "oh"))
         x.number_format = (opts.M2 if c >= S["acost"] else
                            (opts.C1 if k == "aroles" else opts.CT))
         x.alignment = opts.RGT
@@ -428,10 +419,10 @@ def build(wb, wv, tab, rows, bounds):
                f"=${L(P['cost'])}{rw}*IFERROR(INDEX(Lists!$AD:$AD,"
                f"MATCH(${L(P['lever'])}{rw},Lists!$AC:$AC,0)),1)", opts.M0)
 
-    ws.freeze_panes = f"C{HDR + 1}"
-    return {"tab": tab, "pf": pf, "total_row": r_tot, "delivery_row": r_del,
-            "direct_row": r_na, "overhead_row": r_oh, "header_row": HDR,
-            "first_squad": r_arch0, "last_squad": r_del - 1,
+    # no frozen panes anywhere in this workbook - owner's instruction
+    return {"tab": tab, "pf": pf, "total_row": r_tot, "delivery_row": sub["arch"],
+            "direct_row": sub["direct"], "overhead_row": sub["oh"], "header_row": HDR,
+            "first_squad": label["arch"] + 1, "last_squad": sub["arch"] - 1,
             "squads": arch, "direct": direct, "overhead": overhead,
             "srow": srow, "people": sum(len(v) for v in people.values()),
             "cols": S}

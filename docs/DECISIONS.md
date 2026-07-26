@@ -479,6 +479,59 @@ Owner's instruction. Every column, header, tile, check name and block label that
 tabs are still where the archetype is priced; the word just does not appear as a
 measurement.
 
+### D56. 3.1 is a cost bridge. That is what 3D meant and the last build did not deliver it.
+The owner picked layout 3D off the options paper. 3D is a cost bridge: start at the
+archetype cost, walk to the actual cost, name every step, and push the per-portfolio detail
+down to 3.3. What shipped instead was a four-block per-portfolio table, which is closer to
+3A. That is why he said the 3.x tabs never followed instruction.
+
+3.1 is now the bridge, and every directly funded programme is on it **by name** - AmPOS,
+EGI Retail, EGI Customer, EGI TDD twice (Ampol Retail and TDD Group Functions, because
+Viren Khatri stays in Retail), EGI P&C, EGI Finance, CTRM, and the two Leadership groups -
+because "Directly funded, 10.44" tells a reader nothing about what the 10.44 is.
+
+### D57. 3.2 restated 3.1 and was deleted. It is Overhead & Leadership now.
+Its first block was 3.1's four subtotals copied into a second table; a reader got nothing
+from it that 3.1 had not already given them. The one thing it carried that nothing else does
+is the overhead allowance, line by line, so that is the whole tab: the six lines with rate,
+times applied, allowance, roles and cost in the portfolios, roles and cost inside the COEs,
+what is not covered, and a second block stating what the allowance is built from and where
+each input is set.
+
+### D58. Two more variance bugs, both of them a total measured on the wrong basis.
+Neither was caught by any of the four QA passes, because every check tested totals against
+the ledger and both of these were internally consistent additions of the wrong things.
+
+- **A block subtotal summed its row variances.** A row with no archetype carries "-" in that
+  column and drops out of a SUM, so the directly funded subtotal read **0.13 against a real
+  1.44** and the bridge read 5.07 against 6.38. A subtotal variance is now actual less
+  archetype, computed on the subtotal's own two figures.
+- **A subtotal with no archetype at all reported the whole cost as a variance.** The overhead
+  block's archetype column sums to zero, so actual-less-archetype made the entire $1.12m of
+  overhead cost read as a variance. It reads "-" now.
+- **And the portfolio total is the sum of the three block variances, not actual less
+  archetype** - because the archetype column only prices the first block, so measuring the
+  whole portfolio against it would charge overhead cost against a squad archetype.
+
+### D59. No frozen panes. Owner's instruction, and it settles register 70 against 94.
+Register item 70 asked for a frozen header on every long table; item 94 recorded that the
+owner had them all removed. They were on. They are off everywhere, and `polish.py` strips
+any that survive an earlier build rather than leaving it to chance.
+
+### D60. "Seat" is never used.
+Owner's instruction. "Of which people in seat today" is "Of which filled roles".
+
+### D61. The 2.x overheads belong in the table up top.
+They sat in a second table below the squads with a header row of their own, and that second
+header carried column names that were wrong for it - "Archetype cost" over a block no
+archetype prices. There is now one table, one header row, and three labelled sections inside
+it: squads priced by an archetype, directly funded programmes, overhead roles. The column
+names are the owner's own, off his markup of 2.8: Squad Size, Total roles, Total roles after
+decisions, Squad cost after decisions.
+
+All fourteen 2.x tabs measure as a single structural profile - identical column widths,
+identical header text, identical section order.
+
 ### D53. A total that ignores the line above it.
 `1.11!C15` "Total Business Partnering budget ($m)" was `=C14`, so `C13` - the $2.20m of
 Business Partner cost funded out of portfolio overheads, sitting on the line directly above

@@ -28,6 +28,12 @@ G1, G2, G3 = "'3.1 Group Summary'", "'3.2 Total Cost'", "'3.3 FTE View'"
 # 3.3 columns after the "How it is funded" column was added
 C33 = dict(pf="B", kind="C", squad="D", aroles="G", roles="H", filled="I", vacant="J",
            rafter="K", acost="L", actual="M", var="N", after="O")
+# 3.1 is a bridge now: the line name is in B, the portfolio in C, and the figures start at D
+C31 = dict(name="B", pf="C", acost="D", actual="E", var="F", after="G", roles="H",
+           filled="I", vacant="J", rafter="K")
+# 3.2 gained a Basis column, so every figure on it moved one to the right
+C32 = dict(line="B", basis="C", rate="D", times="E", allow="F", pfroles="G", pfcost="H",
+           notcov="I", coeroles="J", coecost="K")
 
 
 def find_row(ws, label, col=2, limit=200, exact=False):
@@ -44,7 +50,6 @@ def anchors(wb):
     a3 = json.load(open("anchors_final3.json"))
     s2, s3 = wb[G2.strip("'")], wb[G3.strip("'")]
     a = dict(a3["3.1"])
-    a["g32"] = find_row(s2, "Cost of the organisation today")
     a["ohtot32"] = find_row(s2, "Every overhead line")
     a["ohpf32"] = find_row(s2, "Of which drawn in the portfolios")
     a["g33"] = find_row(s3, "Group total")
@@ -101,40 +106,40 @@ def build_exec(wb, a, a2):
         return r + 1
 
     r = block(4, "The organisation today", [
-        ("Roles in the ledger", f"={G1}!$G${gt}", opts.CT),
-        ("Filled", f"={G1}!$H${gt}", opts.CT),
-        ("Vacant", f"={G1}!$I${gt}", opts.CT),
-        ("Cost of the 525 roles in the ledger ($m)", f"={G1}!$D${gt}", opts.M2),
-        ("Of which people in seat today ($m)",
+        ("Roles in the ledger", f"={G1}!${C31['roles']}${gt}", opts.CT),
+        ("Filled", f"={G1}!${C31['filled']}${gt}", opts.CT),
+        ("Vacant", f"={G1}!${C31['vacant']}${gt}", opts.CT),
+        ("Cost of the 525 roles in the ledger ($m)", f"={G1}!${C31['actual']}${gt}", opts.M2),
+        ("Of which filled roles ($m)",
          f'=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Filled")/1000000',
          opts.M2),
         ("Of which vacancies not yet filled ($m)",
          f'=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Vacant")/1000000',
          opts.M2),
         ("The 8 GMs, outside the ledger ($m)", "=N(Lists!$AG$12)", opts.M2),
-        ("Cost today including the GM layer ($m)", f"={G1}!$D${a['grand']}", opts.M2)])
+        ("Cost today including the GM layer ($m)", f"={G1}!${C31['actual']}${a['grand']}", opts.M2)])
 
     r = block(r, "Against the archetype", [
         ("Squads priced by an archetype - archetype cost ($m)",
-         f"={G1}!$C${a['arch']}", opts.M2),
+         f"={G1}!${C31['acost']}${a['arch']}", opts.M2),
         ("Squads priced by an archetype - actual ($m)",
-         f"={G1}!$D${a['arch']}", opts.M2),
+         f"={G1}!${C31['actual']}${a['arch']}", opts.M2),
         ("Squads priced by an archetype - over/(under) ($m)",
-         f"={G1}!$E${a['arch']}", opts.M2),
+         f"={G1}!${C31['var']}${a['arch']}", opts.M2),
         ("Directly funded programmes - over/(under) funded ($m)",
-         f"={G1}!$E${a['direct']}", opts.M2),
+         f"={G1}!${C31['var']}${a['direct']}", opts.M2),
         ("COEs and EGI - over/(under) their 1.x planned spend ($m)",
-         f"={G1}!$E${a['coe']}", opts.M2),
+         f"={G1}!${C31['var']}${a['coe']}", opts.M2),
         ("Overhead roles - not covered by the allowance ($m)",
-         f"={G1}!$E${a['overhead']}", opts.M2),
+         f"={G1}!${C31['var']}${a['overhead']}", opts.M2),
         # without this line the four components above summed to 6.378 under a total of
         # 8.478, because the total includes the GM layer and nothing listed it
         ("The 8 GMs - over/(under) their allowance ($m)",
-         f"={G1}!$E${a['gm']}", opts.M2),
-        ("Total over/(under) archetype ($m)", f"={G1}!$E${a['grand']}", opts.M2)])
+         f"={G1}!${C31['var']}${a['gm']}", opts.M2),
+        ("Total over/(under) archetype ($m)", f"={G1}!${C31['var']}${a['grand']}", opts.M2)])
 
     r = block(r, "The vacancy decision", [
-        ("Vacant roles", f"={G1}!$I${gt}", opts.CT),
+        ("Vacant roles", f"={G1}!${C31['vacant']}${gt}", opts.CT),
         ("Vacancies set to hire", "=" + "+".join(
             f"N('{t}'!${L(S['hire'])}${i['total_row']})" for t, i in a2.items()),
          opts.CT),
@@ -144,9 +149,9 @@ def build_exec(wb, a, a2):
         ("Roles put on hold", "=" + "+".join(
             f"N('{t}'!${L(S['hold'])}${i['total_row']})" for t, i in a2.items()),
          opts.CT),
-        ("Roles after the decisions set today", f"={G1}!$J${gt}", opts.CT),
-        ("Cost after the decisions set today ($m)", f"={G1}!$F${gt}", opts.M2),
-        ("Impact of those decisions ($m)", f"={G1}!$F${gt}-{G1}!$D${gt}", opts.M2)])
+        ("Roles after the decisions set today", f"={G1}!${C31['rafter']}${gt}", opts.CT),
+        ("Cost after the decisions set today ($m)", f"={G1}!${C31['after']}${gt}", opts.M2),
+        ("Impact of those decisions ($m)", f"={G1}!${C31['after']}${gt}-{G1}!${C31['actual']}${gt}", opts.M2)])
 
     # portfolio drill-down. The name list is read out of 3.1's archetype block, which
     # carries one row per portfolio.
@@ -160,10 +165,8 @@ def build_exec(wb, a, a2):
     pick.value = "Ampol Retail"
     pick.fill, pick.border = opts.fl(opts.YEL), opts.BOX
     pick.font, pick.alignment = opts.BODY, opts.CEN
-    s1 = wb[G1.strip("'")]
-    lo = find_row(s1, "Squads priced by an archetype") + 1
-    hi = a["arch"] - 1
-    names = [str(s1.cell(x, 2).value) for x in range(lo, hi + 1) if s1.cell(x, 2).value]
+    l = wb["Lists"]
+    names = [str(l.cell(x, 45).value) for x in range(2, 12) if l.cell(x, 45).value]
     dv = DataValidation(type="list", formula1='"' + ",".join(names) + '"',
                         allow_blank=False, showDropDown=False)
     ws.add_data_validation(dv)
@@ -200,7 +203,6 @@ def build_exec(wb, a, a2):
         x.value, x.number_format, x.alignment = f, nf, opts.RGT
         x.font, x.border = opts.BODY, opts.BOX
         r += 1
-    ws.freeze_panes = "C4"
     return r
 
 
@@ -230,55 +232,51 @@ def build_qa(wb, a, a2):
     ws.cell(2, 2).font = opts.TITLE
     HDR = 4
     opts.head(ws, HDR, 2, ["Check", "Model", "Expected", "Difference"], [72, 16, 16, 14])
-    gt, g32, g33 = a["total"], a["g32"], a["g33"]
+    gt, g33 = a["total"], a["g33"]
     lo33, hi33 = a["first33"], g33 - 1
     # "<>Squad" also matches the two empty ledger rows, whose AR is a blank string, so
     # the count came to 65 against 63 real overhead roles. The name column is the guard.
     oh = f'{REV}!$AR$2:$AR${LAST},"<>Squad",{REV}!$B$2:$B${LAST},"<>"'
     checks = [
         # ---- the ledger ----
-        ("Roles on 3.1 against the ledger", f"={G1}!$G${gt}",
+        ("Roles on 3.1 against the ledger", f"={G1}!${C31['roles']}${gt}",
          f"=COUNTA({REV}!$B$2:$B${LAST})", opts.CT),
-        ("Filled on 3.1 against the ledger", f"={G1}!$H${gt}",
+        ("Filled on 3.1 against the ledger", f"={G1}!${C31['filled']}${gt}",
          f'=COUNTIFS({REV}!$AK$2:$AK${LAST},"Filled")', opts.CT),
-        ("Vacant on 3.1 against the ledger", f"={G1}!$I${gt}",
+        ("Vacant on 3.1 against the ledger", f"={G1}!${C31['vacant']}${gt}",
          f'=COUNTIFS({REV}!$AK$2:$AK${LAST},"Vacant")', opts.CT),
-        ("Filled plus vacant against roles on 3.1", f"={G1}!$H${gt}+{G1}!$I${gt}",
-         f"={G1}!$G${gt}", opts.CT),
-        ("Cost on 3.1 against the ledger ($m)", f"={G1}!$D${gt}",
+        ("Filled plus vacant against roles on 3.1", f"={G1}!${C31['filled']}${gt}+{G1}!${C31['vacant']}${gt}",
+         f"={G1}!${C31['roles']}${gt}", opts.CT),
+        ("Cost on 3.1 against the ledger ($m)", f"={G1}!${C31['actual']}${gt}",
          f"=SUM({REV}!$AA$2:$AA${LAST})/1000000", opts.M2),
-        ("People in seat plus vacancies against cost today ($m)",
+        ("Filled plus vacant cost against cost today ($m)",
          f'=(SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Filled")'
          f'+SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Vacant"))/1000000',
-         f"={G1}!$D${gt}", opts.M2),
+         f"={G1}!${C31['actual']}${gt}", opts.M2),
         # ---- summary against summary, by a different route ----
         ("Roles on 3.3 against 3.1", f"={G3}!${C33['roles']}${g33}",
-         f"={G1}!$G${gt}", opts.CT),
+         f"={G1}!${C31['roles']}${gt}", opts.CT),
         ("Cost on 3.3 against 3.1 ($m)", f"={G3}!${C33['actual']}${g33}",
-         f"={G1}!$D${gt}", opts.M2),
-        ("Cost on 3.2 against 3.1 ($m)", f"={G2}!$D${g32}",
-         f"={G1}!$D${gt}", opts.M2),
+         f"={G1}!${C31['actual']}${gt}", opts.M2),
         ("Total including the GM layer against the ledger plus the GM input ($m)",
-         f"={G1}!$D${a['grand']}",
+         f"={G1}!${C31['actual']}${a['grand']}",
          f"=SUM({REV}!$AA$2:$AA${LAST})/1000000+N(Lists!$AG$12)", opts.M2),
         ("Archetype variance - the five blocks against the total ($m)",
-         f"={G1}!$E${a['arch']}+{G1}!$E${a['direct']}+{G1}!$E${a['coe']}"
-         f"+{G1}!$E${a['overhead']}+{G1}!$E${a['gm']}",
-         f"={G1}!$E${a['grand']}", opts.M2),
+         f"={G1}!${C31['var']}${a['arch']}+{G1}!${C31['var']}${a['direct']}+{G1}!${C31['var']}${a['coe']}"
+         f"+{G1}!${C31['var']}${a['overhead']}+{G1}!${C31['var']}${a['gm']}",
+         f"={G1}!${C31['var']}${a['grand']}", opts.M2),
         ("Roles including the GM layer against 525 plus the GM count",
-         f"={G1}!$G${a['grand']}",
+         f"={G1}!${C31['roles']}${a['grand']}",
          f"=COUNTA({REV}!$B$2:$B${LAST})+N(Lists!$AG$11)", opts.CT),
-        ("Archetype cost on 3.2 against 3.1 ($m)", f"={G2}!$C${g32}",
-         f"={G1}!$C${gt}", opts.M2),
         # ---- the design side ----
         ("Archetype cost, squad by squad on 3.3, against 3.1 ($m)",
          f"=SUMIFS({G3}!${C33['acost']}${lo33}:${C33['acost']}${hi33},"
          f'{G3}!${C33["kind"]}${lo33}:${C33["kind"]}${hi33},"Archetype")',
-         f"={G1}!$C${a['arch']}", opts.M2),
+         f"={G1}!${C31['acost']}${a['arch']}", opts.M2),
         ("Directly funded amount, squad by squad on 3.3, against 3.1 ($m)",
          f"=SUMIFS({G3}!${C33['acost']}${lo33}:${C33['acost']}${hi33},"
          f'{G3}!${C33["kind"]}${lo33}:${C33["kind"]}${hi33},"Directly funded")',
-         f"={G1}!$C${a['direct']}+{G1}!$C${a['coe']}", opts.M2),
+         f"={G1}!${C31['acost']}${a['direct']}+{G1}!${C31['acost']}${a['coe']}", opts.M2),
         ("Archetype roles on 3.3 against the priced-per-portfolio list on Lists",
          f"=SUMIFS({G3}!${C33['aroles']}${lo33}:${C33['aroles']}${hi33},"
          f'{G3}!${C33["kind"]}${lo33}:${C33["kind"]}${hi33},"Archetype")',
@@ -287,28 +285,31 @@ def build_qa(wb, a, a2):
          f"=ROUND({A3}!$H$5/{A3}!$G$5,6)", f"=ROUND({A3}!$K$5,6)", opts.C1),
         # ---- the overhead allowance ----
         ("Overhead allowance on 3.2 against Lists ($m)",
-         f"={G2}!$E${a['ohtot32']}", "=N(Lists!$AJ$8)", opts.M2),
+         f"={G2}!${C32['allow']}${a['ohtot32']}", "=N(Lists!$AJ$8)", opts.M2),
         ("Allowance drawn in the portfolios against the lines that draw it ($m)",
          "=N(Lists!$AJ$9)", '=SUMIF(Lists!$AM$2:$AM$7,"Yes",Lists!$AJ$2:$AJ$7)',
          opts.M2),
         ("Overhead roles in the portfolios plus those inside the COEs against "
          "every overhead role",
-         f"={G2}!$F${a['ohpf32']}+{G2}!$I${a['ohtot32']}",
+         f"={G2}!${C32['pfroles']}${a['ohpf32']}"
+         f"+{G2}!${C32['coeroles']}${a['ohtot32']}",
          f"=COUNTIFS({oh})", opts.CT),
         ("Overhead cost in the portfolios plus inside the COEs against every "
          "overhead role ($m)",
-         f"={G2}!$G${a['ohpf32']}+{G2}!$J${a['ohtot32']}",
+         f"={G2}!${C32['pfcost']}${a['ohpf32']}"
+         f"+{G2}!${C32['coecost']}${a['ohtot32']}",
          f"=SUMIFS({REV}!$AA$2:$AA${LAST},{oh})/1000000", opts.M2),
         ("Overhead on 3.1 against the portfolio lines on 3.2 ($m)",
-         f"={G1}!$D${a['overhead']}", f"={G2}!$G${a['ohpf32']}", opts.M2),
+         f"={G1}!${C31['actual']}${a['overhead']}",
+         f"={G2}!${C32['pfcost']}${a['ohpf32']}", opts.M2),
         # ---- the lever ----
         ("Roles after decisions against roles less anything on hold",
-         f"={G1}!$J${gt}",
-         f"={G1}!$G${gt}-" + "-".join(
+         f"={G1}!${C31['rafter']}${gt}",
+         f"={G1}!${C31['roles']}${gt}-" + "-".join(
              f"N('{t}'!${L(S['hold'])}${i['total_row']})" for t, i in a2.items()),
          opts.CT),
         ("Cost after decisions against cost today, with no lever pulled ($m)",
-         f"={G1}!$F${gt}", f"={G1}!$D${gt}", opts.M2),
+         f"={G1}!${C31['after']}${gt}", f"={G1}!${C31['actual']}${gt}", opts.M2),
     ]
     # the COE tabs price their own planned spend off their own roles list. Where that list
     # is short of the ledger the planned spend is short too, and nothing else in the file
@@ -352,7 +353,6 @@ def build_qa(wb, a, a2):
     x = ws.cell(r, 5)
     x.value = f'=COUNTIF($E{HDR+1}:$E{r-1},"<>0")'
     x.number_format, x.alignment = opts.CTL_C, opts.RGT
-    ws.freeze_panes = "C5"
     return len(checks)
 
 
@@ -396,8 +396,8 @@ def run(src, dst):
             f"{nc} inputs recoloured to cream across the live model",
             "Exec Summary rebuilt on design against actual, with a portfolio drill-down",
             f"4.0 Data QA rebuilt: {k} checks, model / expected / difference",
-            f"anchors: 3.1 total r{a['total']}, 3.2 total r{a['g32']}, "
-            f"3.3 total r{a['g33']}"]
+            f"anchors: 3.1 ledger r{a['total']} grand r{a['grand']}, "
+            f"3.2 overhead total r{a['ohtot32']}, 3.3 total r{a['g33']}"]
 
 
 if __name__ == "__main__":

@@ -36,7 +36,8 @@ a visible override table on `Lists`, not by editing Lee's raw columns.
                    0.4 Presentation Pack   REVIEW - Complete Role Mapping
 1.x  design        1.1 - 1.10 portfolios   1.11 BP&T  1.12 SA&D  1.13 Cyber Roles
 2.x  working       2.1 - 2.14, one per portfolio, this is where decisions get made
-3.x  summaries     3.1 Group  3.2 Total Cost  3.3 Squad Detail  3.4 COE Detail
+3.x  summaries     3.1 Cost Bridge  3.2 Overhead & Leadership
+                   3.3 Squad Detail  3.4 COE Detail
 4.0  Data QA       live checks
 Exec Summary       the story
 ```
@@ -94,6 +95,12 @@ banned list. Still live except where superseded below.
 | 37 | Do not call it design. It is the archetype. | Done |
 | 38 | A tab's name must match its own title. | Done |
 | 39 | Delete Sheet2. REVIEW is the only source we care about. | Done - and every other retired source with it |
+| 40 | No frozen panes anywhere in this workbook. | Done |
+| 41 | 3.x never followed the instruction. 3.1 is layout 3D - a cost bridge. | Done |
+| 42 | Name the directly funded squads explicitly, e.g. CTRM. | Done - all ten on 3.1 by name |
+| 43 | 3.2 Total Cost gave nothing. Delete it, replace it. | Done - it is Overhead & Leadership |
+| 44 | The word "seat" is never used. | Done |
+| 45 | The 2.x overheads belong in the table up top, not in a second table below. | Done - one table, one header |
 
 ## 5. How the cost is compared
 
@@ -101,15 +108,29 @@ The organisation is funded four ways, so the comparison is built four ways and e
 says which one it is. Netting them into one line is what produced a group reading +11.49
 over an archetype that prices two thirds of the roles.
 
-| Block | Archetype / funded | Actual | Over/(under) | Roles |
+`3.1 Cost Bridge` is layout 3D. It starts at the archetype cost of the squads an archetype
+prices and walks, one named line at a time, to what TDD actually costs. Every directly
+funded programme is on the page by name.
+
+| Step | Archetype / funded | Actual | Variance | Roles |
 |---|---|---|---|---|
-| Squads priced by an archetype | 64.20 | 63.81 | (0.39) | 316 |
-| Directly funded programmes and platforms | 10.44 | 11.88 | 1.44 | 53 |
+| Squads priced by an archetype, one line per portfolio | 64.20 | 63.81 | (0.39) | 316 |
+| AmPOS | 1.40 | 2.12 | 0.71 | 10 |
+| EGI Retail | 1.22 | 1.22 | - | 6 |
+| EGI TDD (Ampol Retail) | 0.30 | 0.30 | - | 1 |
+| EGI Customer | 2.21 | 2.21 | - | 10 |
+| Leadership (Customer) | - | 1.05 | - | 5 |
+| EGI TDD (TDD Group Functions) | 1.02 | 1.02 | - | 4 |
+| EGI P&C | 0.24 | 0.24 | - | 1 |
+| EGI Finance | 0.24 | 0.24 | - | 1 |
+| Leadership (Infrastructure) | - | 0.26 | - | 1 |
+| CTRM | 3.80 | 3.22 | (0.58) | 14 |
+| **Directly funded programmes and platforms** | **10.44** | **11.88** | **1.44** | **53** |
 | COEs and EGI, off their own 1.x tabs | 27.77 | 27.77 | - | 113 |
 | Overhead roles in the portfolios, against the allowance | 6.33 | 11.65 | 5.33 | 43 |
-| **Cost of the organisation today** | **108.74** | **115.11** | **6.38** | **525** |
+| **Cost of the 525 roles in the ledger** | **108.74** | **115.11** | **6.38** | **525** |
 | Leadership - the 8 GMs, outside the ledger | 3.00 | 5.10 | 2.10 | 8 |
-| **Total including the GM layer** | **111.74** | **120.21** | **8.48** | **533** |
+| **Total cost of TDD including the GM layer** | **111.74** | **120.21** | **8.48** | **533** |
 
 Of the $115.11m, $86.58m is people in seat and $28.53m is 135 vacancies nobody has been
 hired into yet. Both are on 3.2 and on Exec, so the headline is not read as payroll.
@@ -128,12 +149,14 @@ carries the one line that reconciles the block to 3.1.
 | On a 2.x tab | 525, none twice, none missing |
 | 3.1 / 3.2 / 3.3 / 3.4 / Exec | all tie to the ledger |
 | Every control row | 0 |
-| 4.0 live checks | 58, all zero |
+| 4.0 live checks | 56, all zero |
 | Formula errors after full recalculation | 0 |
 | Adversarial QA (`qa.py`), eight checks | 0 findings |
 | Layout QA (`verify.py`), five checks | 0 findings |
 | Lever, recalculated end to end | cost and headcount both move, cost today does not |
 | Sheets | 44, ordered to match the numbering, one hidden (Lists) |
+| Frozen panes | none |
+| 2.x structural profiles | 1 across all fourteen tabs |
 
 Portfolio split after the agreed assignments:
 

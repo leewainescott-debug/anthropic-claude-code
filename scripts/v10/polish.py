@@ -33,7 +33,9 @@ RENAME = {"Portfolios": "- PORTFOLIOS -", "ACTUAL WORKBOOKS": "- WORKING -"}
 # detail", and 2.11 carries "COE Cyber" in its title and portfolio cell while the tab said
 # TDD Cyber - the ledger calls it COE Cyber everywhere else.
 RETITLE = {"3.3 FTE View": "3.3 Squad Detail", "3.4 COE Summary": "3.4 COE Detail",
-           "2.11 TDD Cyber": "2.11 COE Cyber"}
+           "2.11 TDD Cyber": "2.11 COE Cyber",
+           "3.1 Group Summary": "3.1 Cost Bridge",
+           "3.2 Total Cost": "3.2 Overhead & Leadership"}
 ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Config",
          "0.3 Squad Archetypes", "0.4 Presentation Pack",
          "REVIEW - Complete Role Mapping", "- PORTFOLIOS -",
@@ -45,7 +47,8 @@ ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Confi
          "2.4 TDD Group Functions", "2.5 P&C", "2.6 Finance", "2.7 Infrastructure",
          "2.8 Energy Solutions & B2B", "2.9 Commercial Fuels", "2.10 Z Retail",
          "2.11 COE Cyber", "2.12 BP&T", "2.13 SA&D", "2.14 EGI", "- SUMMARIES -",
-         "3.1 Group Summary", "3.2 Total Cost", "3.3 Squad Detail", "3.4 COE Detail",
+         "3.1 Cost Bridge", "3.2 Overhead & Leadership", "3.3 Squad Detail",
+         "3.4 COE Detail",
          "- EVIDENCE -", "4.0 Data QA"]
 GREY, DESIGN, WORK, SUMM, EVID = ("FF808080", "FF1F4E79", "FFBF8F00", "FF002F6C",
                                   "FF375623")
@@ -217,28 +220,15 @@ def gutters_and_grid(wb):
 
 
 def freeze(wb):
-    """Every long table gets a frozen header. It was on nineteen tabs and off on the
-    twenty with the longest lists, including the 528-row ledger."""
+    """None. The owner's instruction is no frozen panes in this workbook, and the register
+    contradicted itself on the point, so this removes any that survive from an earlier
+    build rather than leaving it to chance."""
     n = 0
-    for ws in live(wb):
-        if ws.max_row < 25 or ws.freeze_panes:
-            continue
-        hdr = None
-        for r in range(1, 12):
-            filled = sum(1 for c in range(2, 16)
-                         if isinstance(ws.cell(r, c).value, str)
-                         and ws.cell(r, c).value.strip())
-            if filled >= 3:
-                hdr = r
-                break
-        if hdr:
-            ws.freeze_panes = f"C{hdr + 1}"
+    for ws in wb.worksheets:
+        if ws.freeze_panes:
+            ws.freeze_panes = None
             n += 1
-    R = wb["REVIEW - Complete Role Mapping"]
-    if not R.freeze_panes:
-        R.freeze_panes = "C2"
-        n += 1
-    return [f"frozen header rows added on {n} tabs"]
+    return [f"frozen panes removed from {n} tabs"]
 
 
 SENTENCE = 90

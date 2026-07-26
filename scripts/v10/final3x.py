@@ -1,4 +1,14 @@
-"""3.1, 3.2 and 3.3 on layout 3D, reading the rebuilt 2.x tabs.
+"""3.1, 3.2 and 3.3, reading the rebuilt 2.x tabs.
+
+3.1 is layout 3D, which is what the owner picked and what the last build did not deliver: a
+cost bridge. It starts at the archetype cost of the squads an archetype prices and walks,
+one named line at a time, to what TDD actually costs. Every directly funded programme is on
+the page by name - AmPOS, CTRM, the six EGI programmes, the two Leadership groups - because
+a single "Directly funded 10.44" line tells a reader nothing about what the 10.44 is.
+Per-portfolio and per-squad detail lives on 3.3, which is where 3D puts it.
+
+3.2 was "Total Cost" and restated 3.1's subtotals. It is now overhead and leadership, which
+is the one thing no other tab in the workbook states.
 
 Design cost against actual cost, no budget anywhere. The design side is built four ways,
 because the organisation is funded four ways, and each block states which one it is:
@@ -74,13 +84,13 @@ def patch_lists(wb):
     return f"Lists: overhead lines tagged in {cl}, portfolio-drawn allowance at AJ9", cl
 
 
-H31 = ["Portfolio", "Archetype cost ($m)", "Actual cost ($m)", "Over/(under) archetype ($m)",
-       "Cost after vacancy decisions ($m)", "Roles", "Filled", "Vacant",
-       "Roles after decisions"]
-W31 = [38, 15, 14, 17, 19, 8, 8, 8, 13]
-NUM = {3: opts.M2, 4: opts.M2, 5: opts.M2, 6: opts.M2,
-       7: opts.CT, 8: opts.CT, 9: opts.CT, 10: opts.CT}
-LASTC = 10                                               # column J
+H31 = ["Line", "Portfolio", "Archetype cost ($m)", "Actual cost ($m)",
+       "Variance to archetype ($m)", "Squad cost after decisions ($m)", "Total roles",
+       "Filled", "Vacant", "Total roles after decisions"]
+W31 = [42, 24, 15, 14, 17, 19, 9, 8, 8, 14]
+NUM = {4: opts.M2, 5: opts.M2, 6: opts.M2, 7: opts.M2,
+       8: opts.CT, 9: opts.CT, 10: opts.CT, 11: opts.CT}
+FIRST, LASTC = 4, 11                                     # D .. K
 
 
 def order(anchors):
@@ -90,293 +100,284 @@ def order(anchors):
 
 
 def build_31(wb, anchors):
+    """The cost bridge. One line per step, every step named.
+
+    Option 3D, which is what the owner picked: start at the archetype cost of the squads
+    the archetype prices and walk to what the organisation actually costs, naming each
+    step. Every directly funded programme is on its own line by name - AmPOS, CTRM, the
+    EGI programmes - because "Directly funded, 10.44" tells a reader nothing about what
+    the 10.44 is. Per-portfolio and per-squad detail is on 3.3.
+    """
     ws = wb["3.1 Group Summary"]
     f2.wipe(ws)
     ws.column_dimensions["A"].width = 2
-    ws.cell(2, 2).value = "TDD Summary - all portfolios"
+    ws.cell(2, 2).value = "TDD cost bridge - archetype cost to actual cost"
     ws.cell(2, 2).font = opts.TITLE
     pfs, coes = order(anchors)
-    tiles = 4
-    ws.cell(tiles, 2).value = "Group position"
-    ws.cell(tiles, 2).font = opts.BOLD
-    ws.cell(tiles, 2).alignment = opts.LFT
 
-    r = opts.bar(ws, 7, 2, len(H31), "Archetype cost against actual cost")
+    r = opts.bar(ws, 4, 2, len(H31), "How the organisation gets from its archetype "
+                                     "cost to what it actually costs")
     r = opts.head(ws, r, 2, H31, W31)
+
+    def line(rw, name, pf, tab, src, design):
+        ws.cell(rw, 2).value = name
+        ws.cell(rw, 3).value = pf
+        for c in (2, 3):
+            ws.cell(rw, c).font = opts.BODY
+            ws.cell(rw, c).alignment = opts.LFT
+        f2._m(ws, rw, 4, design)
+        f2._m(ws, rw, 5, f"='{tab}'!${L(S['actual'])}${src}")
+        f2._m(ws, rw, 6, f'=IFERROR(ROUND($E{rw}-$D{rw},6),"-")')
+        f2._m(ws, rw, 7, f"='{tab}'!${L(S['after'])}${src}")
+        for i, k in enumerate(("roles", "filled", "vacant", "rafter")):
+            f2._m(ws, rw, 8 + i, f"='{tab}'!${L(S[k])}${src}", opts.CT)
+
+    def sub(rw, text, r0, r1):
+        opts.row(ws, rw, 2, [text] + [None] * (len(H31) - 1), [None] * len(H31),
+                 bg=opts.GREY, bold=True)
+        ws.cell(rw, 2).alignment = opts.LFT
+        for c in range(FIRST, LASTC + 1):
+            x = ws.cell(rw, c)
+            # the variance on a total is actual less archetype, never the sum of the row
+            # variances: a row with no archetype carries "-" in that column and drops out
+            # of a SUM, so the directly funded subtotal read 0.13 against a real 1.44 and
+            # the group read 5.07 against 6.38
+            x.value = (f"=ROUND($E{rw}-$D{rw},6)" if c == 6
+                       else f"=SUM({L(c)}{r0}:{L(c)}{r1})")
+            x.number_format, x.alignment = NUM[c], opts.RGT
 
     def label(rw, text):
         opts.row(ws, rw, 2, [text] + [None] * (len(H31) - 1), [None] * len(H31),
                  bg=opts.PALE, bold=True)
         ws.cell(rw, 2).alignment = opts.LFT
-        return rw + 1
 
-    def sub(rw, text, r0, r1, blank=()):
-        opts.row(ws, rw, 2, [text] + [None] * (len(H31) - 1), [None] * len(H31),
-                 bg=opts.GREY, bold=True)
-        ws.cell(rw, 2).alignment = opts.LFT
-        for c in range(3, LASTC + 1):
-            x = ws.cell(rw, c)
-            x.value = '="-"' if c in blank else f"=SUM({L(c)}{r0}:{L(c)}{r1})"
-            x.number_format, x.alignment = NUM[c], opts.RGT
-        return rw + 1
+    # ---- step 1: the squads an archetype prices, one line per portfolio ----
+    label(r, "Squads priced by an archetype - detail on 3.3")
+    r += 1
+    st = r
+    for pf, tab, a in pfs:
+        line(r, pf, pf, tab, a["delivery_row"], f"='{tab}'!${L(S['acost'])}${a['delivery_row']}")
+        ws.cell(r, 2).value = f"{pf} - archetyped squads"
+        r += 1
+    sub(r, "Squads priced by an archetype", st, r - 1)
+    s1 = r
+    r += 1
 
-    def rows(rw, items, row_of, design):
-        for pf, tab, a in items:
-            src = row_of(a)
-            ws.cell(rw, 2).value = pf
-            ws.cell(rw, 2).font = opts.BODY
-            ws.cell(rw, 2).alignment = opts.LFT
-            f2._m(ws, rw, 3, design(pf, tab, src))
-            f2._m(ws, rw, 4, f"='{tab}'!${L(S['actual'])}${src}")
-            f2._m(ws, rw, 5, f"=IFERROR($D{rw}-$C{rw},\"-\")")
-            f2._m(ws, rw, 6, f"='{tab}'!${L(S['after'])}${src}")
-            for i, k in enumerate(("roles", "filled", "vacant", "rafter")):
-                f2._m(ws, rw, 7 + i, f"='{tab}'!${L(S[k])}${src}", opts.CT)
-            rw += 1
-        return rw
+    # ---- step 2: every directly funded programme, by name ----
+    label(r, "Directly funded programmes and platforms - no archetype prices them, so "
+             "the comparison is the amount funded on the 1.x tab")
+    r += 1
+    st = r
+    for pf, tab, a in pfs:
+        for g in a["direct"]:
+            line(r, g, pf, tab, a["srow"][g],
+                 f"='{tab}'!${L(S['acost'])}${a['srow'][g]}")
+            r += 1
+    sub(r, "Directly funded programmes and platforms", st, r - 1)
+    s2 = r
+    r += 1
 
-    own = lambda col: (lambda pf, tab, src: f"='{tab}'!${L(S[col])}${src}")
+    # ---- step 3: the COEs and EGI ----
+    label(r, "COEs and EGI - priced off the planned spend on their own 1.x tabs")
+    r += 1
+    st = r
+    for pf, tab, a in coes:
+        line(r, pf, pf, tab, a["total_row"],
+             COE_DESIGN.get(pf, f"='{tab}'!${L(S['actual'])}${a['total_row']}"))
+        r += 1
+    sub(r, "COEs and EGI", st, r - 1)
+    s3 = r
+    r += 1
 
-    r = label(r, "Squads priced by an archetype")
-    r = rows(r, pfs, lambda a: a["delivery_row"], own("acost"))
-    r = sub(r, "Priced by an archetype", r - len(pfs), r - 1)
-    s1 = r - 1
-
-    direct = [(p, t, a) for p, t, a in pfs if a["direct"]]
-    r = label(r, "Directly funded programmes and platforms - funded on the 1.x tab")
-    r = rows(r, direct, lambda a: a["direct_row"], own("acost"))
-    r = sub(r, "Directly funded", r - len(direct), r - 1)
-    s2 = r - 1
-
-    def coe(pf, tab, src):
-        return COE_DESIGN.get(pf, f"='{tab}'!${L(S['actual'])}${src}")
-
-    r = label(r, "COEs and EGI - planned spend on their own 1.x tabs")
-    r = rows(r, coes, lambda a: a["total_row"], coe)
-    r = sub(r, "COEs and EGI", r - len(coes), r - 1)
-    s3 = r - 1
-
-    # One row, not ten. The allowance is built per portfolio and per platform at group
-    # level, so there is no per-portfolio allowance to put beside a per-portfolio cost; a
-    # ten-row block would have carried a subtotal the rows above it did not add to. The
-    # overhead detail by portfolio is on 3.3 and on each working tab.
-    opts.row(ws, r, 2, ["Overhead roles in the portfolios"] +
-             [None] * (len(H31) - 1), [None] * len(H31), bg=opts.GREY, bold=True)
-    ws.cell(r, 2).alignment = opts.LFT
-    oh = [(p, t, a) for p, t, a in pfs if a["overhead_row"]]
-    f2._m(ws, r, 3, "=N(Lists!$AJ$9)")
-    for c, k in ((4, "actual"), (6, "after")):
-        f2._m(ws, r, c, "=" + "+".join(
-            f"N('{t}'!${L(S[k])}${a['overhead_row']})" for _, t, a in oh))
-    f2._m(ws, r, 5, f"=$D{r}-$C{r}")
-    for i, k in enumerate(("roles", "filled", "vacant", "rafter")):
-        f2._m(ws, r, 7 + i, "=" + "+".join(
-            f"N('{t}'!${L(S[k])}${a['overhead_row']})" for _, t, a in oh), opts.CT)
-    for c in range(3, LASTC + 1):
-        ws.cell(r, c).font = opts.BOLD
+    # ---- step 4: overhead in the portfolios, against the allowance ----
+    label(r, "Overhead roles in the portfolios - the allowance is the comparison, "
+             "line by line on 3.2")
+    r += 1
+    st = r
+    for pf, tab, a in pfs:
+        if not a["overhead_row"]:
+            continue
+        line(r, f"{pf} - overhead roles", pf, tab, a["overhead_row"], '="-"')
+        r += 1
+    sub(r, "Overhead roles in the portfolios", st, r - 1)
     s4 = r
+    f2._m(ws, s4, 4, "=N(Lists!$AJ$9)")
+    f2._m(ws, s4, 6, f"=ROUND($E{s4}-$D{s4},6)")
+    for c in (4, 6):
+        ws.cell(s4, c).font = opts.BOLD
     r += 1
 
-    r += 1
-    opts.row(ws, r, 2, ["Cost of the organisation today"] + [None] * (len(H31) - 1),
+    # ---- the ledger total ----
+    opts.row(ws, r, 2, ["Cost of the 525 roles in the ledger"] + [None] * (len(H31) - 1),
              [None] * len(H31), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
-    for c in range(3, LASTC + 1):
+    for c in range(FIRST, LASTC + 1):
         x = ws.cell(r, c)
-        x.value = "=" + "+".join(f"N({L(c)}{p})" for p in (s1, s2, s3, s4))
+        x.value = (f"=ROUND($E{r}-$D{r},6)" if c == 6
+                   else "=" + "+".join(f"N({L(c)}{p})" for p in (s1, s2, s3, s4)))
         x.number_format, x.alignment = NUM[c], opts.RGT
     gt = r
     r += 1
-    # The 8 GMs cost $5.1m and carry no role in REVIEW, so they sit outside the 525-role
-    # ledger. Leaving them off the headline understated TDD by 5.1 on the one page a GM
-    # reads first. The ledger total stays exactly where it was, because every control and
-    # every check ties to it; the GM layer is stated beneath it and added in a grand total.
+
+    # ---- the GM layer, which has no role in the ledger to price ----
     opts.row(ws, r, 2, ["Leadership - the 8 GMs, outside the 525-role ledger"] +
              [None] * (len(H31) - 1), [None] * len(H31), bg=opts.PALE)
     ws.cell(r, 2).alignment = opts.LFT
-    f2._m(ws, r, 3, "=N(Lists!$AJ$7)")
-    f2._m(ws, r, 4, "=N(Lists!$AG$12)")
-    f2._m(ws, r, 5, f"=$D{r}-$C{r}")
-    f2._m(ws, r, 6, "=N(Lists!$AG$12)")
-    for c in (7, 8, 10):
+    f2._m(ws, r, 4, "=N(Lists!$AJ$7)")
+    f2._m(ws, r, 5, "=N(Lists!$AG$12)")
+    f2._m(ws, r, 6, f"=ROUND($E{r}-$D{r},6)")
+    f2._m(ws, r, 7, "=N(Lists!$AG$12)")
+    for c in (8, 9, 11):
         f2._m(ws, r, c, "=N(Lists!$AG$11)", opts.CT)
-    f2._m(ws, r, 9, "=0", opts.CT)
+    f2._m(ws, r, 10, "=0", opts.CT)
     gm = r
     r += 1
-    opts.row(ws, r, 2, ["Total including the GM layer"] + [None] * (len(H31) - 1),
-             [None] * len(H31), bg=opts.MID, bold=True, top=True)
+    opts.row(ws, r, 2, ["Total cost of TDD including the GM layer"] +
+             [None] * (len(H31) - 1), [None] * len(H31), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
-    for c in range(3, LASTC + 1):
+    for c in range(FIRST, LASTC + 1):
         x = ws.cell(r, c)
-        x.value = f"={L(c)}{gt}+{L(c)}{gm}"
+        x.value = (f"=ROUND($E{r}-$D{r},6)" if c == 6
+                   else f"={L(c)}{gt}+{L(c)}{gm}")
         x.number_format, x.alignment = NUM[c], opts.RGT
     grand = r
     r += 2
 
     for lab, col, f, nf in (
-            ("Control - roles against the ledger, must be 0", 7,
-             f"=$G${gt}-COUNTA({REV}!$B$2:$B${LAST})", opts.CTL_C),
-            ("Control - cost against the ledger ($m), must be 0", 4,
-             f"=ROUND($D${gt}-SUM({REV}!$AA$2:$AA${LAST})/1000000,6)", opts.CTL_M)):
+            ("Control - roles against the ledger, must be 0", 8,
+             f"=$H${gt}-COUNTA({REV}!$B$2:$B${LAST})", opts.CTL_C),
+            ("Control - cost against the ledger ($m), must be 0", 5,
+             f"=ROUND($E${gt}-SUM({REV}!$AA$2:$AA${LAST})/1000000,6)", opts.CTL_M)):
         ws.cell(r, 2).value = lab
         ws.cell(r, 2).font = opts.BODY
         f2._m(ws, r, col, f, nf)
         r += 1
-
-    # the tiles share the table's columns, so each one sits over the column it summarises
-    TILES31 = [(h, f"=${L(3 + i)}${grand}", NUM[3 + i])
-               for i, h in enumerate(H31[1:])]
-    for i, (lab, v, f) in enumerate(TILES31):
-        c = 3 + i
-        h = ws.cell(tiles, c)
-        h.value, h.font, h.fill, h.alignment, h.border = (lab, opts.HDRF,
-                                                          opts.fl(opts.NAVY), opts.CEN,
-                                                          opts.BOX)
-        x = ws.cell(tiles + 1, c)
-        x.value, x.font, x.number_format = v, opts.BIG, f
-        x.alignment, x.border, x.fill = opts.CEN, opts.BOX, opts.fl(opts.GREY)
-    ws.row_dimensions[tiles].height = max(32, 14 * max(
-        opts.wrap_lines(lab, W31[i + 1])
-        for i, (lab, _, _) in enumerate(TILES31)) + 6)
-    ws.row_dimensions[tiles + 1].height = 30
-    ws.freeze_panes = f"C{9}"
     return {"total": gt, "grand": grand, "gm": gm,
             "arch": s1, "direct": s2, "coe": s3, "overhead": s4}
 
 
-H32 = ["How the cost is funded", "Archetype cost ($m)", "Actual cost ($m)",
-       "Over/(under) archetype ($m)", "Cost after vacancy decisions ($m)", "Roles"]
-W32 = [52, 15, 14, 17, 19, 9]
-H32B = ["Overhead line", "Rate ($m)", "Times applied", "Allowance ($m)",
-        "Roles in the portfolios", "Cost in the portfolios ($m)",
-        "Not covered by the allowance ($m)", "Roles inside the COEs",
-        "Cost inside the COEs ($m)", "Allowance drawn in the portfolios"]
-# Both tables on 3.2 sit in the same columns, so they cannot each set their own widths -
-# the second call used to overwrite the first, dropping column B from 58 to 26 and clipping
-# every label in the block above. One profile, wide enough for both.
-W32 = [42, 15, 14, 17, 19, 15, 19, 12, 15, 17]
-BLOCKS = [("Squads priced by an archetype", "arch"),
-          ("Directly funded programmes and platforms", "direct"),
-          ("COEs and EGI", "coe"),
-          ("Overhead roles in the portfolios", "overhead")]
-# the label rows below a table carry no figures in column B's neighbours, so they can run
-# long; a row with figures beside it clips at the column width and has to be short.
+# 3.2 was "Total Cost" and restated 3.1's four subtotals in a second table. It gave a
+# reader nothing 3.1 did not already give them, and the owner deleted it. What it did carry
+# that nothing else does is the overhead allowance, line by line, and the GM layer - so
+# that is what the tab is now, and only that.
+H32 = ["Overhead line", "Basis", "Rate ($m)", "Times applied", "Allowance ($m)",
+       "Roles in the portfolios", "Cost in the portfolios ($m)",
+       "Not covered by the allowance ($m)", "Roles inside the COEs",
+       "Cost inside the COEs ($m)", "Allowance drawn in the portfolios"]
+W32 = [26, 13, 11, 13, 14, 13, 15, 19, 12, 15, 17]
 
 
 def build_32(wb, anchors, a31, wcol):
+    """Overhead and leadership. The one thing no other tab states.
+
+    Every figure is computed. A role carrying an overhead title inside a COE has AT set to
+    its COE squad rather than to the overhead line, so AR = AT selects the roles that sit
+    in a portfolio. That split is the whole point of the tab: counting every role with an
+    overhead title against the portfolio allowance produced 62 roles and $22.9m against a
+    real 43 and $11.7m, and the same allowance read 1.271 under on one row and 9.996 over
+    seven rows below it.
+    """
     ws = wb["3.2 Total Cost"]
     f2.wipe(ws)
     ws.column_dimensions["A"].width = 2
-    ws.cell(2, 2).value = "Total Cost - archetype against actual"
+    ws.cell(2, 2).value = "Overhead and leadership - the allowance against what it costs"
     ws.cell(2, 2).font = opts.TITLE
-    r = opts.bar(ws, 4, 2, len(H32), "How the organisation is funded")
+    r = opts.bar(ws, 4, 2, len(H32), "Overhead roles, line by line")
     r = opts.head(ws, r, 2, H32, W32)
     st = r
-    # the subtotal rows on 3.1 are not contiguous, because a section label sits between
-    # them, so they come from build_31 rather than being counted back from the total
-    for lab, key in BLOCKS:
-        ws.cell(r, 2).value = lab
-        ws.cell(r, 2).font = opts.BODY
-        ws.cell(r, 2).alignment = opts.LFT
-        for c in (3, 4, 5, 6):
-            f2._m(ws, r, c, f"='3.1 Group Summary'!${L(c)}${a31[key]}")
-        f2._m(ws, r, 7, f"='3.1 Group Summary'!$G${a31[key]}", opts.CT)
+    for i in range(2, 8):
+        ws.cell(r, 2).value = f"=Lists!$AF${i}"
+        ws.cell(r, 3).value = f"=Lists!$AI${i}"
+        for c in (2, 3):
+            ws.cell(r, c).font = opts.BODY
+            ws.cell(r, c).alignment = opts.LFT
+        f2._m(ws, r, 4, f"=Lists!$AG${i}", opts.M3)
+        f2._m(ws, r, 5, f"=Lists!$AH${i}", opts.CT)
+        f2._m(ws, r, 6, f"=Lists!$AJ${i}")
+        both = f"{REV}!$AR$2:$AR${LAST},$B{r},{REV}!$B$2:$B${LAST},\"<>\""
+        pf_only = f"{both},{REV}!$AT$2:$AT${LAST},$B{r}"
+        gm = '=IF($B{r}="Leadership - 8 GMs",{v},{e})'
+        # the 8 GMs carry no role in the ledger, so their count and cost are the input
+        f2._m(ws, r, 7, gm.format(r=r, v="N(Lists!$AG$11)",
+                                  e=f"COUNTIFS({pf_only})"), opts.CT)
+        f2._m(ws, r, 8, gm.format(
+            r=r, v="N(Lists!$AG$12)",
+            e=f"SUMIFS({REV}!$AA$2:$AA${LAST},{pf_only})/1000000"))
+        f2._m(ws, r, 9, f"=ROUND($H{r}-$F{r},6)")
+        f2._m(ws, r, 10, gm.format(r=r, v="0", e=f"COUNTIFS({both})-$G{r}"), opts.CT)
+        f2._m(ws, r, 11, gm.format(
+            r=r, v="0",
+            e=f"SUMIFS({REV}!$AA$2:$AA${LAST},{both})/1000000-$H{r}"))
+        ws.cell(r, 12).value = f"=Lists!${wcol}${i}"
+        ws.cell(r, 12).font = opts.BODY
+        ws.cell(r, 12).alignment = opts.CEN
         r += 1
-    opts.row(ws, r, 2, ["Cost of the organisation today"] + [None] * (len(H32) - 1),
+    opts.row(ws, r, 2, ["Every overhead line"] + [None] * (len(H32) - 1),
              [None] * len(H32), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
-    for c in range(3, 8):
+    for c, nf in ((6, opts.M2), (7, opts.CT), (8, opts.M2), (9, opts.M2),
+                  (10, opts.CT), (11, opts.M2)):
         x = ws.cell(r, c)
         x.value = f"=SUM({L(c)}{st}:{L(c)}{r-1})"
-        x.number_format = opts.CT if c == 7 else opts.M2
-        x.alignment = opts.RGT
-    tot = r
+        x.number_format, x.alignment = nf, opts.RGT
     r += 1
-    for lab, f, cf in (
-            ("Leadership - the 8 GMs, outside the 525-role ledger",
-             "=N(Lists!$AG$12)", "=N(Lists!$AG$11)"),
-            ("Of which people in seat today",
-             f'=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Filled")/1000000',
-             f'=COUNTIFS({REV}!$AK$2:$AK${LAST},"Filled")'),
-            ("Of which vacancies not yet filled",
-             f'=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Vacant")/1000000',
-             f'=COUNTIFS({REV}!$AK$2:$AK${LAST},"Vacant")')):
-        # $115.11m is not payroll: it prices 135 vacancies nobody has been hired into, and
-        # it excludes the GM layer, which has no role in the ledger to price
-        ws.cell(r, 2).value = lab
-        ws.cell(r, 2).font = opts.BODY
-        ws.cell(r, 2).alignment = opts.LFT
-        f2._m(ws, r, 4, f)
-        f2._m(ws, r, 7, cf, opts.CT)
-        r += 1
-    opts.row(ws, r, 2, ["Total including the GM layer"] + [None] * (len(H32) - 1),
-             [None] * len(H32), bg=opts.MID, bold=True, top=True)
+    # the one line that ties this tab to the overhead step on the bridge
+    opts.row(ws, r, 2, ["Of which drawn in the portfolios - the 3.1 overhead line"] +
+             [None] * (len(H32) - 1), [None] * len(H32), bg=opts.GREY, bold=True)
     ws.cell(r, 2).alignment = opts.LFT
-    for c in (3, 4, 5, 6):
-        f2._m(ws, r, c, f"='3.1 Group Summary'!${L(c)}${a31['grand']}")
-    f2._m(ws, r, 7, f"='3.1 Group Summary'!$G${a31['grand']}", opts.CT)
-    for c in range(3, 8):
+    f2._m(ws, r, 6, "=N(Lists!$AJ$9)")
+    f2._m(ws, r, 7, f"='3.1 Group Summary'!$H${a31['overhead']}", opts.CT)
+    f2._m(ws, r, 8, f"='3.1 Group Summary'!$E${a31['overhead']}")
+    f2._m(ws, r, 9, f"=ROUND($H{r}-$F{r},6)")
+    for c in (6, 7, 8, 9):
         ws.cell(r, c).font = opts.BOLD
     r += 2
 
-    r = opts.bar(ws, r, 2, len(H32B), "Overhead roles - line by line")
-    r = opts.head(ws, r, 2, H32B, W32)
-    st2 = r
-    for i in range(2, 8):
-        ws.cell(r, 2).value = f"=Lists!$AF${i}"
-        ws.cell(r, 2).font = opts.BODY
-        ws.cell(r, 2).alignment = opts.LFT
-        f2._m(ws, r, 3, f"=Lists!$AG${i}", opts.M3)
-        f2._m(ws, r, 4, f"=Lists!$AH${i}", opts.CT)
-        f2._m(ws, r, 5, f"=Lists!$AJ${i}")
-        # A role carrying an overhead title inside a COE has AT set to its COE squad, not
-        # to the overhead line, so AR = AT selects the roles that sit in a portfolio. That
-        # is the split: counting every role with an overhead title against the portfolio
-        # allowance was what produced 62 roles and $22.9m against 43 and $11.7m.
-        both = f"{REV}!$AR$2:$AR${LAST},$B{r}"
-        pf_only = f"{both},{REV}!$AT$2:$AT${LAST},$B{r}"
-        gm = '=IF($B{r}="Leadership - 8 GMs",{v},{e})'
-        f2._m(ws, r, 6, gm.format(r=r, v="N(Lists!$AG$11)",
-                                  e=f"COUNTIFS({pf_only})"), opts.CT)
-        f2._m(ws, r, 7, gm.format(
-            r=r, v="N(Lists!$AG$12)",
-            e=f"SUMIFS({REV}!$AA$2:$AA${LAST},{pf_only})/1000000"))
-        f2._m(ws, r, 8, f"=$G{r}-$E{r}")
-        f2._m(ws, r, 9, gm.format(r=r, v="0", e=f"COUNTIFS({both})-$F{r}"), opts.CT)
-        f2._m(ws, r, 10, gm.format(
-            r=r, v="0",
-            e=f"SUMIFS({REV}!$AA$2:$AA${LAST},{both})/1000000-$G{r}"))
-        ws.cell(r, 11).value = f"=Lists!${wcol}${i}"
-        ws.cell(r, 11).font = opts.BODY
-        ws.cell(r, 11).alignment = opts.CEN
+    # ---- what the allowance is built from, so the basis is on the page ----
+    r = opts.bar(ws, r, 2, 6, "What the allowance is built from")
+    r = opts.head(ws, r, 2, ["Input", "Where it is set", "Value", "Unit", "Applies to",
+                             "Allowance ($m)"], [34, 26, 11, 13, 18, 14])
+    for lab, where, val, unit, applies, allow in (
+            ("Head of Technology", "0.2 Data Config L6", "='0.2 Data Config'!$L$6",
+             "$m per portfolio", "=N(Lists!$AH$2)", "=N(Lists!$AJ$2)"),
+            ("Business Partner", "0.2 Data Config L7", "='0.2 Data Config'!$L$7",
+             "$m per portfolio", "=N(Lists!$AH$3)", "=N(Lists!$AJ$3)"),
+            ("Domain Architect", "0.2 Data Config L8", "='0.2 Data Config'!$L$8",
+             "$m per portfolio", "=N(Lists!$AH$4)", "=N(Lists!$AJ$4)"),
+            ("Delivery Manager", "0.2 Data Config L14", "='0.2 Data Config'!$L$14",
+             "$m per platform", "=N(Lists!$AH$5)", "=N(Lists!$AJ$5)"),
+            ("Technology Manager", "0.2 Data Config L15", "='0.2 Data Config'!$L$15",
+             "$m per platform", "=N(Lists!$AH$6)", "=N(Lists!$AJ$6)"),
+            ("Leadership - 8 GMs", "0.2 Data Config L9", "='0.2 Data Config'!$L$9",
+             "$m per portfolio", "=N(Lists!$AH$7)", "=N(Lists!$AJ$7)")):
+        ws.cell(r, 2).value = lab
+        ws.cell(r, 3).value = where
+        for c in (2, 3, 5):
+            ws.cell(r, c).font = opts.BODY
+            ws.cell(r, c).alignment = opts.LFT
+        ws.cell(r, 5).value = unit
+        f2._m(ws, r, 4, val, opts.M3)
+        f2._m(ws, r, 6, applies, opts.CT)
+        f2._m(ws, r, 7, allow)
         r += 1
-    opts.row(ws, r, 2, ["Every overhead line"] + [None] * (len(H32B) - 1),
-             [None] * len(H32B), bg=opts.MID, bold=True, top=True)
+    opts.row(ws, r, 2, ["Total allowance"] + [None] * 5, [None] * 6,
+             bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
-    for c, nf in ((5, opts.M2), (6, opts.CT), (7, opts.M2), (8, opts.M2),
-                  (9, opts.CT), (10, opts.M2)):
-        x = ws.cell(r, c)
-        x.value = f"=SUM({L(c)}{st2}:{L(c)}{r-1})"
-        x.number_format, x.alignment = nf, opts.RGT
+    f2._m(ws, r, 7, "=N(Lists!$AJ$8)")
+    ws.cell(r, 7).font = opts.BOLD
     r += 1
-    # the one line that reconciles this block to the overhead row on 3.1
-    opts.row(ws, r, 2, ["Of which drawn in the portfolios"] +
-             [None] * (len(H32B) - 1), [None] * len(H32B), bg=opts.GREY, bold=True)
+    opts.row(ws, r, 2, ["Of which drawn in the portfolios"] + [None] * 5, [None] * 6,
+             bg=opts.GREY, bold=True)
     ws.cell(r, 2).alignment = opts.LFT
-    f2._m(ws, r, 5, "=N(Lists!$AJ$9)")
-    f2._m(ws, r, 6, f"='3.1 Group Summary'!$G${a31['overhead']}", opts.CT)
-    f2._m(ws, r, 7, f"='3.1 Group Summary'!$D${a31['overhead']}")
-    f2._m(ws, r, 8, f"=$G{r}-$E{r}")
-    for c in (5, 6, 7, 8):
-        ws.cell(r, c).font = opts.BOLD
-    ws.freeze_panes = "C6"
-    return {"total": tot}
+    f2._m(ws, r, 7, "=N(Lists!$AJ$9)")
+    ws.cell(r, 7).font = opts.BOLD
+    return {"total": st}
 
 
-H33 = ["Portfolio", "How it is funded", "Squad", "Archetype Type", "Size",
-       "Archetype roles", "Roles", "Filled", "Vacant", "Roles after decisions",
-       "Archetype cost ($m)", "Actual cost ($m)", "Variance to archetype ($m)",
-       "Cost after vacancy decisions ($m)"]
+H33 = ["Portfolio", "How it is funded", "Squad", "Archetype Type", "Squad Size",
+       "Archetype roles", "Total roles", "Filled", "Vacant",
+       "Total roles after decisions", "Archetype cost ($m)", "Actual cost ($m)",
+       "Variance to archetype ($m)", "Squad cost after decisions ($m)"]
 W33 = [22, 17, 30, 24, 7, 11, 7, 7, 8, 13, 13, 13, 15, 19]
 # one entry per column B..N, indexed F33[c - 2]
 F33 = [None, None, None, None, None, opts.C1, opts.CT, opts.CT, opts.CT, opts.CT,
@@ -449,7 +450,6 @@ def build_33(wb, anchors):
         ws.cell(r, 2).font = opts.BODY
         f2._m(ws, r, col, f, nf)
         r += 1
-    ws.freeze_panes = "E6"
     return {"group_total": gt}
 
 
@@ -465,10 +465,10 @@ def run(src, dst):
               open("anchors_final3.json", "w"), indent=1)
     wb.save(dst)
     return out + [
-        f"3.1 Group Summary: four funding blocks, group total row {a31['total']}",
-        "3.2 Total Cost: how the cost is funded, then the overhead lines with the one "
-        "line that reconciles them to 3.1",
-        f"3.3 Squad Detail: every squad tagged by how it is funded, total {a33['group_total']}"]
+        f"3.1: cost bridge, every directly funded programme named, ledger row "
+        f"{a31['total']}, grand total row {a31['grand']}",
+        "3.2: overhead and leadership, line by line, plus what the allowance is built from",
+        f"3.3: every squad by portfolio, total row {a33['group_total']}"]
 
 
 if __name__ == "__main__":

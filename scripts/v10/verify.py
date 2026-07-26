@@ -211,39 +211,53 @@ def lever(path):
     # Probes are found by label. This test carried hardcoded rows and reported two false
     # failures the moment Exec Summary grew two lines - the same join-by-row-number mistake
     # the workbook itself was fixed for.
-    def at(sheet, label, col=3):
+    def at(sheet, label, header):
         ws2 = wb[sheet]
-        for r in range(1, ws2.max_row + 1):
-            v = ws2.cell(r, 2).value
-            if isinstance(v, str) and v.strip() == label:
-                return f"{L(col)}{r}"
-        raise KeyError(f"{sheet}: no row {label!r}")
+        row = next((r for r in range(1, ws2.max_row + 1)
+                    if isinstance(ws2.cell(r, 2).value, str)
+                    and ws2.cell(r, 2).value.strip() == label), None)
+        if row is None:
+            raise KeyError(f"{sheet}: no row {label!r}")
+        if header is None:
+            return f"C{row}"
+        for hr in range(1, 12):
+            for c in range(2, 20):
+                v = ws2.cell(hr, c).value
+                if isinstance(v, str) and v.strip() == header:
+                    return f"{L(c)}{row}"
+        raise KeyError(f"{sheet}: no column {header!r}")
 
+    # tabs by number prefix, rows by label, columns by header - nothing here names a row
+    # number or a tab title, both of which have moved under me before
+    bridge = next(t for t in wb.sheetnames if t.startswith("3.1 "))
+    detail = next(t for t in wb.sheetnames if t.startswith("3.3 "))
+    LEDGER = "Cost of the 525 roles in the ledger"
     PROBE = [
-        ("3.1 Group Summary", "Cost of the organisation today", 6, "cost after decisions",
+        (bridge, LEDGER, "Squad cost after decisions ($m)", "cost after decisions",
          -cost / 1000000),
-        ("3.2 Total Cost", "Cost of the organisation today", 6, "cost after decisions",
-         -cost / 1000000),
-        ("Exec Summary", "Cost after the decisions set today ($m)", 3,
+        (detail, "Group total", "Squad cost after decisions ($m)",
          "cost after decisions", -cost / 1000000),
-        ("3.1 Group Summary", "Cost of the organisation today", 10,
+        ("Exec Summary", "Cost after the decisions set today ($m)", None,
+         "cost after decisions", -cost / 1000000),
+        (bridge, LEDGER, "Total roles after decisions", "roles after decisions", -1),
+        (detail, "Group total", "Total roles after decisions", "roles after decisions",
+         -1),
+        ("Exec Summary", "Roles after the decisions set today", None,
          "roles after decisions", -1),
-        ("Exec Summary", "Roles after the decisions set today", 3,
-         "roles after decisions", -1),
-        ("3.1 Group Summary", "Cost of the organisation today", 4, "cost today", 0),
-        ("3.1 Group Summary", "Cost of the organisation today", 7, "roles today", 0),
-        ("3.2 Total Cost", "Cost of the organisation today", 4, "cost today", 0),
+        (bridge, LEDGER, "Actual cost ($m)", "cost today", 0),
+        (bridge, LEDGER, "Total roles", "roles today", 0),
+        (detail, "Group total", "Actual cost ($m)", "cost today", 0),
     ]
     probes = {}
-    for sheet, label, col, _, _ in PROBE:
-        ref = at(sheet, label, col)
+    for sheet, label, header, _, _ in PROBE:
+        ref = at(sheet, label, header)
         probes[f"{sheet}!{ref}"] = wv[sheet][ref].value
     ws.cell(target, 5).value = "Hold"
     wb.save("lever.xlsx")
     rc = wbio.recalc("lever.xlsx")
     after = openpyxl.load_workbook(rc, data_only=True)
     out = [f"lever test: {tab} row {target}, a ${cost:,.0f} vacancy set to Hold"]
-    for (sheet, label, col, what, exp), key in zip(PROBE, probes):
+    for (sheet, label, header, what, exp), key in zip(PROBE, probes):
         b, n = probes[key], after[sheet][key.split("!")[1]].value
         d = (n or 0) - (b or 0)
         ok = abs(d - exp) < 1e-6
