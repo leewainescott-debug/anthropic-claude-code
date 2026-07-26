@@ -44,7 +44,7 @@ S_HDR = ["Squad", "Archetype Type", "Size", "Archetype roles", "Roles", "Filled"
          "Vacant", "To hire", "To offshore", "On hold", "Vacancies remaining",
          "Archetype cost ($m)", "Actual cost ($m)", "Variance to archetype ($m)",
          "Cost after vacancy decisions ($m)", "New variance ($m)"]
-S_W = [30, 26, 7, 11, 7, 7, 8, 8, 11, 8, 12, 13, 12, 14, 17, 12]
+S_W = [30, 26, 7, 11, 7, 7, 8, 8, 11, 8, 12, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
 P = dict(name=2, role=3, status=4, lever=5, cost=6, after=7)
@@ -196,15 +196,17 @@ def build(wb, wv, tab, rows, bounds):
         for k in ("type", "size"):
             ws.cell(rw, S[k]).font = opts.BODY
             ws.cell(rw, S[k]).alignment = opts.LFT
+        # To hire only applies to a vacancy. To offshore and On hold can apply to a
+        # filled role too, because offshoring a filled resource is a decision the tool
+        # exists to price. Vacancies remaining therefore has to look at vacant rows
+        # only: counting an offshored filled person against it drove the count negative.
         for k, f in (("roles", f"=COUNTA(${L(P['name'])}${a}:${L(P['name'])}${b})"),
                      ("filled", f'=COUNTIFS({st},"Filled")'),
                      ("vacant", f'=COUNTIFS({st},"Vacant")'),
-                     ("hire", f'=COUNTIFS({lev},"Hire")'),
+                     ("hire", f'=COUNTIFS({st},"Vacant",{lev},"Hire")'),
                      ("offshore", f'=COUNTIFS({lev},"Offshore")'),
                      ("hold", f'=COUNTIFS({lev},"Hold")'),
-                     ("remaining", f'=COUNTIFS({st},"Vacant")'
-                                   f'-COUNTIFS({lev},"Hire")'
-                                   f'-COUNTIFS({lev},"Offshore")')):
+                     ("remaining", f'=COUNTIFS({st},"Vacant",{lev},"Hold")')):
             _m(ws, rw, S[k], f, opts.CT)
         _m(ws, rw, S["actual"],
            f"=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
@@ -252,10 +254,10 @@ def build(wb, wv, tab, rows, bounds):
     for i, (lab, col, f, nf) in enumerate([
             ("Control - roles against the ledger, must be 0", S["roles"],
              f"=${L(S['roles'])}${r_tot}-COUNTIFS({REV}!$AJ$2:$AJ${LAST},$C$3)",
-             opts.CT),
+             opts.CTL_C),
             ("Control - cost against the ledger ($m), must be 0", S["actual"],
              f"=ROUND(${L(S['actual'])}${r_tot}-SUMIFS({REV}!$AA$2:$AA${LAST},"
-             f"{REV}!$AJ$2:$AJ${LAST},$C$3)/1000000,6)", opts.M2)]):
+             f"{REV}!$AJ$2:$AJ${LAST},$C$3)/1000000,6)", opts.CTL_M)]):
         ws.cell(r_ctl + i, 2).value = lab
         ws.cell(r_ctl + i, 2).font = opts.BODY
         _m(ws, r_ctl + i, col, f, nf)
@@ -273,8 +275,8 @@ def build(wb, wv, tab, rows, bounds):
         opts.row(ws, bd, 2, [g] + [None] * (len(P_HDR) - 1), [None] * len(P_HDR),
                  bg=opts.PALE, bold=True)
         ws.cell(bd, P["name"]).alignment = opts.LFT
-        ws.cell(bd, P["role"]).value = (
-            f'=COUNTA(${L(P["name"])}${a}:${L(P["name"])}${b})&" roles"')
+        n = f'COUNTA(${L(P["name"])}${a}:${L(P["name"])}${b})'
+        ws.cell(bd, P["role"]).value = f'={n}&IF({n}=1," role"," roles")'
         ws.cell(bd, P["role"]).alignment = opts.LFT
         for k in ("cost", "after"):
             x = ws.cell(bd, P[k])

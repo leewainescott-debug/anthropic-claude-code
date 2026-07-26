@@ -108,14 +108,14 @@ def build_31(wb, anchors):
         return r + 1, r
 
     r, s1 = block(r, pfs, "Delivery squads in the portfolios", True)
-    r, s2 = block(r, coes, "COEs and EGI - design from the 1.x tabs", False)
+    r, s2 = block(r, coes, "COEs and EGI", False)
 
     # overhead as its own row, against the allowance on Lists
     ohsum = "+".join(f"N('{t}'!${L(S['actual'])}${a['overhead_row']})"
                      for _, t, a in pfs if a["overhead_row"])
     ohaft = "+".join(f"N('{t}'!${L(S['after'])}${a['overhead_row']})"
                      for _, t, a in pfs if a["overhead_row"])
-    opts.row(ws, r, 2, ["Overhead roles - against their allowance"] +
+    opts.row(ws, r, 2, ["Overhead roles"] +
              [None] * (len(H31) - 1), [None] * len(H31), bg=opts.GREY, bold=True)
     ws.cell(r, 2).alignment = opts.LFT
     f2._m(ws, r, 3, "=N(Lists!$AJ$8)")
@@ -141,9 +141,9 @@ def build_31(wb, anchors):
 
     for lab, col, f, nf in (
             ("Control - roles against the ledger, must be 0", 7,
-             f"=$G${gt}-COUNTA({REV}!$B$2:$B${LAST})", opts.CT),
+             f"=$G${gt}-COUNTA({REV}!$B$2:$B${LAST})", opts.CTL_C),
             ("Control - cost against the ledger ($m), must be 0", 4,
-             f"=ROUND($D${gt}-SUM({REV}!$AA$2:$AA${LAST})/1000000,6)", opts.M2)):
+             f"=ROUND($D${gt}-SUM({REV}!$AA$2:$AA${LAST})/1000000,6)", opts.CTL_M)):
         ws.cell(r, 2).value = lab
         ws.cell(r, 2).font = opts.BODY
         f2._m(ws, r, col, f, nf)
@@ -181,7 +181,7 @@ def build_32(wb, anchors, a31):
     r = opts.head(ws, r, 2, H32, W32)
     st = r
     for lab, src in (("Delivery squads in the portfolios", s1),
-                     ("COEs and EGI - design from the 1.x tabs", s2),
+                     ("COEs and EGI - design from their 1.x tabs", s2),
                      ("Overhead roles - against their allowance", s3)):
         ws.cell(r, 2).value = lab
         ws.cell(r, 2).font = opts.BODY
@@ -290,9 +290,9 @@ def build_33(wb, anchors):
     r += 2
     for lab, col, f, nf in (
             ("Control - roles against the ledger, must be 0", 7,
-             f"=$G${gt}-COUNTA({REV}!$B$2:$B${LAST})", opts.CT),
+             f"=$G${gt}-COUNTA({REV}!$B$2:$B${LAST})", opts.CTL_C),
             ("Control - cost against the ledger ($m), must be 0", 11,
-             f"=ROUND($K${gt}-SUM({REV}!$AA$2:$AA${LAST})/1000000,6)", opts.M2)):
+             f"=ROUND($K${gt}-SUM({REV}!$AA$2:$AA${LAST})/1000000,6)", opts.CTL_M)):
         ws.cell(r, 2).value = lab
         ws.cell(r, 2).font = opts.BODY
         f2._m(ws, r, col, f, nf)

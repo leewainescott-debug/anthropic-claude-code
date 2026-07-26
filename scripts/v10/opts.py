@@ -35,6 +35,11 @@ M0 = '#,##0;(#,##0);"-"'
 CT = '#,##0;(#,##0);"-"'
 C1 = '#,##0.0;(#,##0.0);"-"'
 PCT = '0%'
+# A control cell says "must be 0", so it needs a format that shows 0 rather than the
+# dash the money and count formats use for zero. Same numbers, different rendering.
+CTL_M = '#,##0.00;(#,##0.00);0.00'
+CTL_C = '#,##0;(#,##0);0'
+
 CEN = Alignment(horizontal="center", vertical="center", wrap_text=True)
 LFT = Alignment(horizontal="left", vertical="center")
 RGT = Alignment(horizontal="right", vertical="center")

@@ -39,7 +39,7 @@ def anchors(wb):
         "g31": find_row(s1, "Group total"),
         "del31": find_row(s1, "Delivery squads in the portfolios"),
         "coe31": find_row(s1, "COEs and EGI"),
-        "oh31": find_row(s1, "Overhead roles - against"),
+        "oh31": find_row(s1, "Overhead roles"),
         "first31": find_row(s1, "Portfolio") + 1,
         "g32": find_row(s2, "Cost of the organisation today"),
         "ohtot32": find_row(s2, "Overhead total"),
@@ -241,7 +241,9 @@ def build_qa(wb, a, a2):
         ws.cell(r, 2).border = opts.BOX
         for col, f in ((3, m), (4, e), (5, f"=ROUND($C{r}-$D{r},6)")):
             x = ws.cell(r, col)
-            x.value, x.number_format = f, nf
+            x.value = f
+            x.number_format = nf if col < 5 else (
+                opts.CTL_C if nf == opts.CT else opts.CTL_M)
             x.alignment, x.font, x.border = opts.RGT, opts.BODY, opts.BOX
         r += 1
     opts.row(ws, r, 2, ["Checks failing", None, None, None], [None] * 4,
