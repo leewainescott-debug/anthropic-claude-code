@@ -679,15 +679,53 @@ def three(kind):
 ARCH_PF = 10
 
 
+# The COEs have no squad archetype, but they do have a designed cost: the budget they
+# draw down on 3.4. Including it makes the design side of the comparison cover the whole
+# organisation, so archetype against actual is comparable across all 525 roles.
+# 3.4 splits the COEs six ways; the 3.x tabs group them four ways.
+COE_DESIGN = {"COE BP&T": ("Business Partnering", "Transformation"),
+              "COE SA&D": ("Strategy & Architecture", "Data"),
+              "COE Cyber": ("Cyber, Risk & Service Operations",),
+              "EGI": ("EGI",)}
+
+
+def _coe_design():
+    s4 = D.v["3.4 COE Summary"]
+    bud = {}
+    for r in range(6, 12):
+        n = s4.cell(r, 2).value
+        if n:
+            bud[str(n).strip()] = s4.cell(r, 7).value or 0
+    out = {}
+    for pf, lines in COE_DESIGN.items():
+        out[pf] = sum(bud.get(x, 0) for x in lines)
+    return out
+
+
 def _rows32():
     s2 = D.v["3.2 Total Cost"]
+    coe = _coe_design()
     out = []
     for r in list(range(6, 16)) + list(range(17, 21)):
         n = s2.cell(r, 2).value
         if not n or str(n).startswith("Portfolios with"):
             continue
         a = s2.cell(r, 10).value
-        out.append({"name": n, "arch": a if isinstance(a, (int, float)) else None,
+        a = a if isinstance(a, (int, float)) else coe.get(str(n).strip())
+        R = D.v[REVIEW]
+        nm = str(n).strip()
+        is_coe = nm.startswith("COE") or nm == "EGI"
+        ohr = 0 if is_coe else sum(
+            1 for i in range(2, 529)
+            if str(R.cell(i, 2).value or "").strip()
+            and R.cell(i, 36).value == nm and R.cell(i, 44).value != "Squad")
+        ohf = 0 if is_coe else sum(
+            1 for i in range(2, 529)
+            if str(R.cell(i, 2).value or "").strip()
+            and R.cell(i, 36).value == nm and R.cell(i, 44).value != "Squad"
+            and R.cell(i, 37).value == "Filled")
+        out.append({"name": n, "arch": a, "ohroles": ohr, "ohfilled": ohf,
+                    "ohvacant": ohr - ohf,
                     "squad": s2.cell(r, 8).value or 0, "oh": s2.cell(r, 13).value or 0,
                     "actual": s2.cell(r, 6).value or 0, "roles": s2.cell(r, 3).value or 0,
                     "filled": s2.cell(r, 4).value or 0,
@@ -695,10 +733,13 @@ def _rows32():
     return out
 
 
-H31 = ["Portfolio", "Archetype cost ($m)", "Squad cost ($m)",
-       "Over/(under) archetype ($m)", "Overhead cost ($m)", "Actual cost ($m)",
-       "Cost after vacancy decisions ($m)", "Roles", "Filled", "Vacant"]
-W31 = [26, 15, 13, 16, 14, 13, 18, 8, 8, 8]
+# Overhead is a row of its own rather than a column, so the design side and the actual
+# side both total to the same place: squad archetypes + COE budgets + overhead allowance
+# = 89.13 design, against 75.69 + 27.77 + 11.65 = 115.11 actual.
+H31 = ["Portfolio", "Design cost ($m)", "Actual cost ($m)",
+       "Over/(under) design ($m)", "Cost after vacancy decisions ($m)",
+       "Roles", "Filled", "Vacant"]
+W31 = [38, 15, 14, 16, 19, 8, 8, 8]
 
 
 def _n31(ws, kind):
@@ -711,12 +752,13 @@ def _n31(ws, kind):
             ("Roles", sum(p["roles"] for p in pf), CT),
             ("Filled", sum(p["filled"] for p in pf), CT),
             ("Vacant", sum(p["vacant"] for p in pf), CT),
-            ("Archetype cost ($m)", sum(p["arch"] or 0 for p in pf), M2),
+            ("Design cost ($m)",
+             sum(p["arch"] or 0 for p in pf) + D.v["Lists"]["AJ8"].value, M2),
             ("Actual cost ($m)", sum(p["actual"] for p in pf), M2),
-            ("Over archetype ($m)",
-             sum(p["squad"] for p in pf if p["arch"]) - sum(p["arch"] or 0 for p in pf),
-             M2)], w=17) + 1
-    r = bar(ws, r, 2, len(H31), "Archetype against actual, by portfolio")
+            ("Over/(under) design ($m)",
+             sum(p["actual"] for p in pf) - sum(p["arch"] or 0 for p in pf)
+             - D.v["Lists"]["AJ8"].value, M2)], w=20) + 1
+    r = bar(ws, r, 2, len(H31), "Design cost against actual cost, by portfolio")
     if kind == "B":
         for c0, n, lab in ((3, 1, "DESIGN"), (4, 2, "TODAY"), (6, 2, "AFTER DECISIONS")):
             for i in range(n):
@@ -729,33 +771,48 @@ def _n31(ws, kind):
         r += 1
     r = head(ws, r, 2, H31, W31)
 
-    def block(r, rows, label, arch=True):
+    FMT = [None, M2, M2, M2, M2, CT, CT, CT]
+    # only the ten portfolios carry overhead. A COE role whose AR column names an
+    # overhead line is carved out by the COE rule and counted in its own squad, so
+    # counting it here as well put the group total 19 roles over the ledger.
+    ohroles = sum(p["ohroles"] for p in pf)
+    allow = D.v["Lists"]["AJ8"].value
+
+    def block(r, rows, label, squad_only):
         st = r
         for p in rows:
-            a = p["arch"] if arch else None
-            r = row(ws, r, 2, [p["name"], a if a else "-", p["squad"],
-                               (p["squad"] - a) if a else "-", p["oh"], p["actual"],
-                               p["actual"], p["roles"], p["filled"], p["vacant"]],
-                    [None, M2, M2, M2, M2, M2, M2, CT, CT, CT])
+            a = p["arch"]
+            act = (p["squad"] if squad_only else p["actual"])
+            ro = p["roles"] - (p["ohroles"] if squad_only else 0)
+            fi = p["filled"] - (p["ohfilled"] if squad_only else 0)
+            r = row(ws, r, 2, [p["name"], a, act, act - a, act,
+                               ro, fi, p["vacant"] -
+                               (p["ohvacant"] if squad_only else 0)], FMT)
         return row(ws, r, 2, [label] +
-                   [f"=SUM({L(c)}{st}:{L(c)}{r-1})" for c in range(3, 12)],
-                   [None, M2, M2, M2, M2, M2, M2, CT, CT, CT], bg=GREY, bold=True), r
+                   [f"=SUM({L(c)}{st}:{L(c)}{r-1})" for c in range(3, 10)],
+                   FMT, bg=GREY, bold=True), r
 
-    r, e1 = block(r, pf[:ARCH_PF], "Portfolios with a squad archetype")
+    r, _ = block(r, pf[:ARCH_PF], "Delivery squads in the portfolios", True)
     s1 = r - 1
-    r, e2 = block(r, pf[ARCH_PF:], "COEs and EGI - no squad archetype", arch=False)
+    r, _ = block(r, pf[ARCH_PF:], "COEs and EGI - their budget", False)
     s2r = r - 1
+    oh_act = sum(p["oh"] for p in pf)
+    r = row(ws, r, 2, ["Overhead roles - against their allowance", allow,
+                       oh_act, oh_act - allow, oh_act, ohroles,
+                       sum(p["ohfilled"] for p in pf),
+                       sum(p["ohvacant"] for p in pf)], FMT, bg=GREY, bold=True)
+    s3 = r - 1
     gt = r
     r = row(ws, r, 2, ["Group total"] +
-            [f"={L(c)}{s1}+{L(c)}{s2r}" for c in range(3, 12)],
-            [None, M2, M2, M2, M2, M2, M2, CT, CT, CT], bg=MID, bold=True, top=True)
+            [f"={L(c)}{s1}+{L(c)}{s2r}+{L(c)}{s3}" for c in range(3, 10)],
+            FMT, bg=MID, bold=True, top=True)
     # the control rows read the REVIEW ledger, which a standalone mockup does not
     # contain. They go in on the real build, not here.
 
 
-H32 = ["Cost", "Archetype cost or allowance ($m)", "Actual cost ($m)",
+H32 = ["Cost", "Design cost ($m)", "Actual cost ($m)",
        "Over/(under) ($m)", "Cost after vacancy decisions ($m)", "Roles"]
-W32 = [42, 20, 14, 15, 19, 9]
+W32 = [42, 15, 14, 15, 19, 9]
 
 
 def _n32(ws, kind):
@@ -774,24 +831,27 @@ def _n32(ws, kind):
             ("Squad archetype cost - the design", arch, M2, False),
             ("Delivery squads raised over the archetype", sq10 - arch, M2, False),
             ("Overhead roles", oh, M2, False),
-            ("COEs and EGI - no squad archetype", coe, M2, False),
+            ("COEs and EGI over their budget", coe - sum(_coe_design().values()),
+             M2, False),
             ("Cost of the organisation today", tot, M2, True)], w=(52, 15)) + 1
     r = bar(ws, r, 2, len(H32), "Archetype against actual")
     r = head(ws, r, 2, H32, W32)
     ro10 = sum(p["roles"] for p in pf[:ARCH_PF])
     rocoe = sum(p["roles"] for p in pf[ARCH_PF:])
-    ohroles = sum(1 for i in range(2, 529)
-                  if str(D.v[REVIEW].cell(i, 2).value or "").strip()
-                  and D.v[REVIEW].cell(i, 44).value != "Squad")
+    # only the ten portfolios carry overhead. A COE role whose AR column names an
+    # overhead line is carved out by the COE rule and counted in its own squad, so
+    # counting it here as well put the group total 19 roles over the ledger.
+    ohroles = sum(p["ohroles"] for p in pf)
     allow = D.v["Lists"]["AJ8"].value
     st = r
     r = row(ws, r, 2, ["Delivery squads in the ten portfolios", arch, sq10,
                        sq10 - arch, sq10, ro10 - ohroles],
             [None, M2, M2, M2, M2, CT])
-    r = row(ws, r, 2, ["Overhead roles - against the allowance on Lists", allow, oh,
+    r = row(ws, r, 2, ["Overhead roles - against their allowance", allow, oh,
                        oh - allow, oh, ohroles], [None, M2, M2, M2, M2, CT])
-    r = row(ws, r, 2, ["COEs and EGI - no squad archetype", "-", coe, "-", coe, rocoe],
-            [None, None, M2, None, M2, CT])
+    coed = sum(_coe_design().values())
+    r = row(ws, r, 2, ["COEs and EGI - budget to draw down", coed, coe,
+                       coe - coed, coe, rocoe], [None, M2, M2, M2, M2, CT])
     row(ws, r, 2, ["Cost of the organisation today"] +
         [f"=SUM({L(c)}{st}:{L(c)}{r-1})" for c in range(3, 8)],
         [None, M2, M2, M2, M2, CT], bg=MID, bold=True, top=True)
