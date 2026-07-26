@@ -186,6 +186,31 @@ def build_31(wb, anchors):
         x.value = "=" + "+".join(f"N({L(c)}{p})" for p in (s1, s2, s3, s4))
         x.number_format, x.alignment = NUM[c], opts.RGT
     gt = r
+    r += 1
+    # The 8 GMs cost $5.1m and carry no role in REVIEW, so they sit outside the 525-role
+    # ledger. Leaving them off the headline understated TDD by 5.1 on the one page a GM
+    # reads first. The ledger total stays exactly where it was, because every control and
+    # every check ties to it; the GM layer is stated beneath it and added in a grand total.
+    opts.row(ws, r, 2, ["Leadership - the 8 GMs, outside the 525-role ledger"] +
+             [None] * (len(H31) - 1), [None] * len(H31), bg=opts.PALE)
+    ws.cell(r, 2).alignment = opts.LFT
+    f2._m(ws, r, 3, "=N(Lists!$AJ$7)")
+    f2._m(ws, r, 4, "=N(Lists!$AG$12)")
+    f2._m(ws, r, 5, f"=$D{r}-$C{r}")
+    f2._m(ws, r, 6, "=N(Lists!$AG$12)")
+    for c in (7, 8, 10):
+        f2._m(ws, r, c, "=N(Lists!$AG$11)", opts.CT)
+    f2._m(ws, r, 9, "=0", opts.CT)
+    gm = r
+    r += 1
+    opts.row(ws, r, 2, ["Total including the GM layer"] + [None] * (len(H31) - 1),
+             [None] * len(H31), bg=opts.MID, bold=True, top=True)
+    ws.cell(r, 2).alignment = opts.LFT
+    for c in range(3, LASTC + 1):
+        x = ws.cell(r, c)
+        x.value = f"={L(c)}{gt}+{L(c)}{gm}"
+        x.number_format, x.alignment = NUM[c], opts.RGT
+    grand = r
     r += 2
 
     for lab, col, f, nf in (
@@ -199,7 +224,7 @@ def build_31(wb, anchors):
         r += 1
 
     # the tiles share the table's columns, so each one sits over the column it summarises
-    TILES31 = [(h, f"=${L(3 + i)}${gt}", NUM[3 + i])
+    TILES31 = [(h, f"=${L(3 + i)}${grand}", NUM[3 + i])
                for i, h in enumerate(H31[1:])]
     for i, (lab, v, f) in enumerate(TILES31):
         c = 3 + i
@@ -215,7 +240,8 @@ def build_31(wb, anchors):
         for i, (lab, _, _) in enumerate(TILES31)) + 6)
     ws.row_dimensions[tiles + 1].height = 30
     ws.freeze_panes = f"C{9}"
-    return {"total": gt, "arch": s1, "direct": s2, "coe": s3, "overhead": s4}
+    return {"total": gt, "grand": grand, "gm": gm,
+            "arch": s1, "direct": s2, "coe": s3, "overhead": s4}
 
 
 H32 = ["How the cost is funded", "Archetype cost ($m)", "Actual cost ($m)",
@@ -266,21 +292,32 @@ def build_32(wb, anchors, a31, wcol):
         x.alignment = opts.RGT
     tot = r
     r += 1
-    # $115.11m is not payroll - it prices 135 vacancies nobody has been hired into yet
     for lab, f, cf in (
+            ("Leadership - the 8 GMs, outside the 525-role ledger",
+             "=N(Lists!$AG$12)", "=N(Lists!$AG$11)"),
             ("Of which people in seat today",
              f'=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Filled")/1000000',
              f'=COUNTIFS({REV}!$AK$2:$AK${LAST},"Filled")'),
             ("Of which vacancies not yet filled",
              f'=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Vacant")/1000000',
              f'=COUNTIFS({REV}!$AK$2:$AK${LAST},"Vacant")')):
+        # $115.11m is not payroll: it prices 135 vacancies nobody has been hired into, and
+        # it excludes the GM layer, which has no role in the ledger to price
         ws.cell(r, 2).value = lab
         ws.cell(r, 2).font = opts.BODY
         ws.cell(r, 2).alignment = opts.LFT
         f2._m(ws, r, 4, f)
         f2._m(ws, r, 7, cf, opts.CT)
         r += 1
-    r += 1
+    opts.row(ws, r, 2, ["Total including the GM layer"] + [None] * (len(H32) - 1),
+             [None] * len(H32), bg=opts.MID, bold=True, top=True)
+    ws.cell(r, 2).alignment = opts.LFT
+    for c in (3, 4, 5, 6):
+        f2._m(ws, r, c, f"='3.1 Group Summary'!${L(c)}${a31['grand']}")
+    f2._m(ws, r, 7, f"='3.1 Group Summary'!$G${a31['grand']}", opts.CT)
+    for c in range(3, 8):
+        ws.cell(r, c).font = opts.BOLD
+    r += 2
 
     r = opts.bar(ws, r, 2, len(H32B), "Overhead roles - line by line")
     r = opts.head(ws, r, 2, H32B, W32)

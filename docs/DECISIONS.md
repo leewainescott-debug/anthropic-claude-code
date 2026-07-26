@@ -398,9 +398,13 @@ netting also hid the shape: the Business Partner and Domain Architect allowances
 not drawn in the portfolios at all, so setting them against portfolio cost only made an
 overspend read as headroom.
 
-**The GMs:** $5.1m, eight people, no role in REVIEW. Stated as a line on 3.2 against a $3.0m
-allowance and marked as sitting above the 525-role ledger. Not added into the group total,
-because the ledger is the source of truth and the total has to tie to it.
+**The GMs:** $5.1m, eight people, no role in REVIEW. Leaving them out of the headline
+understated TDD by $5.1m on the one page a GM reads first, so 3.1, 3.2 and Exec now all
+carry the ledger total, the GM line beneath it, and a grand total of **$120.213m / 533
+roles**. The ledger row is untouched at $115,113,262.27 and every control and check still
+ties to it. 4.0 tests the grand total against the ledger plus the GM input, and tests that
+the five variance lines on Exec add to the total shown - they did not, because the total
+included the GM layer and nothing listed it.
 
 ### D45. "Not covered by the allowance", not "over budget". Register item 99.
 The overhead rates are allocated shares - half a Head of Technology per portfolio, 30% of a

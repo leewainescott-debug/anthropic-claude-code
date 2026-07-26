@@ -108,6 +108,8 @@ over an archetype that prices two thirds of the roles.
 | COEs and EGI, off their own 1.x tabs | 27.77 | 27.77 | - | 113 |
 | Overhead roles in the portfolios, against the allowance | 6.33 | 11.65 | 5.33 | 43 |
 | **Cost of the organisation today** | **108.74** | **115.11** | **6.38** | **525** |
+| Leadership - the 8 GMs, outside the ledger | 3.00 | 5.10 | 2.10 | 8 |
+| **Total including the GM layer** | **111.74** | **120.21** | **8.48** | **533** |
 
 Of the $115.11m, $86.58m is people in seat and $28.53m is 135 vacancies nobody has been
 hired into yet. Both are on 3.2 and on Exec, so the headline is not read as payroll.
@@ -126,7 +128,7 @@ carries the one line that reconciles the block to 3.1.
 | On a 2.x tab | 525, none twice, none missing |
 | 3.1 / 3.2 / 3.3 / 3.4 / Exec | all tie to the ledger |
 | Every control row | 0 |
-| 4.0 live checks | 55, all zero |
+| 4.0 live checks | 58, all zero |
 | Formula errors after full recalculation | 0 |
 | Adversarial QA (`qa.py`), eight checks | 0 findings |
 | Layout QA (`verify.py`), five checks | 0 findings |
@@ -169,7 +171,8 @@ Every design squad now has people in it. The three that did not are gone.
 | Item | Detail | Needs |
 |---|---|---|
 | Overhead allowance basis | The allowance prices half a Head of Technology per portfolio (0.1375 of 0.275) and 30% of a Delivery or Technology Manager per platform, against 43 whole heads costing $11.65m. The variance is labelled "not covered by the allowance" rather than overspend, but the basis itself is a judgement only Lee can confirm. | Lee to confirm |
-| The 8 GMs | $5.1m, no role in REVIEW, so they sit above the 525-role ledger. Stated as a line on 3.2 against a $3.0m allowance; not added into the group total, because the ledger is the source of truth. | Lee to confirm |
+| Cyber vacancies | `1.13!E7` carries your comment "there are a total of 8 vacant roles" against a cell reading 4. REVIEW has 4. If 8 is right, four vacancies are missing from REVIEW and the fix belongs there. | Lee to settle |
+| 1.5 EGI P&C funded amount | `1.5!H32` is a blank cream input, so that platform prices at zero while the squad's one role costs $0.24m. | Lee to set |
 | Frozen panes | Register item 70 asks for them on every long table, item 94 records that they were all removed. Applied consistently on every table over 25 rows. One line to reverse. | Lee to pick |
 | Bridge tab | One page walking archetype cost to actual cost, line by line. Explained; not yet built. | Lee to say yes or no |
 

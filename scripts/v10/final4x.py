@@ -104,13 +104,15 @@ def build_exec(wb, a, a2):
         ("Roles in the ledger", f"={G1}!$G${gt}", opts.CT),
         ("Filled", f"={G1}!$H${gt}", opts.CT),
         ("Vacant", f"={G1}!$I${gt}", opts.CT),
-        ("Cost today ($m)", f"={G1}!$D${gt}", opts.M2),
+        ("Cost of the 525 roles in the ledger ($m)", f"={G1}!$D${gt}", opts.M2),
         ("Of which people in seat today ($m)",
          f'=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Filled")/1000000',
          opts.M2),
         ("Of which vacancies not yet filled ($m)",
          f'=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Vacant")/1000000',
-         opts.M2)])
+         opts.M2),
+        ("The 8 GMs, outside the ledger ($m)", "=N(Lists!$AG$12)", opts.M2),
+        ("Cost today including the GM layer ($m)", f"={G1}!$D${a['grand']}", opts.M2)])
 
     r = block(r, "Against the archetype", [
         ("Squads priced by an archetype - archetype cost ($m)",
@@ -125,7 +127,11 @@ def build_exec(wb, a, a2):
          f"={G1}!$E${a['coe']}", opts.M2),
         ("Overhead roles - not covered by the allowance ($m)",
          f"={G1}!$E${a['overhead']}", opts.M2),
-        ("Total over/(under) archetype ($m)", f"={G1}!$E${gt}", opts.M2)])
+        # without this line the four components above summed to 6.378 under a total of
+        # 8.478, because the total includes the GM layer and nothing listed it
+        ("The 8 GMs - over/(under) their allowance ($m)",
+         f"={G1}!$E${a['gm']}", opts.M2),
+        ("Total over/(under) archetype ($m)", f"={G1}!$E${a['grand']}", opts.M2)])
 
     r = block(r, "The vacancy decision", [
         ("Vacant roles", f"={G1}!$I${gt}", opts.CT),
@@ -252,6 +258,16 @@ def build_qa(wb, a, a2):
          f"={G1}!$D${gt}", opts.M2),
         ("Cost on 3.2 against 3.1 ($m)", f"={G2}!$D${g32}",
          f"={G1}!$D${gt}", opts.M2),
+        ("Total including the GM layer against the ledger plus the GM input ($m)",
+         f"={G1}!$D${a['grand']}",
+         f"=SUM({REV}!$AA$2:$AA${LAST})/1000000+N(Lists!$AG$12)", opts.M2),
+        ("Archetype variance - the five blocks against the total ($m)",
+         f"={G1}!$E${a['arch']}+{G1}!$E${a['direct']}+{G1}!$E${a['coe']}"
+         f"+{G1}!$E${a['overhead']}+{G1}!$E${a['gm']}",
+         f"={G1}!$E${a['grand']}", opts.M2),
+        ("Roles including the GM layer against 525 plus the GM count",
+         f"={G1}!$G${a['grand']}",
+         f"=COUNTA({REV}!$B$2:$B${LAST})+N(Lists!$AG$11)", opts.CT),
         ("Archetype cost on 3.2 against 3.1 ($m)", f"={G2}!$C${g32}",
          f"={G1}!$C${gt}", opts.M2),
         # ---- the design side ----

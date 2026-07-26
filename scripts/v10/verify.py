@@ -208,38 +208,47 @@ def lever(path):
         return ["no vacancy with a Hire lever found on 2.1"]
     cost = wsv.cell(target, 6).value
 
+    # Probes are found by label. This test carried hardcoded rows and reported two false
+    # failures the moment Exec Summary grew two lines - the same join-by-row-number mistake
+    # the workbook itself was fixed for.
+    def at(sheet, label, col=3):
+        ws2 = wb[sheet]
+        for r in range(1, ws2.max_row + 1):
+            v = ws2.cell(r, 2).value
+            if isinstance(v, str) and v.strip() == label:
+                return f"{L(col)}{r}"
+        raise KeyError(f"{sheet}: no row {label!r}")
+
+    PROBE = [
+        ("3.1 Group Summary", "Cost of the organisation today", 6, "cost after decisions",
+         -cost / 1000000),
+        ("3.2 Total Cost", "Cost of the organisation today", 6, "cost after decisions",
+         -cost / 1000000),
+        ("Exec Summary", "Cost after the decisions set today ($m)", 3,
+         "cost after decisions", -cost / 1000000),
+        ("3.1 Group Summary", "Cost of the organisation today", 10,
+         "roles after decisions", -1),
+        ("Exec Summary", "Roles after the decisions set today", 3,
+         "roles after decisions", -1),
+        ("3.1 Group Summary", "Cost of the organisation today", 4, "cost today", 0),
+        ("3.1 Group Summary", "Cost of the organisation today", 7, "roles today", 0),
+        ("3.2 Total Cost", "Cost of the organisation today", 4, "cost today", 0),
+    ]
     probes = {}
-    for t, cells in (("3.1 Group Summary", ("D38", "F38", "G38", "J38")),
-                     ("3.2 Total Cost", ("D10", "F10")),
-                     ("Exec Summary", ("C27", "C26"))):
-        for cc in cells:
-            probes[f"{t}!{cc}"] = wv[t][cc].value
+    for sheet, label, col, _, _ in PROBE:
+        ref = at(sheet, label, col)
+        probes[f"{sheet}!{ref}"] = wv[sheet][ref].value
     ws.cell(target, 5).value = "Hold"
     wb.save("lever.xlsx")
     rc = wbio.recalc("lever.xlsx")
     after = openpyxl.load_workbook(rc, data_only=True)
     out = [f"lever test: {tab} row {target}, a ${cost:,.0f} vacancy set to Hold"]
-    moves = {}
-    for k, before in probes.items():
-        t, cc = k.split("!")
-        now = after[t][cc].value
-        moves[k] = (before, now)
-    exp = -cost / 1000000
-    for k in ("3.1 Group Summary!F38", "3.2 Total Cost!F10", "Exec Summary!C27"):
-        b, n = moves[k]
+    for (sheet, label, col, what, exp), key in zip(PROBE, probes):
+        b, n = probes[key], after[sheet][key.split("!")[1]].value
         d = (n or 0) - (b or 0)
         ok = abs(d - exp) < 1e-6
-        out.append(f"  {'ok ' if ok else 'FAIL'} {k} cost after decisions "
-                   f"{b:.4f} -> {n:.4f} ({d:+.4f}, expected {exp:+.4f})")
-    for k in ("3.1 Group Summary!J38", "Exec Summary!C26"):
-        b, n = moves[k]
-        d = (n or 0) - (b or 0)
-        out.append(f"  {'ok ' if d == -1 else 'FAIL'} {k} roles after decisions "
-                   f"{b} -> {n} ({d:+.0f}, expected -1)")
-    for k in ("3.1 Group Summary!D38", "3.1 Group Summary!G38", "3.2 Total Cost!D10"):
-        b, n = moves[k]
-        out.append(f"  {'ok ' if b == n else 'FAIL'} {k} unchanged at {n} "
-                   f"(cost today must not move)")
+        out.append(f"  {'ok ' if ok else 'FAIL'} {key} {what} {b} -> {n} "
+                   f"({d:+.4f}, expected {exp:+.4f})")
     return out
 
 
