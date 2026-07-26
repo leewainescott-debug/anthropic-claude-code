@@ -37,10 +37,17 @@ TABS = ["1.1 Ampol Retail", "1.2 Customer", "1.3 Enterprise Data",
         "1.4 TDD Group Functions", "1.5 P&C", "1.6 Finance", "1.7 Infrastructure",
         "1.8 Energy Solutions & B2B", "1.9 Commercial Fuels", "1.10 Z Retail"]
 
-# one profile for all ten. B is the label column, C..F the summary money, H..L the
-# budget and funding blocks, and the squad tables sit under the same grid.
-WIDTHS = {"A": 2, "B": 38, "C": 15, "D": 15, "E": 15, "F": 14, "G": 12,
-          "H": 30, "I": 14, "J": 22, "K": 20, "L": 16, "M": 3, "N": 3}
+# One profile for all ten, sized from the widest real content in each column across the
+# family. H, I, J and K each serve TWO tables - the budget block and the squad tables -
+# so no width fits both outright. The answer is width plus wrap plus row height on the
+# header rows, not width alone.
+WIDTHS = {"A": 2.5, "B": 40, "C": 26, "D": 11, "E": 18, "F": 10, "G": 15,
+          "H": 34, "I": 14, "J": 24, "K": 22, "L": 30}
+# a section bar, named. The platform bars use a theme colour rather than an RGB, so a
+# fill-colour test cannot see them - openpyxl returns an error string for start_color.rgb.
+BAR_LABELS = ("Portfolio Summary", "Budget vs TDD Cost", "Funding position",
+              "Other funding", "Platform: ", "Budget reconciliation", "Roles",
+              "Summary", "Funding buckets")
 
 RENAME = {
     "TDD Lights On Budget (people - 0.2 Data Config)":
@@ -58,6 +65,9 @@ RENAME = {
 MONEY = '#,##0.00;(#,##0.00);"-"'
 PCT = '0%'
 SENTENCE = re.compile(r"^[A-Z].{55,}")          # a note, not a label
+# notes a previous session wrote into the middle of a sheet. The owner's own working
+# notes in columns L to R are left exactly where they are.
+DROP = ("I17 reads 0.1 Budget Table", "Budget lines reading zero have no entry")
 
 
 def tidy(wb):
@@ -100,40 +110,34 @@ def tidy(wb):
                         '#,##0;(#,##0);"-"'
                     n_fmt += 1
 
-                # ---- notes to move to the foot ----
+                # ---- drop the notes a previous session left mid-sheet ----
                 if isinstance(v, str) and not v.startswith("=") and \
-                        c.column_letter in ("M", "N") and SENTENCE.match(v.strip()):
-                    notes.append(v.strip())
+                        v.strip().startswith(DROP):
                     c.value = None
                     n_note += 1
 
-        # ---- section bars take the darker navy, column headers keep the lighter ----
-        # A bar is a run of navy cells starting at B with nothing in them but the bar
-        # label. The run STOPS at the first cell that is not empty-and-navy, so the
-        # repaint cannot reach across into another block on the same row. The first
-        # version walked C to M unconditionally and painted seven of the owner's yellow
-        # funding inputs navy.
+        # ---- section bars take the darker navy, found by label ----
         INPUTS = {"FFFFFF00", "FFFFF2CC"}
+        n_bar = 0
         for row in ws.iter_rows():
             c = ws.cell(row[0].row, 2)
-            fl = c.fill
-            if not (fl and fl.patternType
-                    and str(fl.start_color.rgb or "").upper() == "FF1F4E79"):
-                continue
-            if not (isinstance(c.value, str) and c.value.strip()):
+            if not (isinstance(c.value, str) and c.value.strip().startswith(BAR_LABELS)):
                 continue
             if str(ws.cell(c.row, 3).value or "").strip():
-                continue                      # a header row, not a bar
-            run = [c]
-            for cc in range(3, 20):
+                continue                       # a header row, not a bar
+            c.fill = opts.fl(opts.BARC)
+            c.font = opts.BARF
+            for cc in range(3, 13):
                 x = ws.cell(c.row, cc)
-                xf = x.fill
-                rgb = str(xf.start_color.rgb or "").upper() if xf and xf.patternType else ""
-                if rgb in INPUTS or x.value is not None or rgb != "FF1F4E79":
+                fl = x.fill
+                rgb = str(fl.start_color.rgb or "").upper() \
+                    if fl and fl.patternType else ""
+                if rgb in INPUTS or x.value is not None:
                     break
-                run.append(x)
-            for x in run:
+                if not (fl and fl.patternType):
+                    break
                 x.fill = opts.fl(opts.BARC)
+            n_bar += 1
 
         # ---- the orange reconciliation box joins the rest ----
         for row in ws.iter_rows():
@@ -157,9 +161,42 @@ def tidy(wb):
                                                     vertical="center")
                 r += 1
 
+        # ---- header rows wrap, and get the height to show the wrap ----
+        n_hdr = 0
+        for row in ws.iter_rows():
+            r = row[0].row
+            navy = 0
+            for cc in range(2, 13):
+                x = ws.cell(r, cc)
+                fl = x.fill
+                if fl and fl.patternType and \
+                        str(fl.start_color.rgb or "").upper() == "FF1F4E79" \
+                        and isinstance(x.value, str) and x.value.strip():
+                    navy += 1
+            if navy >= 2:                       # a column-header row, not a bar
+                for cc in range(2, 13):
+                    x = ws.cell(r, cc)
+                    if isinstance(x.value, str) and x.value.strip():
+                        x.alignment = Alignment(horizontal="center",
+                                                vertical="center", wrap_text=True)
+                ws.row_dimensions[r].height = 32
+                n_hdr += 1
+
+        # ---- the reconciliation box, found by its label, joins the rest ----
+        for row in ws.iter_rows():
+            c = ws.cell(row[0].row, 2)
+            if isinstance(c.value, str) and \
+                    c.value.strip().startswith(("Total ", "Reconciled to Finance")) and \
+                    c.fill and c.fill.patternType:
+                for cc in range(2, 7):
+                    x = ws.cell(c.row, cc)
+                    if x.fill and x.fill.patternType:
+                        x.fill = opts.fl(opts.GREY)
+                        x.font = opts.BOLD
+
         ws.sheet_view.showGridLines = False
-        out.append(f"{tab}: {n_lab} labels, {n_fmt} number formats, {n_red} red cells, "
-                   f"{n_note} notes moved to the foot")
+        out.append(f"{tab}: {n_lab} labels, {n_bar} bars, {n_hdr} headers wrapped, "
+                   f"{n_red} red cells, {n_note} notes removed")
     return out
 
 

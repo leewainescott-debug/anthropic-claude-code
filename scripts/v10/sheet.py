@@ -14,7 +14,7 @@ SHOTS = os.path.join(SP, "shots")
 ORDER = {"1": ["1.1 Ampol Retail", "1.2 Customer", "1.3 Enterprise Data",
                "1.4 TDD Group Functions", "1.5 P&C", "1.6 Finance", "1.7 Infrastructure",
                "1.8 Energy Solutions & B2B", "1.9 Commercial Fuels", "1.10 Z Retail",
-               "1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles", "1.14 TDD Cyber"],
+               "1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles"],
          "2": ["2.1 Ampol Retail", "2.2 Customer", "2.3 Enterprise Data",
                "2.4 TDD Group Functions", "2.5 P&C", "2.6 Finance", "2.7 Infrastructure",
                "2.8 Energy Solutions & B2B", "2.9 Commercial Fuels", "2.10 Z Retail",
