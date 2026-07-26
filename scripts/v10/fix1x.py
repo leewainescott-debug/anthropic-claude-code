@@ -34,14 +34,16 @@ LAST = 528
 NONE_FILL = PatternFill()
 NO_BORDER = Border()
 
+# Only blocks with no roles behind them at all. 1.5's EGI P&C block was in this list and
+# should not have been: its funded input is blank, which made it look empty, but the squad
+# is real and has a role in the ledger. The owner's instruction is that EGI P&C is a squad
+# and stays as it is, so the block stays as it is and the blank input is his to set.
 SHELLS = [("1.1 Ampol Retail", "Platform: Pricing & WFM"),
-          ("1.3 Enterprise Data", "Platform: EGI Data"),
-          ("1.5 P&C", "Platform: EGI P&C")]
+          ("1.3 Enterprise Data", "Platform: EGI Data")]
 SHELL_NOTE = {"Platform: Pricing & WFM": "Platform: Pricing & WFM - combined into Above "
                                          "Store, no squad of its own",
               "Platform: EGI Data": "Platform: EGI Data - removed, no roles",
-              "Platform: EGI P&C": "Platform: EGI P&C - the one role is management and "
-                                   "sits on the P&C management line"}
+              }
 # tab, the portfolio its roles list covers, the list's first row
 COE = [("1.11 BP&T", "COE BP&T"), ("1.12 SA&D", "COE SA&D"),
        ("1.13 Cyber Roles", "COE Cyber")]

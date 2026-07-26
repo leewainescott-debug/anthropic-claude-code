@@ -475,6 +475,12 @@ Owner's instruction. Every column, header, tile, check name and block label that
 tabs are still where the archetype is priced; the word just does not appear as a
 measurement.
 
+### D52c. An empty-looking block is not always an empty block.
+1.5's EGI P&C block was collapsed as a shell because its funded input is blank. The squad is
+real and carries a role in the ledger; the blank is an input the owner has not set. Restored
+exactly as it was. Only 1.1's Pricing & WFM fold and 1.3's removed EGI Data are collapsed,
+and both carry the fact on the line that remains.
+
 ### D52a. A tab's name must match its own title.
 `3.3 FTE View` was headed "Squad Detail", `3.4 COE Summary` was headed "COE detail", and
 `2.11 TDD Cyber` carried "COE Cyber" in its title and its portfolio cell while the ledger
