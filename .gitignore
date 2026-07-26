@@ -4,3 +4,7 @@ scripts/**/*.xlsx
 scripts/**/recalc_*/
 scripts/lohome/
 scripts/v10/anchors*.json
+scripts/v10/lohome/
+scripts/v10/mocks/
+scripts/v10/mocks2/
+scripts/v10/opt/

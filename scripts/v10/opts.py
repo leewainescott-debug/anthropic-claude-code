@@ -230,7 +230,8 @@ class Data:
                 continue
             out.append((pf, sq, vs.cell(r, 4).value, vs.cell(r, 5).value,
                         vs.cell(r, 6).value, vs.cell(r, 9).value,
-                        vs.cell(r, 7).value, vs.cell(r, 8).value))
+                        vs.cell(r, 7).value, vs.cell(r, 8).value,
+                        vs.cell(r, 11).value))
             if limit and len(out) >= limit:
                 break
         return out
@@ -646,13 +647,13 @@ def _p33(ws, kind):
              [22, 30, 26, 7, 12, 8, 8, 8, 14, 13, 17])
     st = r
     cur = None
-    for pf, sq, ty, sz, ar, ac, ro, vc in D.squads_33(limit=34):
+    for pf, sq, ty, sz, ar, ac, ro, vc, act in D.squads_33(limit=34):
         if kind == "B" and cur is not None and pf != cur:
             pass
         cur = pf
         f = (ro - vc) if isinstance(ro, (int, float)) and isinstance(vc, (int, float)) \
             else None
-        r = row(ws, r, 2, [pf, sq, ty, sz, ar, ro, f, vc, ac, None, None],
+        r = row(ws, r, 2, [pf, sq, ty, sz, ar, ro, f, vc, ac, act, act],
                 [None, None, None, None, C1, CT, CT, CT, M2, M2, M2])
     row(ws, r, 2, ["Total", None, None, None] +
         [f"=SUM({L(c)}{st}:{L(c)}{r-1})" for c in range(6, 13)],
@@ -664,5 +665,154 @@ def three(kind):
     wb = openpyxl.Workbook()
     _p31(sheet(wb, "3.1 Group Summary", True), kind)
     _p32(sheet(wb, "3.2 Total Cost"), kind)
+    _p33(sheet(wb, "3.3 Squad Detail"), kind)
+    return wb
+
+
+# =============================================================== 3.x, no budget
+# Archetype against actual, full cost both sides. The only care needed is that the
+# variance column compares like with like: the ten portfolios have a squad archetype,
+# the COEs and EGI do not, and overhead is measured against its allowance rather than
+# an archetype. Subtotalled that way, the page adds up:
+#   64.20 archetype + 11.49 over  = 75.69 delivery squads
+#   + 11.65 overhead + 27.77 COEs = 115.11
+ARCH_PF = 10
+
+
+def _rows32():
+    s2 = D.v["3.2 Total Cost"]
+    out = []
+    for r in list(range(6, 16)) + list(range(17, 21)):
+        n = s2.cell(r, 2).value
+        if not n or str(n).startswith("Portfolios with"):
+            continue
+        a = s2.cell(r, 10).value
+        out.append({"name": n, "arch": a if isinstance(a, (int, float)) else None,
+                    "squad": s2.cell(r, 8).value or 0, "oh": s2.cell(r, 13).value or 0,
+                    "actual": s2.cell(r, 6).value or 0, "roles": s2.cell(r, 3).value or 0,
+                    "filled": s2.cell(r, 4).value or 0,
+                    "vacant": s2.cell(r, 5).value or 0})
+    return out
+
+
+H31 = ["Portfolio", "Archetype cost ($m)", "Squad cost ($m)",
+       "Over/(under) archetype ($m)", "Overhead cost ($m)", "Actual cost ($m)",
+       "Cost after vacancy decisions ($m)", "Roles", "Filled", "Vacant"]
+W31 = [26, 15, 13, 16, 14, 13, 18, 8, 8, 8]
+
+
+def _n31(ws, kind):
+    ws.cell(2, 2).value = "TDD Summary - all portfolios"
+    ws.cell(2, 2).font = TITLE
+    pf = _rows32()
+    r = 4
+    if kind == "D":
+        r = strip(ws, r, 2, [
+            ("Roles", sum(p["roles"] for p in pf), CT),
+            ("Filled", sum(p["filled"] for p in pf), CT),
+            ("Vacant", sum(p["vacant"] for p in pf), CT),
+            ("Archetype cost ($m)", sum(p["arch"] or 0 for p in pf), M2),
+            ("Actual cost ($m)", sum(p["actual"] for p in pf), M2),
+            ("Over archetype ($m)",
+             sum(p["squad"] for p in pf if p["arch"]) - sum(p["arch"] or 0 for p in pf),
+             M2)], w=17) + 1
+    r = bar(ws, r, 2, len(H31), "Archetype against actual, by portfolio")
+    if kind == "B":
+        for c0, n, lab in ((3, 1, "DESIGN"), (4, 2, "TODAY"), (6, 2, "AFTER DECISIONS")):
+            for i in range(n):
+                x = ws.cell(r, c0 + i)
+                x.fill, x.font, x.alignment = fl(NAVY), BARF, CEN
+            ws.cell(r, c0).value = lab
+            if n > 1:
+                ws.merge_cells(start_row=r, start_column=c0, end_row=r,
+                               end_column=c0 + n - 1)
+        r += 1
+    r = head(ws, r, 2, H31, W31)
+
+    def block(r, rows, label, arch=True):
+        st = r
+        for p in rows:
+            a = p["arch"] if arch else None
+            r = row(ws, r, 2, [p["name"], a if a else "-", p["squad"],
+                               (p["squad"] - a) if a else "-", p["oh"], p["actual"],
+                               p["actual"], p["roles"], p["filled"], p["vacant"]],
+                    [None, M2, M2, M2, M2, M2, M2, CT, CT, CT])
+        return row(ws, r, 2, [label] +
+                   [f"=SUM({L(c)}{st}:{L(c)}{r-1})" for c in range(3, 12)],
+                   [None, M2, M2, M2, M2, M2, M2, CT, CT, CT], bg=GREY, bold=True), r
+
+    r, e1 = block(r, pf[:ARCH_PF], "Portfolios with a squad archetype")
+    s1 = r - 1
+    r, e2 = block(r, pf[ARCH_PF:], "COEs and EGI - no squad archetype", arch=False)
+    s2r = r - 1
+    gt = r
+    r = row(ws, r, 2, ["Group total"] +
+            [f"={L(c)}{s1}+{L(c)}{s2r}" for c in range(3, 12)],
+            [None, M2, M2, M2, M2, M2, M2, CT, CT, CT], bg=MID, bold=True, top=True)
+    # the control rows read the REVIEW ledger, which a standalone mockup does not
+    # contain. They go in on the real build, not here.
+
+
+H32 = ["Cost", "Archetype cost or allowance ($m)", "Actual cost ($m)",
+       "Over/(under) ($m)", "Cost after vacancy decisions ($m)", "Roles"]
+W32 = [42, 20, 14, 15, 19, 9]
+
+
+def _n32(ws, kind):
+    ws.cell(2, 2).value = "Total Cost - archetype model vs actual organisation"
+    ws.cell(2, 2).font = TITLE
+    pf = _rows32()
+    arch = sum(p["arch"] or 0 for p in pf)
+    sq10 = sum(p["squad"] for p in pf[:ARCH_PF])
+    oh = sum(p["oh"] for p in pf)
+    coe = sum(p["actual"] for p in pf[ARCH_PF:])
+    tot = sum(p["actual"] for p in pf)
+    r = 4
+    if kind == "C":
+        r = bar(ws, r, 2, 2, "How the design becomes the actual")
+        r = pairs(ws, r, 2, [
+            ("Squad archetype cost - the design", arch, M2, False),
+            ("Delivery squads raised over the archetype", sq10 - arch, M2, False),
+            ("Overhead roles", oh, M2, False),
+            ("COEs and EGI - no squad archetype", coe, M2, False),
+            ("Cost of the organisation today", tot, M2, True)], w=(52, 15)) + 1
+    r = bar(ws, r, 2, len(H32), "Archetype against actual")
+    r = head(ws, r, 2, H32, W32)
+    ro10 = sum(p["roles"] for p in pf[:ARCH_PF])
+    rocoe = sum(p["roles"] for p in pf[ARCH_PF:])
+    ohroles = sum(1 for i in range(2, 529)
+                  if str(D.v[REVIEW].cell(i, 2).value or "").strip()
+                  and D.v[REVIEW].cell(i, 44).value != "Squad")
+    allow = D.v["Lists"]["AJ8"].value
+    st = r
+    r = row(ws, r, 2, ["Delivery squads in the ten portfolios", arch, sq10,
+                       sq10 - arch, sq10, ro10 - ohroles],
+            [None, M2, M2, M2, M2, CT])
+    r = row(ws, r, 2, ["Overhead roles - against the allowance on Lists", allow, oh,
+                       oh - allow, oh, ohroles], [None, M2, M2, M2, M2, CT])
+    r = row(ws, r, 2, ["COEs and EGI - no squad archetype", "-", coe, "-", coe, rocoe],
+            [None, None, M2, None, M2, CT])
+    row(ws, r, 2, ["Cost of the organisation today"] +
+        [f"=SUM({L(c)}{st}:{L(c)}{r-1})" for c in range(3, 8)],
+        [None, M2, M2, M2, M2, CT], bg=MID, bold=True, top=True)
+    r += 2
+    r = bar(ws, r, 2, 7, "Overhead roles - line by line")
+    r = head(ws, r, 2, ["Overhead line", "Roles", "Rate ($m)", "Times applied",
+                        "Allowance ($m)", "Actual ($m)", "Over/(under) allowance ($m)"],
+             [28, 9, 11, 13, 14, 13, 18])
+    st2 = r
+    for n, ro, rate, un, al, act in D.overhead():
+        r = row(ws, r, 2, [n, ro, rate, un, al, act, (act or 0) - (al or 0)],
+                [None, CT, M2, CT, M2, M2, M2])
+    row(ws, r, 2, ["Overhead total", f"=SUM(C{st2}:C{r-1})", None, None,
+                   f"=SUM(F{st2}:F{r-1})", f"=SUM(G{st2}:G{r-1})",
+                   f"=SUM(H{st2}:H{r-1})"],
+        [None, CT, None, None, M2, M2, M2], bg=MID, bold=True, top=True)
+
+
+def three2(kind):
+    wb = openpyxl.Workbook()
+    _n31(sheet(wb, "3.1 Group Summary", True), kind)
+    _n32(sheet(wb, "3.2 Total Cost"), kind)
     _p33(sheet(wb, "3.3 Squad Detail"), kind)
     return wb
