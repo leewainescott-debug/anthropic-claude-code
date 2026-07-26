@@ -7,9 +7,9 @@ two title styles, because three different scripts had written them over time).
 Layout, top to bottom:
 
     title
-    Squad summary          bar + header + squads the archetype prices + subtotal
-    No archetype           bar + header + directly funded programmes + subtotal
-    Overhead roles         bar + header + overhead lines + subtotal
+    Squads priced by an archetype     bar + header + rows + subtotal
+    Directly funded                   bar + header + rows + subtotal
+    Overhead roles                    bar + header + rows + subtotal
     Total portfolio
     two control lines, both must read 0
     <Portfolio> FTE        bar
@@ -51,6 +51,21 @@ S_HDR = ["Squad", "Archetype Type", "Size", "Archetype roles", "Roles", "Filled"
          "Vacant", "To hire", "To offshore", "On hold", "Roles after decisions",
          "Archetype cost ($m)", "Actual cost ($m)", "Variance to archetype ($m)",
          "Cost after vacancy decisions ($m)", "New variance ($m)"]
+# The design column means something different in each block, so each block says which.
+# Heading the directly funded block "Archetype cost" was wrong on its face: no archetype
+# prices those squads, which is why they are in that block.
+HDR_BY_BLOCK = {
+    "direct": {11: "Funded on the 1.x tab ($m)", 13: "Variance to funding ($m)",
+               15: "New variance to funding ($m)"},
+    "oh": {11: "Allowance - stated on 3.2", 13: "Variance", 15: "New variance"},
+}
+
+
+def block_hdr(kind):
+    h = list(S_HDR)
+    for i, t in HDR_BY_BLOCK.get(kind, {}).items():
+        h[i] = t
+    return h
 S_W = [30, 26, 7, 11, 7, 7, 8, 8, 11, 8, 13, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
@@ -138,7 +153,7 @@ def build(wb, wv, tab, rows, bounds):
     lo, hi = bounds[design] if design else (0, 0)
     # split the delivery squads by whether the archetype library actually prices them
     arch = [g for g in delivery if has_archetype(wb, wv, design, g)]
-    noarch = [g for g in delivery if g not in arch]
+    direct = [g for g in delivery if g not in arch]
     wipe(ws)
     ws.column_dimensions["A"].width = 2
 
@@ -161,11 +176,11 @@ def build(wb, wv, tab, rows, bounds):
     r_nabar, r_nahdr = r, r + 1
     r = r_nahdr + 1
     r_na0 = r
-    for g in noarch or ["-noarch"]:
+    for g in direct or ["-direct"]:
         srow[g] = r
         r += 1
-    if not noarch:
-        empty.add("noarch")
+    if not direct:
+        empty.add("direct")
     r_na = r
     r += 2
     r_ohbar, r_ohhdr = r, r + 1
@@ -201,48 +216,86 @@ def build(wb, wv, tab, rows, bounds):
     ws.cell(3, 3).value = pf
     ws.cell(3, 3).font = opts.BODY
     opts.bar(ws, 4, 2, len(S_HDR),
-             "Squads priced by an archetype - design against actual")
-    opts.head(ws, HDR, 2, S_HDR, S_W)
+             "Squads priced by an archetype - archetype cost against actual cost")
+    # One width list for all three block headers. Three copies meant the last call reset
+    # a column the second had widened: "New variance to funding ($m)" needed four lines in
+    # the width "New variance" left behind, and its first line rendered off the top.
+    W = list(S_W)
+    opts.head(ws, HDR, 2, list(S_HDR), W)
     ws.row_dimensions[5].height = 6
 
     def span(g):
         p = people.get(g, [])
         return (p[0][0], p[-1][0]) if p else (band[g], band[g])
 
-    def squad(rw, g, is_oh):
+    def squad(rw, g, kind):
         a, b = span(g)
         lev = f"${L(P['lever'])}${a}:${L(P['lever'])}${b}"
         st = f"${L(P['status'])}${a}:${L(P['status'])}${b}"
         ws.cell(rw, S["squad"]).value = g
         ws.cell(rw, S["squad"]).font = opts.BODY
         ws.cell(rw, S["squad"]).alignment = opts.LFT
-        dash = ('="-"',)
-        if is_oh or design is None:
-            ws.cell(rw, S["type"]).value = ("Overhead - see 3.2" if is_oh
-                                            else "COE - measured on budget, see 3.2")
-            for k in ("size", "aroles", "acost", "var", "newvar"):
+        if kind == "oh" or design is None:
+            # the bar above each block already says what the block is, so the type
+            # column stays a dash rather than repeating a sentence on every row
+            ws.cell(rw, S["type"]).value = '="-"'
+            ws.cell(rw, S["type"]).alignment = opts.RGT
+            for k in ("size", "aroles"):
                 x = ws.cell(rw, S[k])
-                x.value = dash[0]
+                x.value = '="-"'
                 x.alignment = opts.RGT
+            if kind == "oh":
+                for k in ("acost", "var", "newvar"):
+                    x = ws.cell(rw, S[k])
+                    x.value = '="-"'
+                    x.alignment = opts.RGT
+            else:
+                # a COE squad has no archetype and no per-squad design row. Its design is
+                # what its own roles cost, which is how the owner asked the COEs to be
+                # compared, so the variance is nil by construction and says so.
+                _m(ws, rw, S["acost"], f'=${L(S["actual"])}{rw}')
+                _m(ws, rw, S["var"],
+                   f'=ROUND(${L(S["actual"])}{rw}-${L(S["acost"])}{rw},6)')
+                _m(ws, rw, S["newvar"],
+                   f'=ROUND(${L(S["after"])}{rw}-${L(S["acost"])}{rw},6)')
         else:
             key = f'${L(S["type"])}{rw}&"|"&${L(S["size"])}{rw}'
             m = f"MATCH(${L(S['squad'])}{rw},'{design}'!$B${lo}:$B${hi},0)"
             ws.cell(rw, S["type"]).value = (
-                f"=IFERROR(INDEX('{design}'!$C${lo}:$C${hi},{m}),\"Not in the design\")")
+                f"=IFERROR(INDEX('{design}'!$C${lo}:$C${hi},{m}),\"Not on the 1.x tab\")")
+            # INDEX over an empty cell returns 0, not an error, so a strategic programme
+            # with no size printed 0 in the Size column
             ws.cell(rw, S["size"]).value = (
-                f"=IFERROR(INDEX('{design}'!$D${lo}:$D${hi},{m}),\"-\")")
-            opts.money = None  # guard against accidental use
-            _m(ws, rw, S["aroles"],
-               f"=IFERROR(INDEX({A3}!$F$5:$F$23,MATCH({key},{A3}!$A$5:$A$23,0)),\"-\")",
-               opts.C1)
-            _m(ws, rw, S["acost"],
-               f"=IFERROR(IF(INDEX('{design}'!$E${lo}:$E${hi},{m})=\"Offshore\","
-               f"INDEX({A3}!$H$5:$H$23,MATCH({key},{A3}!$A$5:$A$23,0)),"
-               f'INDEX({A3}!$G$5:$G$23,MATCH({key},{A3}!$A$5:$A$23,0))),"-")')
+                f"=IFERROR(IF(INDEX('{design}'!$D${lo}:$D${hi},{m})=\"\",\"-\","
+                f"INDEX('{design}'!$D${lo}:$D${hi},{m})),\"-\")")
+            if kind == "arch":
+                _m(ws, rw, S["aroles"],
+                   f"=IFERROR(INDEX({A3}!$F$5:$F$23,MATCH({key},{A3}!$A$5:$A$23,0)),"
+                   f'"-")', opts.C1)
+                _m(ws, rw, S["acost"],
+                   f"=IFERROR(IF(INDEX('{design}'!$E${lo}:$E${hi},{m})=\"Offshore\","
+                   f"INDEX({A3}!$H$5:$H$23,MATCH({key},{A3}!$A$5:$A$23,0)),"
+                   f'INDEX({A3}!$G$5:$G$23,MATCH({key},{A3}!$A$5:$A$23,0))),"-")')
+            else:
+                # Directly funded. No archetype prices it - the owner's instruction is
+                # that strategic programmes are directly funded and do not fit one - so
+                # the design figure is the amount typed against the programme on its own
+                # platform block, column H of the design tab. EGI is the exception: the
+                # owner ruled EGI is actuals, and four of the six EGI inputs are typed
+                # zero or left blank, so pricing off them would report the whole of EGI
+                # as overspend against nothing.
+                _m(ws, rw, S["aroles"], '="-"', opts.C1)
+                if g.startswith("EGI"):
+                    _m(ws, rw, S["acost"], f'=${L(S["actual"])}{rw}')
+                else:
+                    _m(ws, rw, S["acost"],
+                       f"=IFERROR(INDEX('{design}'!$H${lo}:$H${hi},{m}),\"-\")")
+            # rounded, or a squad priced exactly at its archetype shows (0.00) on a
+            # residual of a few billionths
             _m(ws, rw, S["var"],
-               f'=IFERROR(${L(S["actual"])}{rw}-${L(S["acost"])}{rw},"-")')
+               f'=IFERROR(ROUND(${L(S["actual"])}{rw}-${L(S["acost"])}{rw},6),"-")')
             _m(ws, rw, S["newvar"],
-               f'=IFERROR(${L(S["after"])}{rw}-${L(S["acost"])}{rw},"-")')
+               f'=IFERROR(ROUND(${L(S["after"])}{rw}-${L(S["acost"])}{rw},6),"-")')
         for k in ("type", "size"):
             ws.cell(rw, S[k]).font = opts.BODY
             ws.cell(rw, S[k]).alignment = opts.LFT
@@ -278,14 +331,16 @@ def build(wb, wv, tab, rows, bounds):
             x.value = '="-"'
             x.font, x.alignment = opts.BODY, opts.RGT
 
-    for g in arch + noarch:
-        squad(srow[g], g, False)
+    for g in arch:
+        squad(srow[g], g, "arch")
+    for g in direct:
+        squad(srow[g], g, "direct")
     for g in overhead:
-        squad(srow[g], g, True)
+        squad(srow[g], g, "oh")
     if "arch" in empty:
         none_row(srow["-arch"], "No squad here is priced by an archetype")
-    if "noarch" in empty:
-        none_row(srow["-noarch"], "Every squad here is priced by an archetype")
+    if "direct" in empty:
+        none_row(srow["-direct"], "Every squad here is priced by an archetype")
     if "oh" in empty:
         none_row(srow["-oh"], "The COEs carry no overhead")
 
@@ -304,12 +359,12 @@ def build(wb, wv, tab, rows, bounds):
 
     total(r_del, "Squads priced by an archetype", r_arch0, r_del - 1, opts.GREY)
     opts.bar(ws, r_nabar, 2, len(S_HDR),
-             "Squads and programmes with no archetype - directly funded, the design does "
-             "not price them")
-    opts.head(ws, r_nahdr, 2, S_HDR, S_W)
-    total(r_na, "No archetype total", r_na0, r_na - 1, opts.GREY)
+             "Directly funded programmes and platforms - no archetype prices them, so the "
+             "figure to compare is the amount funded on the 1.x tab")
+    opts.head(ws, r_nahdr, 2, block_hdr("direct"), W)
+    total(r_na, "Directly funded total", r_na0, r_na - 1, opts.GREY)
     opts.bar(ws, r_ohbar, 2, len(S_HDR), "Overhead roles - against the allowance on 3.2")
-    opts.head(ws, r_ohhdr, 2, S_HDR, S_W)
+    opts.head(ws, r_ohhdr, 2, block_hdr("oh"), W)
     total(r_oh, "Overhead roles total", r_oh0, r_oh - 1, opts.GREY)
 
     opts.row(ws, r_tot, 2, ["Total portfolio"] + [None] * (len(S_HDR) - 1),
@@ -337,7 +392,9 @@ def build(wb, wv, tab, rows, bounds):
 
     # ---- FTE ----
     opts.bar(ws, r_ftebar, 2, len(P_HDR), f"{pf} FTE")
-    opts.head(ws, r_ftehdr, 2, P_HDR, P_W)
+    for i, w in enumerate(P_W):
+        W[i] = max(W[i], w)
+    opts.head(ws, r_ftehdr, 2, list(P_HDR), W)
     dv = DataValidation(type="list", formula1='"Filled,Hire,Hold,Offshore"',
                         allow_blank=False, showDropDown=False)
     ws.add_data_validation(dv)
@@ -373,9 +430,9 @@ def build(wb, wv, tab, rows, bounds):
 
     ws.freeze_panes = f"C{HDR + 1}"
     return {"tab": tab, "pf": pf, "total_row": r_tot, "delivery_row": r_del,
-            "noarch_row": r_na, "overhead_row": r_oh, "header_row": HDR,
+            "direct_row": r_na, "overhead_row": r_oh, "header_row": HDR,
             "first_squad": r_arch0, "last_squad": r_del - 1,
-            "squads": arch, "noarch": noarch, "overhead": overhead,
+            "squads": arch, "direct": direct, "overhead": overhead,
             "srow": srow, "people": sum(len(v) for v in people.values()),
             "cols": S}
 
@@ -405,8 +462,8 @@ def run(src, dst):
             pf = next(p for p in bypf if p and tab.endswith(str(p)))
         a = build(wb, wv, tab, bypf[pf], bounds)
         anchors[tab] = a
-        out.append(f"{tab}: {len(a['squads'])} archetyped, {len(a['noarch'])} no "
-                   f"archetype, {len(a['overhead'])} overhead, {a['people']} people")
+        out.append(f"{tab}: {len(a['squads'])} archetyped, {len(a['direct'])} directly "
+                   f"funded, {len(a['overhead'])} overhead, {a['people']} people")
     json.dump(anchors, open("anchors_final.json", "w"), indent=1)
     wb.save(dst)
     return out

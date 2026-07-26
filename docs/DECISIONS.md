@@ -365,13 +365,138 @@ vanished. None of those are errors. All of them are wrong.
 I first used AB. AB is "MyHR ee no" and holds 27 employee numbers. The formula read them as
 costs and dropped $1.87m out of the model.
 
+
+### D43. The archetype prices some squads. Never put it against the actual for all of them.
+`2.x` splits its squads into three blocks and `3.1` into four. The archetype block compares
+like for like; the directly funded block compares actual to the amount funded on the 1.x
+tab; the COE block compares actual to the planned spend on its own 1.x tab; overhead
+compares actual to the allowance.
+
+**Why:** the delivery subtotal used to hold the archetype cost of the seven squads that have
+one against the actual cost of all ten. The group read **+11.488 over**. The squads the
+archetype actually prices are **0.389 under**. The difference was the directly funded
+programmes being charged against a zero, and it published on Exec.
+
+**What it is not:** the eleven directly funded lines are not homeless. Every one sits on a
+platform block on a 1.x tab and always rolled into its portfolio total. Eight carry a funded
+figure typed against them; four of those figures are typed zero or left blank, all of them
+EGI, which is why "EGI is actuals" is the only ruling that works. AmPOS (funded 1.404,
+actual 2.115) and CTRM (funded 3.800, actual 3.222) are the only two lines in that block
+with a real comparison.
+
+### D44. Only three of the six overhead lines draw in the portfolios.
+`Lists` now carries a Yes/No column and `Lists!AJ9` totals the three that do: Head of
+Technology, Delivery Manager, Technology Manager, $6.325m. `3.1`'s overhead row compares
+that to the $11.65m of portfolio overhead cost. `3.2` states all six line by line and splits
+each line's roles between the portfolios and the COEs.
+
+**Why:** `3.2` gave two different answers for the same allowance seven rows apart - row 8
+said 43 roles / $11.654m / **-1.271 under**, row 19 said 62 roles / $22.921m / **+9.996
+over**. Row 19 counted the 19 roles carrying an overhead title inside the COEs, whose cost
+is already in the COE block, plus the $5.1m of GMs, who are not in the ledger at all. The
+netting also hid the shape: the Business Partner and Domain Architect allowances, $3.6m, are
+not drawn in the portfolios at all, so setting them against portfolio cost only made an
+overspend read as headroom.
+
+**The GMs:** $5.1m, eight people, no role in REVIEW. Stated as a line on 3.2 against a $3.0m
+allowance and marked as sitting above the 525-role ledger. Not added into the group total,
+because the ledger is the source of truth and the total has to tie to it.
+
+### D45. "Not covered by the allowance", not "over budget". Register item 99.
+The overhead rates are allocated shares - half a Head of Technology per portfolio, 30% of a
+manager per platform - and the actual is whole heads. Calling the difference an overspend
+asserts an equivalence that does not exist. The column says what it is, the rate column
+carries three decimals so rate x times applied equals the allowance on the face of the page,
+and the basis sits on 0.2 Data Config.
+
+### D46. Roles after decisions, not vacancies remaining.
+The old column counted vacancies set to Hold and was headed "Vacancies remaining", which
+reads as though a cancelled vacancy were still outstanding. It is now roles less anything on
+hold, on 2.x, 3.1, 3.3 and Exec. Pulling Hold on a $202,853 vacancy moves cost by -0.2029
+and headcount by -1, on every one of them, and leaves cost today untouched. Verified by
+recalculating the workbook, not by reading the chain. D20 promised this and nothing
+implemented it.
+
+### D47. Three moves proposed, one kept.
+`Lists!AN:AQ` is the visible override table, now ten slots wide and carrying an overhead-line
+override as well as portfolio and squad.
+
+- **Jasper Na (r136), Energy -> Ampol Web.** Kept. He reports to Jin Zhong, Lead Engineer -
+  BE, who sits in Ampol Web, as does the only other person under Jin Zhong. "Energy" was a
+  one-person squad on no design tab.
+- **Viren Khatri (r104) -> TDD Group Functions.** Withdrawn on the owner's instruction:
+  Ampol Retail is his home.
+- **Vikram Chhahira (r448) -> the P&C management line.** Withdrawn: EGI P&C is a squad in
+  its own right.
+
+**A near miss worth recording:** the first version of this wrote the new moves over rows 2
+to 4 of the table, which already held the three agreed moves. That silently pulled two roles
+back out of COE SA&D and moved a third out of SAP ERP - the ledger still totalled
+$115,113,262.27 and no control failed. The table is appended to, never overwritten. Widening
+the key range from `$AN$2:$AN$4` to `$AN$2:$AN$11` and leaving `$AO$2:$AO$4` alone was the
+same class of bug: a match at position four indexed past the end of a three-row range, so an
+override in a new slot returned nothing.
+
+### D48. 1.12's roles list was three roles short and said so out loud.
+Its own control cell read **-3**. REVIEW rows 283, 301 and 313, $747,896, were never written
+in. The counts and planned spend on that tab read the whole ledger and were always right,
+but the AU / NZ split sums the list, so the split came to 5.7816 against a planned spend of
+6.5295 on the same row. 4.0 now reads all three COE control cells, and checks each COE's
+planned spend against the ledger.
+
+The rest of that gap is the offshore toggle, which feeds the split and nothing else, while
+the tab claimed "the totals above and every summary follow". The discount is now a line of
+its own so the split adds back to planned spend, and the note says the decision that moves
+cost is made on the working tab.
+
+### D49. Two tables cannot each set the width of a column they share.
+Fixed three times in this build, in three places, always the same way: the second header
+call overwrote the first. On 3.2 it dropped column B from 58 to 26 and clipped every label
+above. On 2.x the third block reset a column the second had widened, so "New variance to
+funding ($m)" needed four lines in the height computed for three and its first line rendered
+off the top. On the COE tabs a summary block counting roles in column C shares it with a
+roles list holding position titles.
+
+`opts.head` now sizes a header row from its own text: greedy word wrap at 85% of the column
+width, widen the column to 24 first, then make the row tall enough for what is left. The COE
+and input tabs are measured from their cached content, because every position title on those
+lists is a formula and a length test on the formula text measures nothing.
+
+### D50. A merged bar is not a one-cell bar.
+The design review reported navy bars "1 cell wide over 9-column tables" on 1.11, 1.12 and
+3.4. They were merged ranges; openpyxl reports the fill on the anchor cell only. `verify.py`
+checks the merge first. Fifteen bars were genuinely wrong - one column short on the ten
+portfolio summary bars and one column long on the COE roles bars - and `polish.py` now sizes
+every bar from the header row beneath it and clears anything painted past it.
+
+### D51. Do not call it design. It is the archetype.
+Owner's instruction. Every column, header, tile, check name and block label that said
+"design cost", "over/(under) design" or "variance to design" now says archetype. The 1.x
+tabs are still where the archetype is priced; the word just does not appear as a
+measurement.
+
+### D52. 1.14 TDD Cyber is gone.
+A copy of 1.9 that reported $1.2925m for Cyber against the $9.898m on 1.13, with three black
+bars from a theme fill, twenty styled rows holding nothing, and a 276-character build
+changelog in its title bar. No formula anywhere referenced it. Removed rather than hidden,
+because a hidden tab with wrong numbers still ships.
+
+Also gone: 3.4's duplicate column (F was literally `=$K6`, headed "People cost, gross ($m)"
+against K's "Gross people cost ($m)"), its budget comparison, the "EG" row on 0.2 that was a
+broken duplicate of EGI, a stray `z` on 1.1, an unlabelled `1` on 1.9, three empty platform
+shells with orphan headers and zero totals, 21 en dashes, and 239 `[Red]` number formats that
+put the alarm colour on portfolios under their archetype.
+
 ---
 
 ## I. Still open
 
 These are in `docs/PLAN.md` section 6 and are not decided yet:
 
-1. r364 George Moun's squad.
-2. Whether to delete the three design squads with nobody in them.
-3. Whether to build the bridge tab that walks $72.8m of archetype to $115.1m of actual.
-4. Whether to restructure 1.4 so the funding block sits at the same row on every 1.x tab.
+1. The overhead allowance basis: half a Head of Technology per portfolio against whole
+   heads. Labelled honestly, but only Lee can confirm the intent.
+2. The 8 GMs at $5.1m, stated above the ledger rather than added into it.
+3. Frozen panes: register item 70 asks for them, item 94 records their removal. Applied
+   consistently on every table over 25 rows; one line to reverse.
+4. Whether to build the bridge tab that walks archetype cost to actual cost line by line.
+5. Whether to restructure 1.4 so the funding block sits at the same row on every 1.x tab.

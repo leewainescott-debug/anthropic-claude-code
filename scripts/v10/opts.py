@@ -33,6 +33,11 @@ BOLD = Font(name=FN, bold=True, size=11)
 BODY = Font(name=FN, size=11)
 BIG = Font(name=FN, bold=True, size=16)
 M2 = '#,##0.00;(#,##0.00);"-"'
+# the overhead rates are allocated shares - 0.1375, 0.084, 0.081 - and at two decimals
+# Head of Technology and Domain Architect both printed 0.14, and Delivery Manager and
+# Technology Manager both printed 0.08, so rate x times applied did not equal the allowance
+# on the face of the page.
+M3 = '#,##0.000;(#,##0.000);"-"'
 M0 = '#,##0;(#,##0);"-"'
 CT = '#,##0;(#,##0);"-"'
 C1 = '#,##0.0;(#,##0.0);"-"'
@@ -61,13 +66,49 @@ def bar(ws, r, c0, n, text):
     return r + 1
 
 
-def head(ws, r, c0, labels, widths):
+def wrap_lines(text, width):
+    """How many lines a wrapped header takes in a column this wide.
+
+    Greedy word wrap, the way Excel does it. A character count divided by the width is not
+    enough: "Cost after vacancy decisions ($m)" is 33 characters, which looks like two
+    lines in a 19-wide column and renders as four, because the words do not break.
+    """
+    # 0.85 of the column width, because a column width unit is the width of "0" in the
+    # body font and a header is bold: at 1.0 the estimate said two lines where LibreOffice
+    # and Excel both render three, and the first line was pushed off the top of the row.
+    budget = max(4.0, width * 0.85)
+    n, line = 1, 0
+    for w in str(text).split():
+        need = len(w) if line == 0 else len(w) + 1
+        if line + need > budget and line:
+            n += 1
+            line = len(w)
+        else:
+            line += need
+    return n
+
+
+def head(ws, r, c0, labels, widths, cap=3, maxw=24):
+    """A header row sized to its own text.
+
+    Every truncated header in this file came from a fixed row height of 32 over a label
+    that needed three or four lines: the first lines were pushed off the top and the reader
+    saw "(under) budget ($m)" or "ned spend". The column is widened first, up to maxw, and
+    then the row is made tall enough for whatever is left.
+    """
+    lines = 1
+    for i, t in enumerate(labels):
+        w = widths[i] or (ws.column_dimensions[L(c0 + i)].width or 8.43)
+        while wrap_lines(t, w) > cap and w < maxw:
+            w += 1
+        widths[i] = w
+        lines = max(lines, wrap_lines(t, w))
     for i, t in enumerate(labels):
         x = ws.cell(r, c0 + i)
         x.value, x.font, x.fill, x.alignment, x.border = t, HDRF, fl(NAVY), CEN, BOX
         if widths[i]:
             ws.column_dimensions[L(c0 + i)].width = widths[i]
-    ws.row_dimensions[r].height = 32
+    ws.row_dimensions[r].height = max(32, 14 * lines + 6)
     return r + 1
 
 

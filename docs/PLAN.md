@@ -5,8 +5,8 @@ Companion file: `docs/DECISIONS.md` (what was decided and why).
 The original 101-item brief is `docs/INSTRUCTION_REGISTER.md` and still stands except
 where superseded below.
 
-Last updated: after the 2A / 3D rebuild. Four QA passes clean, 37 of 37 live checks
-zero, lever proven end to end.
+Last updated: after the four-block rebuild. Four QA passes clean, 55 of 55 live checks
+zero, lever proven end to end including headcount.
 
 ---
 
@@ -32,11 +32,12 @@ a visible override table on `Lists`, not by editing Lee's raw columns.
 ## 3. Tab structure and flow
 
 ```
-0.x  inputs        0.1 Budget Table (Fin)   0.2 Data Config   0.3 Squad Archetypes
-1.x  design        1.1 - 1.10 portfolios    1.11 BP&T  1.12 SA&D  1.13/1.14 Cyber
+0.x  inputs        0.1 Budget Table (Fin)  0.2 Data Config  0.3 Squad Archetypes
+                   0.4 Presentation Pack   REVIEW - Complete Role Mapping
+1.x  design        1.1 - 1.10 portfolios   1.11 BP&T  1.12 SA&D  1.13 Cyber Roles
 2.x  working       2.1 - 2.14, one per portfolio, this is where decisions get made
-3.x  summaries     3.1 Group  3.2 Total Cost  3.3 FTE  3.4 COE  3.5 Reconciliation
-4.0  Data QA       live checks
+3.x  summaries     3.1 Group  3.2 Total Cost  3.3 Squad Detail  3.4 COE detail
+4.0  Data QA       live checks, with 3.5 Source Reconciliation as evidence
 Exec Summary       the story
 ```
 
@@ -87,21 +88,48 @@ banned list. Still live except where superseded below.
 | 31 | The COEs and EGI are actuals. | Done |
 | 32 | Inputs are cream, not bright yellow. | Done |
 | 33 | Layout: 2A on the working tabs, 3D on the summaries. | Done |
+| 34 | The archetype prices some squads and not others. Never put the archetype for some against the actual for all. | Done |
+| 35 | The directly funded programmes all sit somewhere. Say where, and price them against what they are funded. | Done |
+| 36 | Viren Khatri stays in Ampol Retail. EGI P&C is a squad; leave it. | Done |
+| 37 | Do not call it design. It is the archetype. | Done |
 
-## 5. Where the model stands
+## 5. How the cost is compared
+
+The organisation is funded four ways, so the comparison is built four ways and each block
+says which one it is. Netting them into one line is what produced a group reading +11.49
+over an archetype that prices two thirds of the roles.
+
+| Block | Archetype / funded | Actual | Over/(under) | Roles |
+|---|---|---|---|---|
+| Squads priced by an archetype | 64.20 | 63.81 | (0.39) | 316 |
+| Directly funded programmes and platforms | 10.44 | 11.88 | 1.44 | 53 |
+| COEs and EGI, off their own 1.x tabs | 27.77 | 27.77 | - | 113 |
+| Overhead roles in the portfolios, against the allowance | 6.33 | 11.65 | 5.33 | 43 |
+| **Cost of the organisation today** | **108.74** | **115.11** | **6.38** | **525** |
+
+Of the $115.11m, $86.58m is people in seat and $28.53m is 135 vacancies nobody has been
+hired into yet. Both are on 3.2 and on Exec, so the headline is not read as payroll.
+
+The overhead allowance is 12.925 across six lines. Only three of them draw in the
+portfolios: the Business Partner and Domain Architect allowances are drawn inside the COEs,
+where all thirteen of those people sit, and the 8 GMs sit above the 525-role ledger. 3.2
+states all six line by line, splits the roles between the portfolios and the COEs, and
+carries the one line that reconciles the block to 3.1.
+
+## 6. Where the model stands
 
 | Check | Result |
 |---|---|
 | Ledger | 525 roles, $115,113,262.27 |
 | On a 2.x tab | 525, none twice, none missing |
-| 3.1 / 3.2 / 3.3 / Exec | all tie to the ledger |
-| 3.4 COE + EGI | 113 roles, $27.771m |
+| 3.1 / 3.2 / 3.3 / 3.4 / Exec | all tie to the ledger |
 | Every control row | 0 |
-| 4.0 live checks | 18, all passing |
+| 4.0 live checks | 55, all zero |
 | Formula errors after full recalculation | 0 |
-| Cost cells that are formulas | 527 of 527 |
-| Adversarial QA, all eight checks | 0 findings |
-| Sheets | 51, no gridline or tab-colour change |
+| Adversarial QA (`qa.py`), eight checks | 0 findings |
+| Layout QA (`verify.py`), five checks | 0 findings |
+| Lever, recalculated end to end | cost and headcount both move, cost today does not |
+| Sheets | 50, ordered to match the numbering |
 
 Portfolio split after the agreed assignments:
 
@@ -123,7 +151,7 @@ Portfolio split after the agreed assignments:
 | Finance | 17 | $3,844,616 |
 | **Total** | **525** | **$115,113,262** |
 
-## 6. Squad coverage - all 525 accounted for
+## 7. Squad coverage - all 525 accounted for
 
 | | Roles |
 |---|---|
@@ -134,16 +162,16 @@ Portfolio split after the agreed assignments:
 
 Every design squad now has people in it. The three that did not are gone.
 
-## 7. Open items
+## 8. Open items
 
 | Item | Detail | Needs |
 |---|---|---|
-| Viren Khatri (r104) | Data Migration Lead. Department EGI, team EGI TDD, but he sits in the Ampol Retail portfolio. EGI TDD is a strategic programme on 1.4, not an Ampol Retail squad. | Lee to name the squad |
-| Jasper Na (r136) | Associate Engineer - BE. Department Ampol Digital, team "Energy". Customer portfolio. There is no "Energy" squad on 1.2; Ampol Digital is a platform there. | Lee to name the squad |
-| Two input colours | Bright yellow (49 cells) and cream (102 cells) both mean "typed input", side by side on the same tabs. One should win. | Lee to pick |
+| Overhead allowance basis | The allowance prices half a Head of Technology per portfolio (0.1375 of 0.275) and 30% of a Delivery or Technology Manager per platform, against 43 whole heads costing $11.65m. The variance is labelled "not covered by the allowance" rather than overspend, but the basis itself is a judgement only Lee can confirm. | Lee to confirm |
+| The 8 GMs | $5.1m, no role in REVIEW, so they sit above the 525-role ledger. Stated as a line on 3.2 against a $3.0m allowance; not added into the group total, because the ledger is the source of truth. | Lee to confirm |
+| Frozen panes | Register item 70 asks for them on every long table, item 94 records that they were all removed. Applied consistently on every table over 25 rows. One line to reverse. | Lee to pick |
 | Bridge tab | One page walking archetype cost to actual cost, line by line. Explained; not yet built. | Lee to say yes or no |
 
-## 8. How to work on this
+## 9. How to work on this
 
 1. Read this file and `docs/DECISIONS.md` first.
 2. Definitions before formulas. Most rework on this job came from building against a

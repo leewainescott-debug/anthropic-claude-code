@@ -251,33 +251,60 @@ def find_row(wf, sheet, col, label, limit=240):
     return None
 
 
+def col_of(wf, sheet, label, hdr_limit=12):
+    """The column carrying a header, found by reading the header. Naming the column letter
+    is the same mistake as naming the row: 3.3 gained a column and every hardcoded letter
+    after it pointed one column left, at a number that was real but wrong."""
+    ws = wf[sheet]
+    for r in range(1, hdr_limit + 1):
+        for c in range(2, 20):
+            v = ws.cell(r, c).value
+            if isinstance(v, str) and v.strip() == label:
+                return openpyxl.utils.get_column_letter(c)
+    return None
+
+
 def check_cross_tab_facts(wf, wv):
     """The same fact stated on two tabs must agree, and must be stated at all.
 
-    3.3's group-total row is found by its label. It has moved twice already, and the
-    previous version of this check named row 117 - which by then was empty. An empty
-    cell is not a disagreement, so the check passed while the fact was missing. A cell
-    that holds no number is now a finding in its own right.
+    Rows are found by label and columns by header. The previous version named row 117 on
+    3.3, which by then was empty, and an empty cell is not a disagreement - so the check
+    passed while the fact was missing. A cell holding no number is now a finding.
     """
     out = []
-    gt = find_row(wf, "3.3 FTE View", "B", "Group total")
-    if gt is None:
-        out.append(("3.3 FTE View", "no 'Group total' row found", ""))
-        gt = 0
+    rows = {"3.1 Group Summary": "Cost of the organisation today",
+            "3.2 Total Cost": "Cost of the organisation today",
+            "3.3 FTE View": "Group total"}
+    at = {}
+    for tab, lab in rows.items():
+        r = find_row(wf, tab, "B", lab)
+        if r is None:
+            out.append((tab, f"no {lab!r} row found", ""))
+        at[tab] = r
 
-    g1 = find_row(wf, "3.1 Group Summary", "B", "Group total") or 0
-    g2 = find_row(wf, "3.2 Total Cost", "B", "Cost of the organisation today") or 0
-    facts = [
-        ("group cost", [("3.1 Group Summary", f"D{g1}"), ("3.2 Total Cost", f"D{g2}"),
-                        ("3.3 FTE View", f"K{gt}")]),
-        ("design cost", [("3.1 Group Summary", f"C{g1}"), ("3.2 Total Cost", f"C{g2}")]),
-        ("group roles", [("3.1 Group Summary", f"G{g1}"), ("3.2 Total Cost", f"G{g2}"),
-                         ("3.3 FTE View", f"G{gt}")]),
-        ("filled", [("3.1 Group Summary", f"H{g1}"), ("3.3 FTE View", f"H{gt}")]),
-        ("vacant", [("3.1 Group Summary", f"I{g1}"), ("3.3 FTE View", f"I{gt}")]),
-    ]
-    for name, cells in facts:
-        vals = [(f"{s}!{c}", wv[s][c].value) for s, c in cells if gt or "3.3" not in s]
+    def cell(tab, header):
+        c = col_of(wf, tab, header)
+        if at.get(tab) is None or c is None:
+            return None
+        return f"{c}{at[tab]}"
+
+    facts = [("group cost", "Actual cost ($m)", ("3.1 Group Summary", "3.2 Total Cost",
+                                                 "3.3 FTE View")),
+             ("design cost", "Archetype cost ($m)", ("3.1 Group Summary", "3.2 Total Cost")),
+             ("group roles", "Roles", ("3.1 Group Summary", "3.2 Total Cost",
+                                       "3.3 FTE View")),
+             ("filled", "Filled", ("3.1 Group Summary", "3.3 FTE View")),
+             ("vacant", "Vacant", ("3.1 Group Summary", "3.3 FTE View")),
+             ("roles after decisions", "Roles after decisions",
+              ("3.1 Group Summary", "3.3 FTE View"))]
+    for name, header, tabs in facts:
+        vals = []
+        for tab in tabs:
+            ref = cell(tab, header)
+            if ref is None:
+                out.append((name, f"{tab} has no {header!r} column", ""))
+                continue
+            vals.append((f"{tab}!{ref}", wv[tab][ref].value))
         blank = [k for k, v in vals if not isinstance(v, (int, float))]
         if blank:
             out.append((name, "stated nowhere on " + ", ".join(blank),

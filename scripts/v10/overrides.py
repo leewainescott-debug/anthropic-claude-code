@@ -1,0 +1,174 @@
+"""Three agreed role moves, made through the visible override table on Lists.
+
+The owner's raw columns on REVIEW are never edited. The grouping columns read an override
+table first and fall back to the raw data, so every reassignment is one visible row a
+reader can check, and the ledger still totals $115,113,262.27.
+
+  r136 Jasper Na       squad Energy -> Ampol Web
+        Associate Engineer - BE reporting to Jin Zhong, Lead Engineer - BE, who sits in
+        Ampol Web; the only other person under Jin Zhong is also Ampol Web. "Energy" was
+        a one-person squad that appears on no design tab.
+
+Two further moves were proposed and withdrawn on the owner's instruction: Viren Khatri
+stays in Ampol Retail, which is his home, and Vikram Chhahira stays in the EGI P&C squad,
+which is a squad in its own right. Neither is in the table.
+
+The table was three rows wide and hardcoded at $AN$2:$AN$4. It is now ten, and it carries
+an overhead-line override as well as portfolio and squad, because moving a role onto an
+overhead line has to change REVIEW!AR or the role lands in a delivery block under an
+overhead name.
+"""
+import re
+
+import openpyxl
+from openpyxl.utils import get_column_letter as L
+
+import opts
+
+REVIEW = "REVIEW - Complete Role Mapping"
+LAST = 528
+N = 11                                  # override window runs Lists!$AN$2:$AN$11
+
+NEW = [(136, None, "Ampol Web", None)]
+
+PORTFOLIOS = ["Ampol Retail", "Customer", "Enterprise Data", "TDD Group Functions",
+              "P&C", "Finance", "Infrastructure", "Energy Solutions & B2B",
+              "Commercial Fuels", "Z Retail"]
+
+# the keyword chain that classifies a position title into an overhead line. Unchanged;
+# it just moves inside the override wrapper.
+KEYWORD = ('IF(ISNUMBER(SEARCH("head of ",$C{r})),"Head of Technology",'
+           'IF(ISNUMBER(SEARCH("TDD BP",$C{r})),"Business Partner",'
+           'IF(OR(ISNUMBER(SEARCH("domain architect",$C{r})),'
+           'ISNUMBER(SEARCH("enterprise architect",$C{r}))),"Domain Architect",'
+           'IF(ISNUMBER(SEARCH("delivery man",$C{r})),"Delivery Manager",'
+           'IF(OR(ISNUMBER(SEARCH("technology manager",$C{r})),'
+           'ISNUMBER(SEARCH("technology manger",$C{r})),'
+           'ISNUMBER(SEARCH("tech manager",$C{r}))),"Technology Manager","Squad"))))')
+
+
+def ovr(col):
+    """The override lookup for one column of the table."""
+    return (f'IFERROR(INDEX(Lists!${col}$2:${col}${N},'
+            f'MATCH(ROW(),Lists!$AN$2:$AN${N},0)),"")')
+
+
+def formulas(r):
+    o = ovr("AO")
+    aj = (f'=IF(TRIM($B{r})="","",IF({o}<>"",{o},'
+          f'IFERROR(INDEX(Lists!$U:$U,MATCH(TRIM($I{r}),Lists!$T:$T,0)),TRIM($I{r}))))')
+    q = ovr("AQ")
+    ar = f'=IF(TRIM($B{r})="","",IF({q}<>"",{q},{KEYWORD.format(r=r)}))'
+    p = ovr("AP")
+    at = (f'=IF(TRIM($B{r})="","",IF({p}<>"",{p},'
+          f'IF(OR(LEFT($AJ{r},3)="COE",$AJ{r}="EGI"),$AP{r},'
+          f'IF($AR{r}<>"Squad",$AR{r},$AP{r}))))')
+    return {36: aj, 44: ar, 46: at}
+
+
+def run(src, dst):
+    wb = openpyxl.load_workbook(src)
+    l = wb["Lists"]
+    out = []
+
+    # the columns the new table needs must be empty before it is written there
+    for c in (43, 45):                                  # AQ, AS
+        for r in range(1, 40):
+            if l.cell(r, c).value is not None:
+                raise SystemExit(f"Lists!{L(c)}{r} is not empty - pick another column")
+
+    # the table already carries the earlier agreed moves (r283 and r313 to the Data COE,
+    # r528 to AU Finance). Append, never overwrite - writing over row 2 silently pulled
+    # two roles back out of COE SA&D and moved a third out of SAP ERP.
+    keep = []
+    for r in range(2, 40):
+        row = l.cell(r, 40).value
+        if isinstance(row, (int, float)):
+            keep.append((int(row), l.cell(r, 41).value, l.cell(r, 42).value, None))
+    have = {k[0] for k in keep}
+    moves = keep + [m for m in NEW if m[0] not in have]
+    if len(moves) + 1 > N:
+        raise SystemExit(f"{len(moves)} moves will not fit in {N - 1} slots")
+    out.append("kept " + ", ".join(f"r{k[0]}" for k in keep))
+
+    l.cell(1, 43).value = "Overhead line override"
+    for c in (40, 41, 42, 43):
+        x = l.cell(1, c)
+        x.font, x.fill, x.alignment = opts.HDRF, opts.fl(opts.NAVY), opts.CEN
+        l.column_dimensions[L(c)].width = 24
+    for i, (row, pf, sq, oh) in enumerate(moves):
+        r = 2 + i
+        for c, v in ((40, row), (41, pf), (42, sq), (43, oh)):
+            x = l.cell(r, c)
+            x.value = v
+            x.font, x.border = opts.BODY, opts.BOX
+            x.fill = opts.fl(opts.YEL)
+            x.alignment = opts.RGT if c == 40 else opts.LFT
+    for r in range(2 + len(moves), N + 1):              # spare, declared and empty
+        for c in (40, 41, 42, 43):
+            x = l.cell(r, c)
+            x.value = None
+            x.font, x.border, x.fill = opts.BODY, opts.BOX, opts.fl(opts.YEL)
+    l.cell(N + 2, 40).value = ("Agreed moves. REVIEW's own columns are untouched; these "
+                               "override the grouping only.")
+    l.cell(N + 2, 40).font = opts.BODY
+    out.append(f"Lists override table: {len(moves)} moves, {N - 1} slots")
+
+    # a clean list of the ten portfolios, so the allowance stops counting a block of
+    # cells on 3.1 whose row numbers move every time the tab is rebuilt
+    l.cell(1, 45).value = "Portfolios (10)"
+    l.cell(1, 45).font = opts.HDRF
+    l.cell(1, 45).fill, l.cell(1, 45).alignment = opts.fl(opts.NAVY), opts.CEN
+    l.column_dimensions["AS"].width = 26
+    for i, p in enumerate(PORTFOLIOS):
+        x = l.cell(2 + i, 45)
+        x.value, x.font, x.border = p, opts.BODY, opts.BOX
+        x.alignment = opts.LFT
+    out.append("Lists!AS2:AS11: the ten portfolios, named")
+
+    # ---- repoint every reader of the old three-row window ----
+    # every column of the table, not only the key column. Widening AN alone left
+    # INDEX(Lists!$AO$2:$AO$4, MATCH(ROW(), Lists!$AN$2:$AN$11, 0)): a match at position
+    # four indexes past the end of a three-row range, so an override in one of the new
+    # slots silently returned nothing.
+    old = re.compile(r"\$(AN|AO|AP|AQ)\$2:\$(AN|AO|AP|AQ)\$4\b")
+    hits = 0
+    for s in wb.sheetnames:
+        for row in wb[s].iter_rows():
+            for c in row:
+                if isinstance(c.value, str) and old.search(c.value):
+                    c.value = old.sub(lambda m: f"${m.group(1)}$2:${m.group(2)}${N}",
+                                      c.value)
+                    hits += 1
+    out.append(f"widened override window in {hits} formulas")
+
+    # ---- rebuild the three grouping columns ----
+    R = wb[REVIEW]
+    n = 0
+    # every row, populated or not. The formula guards itself with IF(TRIM($B)="",""), and
+    # skipping the empty rows left two of them carrying the old mismatched ranges, so a
+    # role typed into row 191 would not have honoured an override.
+    for r in range(2, LAST + 1):
+        for col, f in formulas(r).items():
+            R.cell(r, col).value = f
+        n += 1
+    out.append(f"REVIEW AJ / AR / AT rebuilt on {n} rows")
+
+    # ---- the allowance stops counting rows on a summary tab ----
+    fixed = 0
+    pat = re.compile(r"COUNTA\('3\.1 Group Summary'!\$B\$\d+:\$B\$\d+\)")
+    for s in wb.sheetnames:
+        for row in wb[s].iter_rows():
+            for c in row:
+                if isinstance(c.value, str) and pat.search(c.value):
+                    c.value = pat.sub("COUNTA(Lists!$AS$2:$AS$11)", c.value)
+                    fixed += 1
+    out.append(f"portfolio count keyed off the named list in {fixed} formulas")
+    wb.save(dst)
+    return out
+
+
+if __name__ == "__main__":
+    import sys
+    for x in run(sys.argv[1], sys.argv[2]):
+        print("  ", x)
