@@ -411,7 +411,8 @@ def _t31(ws, mode):
     r += 1
     st = r
     for p, ab, nb, au, nz, ot, arch, ro, vc in PF:
-        r = row(ws, r, 2, [p, ab, nb, au, nz, ot, au - ab, nz - nb, ot],
+        r = row(ws, r, 2, [p, ab, nb, au, nz, ot, au - ab, nz - nb,
+                           (au - ab) + (nz - nb)],
                 [None, M2, M2, M2, M2, M2, M2, M2, M2])
     r = row(ws, r, 2, ["Total"] + [f"=SUM({L(2+i)}{st}:{L(2+i)}{r-1})"
                                    for i in range(1, 9)],
@@ -478,8 +479,9 @@ def _t32(ws, mode):
                                  ("Leadership - 8 GMs", 8, 0.30, 10, 5.10)]:
         r = row(ws, r, 2, [n, ro, rate, un, rate * un, act, act - rate * un],
                 [None, CT, '#,##0.000', CT, M2, M2, M2])
-    row(ws, r, 2, ["Overhead total"] + [f"=SUM({L(2+i)}{st2}:{L(2+i)}{r-1})"
-                                        for i in range(1, 6)],
+    row(ws, r, 2, ["Overhead total", f"=SUM(C{st2}:C{r-1})", None, None,
+                   f"=SUM(F{st2}:F{r-1})", f"=SUM(G{st2}:G{r-1})",
+                   f"=SUM(H{st2}:H{r-1})"],
         [None, CT, None, None, M2, M2, M2], bg=MID, bold=True, top=True)
 
 
