@@ -64,6 +64,23 @@ NONE_TEXT = {"arch": "None - no squad here is priced by an archetype",
              "none": "None - every group here has a figure to compare",
              "oh": "None - the COEs carry no overhead"}
 KINDS = ("arch", "direct", "none", "oh")
+
+# The archetype prices overhead. 0.2 Data Config allows a fraction of a Head of Technology,
+# a Business Partner, a Domain Architect and the Leadership layer per portfolio - 0.7975 -
+# and a fraction of a Delivery Manager and a Technology Manager per platform - 0.165. The
+# 1.x tab has been adding both into its Total Cost all along, which is why 1.8 reads 9.03
+# where the squads alone are 7.90. The 2.x tabs were showing the 7.90 and none of the rest,
+# so every portfolio's archetype was short by its own overhead allowance.
+#
+# The two sheets name the same lines differently - "Head of Tech" against "Head of
+# Technology" - so the map is written out rather than matched on text.
+OH_RATE = {"Head of Technology": ("$L$6", "$K$6", False),
+           "Business Partner": ("$L$7", "$K$7", False),
+           "Domain Architect": ("$L$8", "$K$8", False),
+           "Delivery Manager": ("$L$14", "$K$14", True),
+           "Technology Manager": ("$L$15", "$K$15", True)}
+CFG = "'0.2 Data Config'"
+ELSEWHERE = ("Allowed for in the archetype, sitting outside this portfolio")
 S_W = [30, 26, 11, 11, 9, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
@@ -91,12 +108,27 @@ def ledger(wv):
     return out
 
 
-def groups(rows):
+# the three overhead lines the archetype draws inside a portfolio. The other three -
+# Business Partner, Domain Architect and the Leadership layer - are allowed for per
+# portfolio but their people sit in the COEs and above the ledger.
+IN_PF = ["Head of Technology", "Delivery Manager", "Technology Manager"]
+
+
+def groups(rows, design=None):
+    """Delivery squads, and the overhead lines this portfolio is measured on.
+
+    The three portfolio-drawn overhead lines are always listed, whether or not anyone is
+    in them. The archetype allows a Delivery Manager per platform whether the seat is
+    filled or not, and listing only the lines with people in them handed that allowance to
+    the "sitting outside this portfolio" line - Finance has no Delivery Manager, so its
+    allowance quietly left the portfolio and the group allowance came out 0.31 light.
+    """
     seen = {}
     for r in rows:
         seen.setdefault(r["grp"], r["oh"])
     delivery = sorted(g for g, oh in seen.items() if not oh)
-    overhead = [g for g in OH_ORDER if seen.get(g)]
+    want = set(IN_PF) if design else set()
+    overhead = [g for g in OH_ORDER if seen.get(g) or g in want]
     overhead += sorted(g for g, oh in seen.items() if oh and g not in OH_ORDER)
     return delivery, overhead
 
@@ -153,11 +185,36 @@ def wipe(ws):
     ws.sheet_view.showGridLines = False
 
 
+def oh_rows(wv, design):
+    """The two archetype overhead rows on a design tab, found by label.
+
+    Portfolio Overhead is the same 0.7975 on all ten; Platform Overheads is 0.165 for each
+    platform the portfolio has, which is how the platform count is read back out.
+    """
+    if design is None:
+        return None, None
+    ws = wv[design]
+    got = {}
+    for r in range(1, 20):
+        b = str(ws.cell(r, 2).value or "").strip()
+        if b.startswith("Portfolio Overhead"):
+            got["pf"] = r
+        elif b.startswith("Platform Overheads"):
+            got["plat"] = r
+    return got.get("pf"), got.get("plat")
+
+
 def build(wb, wv, tab, rows, bounds):
     ws = wb[tab]
     design = DESIGN.get(tab)
     pf = rows[0]["pf"]
-    delivery, overhead = groups(rows)
+    oh_pf, oh_plat = oh_rows(wv, design)
+    # the archetype's own overhead for this portfolio, straight off the design tab, and the
+    # number of platforms behind the per-platform half of it
+    ALLOW = (f"(N('{design}'!$F${oh_pf})+N('{design}'!$F${oh_plat}))"
+             if oh_pf and oh_plat else '0')
+    PLAT = f"N('{design}'!$F${oh_plat})/{CFG}!$L$16" if oh_plat else "0"
+    delivery, overhead = groups(rows, design)
     lo, hi = bounds[design] if design else (0, 0)
     # split the delivery squads by whether the archetype library actually prices them
     arch = [g for g in delivery if has_archetype(wb, wv, design, g)]
@@ -188,6 +245,7 @@ def build(wb, wv, tab, rows, bounds):
     # the tab carried five total rows where it needed three - which is what buried the one
     # total that matters.
     srow, empty, label, sub, anchor = {}, set(), {}, {}, {}
+    oh_else = None
     for kind, names in (("arch", arch), ("direct", direct), ("none", nofig),
                         ("oh", overhead)):
         if not names:
@@ -202,6 +260,19 @@ def build(wb, wv, tab, rows, bounds):
             sub[kind] = r
             r += 1
         anchor[kind] = sub.get(kind, srow[names[-1]])
+        # The archetype allows for six overhead lines per portfolio; three of them have
+        # nobody in a portfolio at all - the Business Partners and Domain Architects sit in
+        # the COEs and the eight GMs sit above the ledger. Their allowance is part of what
+        # the archetype prices this portfolio at, so it gets a line, and the line says where
+        # those people actually are.
+        #
+        # It sits BELOW the overhead subtotal, not inside it. Inside, the subtotal compared
+        # a 1.13 allowance against 1.12 of actual and read (0.01) - overhead bang on plan -
+        # when the portfolio's own three overhead lines are 0.65 over their own allowance
+        # and the difference was being covered by allowance for people who are not there.
+        if kind == "oh" and design is not None:
+            oh_else = r
+            r += 1
     live = [k for k in KINDS if k not in empty]
     r_tot = r
     r += 2
@@ -211,7 +282,10 @@ def build(wb, wv, tab, rows, bounds):
     r_ftehdr = r + 1
     r = r_ftehdr + 1
     band, people = {}, {}
-    for g in delivery + overhead:
+    # a line the archetype allows for but nobody fills has no detail block - a heading with
+    # nothing under it reads as a table that failed to load
+    staffed = [g for g in delivery + overhead if any(y["grp"] == g for y in rows)]
+    for g in staffed:
         band[g] = r
         r += 1
         for x in [y for y in rows if y["grp"] == g]:
@@ -235,7 +309,7 @@ def build(wb, wv, tab, rows, bounds):
 
     def span(g):
         p = people.get(g, [])
-        return (p[0][0], p[-1][0]) if p else (band[g], band[g])
+        return (p[0][0], p[-1][0]) if p else (0, 0)
 
     def squad(rw, g, kind):
         a, b = span(g)
@@ -249,22 +323,35 @@ def build(wb, wv, tab, rows, bounds):
             # column stays a dash rather than repeating a sentence on every row
             ws.cell(rw, S["type"]).value = '="-"'
             ws.cell(rw, S["type"]).alignment = opts.RGT
-            for k in ("size", "aroles"):
+            for k in ("size",):
                 x = ws.cell(rw, S[k])
                 x.value = '="-"'
                 x.alignment = opts.RGT
             if kind == "oh":
-                for k in ("acost", "var", "newvar"):
-                    x = ws.cell(rw, S[k])
-                    x.value = '="-"'
-                    x.alignment = opts.RGT
+                # the allowance this line draws in this portfolio, and the FTE behind it.
+                # A per-platform line draws once for every platform on the design tab, and
+                # the platform count comes off the tab itself rather than being counted
+                # here - Platform Overheads divided by the per-platform rate.
+                rate, alloc, per_platform = OH_RATE.get(g, (None, None, False))
+                if rate is None or design is None:
+                    for k in ("aroles", "acost", "var", "newvar"):
+                        ws.cell(rw, S[k]).value = '="-"'
+                        ws.cell(rw, S[k]).alignment = opts.RGT
+                else:
+                    n = f"*({PLAT})" if per_platform else ""
+                    _m(ws, rw, S["aroles"], f"={CFG}!{alloc}{n}", opts.C1)
+                    _m(ws, rw, S["acost"], f"={CFG}!{rate}{n}")
+                    _m(ws, rw, S["var"],
+                       f'=ROUND(${L(S["actual"])}{rw}-${L(S["acost"])}{rw},6)')
+                    _m(ws, rw, S["newvar"],
+                       f'=ROUND(${L(S["after"])}{rw}-${L(S["acost"])}{rw},6)')
             else:
                 # A COE squad has no archetype and nothing else prices it either. The
                 # column used to carry "=actual", which made every COE row show a variance
                 # of exactly nil - not a comparison, the same number written twice. A
                 # figure that is the actual restated tells the reader nothing and inflates
                 # both sides of every total above it, so it is a dash.
-                for k in ("acost", "var", "newvar"):
+                for k in ("aroles", "acost", "var", "newvar"):
                     x = ws.cell(rw, S[k])
                     x.value = '="-"'
                     x.alignment = opts.RGT
@@ -318,19 +405,28 @@ def build(wb, wv, tab, rows, bounds):
         # filled role too, because offshoring a filled resource is a decision the tool
         # exists to price. Vacancies remaining therefore has to look at vacant rows
         # only: counting an offshored filled person against it drove the count negative.
-        for k, f in (("roles", f"=COUNTA(${L(P['name'])}${a}:${L(P['name'])}${b})"),
-                     ("filled", f'=COUNTIFS({st},"Filled")'),
-                     ("vacant", f'=COUNTIFS({st},"Vacant")'),
-                     ("hire", f'=COUNTIFS({st},"Vacant",{lev},"Hire")'),
-                     ("offshore", f'=COUNTIFS({lev},"Offshore")'),
-                     ("hold", f'=COUNTIFS({lev},"Hold")'),
-                     ("rafter", f'=${L(S["roles"])}{rw}-${L(S["hold"])}{rw}')):
-            _m(ws, rw, S[k], f, opts.CT)
-        _m(ws, rw, S["actual"],
-           f"=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
-           f"{REV}!$AT$2:$AT${LAST},${L(S['squad'])}{rw})/1000000")
-        _m(ws, rw, S["after"],
-           f"=SUM(${L(P['after'])}${a}:${L(P['after'])}${b})/1000000")
+        # An overhead line the archetype allows for but nobody fills has no detail block to
+        # count, so it counts nothing rather than counting a range that starts at row 0 -
+        # COUNTIFS($D$0:$D$0,"Filled") is #NAME?, and it took Exec down with it.
+        if not people.get(g):
+            for k in ("roles", "filled", "vacant", "hire", "offshore", "hold", "rafter"):
+                _m(ws, rw, S[k], "=0", opts.CT)
+            for k in ("actual", "after"):
+                _m(ws, rw, S[k], "=0")
+        else:
+            for k, f in (("roles", f"=COUNTA(${L(P['name'])}${a}:${L(P['name'])}${b})"),
+                         ("filled", f'=COUNTIFS({st},"Filled")'),
+                         ("vacant", f'=COUNTIFS({st},"Vacant")'),
+                         ("hire", f'=COUNTIFS({st},"Vacant",{lev},"Hire")'),
+                         ("offshore", f'=COUNTIFS({lev},"Offshore")'),
+                         ("hold", f'=COUNTIFS({lev},"Hold")'),
+                         ("rafter", f'=${L(S["roles"])}{rw}-${L(S["hold"])}{rw}')):
+                _m(ws, rw, S[k], f, opts.CT)
+            _m(ws, rw, S["actual"],
+               f"=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
+               f"{REV}!$AT$2:$AT${LAST},${L(S['squad'])}{rw})/1000000")
+            _m(ws, rw, S["after"],
+               f"=SUM(${L(P['after'])}${a}:${L(P['after'])}${b})/1000000")
 
     def none_row(rw, why):
         """A block with nothing in it still gets a row, so the tab states the absence."""
@@ -368,25 +464,51 @@ def build(wb, wv, tab, rows, bounds):
             # directly funded subtotal on six of the fourteen tabs.
             # and where the block has no archetype at all - the overhead lines - the
             # variance is a dash, not the whole cost measured against zero
+            full = f"COUNT({L(S['acost'])}{r0}:{L(S['acost'])}{r1})={r1 - r0 + 1}"
             if k == "acost":
                 # SUM over a block of dashes is 0, and the overhead subtotal printed 0.00
-                # as though an archetype had priced 43 people at nothing. It is only a
-                # total if every row in the block has a figure; one row short and the
-                # archetype side is smaller than the actual side by construction, which is
-                # the imbalance the owner picked up.
-                x.value = (f'=IF(COUNT({L(c)}{r0}:{L(c)}{r1})={r1 - r0 + 1},'
-                           f'SUM({L(c)}{r0}:{L(c)}{r1}),"-")')
+                # as though an archetype had priced 43 people at nothing. A dash where
+                # nothing is priced - but where some rows are, the sum of those rows. The
+                # stricter rule dropped 2.92 of priced programmes off Ampol Retail's total
+                # because one row beside them had no funded figure.
+                x.value = (f'=IF(COUNT({L(c)}{r0}:{L(c)}{r1})=0,"-",'
+                           f'SUM({L(c)}{r0}:{L(c)}{r1}))')
             elif k == "var":
-                x.value = (f'=IF(ISNUMBER(${L(S["acost"])}{rw}),'
+                # the variance still needs every row priced, or it measures an archetype
+                # covering some of the block against an actual covering all of it
+                x.value = (f'=IF({full},'
                            f"ROUND(${L(S['actual'])}{rw}-${L(S['acost'])}{rw},6),\"-\")")
             elif k == "newvar":
-                x.value = (f'=IF(ISNUMBER(${L(S["acost"])}{rw}),'
+                x.value = (f'=IF({full},'
                            f"ROUND(${L(S['after'])}{rw}-${L(S['acost'])}{rw},6),\"-\")")
             else:
                 x.value = f"=SUM({L(c)}{r0}:{L(c)}{r1})"
             x.number_format = (opts.M2 if c >= S["acost"] else
                                (opts.C1 if k == "aroles" else opts.CT))
             x.alignment = opts.RGT
+
+    if oh_else:
+        # what the archetype allows this portfolio for overhead, less what the lines above
+        # have already drawn. Written as the remainder rather than as a list, so it stays
+        # right if a portfolio ever does carry a Business Partner of its own.
+        drawn = "+".join(f"N(${L(S['acost'])}{srow[g]})" for g in overhead) or "0"
+        nfte = "+".join(f"N(${L(S['aroles'])}{srow[g]})" for g in overhead) or "0"
+        ws.cell(oh_else, S["squad"]).value = ELSEWHERE
+        ws.cell(oh_else, S["squad"]).font = opts.BODY
+        ws.cell(oh_else, S["squad"]).alignment = opts.LFT
+        ws.cell(oh_else, S["type"]).value = ("Business Partners and Domain Architects sit "
+                                             "in the COEs, the GMs above the ledger")
+        ws.cell(oh_else, S["type"]).font = opts.BODY
+        ws.cell(oh_else, S["type"]).alignment = opts.LFT
+        _m(ws, oh_else, S["aroles"],
+           f"=ROUND(SUM({CFG}!$K$6:$K$9)+SUM({CFG}!$K$14:$K$15)*({PLAT})-({nfte}),6)",
+           opts.C1)
+        _m(ws, oh_else, S["acost"], f"=ROUND({ALLOW}-({drawn}),6)")
+        for k in ("size", "roles", "filled", "vacant", "hire", "offshore", "hold",
+                  "rafter", "actual", "var", "after", "newvar"):
+            x = ws.cell(oh_else, S[k])
+            x.value = '="-"'
+            x.font, x.alignment, x.border = opts.BODY, opts.RGT, opts.BOX
 
     for kind in live:
         opts.row(ws, label[kind], 2, [SECTION[kind]] + [None] * (len(S_HDR) - 1),
@@ -399,7 +521,7 @@ def build(wb, wv, tab, rows, bounds):
     opts.row(ws, r_tot, 2, ["Total portfolio"] + [None] * (len(S_HDR) - 1),
              [None] * len(S_HDR), bg=opts.MID, bold=True, top=True)
     ws.cell(r_tot, S["squad"]).alignment = opts.LFT
-    src = [anchor[kk] for kk in live]
+    src = [anchor[kk] for kk in live] + ([oh_else] if oh_else else [])
     for k in ("aroles", "roles", "filled", "vacant", "hire", "offshore", "hold",
               "rafter", "acost", "actual", "var", "after", "newvar"):
         c = S[k]
@@ -444,7 +566,7 @@ def build(wb, wv, tab, rows, bounds):
                         allow_blank=False, showDropDown=False)
     ws.add_data_validation(dv)
     R = wv[REVIEW]
-    for g in delivery + overhead:
+    for g in staffed:
         a, b = span(g)
         bd = band[g]
         opts.row(ws, bd, 2, [g] + [None] * (len(P_HDR) - 1), [None] * len(P_HDR),
@@ -480,6 +602,7 @@ def build(wb, wv, tab, rows, bounds):
     return {"tab": tab, "pf": pf, "total_row": r_tot,
             "delivery_row": anchor.get("arch"), "direct_row": anchor.get("direct"),
             "nofig_row": anchor.get("none"), "overhead_row": anchor.get("oh"),
+            "elsewhere_row": oh_else,
             "header_row": HDR,
             "first_squad": min(srow.values()) if srow else HDR + 1,
             "last_squad": max(srow.values()) if srow else HDR + 1,

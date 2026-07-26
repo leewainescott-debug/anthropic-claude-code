@@ -314,6 +314,21 @@ def build_qa(wb, a, a2):
         ("Overhead on 3.1 against the portfolio lines on 3.2 ($m)",
          f"={G1}!${C31['actual']}${a['overhead']}",
          f"={G2}!${C32['pfcost']}${a['ohpf32']}", opts.M2),
+        # the working tabs price each portfolio at what its own design tab says, which
+        # includes the Business Partner, Domain Architect and Leadership allowance whose
+        # people sit in the COEs and above the ledger. 3.1 carries those in its COE step
+        # and its GM line instead, so the two tie only once that 6.60 is taken out - and
+        # this check is what proves it still does.
+        ("Archetype on the working tabs, less what sits outside them, against 3.1 ($m)",
+         "=" + "+".join(f"N('{t}'!${L(S['acost'])}${i['total_row']})"
+                        for t, i in a2.items() if i.get("elsewhere_row"))
+         + "-" + "-".join(f"N('{t}'!${L(S['acost'])}${i['elsewhere_row']})"
+                          for t, i in a2.items() if i.get("elsewhere_row")),
+         f"={G1}!${C31['acost']}${gt}", opts.M2),
+        ("Overhead allowance on 3.1 against the working tabs ($m)",
+         f"={G1}!${C31['acost']}${a['overhead']}",
+         "=" + "+".join(f"N('{t}'!${L(S['acost'])}${i['overhead_row']})"
+                        for t, i in a2.items() if i["overhead_row"]), opts.M2),
         # ---- the lever ----
         ("Roles after decisions against roles less anything on hold",
          f"={G1}!${C31['rafter']}${gt}",
@@ -337,6 +352,21 @@ def build_qa(wb, a, a2):
     for tab, cell in coe_control(wb):
         checks.append((f"{tab} own control - roles listed against roles counted",
                        f"='{tab}'!{cell}", "=0", opts.CT))
+    # The archetype total on a working tab has to be the Total Cost on its own design tab -
+    # squads plus the portfolio and platform overhead the archetype allows for. The working
+    # tabs used to state the squads only, so 2.8 read 7.90 where 1.8 reads 9.03, and every
+    # portfolio's archetype was short by its own overhead allowance with nothing to catch it.
+    from build_2xfix import DESIGN
+    for tab, inf in a2.items():
+        d = DESIGN.get(tab)
+        if not d:
+            continue
+        tc = next((r for r in range(1, 16)
+                   if str(wb[d].cell(r, 2).value or "").strip() == "Total Cost"), None)
+        if tc:
+            checks.append((f"{tab} archetype total against Total Cost on {d} ($m)",
+                           f"='{tab}'!${L(S['acost'])}${inf['total_row']}",
+                           f"='{d}'!$F${tc}", opts.M2))
     for tab, inf in a2.items():
         t = inf["total_row"]
         checks.append((f"{tab} roles against the ledger",

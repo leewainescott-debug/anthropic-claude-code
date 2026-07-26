@@ -132,14 +132,14 @@ column says so rather than measuring a cost against a zero.
 | **Directly funded, where no funded figure is set yet** | **-** | **4.01** | **-** | **17** |
 | COE Cyber, COE BP&T, COE SA&D, EGI | - | 27.77 | - | 113 |
 | **COEs and EGI** | **-** | **27.77** | **-** | **113** |
-| Overhead roles in the portfolios, against the allowance | 6.33 | 11.65 | 5.33 | 43 |
-| **Everything with a figure to compare** | **77.25** | **82.19** | **4.94** | **389** |
+| Overhead roles in the portfolios, against the allowance | 4.84 | 11.65 | 6.81 | 43 |
+| **Everything with a figure to compare** | **75.76** | **82.19** | **6.43** | **389** |
 | Leadership (Customer) | - | 1.05 | - | 5 |
 | Leadership (Infrastructure) | - | 0.26 | - | 1 |
 | **Groups with no archetype and no funded figure** | **-** | **1.30** | **-** | **6** |
-| **Cost of the 525 roles in the ledger** | **77.25** | **115.28** | **38.03** | **525** |
+| **Cost of the 525 roles in the ledger** | **75.76** | **115.28** | **39.52** | **525** |
 | Leadership - the 8 GMs, outside the ledger | 3.00 | 5.10 | 2.10 | 8 |
-| **Total cost of TDD including the GM layer** | **80.25** | **120.38** | **40.13** | **533** |
+| **Total cost of TDD including the GM layer** | **78.76** | **120.38** | **41.62** | **533** |
 
 Only three steps carry an archetype figure that prices the whole of their own actual, and
 those three are what the comparable subtotal adds. The totals below it carry the comparison
@@ -216,6 +216,7 @@ Every design squad now has people in it. The three that did not are gone.
 | Item | Detail | Needs |
 |---|---|---|
 | Overhead allowance basis | The allowance prices half a Head of Technology per portfolio (0.1375 of 0.275) and 30% of a Delivery or Technology Manager per platform, against 43 whole heads costing $11.65m. The variance is labelled "not covered by the allowance" rather than overspend, but the basis itself is a judgement only Lee can confirm. | Lee to confirm |
+| Platform count on Lists | Lists prices the per-platform overhead over 30 platforms; the ten design tabs carry 21, a difference of 1.485 in the allowance. 3.1 and the 2.x tabs now both use the design tabs. | Lee to confirm 21 or 30 |
 | Cyber vacancies | `1.13!E7` carries your comment "there are a total of 8 vacant roles" against a cell reading 4. REVIEW has 4. If 8 is right, four vacancies are missing from REVIEW and the fix belongs there. | Lee to settle |
 | 1.5 EGI P&C funded amount | `1.5!H32` is a blank cream input, so that platform prices at zero while the squad's one role costs $0.24m. Until it is set, both option workbooks state that squad's variance as a dash and hold its $0.24m on a separate "squads with no archetype to price them" line rather than adding it to a comparison it is not part of. | Lee to set |
 | ~~Which option ships~~ | Settled: Option A. `TDD_Cost_Calc.xlsx` is Option A; Option B is not built. | done |

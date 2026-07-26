@@ -250,7 +250,12 @@ def build_31(wb, anchors):
     opts.row(ws, r, 2, ["Overhead roles in the portfolios - the allowance is on 3.2"] +
              [None] * (len(H31) - 1), [None] * len(H31), bg=opts.GREY, bold=True)
     ws.cell(r, 2).alignment = opts.LFT
-    f2._m(ws, r, 4, "=N(Lists!$AJ$9)")
+    # the allowance the ten design tabs actually give these lines, read off the working
+    # tabs, not the group figure on Lists. Lists prices the per-platform lines over 30
+    # platforms; the design tabs carry 21, so the two differed by 1.485 on the same fact
+    # and 3.1 disagreed with every 2.x tab under it.
+    f2._m(ws, r, 4, "=" + "+".join(
+        f"N('{t}'!${L(S['acost'])}${a['overhead_row']})" for _, t, a in oh))
     for c, k in ((5, "actual"), (7, "after")):
         f2._m(ws, r, c, "=" + "+".join(
             f"N('{t}'!${L(S[k])}${a['overhead_row']})" for _, t, a in oh))

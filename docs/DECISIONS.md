@@ -575,6 +575,45 @@ decisions, Squad cost after decisions.
 All fourteen 2.x tabs measure as a single structural profile - identical column widths,
 identical header text, identical section order.
 
+### D74. The archetype prices overhead, and the working tabs were ignoring it.
+Owner: "taking energy solutions & b2b as an example, we have 7.9m as the total cost for the
+archetype, however, the actual total cost for the archetype is 9.03? ... you cannot only
+include archetype squads without including the overhead, that paints a false narrative. you
+also have to include the FTE for each of those overheads per portfolio."
+
+He is right. `0.2 Data Config` allows every portfolio 0.7975 of overhead - half a Head of
+Technology, half a Business Partner, half a Domain Architect, 0.3 of the Leadership layer -
+and 0.165 for every platform it runs, being 0.3 of a Delivery Manager and 0.3 of a Technology
+Manager. The 1.x tab has been adding both into its Total Cost all along. The 2.x tabs were
+showing the squads only, so every portfolio's archetype was short by its own overhead
+allowance and 1.8 read 9.03 where 2.8 read 7.90.
+
+Each overhead line now carries the allowance it draws in that portfolio and the FTE behind
+it. All ten working tabs tie to their own design tab exactly, and a live check on 4.0 proves
+it row by row so it cannot drift again.
+
+Two things fell out of building it:
+
+- **A line nobody fills still draws its allowance.** Finance has no Delivery Manager, and
+  listing only the lines with people in them handed that allowance to the "sitting outside"
+  row. The three portfolio-drawn lines are now always listed - Finance shows a 0.084
+  allowance against nil spend, which is the point of an allowance.
+- **The allowance is not all drawn where the people are.** Of the 1.1275 the archetype gives
+  Energy Solutions & B2B, only 0.4675 covers roles that sit in the portfolio; the Business
+  Partner, Domain Architect and Leadership allowance is for people in the COEs and above the
+  ledger. Netting them made the overhead subtotal read (0.01) - bang on plan - when the
+  portfolio's own three lines are 0.65 over. So the subtotal covers the three lines only and
+  the remaining 0.66 sits on its own line below it, named for where those people are.
+
+### D75. 3.1's overhead allowance came off Lists; Lists and the design tabs disagree.
+Lists prices the per-platform overhead lines over 30 platforms. The ten design tabs carry 21.
+So 3.1 read an allowance of 6.325 while the ten tabs under it added to 4.84 - the same fact,
+1.485 apart, on tabs that sit next to each other.
+
+3.1 now reads the working tabs. Which number is right is the owner's call: 21 is what the
+design tabs describe today, 30 may be a planned state. It is on the open list, and a live
+check ties 3.1 to the tabs so the two can no longer drift apart silently.
+
 ### D72. The 2.x tabs carry one grand total, not five.
 Owner, having looked at 2.2: "i do not see 83 total roles in customer??? why are my totals
 not adding up... we should have a grand total and not incremental totals on 2.x tabs."
