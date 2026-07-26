@@ -333,44 +333,58 @@ def build_32(wb, anchors, a31, wcol):
         ws.cell(r, c).font = opts.BOLD
     r += 2
 
-    # ---- what the allowance is built from, so the basis is on the page ----
-    r = opts.bar(ws, r, 2, 6, "What the allowance is built from")
-    r = opts.head(ws, r, 2, ["Input", "Where it is set", "Value", "Unit", "Applies to",
-                             "Allowance ($m)"], [34, 26, 11, 13, 18, 14])
-    for lab, where, val, unit, applies, allow in (
-            ("Head of Technology", "0.2 Data Config L6", "='0.2 Data Config'!$L$6",
-             "$m per portfolio", "=N(Lists!$AH$2)", "=N(Lists!$AJ$2)"),
-            ("Business Partner", "0.2 Data Config L7", "='0.2 Data Config'!$L$7",
-             "$m per portfolio", "=N(Lists!$AH$3)", "=N(Lists!$AJ$3)"),
-            ("Domain Architect", "0.2 Data Config L8", "='0.2 Data Config'!$L$8",
-             "$m per portfolio", "=N(Lists!$AH$4)", "=N(Lists!$AJ$4)"),
-            ("Delivery Manager", "0.2 Data Config L14", "='0.2 Data Config'!$L$14",
-             "$m per platform", "=N(Lists!$AH$5)", "=N(Lists!$AJ$5)"),
-            ("Technology Manager", "0.2 Data Config L15", "='0.2 Data Config'!$L$15",
-             "$m per platform", "=N(Lists!$AH$6)", "=N(Lists!$AJ$6)"),
-            ("Leadership - 8 GMs", "0.2 Data Config L9", "='0.2 Data Config'!$L$9",
-             "$m per portfolio", "=N(Lists!$AH$7)", "=N(Lists!$AJ$7)")):
+    # ---- what the allowance is built from, in full, on the page ----
+    # The rate on the block above is an allocated share: half a Head of Technology per
+    # portfolio, 30% of a manager per platform. The actual is whole heads. That is the
+    # whole reason 6.33 of allowance sits against 11.65 of cost, and a reader cannot judge
+    # it unless the full role cost and the allocation are both stated, so they are.
+    r = opts.bar(ws, r, 2, 8, "What the allowance is built from")
+    r = opts.head(ws, r, 2,
+                  ["Input", "Where it is set on 0.2 Data Config", "Full role cost ($m)",
+                   "Allocation %", "Allocated rate ($m)", "Times applied", "Applies to",
+                   "Allowance ($m)"],
+                  [26, 42, 14, 12, 14, 13, 15, 14])
+    st3 = r
+    for lab, where, full, pct, i in (
+            ("Head of Technology", "Portfolio Overhead, Head of Tech", "$J$6", "$K$6", 2),
+            ("Business Partner", "Portfolio Overhead, Business Partner", "$J$7", "$K$7", 3),
+            ("Domain Architect", "Portfolio Overhead, Domain Architect", "$J$8", "$K$8", 4),
+            ("Delivery Manager", "Platform Overhead, Delivery Manager", "$J$14", "$K$14",
+             5),
+            ("Technology Manager", "Platform Overhead, Tech Manager", "$J$15", "$K$15", 6),
+            ("Leadership - 8 GMs", "Portfolio Overhead, Leadership Overhead", "$J$9",
+             "$K$9", 7)):
         ws.cell(r, 2).value = lab
         ws.cell(r, 3).value = where
-        for c in (2, 3, 5):
+        for c in (2, 3):
             ws.cell(r, c).font = opts.BODY
             ws.cell(r, c).alignment = opts.LFT
-        ws.cell(r, 5).value = unit
-        f2._m(ws, r, 4, val, opts.M3)
-        f2._m(ws, r, 6, applies, opts.CT)
-        f2._m(ws, r, 7, allow)
+        f2._m(ws, r, 4, f"='0.2 Data Config'!{full}", opts.M3)
+        f2._m(ws, r, 5, f"='0.2 Data Config'!{pct}", opts.PCT)
+        f2._m(ws, r, 6, f"=Lists!$AG${i}", opts.M3)
+        f2._m(ws, r, 7, f"=Lists!$AH${i}", opts.CT)
+        ws.cell(r, 8).value = f"=Lists!$AI${i}"
+        ws.cell(r, 8).font = opts.BODY
+        ws.cell(r, 8).alignment = opts.LFT
+        f2._m(ws, r, 9, f"=Lists!$AJ${i}")
         r += 1
-    opts.row(ws, r, 2, ["Total allowance"] + [None] * 5, [None] * 6,
+    opts.row(ws, r, 2, ["Total allowance"] + [None] * 7, [None] * 8,
              bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
-    f2._m(ws, r, 7, "=N(Lists!$AJ$8)")
-    ws.cell(r, 7).font = opts.BOLD
+    f2._m(ws, r, 9, "=N(Lists!$AJ$8)")
+    ws.cell(r, 9).font = opts.BOLD
     r += 1
-    opts.row(ws, r, 2, ["Of which drawn in the portfolios"] + [None] * 5, [None] * 6,
+    opts.row(ws, r, 2, ["Of which drawn in the portfolios"] + [None] * 7, [None] * 8,
              bg=opts.GREY, bold=True)
     ws.cell(r, 2).alignment = opts.LFT
-    f2._m(ws, r, 7, "=N(Lists!$AJ$9)")
-    ws.cell(r, 7).font = opts.BOLD
+    f2._m(ws, r, 9, "=N(Lists!$AJ$9)")
+    ws.cell(r, 9).font = opts.BOLD
+    r += 1
+    r += 1
+    ws.cell(r, 2).value = ("Allocated rate is the full role cost times the allocation. "
+                           "The cost it is measured against is whole roles.")
+    ws.cell(r, 2).font = opts.BODY
+    ws.cell(r, 2).alignment = opts.LFT
     return {"total": st}
 
 

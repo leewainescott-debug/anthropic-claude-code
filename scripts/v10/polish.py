@@ -34,6 +34,9 @@ RENAME = {"Portfolios": "- PORTFOLIOS -", "ACTUAL WORKBOOKS": "- WORKING -"}
 # TDD Cyber - the ledger calls it COE Cyber everywhere else.
 RETITLE = {"3.3 FTE View": "3.3 Squad Detail", "3.4 COE Summary": "3.4 COE Detail",
            "2.11 TDD Cyber": "2.11 COE Cyber",
+           # the ledger calls them COE BP&T and COE SA&D, and 2.11 already says COE, so
+           # "2.11 COE Cyber | 2.12 BP&T | 2.13 SA&D" read as three different things
+           "2.12 BP&T": "2.12 COE BP&T", "2.13 SA&D": "2.13 COE SA&D",
            "3.1 Group Summary": "3.1 Cost Bridge",
            "3.2 Total Cost": "3.2 Overhead & Leadership"}
 ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Config",
@@ -46,7 +49,8 @@ ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Confi
          "2.1 Ampol Retail", "2.2 Customer", "2.3 Enterprise Data",
          "2.4 TDD Group Functions", "2.5 P&C", "2.6 Finance", "2.7 Infrastructure",
          "2.8 Energy Solutions & B2B", "2.9 Commercial Fuels", "2.10 Z Retail",
-         "2.11 COE Cyber", "2.12 BP&T", "2.13 SA&D", "2.14 EGI", "- SUMMARIES -",
+         "2.11 COE Cyber", "2.12 COE BP&T", "2.13 COE SA&D", "2.14 EGI",
+         "- SUMMARIES -",
          "3.1 Cost Bridge", "3.2 Overhead & Leadership", "3.3 Squad Detail",
          "3.4 COE Detail",
          "- EVIDENCE -", "4.0 Data QA"]
@@ -179,6 +183,20 @@ def no_judgement_colour(wb):
                     nb += 1
     return [f"{nf} fonts set to plain black Calibri, nothing under 10pt",
             f"{nb} cyan note-block cells restyled to the standard grey"]
+
+
+TITLES = {"0.3 Squad Archetypes": "Squad Archetypes - the cost library"}
+
+
+def titles(wb):
+    """A tab a reader can open should say what it is."""
+    n = 0
+    for tab, t in TITLES.items():
+        if tab in wb.sheetnames and not wb[tab].cell(2, 2).value:
+            x = wb[tab].cell(2, 2)
+            x.value, x.font = t, opts.TITLE
+            n += 1
+    return [f"{n} tabs given a title"]
 
 
 def strays(wb):
@@ -453,7 +471,7 @@ def run(src, dst, ledger=None):
     if ledger:
         lw = openpyxl.load_workbook(ledger, data_only=True)
         vals = {t: lw[t] for t in lw.sheetnames if t in wb.sheetnames}
-    out = (drop_dead(wb) + retitle(wb) + order_and_colour(wb) + no_red_formats(wb)
+    out = (drop_dead(wb) + retitle(wb) + order_and_colour(wb) + titles(wb) + no_red_formats(wb)
            + no_judgement_colour(wb) + strays(wb) + en_dash(wb)
            + gutters_and_grid(wb) + bars_and_headers(wb, vals) + widen_bars(wb)
            + lone_headers(wb) + build_notes(wb)
