@@ -4,9 +4,10 @@ set -e
 # the 0.2 COE spend repoints and the 1.13 bar
 python3 actuals.py cand.xlsx pA.xlsx A
 python3 post2707.py pA.xlsx pB.xlsx
-# the design sweep again, idempotently: actuals and post2707 create the footer blocks,
-# the K/L pair and the G Actuals cells after chain2's design pass ran, so the same
-# label-anchored sweep runs once more to dress what they built
+# the design sweep again, idempotently: actuals and post2707 create the actuals table at
+# the top of each 1.x tab, the K/L pair down the squad tables and the G Actuals cells,
+# all after chain2's design pass has run, so the same label-anchored sweep runs once more
+# to dress what they built
 python3 design2707.py pB.xlsx pC.xlsx
 python3 -c "
 import wbio

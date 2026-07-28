@@ -445,9 +445,8 @@ def _m(ws, r, c, f, fmt=None, bold=False):
 # tab, because a line was printed only when its own figure was not nil: 1.5 carried six
 # lines, 1.3 five, and no two tabs read alike. Its columns were mostly dashes - "Archetype
 # cost" and "Variance to archetype" held a figure on one line out of five and a literal "-"
-# on the rest. And it was a list of labels with figures beside them rather than a table:
-# no header row of its own worth the name, and a merge from B that ran under whatever the
-# tab happened to have in those columns.
+# on the rest. And its header row had two unlabelled navy cells sitting in the middle of it,
+# because it spanned the squad tables' columns and nothing on the block used I or J.
 #
 # So: one navy header, plain-English heads, box borders on every cell, the house money
 # format, and the same five lines on all ten tabs. A category this portfolio does not have
@@ -471,7 +470,10 @@ TOP_C0, TOP_LAB, TOP_ROLES, TOP_COST = 11, 12, 13, 14
 TOP_HEADS = ("What the cost covers", "Roles", "Cost ($m)")
 TOP_BAR = "Actual cost after decisions"
 TOP_ROWS = 2 + len(LINES)                       # the bar, the header, the five lines
-HDR_H = 34                        # the family's header depth, and what nine tabs already
+# the family's header depth. Nine of the ten tabs already have it on this row - it is the
+# budget box's own header row - and 1.7 has 28.5, so stating it makes all ten the same
+# table. A row is only ever raised here, never lowered: raising one can clip nothing.
+HDR_H = 34
 OLD_BAR = "Archetype against actual - this portfolio"
 
 
