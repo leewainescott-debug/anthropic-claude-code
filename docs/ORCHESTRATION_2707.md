@@ -64,6 +64,20 @@ auditor confirms every task in the owner's message was done.
    chainA2 rerun and all seven passes back to zero; the adversarial QA report folds into
    the same loop when it lands.
 4. **Ship** - candidate to `TDD_Cost_Calc.xlsx`, docs updated, committed and pushed.
+5a. **Wave H (owner's second post-ship round)** - three Opus builders in parallel:
+   the hybrid rule becomes "2 roles onshore, the rest offshore" with the 2 as a cream
+   input on 0.3 beside the offshore rate (per-FTE = squad cost / # of roles, MIN
+   handles the one-person archetype); every 1.x tab's top table becomes his mock -
+   "Actuals vs archetype": Actual portfolio / Archetype portfolio / Variance with
+   Roles and Cost columns; and 3.2 is rebuilt to the story he stated - per overhead
+   line, what we applied to the portfolios (roles and $) against what the organisation
+   actually carries (ALL roles, ALL cost), the roles gap and the cost gap, with a
+   plain-English where-they-sit column replacing the Yes/No and the extra columns.
+   After integration and rebuild: a TRIPLE people-check by three Opus agents with
+   three different methods - independent recompute from raw REVIEW, cross-tab FTE
+   tie-out, and a person-by-person roster diff against placement columns - because
+   a person missing or misplaced on a 2.x tab breaks the model silently.
+
 5. **Wave G (owner's post-ship round)** - his instructions verbatim: 0.3 was not to be
    changed (it is his cost library - the chain now treats it as a source tab and a parity
    check against rev enforces it); the 1.x bottom actuals/decisions table moves up top as
