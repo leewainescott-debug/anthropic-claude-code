@@ -9,9 +9,11 @@ python3 post2707.py pA.xlsx pB.xlsx
 # all after chain2's design pass has run, so the same label-anchored sweep runs once more
 # to dress what they built
 python3 design2707.py pB.xlsx pC.xlsx
+# his words, not mine: "ledger" was never his term for the role mapping
+python3 plainwords.py pC.xlsx pD.xlsx
 python3 -c "
 import wbio
-rc,st=wbio.build('pC.xlsx','cand_A.xlsx'); print('  A injected',st)
+rc,st=wbio.build('pD.xlsx','cand_A.xlsx'); print('  A injected',st)
 e,b=wbio.audit('cand_A.xlsx'); print('  A errors',len(e),'blank',len(b))
 for x in e[:10]: print('    ',x)
 "
