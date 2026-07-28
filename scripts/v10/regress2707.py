@@ -84,7 +84,8 @@ def run(path):
             ("0.2 Data Config", "B24", "EG"),
             ("0.2 Data Config", "K24", "Notes"),
             ("0.2 Data Config", "L24", "Reallocated 7m across Ampol & Z Retail"),
-            ("1.10 Z Retail", "K39", "No Overhead required"),
+            # his K-column squad-row note rides the house relocation to the M note column
+            ("1.10 Z Retail", "M39", "No Overhead required"),
             ("1.13 Cyber Roles", "B2", "Cyber, Risk & Service Operations roles and funding")]
     for tab, ref, want in keep:
         v = str(wb[tab][ref].value or "")

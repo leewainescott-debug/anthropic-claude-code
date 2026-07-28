@@ -177,6 +177,11 @@ def bars(wb):
                     g = ""
                 if g != opts.BARC:
                     break
+                # a labelled bar cell is the anchor of the NEXT table's own bar - two
+                # tables can sit side by side on one row, and the strip reads as one
+                # only to a fill-walk, not to a reader
+                if isinstance(x.value, str) and x.value.strip():
+                    break
                 wide += 1
             hdr = 2
             for rr in (r + 1, r + 2):

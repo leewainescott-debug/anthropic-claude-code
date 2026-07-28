@@ -735,6 +735,34 @@ span and punched a hole through the header bar, so that one moves right of the t
 verbatim; K/L then carry the Actual/Variance pair like every other 1.x tab, retiring the
 P/Q exception.
 
+### D96. The ledger's live filter is gone; one criteria-free filter spans the whole ledger.
+REVIEW shipped with an active AutoFilter - two criteria hiding 519 of 531 rows - whose
+range stopped at row 528 and column AH while the ledger runs to 534 and AX. One sort
+through it would have reordered half the columns for most of the rows and left the ten
+cost overrides and the newest roles where they were, with every control still zero.
+Every filter and sortState in the file is swept; REVIEW keeps a single criteria-free
+filter over A1:AX534 so a reader can still filter without ever sorting a subset.
+
+### D97. 3.4 uses the owner's own country basis: AU is everything that is not NZ.
+3.4 defined AU as literally "Australia" while his COE design tabs treat the one
+Singapore role as AU, so the two published different AU figures for the same group. 3.4
+now uses his basis, the "elsewhere" plug column - which made its own control a
+tautology - is gone, and the control is a real AU + NZ = total check.
+
+### D98. Customer splits its platform overhead half per country; Z Retail prices two platforms.
+His 1.2 C7/D7 were byte-identical, so both countries counted the full 0.495 and the tab
+overstated by $495k, flowing to 0.2, 3.1 and the Exec overhead line. They now follow his
+own row 6 - half to AU, half to NZ. On 1.10 the QA agent read the unpriced overhead cell
+as a missing row; his note on the squad row - "No Overhead required" - says otherwise,
+so the dead reference came out of D7 and no overhead was added. His note outranks the
+diagnosis.
+
+### D99. His review tables live right of the working columns, declared and movable.
+The role-review scratch tables on 1.4/1.5/1.6 move verbatim to columns S+ when the
+Actual/Variance pair lands beside the squad table, so his working notes never sit inside
+a header bar again. design2707 declares every cell it touches in a manifest, as post2707
+does, so the shipped-workbook diff distinguishes a declared edit from an accident.
+
 ### D94. The platform-overhead allowance counts the platforms the model actually prices.
 3.1 said the portfolios' overhead allowance was 5.335; 3.2 said 6.325 for the same roles.
 The gap was exactly six platforms' worth of allowance (0.165 x 6): Lists carried a typed

@@ -118,10 +118,12 @@ def untouched(path, base="cand.xlsx"):
     b, w = (openpyxl.load_workbook(base), openpyxl.load_workbook(path))
     bv, wv = (openpyxl.load_workbook(base, data_only=True),
               openpyxl.load_workbook(path, data_only=True))
-    try:
-        declared = {tuple(x) for x in json.load(open("post2707_manifest.json"))}
-    except FileNotFoundError:
-        declared = set()
+    declared = set()
+    for mf in ("post2707_manifest.json", "design2707_manifest.json"):
+        try:
+            declared |= {tuple(x) for x in json.load(open(mf))}
+        except FileNotFoundError:
+            pass
     lost, moved = [], []
     for t in b.sheetnames:
         if t not in w.sheetnames:

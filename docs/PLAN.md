@@ -5,8 +5,16 @@ Companion file: `docs/DECISIONS.md` (what was decided and why).
 The original 101-item brief is `docs/INSTRUCTION_REGISTER.md` and still stands except
 where superseded below.
 
-Last updated: after the four-block rebuild. Four QA passes clean, 55 of 55 live checks
-zero, lever proven end to end including headcount.
+Last updated: after the 2707 consolidation and its verification loop. The review
+workbook is the chain input, the new Customer dataset (83 roles, $16,522,075.33 exact)
+and six cyber vacancies are in the ledger, and his 2707 edits are adopted into the
+builders. Ledger: **531 roles, 529.3 FTE, $115,589,735.11**; after the decision set
+shipped live (8 holds, 3 offshores, the r431 QA vacancy set to fill): **523 roles,
+$113,777,703.16**, impact **-$1,812,031.95**. Verified by three independent Opus audits
+(instruction, design, adversarial recompute of all 30,958 cells), a four-builder fix
+wave, and eight scripted passes all reading zero - `regress2707.py` asserts every
+audit finding dead (70/70). Sections 6-7 below show the pre-consolidation 525-role
+tables and remain as history.
 
 ---
 
@@ -22,8 +30,8 @@ through to the group.
 
 ## 2. The one rule everything else follows
 
-**`REVIEW - Complete Role Mapping` is the only source of truth.** 525 roles,
-$115,283,002.27, 390 filled, 135 vacant.
+**`REVIEW - Complete Role Mapping` is the only source of truth.** 531 roles,
+$115,589,735.11, 386 filled, 145 vacant.
 
 Nothing overrides it. Where the design tabs disagreed with REVIEW on a squad name, the
 design tab was renamed - never the reverse. Where a role needs re-assigning, that sits in

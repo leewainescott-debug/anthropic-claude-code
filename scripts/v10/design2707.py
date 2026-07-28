@@ -1437,10 +1437,38 @@ def squad_archetypes(wb):
 
 # ----------------------------------------------------------------- run
 
+def budget_bar(wb):
+    """The budget box's own bar covers its two columns on every tab, not one on some.
+
+    Row 4 (5 on 1.7) carries two side-by-side tables: the Portfolio Summary to G and the
+    Budget vs TDD Cost box at H:I. Six tabs painted the box's bar on H only, four on H:I,
+    so the same strip ended in two different places across the family.
+    """
+    out = []
+    n = 0
+    for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|[1-9]) ", x)]:
+        ws = wb[t]
+        for r in range(3, 8):
+            for c in range(7, 13):
+                x = ws.cell(r, c)
+                if str(x.value or "").strip() == "Budget vs TDD Cost":
+                    for cc in (c, c + 1):
+                        y = ws.cell(r, cc)
+                        y.fill, y.font = opts.fl(opts.BARC), opts.BARF
+                    n += 1
+                    break
+    out.append(f"budget-box bar squared to its two columns on {n} tabs")
+    return out
+
+
 def run(src, dst):
+    import json
     wb = openpyxl.load_workbook(src)
+    before = {t: {c.coordinate: c.value for row in wb[t].iter_rows() for c in row
+                  if c.value is not None} for t in wb.sheetnames}
     out = (theme_bars(wb) + orange_block(wb)
-           + notes_header(wb) + summary_strip(wb) + funding_bar(wb) + platform_bars(wb)
+           + notes_header(wb) + summary_strip(wb) + budget_bar(wb)
+           + funding_bar(wb) + platform_bars(wb)
            + bucket_bar(wb)
            + footer_header(wb) + empty_navy_rows(wb) + funding_header(wb)
            + summary_head_labels(wb)
@@ -1453,6 +1481,20 @@ def run(src, dst):
            + coe_odds(wb)
            + spacer_column(wb) + orphan_variance(wb) + floating_cream(wb)
            + squad_archetypes(wb))
+    # every cell this step wrote or cleared, declared - same contract as post2707, so the
+    # shipped-workbook diff can tell a declared edit from an accident
+    touched = []
+    for t in wb.sheetnames:
+        seen = set()
+        for row in wb[t].iter_rows():
+            for c in row:
+                seen.add(c.coordinate)
+                if c.value != before[t].get(c.coordinate):
+                    touched.append([t, c.coordinate])
+        for coord in set(before[t]) - seen:
+            touched.append([t, coord])
+    json.dump(touched, open("design2707_manifest.json", "w"))
+    out.append(f"{len(touched)} cells declared in design2707_manifest.json")
     wb.save(dst)
     return out
 
