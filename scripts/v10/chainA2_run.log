@@ -87,5 +87,5 @@
    no floating cream cells on the portfolio tabs
    0.3 Squad Archetypes: left exactly as it arrives - it is the owner's cost library, a source tab like 0.1 and 0.4, and nothing in this pass touches it. regress2707 proves it cell-for-cell against rev.xlsx.
    80 cells declared in design2707_manifest.json
-  A injected {'cells': 15682, 'sheets': 46, 'verified': True}
+  A injected {'cells': 15692, 'sheets': 46, 'verified': True}
   A errors 0 blank 2

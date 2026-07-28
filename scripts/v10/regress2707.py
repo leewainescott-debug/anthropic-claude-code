@@ -365,42 +365,49 @@ def run(path):
     if allrow:
         check("3.2 counts each role once (412 + 119 = 531)",
               str(v32g.cell(allrow, 2).value or "") == ALL32
-              and v32g.cell(allrow, 7).value == 531,
-              f"{v32g.cell(allrow, 2).value!r} G={v32g.cell(allrow, 7).value}")
+              and v32g.cell(allrow, 8).value == 531,
+              f"{v32g.cell(allrow, 2).value!r} H={v32g.cell(allrow, 8).value}")
         check("3.2 all-roles control reads 0",
-              abs(v32g.cell(allrow + 1, 7).value or 0) < 1e-9,
-              str(v32g.cell(allrow + 1, 7).value))
+              abs(v32g.cell(allrow + 1, 8).value or 0) < 1e-9,
+              str(v32g.cell(allrow + 1, 8).value))
     check("3.2 headline columns are the organisation's, not the portfolios'",
-          [w32g.cell(5, c).value for c in range(5, 12)]
-          == ["Applied to portfolios - roles", "Applied to portfolios ($m)",
+          [w32g.cell(5, c).value for c in range(5, 13)]
+          == ["Times applied", "Applied to portfolios - roles",
+              "Applied to portfolios ($m)",
               "Roles in the organisation", "Cost in the organisation ($m)",
               "Roles gap", "Cost gap ($m)", "Where they sit"],
-          str([w32g.cell(5, c).value for c in range(5, 12)]))
+          str([w32g.cell(5, c).value for c in range(5, 13)]))
     check("3.2 states every line's roles in the organisation",
-          [v32g.cell(r, 7).value for r in range(6, 12)] == [15, 6, 7, 10, 24, 8],
-          str([v32g.cell(r, 7).value for r in range(6, 12)]))
+          [v32g.cell(r, 8).value for r in range(6, 12)] == [15, 6, 7, 10, 24, 8],
+          str([v32g.cell(r, 8).value for r in range(6, 12)]))
+    check("3.2 Times applied is his to set, cream and seeded from the model's count",
+          [v32g.cell(r, 5).value for r in range(6, 12)] == [10, 10, 10, 22, 22, 10]
+          and all(w32g.cell(r, 5).fill.patternType
+                  and str(w32g.cell(r, 5).fill.start_color.rgb).upper() == "FFFFF2CC"
+                  for r in range(6, 12)),
+          str([v32g.cell(r, 5).value for r in range(6, 12)]))
     check("3.2 HoT row splits its fifteen roles",
-          str(v32g["K6"].value or "") == "10 in the portfolios, 5 in the COEs",
-          repr(v32g["K6"].value))
+          str(v32g["L6"].value or "") == "10 in the portfolios, 5 in the COEs",
+          repr(v32g["L6"].value))
     check("3.2 BP row places all six of its roles in the COEs",
-          str(v32g["K7"].value or "") == "All 6 in the COEs", repr(v32g["K7"].value))
+          str(v32g["L7"].value or "") == "All 6 in the COEs", repr(v32g["L7"].value))
     check("3.2 DA row places all seven of its roles in the COEs",
-          str(v32g["K8"].value or "") == "All 7 in the COEs", repr(v32g["K8"].value))
+          str(v32g["L8"].value or "") == "All 7 in the COEs", repr(v32g["L8"].value))
     totrow = next((r for r in range(6, 30) if str(w32g.cell(r, 2).value or "").strip()
                    == "Overheads incl. GMs"), None)
     check("3.2 overheads total row present", totrow is not None)
     if totrow:
         check("3.2 the two gaps total 38.8 roles and 11.68m",
-              abs((v32g.cell(totrow, 9).value or 0) - 38.8) < 1e-6
-              and abs((v32g.cell(totrow, 10).value or 0) - 11.682053) < 1e-6,
-              f"{v32g.cell(totrow, 9).value} / {v32g.cell(totrow, 10).value}")
+              abs((v32g.cell(totrow, 10).value or 0) - 38.8) < 1e-6
+              and abs((v32g.cell(totrow, 11).value or 0) - 11.682053) < 1e-6,
+              f"{v32g.cell(totrow, 10).value} / {v32g.cell(totrow, 11).value}")
     ohrow = next((r for r in range(6, 30) if str(w32g.cell(r, 2).value or "").strip()
                   == "Of which sits in the portfolios"), None)
     check("3.2 'of which sits in the portfolios' band present", ohrow is not None)
     if ohrow:
         check("3.2 applied where the people sit = 5.005 with the 1.14 platform priced",
-              abs((v32g.cell(ohrow, 6).value or 0) - 5.005) < 1e-6,
-              str(v32g.cell(ohrow, 6).value))
+              abs((v32g.cell(ohrow, 7).value or 0) - 5.005) < 1e-6,
+              str(v32g.cell(ohrow, 7).value))
 
     # ---- wave H: the owner's Actuals-vs-archetype table on every 1.x tab
     BARH = "Actuals vs archetype"

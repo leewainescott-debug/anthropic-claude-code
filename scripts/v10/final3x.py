@@ -588,7 +588,9 @@ def build_32(wb, wcol):
     opts.row(ws, r, 2, ["Overheads incl. GMs"] + [None] * (len(H32) - 1),
              [None] * len(H32), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
-    adds = ((5, opts.C1), (6, opts.C1), (7, opts.M2), (8, opts.CT), (9, opts.M2),
+    # Times applied is not summed: ten portfolios and twenty-two platforms are not
+    # eighty-four of anything, for the same reason the rate above it carries a dash.
+    adds = ((6, opts.C1), (7, opts.M2), (8, opts.CT), (9, opts.M2),
             (10, opts.C1), (11, opts.M2))
     for c, nf in adds:
         x = ws.cell(r, c)
