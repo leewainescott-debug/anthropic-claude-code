@@ -2,13 +2,13 @@
 ===== Exec Summary
   B2: TDD operating model - executive summary
   B4: The organisation today
-  B5: Roles in the ledger
+  B5: Roles in the role mapping
   B6: Filled
   B7: Vacant
-  B8: Cost of the 531 roles in the ledger ($m)
+  B8: Cost of the 531 roles in the role mapping ($m)
   B9: Of which filled roles ($m)
   B10: Of which vacancies not yet filled ($m)
-  B11: The 8 GMs, outside the ledger ($m)
+  B11: The 8 GMs, outside the role mapping ($m)
   B12: Cost today including the GM layer ($m)
   B14: Against the archetype
   B15: Squads priced by an archetype - archetype cost ($m)
@@ -4438,7 +4438,7 @@ AUD
   D5: Filled
   E5: Vacant
   F5: Planned spend ($m)
-  G5: Budget to draw down ($m)
+  G5: Budget available to this COE ($m)
   H5: Variance
   I5: Cost - AU ($m)
   J5: Cost - NZ ($m)
@@ -4453,7 +4453,7 @@ AUD
   B14: COE - Business Partnering allocation ($m) - 0.2 Data Config
   B15: Total Business Partnering budget ($m)
   B16: COE - Transformation allocation ($m) - 0.2 Data Config
-  B17: Total budget to draw down ($m)
+  B17: Total budget available to this COE ($m)
   B18: Business Partner funding met by portfolio overheads, netted out of planned spend ($m)
   B19: Roles
   B20: Name
@@ -4621,7 +4621,7 @@ AUD
   E5: Vacant
   F5: Paused
   G5: Planned spend ($m)
-  H5: Budget to draw down ($m)
+  H5: Budget available to this COE ($m)
   I5: Left to fund ($m)
   J5: Cost - AU ($m)
   K5: Cost - NZ ($m)
@@ -4636,7 +4636,7 @@ AUD
   B14: COE - Strategy Architecture allocation ($m) - 0.2 Data Config
   B15: Total Strategy & Architecture budget ($m)
   B16: COE - Data allocation ($m) - 0.2 Data Config
-  B17: Total budget to draw down ($m)
+  B17: Total budget available to this COE ($m)
   B18: Paused roles - cost if released ($m)
   B19: Domain Architect funding met by portfolio overheads, netted out of planned spend ($m)
   B20: Roles
@@ -4820,7 +4820,7 @@ AUD
   D5: Filled
   E5: Vacant
   F5: Planned spend ($m)
-  G5: Budget to draw down ($m)
+  G5: Budget available to this COE ($m)
   H5: Left to fund ($m)
   I5: Cost - AU ($m)
   J5: Cost - NZ ($m)
@@ -4833,7 +4833,7 @@ AUD
   E11: Planned spend less CapEx ($m)
   B12: TDD Cyber budget ($m) - 0.2 Data Config
   B13: Cyber CapEx - Monitoring ($m) - input
-  B14: Total budget to draw down ($m)
+  B14: Total budget available to this COE ($m)
   B15: Left to fund ($m)
   B17: Roles
   B18: Name
@@ -5313,8 +5313,8 @@ AUD
   R26: -
   B27: Business Partners and Domain Architects sit in the COEs
   B28: Total portfolio
-  B30: Control - roles against the ledger, must be 0
-  B31: Control - cost against the ledger ($m), must be 0
+  B30: Control - roles against the role mapping, must be 0
+  B31: Control - cost against the role mapping ($m), must be 0
   B33: Ampol Retail FTE
   B34: Name
   C34: Role
@@ -5739,8 +5739,8 @@ AUD
   R29: -
   B30: Business Partners and Domain Architects sit in the COEs
   B31: Total portfolio
-  B33: Control - roles against the ledger, must be 0
-  B34: Control - cost against the ledger ($m), must be 0
+  B33: Control - roles against the role mapping, must be 0
+  B34: Control - cost against the role mapping ($m), must be 0
   B36: Customer FTE
   B37: Name
   C37: Role
@@ -6171,8 +6171,8 @@ AUD
   R17: -
   B18: Business Partners and Domain Architects sit in the COEs
   B19: Total portfolio
-  B21: Control - roles against the ledger, must be 0
-  B22: Control - cost against the ledger ($m), must be 0
+  B21: Control - roles against the role mapping, must be 0
+  B22: Control - cost against the role mapping ($m), must be 0
   B24: Enterprise Data FTE
   B25: Name
   C25: Role
@@ -6374,8 +6374,8 @@ AUD
   R20: -
   B21: Business Partners and Domain Architects sit in the COEs
   B22: Total portfolio
-  B24: Control - roles against the ledger, must be 0
-  B25: Control - cost against the ledger ($m), must be 0
+  B24: Control - roles against the role mapping, must be 0
+  B25: Control - cost against the role mapping ($m), must be 0
   B27: TDD Group Functions FTE
   B28: Name
   C28: Role
@@ -6649,8 +6649,8 @@ AUD
   R18: -
   B19: Business Partners and Domain Architects sit in the COEs
   B20: Total portfolio
-  B22: Control - roles against the ledger, must be 0
-  B23: Control - cost against the ledger ($m), must be 0
+  B22: Control - roles against the role mapping, must be 0
+  B23: Control - cost against the role mapping ($m), must be 0
   B25: P&C FTE
   B26: Name
   C26: Role
@@ -6808,8 +6808,8 @@ AUD
   R18: -
   B19: Business Partners and Domain Architects sit in the COEs
   B20: Total portfolio
-  B22: Control - roles against the ledger, must be 0
-  B23: Control - cost against the ledger ($m), must be 0
+  B22: Control - roles against the role mapping, must be 0
+  B23: Control - cost against the role mapping ($m), must be 0
   B25: Finance FTE
   B26: Name
   C26: Role
@@ -6965,8 +6965,8 @@ AUD
   R20: -
   B21: Business Partners and Domain Architects sit in the COEs
   B22: Total portfolio
-  B24: Control - roles against the ledger, must be 0
-  B25: Control - cost against the ledger ($m), must be 0
+  B24: Control - roles against the role mapping, must be 0
+  B25: Control - cost against the role mapping ($m), must be 0
   B27: Infrastructure FTE
   B28: Name
   C28: Role
@@ -7195,8 +7195,8 @@ AUD
   R17: -
   B18: Business Partners and Domain Architects sit in the COEs
   B19: Total portfolio
-  B21: Control - roles against the ledger, must be 0
-  B22: Control - cost against the ledger ($m), must be 0
+  B21: Control - roles against the role mapping, must be 0
+  B22: Control - cost against the role mapping ($m), must be 0
   B24: Energy Solutions & B2B FTE
   B25: Name
   C25: Role
@@ -7414,8 +7414,8 @@ AUD
   R19: -
   B20: Business Partners and Domain Architects sit in the COEs
   B21: Total portfolio
-  B23: Control - roles against the ledger, must be 0
-  B24: Control - cost against the ledger ($m), must be 0
+  B23: Control - roles against the role mapping, must be 0
+  B24: Control - cost against the role mapping ($m), must be 0
   B26: Commercial Fuels FTE
   B27: Name
   C27: Role
@@ -7669,8 +7669,8 @@ AUD
   R18: -
   B19: Business Partners and Domain Architects sit in the COEs
   B20: Total portfolio
-  B22: Control - roles against the ledger, must be 0
-  B23: Control - cost against the ledger ($m), must be 0
+  B22: Control - roles against the role mapping, must be 0
+  B23: Control - cost against the role mapping ($m), must be 0
   B25: Z Retail FTE
   B26: Name
   C26: Role
@@ -7911,8 +7911,8 @@ AUD
   N13: -
   P13: -
   R13: -
-  B15: Control - roles against the ledger, must be 0
-  B16: Control - cost against the ledger ($m), must be 0
+  B15: Control - roles against the role mapping, must be 0
+  B16: Control - cost against the role mapping ($m), must be 0
   B18: COE Cyber FTE
   B19: Name
   C19: Role
@@ -8187,8 +8187,8 @@ AUD
   N11: -
   P11: -
   R11: -
-  B13: Control - roles against the ledger, must be 0
-  B14: Control - cost against the ledger ($m), must be 0
+  B13: Control - roles against the role mapping, must be 0
+  B14: Control - cost against the role mapping ($m), must be 0
   B16: COE BP&T FTE
   B17: Name
   C17: Role
@@ -8361,8 +8361,8 @@ AUD
   N13: -
   P13: -
   R13: -
-  B15: Control - roles against the ledger, must be 0
-  B16: Control - cost against the ledger ($m), must be 0
+  B15: Control - roles against the role mapping, must be 0
+  B16: Control - cost against the role mapping ($m), must be 0
   B18: COE SA&D FTE
   B19: Name
   C19: Role
@@ -8519,8 +8519,8 @@ AUD
   N9: -
   P9: -
   R9: -
-  B11: Control - roles against the ledger, must be 0
-  B12: Control - cost against the ledger ($m), must be 0
+  B11: Control - roles against the role mapping, must be 0
+  B12: Control - cost against the role mapping ($m), must be 0
   B14: EGI FTE
   B15: Name
   C15: Role
@@ -8653,8 +8653,8 @@ AUD
   R13: -
   B14: Business Partners and Domain Architects sit in the COEs
   B15: Total portfolio
-  B17: Control - roles against the ledger, must be 0
-  B18: Control - cost against the ledger ($m), must be 0
+  B17: Control - roles against the role mapping, must be 0
+  B18: Control - cost against the role mapping ($m), must be 0
   B20: TDD Cyber FTE
   B21: Name
   C21: Role
@@ -8662,7 +8662,7 @@ AUD
   E21: Vacancy lever
   F21: Role cost ($)
   G21: Cost after decision ($)
-  B22: No roles in the ledger carry TDD Cyber yet - this tab will fill itself when they do.
+  B22: No roles in the role mapping carry TDD Cyber yet - this tab will fill itself when they do.
 
 ===== - SUMMARIES -
   B2: SUMMARIES  >>>
@@ -8781,11 +8781,11 @@ AUD
   B44: Groups with no archetype and no funded figure
   D44: -
   F44: -
-  B45: Cost of the 531 roles in the ledger
-  B46: Leadership - the 8 GMs, outside the 531-role ledger
+  B45: Cost of the 531 roles in the role mapping
+  B46: Leadership - the 8 GMs, outside the 531 roles in the role mapping
   B47: Total cost of TDD including the GM layer
-  B49: Control - roles against the ledger, must be 0
-  B50: Control - cost against the ledger ($m), must be 0
+  B49: Control - roles against the role mapping, must be 0
+  B50: Control - cost against the role mapping ($m), must be 0
 
 ===== 3.2 Overhead & Leadership
   B2: Archetype Overhead & Actual Leadership comparison
@@ -8823,7 +8823,7 @@ AUD
   M9: 30% across 22 platforms
   B10: Leadership - 8 GMs
   C10: portfolios
-  L10: Above the ledger
+  L10: Above the role mapping
   M10: 30% across 10 portfolios
   B11: Overheads incl. GMs
   D11: -
@@ -8835,14 +8835,14 @@ AUD
   E12: -
   L12: -
   M12: -
-  B13: Of which sits in the COEs and EGI, or above the 531-role ledger
+  B13: Of which sits in the COEs and EGI, or above the 531 roles in the role mapping
   D13: -
   E13: -
   L13: -
   M13: -
   B14: Times applied set above, against the count the model carries - the ten portfolios and the platforms the 1.x tabs draw
   B16: Roles in the organisation, all lines and squads: 531 - portfolios 412, COEs and EGI 119, each counted once
-  B17: Control - the portfolios plus the COEs and EGI against the ledger, must be 0
+  B17: Control - the portfolios plus the COEs and EGI against the role mapping, must be 0
   B19: What the allocated rate is built from
   B20: Input
   C20: Where it is set on 0.2 Data Config
@@ -9496,8 +9496,8 @@ AUD
   B120: Group total
   F120: -
   N120: -
-  B122: Control - roles against the ledger, must be 0
-  B123: Control - cost against the ledger ($m), must be 0
+  B122: Control - roles against the role mapping, must be 0
+  B123: Control - cost against the role mapping ($m), must be 0
 
 ===== 3.4 COE Detail
   B2: COE detail - where the cost sits
@@ -9545,8 +9545,8 @@ AUD
   C22: EGI
   B23: EGI total
   B24: COEs and EGI total
-  B26: Control - roles against the ledger, must be 0
-  B27: Control - cost against the ledger ($m), must be 0
+  B26: Control - roles against the role mapping, must be 0
+  B27: Control - cost against the role mapping ($m), must be 0
   B28: Control - AU plus NZ against cost ($m), must be 0
 
 ===== - EVIDENCE -
@@ -9559,17 +9559,17 @@ AUD
   C4: Model
   D4: Expected
   E4: Difference
-  B5: Roles on 3.1 against the ledger
-  B6: Filled on 3.1 against the ledger
-  B7: Vacant on 3.1 against the ledger
+  B5: Roles on 3.1 against the role mapping
+  B6: Filled on 3.1 against the role mapping
+  B7: Vacant on 3.1 against the role mapping
   B8: Filled plus vacant against roles on 3.1
-  B9: Cost on 3.1 against the ledger ($m)
+  B9: Cost on 3.1 against the role mapping ($m)
   B10: Filled plus vacant cost against cost today ($m)
   B11: Roles on 3.3 against 3.1
   B12: Cost on 3.3 against 3.1 ($m)
-  B13: Total including the GM layer against the ledger plus the GM input ($m)
+  B13: Total including the GM layer against the role mapping plus the GM input ($m)
   B14: Archetype variance - the comparable steps against the comparable subtotal ($m)
-  B15: Roles including the GM layer against the ledger plus the GM count
+  B15: Roles including the GM layer against the role mapping plus the GM count
   B16: Archetype cost, squad by squad on 3.3, against 3.1 ($m)
   B17: Directly funded amount, squad by squad on 3.3, against 3.1 ($m)
   B18: Archetype roles on 3.3 against the priced-per-portfolio list on Lists
@@ -9577,9 +9577,9 @@ AUD
   B20: Offshore archetype against 40% of onshore, first archetype
   B21: Applied to the portfolios on 3.2 against its own lines ($m)
   B22: Applied where the people sit against the lines that draw it ($m)
-  B23: Roles in the organisation on 3.2, less the GM layer, against every overhead role in the ledger
-  B24: Cost in the organisation on 3.2, less the GM layer, against every overhead role in the ledger ($m)
-  B25: Roles in the organisation, all lines and squads, on 3.2 against the ledger
+  B23: Roles in the organisation on 3.2, less the GM layer, against every overhead role in the role mapping
+  B24: Cost in the organisation on 3.2, less the GM layer, against every overhead role in the role mapping ($m)
+  B25: Roles in the organisation, all lines and squads, on 3.2 against the role mapping
   B26: Overhead on 3.1 against the cost that sits in the portfolios on 3.2 ($m)
   B27: The allowance the model carries against the overhead step on 3.1 ($m)
   B28: The two 'of which' bands on 3.2 against the overheads total above them ($m)
@@ -9587,9 +9587,9 @@ AUD
   B30: Overhead allowance on 3.1 against the working tabs ($m)
   B31: Roles after decisions against roles less anything on hold
   B32: Decision impact on 3.1 against the working tabs ($m)
-  B33: 1.11 BP&T roles against the ledger
-  B34: 1.12 SA&D roles against the ledger
-  B35: 1.13 Cyber Roles roles against the ledger
+  B33: 1.11 BP&T roles against the role mapping
+  B34: 1.12 SA&D roles against the role mapping
+  B35: 1.13 Cyber Roles roles against the role mapping
   B36: 1.11 BP&T own control - roles listed against roles counted
   B37: 1.12 SA&D own control - roles listed against roles counted
   B38: 1.13 Cyber Roles own control - roles listed against roles counted
@@ -9604,36 +9604,36 @@ AUD
   B47: 2.9 Commercial Fuels archetype total against Total Cost on 1.9 Commercial Fuels ($m)
   B48: 2.10 Z Retail archetype total against Total Cost on 1.10 Z Retail ($m)
   B49: 2.15 TDD Cyber archetype total against Total Cost on 1.14 TDD Cyber ($m)
-  B50: 2.1 Ampol Retail roles against the ledger
-  B51: 2.1 Ampol Retail cost against the ledger ($m)
-  B52: 2.2 Customer roles against the ledger
-  B53: 2.2 Customer cost against the ledger ($m)
-  B54: 2.3 Enterprise Data roles against the ledger
-  B55: 2.3 Enterprise Data cost against the ledger ($m)
-  B56: 2.4 TDD Group Functions roles against the ledger
-  B57: 2.4 TDD Group Functions cost against the ledger ($m)
-  B58: 2.5 P&C roles against the ledger
-  B59: 2.5 P&C cost against the ledger ($m)
-  B60: 2.6 Finance roles against the ledger
-  B61: 2.6 Finance cost against the ledger ($m)
-  B62: 2.7 Infrastructure roles against the ledger
-  B63: 2.7 Infrastructure cost against the ledger ($m)
-  B64: 2.8 Energy Solutions & B2B roles against the ledger
-  B65: 2.8 Energy Solutions & B2B cost against the ledger ($m)
-  B66: 2.9 Commercial Fuels roles against the ledger
-  B67: 2.9 Commercial Fuels cost against the ledger ($m)
-  B68: 2.10 Z Retail roles against the ledger
-  B69: 2.10 Z Retail cost against the ledger ($m)
-  B70: 2.11 COE Cyber roles against the ledger
-  B71: 2.11 COE Cyber cost against the ledger ($m)
-  B72: 2.12 COE BP&T roles against the ledger
-  B73: 2.12 COE BP&T cost against the ledger ($m)
-  B74: 2.13 COE SA&D roles against the ledger
-  B75: 2.13 COE SA&D cost against the ledger ($m)
-  B76: 2.14 EGI roles against the ledger
-  B77: 2.14 EGI cost against the ledger ($m)
-  B78: 2.15 TDD Cyber roles against the ledger
-  B79: 2.15 TDD Cyber cost against the ledger ($m)
+  B50: 2.1 Ampol Retail roles against the role mapping
+  B51: 2.1 Ampol Retail cost against the role mapping ($m)
+  B52: 2.2 Customer roles against the role mapping
+  B53: 2.2 Customer cost against the role mapping ($m)
+  B54: 2.3 Enterprise Data roles against the role mapping
+  B55: 2.3 Enterprise Data cost against the role mapping ($m)
+  B56: 2.4 TDD Group Functions roles against the role mapping
+  B57: 2.4 TDD Group Functions cost against the role mapping ($m)
+  B58: 2.5 P&C roles against the role mapping
+  B59: 2.5 P&C cost against the role mapping ($m)
+  B60: 2.6 Finance roles against the role mapping
+  B61: 2.6 Finance cost against the role mapping ($m)
+  B62: 2.7 Infrastructure roles against the role mapping
+  B63: 2.7 Infrastructure cost against the role mapping ($m)
+  B64: 2.8 Energy Solutions & B2B roles against the role mapping
+  B65: 2.8 Energy Solutions & B2B cost against the role mapping ($m)
+  B66: 2.9 Commercial Fuels roles against the role mapping
+  B67: 2.9 Commercial Fuels cost against the role mapping ($m)
+  B68: 2.10 Z Retail roles against the role mapping
+  B69: 2.10 Z Retail cost against the role mapping ($m)
+  B70: 2.11 COE Cyber roles against the role mapping
+  B71: 2.11 COE Cyber cost against the role mapping ($m)
+  B72: 2.12 COE BP&T roles against the role mapping
+  B73: 2.12 COE BP&T cost against the role mapping ($m)
+  B74: 2.13 COE SA&D roles against the role mapping
+  B75: 2.13 COE SA&D cost against the role mapping ($m)
+  B76: 2.14 EGI roles against the role mapping
+  B77: 2.14 EGI cost against the role mapping ($m)
+  B78: 2.15 TDD Cyber roles against the role mapping
+  B79: 2.15 TDD Cyber cost against the role mapping ($m)
   B80: Checks failing
 
 ===== Lists

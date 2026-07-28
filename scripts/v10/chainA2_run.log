@@ -87,6 +87,13 @@
    no floating cream cells on the portfolio tabs
    0.3 Squad Archetypes: left exactly as it arrives - it is the owner's cost library, a source tab like 0.1 and 0.4, and nothing in this pass touches it. regress2707 proves it cell-for-cell against rev.xlsx.
    80 cells declared in design2707_manifest.json
+   93 labels and 0 formula-built labels now say role mapping, not ledger
+     e.g. Exec Summary!B5: Roles in the role mapping
+     e.g. Exec Summary!B8: Cost of the 531 roles in the role mapping ($m)
+     e.g. Exec Summary!B11: The 8 GMs, outside the role mapping ($m)
+     e.g. 1.11 BP&T!G5: Budget available to this COE ($m)
+     e.g. 1.11 BP&T!B17: Total budget available to this COE ($m)
+     e.g. 1.12 SA&D!H5: Budget available to this COE ($m)
   A injected {'cells': 13575, 'sheets': 46, 'verified': True}
   A errors 0 blank 2
 
@@ -100,7 +107,7 @@ ANCHORS: 10
     standards: 166 column-shape breaks, 0 buried constants
     inputs: 12 cream formulas, 33 unmarked typed numbers
     rounding: 26 sums over rounded chains
-    refs: 1062 whole-column references, 0 error cells
+    refs: 0 whole-column references, 0 error cells
     labels: 9616 labels written to labels.txt for the plain-English read
 
 ==============================================================================
@@ -197,33 +204,4 @@ ROUNDING: 26
     ... 1 more
 
 ==============================================================================
-REFS: 1062
-    REVIEW - Complete Role Mapping!AJ2: whole-column reference: =IF(TRIM($B2)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B2)&" | "&TRI
-    REVIEW - Complete Role Mapping!AP2: whole-column reference: =IF(TRIM($B2)="","",IF($AQ2=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
-    REVIEW - Complete Role Mapping!AJ3: whole-column reference: =IF(TRIM($B3)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B3)&" | "&TRI
-    REVIEW - Complete Role Mapping!AP3: whole-column reference: =IF(TRIM($B3)="","",IF($AQ3=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
-    REVIEW - Complete Role Mapping!AJ4: whole-column reference: =IF(TRIM($B4)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B4)&" | "&TRI
-    REVIEW - Complete Role Mapping!AP4: whole-column reference: =IF(TRIM($B4)="","",IF($AQ4=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
-    REVIEW - Complete Role Mapping!AJ5: whole-column reference: =IF(TRIM($B5)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B5)&" | "&TRI
-    REVIEW - Complete Role Mapping!AP5: whole-column reference: =IF(TRIM($B5)="","",IF($AQ5=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
-    REVIEW - Complete Role Mapping!AJ6: whole-column reference: =IF(TRIM($B6)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B6)&" | "&TRI
-    REVIEW - Complete Role Mapping!AP6: whole-column reference: =IF(TRIM($B6)="","",IF($AQ6=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
-    REVIEW - Complete Role Mapping!AJ7: whole-column reference: =IF(TRIM($B7)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B7)&" | "&TRI
-    REVIEW - Complete Role Mapping!AP7: whole-column reference: =IF(TRIM($B7)="","",IF($AQ7=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
-    REVIEW - Complete Role Mapping!AJ8: whole-column reference: =IF(TRIM($B8)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B8)&" | "&TRI
-    REVIEW - Complete Role Mapping!AP8: whole-column reference: =IF(TRIM($B8)="","",IF($AQ8=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
-    REVIEW - Complete Role Mapping!AJ9: whole-column reference: =IF(TRIM($B9)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B9)&" | "&TRI
-    REVIEW - Complete Role Mapping!AP9: whole-column reference: =IF(TRIM($B9)="","",IF($AQ9=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
-    REVIEW - Complete Role Mapping!AJ10: whole-column reference: =IF(TRIM($B10)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B10)&" | "&T
-    REVIEW - Complete Role Mapping!AP10: whole-column reference: =IF(TRIM($B10)="","",IF($AQ10=1,"Leadership",IFERROR(INDEX(Lists!$X:$X
-    REVIEW - Complete Role Mapping!AJ11: whole-column reference: =IF(TRIM($B11)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B11)&" | "&T
-    REVIEW - Complete Role Mapping!AP11: whole-column reference: =IF(TRIM($B11)="","",IF($AQ11=1,"Leadership",IFERROR(INDEX(Lists!$X:$X
-    REVIEW - Complete Role Mapping!AJ12: whole-column reference: =IF(TRIM($B12)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B12)&" | "&T
-    REVIEW - Complete Role Mapping!AP12: whole-column reference: =IF(TRIM($B12)="","",IF($AQ12=1,"Leadership",IFERROR(INDEX(Lists!$X:$X
-    REVIEW - Complete Role Mapping!AJ13: whole-column reference: =IF(TRIM($B13)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B13)&" | "&T
-    REVIEW - Complete Role Mapping!AP13: whole-column reference: =IF(TRIM($B13)="","",IF($AQ13=1,"Leadership",IFERROR(INDEX(Lists!$X:$X
-    REVIEW - Complete Role Mapping!AJ14: whole-column reference: =IF(TRIM($B14)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B14)&" | "&T
-    ... 1037 more
-
-==============================================================================
-OUTSTANDING: 1302
+OUTSTANDING: 240
