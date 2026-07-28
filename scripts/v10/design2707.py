@@ -425,30 +425,48 @@ def bucket_bar(wb):
 
 # ----------------------------------------------------------------- 3  blank navy
 
+ACTUALS_HEAD = "What the cost covers"
+
+
 def footer_header(wb):
-    """The archetype-against-actual header row: labelled or unfilled, nothing between."""
+    """The actuals table's header row: labelled or unfilled, nothing blank between.
+
+    This was written for the block actuals.py used to put at the foot of each tab, and it
+    found that block by looking anywhere on the tab for "Archetype cost ($m)" or "Actual
+    cost after decisions ($m)". Both of those are gone from the block - it moved to the top
+    of the tab and became a label / Roles / Cost table - and the second is still the head of
+    every squad table, so the old finder had quietly stopped dressing a footer and started
+    matching the first squad table's header row instead.
+
+    It now looks for the actuals table's own first head, and it skips the cells inside a
+    merge: the label column is K:L merged, so L is blank navy on purpose and clearing it
+    would put a hole in the header. On a normal build actuals.py writes the row square and
+    this reports that there was nothing to do.
+    """
     out, done = [], []
     for ws in tabs(wb, PORTFOLIO):
-        r = next((k for k in range(1, ws.max_row + 1)
-                  if any(label(ws, k, c) in ("Archetype cost ($m)",
-                                             "Actual cost after decisions ($m)")
-                         for c in range(2, min(ws.max_column, 20) + 1))), None)
-        if r is None:
+        found = next(((k, c) for k in range(1, min(ws.max_row, 30) + 1)
+                      for c in range(2, min(ws.max_column, 20) + 1)
+                      if label(ws, k, c) == ACTUALS_HEAD), None)
+        if found is None:
             continue
-        last = last_labelled(ws, r, 2, 20)
-        cleared = [L(c) for c in range(2, last)
-                   if not label(ws, r, c) and rgb(ws.cell(r, c)) == opts.NAVY]
-        for c in range(2, last):
-            if not label(ws, r, c) and rgb(ws.cell(r, c)) == opts.NAVY:
-                paint(ws, r, c, fill=NONE_FILL, border=NO_BORDER)
-        if cleared:
-            done.append(f"{ws.title} row {r}: {','.join(cleared)}")
+        r, c0 = found
+        last = last_labelled(ws, r, c0, 20)
+        held = {c for m in ws.merged_cells.ranges if m.min_row == m.max_row == r
+                for c in range(m.min_col, m.max_col + 1)}
+        blank = [c for c in range(c0, last)
+                 if not label(ws, r, c) and c not in held
+                 and rgb(ws.cell(r, c)) == opts.NAVY]
+        for c in blank:
+            paint(ws, r, c, fill=NONE_FILL, border=NO_BORDER)
+        if blank:
+            done.append(f"{ws.title} row {r}: {','.join(L(c) for c in blank)}")
     if done:
-        out.append("blank navy cleared from the footer header rows: " + "; ".join(done))
+        out.append("blank navy cleared from the actuals table header rows: "
+                   + "; ".join(done))
     else:
-        out.append("no footer header row on the 1.x tabs at this point in the chain - "
-                   "actuals.py adds it downstream, so its blank navy cells are not mine "
-                   "to clear here")
+        out.append("the actuals table header rows are square - a label in every navy cell "
+                   "that is not part of the K:L merge, so there is nothing to clear")
     return out
 
 
@@ -1380,59 +1398,22 @@ def floating_cream(wb):
 # ----------------------------------------------------------------- 11  0.3
 
 def squad_archetypes(wb):
+    """Nothing. 0.3 Squad Archetypes is the owner's, and this pass keeps its hands off it.
+
+    This used to move the doubled title on row 2 into a section bar and widen the columns
+    to their own text - the treatment 0.2 gets. It was wrong about whose tab it was. 0.3 is
+    his cost library, the archetype price table every 1.x tab INDEX/MATCHes into; it arrives
+    from his review workbook through assemble_base and it is not a built tab. He asked why
+    the chain had changed it, and the answer the workbook now gives is that it does not.
+
+    The function is kept rather than deleted so the run log still says so on every pass, and
+    so the next person looking for the 0.3 dressing finds this note instead of nothing.
+    """
     if ARCH not in wb.sheetnames:
-        return [f"{ARCH} not in this workbook - skipped"]
-    ws = wb[ARCH]
-    out = []
-    hdr = next((r for r in range(1, 10)
-                if sum(1 for c in range(1, 12)
-                       if rgb(ws.cell(r, c)) in (opts.BARC, opts.NAVY)
-                       and label(ws, r, c)) >= 4), None)
-    if hdr is None:
-        return [f"{ARCH}: no header row found - skipped"]
-    # the table is the run of header cells sharing the first one's fill; the lone navy
-    # caption further right is an input label over a single cell, not part of it
-    c0 = min(c for c in range(1, 12) if label(ws, hdr, c))
-    tone = rgb(ws.cell(hdr, c0))
-    c1 = max(c for c in range(c0, 12) if rgb(ws.cell(hdr, c)) == tone)
-    title = label(ws, 2, 2)
-    dup = next((c for c in range(3, 12) if label(ws, 2, c)), None)
-    if dup and title:
-        text = label(ws, 2, dup)
-        bar = hdr - 1
-        if bar > 2 and empty(ws, bar, 1, c1):
-            for c in range(c0, c1 + 1):
-                paint(ws, bar, c, fill=opts.fl(opts.BARC), font=opts.BARF)
-            # the title goes in the first column wide enough to show it: this tab's first
-            # column is the lookup key at gutter width, and text put there disappears
-            at = next((c for c in range(c0, c1 + 1) if width(ws, c) >= 8.43), c0)
-            write(ws, bar, at, text)
-            paint(ws, bar, at, align=opts.LFT)
-            ws.row_dimensions[bar].height = max(height(ws, bar), 19)
-            ws.cell(2, dup).value = None
-            out.append(f"{ARCH}: '{text}' moved off row 2, where it collided with the "
-                       f"tab title and rendered as one doubled heading, into a section "
-                       f"bar {L(c0)}{bar}:{L(c1)}{bar} titled at {L(at)}{bar} - the "
-                       f"treatment 0.2 already has")
-        else:
-            out.append(f"{ARCH}: row {hdr - 1} is not free for a section bar - the "
-                       f"duplicated title on row 2 left alone")
-    else:
-        out.append(f"{ARCH}: title row is already single - nothing doubled")
-    widened = []
-    for c in range(max(c0, 2), c1 + 1):        # column A is the gutter the family uses
-        need = len(label(ws, hdr, c))
-        for r in range(hdr + 1, ws.max_row + 1):
-            v = ws.cell(r, c).value
-            if isinstance(v, str) and v.strip() and not v.startswith("="):
-                if ws.cell(r, c + 1).value is not None:
-                    need = max(need, len(v.strip()))
-        if need + 1 > width(ws, c):
-            ws.column_dimensions[L(c)].width = round(min(need + 1, 34.0), 1)
-            widened.append(f"{L(c)}={ws.column_dimensions[L(c)].width}")
-    if widened:
-        out.append(f"{ARCH}: columns widened to their own text: {', '.join(widened)}")
-    return out
+        return [f"{ARCH} not in this workbook"]
+    return [f"{ARCH}: left exactly as it arrives - it is the owner's cost library, a "
+            f"source tab like 0.1 and 0.4, and nothing in this pass touches it. "
+            f"regress2707 proves it cell-for-cell against rev.xlsx."]
 
 
 # ----------------------------------------------------------------- run

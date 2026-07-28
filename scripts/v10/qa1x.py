@@ -293,29 +293,44 @@ def totals(path, anchors="anchors_final.json"):
                         and isinstance(x, (int, float)):
                     run.append(x)
     # the on-tab control rows left with the owner's 2707 edit, so the same arithmetic
-    # runs here instead: every footer line above the total must add to the total
+    # runs here instead: every line of the actuals table above the total must add to the
+    # total. The table itself moved from the foot of the tab to the top, beside the budget
+    # box, so the labels are hunted across the whole row rather than down column B - the
+    # block is found by what it says, which is the only thing about it that has not moved.
     ctl = []
     for one in sorted(t for t in wv.sheetnames if re.match(r"^1\.(10|[1-9]) ", t)):
         ws = wv[one]
         foot = {}
-        act_col = None
+        lab_col = act_col = None
         for r in range(1, ws.max_row + 1):
-            lab = str(ws.cell(r, 2).value or "").strip()
-            for want in ("Squads priced by an archetype",
-                         "Squads with no archetype to price them",
-                         "Overhead roles in this portfolio", "Additional costs",
-                         "Total actual cost after decisions"):
-                if lab.startswith(want) and want not in foot:
-                    foot[want] = r
+            for c in range(2, 21):
+                lab = str(ws.cell(r, c).value or "").strip()
+                for want in ("Squads priced by an archetype",
+                             "Squads with no archetype to price them",
+                             "Overhead roles in this portfolio", "Additional costs",
+                             "Total actual cost after decisions"):
+                    if lab.startswith(want) and want not in foot:
+                        foot[want] = r
+                        lab_col = c
         if "Total actual cost after decisions" not in foot:
-            ctl.append((one, 0, "no footer total"))
+            ctl.append((one, 0, "no actuals-table total"))
             continue
         tr = foot.pop("Total actual cost after decisions")
-        for c in range(3, 30):
-            if isinstance(ws.cell(tr, c).value, (int, float)):
-                act_col = c
+        # the cost column, by the head the table gives it. The table also carries a roles
+        # count, and a roles count balances against its own total too - so a rule that took
+        # the last numeric cell on the row would pass while checking the wrong column.
+        for k in range(tr - 1, max(tr - 8, 0), -1):
+            hit = next((c for c in range((lab_col or 2), 21)
+                        if str(ws.cell(k, c).value or "").strip() == "Cost ($m)"), None)
+            if hit:
+                act_col = hit
+                break
         if act_col is None:
-            ctl.append((one, tr, "footer total has no figure"))
+            for c in range(3, 30):
+                if isinstance(ws.cell(tr, c).value, (int, float)):
+                    act_col = c
+        if act_col is None:
+            ctl.append((one, tr, "the actuals-table total has no figure"))
             continue
         total = ws.cell(tr, act_col).value
         parts = sum(ws.cell(r, act_col).value or 0 for r in foot.values()

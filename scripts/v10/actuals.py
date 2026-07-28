@@ -8,7 +8,9 @@ the moment a lever is pulled.
 Design A - inline. Two columns are appended to every squad table and every platform total
 row: the actual cost after decisions, and the variance to the archetype. You read the
 comparison on the row you are already reading. Nothing moves; K and L were empty on every
-squad table.
+squad table. The portfolio's own actuals-and-decisions table sits at the TOP of the tab,
+beside the Budget vs TDD Cost box and on the box's own rows - see top_block below for why it
+moved there from the foot of the tab and what changed about its shape.
 
 Design B - one comparison table. Every existing table is left exactly as it is, and one
 "Archetype against actual" table is added at the foot of each tab: every squad on the tab,
@@ -24,7 +26,7 @@ import json
 import re
 
 import openpyxl
-from openpyxl.styles import Alignment
+from openpyxl.styles import Alignment, Border, PatternFill
 from openpyxl.utils import get_column_letter as L
 
 import opts
@@ -324,7 +326,14 @@ def _line(ws, r, text, cols, arch, act, var, band=False):
 
 
 def _foot(ws, r, subs, unpriced, tab, anchor, cols, unpriced_names=()):
-    """The portfolio lines every design ends on. One label set, one order, one rule.
+    """Design B's portfolio lines, at the foot of its own one big table.
+
+    Design A no longer comes through here. Its block moved to the top of the tab and became
+    a fixed five-line table with a roles count - top_block below - because the owner asked
+    for both. This is left as design B's ending because in design B the lines genuinely are
+    the foot of the table above them, and B is not the design that ships.
+
+    One label set, one order, one rule.
 
     Order, on all ten tabs and never varied:
 
@@ -420,24 +429,199 @@ def _m(ws, r, c, f, fmt=None, bold=False):
     return x
 
 
-def portfolio_block(ws, blks, tab, anchor, cols):
-    """Design A states the portfolio comparison at the foot of the tab too, so both designs
-    answer the same question in the same words.
+# ------------------------------------------------- design A's portfolio block, up top
+# The owner, on the block this used to write at the foot of every 1.x tab: "table at bottom
+# of 1.x tabs needs to be up top. it's also not a clean table." Both halves are answered
+# here, and the second is the harder one.
+#
+# Up top. The block is written into the empty band beside the Budget vs TDD Cost box, on the
+# box's own rows, so the two read as a matched pair: same bar row, same header row, five
+# lines against the box's five. Nothing is inserted and nothing is moved. Dozens of absolute
+# references point into these tabs - 0.2 reads C9 and D9, the 2.x tabs read the design H
+# rows, 4.0 reads F9 - and one inserted row would break them silently, so this is a
+# relocation into cells that are proved empty first and never an insertion.
+#
+# A clean table. Three things were wrong with the old one. Its shape changed from tab to
+# tab, because a line was printed only when its own figure was not nil: 1.5 carried six
+# lines, 1.3 five, and no two tabs read alike. Its columns were mostly dashes - "Archetype
+# cost" and "Variance to archetype" held a figure on one line out of five and a literal "-"
+# on the rest. And it was a list of labels with figures beside them rather than a table:
+# no header row of its own worth the name, and a merge from B that ran under whatever the
+# tab happened to have in those columns.
+#
+# So: one navy header, plain-English heads, box borders on every cell, the house money
+# format, and the same five lines on all ten tabs. A category this portfolio does not have
+# now states a dash - a real zero the format renders as "-" - rather than vanishing.
+#
+# The archetype-against-actual comparison is not lost with those two columns. It is on every
+# squad row and every platform total in K and L, and at portfolio level on the Portfolio
+# Summary, where post2707 sets Total Cost, Actuals and the variance between them side by
+# side. What replaces them is the count of roles behind each line, read off the working
+# tab's own "Total roles" column - the fact the cost figure alone never gave a reader.
+LINES = ("Squads priced by an archetype",
+         "Squads with no archetype to price them",
+         "Overhead roles in this portfolio",
+         "Additional costs",
+         "Total actual cost after decisions")
+# K:L for the label, M the roles count, N the cost. K and L are the only two columns whose
+# width is the same on all ten tabs - the family profile sets them - and merged they are
+# wide enough for the longest line on one line. M and N take whatever width the tab already
+# gives them: both carry the owner's notes further down, and this file does not set widths.
+TOP_C0, TOP_LAB, TOP_ROLES, TOP_COST = 11, 12, 13, 14
+TOP_HEADS = ("What the cost covers", "Roles", "Cost ($m)")
+TOP_BAR = "Actual cost after decisions"
+TOP_ROWS = 2 + len(LINES)                       # the bar, the header, the five lines
+HDR_H = 34                        # the family's header depth, and what nine tabs already
+OLD_BAR = "Archetype against actual - this portfolio"
 
-    Its three figures sit in the same columns the squad tables above use, so a reader can
-    run an eye straight down the tab.
+
+def budget_anchor(ws, wsv, limit=13):
+    """The row the Budget vs TDD Cost bar sits on: 4 on nine tabs, 5 on 1.7.
+
+    Found by the label rather than by a row number, which is what carries 1.7's one-row
+    offset across without this file having to know 1.7 exists.
     """
-    ca, cb, cv = cols
-    r = (ws.max_row or 1) + 3
-    r = opts.bar(ws, r, 2, cv - 1, "Archetype against actual - this portfolio")
-    r = _head(ws, r, [(2, ca - 1, "Line"), (ca, ca, "Archetype cost ($m)")]
-              + [(c, c, None) for c in range(ca + 1, cb)]
-              + [(cb, cb, "Actual cost after decisions ($m)"),
-                 (cv, cv, "Variance to archetype ($m)")])
-    ref = [(f"${L(ca)}{b['total']}", f"${L(cb)}{b['total']}") for b in blks]
-    _foot(ws, r, [x for x, b in zip(ref, blks) if b["comparable"]],
-          [x for x, b in zip(ref, blks) if not b["comparable"]], tab, anchor, cols,
-          [n for b in blks if not b["comparable"] for n in b["names"]])
+    for r in range(1, limit):
+        for c in range(7, 13):
+            if str(wsv.cell(r, c).value or ws.cell(r, c).value or "").strip() == \
+                    "Budget vs TDD Cost":
+                return r
+    return None
+
+
+def band_free(ws, wsv, r0, rows, c0, c1):
+    """Everything this block would write on, that is not already empty.
+
+    Both workbooks are read: a cell can be empty of formula and still be carrying a cached
+    value, and a note of his read one way and not the other is still his note. Merges count
+    too - writing into half of one is how a table ends up with a cell that cannot be typed
+    in.
+    """
+    busy = []
+    for r in range(r0, r0 + rows):
+        for c in range(c0, c1 + 1):
+            if ws.cell(r, c).value is not None or wsv.cell(r, c).value is not None:
+                busy.append(f"{L(c)}{r}")
+    for m in ws.merged_cells.ranges:
+        if m.min_row <= r0 + rows - 1 and m.max_row >= r0 \
+                and m.min_col <= c1 and m.max_col >= c0:
+            busy.append(f"merge {m}")
+    return busy
+
+
+def clear_old_block(ws):
+    """Strip a bottom block left behind by an earlier run of this same script.
+
+    Nothing in chain2 writes one - it was only ever this file's own output - so on a clean
+    build there is nothing here to find. It matters when actuals runs over a workbook that
+    already carries one, which is what happens the moment anyone re-runs chainA2 on its own
+    output, and it is what makes "the table is up top" true rather than "the table is up top
+    as well".
+    """
+    top = next((r for r in range(1, ws.max_row + 1)
+                if str(ws.cell(r, 2).value or "").strip().startswith(OLD_BAR)), None)
+    if top is None:
+        return []
+    end = top
+    for r in range(top, min(ws.max_row, top + 12) + 1):
+        lab = str(ws.cell(r, 2).value or "").strip()
+        if lab.startswith(OLD_BAR) or lab == "Line" or any(lab.startswith(x) for x in LINES):
+            end = r
+    for m in [str(x) for x in ws.merged_cells.ranges
+              if top <= x.min_row and x.max_row <= end]:
+        ws.unmerge_cells(m)
+    for r in range(top, end + 1):
+        for c in range(2, LAST + 1):
+            x = ws.cell(r, c)
+            x.value, x.fill, x.border, x.font = None, PatternFill(), Border(), opts.BODY
+            x.number_format, x.alignment = "General", Alignment()
+        ws.row_dimensions[r].height = None
+    return [f"{ws.title}: the old block at the foot of the tab removed from rows "
+            f"{top}-{end} - values, labels, fills and borders"]
+
+
+def _sum_of(cells):
+    """The sum of named cells, or a real zero where there are none to name."""
+    return ("=" + "+".join(cells)) if cells else 0
+
+
+def top_block(ws, wsv, blks, tab, anchor, act, out):
+    """The actuals-and-decisions table, at the top of the tab beside the budget box."""
+    r0 = budget_anchor(ws, wsv)
+    if r0 is None:
+        out.append(f"  {ws.title}: NO ANCHOR - nothing on this tab is labelled 'Budget vs "
+                   f"TDD Cost', so the actuals table was not written")
+        return None
+    busy = band_free(ws, wsv, r0, TOP_ROWS, TOP_C0, TOP_COST)
+    if busy:
+        out.append(f"  {ws.title}: NOT UNIFORM - "
+                   f"{L(TOP_C0)}{r0}:{L(TOP_COST)}{r0 + TOP_ROWS - 1} is carrying "
+                   f"{', '.join(busy[:6])}, so the actuals table was not written here. "
+                   f"Nothing was overwritten.")
+        return None
+
+    A, F = L(anchor["cols"]["after"]), L(anchor["cols"]["roles"])
+    tot, oh, srow = anchor["total_row"], anchor["overhead_row"], anchor["srow"]
+    priced = [b for b in blks if b["comparable"]]
+    unpriced = [b for b in blks if not b["comparable"]]
+    absent = [n for b in blks for n in b["names"] if n not in srow]
+
+    r = opts.bar(ws, r0, TOP_C0, TOP_COST - TOP_C0 + 1, TOP_BAR)
+
+    hdr = r
+    ws.merge_cells(start_row=hdr, start_column=TOP_C0, end_row=hdr, end_column=TOP_LAB)
+    for c, t in zip((TOP_C0, TOP_ROLES, TOP_COST), TOP_HEADS):
+        ws.cell(hdr, c).value = t
+    for c in range(TOP_C0, TOP_COST + 1):
+        y = ws.cell(hdr, c)
+        y.fill, y.font, y.border, y.alignment = (opts.fl(opts.NAVY), opts.HDRF, opts.BOX,
+                                                 opts.CEN)
+    # one fixed depth, so the ten tabs are the same table. 1.7's row is 28.5 where the
+    # others are already 34; raising a row can clip nothing, lowering one can.
+    ws.row_dimensions[hdr].height = max(ws.row_dimensions[hdr].height or 0, HDR_H)
+
+    at = {name: hdr + 1 + i for i, name in enumerate(LINES)}
+    r1, r2, r3, r4, r5 = (at[n] for n in LINES)
+    K, M = L(TOP_COST), L(TOP_ROLES)
+    cost = {
+        # the platform totals this tab already carries, named one by one rather than as a
+        # range: the blocks are not contiguous and a range would sweep up what sits between
+        r1: _sum_of([f"N(${L(act)}{b['total']})" for b in priced]),
+        r2: _sum_of([f"N(${L(act)}{b['total']})" for b in unpriced]),
+        r3: f"=N('{tab}'!${A}${oh})" if oh else 0,
+        # what the working tab carries that has no squad row on this one - a one-person
+        # programme, a Leadership group - as the total less the three lines above it, so
+        # the block adds to its own total by construction and qa1x's control reads zero
+        r4: f"=ROUND(N('{tab}'!${A}${tot})-${K}${r1}-${K}${r2}-${K}${r3},6)",
+        r5: f"='{tab}'!${A}${tot}",
+    }
+    roles = {
+        r1: _sum_of([f"N('{tab}'!${F}${srow[n]})"
+                     for b in priced for n in b["names"] if n in srow]),
+        r2: _sum_of([f"N('{tab}'!${F}${srow[n]})"
+                     for b in unpriced for n in b["names"] if n in srow]),
+        r3: f"=N('{tab}'!${F}${oh})" if oh else 0,
+        r4: f"=ROUND(N('{tab}'!${F}${tot})-${M}${r1}-${M}${r2}-${M}${r3},6)",
+        r5: f"=N('{tab}'!${F}${tot})",
+    }
+    for name, rr in at.items():
+        last = rr == r5
+        ws.merge_cells(start_row=rr, start_column=TOP_C0, end_row=rr, end_column=TOP_LAB)
+        ws.cell(rr, TOP_C0).value = name
+        _m(ws, rr, TOP_ROLES, roles[rr], fmt=opts.CT, bold=last)
+        _m(ws, rr, TOP_COST, cost[rr], bold=last)
+        for c in range(TOP_C0, TOP_COST + 1):
+            y = ws.cell(rr, c)
+            y.font = opts.BOLD if last else opts.BODY
+            y.border = opts.TOPR if last else opts.BOX
+            if last:
+                y.fill = opts.fl(opts.MID)
+        ws.cell(rr, TOP_C0).alignment = opts.LFT
+    if absent:
+        out.append(f"  {ws.title}: no working-tab row for {', '.join(sorted(set(absent)))} "
+                   f"- those squads are counted in the cost lines but not in the roles "
+                   f"count")
+    return r0
 
 
 COE_NOTE = ("These are centres of excellence, funded by allocation rather than priced by an "
@@ -529,8 +713,11 @@ def run(src, dst, variant="A", anchors="anchors_final.json"):
                   for b in blks for s_ in b["squads"]}
         if variant == "A":
             act, var, moved = design_a(ws, wsv, blks, tab, lo, hi, after)
-            portfolio_block(ws, blks, tab, anchor, (ARCH, act, var))
-            where = f"in {L(act)} and {L(var)}"
+            out += clear_old_block(ws)
+            r0 = top_block(ws, wsv, blks, tab, anchor, act, out)
+            where = f"in {L(act)} and {L(var)}, the actuals table at " \
+                    f"{L(TOP_C0)}{r0}:{L(TOP_COST)}{r0 + TOP_ROWS - 1}" if r0 \
+                else f"in {L(act)} and {L(var)}, NO actuals table"
             out += [f"  {one}: {m}" for m in moved]
             if (act, var) != HOME:
                 out.append(f"  {one}: NOT UNIFORM - {L(HOME[0])} and {L(HOME[1])} are "

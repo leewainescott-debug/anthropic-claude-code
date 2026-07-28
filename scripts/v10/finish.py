@@ -18,6 +18,11 @@ survived earlier passes because a test was subtly wrong rather than absent:
   fifteen sentences were sitting in data cells, one of them the only Cambria cell in the
   workbook, and one of them a 122-character section label I had written myself
 
+0.3 Squad Archetypes is exempt from the two sweeps here that would otherwise reach it - the
+orphan-cream strip and the Calibri sweep. It is the owner's cost library, a source tab like
+0.1 and 0.4 rather than a built one, and the whole chain now leaves it alone; regress2707
+proves it cell-for-cell against rev.xlsx.
+
 The sentence sweep is the most destructive thing in this file and it had no idea whose
 sentences it was clearing. Ten of them were the owner's: his two open questions on 1.8,
 his notes on 1.11, 1.12 and 1.13, his two on 1.2. It now reads rev.xlsx first and will not
@@ -37,6 +42,13 @@ import opts
 NONE_FILL = PatternFill()
 NO_BORDER = Border()
 HIDE = ["0.1 Budget Table (Fin)", "0.4 Presentation Pack"]
+# The owner's source tabs, exempt from the presentation sweeps below. 0.1 and 0.4 were
+# already exempt in practice - they are hidden by the time those sweeps run, and both skip
+# hidden tabs. 0.3 Squad Archetypes is a source tab too, his archetype price table, but it
+# ships visible, so it has to be named. no_red stays workbook-wide and still reaches it:
+# the shipped workbook is gated on there being no [Red] format anywhere, and 0.3 carries
+# none, so that sweep is a no-op on his tab rather than an exception to it.
+SOURCE = {"0.1 Budget Table (Fin)", "0.4 Presentation Pack", "0.3 Squad Archetypes"}
 REVIEW = "REVIEW - Complete Role Mapping"
 
 # sentences sitting in a data cell. Cleared, not reworded: the fact each one carried is
@@ -272,7 +284,7 @@ def empty_inputs(wb):
     """Cream on an empty cell reads as a box waiting for a number that nothing wants."""
     n = 0
     for ws in wb.worksheets:
-        if ws.sheet_state != "visible":
+        if ws.sheet_state != "visible" or ws.title in SOURCE:
             continue
         for row in ws.iter_rows():
             for c in row:
@@ -292,7 +304,7 @@ def review_font(wb):
     notes in its spare column, and four empty cells that had kept the theme default."""
     n = 0
     for ws in wb.worksheets:
-        if ws.sheet_state != "visible":
+        if ws.sheet_state != "visible" or ws.title in SOURCE:
             continue
         for row in ws.iter_rows():
             for c in row:

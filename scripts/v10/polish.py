@@ -23,6 +23,14 @@ of them was raised by a reviewer looking at the rendered tabs rather than at the
   review workbook, from an older cut - and nothing turned it back on either, because the
   visibility rule only ever named tabs to hide. It now states the whole set, his: the two
   raw pastes and Lists hidden, everything else visible.
+
+One tab is not in scope here at all. 0.3 Squad Archetypes is the owner's cost library - the
+archetype price table every 1.x tab INDEX/MATCHes into - and he asked, in as many words, why
+the chain had changed it. It is a source tab like 0.1 and 0.4, not a built one, so this file
+now leaves it exactly as it arrives: no title, no gutter width, no measured column profile,
+no print fit. The only two sweeps that still reach it are the [Red] number-format strip and
+the en-dash strip, because the workbook is gated on both being zero everywhere; both are
+no-ops on his tab as it stands today.
 """
 import re
 
@@ -67,8 +75,10 @@ GREY, DESIGN, WORK, SUMM, EVID = ("FF808080", "FF1F4E79", "FFBF8F00", "FF002F6C"
 # on, and the summary the whole workbook builds to would have shipped invisible.
 HIDE = ["0.1 Budget Table (Fin)", "0.4 Presentation Pack", "Lists"]
 # the owner's own source tabs. Their palette is whatever Finance and the deck arrived in,
-# and repainting evidence is not tidying.
-SOURCE = {"0.1 Budget Table (Fin)", "0.4 Presentation Pack"}
+# and repainting evidence is not tidying. 0.3 Squad Archetypes belongs here too: it is his
+# cost library, the price table the 1.x tabs look up, and it is his to lay out. It differs
+# from the other two only in shipping visible, which changes nothing about who owns it.
+SOURCE = {"0.1 Budget Table (Fin)", "0.4 Presentation Pack", "0.3 Squad Archetypes"}
 RETIRED = set()          # the retired sources are deleted, not skipped
 DIVIDER = re.compile(r"^- .* -$")
 
@@ -214,20 +224,6 @@ def no_judgement_colour(wb):
             f"{nb} cyan note-block cells restyled to the standard grey"]
 
 
-TITLES = {"0.3 Squad Archetypes": "Squad Archetypes - the cost library"}
-
-
-def titles(wb):
-    """A tab a reader can open should say what it is."""
-    n = 0
-    for tab, t in TITLES.items():
-        if tab in wb.sheetnames and not wb[tab].cell(2, 2).value:
-            x = wb[tab].cell(2, 2)
-            x.value, x.font = t, opts.TITLE
-            n += 1
-    return [f"{n} tabs given a title"]
-
-
 def strays(wb):
     """0.2's row keyed 'EG' used to be cleared here as a broken duplicate of the EGI row
     below it. That ruling belonged to an earlier generation. It is in his newest file, he
@@ -254,18 +250,21 @@ def en_dash(wb):
 
 
 def gutters_and_grid(wb):
+    """The house gutter, on the tabs this build lays out.
+
+    There is no longer a special case for 0.3. Its column A is the live lookup Key the 1.x
+    MATCH formulas read, and this file used to widen it to 32 so it could not be mistaken
+    for a gutter - but a width set here is still a width the owner did not choose, on a tab
+    he did not ask anyone to lay out. 0.3 is a source tab now, so his own column A width
+    survives untouched and the override is gone rather than merely skipped.
+    """
     n = 0
     for ws in live(wb):
         ws.sheet_view.showGridLines = False
-        # 0.3's column A is the live lookup Key the 1.x MATCH formulas read - a 2-wide
-        # gutter there hides a working column, which is how unlabelled-live-column
-        # findings get written
-        if ws.title == "0.3 Squad Archetypes":
-            ws.column_dimensions["A"].width = 32
-        elif ws.title != "REVIEW - Complete Role Mapping":
+        if ws.title != "REVIEW - Complete Role Mapping":
             ws.column_dimensions["A"].width = 2
         n += 1
-    return [f"gridlines off and a 2-wide gutter on {n} tabs (0.3 keeps its Key column)"]
+    return [f"gridlines off and a 2-wide gutter on {n} tabs"]
 
 
 def freeze(wb):
@@ -309,8 +308,9 @@ def build_notes(wb):
 # Two tables share these columns - a summary block whose column C counts roles, and a
 # roles list whose column C holds a position title - so a width that suits one clips the
 # other. Measured from the content of both, which is the only thing that fits both.
-MEASURED = ("1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles", "0.2 Data Config",
-            "0.3 Squad Archetypes")
+# 0.3 is not in this list. It was, and it is the reason his lookup table came back with a
+# different column profile from the one he set.
+MEASURED = ("1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles", "0.2 Data Config")
 CAP = {"B": 46, "C": 38, "D": 24}
 
 
@@ -478,10 +478,11 @@ def bars_and_headers(wb, vals):
     return [f"{nh} header rows wrapped and re-widthed on the COE and input tabs"]
 
 
-# A summary a GM prints must not put its total row on page two.
+# A summary a GM prints must not put its total row on page two. 0.3 is not listed: print
+# setup runs over live(), which now excludes it along with the other two source tabs, so
+# naming it here would only be a line that never fires. Its page setup is his.
 ONE_PAGE = {"Exec Summary", "3.1 Group Summary", "3.2 Total Cost", "3.4 COE Summary",
-            "3.5 Source Reconciliation", "4.0 Data QA", "0.2 Data Config",
-            "0.3 Squad Archetypes"}
+            "3.5 Source Reconciliation", "4.0 Data QA", "0.2 Data Config"}
 
 
 def print_setup(wb):
@@ -502,7 +503,7 @@ def run(src, dst, ledger=None):
     if ledger:
         lw = openpyxl.load_workbook(ledger, data_only=True)
         vals = {t: lw[t] for t in lw.sheetnames if t in wb.sheetnames}
-    out = (drop_dead(wb) + retitle(wb) + order_and_colour(wb) + titles(wb) + no_red_formats(wb)
+    out = (drop_dead(wb) + retitle(wb) + order_and_colour(wb) + no_red_formats(wb)
            + no_judgement_colour(wb) + strays(wb) + en_dash(wb)
            + gutters_and_grid(wb) + bars_and_headers(wb, vals) + widen_bars(wb)
            + lone_headers(wb) + build_notes(wb)

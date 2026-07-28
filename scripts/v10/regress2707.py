@@ -4,6 +4,7 @@ wave (instruction audit, design review, adversarial QA), asserted dead on the ca
 Run against the injected candidate: python3 regress2707.py cand_A.xlsx
 Exit code 0 only when every check passes. Each line reports PASS/FAIL and the fact.
 """
+import os
 import re
 import sys
 import zipfile
@@ -11,11 +12,94 @@ import zipfile
 import openpyxl
 
 REVIEW = "REVIEW - Complete Role Mapping"
+ARCH = "0.3 Squad Archetypes"
+REV = "rev.xlsx"
 OUT = []
 
 
 def check(name, ok, detail=""):
     OUT.append((bool(ok), f"{'PASS' if ok else 'FAIL'}  {name}" + (f" - {detail}" if detail else "")))
+
+
+# ---------------------------------------------------------------- 0.3 is his, untouched
+def _fill_of(c):
+    """The cell's fill as a comparable string, '' for no fill."""
+    try:
+        if not (c.fill and c.fill.patternType):
+            return ""
+        s = c.fill.start_color
+        return f"{s.type}:{s.rgb or s.theme or s.indexed}:{s.tint or 0}"
+    except Exception:                                       # noqa: BLE001
+        return "?"
+
+
+def _col_w(ws, k):
+    """The width column k actually renders at, falling back to the sheet's own default."""
+    if k in ws.column_dimensions and ws.column_dimensions[k].width:
+        return float(ws.column_dimensions[k].width)
+    return float(ws.sheet_format.defaultColWidth or 8.43)
+
+
+def _row_h(ws, r):
+    """The height row r has been given of its own, or None where it takes the default.
+
+    Read through the sheet's own default on purpose. LibreOffice recalculates the workbook
+    mid-chain (chain2.sh, w1 -> w1r) and that conversion writes an explicit height on every
+    row while moving the sheet default from 14.5 to 14.25. A row that inherited the default
+    still inherits it - the engine has only spelled it out - so the question worth asking is
+    whether a row was given a height of its own, and whether that height matches his.
+    """
+    h = ws.row_dimensions[r].height if r in ws.row_dimensions else None
+    if not h:
+        return None
+    default = float(ws.sheet_format.defaultRowHeight or 0) or None
+    if default and abs(float(h) - default) < 0.05:
+        return None
+    return float(h)
+
+
+def archetypes_parity(path, rev=REV):
+    """0.3 in the candidate against 0.3 in the owner's workbook, cell for cell.
+
+    The tab arrives from rev.xlsx through assemble_base and no step is allowed to lay it
+    out, so this is an equality, not a tolerance. What is compared: every value, every
+    fill, every column width and every row height over the used range of both copies.
+
+    Two things are deliberately not compared, because the chain does not cause them and
+    cannot fix them. Alignment: the LibreOffice recalc writes the defaults out explicitly
+    (None becomes 'general'/'bottom'), which is the same rendering spelled differently.
+    Width to the last decimal: the same recalc rounds 28.26953125 to 28.27, so widths match
+    to 0.05 rather than to the bit.
+    """
+    if not os.path.exists(rev):
+        near = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            os.path.basename(rev))
+        rev = near if os.path.exists(near) else rev
+    if not os.path.exists(rev):
+        return [f"cannot read {rev} - the parity check needs the owner's own workbook"]
+    a = openpyxl.load_workbook(rev)[ARCH]
+    b = openpyxl.load_workbook(path)[ARCH]
+    bad = []
+    rows = max(a.max_row, b.max_row)
+    cols = max(a.max_column, b.max_column)
+    for r in range(1, rows + 1):
+        for c in range(1, cols + 1):
+            x, y = a.cell(r, c), b.cell(r, c)
+            if x.value != y.value:
+                bad.append(f"value {x.coordinate}: {x.value!r} -> {y.value!r}")
+            if _fill_of(x) != _fill_of(y):
+                bad.append(f"fill {x.coordinate}: {_fill_of(x)!r} -> {_fill_of(y)!r}")
+    for i in range(1, cols + 1):
+        k = openpyxl.utils.get_column_letter(i)
+        if abs(_col_w(a, k) - _col_w(b, k)) > 0.05:
+            bad.append(f"width {k}: {_col_w(a, k)} -> {_col_w(b, k)}")
+    for r in range(1, rows + 1):
+        u, v = _row_h(a, r), _row_h(b, r)
+        if u is None and v is None:
+            continue
+        if u is None or v is None or abs(u - v) > 0.05:
+            bad.append(f"height row {r}: {u or 'default'} -> {v or 'default'}")
+    return bad
 
 
 def run(path):
@@ -227,6 +311,11 @@ def run(path):
     check("1.6 K/L carry the Actual/Variance pair",
           "ctual" in str(w6["K25"].value or "") or "ctual" in str(w6["K24"].value or "")
           or any("ctual" in str(w6.cell(r, 11).value or "") for r in range(20, 30)))
+
+    # ---- 0.3 is the owner's cost library, and the chain does not lay it out
+    par = archetypes_parity(path)
+    check(f"{ARCH} matches rev.xlsx cell-for-cell (values, fills, widths, heights)",
+          not par, f"{len(par)} differences: " + "; ".join(par[:4]) if par else "")
 
     # ---- 4.0 all zero
     v40 = wv["4.0 Data QA"]
