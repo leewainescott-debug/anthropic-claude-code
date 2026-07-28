@@ -186,7 +186,7 @@ def build_31(wb, anchors):
         for i, k in enumerate(("roles", "filled", "vacant", "rafter")):
             f2._m(ws, rw, 8 + i, f"='{tab}'!${L(S[k])}${src}", opts.CT)
 
-    def sub(rw, text, r0, r1, blank=(), rows=None):
+    def sub(rw, text, r0, r1, blank=(), rows=None, priced_only=False):
         opts.row(ws, rw, 2, [text] + [None] * (len(H31) - 1), [None] * len(H31),
                  bg=opts.GREY, bold=True)
         ws.cell(rw, 2).alignment = opts.LFT
@@ -201,12 +201,25 @@ def build_31(wb, anchors):
                 x.value = '="-"'
             elif c == 6:
                 x.value = f'=IF(ISNUMBER($D{rw}),ROUND($E{rw}-$D{rw},6),"-")'
+            elif c == 4 and priced_only:
+                # a portfolio can sit in this section before its squad is priced - 1.14
+                # TDD Cyber ships with its archetype unset - so the total covers the
+                # priced members and the unpriced line waits with a dash. SUM skips text.
+                x.value = f'=IF(COUNT($D{r0}:$D{r1})=0,"-",SUM($D{r0}:$D{r1}))'
             elif c == 4:
                 # the archetype side is a total only if every row under it has a figure.
                 # SUM over a block of dashes is 0, which would put a whole step's actual
                 # against an archetype of nothing and call the difference overspend.
                 cells = ",".join(f"$D{k}" for k in pick)
                 x.value = f'=IF(COUNT({cells})={len(pick)},SUM({cells}),"-")'
+            elif priced_only:
+                # both sides of the comparison cover the same members: a line whose
+                # archetype is not a number stays out of the actual and the counts too,
+                # and joins every column at once the moment it is priced. Same mechanism
+                # split() uses. If an unpriced portfolio ever carries real roles, the
+                # ledger ties on 4.0 go loudly non-zero rather than absorbing it.
+                x.value = (f"=SUMPRODUCT(--ISNUMBER($D{r0}:$D{r1}),"
+                           f"{L(c)}{r0}:{L(c)}{r1})")
             else:
                 x.value = "=" + "+".join(f"N({L(c)}{k})" for k in pick)
             x.number_format, x.alignment = NUM[c], opts.RGT
@@ -251,7 +264,7 @@ def build_31(wb, anchors):
         line(r, pf, pf, tab, a["delivery_row"],
              f"='{tab}'!${L(S['acost'])}${a['delivery_row']}")
         r += 1
-    sub(r, "Squads priced by an archetype", st, r - 1)
+    sub(r, "Squads priced by an archetype", st, r - 1, priced_only=True)
     s1 = r
     r += 1
 

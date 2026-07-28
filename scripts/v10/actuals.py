@@ -84,8 +84,12 @@ def blocks(ws, wsv, limit=95):
             # a squad row carries a squad type. Testing for a cost instead skipped the
             # EGI P&C row on 1.5, whose funded input the owner has not set yet, and pushed
             # its 0.24 into the residual line as though the squad had no row at all.
+            # A squad whose type the owner has not set yet - 1.14's Cyber Uplift ships
+            # with cream inputs empty - still has the archetype formula in H, and that is
+            # what makes it a squad row rather than a stray note.
             if v and v != "Platform Overhead" and \
-                    str(wsv.cell(k, 3).value or "").strip():
+                    (str(wsv.cell(k, 3).value or "").strip()
+                     or str(ws.cell(k, 8).value or "").startswith("=")):
                 squads.append(k)
             k += 1
         if squads and total:

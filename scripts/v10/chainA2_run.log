@@ -1,36 +1,38 @@
-   1.1 Ampol Retail: 6 platform blocks, 9 squads, actual against archetype from 2.1 Ampol Retail, in K and L
-   1.2 Customer: 4 platform blocks, 8 squads, actual against archetype from 2.2 Customer, in K and L
+   1.1 Ampol Retail: 6 platform blocks, 9 squads, actual against archetype from 2.1 Ampol Retail, in K and L, the actuals table at K4:N10
+   1.2 Customer: 4 platform blocks, 8 squads, actual against archetype from 2.2 Customer, in K and L, the actuals table at K4:N10
      1.3 Enterprise Data: note on row 27 moved K -> M, past the new columns
-   1.3 Enterprise Data: 1 platform blocks, 3 squads, actual against archetype from 2.3 Enterprise Data, in K and L
-   1.4 TDD Group Functions: 2 platform blocks, 5 squads, actual against archetype from 2.4 TDD Group Functions, in K and L
-   1.5 P&C: 2 platform blocks, 3 squads, actual against archetype from 2.5 P&C, in K and L
-   1.6 Finance: 2 platform blocks, 3 squads, actual against archetype from 2.6 Finance, in K and L
+   1.3 Enterprise Data: 1 platform blocks, 3 squads, actual against archetype from 2.3 Enterprise Data, in K and L, the actuals table at K4:N10
+   1.4 TDD Group Functions: 2 platform blocks, 5 squads, actual against archetype from 2.4 TDD Group Functions, in K and L, the actuals table at K4:N10
+   1.5 P&C: 2 platform blocks, 3 squads, actual against archetype from 2.5 P&C, in K and L, the actuals table at K4:N10
+   1.6 Finance: 2 platform blocks, 3 squads, actual against archetype from 2.6 Finance, in K and L, the actuals table at K4:N10
      1.7 Infrastructure: note on row 26 moved K -> M, past the new columns
      1.7 Infrastructure: note on row 39 moved K -> M, past the new columns
-   1.7 Infrastructure: 3 platform blocks, 4 squads, actual against archetype from 2.7 Infrastructure, in K and L
+   1.7 Infrastructure: 3 platform blocks, 4 squads, actual against archetype from 2.7 Infrastructure, in K and L, the actuals table at K5:N11
      1.8 Energy Solutions & B2B: note on row 35 moved K -> M, past the new columns
-   1.8 Energy Solutions & B2B: 2 platform blocks, 3 squads, actual against archetype from 2.8 Energy Solutions & B2B, in K and L
+   1.8 Energy Solutions & B2B: 2 platform blocks, 3 squads, actual against archetype from 2.8 Energy Solutions & B2B, in K and L, the actuals table at K4:N10
      1.9 Commercial Fuels: note on row 26 moved K -> M, past the new columns
      1.9 Commercial Fuels: note on row 27 moved K -> M, past the new columns
      1.9 Commercial Fuels: note on row 39 moved K -> M, past the new columns
      1.9 Commercial Fuels: note on row 40 moved K -> M, past the new columns
      1.9 Commercial Fuels: note on row 41 moved K -> M, past the new columns
-   1.9 Commercial Fuels: 3 platform blocks, 4 squads, actual against archetype from 2.9 Commercial Fuels, in K and L
+   1.9 Commercial Fuels: 3 platform blocks, 4 squads, actual against archetype from 2.9 Commercial Fuels, in K and L, the actuals table at K4:N10
      1.10 Z Retail: note on row 39 moved K -> M, past the new columns
-   1.10 Z Retail: 3 platform blocks, 4 squads, actual against archetype from 2.10 Z Retail, in K and L
+   1.10 Z Retail: 3 platform blocks, 4 squads, actual against archetype from 2.10 Z Retail, in K and L, the actuals table at K4:N10
+   1.14 TDD Cyber: no platform block with a squad in it
    1.11 BP&T: the basis note already on row 9 is kept - the generic note is not written
    1.12 SA&D: the basis note already on row 9 is kept - the generic note is not written
    1.13 Cyber Roles: note on row 9 - no archetype prices a COE
-   1.1 Ampol Retail: Actuals column on the summary (G9 <- K79), variance line placed
-   1.2 Customer: Actuals column on the summary (G9 <- K67), variance line placed
-   1.3 Enterprise Data: Actuals column on the summary (G9 <- K45), variance line placed
-   1.4 TDD Group Functions: Actuals column on the summary (G9 <- K41), variance line placed
-   1.5 P&C: Actuals column on the summary (G9 <- K44), variance line placed
-   1.6 Finance: Actuals column on the summary (G9 <- K44), variance line placed
-   1.7 Infrastructure: Actuals column on the summary (G10 <- K52), variance line placed
-   1.8 Energy Solutions & B2B: Actuals column on the summary (G9 <- K47), variance line placed
-   1.9 Commercial Fuels: Actuals column on the summary (G9 <- K51), variance line placed
-   1.10 Z Retail: Actuals column on the summary (G9 <- K48), variance line placed
+   1.1 Ampol Retail: Actuals column on the summary (G9 <- N10), variance line placed
+   1.2 Customer: Actuals column on the summary (G9 <- N10), variance line placed
+   1.3 Enterprise Data: Actuals column on the summary (G9 <- N10), variance line placed
+   1.4 TDD Group Functions: Actuals column on the summary (G9 <- N10), variance line placed
+   1.5 P&C: Actuals column on the summary (G9 <- N10), variance line placed
+   1.6 Finance: Actuals column on the summary (G9 <- N10), variance line placed
+   1.7 Infrastructure: Actuals column on the summary (G10 <- N11), variance line placed
+   1.8 Energy Solutions & B2B: Actuals column on the summary (G9 <- N10), variance line placed
+   1.9 Commercial Fuels: Actuals column on the summary (G9 <- N10), variance line placed
+   1.10 Z Retail: Actuals column on the summary (G9 <- N10), variance line placed
+   1.14 TDD Cyber: no actuals block total - skipped
    2.12 COE BP&T: 2 levers set from 1.11 BP&T (2 states on the tab)
    2.13 COE SA&D: 3 levers set from 1.12 SA&D (3 states on the tab)
    2.11 COE Cyber: 5 levers set from 1.13 Cyber Roles (5 states on the tab)
@@ -45,18 +47,18 @@
    0 theme-filled bar cells on the 1.x tabs given the explicit FF002F6C they were meant to have - they were rendering black
    orange budget blocks: 0 label cells returned to plain, 0 typed inputs painted cream
    Notes headers already sit in their header row
-   Portfolio Summary bar made one uniform strip on 10 tabs
-   budget-box bar squared to its two columns on 10 tabs
-   Other funding bar squared to its table: 1.1 Ampol Retail!H12:K12, 1.2 Customer!H12:L12, 1.3 Enterprise Data!H12:J12, 1.4 TDD Group Functions!H11:J11, 1.5 P&C!H11:L11, 1.6 Finance!H12:K12, 1.7 Infrastructure!H12:K12, 1.8 Energy Solutions & B2B!H11:L11, 1.9 Commercial Fuels!H11:L11, 1.10 Z Retail!H12:K12
-   28 platform bars run the full width of their squad table, unbroken
+   Portfolio Summary bar made one uniform strip on 11 tabs
+   budget-box bar squared to its two columns on 11 tabs
+   Other funding bar squared to its table: 1.1 Ampol Retail!H12:K12, 1.2 Customer!H12:L12, 1.3 Enterprise Data!H12:J12, 1.4 TDD Group Functions!H11:J11, 1.5 P&C!H11:L11, 1.6 Finance!H12:K12, 1.7 Infrastructure!H12:K12, 1.8 Energy Solutions & B2B!H11:L11, 1.9 Commercial Fuels!H11:L11, 1.10 Z Retail!H12:K12, 1.14 TDD Cyber!H13:J13
+   29 platform bars run the full width of their squad table, unbroken
    1.13!B10 bar spans B:C, the width of its own table
-   no footer header row on the 1.x tabs at this point in the chain - actuals.py adds it downstream, so its blank navy cells are not mine to clear here
+   the actuals table header rows are square - a label in every navy cell that is not part of the K:L merge, so there is nothing to clear
    no empty navy strips found
    no stray navy on a Funding position header
    no blank cell in a Portfolio Summary header row
    0 cells added to squad subtotal bands so each runs the full width of its table - column F (AU / NZ) was unfilled on every one of them
-   one column profile across 10 portfolio tabs: B=40.0, C=27.0, D=9.5, E=17.8, F=10.0, G=11.0, H=43.5, I=14.0, J=45.0, K=24.8, L=25.5
-   19 labels wrapped and given the row height their text needs (1.1 Ampol Retail!H5, 1.1 Ampol Retail!E10, 1.2 Customer!H5, 1.2 Customer!E10, 1.3 Enterprise Data!H5, 1.3 Enterprise Data!E10, 1.4 TDD Group Functions!H5, 1.4 TDD Group Functions!E10, ...)
+   one column profile across 11 portfolio tabs: B=40.0, C=27.0, D=9.5, E=17.8, F=10.0, G=11.0, H=43.5, I=14.0, J=45.0, K=24.8, L=25.5
+   20 labels wrapped and given the row height their text needs (1.1 Ampol Retail!H5, 1.1 Ampol Retail!E10, 1.2 Customer!H5, 1.2 Customer!E10, 1.3 Enterprise Data!H5, 1.3 Enterprise Data!E10, 1.4 TDD Group Functions!H5, 1.4 TDD Group Functions!E10, ...)
    18 Portfolio Summary cells moved off a bare 0.00 onto the family's bracketed money format
    allocation-column cells given the family's money format: none needed
    0 labels trimmed of trailing space: 
@@ -82,7 +84,8 @@
    nothing parked in the gutter column
    no orphan figures in the budget boxes
    no floating cream cells on the portfolio tabs
-   0.3 Squad Archetypes: title row is already single - nothing doubled
+   0.3 Squad Archetypes: left exactly as it arrives - it is the owner's cost library, a source tab like 0.1 and 0.4, and nothing in this pass touches it. regress2707 proves it cell-for-cell against rev.xlsx.
    80 cells declared in design2707_manifest.json
-  A injected {'cells': 15525, 'sheets': 44, 'verified': True}
-  A errors 0 blank 0
+  A injected {'cells': 15716, 'sheets': 46, 'verified': True}
+  A errors 1 blank 2
+     ('4.0 Data QA', 'E16', '#VALUE!', '=ROUND($C16-$D16,6)')
