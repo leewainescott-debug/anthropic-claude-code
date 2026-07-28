@@ -549,11 +549,18 @@ def _wipe(sheets, r, c0, c1):
             x.number_format, x.alignment = "General", Alignment()
 
 
-def _unmerge(ws, r0, r1, c0, c1):
-    for m in [str(x) for x in ws.merged_cells.ranges
-              if r0 <= x.min_row and x.max_row <= r1
-              and c0 <= x.min_col and x.max_col <= c1]:
-        ws.unmerge_cells(m)
+def _unmerge(sheets, r0, r1, c0, c1):
+    """Every merge wholly inside the rectangle, released on both workbooks.
+
+    Both again, and for a harder reason than _wipe's: openpyxl will not let a value be set
+    on a cell that a merge has swallowed, so a merge left in place on the cached-value
+    sheet stops that sheet being cleared at all.
+    """
+    for ws in sheets:
+        for m in [str(x) for x in ws.merged_cells.ranges
+                  if r0 <= x.min_row and x.max_row <= r1
+                  and c0 <= x.min_col and x.max_col <= c1]:
+            ws.unmerge_cells(m)
 
 
 def clear_old_block(ws, wsv):
@@ -585,7 +592,7 @@ def clear_old_block(ws, wsv):
             if lab.startswith(OLD_BAR) or lab == "Line" \
                     or any(lab.startswith(x) for x in OLD_LINES):
                 end = r
-        _unmerge(ws, top, end, 1, ws.max_column + 1)
+        _unmerge(sheets, top, end, 1, ws.max_column + 1)
         for r in range(top, end + 1):
             _wipe(sheets, r, 2, LAST)
             ws.row_dimensions[r].height = None
@@ -605,7 +612,7 @@ def clear_old_block(ws, wsv):
     for r in range(r0 + 1, min(ws.max_row, r0 + 2 + len(OLD_LINES)) + 1):
         if str(ws.cell(r, c0).value or "").strip() in labels:
             end = r
-    _unmerge(ws, r0, end, c0, c1)
+    _unmerge(sheets, r0, end, c0, c1)
     for r in range(r0, end + 1):
         _wipe(sheets, r, c0, c1)
     out.append(f"{ws.title}: the block already up top removed from "
