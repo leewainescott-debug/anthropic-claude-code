@@ -5,7 +5,17 @@ Companion file: `docs/DECISIONS.md` (what was decided and why).
 The original 101-item brief is `docs/INSTRUCTION_REGISTER.md` and still stands except
 where superseded below.
 
-Last updated: after wave G, the owner's post-ship round. New in this cut: 0.3 Squad
+Last updated: after wave H. Hybrid now prices 2 roles onshore + the rest offshore,
+settable at 0.3!K8; every 1.x tab carries his "Actuals vs archetype" table (Actual /
+Archetype / Variance, roles + cost); 3.2 tells the applied-vs-organisation story with
+both gaps per overhead line; the Exec vacancy block is a true partition (134 hire +
+2 offshore + 8 hold + 1 fill-as-is = 145, the offshored filled role stated separately).
+The triple people-check (three Opus agents, three methods) verified 531/531 placement
+from raw columns, re-evaluated all 15,682 formulas to their cached values, and roster-
+diffed every person: 0 missing, 0 duplicated, 0 misplaced. Gate 102/102, every pass
+zero. Data flags awaiting the owner's ruling are in DECISIONS D107.
+
+Previous update - wave G, the owner's post-ship round. New in this cut: 0.3 Squad
 Archetypes restored to exactly his file and locked as a source tab; the 1.x actuals
 table relocated up top beside the budget box as one clean fixed-shape table; 3.2
 stating the BP/DA role counts in the COEs in words plus one counted-once row
