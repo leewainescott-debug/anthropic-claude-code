@@ -237,11 +237,22 @@ def check_family_consistency(wf):
             out.append(("2.x column widths differ", ", ".join(tabs), str(k[:4])))
     # 2.x: same formula skeleton on the first squad row
     ARCH = {f"2.{i} " for i in range(1, 11)} | {"2.15 "}
+
+    def empty_shell(ws):
+        # a working tab whose portfolio has no ledger roles yet is seeded from its design
+        # tab and says so on its face; its squad row legitimately reads different sources
+        # until roles arrive, so its formula shape is not the family's to compare
+        return any(isinstance(c.value, str)
+                   and c.value.startswith("No roles in the ledger carry")
+                   for row in ws.iter_rows(max_col=4) for c in row)
+
     for family in ("archetype", "coe"):
         sk = {}
         for sn in fam["2.x"]:
             is_arch = any(sn.startswith(p) for p in ARCH)
             if (family == "archetype") != is_arch:
+                continue
+            if empty_shell(wf[sn]):
                 continue
             ws = wf[sn]
             h = hdr_row(ws)

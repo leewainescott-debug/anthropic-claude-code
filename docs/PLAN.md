@@ -5,15 +5,20 @@ Companion file: `docs/DECISIONS.md` (what was decided and why).
 The original 101-item brief is `docs/INSTRUCTION_REGISTER.md` and still stands except
 where superseded below.
 
-Last updated: after the 2707 consolidation and its verification loop. The review
-workbook is the chain input, the new Customer dataset (83 roles, $16,522,075.33 exact)
-and six cyber vacancies are in the ledger, and his 2707 edits are adopted into the
-builders. Ledger: **531 roles, 529.3 FTE, $115,589,735.11**; after the decision set
-shipped live (8 holds, 3 offshores, the r431 QA vacancy set to fill): **523 roles,
-$113,777,703.16**, impact **-$1,812,031.95**. Verified by three independent Opus audits
-(instruction, design, adversarial recompute of all 30,958 cells), a four-builder fix
-wave, and eight scripted passes all reading zero - `regress2707.py` asserts every
-audit finding dead (70/70). Sections 6-7 below show the pre-consolidation 525-role
+Last updated: after wave G, the owner's post-ship round. New in this cut: 0.3 Squad
+Archetypes restored to exactly his file and locked as a source tab; the 1.x actuals
+table relocated up top beside the budget box as one clean fixed-shape table; 3.2
+stating the BP/DA role counts in the COEs in words plus one counted-once row
+(412 + 119 = 531) with a live control; and **1.14 TDD Cyber** - a real portfolio-style
+design tab (platform TDD Cyber, squad Cyber Uplift, cream inputs awaiting him) with a
+**2.15** working shell that fills itself as roles arrive, integrated through 3.1/3.3,
+4.0 and the tab order, outside the ten-portfolio allocation counts. Pricing the new
+platform moves the overhead allowance to **5.005** on 3.1 and 3.2 together.
+Ledger unchanged: **531 roles, 529.3 FTE, $115,589,735.11**; after the live decision
+set (8 holds, 3 offshores, the r431 QA vacancy set to fill): **523 roles,
+$113,777,703.16**, impact **-$1,812,031.95**. Wave G ran as one Opus investigator,
+five Opus builders and an integration pass; `regress2707.py` now asserts 89 checks and
+every scripted pass reads zero. Sections 6-7 below show the pre-consolidation 525-role
 tables and remain as history.
 
 ---

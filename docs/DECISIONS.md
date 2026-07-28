@@ -735,6 +735,44 @@ span and punched a hole through the header bar, so that one moves right of the t
 verbatim; K/L then carry the Actual/Variance pair like every other 1.x tab, retiring the
 P/Q exception.
 
+### D100. 1.14 TDD Cyber is a real portfolio tab, integrated end to end.
+His ask: a 1.x tab exactly like the portfolio family, one platform (TDD Cyber), one
+squad (Cyber Uplift). Built as 1.14 after the COE tabs, with a 2.15 working tab seeded
+from the design tab that fills itself the moment a ledger role carries the portfolio,
+3.1/3.3 lines, and 4.0 ties. It sits OUTSIDE the ten-portfolio list on Lists - the EGI
+precedent - because joining it would silently grant $0.7975m of Business Partner /
+Domain Architect / GM allowance for people who do not exist. The platform overhead IS
+priced (his "exactly the same" rule): the group platform count is 22 and the overhead
+allowance moves 4.84 to 5.005 on 3.1/3.2 together, controls at zero throughout. The
+portfolio overhead is NOT drawn, and the tab says why on its face. His 0.2 row 23 -
+"TDD Cyber incl. COE" - now reads both 1.13 and 1.14, which is what its own label says.
+The squad ships with cream inputs empty: it reads "check size" the family way, sits in
+3.1's archetype section with dashes, and prices itself into every total the moment he
+sets Squad Type and Size. The archetype subtotal on 3.1 covers priced members only,
+by the same ISNUMBER mechanism the directly-funded split already used, so an unpriced
+line cannot dash out a whole section's total.
+
+### D101. 0.3 Squad Archetypes is his source tab. The chain is locked out.
+He asked, in as many words, why the chain had changed his cost library. It is now a
+source tab like 0.1 and 0.4: no title, no width profile, no gutter, no print fit, no
+restyle of any kind, and regress2707 proves it cell-for-cell against rev.xlsx including
+widths and heights. The verify sweeps skip it for the same reason.
+
+### D102. The 1.x actuals table sits up top, and it is a table.
+His ask, verbatim: "table at bottom of 1.x tabs needs to be up top. it's also not a
+clean table." It now sits beside the budget box at K4:N10 (one row lower on 1.7),
+mirroring that box exactly: navy bar and header, label / Roles / Cost columns that
+each decompose to their own total, dash for zero, the same fixed five rows on every
+tab, box borders, zero row insertions anywhere. The old bottom block is gone. The
+Portfolio Summary's Actuals cell wires to the relocated total by label.
+
+### D103. 3.2 answers his three questions on its face.
+Business Partner and Domain Architect rows state their COE roles in words ("No - all 6
+of these roles sit in the COEs" / "all 7"), the opaque Yes/No column is a sentence
+derived from the same Lists cell that drives the maths, and one band states the whole
+model - 412 portfolio roles + 119 in the COEs and EGI = 531, each counted once - with
+a live control beside it that is the sum of three independent ledger counts.
+
 ### D96. The ledger's live filter is gone; one criteria-free filter spans the whole ledger.
 REVIEW shipped with an active AutoFilter - two criteria hiding 519 of 531 rows - whose
 range stopped at row 528 and column AH while the ledger runs to 534 and AX. One sort

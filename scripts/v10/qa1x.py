@@ -222,12 +222,33 @@ def scan(path, anchors="anchors_final.json"):
             if not note:
                 bad.append(f"{one}: a COE tab with no note saying why it has no comparison")
             continue
-        anchor = next((x for x in a.values() if x["tab"].split(" ", 1)[-1] ==
-                       one.split(" ", 1)[-1]), None)
+        # exact pairing first: the design->working map is the authority, and the suffix
+        # match alone paired 1.14 TDD Cyber with the anchors entry for 2.11, whose
+        # in-chain name was "2.11 TDD Cyber" before polish retitled it to COE Cyber
+        anchor = None
+        try:
+            import build_2xfix as _b2f
+            want = {v: k for k, v in _b2f.DESIGN.items()}.get(one)
+            if want:
+                anchor = next((x for x in a.values() if x["tab"] == want), None)
+        except ImportError:
+            pass
+        if anchor is None:
+            anchor = next((x for x in a.values() if x["tab"].split(" ", 1)[-1] ==
+                           one.split(" ", 1)[-1]), None)
         if anchor is None:
             bad.append(f"{one}: no working tab pairs with it")
             continue
         tab = live[anchor["pf"]]
+        # a design tab paired to an empty-shell working tab has nothing to tie yet -
+        # 1.14 ships before any ledger role carries its portfolio - and the shell says
+        # so on its own face. A stated fact, not a broken tie; every tie on this pair
+        # goes live the moment roles arrive and the shell line goes away.
+        shell = any(isinstance(c.value, str)
+                    and c.value.startswith("No roles in the ledger carry")
+                    for row in wb[tab].iter_rows(max_col=4) for c in row)
+        if shell:
+            continue
         lev = levered(wv, tab)
         valid = groups(wv, tab, anchor["first_squad"], anchor["total_row"])
         rows = named(wb, wv, one, valid, v)

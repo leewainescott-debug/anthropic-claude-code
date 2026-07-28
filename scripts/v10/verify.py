@@ -35,7 +35,10 @@ BANNED = ("design cost", "over/(under) design", "variance to design",
 BANNED_HEADER = ()
 RETIRED = {"Squads", "Added data", "Sheet2", "FY26 Budget (superseded)",
            "squad mapping (superseded)", "Lists", "0.1 Budget Table (Fin)",
-           "0.4 Presentation Pack"}
+           "0.4 Presentation Pack",
+           # the owner's cost library ships exactly as he laid it out - regress2707
+           # proves it against rev cell-for-cell - so his layout is not reviewable here
+           "0.3 Squad Archetypes"}
 
 
 def tabs2x(wb):

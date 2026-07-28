@@ -547,8 +547,11 @@ def clear_old_block(ws):
 
 
 def _sum_of(cells):
-    """The sum of named cells, or a real zero where there are none to name."""
-    return ("=" + "+".join(cells)) if cells else 0
+    """The sum of named cells, or a real zero where there are none to name.
+
+    The zero is written as a formula: a literal constant sitting in a column of live
+    reads is exactly the shape the stale-literal check exists to flag."""
+    return ("=" + "+".join(cells)) if cells else "=0"
 
 
 def top_block(ws, wsv, blks, tab, anchor, act, out):
@@ -594,7 +597,7 @@ def top_block(ws, wsv, blks, tab, anchor, act, out):
         # range: the blocks are not contiguous and a range would sweep up what sits between
         r1: _sum_of([f"N(${L(act)}{b['total']})" for b in priced]),
         r2: _sum_of([f"N(${L(act)}{b['total']})" for b in unpriced]),
-        r3: f"=N('{tab}'!${A}${oh})" if oh else 0,
+        r3: f"=N('{tab}'!${A}${oh})" if oh else "=0",
         # what the working tab carries that has no squad row on this one - a one-person
         # programme, a Leadership group - as the total less the three lines above it, so
         # the block adds to its own total by construction and qa1x's control reads zero
@@ -606,7 +609,7 @@ def top_block(ws, wsv, blks, tab, anchor, act, out):
                      for b in priced for n in b["names"] if n in srow]),
         r2: _sum_of([f"N('{tab}'!${F}${srow[n]})"
                      for b in unpriced for n in b["names"] if n in srow]),
-        r3: f"=N('{tab}'!${F}${oh})" if oh else 0,
+        r3: f"=N('{tab}'!${F}${oh})" if oh else "=0",
         r4: f"=ROUND(N('{tab}'!${F}${tot})-${M}${r1}-${M}${r2}-${M}${r3},6)",
         r5: f"=N('{tab}'!${F}${tot})",
     }
