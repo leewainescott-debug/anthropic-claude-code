@@ -230,7 +230,7 @@ def run(path):
           and abs(f13 - d_over) < 1e-6, f"3.1 {d_over} vs 3.2 {f13}")
     ah5 = wv["Lists"]["AH5"].value
     n_rows = 0
-    for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|[1-9]) ", x)]:
+    for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", x)]:
         for r in range(1, wb[t].max_row + 1):
             if str(wb[t].cell(r, 2).value or "").strip() == "Platform Overhead" \
                     and wv[t].cell(r, 9).value:
@@ -316,6 +316,64 @@ def run(path):
     par = archetypes_parity(path)
     check(f"{ARCH} matches rev.xlsx cell-for-cell (values, fills, widths, heights)",
           not par, f"{len(par)} differences: " + "; ".join(par[:4]) if par else "")
+
+    # ---- wave G: the owner's round - 1.14/2.15, the 3.2 redesign, the table up top
+    check("1.14 TDD Cyber exists", "1.14 TDD Cyber" in wb.sheetnames)
+    if "1.14 TDD Cyber" in wb.sheetnames:
+        w14, v14 = wb["1.14 TDD Cyber"], wv["1.14 TDD Cyber"]
+        names = wb.sheetnames
+        check("1.14 sits directly after 1.13",
+              names.index("1.14 TDD Cyber") == names.index("1.13 Cyber Roles") + 1)
+        check("1.14 platform overhead priced, F7 = 0.165",
+              abs((v14["F7"].value or 0) - 0.165) < 1e-9, str(v14["F7"].value))
+        check("1.14 Cyber Uplift awaits its inputs",
+              v14["H26"].value == "check size", repr(v14["H26"].value))
+        check("1.14 draws no portfolio overhead",
+              (v14["C6"].value or 0) == 0 and (v14["D6"].value or 0) == 0)
+        e14 = [c.coordinate for row in v14.iter_rows() for c in row
+               if isinstance(c.value, str) and c.value.startswith("#")]
+        check("1.14 carries no error cells", not e14, str(e14[:4]))
+    check("2.15 TDD Cyber exists", "2.15 TDD Cyber" in wb.sheetnames)
+    if "2.15 TDD Cyber" in wb.sheetnames:
+        w15, v15 = wb["2.15 TDD Cyber"], wv["2.15 TDD Cyber"]
+        ctl15 = [v15.cell(r, 3).value for r in range(1, w15.max_row + 1)
+                 if str(w15.cell(r, 2).value or "").startswith("Control -")]
+        check("2.15 controls read 0",
+              len(ctl15) == 2 and all(abs(x or 0) < 1e-9 for x in ctl15), str(ctl15))
+        hot15 = any(str(w15.cell(r, 2).value or "").strip() == "Head of Technology"
+                    for r in range(1, w15.max_row + 1))
+        check("2.15 draws no Head of Technology line", not hot15)
+        check("0.2!F23 includes the 1.14 spend",
+              "'1.14 TDD Cyber'" in str(wb["0.2 Data Config"]["F23"].value))
+    v32g = wv["3.2 Overhead & Leadership"]
+    w32g = wb["3.2 Overhead & Leadership"]
+    allrow = next((r for r in range(6, 30)
+                   if str(w32g.cell(r, 2).value or "").startswith("All roles in the model")),
+                  None)
+    check("3.2 all-roles row present", allrow is not None)
+    if allrow:
+        g_, j_, m_ = (v32g.cell(allrow, 7).value, v32g.cell(allrow, 10).value,
+                      v32g.cell(allrow, 13).value)
+        mc_ = v32g.cell(allrow + 1, 13).value
+        check("3.2 counts each role once (412 + 119 = 531)",
+              g_ == 412 and j_ == 119 and m_ == 531, f"{g_}+{j_}={m_}")
+        check("3.2 all-roles control reads 0", abs(mc_ or 0) < 1e-9, str(mc_))
+    check("3.2 BP row states its six COE roles", "all 6" in str(v32g["L7"].value or ""),
+          repr(str(v32g["L7"].value)[:52]))
+    check("3.2 DA row states its seven COE roles", "all 7" in str(v32g["L8"].value or ""),
+          repr(str(v32g["L8"].value)[:52]))
+    check("3.2!F13 = 5.005 with the 1.14 platform priced",
+          abs((v32g["F13"].value or 0) - 5.005) < 1e-6, str(v32g["F13"].value))
+    tops, bots = [], []
+    for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", x)]:
+        if not any(str(wb[t].cell(r, 11).value or "").startswith("Actual cost after decisions")
+                   for r in range(3, 8)):
+            tops.append(t)
+        for r in range(30, wb[t].max_row + 1):
+            if str(wb[t].cell(r, 2).value or "").startswith("Archetype against actual"):
+                bots.append(t)
+    check("the actuals table sits up top on every 1.x tab", not tops, str(tops))
+    check("no old bottom block remains on any 1.x tab", not bots, str(bots))
 
     # ---- 4.0 all zero
     v40 = wv["4.0 Data QA"]

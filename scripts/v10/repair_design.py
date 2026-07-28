@@ -75,7 +75,12 @@ FIX = {
                         ("F13", "='1.2 Customer'!C9", "='1.2 Customer'!$C$9"),
                         ("F14", "='1.2 Customer'!D9", "='1.2 Customer'!$D$9"),
                         ("F15", "='1.9 Commercial Fuels'!C9",
-                         "='1.9 Commercial Fuels'!$C$9")],
+                         "='1.9 Commercial Fuels'!$C$9"),
+                        # his row 23 is labelled "TDD Cyber incl. COE ..." - once the
+                        # 1.14 TDD Cyber tab exists its spend belongs on this row too,
+                        # or the row understates the thing its own label names
+                        ("F23", "='1.13 Cyber Roles'!$F$11",
+                         "='1.13 Cyber Roles'!$F$11+N('1.14 TDD Cyber'!$F$9)")],
     # 1.10's Data NZ platform draws no overhead - the owner's own note on the squad row,
     # 1.10!K39 "No Overhead required", says so, and his C7 already prices two platforms.
     # Only D7 still drags the dead I40 reference from before he removed the charge, so the

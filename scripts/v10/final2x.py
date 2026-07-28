@@ -137,14 +137,13 @@ def ledger(wv):
     return out
 
 
-# the three overhead lines the archetype draws inside a portfolio. The other three -
-# Business Partner, Domain Architect and the Leadership layer - are allowed for per
-# portfolio but their people sit in the COEs and above the ledger.
+# The overhead lines the archetype draws inside a portfolio, by the allowance that pays
+# for them. The other three - Business Partner, Domain Architect and the Leadership layer -
+# are allowed for per portfolio but their people sit in the COEs and above the ledger.
 #
-# Which of the three a tab carries is not a constant: it is which half of the design tab's
-# overhead the tab actually draws. The portfolio overhead buys the Head of Technology; the
+# Which of them a tab carries is not a constant: it is which half of the design tab's own
+# overhead that tab actually draws. The portfolio overhead buys the Head of Technology; the
 # per-platform overhead buys the Delivery Manager and the Technology Manager.
-IN_PF = ["Head of Technology", "Delivery Manager", "Technology Manager"]
 PF_LINES = ("Head of Technology",)
 PLAT_LINES = ("Delivery Manager", "Technology Manager")
 
@@ -287,6 +286,11 @@ def build(wb, wv, tab, rows, bounds, pf=None):
     ALLOW = (f"(N('{design}'!$F${oh_pf})+N('{design}'!$F${oh_plat}))"
              if oh_pf and oh_plat else '0')
     PLAT = f"N('{design}'!$F${oh_plat})/{CFG}!$N$16" if oh_plat else "0"
+    # the portfolio-overhead half, scaled the same way: a tab that draws no portfolio
+    # overhead (1.14 draws only the platform side) contributes no portfolio FTE allowance.
+    # For the ten funded portfolios the ratio is exactly 1, so their formulas are value-
+    # identical to the unscaled form.
+    PFR = f"N('{design}'!$F${oh_pf})/{CFG}!$N$10" if oh_pf else "0"
     want = set()
     if draws(wv, design, oh_pf):
         want |= set(PF_LINES)
@@ -462,8 +466,11 @@ def build(wb, wv, tab, rows, bounds, pf=None):
         else:
             key = f'${L(S["type"])}{rw}&"|"&${L(S["size"])}{rw}'
             m = f"MATCH(${L(S['squad'])}{rw},'{design}'!$B${lo}:$B${hi},0)"
+            # the same empty-cell guard the Size column has: INDEX over an unset design
+            # cell returns 0, and 2.15's squad printed it until the owner types the type
             ws.cell(rw, S["type"]).value = (
-                f"=IFERROR(INDEX('{design}'!$C${lo}:$C${hi},{m}),\"Not on the 1.x tab\")")
+                f"=IFERROR(IF(INDEX('{design}'!$C${lo}:$C${hi},{m})=\"\",\"-\","
+                f"INDEX('{design}'!$C${lo}:$C${hi},{m})),\"Not on the 1.x tab\")")
             # INDEX over an empty cell returns 0, not an error, so a strategic programme
             # with no size printed 0 in the Size column
             ws.cell(rw, S["size"]).value = (
@@ -628,7 +635,8 @@ def build(wb, wv, tab, rows, bounds, pf=None):
         ws.cell(oh_note, S["squad"]).font = NOTE
         ws.cell(oh_note, S["squad"]).alignment = opts.LFT
         _m(ws, oh_else, S["aroles"],
-           f"=ROUND(SUM({CFG}!$M$6:$M$9)+SUM({CFG}!$M$14:$M$15)*({PLAT})-({nfte}),6)",
+           f"=ROUND(SUM({CFG}!$M$6:$M$9)*({PFR})+SUM({CFG}!$M$14:$M$15)*({PLAT})"
+           f"-({nfte}),6)",
            opts.C1)
         _m(ws, oh_else, S["acost"], f"=ROUND({ALLOW}-({drawn}),6)")
         for k in ("size", "roles", "fte", "filled", "vacant", "hire", "offshore", "hold",

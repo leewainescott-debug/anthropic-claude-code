@@ -40,7 +40,8 @@ from openpyxl.utils import get_column_letter as L
 
 import opts
 
-DEAD = ["1.14 TDD Cyber"]
+DEAD = []   # 1.14 TDD Cyber was a dead 1.9 copy; the owner asked for a real one and
+            # cyber14.py now rebuilds that sheet, so nothing is dead any more
 RENAME = {"Portfolios": "- PORTFOLIOS -", "ACTUAL WORKBOOKS": "- WORKING -"}
 # tabs whose name contradicted their own title. 3.3 is headed "Squad Detail", 3.4 "COE
 # detail", and 2.11 carries "COE Cyber" in its title and portfolio cell while the tab said
@@ -58,11 +59,12 @@ ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Confi
          "1.1 Ampol Retail", "1.2 Customer", "1.3 Enterprise Data",
          "1.4 TDD Group Functions", "1.5 P&C", "1.6 Finance", "1.7 Infrastructure",
          "1.8 Energy Solutions & B2B", "1.9 Commercial Fuels", "1.10 Z Retail",
-         "1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles", "- WORKING -",
+         "1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles", "1.14 TDD Cyber", "- WORKING -",
          "2.1 Ampol Retail", "2.2 Customer", "2.3 Enterprise Data",
          "2.4 TDD Group Functions", "2.5 P&C", "2.6 Finance", "2.7 Infrastructure",
          "2.8 Energy Solutions & B2B", "2.9 Commercial Fuels", "2.10 Z Retail",
          "2.11 COE Cyber", "2.12 COE BP&T", "2.13 COE SA&D", "2.14 EGI",
+         "2.15 TDD Cyber",
          "- SUMMARIES -",
          "3.1 Cost Bridge", "3.2 Overhead & Leadership", "3.3 Squad Detail",
          "3.4 COE Detail",

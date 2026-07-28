@@ -38,7 +38,7 @@ NO_BORDER = Border()
 WRAPL = Alignment(horizontal="left", vertical="center", wrap_text=True)
 
 DESIGN = re.compile(r"^1\.\d+ ")      # the portfolio and COE design tabs
-PORTFOLIO = re.compile(r"^1\.(?:[1-9]|10) ")   # 1.1 - 1.10, the squad tabs
+PORTFOLIO = re.compile(r"^1\.(?:[1-9]|10|14) ")   # the squad tabs, 1.14 included
 COE = ("1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles")
 CONFIG, ARCH = "0.2 Data Config", "0.3 Squad Archetypes"
 
@@ -1427,7 +1427,7 @@ def budget_bar(wb):
     """
     out = []
     n = 0
-    for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|[1-9]) ", x)]:
+    for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", x)]:
         ws = wb[t]
         for r in range(3, 8):
             for c in range(7, 13):

@@ -31,7 +31,7 @@ REVIEW = "REVIEW - Complete Role Mapping"
 # ---------------------------------------------------------------- 1. the Actuals column
 def actuals_column(wb, wv, out):
     a = json.load(open("anchors_final.json"))
-    for one in [t for t in wb.sheetnames if re.match(r"^1\.(10|[1-9]) ", t)]:
+    for one in [t for t in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", t)]:
         ws, wsv = wb[one], wv[one]
         # The actuals table's total line and the column its cost sits in, both found by
         # what they say rather than by where they are. The table used to be at the foot of

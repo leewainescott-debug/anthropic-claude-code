@@ -236,7 +236,7 @@ def check_family_consistency(wf):
         for k, tabs in widths.items():
             out.append(("2.x column widths differ", ", ".join(tabs), str(k[:4])))
     # 2.x: same formula skeleton on the first squad row
-    ARCH = {f"2.{i} " for i in range(1, 11)}
+    ARCH = {f"2.{i} " for i in range(1, 11)} | {"2.15 "}
     for family in ("archetype", "coe"):
         sk = {}
         for sn in fam["2.x"]:
@@ -289,7 +289,7 @@ def check_1x_consistency(wf, wv):
     2  Each labelled block is contiguous - no blank row between a header and its lines.
     """
     out = []
-    tabs = [s for s in wf.sheetnames if re.match(r"^1\.(10|[1-9]) ", s)]
+    tabs = [s for s in wf.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", s)]
 
     def find(ws, text):
         for r in range(1, 40):

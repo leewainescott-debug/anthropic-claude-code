@@ -298,7 +298,7 @@ def totals(path, anchors="anchors_final.json"):
     # box, so the labels are hunted across the whole row rather than down column B - the
     # block is found by what it says, which is the only thing about it that has not moved.
     ctl = []
-    for one in sorted(t for t in wv.sheetnames if re.match(r"^1\.(10|[1-9]) ", t)):
+    for one in sorted(t for t in wv.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", t)):
         ws = wv[one]
         foot = {}
         lab_col = act_col = None
