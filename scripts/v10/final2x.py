@@ -766,8 +766,8 @@ def build(wb, wv, tab, rows, bounds, pf=None):
             # for.
             _m(ws, rw, P["cost"], f"={REV}!$AA${i}", opts.M0)
             _m(ws, rw, P["after"],
-               f"=${L(P['cost'])}{rw}*IFERROR(INDEX(Lists!$AD:$AD,"
-               f"MATCH(${L(P['lever'])}{rw},Lists!$AC:$AC,0)),1)", opts.M0)
+               f"=${L(P['cost'])}{rw}*IFERROR(INDEX(Lists!$AD$2:$AD$5,"
+               f"MATCH(${L(P['lever'])}{rw},Lists!$AC$2:$AC$5,0)),1)", opts.M0)
     if not staffed:
         # The block is the family's - bar and header - with one line saying why there is
         # nothing under it. A header with nothing beneath it reads as a table that failed

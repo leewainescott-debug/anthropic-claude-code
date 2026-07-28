@@ -15,3 +15,6 @@ rc,st=wbio.build('pC.xlsx','cand_A.xlsx'); print('  A injected',st)
 e,b=wbio.audit('cand_A.xlsx'); print('  A errors',len(e),'blank',len(b))
 for x in e[:10]: print('    ',x)
 "
+
+# the mechanical audit: figures against the ledger, controls, modelling standards
+python3 audit.py cand_A.xlsx || true
