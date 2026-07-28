@@ -71,15 +71,27 @@ def ledger(wv):
             line_n, line_c, line_pfn, line_pfc)
 
 
-def find(ws, label, col=2):
-    """Exact match first, then a prefix, so a label that gains a clause still resolves."""
+def find(ws, label, col=2, figure=None):
+    """Exact match first, then a prefix, so a label that gains a clause still resolves.
+
+    `figure` is the column a wanted row must carry a number in. 3.x tabs put a pale
+    section label and the grey subtotal under it on rows that start with the same words -
+    "COEs and EGI ..." over "COEs and EGI" - and the prefix pass reads top down, so it
+    finds the label, which carries no figures, and every check against that step then
+    compares a real total to a blank. Passing the figure column makes the search skip
+    rows that cannot be the one being asked for.
+    """
     for exact in (True, False):
         for r in range(1, ws.max_row + 1):
             v = ws.cell(r, col).value
             if not isinstance(v, str):
                 continue
-            if (v.strip() == label) if exact else v.strip().startswith(label):
-                return r
+            if not ((v.strip() == label) if exact else v.strip().startswith(label)):
+                continue
+            if figure is not None and not isinstance(ws.cell(r, figure).value,
+                                                     (int, float)):
+                continue
+            return r
     return None
 
 
@@ -159,7 +171,7 @@ def run(path, anchors="anchors_final.json"):
                        (("Groups with no archetype and no funded figure",), nofig, nnof),
                        (("Overhead roles in the portfolios",), ohcost["pf"],
                         ohroles["pf"])):
-        rs = [find(ws, x) for x in labs]
+        rs = [find(ws, x, figure=ca) for x in labs]
         if any(x is None for x in rs):
             out.append(f"3.1 has no row {labs!r}")
             continue
@@ -211,13 +223,24 @@ def run(path, anchors="anchors_final.json"):
     # the two gaps are rebuilt as the difference against what the allowance applies.
     o = next(t for t in wv.sheetnames if t.startswith("3.2 "))
     ws = wv[o]
-    cE = col_of(ws, "Applied to portfolios - roles")
-    cF = col_of(ws, "Applied to portfolios ($m)")
-    cG = col_of(ws, "Roles in the organisation")
-    cH = col_of(ws, "Cost in the organisation ($m)")
-    cI, cJ = col_of(ws, "Roles gap"), col_of(ws, "Cost gap ($m)")
+    # 3.2 was rebuilt to the owner's own layout and every one of these headings changed
+    # with it. The six names below were the old ones, so col_of returned None for all six,
+    # so this whole block short-circuited to one line of output and stopped checking
+    # anything - every 3.2 figure has been unverified since that rebuild, and the line it
+    # printed read like a note about the tab rather than a dead check. His headings now,
+    # with what each one is in the old vocabulary beside it.
+    cE = col_of(ws, "Roles priced for in archetype")            # applied to portfolios
+    cF = col_of(ws, "Total Archetype cost ($m)")                 # applied, in money
+    cG = col_of(ws, "Actual number of leadership roles")         # the organisation's roles
+    cH = col_of(ws, "Actual cost of leadership roles")           # the organisation's cost
+    cI = col_of(ws, "# of roles not applied in archetype")       # the roles gap
+    cJ = col_of(ws, "Variance between archetype and actuals")    # the cost gap
     if None in (cE, cF, cG, cH, cI, cJ):
-        out.append("3.2 is missing one of its columns")
+        missing = [n for n, c in (("roles priced for", cE), ("archetype cost", cF),
+                                  ("actual roles", cG), ("actual cost", cH),
+                                  ("roles gap", cI), ("cost gap", cJ)) if c is None]
+        out.append(f"3.2 is missing columns: {', '.join(missing)} - nothing on the tab "
+                   f"was checked")
     else:
         gm_n, gm_c = wv["Lists"]["AG11"].value, wv["Lists"]["AG12"].value
         for line in ("Head of Technology", "Business Partner", "Domain Architect",

@@ -179,7 +179,7 @@ def build_exec(wb, a, a2):
         # allowance the actual column is gross of. The note above the COE block in
         # final3x.build_31 works all four through cell by cell. So the line names what the
         # figure actually is - the cost - and promises no comparison.
-        ("COEs and EGI - actual cost, no independent plan to compare ($m)",
+        ("COEs and EGI - actual cost, no plan to compare against ($m)",
          f"={G1}!${C31['actual']}${a['coe']}", opts.M2),
         ("Overhead roles - not covered by the allowance ($m)",
          f"={G1}!${C31['var']}${a['overhead']}", opts.M2),
