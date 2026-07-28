@@ -50,6 +50,19 @@ auditor confirms every task in the owner's message was done.
    ledger; design-consistency review of rendered tabs; instruction audit of T1-T7 plus the
    standing register. Findings come back to Fable, get fixed, and the wave reruns until
    all three agents return clean.
+3a. **Fix wave F (3 Opus builders, parallel, disjoint script ownership)** - round one of
+   wave 3 returned: the audit found three number-changing defects (fabricated Holds from
+   `extend_lists` template-copy, DECISIONS D86; net-vs-gross budget basis on 1.11/1.12,
+   D87; the Actuals column question, resolved as his own wiring, D88) plus dropped owner
+   content traced to `finish.py`'s literal sweep (D89), the 0.2 EG-row clear (D90), the
+   rev-inherited hidden Exec Summary (D91). The design review found theme-fill bars
+   rendering black on all ten 1.x tabs, the 1.6 header hole (D92), 0.2 clipped rows, and
+   a long family-consistency list. Builder A owns merge_review / repair_design / fix1x /
+   fixcoe / finish / polish (instruction defects); Builder B owns final2x/3x/4x/35 /
+   actuals + the QA readers (2.x/3.x family rules); Builder C owns the new
+   `design2707.py`, inserted between polish and finish (visual sweep). Then chain2 +
+   chainA2 rerun and all seven passes back to zero; the adversarial QA report folds into
+   the same loop when it lands.
 4. **Ship** - candidate to `TDD_Cost_Calc.xlsx`, docs updated, committed and pushed.
 
 ## Ground rules carried over

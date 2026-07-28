@@ -680,6 +680,68 @@ planned-spend cells on 1.11/1.12 directly, and the empty-cell budget reads he po
 1.7 row offset his copy carries stays: every consumer joins by label, and the consistency
 check now compares block order and completeness rather than absolute row numbers.
 
+### D86. The verification wave caught the chain inventing three Holds. Root cause fixed.
+The instruction audit of the first 2707 candidate found 1.12 carrying six Holds where Lee
+set exactly three (rev H31/H43/H44). The three extras were on the rows the chain itself
+appends - the roles moved into the Data COE - because `fix1x.extend_lists` copies every
+populated column from the template row, and on 1.12 the template row is one of Lee's Holds,
+so his lever and his "Hold" annotation were duplicated onto three roles he never touched,
+zeroing $747,896.05 including two filled employees. Appended rows now arrive Onshore with
+no annotation, and only the owner sets levers. Every control read zero throughout, which is
+the lesson: a workbook internally consistent with a wrong decision proves nothing about
+the decision.
+
+### D87. 1.11/1.12 budget basis follows rev: net against net.
+`fixcoe.fix_totals` was still rewriting his C15 to add the portfolio-funded line - correct
+two generations ago when planned spend was gross, wrong since his restructure made spend
+net of that funding (his own B9 note says so). The rewrite made the tabs disagree with 0.2
+by exactly the funded amount. Removed; his =C14 stands, and the line I used to label
+"Offshore discount in the AU / NZ split" is relabelled to what it actually is - the
+Business Partner / Domain Architect funding met by portfolio overheads - with the value
+beside its label. His On/Off notes come back too: in this generation the lever does price
+through the totals, so the note rewrite that said otherwise described a model that no
+longer exists.
+
+### D88. "Actuals" on the 1.x summary means after decisions, because Lee wired it that way.
+The audit flagged the 1.x Actuals column reading the after-decisions footer rather than
+pre-decision actual cost (visible only on 1.7, the one tab with a lever pulled: 7.5817 vs
+7.7484). His own 2707 formula is `G9 = K52` - the after-decisions total, on the tab where
+his own Stevani Kho offshore decision was live. His wiring, his meaning of the word;
+generalised unchanged to all ten tabs and recorded here rather than "fixed".
+
+### D89. finish.py's literal sweep now carries a rev whitelist. Owner text is unclearable.
+One step was wiping ten blocks of his content - open questions on 1.8, the basis notes on
+1.11/1.12, his On/Off and source notes, the 0.2 reconciliation remnants. Any literal cell
+whose sheet, coordinate and value match rev.xlsx is now exempt from every clearing pass in
+that step. The general rule replaces cell-by-cell rescue because the next round of his
+edits would just hit the same sweep.
+
+### D90. The 0.2 "EG" row is his again. polish.py stops deleting it.
+An old ruling removed "EG" as a broken duplicate of EGI. His rev re-adds it with zeros and
+a reconciliation note beside it. Newest file wins, same principle as D83; the stray-row
+clear is gone and his row 24 - including "Reallocated 7m across Ampol & Z Retail" - ships.
+
+### D91. Sheet visibility matches his 2707 exactly.
+rev arrived with Exec Summary hidden - an old-generation state - and it leaked through to
+the candidate, hiding the one tab built for the CTO. base_2707 shows his intent: hidden is
+exactly 0.1 Budget Table (Fin), 0.4 Presentation Pack and Lists; everything else visible.
+polish.py now enforces that set both ways.
+
+### D92. His review-time working tables are content, not clutter.
+1.4, 1.5 and 1.6 carry his scratch tables - Nbr Archetype Roles / Published Roles / Review
+Outcome / Vacant Now / FY27 - holding decisions like "Remove Lead Engineer Software and
+Test". They stay, formatted so nothing truncates. The 1.6 copy sat inside the squad table's
+span and punched a hole through the header bar, so that one moves right of the table
+verbatim; K/L then carry the Actual/Variance pair like every other 1.x tab, retiring the
+P/Q exception.
+
+### D93. Ledger typos are fixed in the ledger, not papered over downstream.
+"Project Manger", "Portfolio Mnager", "michelle Siegman", "EnterpriseProcess Analyst",
+"DeveloperSAP ECC", "australia" and friends flow from the source datasets through INDEX
+into every tab a GM reads. Corrected once in merge_review at load; nothing joins on those
+strings (verified by grep before the change). Same treatment for two note typos
+("Siginificant", "acorss") and the blank AR1/AT1 headers over live ledger columns.
+
 ### D74. The archetype prices overhead, and the working tabs were ignoring it.
 Owner: "taking energy solutions & b2b as an example, we have 7.9m as the total cost for the
 archetype, however, the actual total cost for the archetype is 9.03? ... you cannot only
