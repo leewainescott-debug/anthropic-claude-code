@@ -642,7 +642,13 @@ def build_32(wb, wcol):
     # the row says so, instead of being swept into whichever half carries the negation.
     allrow = r
     pfs32 = "Lists!$AS$2:$AS$11"
-    pf_roles = (f"SUMPRODUCT(COUNTIFS({REV}!$AJ$2:$AJ${LAST},{pfs32},"
+    # TDD Cyber is a portfolio that sits outside the ten-name Lists range on purpose
+    # (joining the range would inflate the funding maths), so its future roles are
+    # counted by name here - without this term they would fall out of both halves and
+    # the control would fire the day the first role lands
+    pf_roles = (f"(SUMPRODUCT(COUNTIFS({REV}!$AJ$2:$AJ${LAST},{pfs32},"
+                f'{REV}!$B$2:$B${LAST},"<>"))'
+                f'+COUNTIFS({REV}!$AJ$2:$AJ${LAST},"TDD Cyber",'
                 f'{REV}!$B$2:$B${LAST},"<>"))')
     coe_roles = (f'COUNTIFS({REV}!$AJ$2:$AJ${LAST},"COE*",{REV}!$B$2:$B${LAST},"<>")'
                  f'+COUNTIFS({REV}!$AJ$2:$AJ${LAST},"EGI",{REV}!$B$2:$B${LAST},"<>")')

@@ -149,17 +149,24 @@ def build_exec(wb, a, a2):
         ("Groups with no archetype and no funded figure ($m)",
          f"={G1}!${C31['actual']}${a['nofig']}", opts.M2)])
 
+    # The five vacancy lines are a TRUE partition of the vacant count, each one
+    # status-qualified. Summing the 2.x lever columns instead only added to 145 by
+    # coincidence: the owner's r431 vacancy set to fill fell out of all three buckets
+    # while Stevani Kho - a filled role he offshored - fell in, and the two cancelled.
+    # The whole-column COUNTIFS is safe: "Vacant"/"Filled" appear only in the FTE
+    # blocks' status column D, and the lever words only in their column E.
+    def _lev(status, lever):
+        return "=" + "+".join(
+            f"COUNTIFS('{t}'!$D:$D,\"{status}\",'{t}'!$E:$E,\"{lever}\")"
+            for t in a2)
+
     r = block(r, "The vacancy decision", [
         ("Vacant roles", f"={G1}!${C31['vacant']}${gt}", opts.CT),
-        ("Vacancies set to hire", "=" + "+".join(
-            f"N('{t}'!${L(S['hire'])}${i['total_row']})" for t, i in a2.items()),
-         opts.CT),
-        ("Roles set to offshore", "=" + "+".join(
-            f"N('{t}'!${L(S['offshore'])}${i['total_row']})" for t, i in a2.items()),
-         opts.CT),
-        ("Roles put on hold", "=" + "+".join(
-            f"N('{t}'!${L(S['hold'])}${i['total_row']})" for t, i in a2.items()),
-         opts.CT),
+        ("Vacancies set to hire", _lev("Vacant", "Hire"), opts.CT),
+        ("Vacancies set to offshore", _lev("Vacant", "Offshore"), opts.CT),
+        ("Vacancies put on hold", _lev("Vacant", "Hold"), opts.CT),
+        ("Vacancies set to fill as they are", _lev("Vacant", "Filled"), opts.CT),
+        ("Filled roles offshored", _lev("Filled", "Offshore"), opts.CT),
         ("Roles after the decisions set today", f"={G1}!${C31['rafter']}${gt}", opts.CT),
         ("Cost after the decisions set today ($m)", f"={G1}!${C31['after']}${gt}", opts.M2),
         ("Impact of those decisions ($m)", f"={G1}!${C31['after']}${gt}-{G1}!${C31['actual']}${gt}", opts.M2)])
