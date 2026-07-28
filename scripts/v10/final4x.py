@@ -36,8 +36,11 @@ C31 = dict(name="B", pf="C", acost="D", actual="E", var="F", after="G", roles="H
 # old per-portfolio / outside-the-portfolios pairs are gone - the split they used to spell
 # out across four columns is two band rows now, and the roles and cost columns are the
 # organisation's.
-C32 = dict(line="B", basis="C", rate="D", times="E", appfte="F", applied="G", roles="H",
-           cost="I", rgap="J", cgap="K", where="L")
+# his layout: roles read together, then costs. B line, C applied-to, D rate,
+# E times applied (his), F roles priced for, G actual roles, H roles gap,
+# I archetype cost, J actual cost, K variance, L where they sit, M allocation applied
+C32 = dict(line="B", basis="C", rate="D", times="E", appfte="F", roles="G", rgap="H",
+           applied="I", cost="J", cgap="K", where="L")
 
 
 def find_row(ws, label, col=2, limit=200, exact=False):
