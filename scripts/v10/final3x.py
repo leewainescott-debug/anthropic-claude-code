@@ -500,7 +500,7 @@ WHERE32 = {}
 GM32 = "Leadership - 8 GMs"
 
 
-def where_sits(wb):
+def where_sits(wb, vals=None):
     """The plain-English split for each overhead line, worked out from the ledger.
 
     Written into WHERE32 so the tab ships holding the truth. It is computed here rather
@@ -508,7 +508,9 @@ def where_sits(wb):
     he can edit cannot also be a formula. Built every run, so a rebuild always states
     today's split, and 4.0 carries the count it was built from beside it.
     """
-    R = wb[REVIEW]
+    # the placement columns are formulas, so this has to read the calculated workbook -
+    # reading wb would see "=IF(..." on every row and report every line as empty
+    R = (vals or wb)[REVIEW]
     names = ["Head of Technology", "Business Partner", "Domain Architect",
              "Delivery Manager", "Technology Manager"]
     for i, line in enumerate(names, start=2):
@@ -536,7 +538,7 @@ def where_sits(wb):
     return WHERE32
 
 
-def build_32(wb, wcol):
+def build_32(wb, wcol, vals=None):
     """Overhead and leadership. The one thing no other tab states.
 
     Every figure is computed. A role carrying an overhead title inside a COE has AT set to
@@ -555,7 +557,7 @@ def build_32(wb, wcol):
     r = opts.head(ws, 4, 2, H32, W32)
     st = r
     n_roles = opts.ledger_count(wb)
-    where_sits(wb)
+    where_sits(wb, vals)
     for i in range(2, 8):
         # every role in the ledger carrying this line, wherever the person sits, which is
         # the figure the columns state; and the same count narrowed to the people who sit
@@ -918,11 +920,12 @@ def run(src, dst):
     f2._boot_last(src)
     LAST = f2.LAST
     wb = openpyxl.load_workbook(src)
+    vals = openpyxl.load_workbook(src, data_only=True)
     anchors = json.load(open("anchors_final.json"))
     msg, wcol = patch_lists(wb)
     out = [msg]
     a31 = build_31(wb, anchors)
-    a32 = build_32(wb, wcol)
+    a32 = build_32(wb, wcol, vals)
     a33 = build_33(wb, anchors)
     json.dump({"3.1": a31, "3.2": a32, "3.3": a33},
               open("anchors_final3.json", "w"), indent=1)
