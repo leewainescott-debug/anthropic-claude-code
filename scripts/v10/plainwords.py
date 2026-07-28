@@ -38,6 +38,12 @@ SAY = [
     ("Total budget to draw down", "Total budget available"),
     ("Budget to draw down", "Budget available"),
     ("budget to draw down", "budget available"),
+    # applied after the swap above: three labels that the longer wording pushes past
+    # their column. The count they drop is stated on the same page either way.
+    ("outside the 531 roles in the role mapping", "outside the role mapping"),
+    ("above the 531 roles in the role mapping", "above the role mapping"),
+    ("against every overhead role in the role mapping",
+     "against overhead roles in the role mapping"),
 ]
 
 

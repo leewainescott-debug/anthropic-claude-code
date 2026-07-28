@@ -91,9 +91,9 @@
      e.g. Exec Summary!B5: Roles in the role mapping
      e.g. Exec Summary!B8: Cost of the 531 roles in the role mapping ($m)
      e.g. Exec Summary!B11: The 8 GMs, outside the role mapping ($m)
-     e.g. 1.11 BP&T!G5: Budget available to this COE ($m)
-     e.g. 1.11 BP&T!B17: Total budget available to this COE ($m)
-     e.g. 1.12 SA&D!H5: Budget available to this COE ($m)
+     e.g. 1.11 BP&T!G5: Budget available ($m)
+     e.g. 1.11 BP&T!B17: Total budget available ($m)
+     e.g. 1.12 SA&D!H5: Budget available ($m)
   A injected {'cells': 13575, 'sheets': 46, 'verified': True}
   A errors 0 blank 2
 

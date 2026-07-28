@@ -4438,7 +4438,7 @@ AUD
   D5: Filled
   E5: Vacant
   F5: Planned spend ($m)
-  G5: Budget available to this COE ($m)
+  G5: Budget available ($m)
   H5: Variance
   I5: Cost - AU ($m)
   J5: Cost - NZ ($m)
@@ -4453,7 +4453,7 @@ AUD
   B14: COE - Business Partnering allocation ($m) - 0.2 Data Config
   B15: Total Business Partnering budget ($m)
   B16: COE - Transformation allocation ($m) - 0.2 Data Config
-  B17: Total budget available to this COE ($m)
+  B17: Total budget available ($m)
   B18: Business Partner funding met by portfolio overheads, netted out of planned spend ($m)
   B19: Roles
   B20: Name
@@ -4621,7 +4621,7 @@ AUD
   E5: Vacant
   F5: Paused
   G5: Planned spend ($m)
-  H5: Budget available to this COE ($m)
+  H5: Budget available ($m)
   I5: Left to fund ($m)
   J5: Cost - AU ($m)
   K5: Cost - NZ ($m)
@@ -4636,7 +4636,7 @@ AUD
   B14: COE - Strategy Architecture allocation ($m) - 0.2 Data Config
   B15: Total Strategy & Architecture budget ($m)
   B16: COE - Data allocation ($m) - 0.2 Data Config
-  B17: Total budget available to this COE ($m)
+  B17: Total budget available ($m)
   B18: Paused roles - cost if released ($m)
   B19: Domain Architect funding met by portfolio overheads, netted out of planned spend ($m)
   B20: Roles
@@ -4820,7 +4820,7 @@ AUD
   D5: Filled
   E5: Vacant
   F5: Planned spend ($m)
-  G5: Budget available to this COE ($m)
+  G5: Budget available ($m)
   H5: Left to fund ($m)
   I5: Cost - AU ($m)
   J5: Cost - NZ ($m)
@@ -4833,7 +4833,7 @@ AUD
   E11: Planned spend less CapEx ($m)
   B12: TDD Cyber budget ($m) - 0.2 Data Config
   B13: Cyber CapEx - Monitoring ($m) - input
-  B14: Total budget available to this COE ($m)
+  B14: Total budget available ($m)
   B15: Left to fund ($m)
   B17: Roles
   B18: Name
@@ -8782,7 +8782,7 @@ AUD
   D44: -
   F44: -
   B45: Cost of the 531 roles in the role mapping
-  B46: Leadership - the 8 GMs, outside the 531 roles in the role mapping
+  B46: Leadership - the 8 GMs, outside the role mapping
   B47: Total cost of TDD including the GM layer
   B49: Control - roles against the role mapping, must be 0
   B50: Control - cost against the role mapping ($m), must be 0
@@ -8835,7 +8835,7 @@ AUD
   E12: -
   L12: -
   M12: -
-  B13: Of which sits in the COEs and EGI, or above the 531 roles in the role mapping
+  B13: Of which sits in the COEs and EGI, or above the role mapping
   D13: -
   E13: -
   L13: -
@@ -9577,8 +9577,8 @@ AUD
   B20: Offshore archetype against 40% of onshore, first archetype
   B21: Applied to the portfolios on 3.2 against its own lines ($m)
   B22: Applied where the people sit against the lines that draw it ($m)
-  B23: Roles in the organisation on 3.2, less the GM layer, against every overhead role in the role mapping
-  B24: Cost in the organisation on 3.2, less the GM layer, against every overhead role in the role mapping ($m)
+  B23: Roles in the organisation on 3.2, less the GM layer, against overhead roles in the role mapping
+  B24: Cost in the organisation on 3.2, less the GM layer, against overhead roles in the role mapping ($m)
   B25: Roles in the organisation, all lines and squads, on 3.2 against the role mapping
   B26: Overhead on 3.1 against the cost that sits in the portfolios on 3.2 ($m)
   B27: The allowance the model carries against the overhead step on 3.1 ($m)
