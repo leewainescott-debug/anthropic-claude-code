@@ -461,14 +461,29 @@ def build(wb, wv, tab, rows, bounds):
         # exists to price. Vacancies remaining therefore has to look at vacant rows
         # only: counting an offshored filled person against it drove the count negative.
         # An overhead line the archetype allows for but nobody fills has no detail block to
-        # count, so it counts nothing rather than counting a range that starts at row 0 -
+        # count, so the counts read zero rather than counting a range that starts at row 0 -
         # COUNTIFS($D$0:$D$0,"Filled") is #NAME?, and it took Exec down with it.
+        #
+        # The FTE and the actual cost do not count that block. They join the ledger on
+        # portfolio and squad name, so they hold on a line with nobody in it exactly as
+        # they do on a line with forty. Those two were being written as a literal =0 on
+        # three rows - 2.3's Delivery Manager and 2.6's Head of Technology and Delivery
+        # Manager - which is the right figure today and a typed constant tomorrow: put a
+        # Delivery Manager into Finance in REVIEW and the line goes on reading nothing, and
+        # the tab's controls report the miss as a portfolio-level break with no row to
+        # point at. The family SUMIFS goes on every row, filled or not, so the line that is
+        # wrong is the line that says so.
+        FTE = (f"=ROUND(SUMIFS({REV}!$O$2:$O${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
+               f"{REV}!$AT$2:$AT${LAST},${L(S['squad'])}{rw}),2)")
+        ACTUAL = (f"=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
+                  f"{REV}!$AT$2:$AT${LAST},${L(S['squad'])}{rw})/1000000")
         if not people.get(g):
-            for k in ("roles", "fte", "filled", "vacant", "hire", "offshore", "hold",
-                      "rafter"):
+            for k in ("roles", "filled", "vacant", "hire", "offshore", "hold", "rafter"):
                 _m(ws, rw, S[k], "=0", opts.CT)
-            for k in ("actual", "after"):
-                _m(ws, rw, S[k], "=0")
+            _m(ws, rw, S["fte"], FTE, opts.C1)
+            _m(ws, rw, S["actual"], ACTUAL)
+            # cost after decisions sums the levers in the detail block, and there is none
+            _m(ws, rw, S["after"], "=0")
         else:
             for k, f in (("roles", f"=COUNTA(${L(P['name'])}${a}:${L(P['name'])}${b})"),
                          ("filled", f'=COUNTIFS({st},"Filled")'),
@@ -478,12 +493,8 @@ def build(wb, wv, tab, rows, bounds):
                          ("hold", f'=COUNTIFS({lev},"Hold")'),
                          ("rafter", f'=${L(S["roles"])}{rw}-${L(S["hold"])}{rw}')):
                 _m(ws, rw, S[k], f, opts.CT)
-            _m(ws, rw, S["fte"],
-               f"=ROUND(SUMIFS({REV}!$O$2:$O${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
-               f"{REV}!$AT$2:$AT${LAST},${L(S['squad'])}{rw}),2)", opts.C1)
-            _m(ws, rw, S["actual"],
-               f"=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},$C$3,"
-               f"{REV}!$AT$2:$AT${LAST},${L(S['squad'])}{rw})/1000000")
+            _m(ws, rw, S["fte"], FTE, opts.C1)
+            _m(ws, rw, S["actual"], ACTUAL)
             _m(ws, rw, S["after"],
                f"=SUM(${L(P['after'])}${a}:${L(P['after'])}${b})/1000000")
 

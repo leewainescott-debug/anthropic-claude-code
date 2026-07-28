@@ -25,16 +25,28 @@ LAST = None                             # refreshed from f2 after _boot_last
 S = f2.S
 COE_ORDER = ["COE Cyber", "COE BP&T", "COE SA&D", "EGI"]
 
+# AU is every role whose country is not NZ, which is how the owner's own COE tabs define
+# it: 1.11, 1.12 and 1.13 all split their planned spend on Country <> "NZ" against Country
+# = "NZ". This tab used to read Country = "Australia" for AU and the derived AU/NZ column
+# for NZ, and carry a third "Cost - elsewhere" column holding the remainder as a plug -
+# which put Neil Reilly (REVIEW 264, Singapore, 666,087.50) in "elsewhere" here and in AU
+# on 1.11, so two tabs published two different AU figures for the same group. Worse, the
+# control under them summed AU plus NZ plus a plug against the cost the plug was derived
+# from, so it was zero by construction and could never fail.
+#
+# Two columns now, on the owner's definition, with nothing between them and the total. The
+# control is AU plus NZ against cost, which is a check: the two SUMIFS have to partition
+# the same rows the cost column adds up, and if either criterion or either range drifts it
+# says so.
 H34 = ["COE", "Squad", "Roles", "Filled", "Vacant", "Cost ($m)", "Cost - AU ($m)",
-       "Cost - NZ ($m)", "Cost - elsewhere ($m)", "Roles carrying an overhead title",
-       "Cost of those roles ($m)"]
+       "Cost - NZ ($m)", "Roles carrying an overhead title", "Cost of those roles ($m)"]
 # the Squad column has to hold the longest squad name on a COE tab - "Technology Strategy
 # & AI Capability" is 35 characters and the column was 34, so it lost its last letter with
 # a roles count in the cell beside it
-W34 = [16, 37, 8, 8, 8, 13, 13, 13, 15, 15, 15]
-F34 = [None, None, opts.CT, opts.CT, opts.CT, opts.M2, opts.M2, opts.M2, opts.M2,
+W34 = [16, 37, 8, 8, 8, 13, 13, 13, 15, 15]
+F34 = [None, None, opts.CT, opts.CT, opts.CT, opts.M2, opts.M2, opts.M2,
        opts.CT, opts.M2]
-SUMS = (4, 5, 6, 7, 8, 9, 10, 11, 12)
+SUMS = (4, 5, 6, 7, 8, 9, 10, 11)
 
 
 def build_34(wb, anchors):
@@ -61,16 +73,13 @@ def build_34(wb, anchors):
             f2._m(ws, r, 5, f'=COUNTIFS({cnt},{REV}!$AK$2:$AK${LAST},"Filled")', opts.CT)
             f2._m(ws, r, 6, f'=COUNTIFS({cnt},{REV}!$AK$2:$AK${LAST},"Vacant")', opts.CT)
             f2._m(ws, r, 7, f"=SUMIFS({base})/1000000")
-            f2._m(ws, r, 8,
-                  f'=SUMIFS({base},{REV}!$M$2:$M${LAST},"Australia")/1000000')
-            f2._m(ws, r, 9, f'=SUMIFS({base},{REV}!$AL$2:$AL${LAST},"NZ")/1000000')
-            # everything that is neither Australia nor mapped to NZ. The owner's AU/NZ
-            # column maps a Singapore role to AU, so this column is the only place the
-            # cost outside both countries is visible.
-            f2._m(ws, r, 10, f"=$G{r}-$H{r}-$I{r}")
-            f2._m(ws, r, 11,
+            # the owner's two-way split, off the Country column both sides, so the pair
+            # covers every role in the group exactly once
+            f2._m(ws, r, 8, f'=SUMIFS({base},{REV}!$M$2:$M${LAST},"<>NZ")/1000000')
+            f2._m(ws, r, 9, f'=SUMIFS({base},{REV}!$M$2:$M${LAST},"NZ")/1000000')
+            f2._m(ws, r, 10,
                   f'=COUNTIFS({cnt},{REV}!$AR$2:$AR${LAST},"<>Squad")', opts.CT)
-            f2._m(ws, r, 12,
+            f2._m(ws, r, 11,
                   f'=SUMIFS({base},{REV}!$AR$2:$AR${LAST},"<>Squad")/1000000')
             r += 1
         opts.row(ws, r, 2, [f"{pf} total"] + [None] * (len(H34) - 1),
@@ -100,8 +109,8 @@ def build_34(wb, anchors):
              "=ROUND($G%d-(%s)/1000000,6)" % (gt, "+".join(
                  f'SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},"{p}")'
                  for p in COE_ORDER)), opts.CTL_M),
-            ("Control - AU plus NZ plus elsewhere against cost ($m), must be 0", 10,
-             f"=ROUND($H{gt}+$I{gt}+$J{gt}-$G{gt},6)", opts.CTL_M)):
+            ("Control - AU plus NZ against cost ($m), must be 0", 9,
+             f"=ROUND($H{gt}+$I{gt}-$G{gt},6)", opts.CTL_M)):
         ws.cell(r, 2).value = lab
         ws.cell(r, 2).font = opts.BODY
         ws.cell(r, 2).alignment = opts.LFT
@@ -155,8 +164,8 @@ def run(src, dst):
     anchors = json.load(open("anchors_final.json"))
     a34 = build_34(wb, anchors)
     wb.save(dst)
-    return [f"3.4 COE detail rebuilt: squad by squad, AU / NZ / elsewhere, "
-            f"overhead titles, total row {a34['total']}"]
+    return [f"3.4 COE detail rebuilt: squad by squad, AU / NZ on the owner's own basis "
+            f"(country <> NZ), overhead titles, total row {a34['total']}"]
 
 
 if __name__ == "__main__":

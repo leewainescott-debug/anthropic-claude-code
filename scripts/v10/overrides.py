@@ -74,6 +74,22 @@ COST = {491: (169740.0,
 CLEAR_NOTES = [(191, 29), (491, 29)]
 LABELS = {"AS1": "Squad name on the 1.x tab"}
 
+# ---- the live control sitting on the ledger ----
+# REVIEW ships with an AutoFilter carrying active criteria - column F held to "Strategy,
+# Architecture & Data" and column G to "Architecture" - which hides 519 of the 531 role
+# rows, and a sortState beside it. Both stop at row 528 and column AH. The ledger runs to
+# row 534 and out to column AX, so one sort through that control reorders A:AH for rows
+# 2-528 and leaves the ten cost overrides in AU, and every row past 528, exactly where they
+# were. The names, the costs and the groupings come apart, every total still adds up, and
+# all fifty-six controls still read 0. It is the worst shape a defect can have in this file.
+#
+# A filter on the ledger is worth having - it is the one tab a reader filters - so REVIEW
+# keeps one, criteria-free and spanning the whole ledger, and every other tab loses its
+# filter outright. The owner's two source tabs are never touched.
+FILTER_KEEP = REVIEW
+FILTER_LASTCOL = 50                     # AX, the last column the ledger uses
+FILTER_SOURCE = ("0.1 Budget Table (Fin)", "0.4 Presentation Pack")
+
 PORTFOLIOS = ["Ampol Retail", "Customer", "Enterprise Data", "TDD Group Functions",
               "P&C", "Finance", "Infrastructure", "Energy Solutions & B2B",
               "Commercial Fuels", "Z Retail"]
@@ -108,6 +124,44 @@ def rename_squads(wb):
                 new = pairs[v.strip()]
                 ws.cell(r, 2).value = new
                 out.append(f"{tab}!B{r} {v.strip()!r} -> {new!r}, to match the ledger")
+    return out
+
+
+def sweep_filters(wb, last):
+    """Take every AutoFilter and sortState out of the file, and unhide what they hid.
+
+    REVIEW keeps a filter because a reader wants one there, but a criteria-free one over
+    the whole ledger - A1:AX{last} - so it can never sort a subset of the columns or a
+    subset of the rows. Everywhere else the filter goes: none of those tabs is a list a
+    reader filters, and each one is the same hazard waiting for a click.
+
+    Rows hidden by a filter are unhidden here as well. Removing the control without
+    unhiding leaves the rows invisible with nothing on the tab to bring them back.
+    """
+    out = []
+    for ws in wb.worksheets:
+        ref = ws.auto_filter.ref
+        crit = len(ws.auto_filter.filterColumn or [])
+        sort = ws.auto_filter.sortState is not None
+        hidden = [r for r, d in ws.row_dimensions.items() if d.hidden]
+        if not (ref or crit or sort or (hidden and ws.title == FILTER_KEEP)):
+            continue
+        if ws.title in FILTER_SOURCE:
+            out.append(f"{ws.title}: autoFilter {ref} left where it is - the owner's own "
+                       f"tab, and nothing downstream reads it")
+            continue
+        ws.auto_filter.filterColumn = []
+        ws.auto_filter.sortState = None
+        if ws.title == FILTER_KEEP:
+            ws.auto_filter.ref = f"A1:{L(FILTER_LASTCOL)}{last}"
+            what = f"filter reset to A1:{L(FILTER_LASTCOL)}{last}, no criteria, no sort"
+        else:
+            ws.auto_filter.ref = None
+            what = "filter and sort removed"
+        for r in hidden:
+            ws.row_dimensions[r].hidden = False
+        out.append(f"{ws.title}: {what} (was {ref}, {crit} criteria, "
+                   f"{'a' if sort else 'no'} sortState, {len(hidden)} rows hidden)")
     return out
 
 
@@ -283,6 +337,9 @@ def run(src, dst):
                     c.value = pat.sub("COUNTA(Lists!$AS$2:$AS$11)", c.value)
                     fixed += 1
     out.append(f"portfolio count keyed off the named list in {fixed} formulas")
+
+    # ---- the filters, last, so REVIEW's filter follows the measured extent ----
+    out += sweep_filters(wb, LAST)
     wb.save(dst)
     return out
 

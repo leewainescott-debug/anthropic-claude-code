@@ -43,16 +43,55 @@ REMOVE = {
     "1.2 Customer": ["Digital Support NZ"],
     "1.3 Enterprise Data": ["EGI Data", "Enterprise Data Delivery"],
 }
+# 1.2's platform overhead, once the H/I typo above is out of the way, is the identical
+# formula in the AU column and the NZ column: both branches count the whole 0.495, so the
+# three Customer platforms are charged twice and F7 reads 0.99.
+#
+# Customer is the one dual-country portfolio on this tab set - 0.2 gives it an AU line
+# (row 13) and a NZ line (row 14) - and row 6 directly above says what that means here:
+# portfolio overhead is the same IF over the same two 0.2 cells with *0.5 on each side, so
+# the tab splits its overhead half to each country rather than choosing one. Row 7 is the
+# same overhead on a per-platform basis and follows the same split. Its nine single-country
+# siblings use the exclusive form instead - all of it to one column, nothing to the other -
+# which is why none of them doubles.
+CUST_PLAT = ("=IF(('0.2 Data Config'!$D$13+'0.2 Data Config'!$D$14)>"
+             "('0.2 Data Config'!$C$13+'0.2 Data Config'!$C$14),SUM(I34,I42,I49),0)")
 FIX = {
     # his C7 points platform overhead at column H (Total Squad Cost); the overhead lives
     # in I on this tab's platform-overhead rows, as it did before and as C7 did in the
     # ancestor
-    "1.2 Customer": [("C7", None, None)],
+    "1.2 Customer": [("C7", None, None),
+                     # keyed on the byte-identical text the line above produces, so it can
+                     # only fire on the doubled shape and never on a corrected one
+                     ("C7", CUST_PLAT, CUST_PLAT + "*0.5"),
+                     ("D7", CUST_PLAT, CUST_PLAT + "*0.5")],
     # his 1.5 edit removed the NZ column, so 0.2's P&C spend read wraps the dead D9 the
     # house way
     "0.2 Data Config": [("F18", "=('1.5 P&C'!$C$9+'1.5 P&C'!$D$9)",
-                         "='1.5 P&C'!$C$9+N('1.5 P&C'!$D$9)")],
+                         "='1.5 P&C'!$C$9+N('1.5 P&C'!$D$9)"),
+                        # every other row of this table reads its 1.x tab absolutely; two
+                        # read relatively, which is a copy away from pointing at the wrong
+                        # row
+                        ("F13", "='1.2 Customer'!C9", "='1.2 Customer'!$C$9"),
+                        ("F14", "='1.2 Customer'!D9", "='1.2 Customer'!$D$9"),
+                        ("F15", "='1.9 Commercial Fuels'!C9",
+                         "='1.9 Commercial Fuels'!$C$9")],
+    # 1.10's Data NZ platform draws no overhead - the owner's own note on the squad row,
+    # 1.10!K39 "No Overhead required", says so, and his C7 already prices two platforms.
+    # Only D7 still drags the dead I40 reference from before he removed the charge, so the
+    # two branches of the same switch priced different sets. D7 is aligned to his C7; his
+    # note, his empty I40 and his B40 label are not touched.
+    "1.10 Z Retail": [("D7", "=IF(('0.2 Data Config'!$D$12)>('0.2 Data Config'!$C$12),"
+                             "SUM(I27,I34,I40),0)",
+                       "=IF(('0.2 Data Config'!$D$12)>('0.2 Data Config'!$C$12),"
+                       "SUM(I27,I34),0)")],
 }
+
+# rows of 0.2's budget table with no Spend cell and no Variance cell, where all their
+# siblings carry both. Written as the sibling pair - a hardcoded 0 spend the way row 7
+# does it, and E less F beside it - so the table reads the same way all the way down and
+# G26 totals a complete column. Row 24 is his restored EG row, which gets the same pair.
+CFG_GAPS = [20, 24, 25]
 
 
 # his typed inputs on tabs the chain does not repaint - declared cream so the
@@ -79,6 +118,20 @@ def wrap_empty_budget_reads(wb, out):
                         c.value = f"=N('0.1 Budget Table (Fin)'!{m.group(1)})"
                         n += 1
     out.append(f"{n} budget reads of empty 0.1 cells wrapped in N()")
+
+
+def close_config_gaps(wb, out):
+    """0.2's Spend and Variance cells, on the rows carrying neither."""
+    ws = wb["0.2 Data Config"]
+    for r in CFG_GAPS:
+        f_, g_ = ws.cell(r, 6), ws.cell(r, 7)
+        if f_.value is not None or g_.value is not None:
+            out.append(f"0.2!F{r}/G{r} hold {f_.value!r} / {g_.value!r} - left alone")
+            continue
+        f_.value = 0
+        g_.value = f"=E{r}-F{r}"
+        out.append(f"0.2!{ws.cell(r, 2).value!r}: F{r} = 0 and G{r} = E{r}-F{r}, the pair "
+                   f"every other row of this table carries")
 
 
 def run(src, dst):
@@ -188,6 +241,7 @@ def run(src, dst):
                 out.append(f"{tab}!{cell} -> {repl}")
             else:
                 out.append(f"{tab}!{cell} holds {str(cur)[:50]!r} - left alone")
+    close_config_gaps(wb, out)
     wb.save(dst)
     return out
 
