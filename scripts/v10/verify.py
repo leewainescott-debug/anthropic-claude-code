@@ -96,6 +96,52 @@ def headers(wb):
     return out
 
 
+# the tabs this toolchain writes itself. The owner's own tabs have his own column profile
+# and his own annotations, and measuring his notes against his widths reports his file back
+# at him rather than reporting a defect.
+BUILT = re.compile(r"^(2\.\d+ |3\.[1-4] |4\.0 |Exec Summary$)")
+
+
+def labels(wb, wv, limit=200, last=26):
+    """Every written label against the room it actually has.
+
+    headers() measures the navy cells. Every truncation the last design review found was in
+    a cell that is not one: a section label with a note in the cell beside it, a value column
+    one character too narrow for its own longest value, a check name in a 72-wide column.
+    A label runs into the cells to its right until it meets one that has something in it,
+    which is the same rule Excel draws with, so the room is measured to the first occupied
+    cell and not to the end of the row.
+    """
+    out = []
+    for ws in wb.worksheets:
+        if not BUILT.match(ws.title):
+            continue
+        vs = wv[ws.title]
+        for r in range(1, min(ws.max_row, limit) + 1):
+            for c in range(2, last):
+                v = ws.cell(r, c).value
+                if not isinstance(v, str) or v.startswith("=") or not v.strip():
+                    continue
+                try:
+                    rgb = str(ws.cell(r, c).fill.start_color.rgb or "").upper() \
+                        if ws.cell(r, c).fill.patternType else ""
+                except Exception:
+                    rgb = ""
+                if rgb in (opts.NAVY, opts.BARC):
+                    continue                      # headers() and bars() own these
+                if ws.cell(r, c).alignment.wrap_text:
+                    continue                      # wrapped, so height is the constraint
+                room = ws.column_dimensions[L(c)].width or 8.43
+                for k in range(c + 1, last):
+                    if ws.cell(r, k).value is not None or vs.cell(r, k).value is not None:
+                        break
+                    room += ws.column_dimensions[L(k)].width or 8.43
+                if len(v.strip()) > room:
+                    out.append(f"{ws.title}!{L(c)}{r} {len(v.strip())} chars in "
+                               f"{room:.0f} of room: {v.strip()[:52]!r}")
+    return out
+
+
 def bars(wb):
     """A section bar must be as wide as the table under it, and no wider.
 
@@ -282,6 +328,7 @@ def run(path):
     cov, n = coverage(wv)
     rep[f"role coverage ({n} in the ledger)"] = cov
     rep["truncated headers"] = headers(wb)
+    rep["truncated labels on the built tabs"] = labels(wb, wv)
     rep["bars not matching their table"] = bars(wb)
     rep["words the owner ruled out"] = words(wb)
     rep["one figure under many headings"] = facts(wv)

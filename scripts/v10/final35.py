@@ -28,7 +28,10 @@ COE_ORDER = ["COE Cyber", "COE BP&T", "COE SA&D", "EGI"]
 H34 = ["COE", "Squad", "Roles", "Filled", "Vacant", "Cost ($m)", "Cost - AU ($m)",
        "Cost - NZ ($m)", "Cost - elsewhere ($m)", "Roles carrying an overhead title",
        "Cost of those roles ($m)"]
-W34 = [16, 34, 8, 8, 8, 13, 13, 13, 15, 15, 15]
+# the Squad column has to hold the longest squad name on a COE tab - "Technology Strategy
+# & AI Capability" is 35 characters and the column was 34, so it lost its last letter with
+# a roles count in the cell beside it
+W34 = [16, 37, 8, 8, 8, 13, 13, 13, 15, 15, 15]
 F34 = [None, None, opts.CT, opts.CT, opts.CT, opts.M2, opts.M2, opts.M2, opts.M2,
        opts.CT, opts.M2]
 SUMS = (4, 5, 6, 7, 8, 9, 10, 11, 12)

@@ -471,11 +471,18 @@ def build_32(wb, anchors, a31, wcol):
              [None] * (len(H32) - 1),
              [None] * len(H32), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
+    adds = (6, 7, 8, 9, 10, 11)
     for c, nf in ((6, opts.M2), (7, opts.CT), (8, opts.M2), (9, opts.M2),
                   (10, opts.CT), (11, opts.M2)):
         x = ws.cell(r, c)
         x.value = f"=SUM({L(c)}{st}:{L(c)}{r-1})"
         x.number_format, x.alignment = nf, opts.RGT
+    # a rate and a count of times applied cannot be added across six different lines, and
+    # the last column is a Yes/No. They say so rather than sitting blank inside the band.
+    for c in range(4, len(H32) + 2):
+        if c not in adds:
+            x = ws.cell(r, c)
+            x.value, x.alignment = '="-"', opts.RGT
     tot32 = r
     # the two lines that split the total above and tie this tab to the overhead step on the
     # bridge. Every column the line does not state carries a dash, so the band reads as one

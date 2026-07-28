@@ -735,6 +735,23 @@ span and punched a hole through the header bar, so that one moves right of the t
 verbatim; K/L then carry the Actual/Variance pair like every other 1.x tab, retiring the
 P/Q exception.
 
+### D94. The platform-overhead allowance counts the platforms the model actually prices.
+3.1 said the portfolios' overhead allowance was 5.335; 3.2 said 6.325 for the same roles.
+The gap was exactly six platforms' worth of allowance (0.165 x 6): Lists carried a typed
+"30 platforms" from an old generation while the ten design tabs carry 24. The count is now
+measured off the design tabs at build time, so 3.2's allowance table ties to 3.1 to the
+cent and a new plain-English line shows the slice allowed for people outside the
+portfolios. Nothing on the actual-cost side moved.
+
+### D95. One subtotal rule, one label pattern, controls beside their labels - all fourteen 2.x tabs.
+A section gets a subtotal only when it has two or more rows and shares the tab with
+another live section, which retires the 2.11-2.13 rows that duplicated the grand total,
+and every subtotal is named for its section ("Squads total", not a bare "Total"). The
+grand total sums the sections' data rows directly, so dropping a subtotal can never drop
+rows from it. The two control values sit in column C beside their labels. The 2.x family
+check in qa.py turned out to be dead - it compared fourteen identical tuples - and is now
+live, catching exactly these defects on the old candidate and zero on the rebuild.
+
 ### D93. Ledger typos are fixed in the ledger, not papered over downstream.
 "Project Manger", "Portfolio Mnager", "michelle Siegman", "EnterpriseProcess Analyst",
 "DeveloperSAP ECC", "australia" and friends flow from the source datasets through INDEX
