@@ -25,7 +25,11 @@ print(f"   Customer block prices at {total:,.2f} == dataset total, gate passed")
 EOF
 python3 repair_design.py b1.xlsx b2.xlsx
 python3 cyber14.py b2.xlsx b2c.xlsx
-python3 ensure_lists.py b2c.xlsx base2.xlsx
+# after cyber14, so 1.14's copied squad row is swept with the other thirteen tabs: the
+# Hybrid branch on every 1.x squad prices 2 roles onshore and the rest offshore, off a
+# settable input on 0.3 (K7/K8 - the only two cells the chain writes on the owner's tab)
+python3 hybrid.py b2c.xlsx b2h.xlsx
+python3 ensure_lists.py b2h.xlsx base2.xlsx
 cp base2.xlsx w0.xlsx
 python3 overrides.py w0.xlsx w1.xlsx
 python3 -c "import wbio,shutil; shutil.copy(wbio.recalc('w1.xlsx'),'w1r.xlsx')"

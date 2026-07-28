@@ -313,51 +313,127 @@ def totals(path, anchors="anchors_final.json"):
                 elif str(ws.cell(r, m[KEY]).value or "").strip() in valid \
                         and isinstance(x, (int, float)):
                     run.append(x)
-    # the on-tab control rows left with the owner's 2707 edit, so the same arithmetic
-    # runs here instead: every line of the actuals table above the total must add to the
-    # total. The table itself moved from the foot of the tab to the top, beside the budget
-    # box, so the labels are hunted across the whole row rather than down column B - the
-    # block is found by what it says, which is the only thing about it that has not moved.
     ctl = []
     for one in sorted(t for t in wv.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", t)):
-        ws = wv[one]
-        foot = {}
-        lab_col = act_col = None
-        for r in range(1, ws.max_row + 1):
-            for c in range(2, 21):
-                lab = str(ws.cell(r, c).value or "").strip()
-                for want in ("Squads priced by an archetype",
-                             "Squads with no archetype to price them",
-                             "Overhead roles in this portfolio", "Additional costs",
-                             "Total actual cost after decisions"):
-                    if lab.startswith(want) and want not in foot:
-                        foot[want] = r
-                        lab_col = c
-        if "Total actual cost after decisions" not in foot:
-            ctl.append((one, 0, "no actuals-table total"))
-            continue
-        tr = foot.pop("Total actual cost after decisions")
-        # the cost column, by the head the table gives it. The table also carries a roles
-        # count, and a roles count balances against its own total too - so a rule that took
-        # the last numeric cell on the row would pass while checking the wrong column.
-        for k in range(tr - 1, max(tr - 8, 0), -1):
-            hit = next((c for c in range((lab_col or 2), 21)
-                        if str(ws.cell(k, c).value or "").strip() == "Cost ($m)"), None)
-            if hit:
-                act_col = hit
-                break
-        if act_col is None:
-            for c in range(3, 30):
-                if isinstance(ws.cell(tr, c).value, (int, float)):
-                    act_col = c
-        if act_col is None:
-            ctl.append((one, tr, "the actuals-table total has no figure"))
-            continue
-        total = ws.cell(tr, act_col).value
-        parts = sum(ws.cell(r, act_col).value or 0 for r in foot.values()
-                    if isinstance(ws.cell(r, act_col).value, (int, float)))
-        ctl.append((one, tr, round(parts - total, 6)))
+        ctl += actuals_control(wb, wv, one, a, live)
     return bad, ctl
+
+
+# ------------------------------------------------------------- the actuals table's control
+# The on-tab control rows went with the owner's 2707 edit, so the arithmetic runs here
+# instead. What that arithmetic is has changed with the table.
+#
+# It used to be a decomposition control: the table stated the actual cost five ways -
+# squads priced by an archetype, squads with none, overhead, additional costs, total - and
+# the control added the four category lines and checked they made the fifth. That was the
+# right control for that table, and it is a control about nothing now: the owner replaced
+# the five lines with three, and the three are not parts of a whole. They are the actual
+# portfolio, the archetype portfolio, and the difference.
+#
+# So the control follows the table. The new one is a tie, not a sum: every figure on the
+# block is a quotation from one cell on the working tab's "Total portfolio" row, and the
+# control reads that cell independently - by the header it carries, not by where the writer
+# put it - and subtracts. Six figures per tab rather than one, because six is how many
+# claims the table makes:
+#
+#     Actual portfolio    Roles = 2.x Total roles          Cost = 2.x cost after decisions
+#     Archetype portfolio Roles = 2.x Archetype roles      Cost = 2.x Archetype cost
+#     Variance            Roles = actual less archetype    Cost = actual less archetype
+#
+# The first four are the tie the owner cares about - the table is the working tab, to the
+# cent - and the last two are the table's internal arithmetic, checked against its own two
+# rows rather than against the ledger, because a variance that does not equal the two lines
+# above it is wrong however right those lines are.
+T_BAR, T_HEAD = "Actuals vs archetype", "What the cost covers"
+T_ROLES, T_COST = "Roles", "Cost ($m)"
+T_ACT, T_ARCH, T_VAR = "Actual portfolio", "Archetype portfolio", "Variance"
+# the working tab's own header for each figure the block quotes
+W_HEADS = {"roles": "Total roles", "aroles": "Archetype roles",
+           "acost": "Archetype cost ($m)", "after": "Squad cost after decisions ($m)"}
+
+
+def actuals_table(ws):
+    """(header row, label column, {head: col}, {label: row}) for the tab's actuals table.
+
+    Found by what it says and nothing else. The columns come off its own header row and the
+    rows off its own labels, so a block that has moved - it has moved once already, from the
+    foot of the tab to the top, and 1.7 carries it one row lower than its ten siblings - is
+    read where it actually is rather than where a row number says it should be.
+    """
+    for r in range(1, min(ws.max_row, 30) + 1):
+        for c in range(2, 21):
+            if str(ws.cell(r, c).value or "").strip() != T_HEAD:
+                continue
+            cols = {}
+            for k in range(c, 21):
+                v = str(ws.cell(r, k).value or "").strip()
+                if v in (T_ROLES, T_COST):
+                    cols.setdefault(v, k)
+            rows = {}
+            for k in range(r + 1, min(ws.max_row, r + 5) + 1):
+                lab = str(ws.cell(k, c).value or "").strip()
+                if lab in (T_ACT, T_ARCH, T_VAR):
+                    rows.setdefault(lab, k)
+            return r, c, cols, rows
+    return None
+
+
+def w_col(wsw, anchor, key):
+    """A working-tab column, by its header, with the anchors' map as the fallback."""
+    hdr = anchor.get("header_row")
+    if hdr:
+        for c in range(2, 26):
+            if str(wsw.cell(hdr, c).value or "").strip() == W_HEADS[key]:
+                return c
+    return anchor["cols"][key]
+
+
+def actuals_control(wb, wv, one, a, live):
+    """Every figure on one tab's actuals table, against the cell it quotes."""
+    ws = wv[one]
+    got = actuals_table(ws)
+    if got is None:
+        return [(f"{one}: no actuals table", 0, "not found")]
+    hdr, c0, cols, rows = got
+    if str(ws.cell(hdr - 1, c0).value or "").strip() != T_BAR:
+        return [(f"{one}: the actuals table's bar", hdr - 1,
+                 repr(str(ws.cell(hdr - 1, c0).value or "")[:40]))]
+    missing = ([x for x in (T_ROLES, T_COST) if x not in cols]
+               + [x for x in (T_ACT, T_ARCH, T_VAR) if x not in rows])
+    if missing:
+        return [(f"{one}: the actuals table is short {', '.join(missing)}", hdr, "missing")]
+    try:
+        import build_2xfix as _b2f
+        want = {v: k for k, v in _b2f.DESIGN.items()}[one]
+        anchor = next(x for x in a.values() if x["tab"] == want)
+    except (ImportError, KeyError, StopIteration):
+        anchor = next((x for x in a.values()
+                       if x["tab"].split(" ", 1)[-1] == one.split(" ", 1)[-1]), None)
+    if anchor is None:
+        return [(f"{one}: no working tab pairs with it", hdr, "unpaired")]
+    wsw, tot = wv[live[anchor["pf"]]], anchor["total_row"]
+
+    def fig(label, head):
+        return ws.cell(rows[label], cols[head]).value
+
+    def src(key):
+        return wsw.cell(tot, w_col(wsw, anchor, key)).value
+
+    out = []
+    for label, head, key in ((T_ACT, T_ROLES, "roles"), (T_ACT, T_COST, "after"),
+                             (T_ARCH, T_ROLES, "aroles"), (T_ARCH, T_COST, "acost")):
+        x, y = fig(label, head), src(key)
+        d = (round(x - y, 6) if isinstance(x, (int, float)) and isinstance(y, (int, float))
+             else f"table {x!r}, {wsw.title} {y!r}")
+        out.append((f"{one}: {label} {head} ties to {wsw.title}!"
+                    f"{L(w_col(wsw, anchor, key))}{tot}", rows[label], d))
+    for head in (T_ROLES, T_COST):
+        v, x, y = fig(T_VAR, head), fig(T_ACT, head), fig(T_ARCH, head)
+        d = (round(v - round(x - y, 6), 6)
+             if all(isinstance(z, (int, float)) for z in (v, x, y))
+             else f"variance {v!r}, actual {x!r}, archetype {y!r}")
+        out.append((f"{one}: {T_VAR} {head} is the two rows above it", rows[T_VAR], d))
+    return out
 
 
 def lever(path):

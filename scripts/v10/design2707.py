@@ -425,11 +425,21 @@ def bucket_bar(wb):
 
 # ----------------------------------------------------------------- 3  blank navy
 
+# The actuals table's own words. Everything this pass does to that block is anchored on
+# them, because they are the one part of it that has not moved: the block went from the foot
+# of the tab to the top, and then from five decomposition lines to the owner's three -
+# Actual portfolio, Archetype portfolio, Variance - under a bar that now says what the table
+# is for rather than what one of its lines held.
+ACTUALS_BAR = "Actuals vs archetype"
 ACTUALS_HEAD = "What the cost covers"
+ACTUALS_LINES = ("Actual portfolio", "Archetype portfolio", "Variance")
+ROLES_HEAD, COST_HEAD = "Roles", "Cost ($m)"
+# the budget box's own header depth, which the table beside it matches on every tab
+ACTUALS_HDR_H = 34
 
 
 def footer_header(wb):
-    """The actuals table's header row: labelled or unfilled, nothing blank between.
+    """The actuals table, dressed to the shape the owner mocked.
 
     This was written for the block actuals.py used to put at the foot of each tab, and it
     found that block by looking anywhere on the tab for "Archetype cost ($m)" or "Actual
@@ -438,12 +448,24 @@ def footer_header(wb):
     every squad table, so the old finder had quietly stopped dressing a footer and started
     matching the first squad table's header row instead.
 
-    It now looks for the actuals table's own first head, and it skips the cells inside a
-    merge: the label column is K:L merged, so L is blank navy on purpose and clearing it
-    would put a hole in the header. On a normal build actuals.py writes the row square and
-    this reports that there was nothing to do.
+    It now looks for the actuals table's own first head, and everything it does hangs off
+    that one cell:
+
+      - the header row: labelled or unfilled, nothing blank between. The cells inside a
+        merge are skipped - the label column is K:L merged, so L is blank navy on purpose
+        and clearing it would put a hole in the header - and the row is held at the budget
+        box's depth so the two tables beside each other read as one band.
+      - the bar above it: navy end to end over the table's own four columns, its text
+        reading from the left like every other bar on the tab.
+      - the three lines under it: label left, Roles and Cost right, which is where a reader
+        looking down the column from the squad tables expects to find them.
+
+    On a normal build actuals.py writes all of that and this reports there was nothing to
+    do. It is here because this pass runs last and is the only one that sees the finished
+    tab, and because a table the owner drew himself is the last thing that should be left
+    to one writer getting it right.
     """
-    out, done = [], []
+    out, done, dressed = [], [], []
     for ws in tabs(wb, PORTFOLIO):
         found = next(((k, c) for k in range(1, min(ws.max_row, 30) + 1)
                       for c in range(2, min(ws.max_column, 20) + 1)
@@ -461,12 +483,46 @@ def footer_header(wb):
             paint(ws, r, c, fill=NONE_FILL, border=NO_BORDER)
         if blank:
             done.append(f"{ws.title} row {r}: {','.join(L(c) for c in blank)}")
+        # the columns the table runs over, read off its own header rather than assumed:
+        # the label is merged from c0, the two figure columns are where their heads are
+        cols = {label(ws, r, c): c for c in range(c0, min(last, 20) + 1)}
+        c1 = max([last] + [v for v in cols.values()])
+        was = []
+        if height(ws, r) + 0.5 < ACTUALS_HDR_H:
+            ws.row_dimensions[r].height = ACTUALS_HDR_H
+            was.append(f"header row {r} raised to {ACTUALS_HDR_H}")
+        if r - 1 >= 1 and label(ws, r - 1, c0) == ACTUALS_BAR:
+            for c in range(c0, c1 + 1):
+                if rgb(ws.cell(r - 1, c)) != opts.BARC:
+                    paint(ws, r - 1, c, fill=opts.fl(opts.BARC), font=opts.BARF)
+                    was.append(f"bar {L(c)}{r - 1} filled")
+            if (ws.cell(r - 1, c0).alignment.horizontal or "") != "left":
+                paint(ws, r - 1, c0, align=opts.LFT)
+                was.append(f"bar {L(c0)}{r - 1} read from the left")
+        for k in range(r + 1, r + 1 + len(ACTUALS_LINES)):
+            if label(ws, k, c0) not in ACTUALS_LINES:
+                continue
+            if (ws.cell(k, c0).alignment.horizontal or "") != "left":
+                paint(ws, k, c0, align=opts.LFT)
+                was.append(f"{L(c0)}{k} read from the left")
+            for head in (ROLES_HEAD, COST_HEAD):
+                c = cols.get(head)
+                if c and (ws.cell(k, c).alignment.horizontal or "") != "right":
+                    paint(ws, k, c, align=opts.RGT)
+                    was.append(f"{L(c)}{k} read from the right")
+        if was:
+            dressed.append(f"{ws.title}: {'; '.join(was[:4])}")
     if done:
         out.append("blank navy cleared from the actuals table header rows: "
                    + "; ".join(done))
     else:
         out.append("the actuals table header rows are square - a label in every navy cell "
                    "that is not part of the K:L merge, so there is nothing to clear")
+    out.append(("the actuals tables already carry the owner's shape - bar to the left over "
+                "its own columns, header at the budget box's depth, label left and both "
+                "figure columns right on all three lines")
+               if not dressed else
+               "actuals tables squared to the owner's shape: " + "; ".join(dressed))
     return out
 
 

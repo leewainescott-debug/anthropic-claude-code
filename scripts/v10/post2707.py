@@ -7,7 +7,8 @@ Four jobs, each one of his edits generalised the way he applied it:
    actuals" line under the block (summary Total minus Actuals). Applied to all ten
    portfolio tabs, wired by label to the block actuals.py just built - by label, and to
    the whole tab rather than to column B, because that block has since moved from the foot
-   of the tab to the top and the wiring had to follow it without being told where.
+   of the tab to the top and been redrawn from five lines to three, and the wiring had to
+   follow it both times without being told where it went.
 2. His live levers. The COE design tabs now carry his On/Off states (Hold and Offshore),
    and 2.7 carries two hand-set levers. The working tabs' lever cells are set to match,
    by person, so his decisions price through the whole cascade.
@@ -26,6 +27,11 @@ from openpyxl.utils import get_column_letter as L
 import opts
 
 REVIEW = "REVIEW - Complete Role Mapping"
+# the line of the 1.x actuals table this column quotes, and the head of the column its
+# figure sits in. Both are the table's own words, which is the only part of that block that
+# has stayed put through two redesigns and one move from the foot of the tab to the top.
+ACTUALS_ROW = "Actual portfolio"
+COST_HEAD = "Cost ($m)"
 
 
 # ---------------------------------------------------------------- 1. the Actuals column
@@ -33,26 +39,27 @@ def actuals_column(wb, wv, out):
     a = json.load(open("anchors_final.json"))
     for one in [t for t in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", t)]:
         ws, wsv = wb[one], wv[one]
-        # The actuals table's total line and the column its cost sits in, both found by
+        # The actuals table's own actual line and the column its cost sits in, both found by
         # what they say rather than by where they are. The table used to be at the foot of
         # the tab with its labels in column B; it is now at the top beside the budget box
-        # with them in K. Wiring by label is what let it move without this step noticing,
-        # and is why the scan is over every column rather than over column B.
+        # with them in K, and its five decomposition lines are now three - Actual portfolio,
+        # Archetype portfolio, Variance - because the owner mocked it that way. Wiring by
+        # label is what let it move and then change shape without this step being rewritten
+        # twice, and is why the scan is over every column rather than over column B.
         foot = lab_col = act_col = None
         for r in range(1, ws.max_row + 1):
             for c in range(2, 21):
-                if str(ws.cell(r, c).value or "").startswith(
-                        "Total actual cost after decisions"):
+                if str(ws.cell(r, c).value or "").strip() == ACTUALS_ROW:
                     foot, lab_col = r, c
         if foot is None:
-            out.append(f"{one}: no actuals block total - skipped")
+            out.append(f"{one}: no {ACTUALS_ROW!r} line on the actuals table - skipped")
             continue
         # the cost column is the one the table's own header calls Cost ($m), read upwards
-        # from the total line; the old rule - the rightmost cell on the row that reads a
+        # from the actual line; the old rule - the rightmost cell on the row that reads a
         # working tab - is kept as the fallback if that head is ever reworded
         for k in range(foot - 1, max(foot - 8, 0), -1):
             hit = next((c for c in range(lab_col, 21)
-                        if str(ws.cell(k, c).value or "").strip() == "Cost ($m)"), None)
+                        if str(ws.cell(k, c).value or "").strip() == COST_HEAD), None)
             if hit:
                 act_col = hit
                 break
@@ -99,8 +106,9 @@ def actuals_column(wb, wv, out):
                 v.number_format, v.alignment, v.font = opts.M2, opts.RGT, opts.BOLD
                 placed = True
                 break
-        out.append(f"{one}: Actuals column on the summary (G{tot} <- "
-                   f"{L(act_col)}{foot}){', variance line placed' if placed else ''}")
+        out.append(f"{one}: Actuals column on the summary (G{tot} <- {L(act_col)}{foot}, "
+                   f"the actuals table's {ACTUALS_ROW} cost)"
+                   f"{', variance line placed' if placed else ''}")
 
 
 # ---------------------------------------------------------------- 2. his live levers
