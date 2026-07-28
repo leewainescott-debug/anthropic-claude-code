@@ -93,6 +93,10 @@ def untouched(path, base="cand.xlsx"):
     b, w = (openpyxl.load_workbook(base), openpyxl.load_workbook(path))
     bv, wv = (openpyxl.load_workbook(base, data_only=True),
               openpyxl.load_workbook(path, data_only=True))
+    try:
+        declared = {tuple(x) for x in json.load(open("post2707_manifest.json"))}
+    except FileNotFoundError:
+        declared = set()
     lost, moved = [], []
     for t in b.sheetnames:
         if t not in w.sheetnames:
@@ -111,6 +115,12 @@ def untouched(path, base="cand.xlsx"):
                     was = f.cell(r, c).value
                     if was is None or was == g.cell(r, c).value:
                         continue
+                    if what == "value" and isinstance(b[t].cell(r, c).value, str) \
+                            and str(b[t].cell(r, c).value).startswith("=") \
+                            and b[t].cell(r, c).value == w[t].cell(r, c).value:
+                        continue      # same formula, new inputs - recalc, not a loss
+                    if (t, f.cell(r, c).coordinate) in declared:
+                        continue      # a declared post-step edit, listed in its manifest
                     # widening a table under an annotation pushes the annotation along its
                     # own row. That is a move, not a loss, but it is reported either way -
                     # folding moves silently into "unchanged" hid six table headers being
@@ -250,15 +260,35 @@ def totals(path, anchors="anchors_final.json"):
                 elif str(ws.cell(r, m[KEY]).value or "").strip() in valid \
                         and isinstance(x, (int, float)):
                     run.append(x)
+    # the on-tab control rows left with the owner's 2707 edit, so the same arithmetic
+    # runs here instead: every footer line above the total must add to the total
     ctl = []
-    for t in wv.sheetnames:
-        ws = wv[t]
-        cols = [m[ACT] for _, m in tables(ws)]
+    for one in sorted(t for t in wv.sheetnames if re.match(r"^1\.(10|[1-9]) ", t)):
+        ws = wv[one]
+        foot = {}
+        act_col = None
         for r in range(1, ws.max_row + 1):
-            if str(ws.cell(r, 2).value or "").startswith("Control - every line above"):
-                got = [ws.cell(r, c).value for c in set(cols)
-                       if isinstance(ws.cell(r, c).value, (int, float))]
-                ctl.append((t, r, got[0] if got else "no figure in any actual column"))
+            lab = str(ws.cell(r, 2).value or "").strip()
+            for want in ("Squads priced by an archetype",
+                         "Squads with no archetype to price them",
+                         "Overhead roles in this portfolio", "Additional costs",
+                         "Total actual cost after decisions"):
+                if lab.startswith(want) and want not in foot:
+                    foot[want] = r
+        if "Total actual cost after decisions" not in foot:
+            ctl.append((one, 0, "no footer total"))
+            continue
+        tr = foot.pop("Total actual cost after decisions")
+        for c in range(3, 30):
+            if isinstance(ws.cell(tr, c).value, (int, float)):
+                act_col = c
+        if act_col is None:
+            ctl.append((one, tr, "footer total has no figure"))
+            continue
+        total = ws.cell(tr, act_col).value
+        parts = sum(ws.cell(r, act_col).value or 0 for r in foot.values()
+                    if isinstance(ws.cell(r, act_col).value, (int, float)))
+        ctl.append((one, tr, round(parts - total, 6)))
     return bad, ctl
 
 

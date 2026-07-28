@@ -617,6 +617,69 @@ was put to him rather than guessed. He chose the overhead lines. The named peopl
 line are in the FTE block at the foot of the same tab, so the 12.0 can be traced back by
 hand.
 
+### D78. The 2707 consolidation round - what moved and why. Lee's instructions, executed in agent waves.
+The owner sent three files: his review workbook (branched from an old generation, carrying
+his 0.2/1.x redesign), the 2707 version (my latest ship plus his hand edits), and a new
+Customer dataset. Fable planned and orchestrated; Opus agents analysed and verified;
+docs/ORCHESTRATION_2707.md is the plan of record. The headline ledger moved
+525 roles / $115,283,002 to **531 roles / 529.3 FTE / $115,589,735**:
++1,018,131 six new cyber vacancies (rows 529-534), -106,606 the SA&D re-level on row 321,
+-604,792 the Customer restatement, +169,740 the standing Nidhi Aggarwal override.
+
+### D79. The review workbook is the base; what its branch predates is re-applied, not lost.
+rev.xlsx forked before the fold table, the lever factors, the allowance table, the
+override table, the canonical-squad scaffold, the D4 design renames and the D6a
+zero-people-squad removals existed. Everything on that list is recreated or re-applied by
+the chain (ensure_lists.py, repair_design.py, merge_review.py), so his edits land on the
+current model rather than dragging it back a generation. His three instructed role moves
+(r283, r313, r528) are reinstated in the override table the same way.
+
+### D80. The new Customer dataset replaces the block wholesale. Lee's data.
+Same 83 people, FTE unchanged at 82.4, cost restated -604,792: the AU and NZ on-cost
+parameter blocks were cross-contaminated in the old block (an Australian priced at 0.92 FX
+with NZ pensions and medical) and the new file puts them back on the right people. Six
+roles move out of Leadership into squads. Nine rows state a cost that disagrees with their
+own components; each is priced at the stated cost through the AU agreed-cost override with
+the discrepancy noted beside it in AV. Rob Jadrjevic ships at $0 with the dataset's own
+note ("Cant find this record") parked visibly in the Commentry column - his file, his
+figure, flagged rather than invented. Tim Corin's old banded-rate override (D10) is
+superseded by the restatement.
+
+### D81. His levers flow through the model, set once, priced everywhere. Lee's ask (T5).
+His On/Off design: one lever column per COE tab (Onshore/Offshore/Hold; Hold added on
+1.12 and 1.13, cost factor 0, role stays in the counts) and a squad-level Hybrid state
+priced at the onshore/offshore midpoint. The working tabs' lever cells are synchronised
+from his design-tab states by ledger row - five cyber Holds, three SA&D Holds plus three
+Offshores, two BP&T Offshores, Stevani Kho Offshore, the vacant QA role at ledger row 431
+set to Filled - so the file ships with his decisions live: after-decisions
+$113.03m against $115.59m today. The old "after equals today with no lever pulled" check
+became "the bridge's decision impact equals the sum of the working tabs' impacts".
+
+### D82. 2.x archetype cost reads the design tab's H, not the library directly.
+He typed bottom-up squad costs over the archetype lookups on 1.2. On nine tabs H still
+computes the library rate, so nothing moves there; on 1.2 the model now shows his figures.
+One source of truth - the tab he edits - and 2.2's archetype total ties to 1.2's Total
+Cost to the cent. His EGI Customer funding sits in the TDD Cost column (I54=2.21), so the
+directly-funded comparison reads H first and I second.
+
+### D83. His labels supersede two old banned-word rulings.
+He renamed every budget bar "TDD Lights On Budget" and every funding block "Total to
+fund", consistently, across the ten portfolio tabs. The phrase police now allows both;
+"seat" and the design-language bans stand.
+
+### D84. His 1.x footer shape: "Additional costs", and the control moves off the tab.
+He deleted the "On the working tab with no row on this tab" residual and the on-tab
+control row, and renamed the residual "Additional costs" where he kept it. Adopted
+everywhere: the residual line appears only where it is a real figure, and the zero-check
+now runs in Python on every build (qa1x) instead of sitting on the tab.
+
+### D85. 0.2's Spend column is live, wired to where the figures actually live.
+His rev formulas read the retired 3.4; the four COE cells now read the grouping
+planned-spend cells on 1.11/1.12 directly, and the empty-cell budget reads he pointed at
+0.1 are wrapped in N() - the house style for a read that may legitimately be blank. The
+1.7 row offset his copy carries stays: every consumer joins by label, and the consistency
+check now compares block order and completeness rather than absolute row numbers.
+
 ### D74. The archetype prices overhead, and the working tabs were ignoring it.
 Owner: "taking energy solutions & b2b as an example, we have 7.9m as the total cost for the
 archetype, however, the actual total cost for the archetype is 9.03? ... you cannot only

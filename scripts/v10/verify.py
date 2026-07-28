@@ -27,11 +27,12 @@ import wbio
 
 REVIEW = "REVIEW - Complete Role Mapping"
 BANNED = ("design cost", "over/(under) design", "variance to design",
-          "against the design", "lights on budget")
-# banned as a block header only. As a line label with its own figure beside it, "Total to
-# fund" is what the owner's funding block actually adds up, and register item 21 asks for
-# it; item 10 rules it out as a heading over a table.
-BANNED_HEADER = ("total to fund",)
+          "against the design")
+# "lights on budget" and "Total to fund" as a header both left this list in the 2707
+# consolidation round: the owner renamed every 1.x budget bar "TDD Lights On Budget" and
+# every funding block "Total to fund" himself, consistently across the ten tabs. His
+# newest labels supersede the older register rulings that banned the phrases.
+BANNED_HEADER = ()
 RETIRED = {"Squads", "Added data", "Sheet2", "FY26 Budget (superseded)",
            "squad mapping (superseded)", "Lists", "0.1 Budget Table (Fin)",
            "0.4 Presentation Pack"}
@@ -220,6 +221,10 @@ def lever(path):
         row = next((r for r in range(1, ws2.max_row + 1)
                     if isinstance(ws2.cell(r, 2).value, str)
                     and ws2.cell(r, 2).value.strip() == label), None)
+        if row is None:
+            row = next((r for r in range(1, ws2.max_row + 1)
+                        if isinstance(ws2.cell(r, 2).value, str)
+                        and ws2.cell(r, 2).value.strip().startswith(label)), None)
         if row is None:
             raise KeyError(f"{sheet}: no row {label!r}")
         if header is None:

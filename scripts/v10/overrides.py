@@ -29,7 +29,12 @@ REVIEW = "REVIEW - Complete Role Mapping"
 LAST = None                             # measured from the ledger in run()
 N = 11                                  # override window runs Lists!$AN$2:$AN$11
 
-NEW = []
+# The three moves the owner instructed (D7). They lived as typed rows in the Lists
+# override table; the review workbook's branch predates that table, so they are
+# reinstated here or the roles silently snap back to their raw homes.
+NEW = [(283, "COE SA&D", "Group Data", None),
+       (313, "COE SA&D", "Group Data", None),
+       (528, None, "SAP ERP", None)]
 
 # Folds to take back out of Lists!W:X. The table is meant to fix typing - AmPos to AmPOS,
 # Manuacturing to Manufacturing - and three rows in it were doing something else:

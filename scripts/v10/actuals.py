@@ -333,25 +333,43 @@ def _foot(ws, r, subs, unpriced, tab, anchor, cols):
         r = _line(ws, r, "Squads with no archetype to price them", cols, '="-"',
                   "=" + "+".join(f"N({b})" for _, b in unpriced), '="-"')
         add.append(r - 1)
-    r = _line(ws, r, "Overhead roles in this portfolio - no archetype prices them", cols,
+    r = _line(ws, r, "Overhead roles in this portfolio", cols,
               '="-"', f"=N('{tab}'!${A}${oh})" if oh else '="-"', '="-"')
     add.append(r - 1)
-    # every squad on the working tab that has no row on this design tab. Without this the
-    # control could not read zero, because the working tab carries groups the design does
-    # not - a one-person EGI programme, a Leadership group - and saying so is the point.
-    r = _line(ws, r, "On the working tab with no row on this tab", cols, '="-"',
-              f"=ROUND(N('{tab}'!${A}${anchor['total_row']})-"
-              + "-".join(f"${K}{x}" for x in add) + ",6)", '="-"')
-    add.append(r - 1)
+    # squads the working tab carries with no row on this tab - the owner renamed the line
+    # "Additional costs" and dropped it where it is nil, so it appears only when it is a
+    # real figure. The zero-check control moved off the tab with his edit; qa1x recomputes
+    # the same arithmetic in Python on every run.
+    resid = f"=ROUND(N('{tab}'!${A}${anchor['total_row']})-" \
+            + "-".join(f"${K}{x}" for x in add) + ",6)"
+    if abs(_residual(ws.parent, tab, anchor, add, K)) > 1e-6:
+        r = _line(ws, r, "Additional costs", cols, '="-"', resid, '="-"')
+        add.append(r - 1)
     r = _line(ws, r, "Total actual cost after decisions - ties to the working tab", cols,
               '="-"', f"='{tab}'!${A}${anchor['total_row']}", '="-"', band=True)
-    tot = r - 1
-    _span(ws, r, [(2, ca - 1,
-                   "Control - every line above against the working tab, must be 0")],
-          opts.BODY, None, opts.LFT)
-    _m(ws, r, cb, "=ROUND(" + "+".join(f"${K}{x}" for x in add) + f"-${K}{tot},6)",
-       fmt=opts.CTL_M)
     return add[0]
+
+
+_WV = None
+_NAMES = None
+
+
+def _residual(wb, tab, anchor, add_rows, K):
+    """The residual the "Additional costs" line would carry, from cached values.
+
+    It is the after-decisions cost of every working-tab group that has no squad row on
+    this design tab - a one-person programme, a Leadership group. The footer rows written
+    this run have no cached values yet, so the figure is derived from the working tab's
+    own cached group rows instead.
+    """
+    A = anchor["cols"]["after"]
+    resid = 0.0
+    for g in anchor["squads"] + anchor["direct"] + anchor["nofig"]:
+        if g in (_NAMES or set()):
+            continue
+        v = _WV[tab].cell(anchor["srow"][g], A).value
+        resid += v if isinstance(v, (int, float)) else 0
+    return resid
 
 
 def _m(ws, r, c, f, fmt=None, bold=False):
@@ -405,9 +423,11 @@ def coe_note(wb, wv):
         if tot is None:
             out.append(f"{one}: no Total row on the summary table")
             continue
-        r = tot + 1
-        if str(wsv.cell(r, 2).value or "").strip():          # never write over a live row
-            out.append(f"{one}: row {r} is not free")
+        r = next((k for k in range(tot + 1, tot + 9)
+                  if not str(wsv.cell(k, 2).value or "").strip()
+                  and not str(ws.cell(k, 2).value or "").strip()), None)
+        if r is None:                                        # never write over a live row
+            out.append(f"{one}: no free row under the summary")
             continue
         ws.cell(r, 2).value = COE_NOTE
         ws.cell(r, 2).font = opts.BODY
@@ -418,8 +438,10 @@ def coe_note(wb, wv):
 
 
 def run(src, dst, variant="A", anchors="anchors_final.json"):
+    global _WV
     wb = openpyxl.load_workbook(src)
     wv = openpyxl.load_workbook(src, data_only=True)
+    _WV = wv
     a = json.load(open(anchors))
     # the working tabs were renamed after the anchors were written, so map by portfolio
     live = {str(wv[t]["C3"].value): t for t in wb.sheetnames if t.startswith("2.")}
@@ -434,6 +456,9 @@ def run(src, dst, variant="A", anchors="anchors_final.json"):
         if not blks:
             out.append(f"{one}: no platform block with a squad in it")
             continue
+        global _NAMES
+        _NAMES = {str(wsv.cell(s_, 2).value or "").strip()
+                  for b in blks for s_ in b["squads"]}
         if variant == "A":
             act, var, moved = design_a(ws, wsv, blks, tab, lo, hi, after)
             portfolio_block(ws, blks, tab, anchor, (ARCH, act, var))

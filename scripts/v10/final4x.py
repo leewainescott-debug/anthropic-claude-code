@@ -50,7 +50,7 @@ def anchors(wb):
     a3 = json.load(open("anchors_final3.json"))
     s2, s3 = wb[G2.strip("'")], wb[G3.strip("'")]
     a = dict(a3["3.1"])
-    a["ohtot32"] = find_row(s2, "Every overhead line")
+    a["ohtot32"] = find_row(s2, "Overheads incl. GMs")
     a["ohpf32"] = find_row(s2, "Of which sits in the")
     a["g33"] = find_row(s3, "Group total")
     a["first33"] = find_row(s3, "Portfolio") + 1
@@ -335,20 +335,31 @@ def build_qa(wb, a, a2):
          f"={G1}!${C31['roles']}${gt}-" + "-".join(
              f"N('{t}'!${L(S['hold'])}${i['total_row']})" for t, i in a2.items()),
          opts.CT),
-        ("Cost after decisions against cost today, with no lever pulled ($m)",
-         f"={G1}!${C31['after']}${gt}", f"={G1}!${C31['actual']}${gt}", opts.M2),
+        # the file ships with the owner's decisions set - five cyber holds, three SA&D
+        # holds, two BP&T offshores, Stevani Kho offshored - so after-decisions no longer
+        # equals today. The identity that always holds: the bridge's decision impact
+        # equals the sum of the working tabs' own impacts.
+        ("Decision impact on 3.1 against the working tabs ($m)",
+         f"={G1}!${C31['actual']}${gt}-{G1}!${C31['after']}${gt}",
+         "=" + "+".join(
+             f"N('{t}'!${L(S['actual'])}${i['total_row']})"
+             f"-N('{t}'!${L(S['after'])}${i['total_row']})" for t, i in a2.items()),
+         opts.M2),
     ]
     # the COE tabs price their own planned spend off their own roles list. Where that list
     # is short of the ledger the planned spend is short too, and nothing else in the file
     # notices: 1.12 was missing three roles worth $747,896.
-    for tab, pf, cell in (("1.11 BP&T", "COE BP&T", "$F$6+'1.11 BP&T'!$F$7"),
-                          ("1.12 SA&D", "COE SA&D", "$G$6+'1.12 SA&D'!$G$7"),
+    # the COE tabs now state planned spend net of portfolio funding and after the
+    # owner's own levers, so a gross-spend tie no longer exists on them. The structural
+    # tie that survives his redesign is the roles count.
+    for tab, pf, cell in (("1.11 BP&T", "COE BP&T", "$C$6+'1.11 BP&T'!$C$7"),
+                          ("1.12 SA&D", "COE SA&D", "$C$6+'1.12 SA&D'!$C$7"),
                           ("1.13 Cyber Roles", "COE Cyber",
-                           "$F$6+'1.13 Cyber Roles'!$F$7")):
-        checks.append((f"{tab} planned spend against the ledger ($m)",
+                           "$C$6+'1.13 Cyber Roles'!$C$7")):
+        checks.append((f"{tab} roles against the ledger",
                        f"='{tab}'!{cell}",
-                       f'=SUMIFS({REV}!$AA$2:$AA${LAST},'
-                       f'{REV}!$AJ$2:$AJ${LAST},"{pf}")/1000000', opts.M2))
+                       f'=COUNTIFS({REV}!$AJ$2:$AJ${LAST},"{pf}",'
+                       f'{REV}!$B$2:$B${LAST},"<>")', opts.CT))
     for tab, cell in coe_control(wb):
         checks.append((f"{tab} own control - roles listed against roles counted",
                        f"='{tab}'!{cell}", "=0", opts.CT))

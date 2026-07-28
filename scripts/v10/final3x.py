@@ -116,9 +116,7 @@ def build_31(wb, anchors):
     ws.cell(2, 2).font = opts.TITLE
     pfs, coes = order(anchors)
 
-    r = opts.bar(ws, 4, 2, len(H31), "How the organisation gets from its archetype "
-                                     "cost to what it actually costs")
-    r = opts.head(ws, r, 2, H31, W31)
+    r = opts.head(ws, 4, 2, H31, W31)
 
     def line(rw, name, pf, tab, src, design):
         ws.cell(rw, 2).value = name
@@ -422,7 +420,7 @@ def build_32(wb, anchors, a31, wcol):
         ws.cell(r, 12).font = opts.BODY
         ws.cell(r, 12).alignment = opts.CEN
         r += 1
-    opts.row(ws, r, 2, ["Every overhead line, including the GM layer"] +
+    opts.row(ws, r, 2, ["Overheads incl. GMs"] +
              [None] * (len(H32) - 1),
              [None] * len(H32), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
@@ -457,15 +455,17 @@ def build_32(wb, anchors, a31, wcol):
                    "Allocation %", "Allocated rate ($m)"],
                   [26, 42, 14, 12, 16])
     st3 = r
+    # 0.2's overhead tables moved two columns right (K:N) for the owner's Notes and
+    # Actions columns, so cost sits in L and allocation in M
     for lab, where, full, pct, i in (
-            ("Head of Technology", "Portfolio Overhead, Head of Tech", "$J$6", "$K$6", 2),
-            ("Business Partner", "Portfolio Overhead, Business Partner", "$J$7", "$K$7", 3),
-            ("Domain Architect", "Portfolio Overhead, Domain Architect", "$J$8", "$K$8", 4),
-            ("Delivery Manager", "Platform Overhead, Delivery Manager", "$J$14", "$K$14",
+            ("Head of Technology", "Portfolio Overhead, Head of Tech", "$L$6", "$M$6", 2),
+            ("Business Partner", "Portfolio Overhead, Business Partner", "$L$7", "$M$7", 3),
+            ("Domain Architect", "Portfolio Overhead, Domain Architect", "$L$8", "$M$8", 4),
+            ("Delivery Manager", "Platform Overhead, Delivery Manager", "$L$14", "$M$14",
              5),
-            ("Technology Manager", "Platform Overhead, Tech Manager", "$J$15", "$K$15", 6),
-            ("Leadership - 8 GMs", "Portfolio Overhead, Leadership Overhead", "$J$9",
-             "$K$9", 7)):
+            ("Technology Manager", "Platform Overhead, Tech Manager", "$L$15", "$M$15", 6),
+            ("Leadership - 8 GMs", "Portfolio Overhead, Leadership Overhead", "$L$9",
+             "$M$9", 7)):
         ws.cell(r, 2).value = lab
         ws.cell(r, 3).value = where
         for c in (2, 3):
@@ -477,8 +477,8 @@ def build_32(wb, anchors, a31, wcol):
         r += 1
     r += 1
     r += 1
-    ws.cell(r, 2).value = ("The allocated rate is the full role cost times the allocation. "
-                           "The cost it is measured against is whole roles.")
+    ws.cell(r, 2).value = ("Allocated rate = cost x allocation. "
+                           "Cost is roles in role mapping")
     ws.cell(r, 2).font = opts.BODY
     ws.cell(r, 2).alignment = opts.LFT
     return {"total": st}

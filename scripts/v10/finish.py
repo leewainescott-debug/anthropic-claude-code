@@ -48,8 +48,7 @@ SHORTEN = {"3.1 Cost Bridge": {
         "COEs and EGI - planned spend on their own 1.x tabs",
     "Squads priced by an archetype - detail on 3.3":
         "Squads priced by an archetype - detail on 3.3"}}
-TITLES = {"3.2 Overhead & Leadership": "Overhead & Leadership - the allowance against "
-                                       "what it costs",
+TITLES = {"3.2 Overhead & Leadership": "Overhead & Leadership comparison",
           "1.13 Cyber Roles": "Cyber, Risk & Service Operations - roles and funding"}
 # one width profile for the three COE design tabs, wide enough for all three
 COE_W = {"B": 46, "C": 38, "D": 24, "E": 11, "F": 11, "G": 15, "H": 15, "I": 15, "J": 15,

@@ -61,7 +61,7 @@ S_HDR = ["Squad", "Archetype Type", "Squad Size", "Archetype roles", "Total role
 # words rather than overwriting them on the next run
 SECTION = {"arch": "Squads",
            "direct": "Directly funded programmes and platforms",
-           "none": "Groups with no archetype and no funded figure",
+           "none": "No archetype in 1.x tabs",
            "oh": "Overhead roles"}
 # the label goes in the Squad column, not the Archetype Type column - a sentence in a data
 # column is still a sentence in a data column
@@ -80,13 +80,14 @@ KINDS = ("arch", "direct", "none", "oh")
 #
 # The two sheets name the same lines differently - "Head of Tech" against "Head of
 # Technology" - so the map is written out rather than matched on text.
-OH_RATE = {"Head of Technology": ("$L$6", "$K$6", False),
-           "Business Partner": ("$L$7", "$K$7", False),
-           "Domain Architect": ("$L$8", "$K$8", False),
-           "Delivery Manager": ("$L$14", "$K$14", True),
-           "Technology Manager": ("$L$15", "$K$15", True)}
+OH_RATE = {"Head of Technology": ("$N$6", "$M$6", False),
+           "Business Partner": ("$N$7", "$M$7", False),
+           "Domain Architect": ("$N$8", "$M$8", False),
+           "Delivery Manager": ("$N$14", "$M$14", True),
+           "Technology Manager": ("$N$15", "$M$15", True)}
 CFG = "'0.2 Data Config'"
 ELSEWHERE = ("Allowed for in the archetype, sitting outside this portfolio")
+ELSEWHERE_WHY = "Business Partners and Domain Architects sit in the COEs"
 S_W = [30, 26, 11, 11, 9, 8, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
@@ -225,7 +226,7 @@ def build(wb, wv, tab, rows, bounds):
     # number of platforms behind the per-platform half of it
     ALLOW = (f"(N('{design}'!$F${oh_pf})+N('{design}'!$F${oh_plat}))"
              if oh_pf and oh_plat else '0')
-    PLAT = f"N('{design}'!$F${oh_plat})/{CFG}!$L$16" if oh_plat else "0"
+    PLAT = f"N('{design}'!$F${oh_plat})/{CFG}!$N$16" if oh_plat else "0"
     delivery, overhead = groups(rows, design)
     lo, hi = bounds[design] if design else (0, 0)
     # split the delivery squads by whether the archetype library actually prices them
@@ -381,10 +382,14 @@ def build(wb, wv, tab, rows, bounds):
                 _m(ws, rw, S["aroles"],
                    f"=IFERROR(INDEX({A3}!$F$5:$F$23,MATCH({key},{A3}!$A$5:$A$23,0)),"
                    f'"-")', opts.C1)
+                # the design tab's H is the squad's archetype cost - the same library
+                # lookup on nine tabs (now with the owner's Hybrid state priced as the
+                # onshore/offshore midpoint), and his own typed bottom-up figures on 1.2.
+                # Reading H rather than re-deriving from the library keeps the working
+                # tab equal to the tab he edits, whichever of the two H happens to be.
+                hh = f"INDEX('{design}'!$H${lo}:$H${hi},{m})"
                 _m(ws, rw, S["acost"],
-                   f"=IFERROR(IF(INDEX('{design}'!$E${lo}:$E${hi},{m})=\"Offshore\","
-                   f"INDEX({A3}!$H$5:$H$23,MATCH({key},{A3}!$A$5:$A$23,0)),"
-                   f'INDEX({A3}!$G$5:$G$23,MATCH({key},{A3}!$A$5:$A$23,0))),"-")')
+                   f'=IFERROR(IF(ISNUMBER({hh}),{hh},"-"),"-")')
             else:
                 # Directly funded. No archetype prices a strategic programme - the owner's
                 # instruction - so the figure to compare against is the amount he typed on
@@ -402,8 +407,12 @@ def build(wb, wv, tab, rows, bounds):
                 # rather than manufacturing a comparison out of the actual.
                 _m(ws, rw, S["aroles"], '="-"', opts.C1)
                 idx = f"INDEX('{design}'!$H${lo}:$H${hi},{m})"
+                idx_i = f"INDEX('{design}'!$I${lo}:$I${hi},{m})"
+                # the funded amount lives in H (Total Squad Cost); where the owner typed
+                # it into I (TDD Cost) instead - EGI Customer's 2.21 - the I figure is
+                # the funded amount and the comparison uses it
                 _m(ws, rw, S["acost"],
-                   f'=IFERROR(IF(N({idx})=0,"-",{idx}),"-")')
+                   f'=IFERROR(IF(N({idx})>0,{idx},IF(N({idx_i})>0,{idx_i},"-")),"-")')
             # rounded, or a squad priced exactly at its archetype shows (0.00) on a
             # residual of a few billionths
             _m(ws, rw, S["var"],
@@ -512,12 +521,11 @@ def build(wb, wv, tab, rows, bounds):
         ws.cell(oh_else, S["squad"]).value = ELSEWHERE
         ws.cell(oh_else, S["squad"]).font = opts.BODY
         ws.cell(oh_else, S["squad"]).alignment = opts.LFT
-        ws.cell(oh_else, S["type"]).value = ("Business Partners and Domain Architects sit "
-                                             "in the COEs, the GMs above the ledger")
+        ws.cell(oh_else, S["type"]).value = ELSEWHERE_WHY
         ws.cell(oh_else, S["type"]).font = opts.BODY
         ws.cell(oh_else, S["type"]).alignment = opts.LFT
         _m(ws, oh_else, S["aroles"],
-           f"=ROUND(SUM({CFG}!$K$6:$K$9)+SUM({CFG}!$K$14:$K$15)*({PLAT})-({nfte}),6)",
+           f"=ROUND(SUM({CFG}!$M$6:$M$9)+SUM({CFG}!$M$14:$M$15)*({PLAT})-({nfte}),6)",
            opts.C1)
         _m(ws, oh_else, S["acost"], f"=ROUND({ALLOW}-({drawn}),6)")
         for k in ("size", "roles", "fte", "filled", "vacant", "hire", "offshore", "hold",
@@ -647,10 +655,21 @@ def run(src, dst):
     bounds = {d: squad_table_bounds(wb, d) for d in set(DESIGN.values())}
     tabs = [s for s in wb.sheetnames if re.match(r"^2\.\d+ ", s)]
     anchors, out = {}, []
+    # tab -> portfolio: the tab's own C3 cell on tabs this build has written before, a
+    # name-suffix match second, and the tab number last - the review workbook's 2.x tabs
+    # are the old generation and carry neither the C3 cell nor the current names
+    BY_NUM = {"2.1": "Ampol Retail", "2.2": "Customer", "2.3": "Enterprise Data",
+              "2.4": "TDD Group Functions", "2.5": "P&C", "2.6": "Finance",
+              "2.7": "Infrastructure", "2.8": "Energy Solutions & B2B",
+              "2.9": "Commercial Fuels", "2.10": "Z Retail", "2.11": "COE Cyber",
+              "2.12": "COE BP&T", "2.13": "COE SA&D", "2.14": "EGI"}
     for tab in tabs:
         pf = wv[tab]["C3"].value
         if pf not in bypf:
-            pf = next(p for p in bypf if p and tab.endswith(str(p)))
+            pf = next((p for p in bypf if p and tab.endswith(str(p))),
+                      BY_NUM.get(tab.split(" ")[0]))
+        if pf not in bypf:
+            raise SystemExit(f"{tab}: no portfolio found (C3, suffix and number all miss)")
         a = build(wb, wv, tab, bypf[pf], bounds)
         anchors[tab] = a
         out.append(f"{tab}: {len(a['squads'])} archetyped, {len(a['direct'])} directly "

@@ -190,7 +190,7 @@ def run(path, anchors="anchors_final.json"):
           ohcost["pf"] / 1e6)
     check(out, "3.2 portfolio overhead roles",
           ws.cell(r, col_of(ws, "Roles in the portfolios")).value, ohroles["pf"], True)
-    t = find(ws, "Every overhead line")
+    t = find(ws, "Overheads incl. GMs")
     check(out, "3.2 overhead inside the COEs",
           ws.cell(t, col_of(ws, "Cost inside the COEs ($m)")).value, ohcost["coe"] / 1e6)
 

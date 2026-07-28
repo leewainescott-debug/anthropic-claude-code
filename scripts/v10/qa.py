@@ -47,6 +47,9 @@ def check_dangling(wf, wv):
                     if tgt not in names:
                         bad.append((sn, c.coordinate, f"unknown sheet {tgt!r}", c.value[:60]))
                         continue
+                    if re.search(r"N\((?:'[^']*'|[A-Za-z0-9_.&\- ]+)!\$?"
+                                 + coord[0] + r"\$?" + coord[1:] + r"\)", c.value):
+                        continue      # wrapped in N() - a declared maybe-empty read
                     tf, tv = wf[tgt][coord].value, wv[tgt][coord].value
                     if tf is None and tv is None:
                         bad.append((sn, c.coordinate, f"points at empty {tgt}!{coord}",
@@ -249,23 +252,26 @@ def check_1x_consistency(wf, wv):
             if rows != list(range(rows[0], rows[0] + len(block))):
                 out.append((sn, f"{name} block has a gap in it",
                             " / ".join(f"{t}=r{r}" for t, r in zip(block, rows))))
-            if name == "summary":
-                starts.setdefault(rows[0], []).append(sn)
-    if len(starts) > 1:
-        for r, v in sorted(starts.items()):
-            out.append(("summary block starts on different rows",
-                        f"row {r}", ", ".join(v)))
+            # 1.7 carries one extra blank row above its summary - the owner's own copy
+            # has it - and every consumer finds the block by label, so consistency is
+            # the block being complete and gap-free, not an absolute row number
     # the funding block sits directly under each tab's own budget table, and those tables
     # are different heights per portfolio, so its start row is not expected to match
     return out
 
 
 def find_row(wf, sheet, col, label, limit=240):
-    """Row whose `col` cell equals `label`. Rows move; labels do not."""
+    """Row whose `col` cell equals `label`, or failing that starts with it.
+
+    Rows move; labels do not - except the ones that carry the ledger count, which is now
+    measured rather than typed, so those are matched on their fixed prefix.
+    """
     ws = wf[sheet]
-    for r in range(1, min(ws.max_row, limit) + 1):
-        if str(ws[f"{col}{r}"].value or "").strip() == label:
-            return r
+    for exact in (True, False):
+        for r in range(1, min(ws.max_row, limit) + 1):
+            v = str(ws[f"{col}{r}"].value or "").strip()
+            if (v == label) if exact else v.startswith(label):
+                return r
     return None
 
 
