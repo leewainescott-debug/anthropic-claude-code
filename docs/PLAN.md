@@ -5,7 +5,7 @@ Companion file: `docs/DECISIONS.md` (what was decided and why).
 The original 101-item brief is `docs/INSTRUCTION_REGISTER.md` and still stands except
 where superseded below.
 
-Last updated: after wave H. Hybrid now prices 2 roles onshore + the rest offshore,
+Last updated: after wave J - the model-wide formula sweep. 3.2 rebuilt to his own layout; the 2.x ledger join made insert-safe; ~4,200 inert cells removed; every label that promised something its formula did not deliver either fixed or relabelled. Gate 120 checks, all passing.\n\nPrevious update - wave H. Hybrid now prices 2 roles onshore + the rest offshore,
 settable at 0.3!K8; every 1.x tab carries his "Actuals vs archetype" table (Actual /
 Archetype / Variance, roles + cost); 3.2 tells the applied-vs-organisation story with
 both gaps per overhead line; the Exec vacancy block is a true partition (134 hire +

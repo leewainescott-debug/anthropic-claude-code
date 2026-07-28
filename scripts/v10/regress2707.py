@@ -145,10 +145,14 @@ def run(path):
           and str(wb["1.12 SA&D"]["C19"].value or "").startswith("="))
 
     # ---- audit: 1.11 lever vocabulary
-    t_hold = all("\"Hold\"" in str(wb["1.11 BP&T"].cell(r, 20).value or "")
-                 for r in range(21, 45)
-                 if isinstance(wb["1.11 BP&T"].cell(r, 20).value, str))
-    check("1.11 T engine carries the Hold branch", t_hold)
+    # the lever price is no longer spelled out in the engine - it is looked up from
+    # Lists!AC:AD, the one place the four factors live - so what this asserts now is that
+    # the lookup is there and reaches the whole table, Hold row included
+    eng = [str(wb["1.11 BP&T"].cell(r, 20).value or "") for r in range(21, 45)]
+    eng = [f for f in eng if f.startswith("=")]
+    check("1.11's cost engine prices every lever off the Lists table",
+          eng and all("Lists!$AC$2:$AC$5" in f and "Lists!$AD$2:$AD$5" in f for f in eng),
+          f"{len(eng)} engines, first {eng[0][:60] if eng else ''!r}")
     dvs = [dv.formula1 for dv in wb["1.11 BP&T"].data_validations.dataValidation
            if dv.formula1 and "Onshore" in dv.formula1]
     check("1.11 dropdown offers Hold", any("Hold" in f for f in dvs), str(dvs[:2]))
@@ -231,9 +235,14 @@ def run(path):
     d_over = next((v31.cell(r, 4).value for r in range(4, 50)
                    if str(v31.cell(r, 2).value or "").startswith("Overhead roles in the portfolios")),
                   None)
-    f13 = v32["F13"].value
-    check("3.2!F13 equals 3.1's overhead allowance", d_over is not None and f13 is not None
-          and abs(f13 - d_over) < 1e-6, f"3.1 {d_over} vs 3.2 {f13}")
+    # found by label on both sides: 3.2's bands moved when the section bar came off
+    oh32 = next((r for r in range(5, 30)
+                 if str(wb["3.2 Overhead & Leadership"].cell(r, 2).value or "").strip()
+                 == "Of which sits in the portfolios"), None)
+    f13 = v32.cell(oh32, 9).value if oh32 else None
+    check("3.2 and 3.1 state one overhead allowance",
+          d_over is not None and f13 is not None and abs(f13 - d_over) < 1e-6,
+          f"3.1 {d_over} vs 3.2 {f13}")
     ah5 = wv["Lists"]["AH5"].value
     n_rows = 0
     for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", x)]:
@@ -351,11 +360,50 @@ def run(path):
         check("2.15 draws no Head of Technology line", not hot15)
         check("0.2!F23 includes the 1.14 spend",
               "'1.14 TDD Cyber'" in str(wb["0.2 Data Config"]["F23"].value))
-    # ---- wave H: the 3.2 story table
+    # ---- wave H/J: 3.2 in the owner's own layout
     v32g = wv["3.2 Overhead & Leadership"]
     w32g = wb["3.2 Overhead & Leadership"]
-    # the all-roles row states its counts inside the sentence it is built from, so its
-    # label is a formula: it is found on the calculated workbook, not the formula one
+    HDR32 = ["Overhead roles", "Applied to",
+             "Archetype allocation (per portfolio or platform) ($m)",
+             "# of times applied in archetypes", "Roles priced for in archetype",
+             "Actual number of leadership roles", "# of roles not applied in archetype",
+             "Total Archetype cost ($m)", "Actual cost of leadership roles",
+             "Variance between archetype and actuals", "Where they sit",
+             "Allocation applied"]
+    # the header row is found, not assumed: he took the section bar off this tab, so
+    # every row below moved up one and a fixed row number would only be right by luck
+    h32 = next((r for r in range(2, 12)
+                if str(w32g.cell(r, 2).value or "").strip() == "Overhead roles"), None)
+    check("3.2 header found", h32 is not None)
+    if h32:
+        got = [w32g.cell(h32, c).value for c in range(2, 14)]
+        check("3.2 carries his headings, in his order", got == HDR32, str(got[:5]))
+        lo = h32 + 1
+        check("3.2 Times applied is his to set, cream and seeded from the model's count",
+              [v32g.cell(r, 5).value for r in range(lo, lo + 6)] == [10, 10, 10, 22, 22, 10]
+              and all(w32g.cell(r, 5).fill.patternType
+                      and str(w32g.cell(r, 5).fill.start_color.rgb).upper() == "FFFFF2CC"
+                      for r in range(lo, lo + 6)),
+              str([v32g.cell(r, 5).value for r in range(lo, lo + 6)]))
+        check("3.2 states every line's roles in the organisation",
+              [v32g.cell(r, 7).value for r in range(lo, lo + 6)] == [15, 6, 7, 10, 24, 8],
+              str([v32g.cell(r, 7).value for r in range(lo, lo + 6)]))
+        check("3.2 states every line's roles not priced for",
+              [round(v32g.cell(r, 8).value or 0, 1)
+               for r in range(lo, lo + 6)] == [10.0, 1.0, 2.0, 3.4, 17.4, 5.0],
+              str([v32g.cell(r, 8).value for r in range(lo, lo + 6)]))
+        check("3.2 HoT row splits its fifteen roles",
+              str(v32g.cell(lo, 12).value or "") == "10 in the portfolios, 5 in the COEs",
+              repr(v32g.cell(lo, 12).value))
+        check("3.2 BP row places all six of its roles in the COEs",
+              str(v32g.cell(lo + 1, 12).value or "") == "All 6 in the COEs",
+              repr(v32g.cell(lo + 1, 12).value))
+        check("3.2 DA row places all seven of its roles in the COEs",
+              str(v32g.cell(lo + 2, 12).value or "") == "All 7 in the COEs",
+              repr(v32g.cell(lo + 2, 12).value))
+        check("3.2 says the allocation in words",
+              str(v32g.cell(lo, 13).value or "") == "50% across 10 portfolios",
+              repr(v32g.cell(lo, 13).value))
     ALL32 = ("Roles in the organisation, all lines and squads: 531 - portfolios 412, "
              "COEs and EGI 119, each counted once")
     allrow = next((r for r in range(6, 30)
@@ -365,49 +413,30 @@ def run(path):
     if allrow:
         check("3.2 counts each role once (412 + 119 = 531)",
               str(v32g.cell(allrow, 2).value or "") == ALL32
-              and v32g.cell(allrow, 8).value == 531,
-              f"{v32g.cell(allrow, 2).value!r} H={v32g.cell(allrow, 8).value}")
+              and v32g.cell(allrow, 7).value == 531,
+              f"{v32g.cell(allrow, 2).value!r} G={v32g.cell(allrow, 7).value}")
         check("3.2 all-roles control reads 0",
-              abs(v32g.cell(allrow + 1, 8).value or 0) < 1e-9,
-              str(v32g.cell(allrow + 1, 8).value))
-    check("3.2 headline columns are the organisation's, not the portfolios'",
-          [w32g.cell(5, c).value for c in range(5, 13)]
-          == ["Times applied", "Applied to portfolios - roles",
-              "Applied to portfolios ($m)",
-              "Roles in the organisation", "Cost in the organisation ($m)",
-              "Roles gap", "Cost gap ($m)", "Where they sit"],
-          str([w32g.cell(5, c).value for c in range(5, 13)]))
-    check("3.2 states every line's roles in the organisation",
-          [v32g.cell(r, 8).value for r in range(6, 12)] == [15, 6, 7, 10, 24, 8],
-          str([v32g.cell(r, 8).value for r in range(6, 12)]))
-    check("3.2 Times applied is his to set, cream and seeded from the model's count",
-          [v32g.cell(r, 5).value for r in range(6, 12)] == [10, 10, 10, 22, 22, 10]
-          and all(w32g.cell(r, 5).fill.patternType
-                  and str(w32g.cell(r, 5).fill.start_color.rgb).upper() == "FFFFF2CC"
-                  for r in range(6, 12)),
-          str([v32g.cell(r, 5).value for r in range(6, 12)]))
-    check("3.2 HoT row splits its fifteen roles",
-          str(v32g["L6"].value or "") == "10 in the portfolios, 5 in the COEs",
-          repr(v32g["L6"].value))
-    check("3.2 BP row places all six of its roles in the COEs",
-          str(v32g["L7"].value or "") == "All 6 in the COEs", repr(v32g["L7"].value))
-    check("3.2 DA row places all seven of its roles in the COEs",
-          str(v32g["L8"].value or "") == "All 7 in the COEs", repr(v32g["L8"].value))
-    totrow = next((r for r in range(6, 30) if str(w32g.cell(r, 2).value or "").strip()
+              abs(v32g.cell(allrow + 1, 7).value or 0) < 1e-9,
+              str(v32g.cell(allrow + 1, 7).value))
+    totrow = next((r for r in range(5, 30) if str(w32g.cell(r, 2).value or "").strip()
                    == "Overheads incl. GMs"), None)
     check("3.2 overheads total row present", totrow is not None)
     if totrow:
+        check("3.2 totals 70 roles carried against 31.2 priced for",
+              v32g.cell(totrow, 7).value == 70
+              and abs((v32g.cell(totrow, 6).value or 0) - 31.2) < 1e-6,
+              f"{v32g.cell(totrow, 7).value} / {v32g.cell(totrow, 6).value}")
         check("3.2 the two gaps total 38.8 roles and 11.68m",
-              abs((v32g.cell(totrow, 10).value or 0) - 38.8) < 1e-6
+              abs((v32g.cell(totrow, 8).value or 0) - 38.8) < 1e-6
               and abs((v32g.cell(totrow, 11).value or 0) - 11.682053) < 1e-6,
-              f"{v32g.cell(totrow, 10).value} / {v32g.cell(totrow, 11).value}")
-    ohrow = next((r for r in range(6, 30) if str(w32g.cell(r, 2).value or "").strip()
+              f"{v32g.cell(totrow, 8).value} / {v32g.cell(totrow, 11).value}")
+    ohrow = next((r for r in range(5, 30) if str(w32g.cell(r, 2).value or "").strip()
                   == "Of which sits in the portfolios"), None)
     check("3.2 'of which sits in the portfolios' band present", ohrow is not None)
     if ohrow:
-        check("3.2 applied where the people sit = 5.005 with the 1.14 platform priced",
-              abs((v32g.cell(ohrow, 7).value or 0) - 5.005) < 1e-6,
-              str(v32g.cell(ohrow, 7).value))
+        check("3.2 archetype cost where the people sit = 5.005",
+              abs((v32g.cell(ohrow, 9).value or 0) - 5.005) < 1e-6,
+              str(v32g.cell(ohrow, 9).value))
 
     # ---- wave H: the owner's Actuals-vs-archetype table on every 1.x tab
     BARH = "Actuals vs archetype"

@@ -735,6 +735,56 @@ span and punched a hole through the header bar, so that one moves right of the t
 verbatim; K/L then carry the Actual/Variance pair like every other 1.x tab, retiring the
 P/Q exception.
 
+### D108. 3.2 is his layout, and the sentence column is his to write.
+He redrew the tab himself and his order is better: rate, times applied, roles priced for,
+actual roles, roles not applied, archetype cost, actual cost, variance - roles read
+together, then costs, each pair beside what it is measured against. Built to his mock,
+his headings, no section bar. "Where they sit" was a five-deep nested IF that computed
+the same COUNTIFS six times to build one sentence; it is now plain text, seeded from the
+ledger on every build, and he can reword it. A new column states the allocation in words
+("50% across 10 portfolios") so the rate does not have to be reverse-engineered. Times
+applied is a cream cell he sets, seeded from the count the model carries, and the total
+row dashes it because ten portfolios plus twenty-two platforms is not eighty-four of
+anything.
+
+### D109. The ledger join stops depending on row numbers. The worst trap in the file.
+2,124 cells on the working tabs found each person through INDEX over a whole column at a
+hardcoded row. Insert one row in REVIEW and every name, title, status and cost below it
+reattaches to the wrong person - silently, with every control still reading zero. The COE
+tabs already used the direct reference, which tracks an insert; all fourteen working tabs
+now do. The three agreed moves were keyed on rows 283/313/528 and are now keyed on
+"Name | Position Title", with the build refusing to run if a key is not unique - name
+alone would not do, because 143 rows are called "Vacant".
+
+### D110. Formulas that could not be followed, or were not doing what their label said.
+An independent Opus audit read all 15,694 formulas. Fixed: the Exec line promising a COE
+over/(under) that printed a dash - there is no independent plan to compare against, so it
+states actual cost and the label stops promising a variance; the Exec vacancy counts that
+scanned whole columns holding squad sizes, right only because the words never collided;
+the "allowed for elsewhere" row whose platform half cancelled exactly but unreadably; the
+geography rule that decided AU or NZ by asking which budget number was bigger, replaced by
+a Home country column he sets; 102 COE cost engines that hardcoded the offshore factor
+instead of reading the one table it lives in; a magic 0.5 duplicating an input cell; a
+typed 50.5 duplicating a computed one; ~4,200 inert cells including a lookup into two
+empty columns repeated 531 times and four ledger columns nothing read; and a "variance"
+comparing two different populations that nothing read.
+
+Kept deliberately, with comments so the next reader does not "simplify" them: the core
+cost formula, which carries three genuinely different pricing bases; the 2.x column
+width, which is the cost of the model doing two comparisons at once; and one
+SUMPRODUCT gate on 3.1 that looks redundant beside its twin one section up but is
+load-bearing - the twin was simplified, that one was not.
+
+Two audit findings were wrong and the builders said so rather than implementing them: the
+"omitted" funding line follows a deliberate family convention, and the row-26 cancellation
+was algebraically exact rather than luck. Both were reworked for readability instead.
+
+### D111. recompute.py had stopped checking 3.2 and said so in a line that read like a note.
+When 3.2 was rebuilt to his layout, the recomputation's column lookups kept the retired
+headings, returned nothing, and skipped the entire tab behind the message "3.2 is missing
+one of its columns". Every figure on that tab had been unverified since. Rewired, and the
+gate now fails if that message ever appears again.
+
 ### D104. Hybrid prices two roles onshore and the rest offshore, and the two is his to set.
 His rule, replacing the 50/50 assumption: per-FTE cost is the archetype's squad cost over
 its # of roles; two FTE price onshore, the remainder at the offshore rate. The "2" is a
