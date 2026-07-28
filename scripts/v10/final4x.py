@@ -385,6 +385,17 @@ def build_qa(wb, a, a2):
          # Lists!J12 carries an eleventh portfolio and K12 prices it, so a range stopping
          # at row 11 tested ten of eleven rows and the eleventh could go wrong unseen
          "=SUM(Lists!$K$2:$K$12)", opts.C1),
+        # A squad whose Type and Size do not resolve in the archetype library prints
+        # "check size" instead of a price - advice to the owner, not an error, so nothing
+        # else in the file would ever notice it. One squad is deliberately in that state
+        # (1.14's Cyber Uplift, waiting on his inputs) and the expected side names that
+        # cell rather than a literal 1, so this check goes to 0-vs-0 the day he sets them
+        # and fires the moment any OTHER squad stops pricing.
+        ("Squads whose archetype does not resolve, against the one disclosed",
+         "=" + "+".join(f"COUNTIF('{t}'!$H$18:$H$95,\"check size\")"
+                        for t in sorted(set(f2.DESIGN.values()))
+                        if t in wb.sheetnames),
+         '=COUNTIF(\'1.14 TDD Cyber\'!$H$26:$H$26,"check size")', opts.CT),
         ("Offshore archetype against 40% of onshore, first archetype",
          f"=ROUND({A3}!$H$5/{A3}!$G$5,6)", f"=ROUND({A3}!$K$5,6)", opts.C1),
         # ---- the overhead allowance ----

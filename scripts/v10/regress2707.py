@@ -482,6 +482,76 @@ def run(path):
     check("all 40 squad formulas carry the hybrid rule, none the old midpoint",
           n_hyb == 40 and bad_hyb == 0, f"{n_hyb} formulas, {bad_hyb} old-shape")
 
+    # ---- wave J: the simplification sweep, asserted so it cannot creep back
+    idx_join = []
+    direct = 0
+    JOIN = re.compile(r"INDEX\('REVIEW - Complete Role Mapping'!\$[A-Z]{1,2}:"
+                      r"\$[A-Z]{1,2},\d+\)")
+    DIRECT = re.compile(r"^='REVIEW - Complete Role Mapping'!\$[A-Z]{1,2}\$\d+$")
+    for t in [x for x in wb.sheetnames if re.match(r"^2\.\d+ ", x)]:
+        for row in wb[t].iter_rows():
+            for c in row:
+                v = str(c.value or "")
+                if JOIN.search(v):
+                    idx_join.append(f"{t}!{c.coordinate}")
+                elif DIRECT.match(v):
+                    direct += 1
+    check("no 2.x cell finds a person by hardcoded row number", not idx_join,
+          f"{len(idx_join)} left, e.g. {idx_join[:3]}")
+    check("the 2.x ledger join is the insert-safe direct reference", direct > 2000,
+          f"{direct} direct references")
+    lst = wb["Lists"]
+    an = [lst.cell(r, 40).value for r in range(2, 12)]
+    check("the override table is keyed on the person, not a row number",
+          not any(isinstance(x, (int, float)) for x in an),
+          str([x for x in an if x is not None][:4]))
+    ar = str(wb[REVIEW]["AR2"].value or "")
+    check("REVIEW's overhead-line formula lost its dead branch",
+          len(ar) < 520 and "$AQ" not in ar, f"{len(ar)} chars")
+    dead = [f"{L_}{r}" for L_ in ("AL", "AM", "AN", "AS")
+            for r in (2, 100, 400)
+            if wb[REVIEW][f"{L_}{r}"].value is not None]
+    check("the four dead ledger columns are gone", not dead, str(dead[:6]))
+    ex = wb["Exec Summary"]
+    exv = wv["Exec Summary"]
+    wide = [ex.cell(r, 3).value for r in range(20, 40)
+            if isinstance(ex.cell(r, 3).value, str)
+            and re.search(r"\$[DE]:\$[DE]", ex.cell(r, 3).value)]
+    check("Exec's vacancy counts read bounded ranges, not whole columns", not wide,
+          f"{len(wide)} whole-column")
+    e17 = str(wb["3.1 Cost Bridge"]["E17"].value or "")
+    e27 = str(wb["3.1 Cost Bridge"]["E27"].value or "")
+    check("3.1's archetype subtotal is a plain SUM", e17.startswith("=SUM("), e17[:40])
+    check("3.1 keeps the gate on the step that needs it",
+          "SUMPRODUCT(--ISNUMBER" in e27, e27[:40])
+    cfg = wb["0.2 Data Config"]
+    homes = [cfg.cell(r, 10).value for r in range(11, 26)]
+    check("0.2 states each portfolio's home country",
+          cfg["J5"].value == "Home country"
+          and all(h in ("AU", "NZ") for h in homes if h is not None)
+          and any(h == "NZ" for h in homes), f"{cfg['J5'].value!r} {homes[:6]}")
+    geo = []
+    for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", x)]:
+        for r in range(5, 10):
+            for c in (3, 4):
+                v = str(wb[t].cell(r, c).value or "")
+                if "'0.2 Data Config'!$D$" in v and ">" in v:
+                    geo.append(f"{t}!{wb[t].cell(r, c).coordinate}")
+    check("no tab decides its country by which budget is bigger", not geo, str(geo[:4]))
+    lev = []
+    for t in ("1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles"):
+        for row in wb[t].iter_rows(min_col=20, max_col=20):
+            for c in row:
+                if '"Offshore",0.4' in str(c.value or ""):
+                    lev.append(f"{t}!{c.coordinate}")
+    check("the lever price lives only on Lists", not lev, str(lev[:4]))
+    check("1.13's CapEx line follows its input cell",
+          "C13" in str(wb["1.13 Cyber Roles"]["F11"].value or ""),
+          str(wb["1.13 Cyber Roles"]["F11"].value))
+    check("0.2's position figure is computed, not typed",
+          isinstance(cfg["L23"].value, str) and cfg["L23"].value.startswith("="),
+          repr(cfg["L23"].value))
+
     # ---- 4.0 all zero
     v40 = wv["4.0 Data QA"]
     fails = []

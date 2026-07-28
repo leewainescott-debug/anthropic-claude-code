@@ -230,9 +230,17 @@ def home_country(wb, out):
     import copy
     import opts as _o
     ws = wb["0.2 Data Config"]
-    hdr, cream = ws.cell(5, 3), ws.cell(11, 3)          # C5 header, C11 cream input
+    cream = ws.cell(11, 3)                              # C11, a cream input on this tab
+    # The header is cream and bold, not the navy every other header on this tab carries.
+    # That is deliberate twice over: the column is an input, not a figure, and row 5's
+    # navy runs B..I and K..N with J the gap that keeps the budget table and the overhead
+    # table apart. A navy J5 bridges them into one strip, the bar above follows the strip
+    # and stops agreeing with either table, and verify.py says so.
     h = ws.cell(5, HOME_COL)
-    h._style = copy.copy(hdr._style)
+    h._style = copy.copy(cream._style)
+    h.font = _o.BOLD
+    h.alignment = _o.CEN
+    h.number_format = "General"
     h.value = HOME_HDR
     seeded = []
     for r in HOME_ROWS:

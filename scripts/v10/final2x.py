@@ -629,11 +629,21 @@ def build(wb, wv, tab, rows, bounds, pf=None):
             x.alignment = opts.RGT
 
     if oh_else:
-        # what the archetype allows this portfolio for overhead, less what the lines above
-        # have already drawn. Written as the remainder rather than as a list, so it stays
-        # right if a portfolio ever does carry a Business Partner of its own.
-        drawn = "+".join(f"N(${L(S['acost'])}{srow[g]})" for g in overhead) or "0"
-        nfte = "+".join(f"N(${L(S['aroles'])}{srow[g]})" for g in overhead) or "0"
+        # What the archetype allows this portfolio for overhead, less what it actually
+        # staffs here. Only the PORTFOLIO half of the allowance can leave a remainder:
+        # it buys a Head of Technology, a Business Partner, a Domain Architect and a
+        # share of the Leadership layer, and only the Head of Technology sits in a
+        # portfolio. The per-platform half buys the Delivery Manager and the Technology
+        # Manager, both of which are always staffed here, so it cancels to nothing.
+        #
+        # The old form subtracted all five lines from both halves at once. That is
+        # algebraically identical - the platform terms cancel exactly - but it reads as
+        # arithmetic nobody can follow, and it stops being true the moment the
+        # per-platform rate stops being the sum of its two lines.
+        pf_drawn = "+".join(f"N(${L(S['acost'])}{srow[g]})"
+                            for g in overhead if g in PF_LINES) or "0"
+        pf_nfte = "+".join(f"N(${L(S['aroles'])}{srow[g]})"
+                           for g in overhead if g in PF_LINES) or "0"
         ws.cell(oh_else, S["squad"]).value = ELSEWHERE
         ws.cell(oh_else, S["squad"]).font = opts.BODY
         ws.cell(oh_else, S["squad"]).alignment = opts.LFT
@@ -642,10 +652,10 @@ def build(wb, wv, tab, rows, bounds, pf=None):
         ws.cell(oh_note, S["squad"]).font = NOTE
         ws.cell(oh_note, S["squad"]).alignment = opts.LFT
         _m(ws, oh_else, S["aroles"],
-           f"=ROUND(SUM({CFG}!$M$6:$M$9)*({PFR})+SUM({CFG}!$M$14:$M$15)*({PLAT})"
-           f"-({nfte}),6)",
-           opts.C1)
-        _m(ws, oh_else, S["acost"], f"=ROUND({ALLOW}-({drawn}),6)")
+           f"=ROUND(SUM({CFG}!$M$6:$M$9)*({PFR})-({pf_nfte}),6)", opts.C1)
+        _m(ws, oh_else, S["acost"],
+           f"=ROUND(N('{design}'!$F${oh_pf})-({pf_drawn}),6)"
+           if oh_pf else '="-"')
         for k in ("size", "roles", "fte", "filled", "vacant", "hire", "offshore", "hold",
                   "rafter", "actual", "var", "after", "newvar"):
             x = ws.cell(oh_else, S[k])

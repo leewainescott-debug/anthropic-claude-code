@@ -160,7 +160,9 @@ def lever_from_lists(wb):
             continue
         ws = wb[tab]
         n = 0
-        for row in ws.iter_rows(min_row=1, max_row=ws.max_row):
+        # the engines live in T (column 20); the walk is bounded so a tab with a wide
+        # used range does not cost a full-sheet scan
+        for row in ws.iter_rows(min_row=1, max_row=ws.max_row, min_col=2, max_col=30):
             for c in row:
                 v = c.value
                 if not (isinstance(v, str) and v.startswith("=")):
