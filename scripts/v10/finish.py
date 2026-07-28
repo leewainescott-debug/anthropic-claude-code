@@ -17,7 +17,15 @@ survived earlier passes because a test was subtly wrong rather than absent:
 
   fifteen sentences were sitting in data cells, one of them the only Cambria cell in the
   workbook, and one of them a 122-character section label I had written myself
+
+The sentence sweep is the most destructive thing in this file and it had no idea whose
+sentences it was clearing. Ten of them were the owner's: his two open questions on 1.8,
+his notes on 1.11, 1.12 and 1.13, his two on 1.2. It now reads rev.xlsx first and will not
+clear a cell his own workbook writes at the same address. That one rule is what makes the
+sweep safe, and it is a rule about provenance rather than a longer list of exceptions, so
+it holds for whatever he writes next.
 """
+import os
 import re
 
 import openpyxl
@@ -54,6 +62,56 @@ TITLES = {"3.2 Overhead & Leadership": "Overhead & Leadership comparison",
 COE_W = {"B": 46, "C": 38, "D": 24, "E": 11, "F": 11, "G": 15, "H": 15, "I": 15, "J": 15,
          "K": 15}
 COE_TABS = ["1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles"]
+REV = "rev.xlsx"
+
+
+def rev_literals(path=REV):
+    """Every literal the owner's review workbook holds, by sheet and coordinate.
+
+    Read-only and read once. A formula is not his content in the sense that matters here -
+    the chain rebuilds formulas by design - so only typed values are collected.
+
+    If his workbook cannot be read this stops. The sweep below is only safe because this
+    map exists; running it without one is how ten of his notes were lost last time.
+    """
+    if not os.path.exists(path):
+        near = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            os.path.basename(path))
+        path = near if os.path.exists(near) else path
+    try:
+        wb = openpyxl.load_workbook(path, read_only=True)
+    except Exception as e:                                  # noqa: BLE001
+        raise SystemExit(f"finish: cannot read {path} ({e}). The sentence sweep needs "
+                         f"the owner's workbook to know whose sentences it is clearing.")
+    keep = {}
+    for ws in wb.worksheets:
+        for row in ws.iter_rows():
+            for c in row:
+                v = c.value
+                if v is None or (isinstance(v, str)
+                                 and (v.startswith("=") or not v.strip())):
+                    continue
+                keep[(ws.title, c.coordinate)] = v
+    wb.close()
+    return keep, f"rev whitelist: {len(keep):,} of his own literals, from {path}"
+
+
+def his(keep, tab, ref, value):
+    """Is this cell the owner's writing?
+
+    His value at his address is the plain case. The chain also corrects a handful of his
+    notes on purpose - a tab it renamed, a reference that went stale, a typed slip - so a
+    literal still standing where he wrote one is his too, corrected. What it will not
+    protect is an address he left empty and something else later wrote a sentence into,
+    which is exactly what the entries this sweep still clears are.
+    """
+    if keep is None or (tab, ref) not in keep:
+        return None
+    if keep[(tab, ref)] == value:
+        return "his, unchanged"
+    if isinstance(value, str) and not value.startswith("="):
+        return "his, as the chain corrected it"
+    return None
 
 
 def no_red(wb):
@@ -81,17 +139,24 @@ def hide_sources(wb):
     return out
 
 
-def drop_prose(wb):
+def drop_prose(wb, keep):
     n = 0
+    held = []
     for tab, cells in PROSE.items():
         if tab not in wb.sheetnames:
             continue
         ws = wb[tab]
         for ref in cells:
-            if ws[ref].value is not None:
-                ws[ref].value = None
-                ws[ref].font = opts.BODY
-                n += 1
+            v = ws[ref].value
+            if v is None:
+                continue
+            why = his(keep, tab, ref, v)
+            if why:
+                held.append(f"{tab}!{ref} kept - {why}")
+                continue
+            ws[ref].value = None
+            ws[ref].font = opts.BODY
+            n += 1
     for tab, m in SHORTEN.items():
         ws = wb[tab]
         for row in ws.iter_rows():
@@ -99,7 +164,7 @@ def drop_prose(wb):
                 if isinstance(c.value, str) and c.value.strip() in m:
                     c.value = m[c.value.strip()]
     return [f"{n} sentences cleared from data cells, and the long section labels on 3.1 "
-            f"cut to fit their row"]
+            f"cut to fit their row"] + held
 
 
 def fix_02(wb):
@@ -257,22 +322,32 @@ def coe_widths(wb):
     return [f"one width profile across {', '.join(COE_TABS)}"]
 
 
-def titles(wb):
+def titles(wb, keep=None):
     n = 0
+    out = []
     for tab, t in TITLES.items():
-        if tab in wb.sheetnames:
-            wb[tab].cell(2, 2).value = t
-            wb[tab].cell(2, 2).font = opts.TITLE
-            n += 1
-    return [f"{n} titles matched to their tab name"]
+        if tab not in wb.sheetnames:
+            continue
+        x = wb[tab].cell(2, 2)
+        # a title he wrote himself stands - 1.13's is his, and his newest wording wins
+        w = his(keep, tab, "B2", x.value)
+        if w:
+            out.append(f"{tab}!B2 title left alone - {w}")
+            continue
+        x.value, x.font = t, opts.TITLE
+        n += 1
+    return out + [f"{n} titles matched to their tab name"]
 
 
-def strays(wb):
+def strays(wb, keep):
     out = []
     # a naked ratio with no label, in an otherwise blank area
     for tab, ref in (("1.1 Ampol Retail", "E18"), ("1.9 Commercial Fuels", "E17"),
                      ("1.10 Z Retail", "E16")):
         ws = wb[tab]
+        if his(keep, tab, ref, ws[ref].value):
+            out.append(f"{tab}!{ref} left alone - his")
+            continue
         if isinstance(ws[ref].value, str) and ws[ref].value.startswith("="):
             ws[ref].value = None
             out.append(f"{tab}!{ref} unlabelled ratio cleared")
@@ -315,16 +390,17 @@ def qa_bar(wb):
     return ["4.0 given a section bar, like every other built tab"]
 
 
-def run(src, dst):
+def run(src, dst, rev=REV):
     wb = openpyxl.load_workbook(src)
-    out = (no_red(wb) + hide_sources(wb) + drop_prose(wb) + fix_02(wb)
+    keep, note = rev_literals(rev)
+    out = ([note] + no_red(wb) + hide_sources(wb) + drop_prose(wb, keep) + fix_02(wb)
            + bars_and_totals(wb) + empty_inputs(wb) + review_font(wb) + coe_widths(wb)
-           + titles(wb) + strays(wb) + review_cream(wb) + align_3x(wb) + qa_bar(wb))
+           + titles(wb, keep) + strays(wb, keep) + review_cream(wb) + align_3x(wb) + qa_bar(wb))
     wb.save(dst)
     return out
 
 
 if __name__ == "__main__":
     import sys
-    for x in run(sys.argv[1], sys.argv[2]):
+    for x in run(*sys.argv[1:]):
         print("  ", x)

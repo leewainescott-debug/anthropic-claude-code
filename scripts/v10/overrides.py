@@ -228,10 +228,14 @@ def run(src, dst):
     # ---- rebuild the three grouping columns ----
     R = wb[REVIEW]
     n = 0
-    # every row, populated or not. The formula guards itself with IF(TRIM($B)="",""), and
-    # skipping the empty rows left two of them carrying the old mismatched ranges, so a
-    # role typed into row 191 would not have honoured an override.
+    # every populated row. The spacer rows the Customer reload left behind (191-192) are
+    # cleared upstream by merge_review, and a formula written onto an empty row is exactly
+    # the stray the audit flagged - so blank-name rows are skipped, not refreshed. The old
+    # stale-range risk this loop once guarded against is gone: the spacers arrive empty,
+    # and an empty cell cannot carry an old mismatched range.
     for r in range(2, LAST + 1):
+        if not str(R.cell(r, 2).value or "").strip():
+            continue
         for col, f in formulas(r).items():
             R.cell(r, col).value = f
         n += 1

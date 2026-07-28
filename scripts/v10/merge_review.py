@@ -18,8 +18,15 @@ Three sources, each taken for exactly what it is good for:
 
 The loader verifies, row by row, that the D8 cost formula reproduces the dataset's own
 stated cost from its components before anything ships.
+
+Three things about the assembled ledger as a thing people read rather than a thing
+formulas read: AR and AT are live on every row and 3.2 counts on them, and neither had a
+heading; rows 191 and 192 sit between the Customer block and the next one holding nothing
+but helper formulas from an older layout; and nine typed slips sit in names, titles and
+countries. None of the three moves a number.
 """
 import openpyxl
+from openpyxl.utils import get_column_letter
 
 REVIEW = "REVIEW - Complete Role Mapping"
 CUST_LO, CUST_HI = 108, 190              # the Customer block, identical rows in all files
@@ -34,6 +41,30 @@ MAP = {1: 1, 2: 2, 3: 4, 4: 5, 5: 6, 6: 7, 7: 8, 8: 9, 9: 10, 10: 11, 11: 12,
 # REVIEW: A=1 B=2 C=3.. I=9(Portfolio) K=11(Squad) M=13(Country) N=14(Job Level)
 # O=15(FTE) Q=17(Type) R=18(Unit) S=19(day rate) T=20 U=21 V=22 W=23 X=24 Y=25 Z=26
 PCM_STATUS, PCM_COMMENT, PCM_COST = 3, 29, 28
+# two grouping columns that are live on every row and read by 3.2's COUNTIFS, and have
+# never had a heading. A column a reader can see and cannot name is a column they will
+# guess at.
+HEADS = {44: "Overhead line", 46: "Squad or overhead line"}
+# the two rows between the Customer block and the block after it. They hold no person and
+# never have; what they hold is helper formulas left behind by an older layout.
+SPACERS = (191, 192)
+LEDGER_COLS = 52
+# Typed slips in his source data, in the cells a reader sees: a name, a title, a country.
+# Nothing in the build joins on any of these - the joins are by row and by MTab - so the
+# only thing a correction changes is what the page says. Checked against every script in
+# the directory before it was written.
+TYPOS = {"Project Manger": "Project Manager",
+         "Portfolio Mnager": "Portfolio Manager",
+         "michelle Siegman": "Michelle Siegman",
+         "vijay Solanki": "Vijay Solanki",
+         "DeveloperSAP ECC": "Developer SAP ECC",
+         "EnterpriseProcess Analyst": "Enterprise Process Analyst",
+         "Support Analyst -Retail": "Support Analyst - Retail",
+         "strategic program architect": "Strategic Program Architect"}
+# a whole cell, not a fragment: "australia" is the country, and only the country
+WHOLE_CELL = {"australia": "Australia"}
+# Name, Position Title, Reports to name, Reports to Position, Country
+TEXT_COLS = (2, 3, 4, 5, 13)
 
 COUNTRY = {"AUD": "Australia", "Australia": "Australia", "australia": "Australia",
            "NZD": "NZ", "NZ": "NZ", "WIPRO": "WIPRO"}
@@ -109,10 +140,22 @@ def run(src, dst, ancestor="base_ship.xlsx", pcm="cust_new.xlsx"):
         n += 1
     out.append(f"scaffold AA/AP/AQ/AS/AU restored on rows 2..{last} ({n} rows)")
 
-    # the two regressions in rev's hand edits: a 0 typed into the blank spacer row, and
-    # row 491's cost blanked where the agreed-override machinery already prices her
-    R.cell(191, 27).value = None
-    out.append("row 191: stray 0 cleared from the spacer row")
+    for c, head in HEADS.items():
+        R.cell(1, c).value = head
+    out.append("REVIEW: AR and AT given the headings they carry - "
+               + ", ".join(f"{get_column_letter(c)}1 {h!r}" for c, h in HEADS.items()))
+
+    # The spacer rows. They carry no person and no data, and every formula on them guards
+    # itself with IF(TRIM($B)="",""), so they compute nothing - but a reader scrolling the
+    # ledger sees two rows of machinery in the middle of it, and a role typed onto one of
+    # them would inherit whatever the old layout left. They go out empty; the styling
+    # stays, so the rows still read as part of the table.
+    for r in SPACERS:
+        for c in range(1, LEDGER_COLS + 1):
+            R.cell(r, c).value = None
+    out.append(f"rows {SPACERS[0]} and {SPACERS[1]} cleared across "
+               f"{LEDGER_COLS} columns - the spacers between the Customer block and the "
+               f"block after it")
 
     # ---- 2. the Customer block, wholesale from PCM_Data ----
     rows = load_pcm(pcm)
@@ -176,7 +219,35 @@ def run(src, dst, ancestor="base_ship.xlsx", pcm="cust_new.xlsx"):
         free += 1
     if added:
         out.append("Lists!T:U portfolio map: " + "; ".join(added))
+
+    # ---- 4. the typed slips in his source data ----
+    out += fix_typos(R, last)
     return wb, out, bad
+
+
+def fix_typos(R, last):
+    """Names, titles and countries as they will be read, not as they were typed.
+
+    Only the display columns, and only the strings listed. The model joins on row index
+    and on MTab, so none of these strings carries a join - checked against every script in
+    the directory - and correcting one changes what the page says and nothing else.
+    """
+    fixed = []
+    for r in range(2, last + 1):
+        for c in TEXT_COLS:
+            v = R.cell(r, c).value
+            if not isinstance(v, str) or v.startswith("="):
+                continue
+            new = WHOLE_CELL[v.strip()] if v.strip() in WHOLE_CELL else v
+            for old, rep in TYPOS.items():
+                new = new.replace(old, rep)
+            if new != v:
+                R.cell(r, c).value = new
+                fixed.append(f"{get_column_letter(c)}{r} {v!r} -> {new!r}")
+    if not fixed:
+        return ["no typed slips left in the ledger's name, title and country cells"]
+    return [f"{len(fixed)} typed slips corrected in the ledger's name, title and country "
+            f"cells"] + [f"   {f}" for f in fixed]
 
 
 def _rowform(template, r):

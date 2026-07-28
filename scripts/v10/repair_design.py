@@ -10,8 +10,15 @@ rev.xlsx forked before two documented rounds of work, so its 1.x tabs still carr
 
 Renaming a row keeps every figure the owner typed on it, which is the point: his squad
 cost for "Z Energy Martech" belongs to the squad the ledger calls "Z Loyalty & Martech",
-and the rename carries it there. The one exception is Digital Support NZ, which is
-removed outright; its typed 0.217 goes with it and is logged.
+and the rename carries it there. A rename now follows the name onto the two rows that
+frame the block - "Platform: {name}" above it and "{name} Total" below - because matching
+column B exactly left 1.1 with a platform bar and a total row still calling the squad
+"Network / QSR" over a squad row renamed "Network & QSR".
+
+The one exception is Digital Support NZ, which is removed outright; its typed 0.217 goes
+with it and is logged. Removing it used to blank the row out to column N, which took his
+note at 1.2!K41 with it. A removed row loses its figures, not his writing: anything he
+typed in K..N moves along the row to M and stays.
 
 Also here: the one-cell typo his 1.2 edit introduced (platform overhead summing the
 Total Squad Cost column instead of the TDD Cost column).
@@ -114,11 +121,21 @@ def run(src, dst):
             break
     for tab, pairs in RENAME.items():
         ws = wb[tab]
+        # a squad's name appears three times in its block: on the platform bar above it,
+        # on the squad row, and on the total row below. All three follow the ledger.
+        wide = {}
+        for old, new in pairs.items():
+            wide[old] = new
+            wide[f"Platform: {old}"] = f"Platform: {new}"
+            wide[f"{old} Total"] = f"{new} Total"
         for r in range(1, min(ws.max_row, 95) + 1):
             v = ws.cell(r, 2).value
-            if isinstance(v, str) and v.strip() in pairs:
-                new = pairs[v.strip()]
-                ws.cell(r, 2).value = new
+            if isinstance(v, str) and v.strip() in wide:
+                new = wide[v.strip()]
+                # whatever padding he typed around the name is his and stays
+                lead = v[: len(v) - len(v.lstrip())]
+                trail = v[len(v.rstrip()):]
+                ws.cell(r, 2).value = lead + new + trail
                 out.append(f"{tab}!B{r} {v.strip()!r} -> {new!r} (ledger name)")
     for tab, names in REMOVE.items():
         ws = wb[tab]
@@ -126,9 +143,32 @@ def run(src, dst):
             v = str(ws.cell(r, 2).value or "").strip()
             if v in names:
                 dropped = [f"{openpyxl.utils.get_column_letter(c)}={ws.cell(r, c).value!r}"
-                           for c in range(2, 15) if ws.cell(r, c).value is not None]
-                for c in range(2, 15):
+                           for c in range(2, 11) if ws.cell(r, c).value is not None]
+                for c in range(2, 11):              # B..J, the figures and the levers
                     ws.cell(r, c).value = None
+                # K..N is the note margin. His writing survives the row it was sitting on:
+                # it moves to M, where the design tabs carry a note, and the cell it came
+                # from is cleared.
+                for c in range(11, 15):
+                    x = ws.cell(r, c)
+                    if not (isinstance(x.value, str) and x.value.strip()
+                            and not x.value.startswith("=")):
+                        continue
+                    if c in (13, 14):               # already in the note margin
+                        continue
+                    free = next((k for k in (13, 14) if ws.cell(r, k).value is None), None)
+                    if free is None:
+                        out.append(f"{tab}!{openpyxl.utils.get_column_letter(c)}{r} "
+                                   f"{x.value.strip()!r} kept where it is - M and N are "
+                                   f"both taken")
+                        continue
+                    ws.cell(r, free).value = x.value
+                    ws.cell(r, free)._style = x._style
+                    out.append(f"{tab}!{openpyxl.utils.get_column_letter(c)}{r} "
+                               f"{x.value.strip()!r} moved to "
+                               f"{openpyxl.utils.get_column_letter(free)}{r} - his note "
+                               f"outlives the row it sat on")
+                    x.value = None
                 out.append(f"{tab}!B{r} {v!r} removed - zero people in the ledger; "
                            f"carried {'; '.join(dropped[:4])}")
     for tab, fixes in FIX.items():

@@ -18,6 +18,11 @@ of them was raised by a reviewer looking at the rendered tabs rather than at the
   three tabs carried bright cyan note blocks with white text, front of house
 
   Lists was visible; the tabs with no colour had none because nothing had ever set them
+
+  Exec Summary shipped hidden. Nothing in the build hid it - it arrives that way in the
+  review workbook, from an older cut - and nothing turned it back on either, because the
+  visibility rule only ever named tabs to hide. It now states the whole set, his: the two
+  raw pastes and Lists hidden, everything else visible.
 """
 import re
 
@@ -56,7 +61,11 @@ ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Confi
          "- EVIDENCE -", "4.0 Data QA"]
 GREY, DESIGN, WORK, SUMM, EVID = ("FF808080", "FF1F4E79", "FFBF8F00", "FF002F6C",
                                   "FF375623")
-HIDE = ["Lists"]
+# The hidden set, taken from base_2707.xlsx - the owner's newest file hides these three
+# and nothing else. It is stated rather than added to because hiding is sticky: rev
+# arrives with Exec Summary hidden from an older cut, nothing downstream turns a tab back
+# on, and the summary the whole workbook builds to would have shipped invisible.
+HIDE = ["0.1 Budget Table (Fin)", "0.4 Presentation Pack", "Lists"]
 # the owner's own source tabs. Their palette is whatever Finance and the deck arrived in,
 # and repainting evidence is not tidying.
 SOURCE = {"0.1 Budget Table (Fin)", "0.4 Presentation Pack"}
@@ -131,11 +140,31 @@ def order_and_colour(wb):
                     "- SUMMARIES -": SUMM, "- EVIDENCE -": EVID}.get(name, band)
         ws.sheet_properties.tabColor = SUMM if name == "Exec Summary" else (band or GREY)
         n += 1
-    for name in HIDE:
-        if name in wb.sheetnames:
-            wb[name].sheet_state = "hidden"
-    return [f"{n} tabs ordered to match the numbering and coloured by group",
-            f"hidden: {', '.join(HIDE)}"]
+    return [f"{n} tabs ordered to match the numbering and coloured by group"]
+
+
+def visibility(wb):
+    """Three tabs hidden, every other surviving tab explicitly visible.
+
+    Explicitly, because the failure this fixes is a tab nobody hid in this build: Exec
+    Summary arrives hidden in the review workbook and stays hidden all the way to ship
+    unless something states otherwise. Stating the whole set, rather than adding to it, is
+    what makes that impossible.
+    """
+    want = {t for t in HIDE + DEAD if t in wb.sheetnames}
+    shown = []
+    for ws in wb.worksheets:
+        if ws.title in want:
+            ws.sheet_state = "hidden"
+            continue
+        if ws.sheet_state != "visible":
+            shown.append(ws.title)
+        ws.sheet_state = "visible"
+    out = [f"hidden: {', '.join(sorted(want))}; every other tab set visible"]
+    if shown:
+        out.append(f"turned back on: {', '.join(shown)} - hidden on the way in, "
+                   f"not by this build")
+    return out
 
 
 def no_red_formats(wb):
@@ -200,18 +229,15 @@ def titles(wb):
 
 
 def strays(wb):
+    """0.2's row keyed 'EG' used to be cleared here as a broken duplicate of the EGI row
+    below it. That ruling belonged to an earlier generation. It is in his newest file, he
+    has put figures and a note on it - "Reallocated 7m across Ampol & Z Retail" - and a
+    later file from him supersedes an earlier reading of it, so it stays."""
     out = []
     for tab, cell in JUNK:
         if tab in wb.sheetnames and wb[tab][cell].value is not None:
             wb[tab][cell].value = None
             out.append(f"{tab}!{cell} cleared")
-    # 0.2 carried a row keyed 'EG', a broken duplicate of the EGI row directly below it
-    ws = wb["0.2 Data Config"]
-    for r in range(1, 40):
-        if str(ws.cell(r, 2).value or "").strip() == "EG":
-            for c in range(2, 14):
-                ws.cell(r, c).value = None
-            out.append(f"0.2 Data Config row {r} cleared - a broken duplicate of EGI")
     return out
 
 
@@ -475,7 +501,7 @@ def run(src, dst, ledger=None):
            + no_judgement_colour(wb) + strays(wb) + en_dash(wb)
            + gutters_and_grid(wb) + bars_and_headers(wb, vals) + widen_bars(wb)
            + lone_headers(wb) + build_notes(wb)
-           + freeze(wb) + print_setup(wb))
+           + freeze(wb) + print_setup(wb) + visibility(wb))
     wb.save(dst)
     return out
 
