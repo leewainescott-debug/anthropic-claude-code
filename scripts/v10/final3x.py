@@ -34,7 +34,7 @@ import opts
 
 REVIEW = f2.REVIEW
 REV = f2.REV
-LAST = f2.LAST
+LAST = None                             # refreshed from f2 after _boot_last
 S = f2.S
 
 PF_ORDER = ["Ampol Retail", "Customer", "Enterprise Data", "TDD Group Functions", "P&C",
@@ -109,6 +109,7 @@ def build_31(wb, anchors):
     the 10.44 is. Per-portfolio and per-squad detail is on 3.3.
     """
     ws = wb["3.1 Group Summary"]
+    n_roles = opts.ledger_count(wb)
     f2.wipe(ws)
     ws.column_dimensions["A"].width = 2
     ws.cell(2, 2).value = "TDD cost bridge - archetype cost to actual cost"
@@ -303,7 +304,7 @@ def build_31(wb, anchors):
     # Its variance is a dash, not a number. The archetype column prices four of the five
     # steps above it and the actual column covers all five, so no single figure on this row
     # can be true. The comparable subtotal two rows up is the one that can.
-    opts.row(ws, r, 2, ["Cost of the 525 roles in the ledger"] + [None] * (len(H31) - 1),
+    opts.row(ws, r, 2, [f"Cost of the {n_roles} roles in the ledger"] + [None] * (len(H31) - 1),
              [None] * len(H31), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
     for c in range(FIRST, LASTC + 1):
@@ -328,7 +329,7 @@ def build_31(wb, anchors):
     r += 1
 
     # ---- the GM layer, which has no role in the ledger to price ----
-    opts.row(ws, r, 2, ["Leadership - the 8 GMs, outside the 525-role ledger"] +
+    opts.row(ws, r, 2, [f"Leadership - the 8 GMs, outside the {n_roles}-role ledger"] +
              [None] * (len(H31) - 1), [None] * len(H31), bg=opts.PALE)
     ws.cell(r, 2).alignment = opts.LFT
     f2._m(ws, r, 4, "=N(Lists!$AJ$7)")
@@ -432,7 +433,7 @@ def build_32(wb, anchors, a31, wcol):
         x.number_format, x.alignment = nf, opts.RGT
     r += 1
     # the one line that ties this tab to the overhead step on the bridge
-    opts.row(ws, r, 2, ["Of which sits in the 525-role ledger - the 3.1 overhead line"] +
+    opts.row(ws, r, 2, [f"Of which sits in the {opts.ledger_count(wb)}-role ledger"] +
              [None] * (len(H32) - 1), [None] * len(H32), bg=opts.GREY, bold=True)
     ws.cell(r, 2).alignment = opts.LFT
     f2._m(ws, r, 6, "=N(Lists!$AJ$9)")
@@ -564,6 +565,9 @@ def build_33(wb, anchors):
 
 
 def run(src, dst):
+    global LAST
+    f2._boot_last(src)
+    LAST = f2.LAST
     wb = openpyxl.load_workbook(src)
     anchors = json.load(open("anchors_final.json"))
     msg, wcol = patch_lists(wb)

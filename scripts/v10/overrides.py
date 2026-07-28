@@ -26,7 +26,7 @@ from openpyxl.utils import get_column_letter as L
 import opts
 
 REVIEW = "REVIEW - Complete Role Mapping"
-LAST = 528
+LAST = None                             # measured from the ledger in run()
 N = 11                                  # override window runs Lists!$AN$2:$AN$11
 
 NEW = []
@@ -126,7 +126,9 @@ def formulas(r):
 
 
 def run(src, dst):
+    global LAST
     wb = openpyxl.load_workbook(src)
+    LAST = opts.ledger_last(wb)
     l = wb["Lists"]
     out = []
 
@@ -243,6 +245,24 @@ def run(src, dst):
         R[ref].value = val
     out.append("REVIEW: build notes removed, AS1 relabelled")
     out += rename_squads(wb)
+
+    # ---- every fixed window over the ledger follows the measured extent ----
+    # The design tabs the owner edits carry SUMIFS/COUNTIFS over REVIEW with the end row
+    # typed in - $AJ$2:$AJ$528, $AA$2:$AA$530 and friends. A ledger that grows past the
+    # typed end silently drops the new rows out of every one of those formulas, which is
+    # the worst failure mode this workbook has: wrong and green. Any range anchored at
+    # row 2 whose typed end sits in 500..999 is a ledger window and follows LAST.
+    win = re.compile(r"(\$[A-Z]{1,2})\$2:(\$[A-Z]{1,2})\$(5\d\d|[6-9]\d\d)\b")
+    wided = 0
+    for s_ in wb.sheetnames:
+        for row in wb[s_].iter_rows():
+            for c in row:
+                if isinstance(c.value, str) and c.value.startswith("=") and win.search(c.value):
+                    new = win.sub(lambda m: f"{m.group(1)}$2:{m.group(2)}${LAST}", c.value)
+                    if new != c.value:
+                        c.value = new
+                        wided += 1
+    out.append(f"ledger windows widened to row {LAST} in {wided} formulas")
 
     # ---- the allowance stops counting rows on a summary tab ----
     fixed = 0

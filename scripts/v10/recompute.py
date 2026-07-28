@@ -23,10 +23,18 @@ COE = ["COE Cyber", "COE BP&T", "COE SA&D", "EGI"]
 TOL = 1e-6
 
 
+def last(wv):
+    R = wv[REVIEW]
+    r = R.max_row
+    while r > 1 and not str(R.cell(r, 2).value or '').strip():
+        r -= 1
+    return r
+
+
 def ledger(wv):
     R = wv[REVIEW]
     cost, roles, filled, vacant, ohcost, ohroles = (collections.Counter() for _ in range(6))
-    for i in range(2, 529):
+    for i in range(2, last(wv) + 1):
         if not str(R.cell(i, 2).value or "").strip():
             continue
         pf, grp = str(R.cell(i, 36).value), str(R.cell(i, 46).value)
@@ -136,7 +144,7 @@ def run(path, anchors="anchors_final.json"):
               round(sum(ws.cell(x, ca).value or 0 for x in rs), 9), round(c / 1e6, 9))
         check(out, f"3.1 {name} roles", sum(ws.cell(x, cr).value or 0 for x in rs), n, True)
     total = sum(cost.values())
-    r = find(ws, "Cost of the 525 roles in the ledger")
+    r = find(ws, "Cost of the")
     check(out, "3.1 ledger cost", ws.cell(r, ca).value, total / 1e6)
     check(out, "3.1 ledger roles", ws.cell(r, cr).value, sum(roles.values()), True)
     # The archetype side is a design figure, so it is checked for internal consistency:
@@ -161,7 +169,7 @@ def run(path, anchors="anchors_final.json"):
     priced = [find(ws, x) for x in ("Squads priced by an archetype",
                                     "Directly funded, where the funded figure is set",
                                     "Overhead roles in the portfolios - the allowance")]
-    k = find(ws, "Cost of the 525 roles in the ledger")
+    k = find(ws, "Cost of the")
     check(out, "3.1 ledger archetype is the priced steps",
           round(ws.cell(k, cc).value, 6),
           round(sum(ws.cell(x, cc).value for x in priced if x), 6))
@@ -176,7 +184,7 @@ def run(path, anchors="anchors_final.json"):
     # ---- 3.2 overhead, portfolios against the COEs ----
     o = next(t for t in wv.sheetnames if t.startswith("3.2 "))
     ws = wv[o]
-    r = find(ws, "Of which sits in the 525-role ledger")
+    r = find(ws, "Of which sits in the")
     check(out, "3.2 portfolio overhead cost",
           ws.cell(r, col_of(ws, "Cost in the portfolios ($m)")).value,
           ohcost["pf"] / 1e6)
@@ -203,11 +211,11 @@ def run(path, anchors="anchors_final.json"):
     ws = wv["Exec Summary"]
     filled_cost = 0.0
     R = wv[REVIEW]
-    for i in range(2, 529):
+    for i in range(2, last(wv) + 1):
         if str(R.cell(i, 2).value or "").strip() and str(R.cell(i, 37).value) == "Filled":
             filled_cost += R.cell(i, 27).value or 0
     for lab, exp, cnt in (("Roles in the ledger", sum(roles.values()), True),
-                          ("Cost of the 525 roles in the ledger ($m)", total / 1e6,
+                          ("Cost of the", total / 1e6,
                            False),
                           ("Of which filled roles ($m)", filled_cost / 1e6, False),
                           ("Cost today including the GM layer ($m)", total / 1e6 + gm,

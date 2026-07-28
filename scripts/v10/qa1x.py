@@ -33,7 +33,11 @@ def ledger(wv):
     """Cost per (portfolio, squad-or-overhead-line), straight off REVIEW."""
     cost = collections.Counter()
     R = wv[REVIEW]
-    for i in range(2, 529):
+    R1 = wv[REVIEW]
+    last = R1.max_row
+    while last > 1 and not str(R1.cell(last, 2).value or '').strip():
+        last -= 1
+    for i in range(2, last + 1):
         if str(R.cell(i, 2).value or "").strip():
             cost[(str(R.cell(i, 36).value), str(R.cell(i, 46).value))] += \
                 R.cell(i, 27).value or 0

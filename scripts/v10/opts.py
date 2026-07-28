@@ -16,6 +16,29 @@ from openpyxl.utils import get_column_letter as L
 SP = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(SP, "opt")
 SRC = os.path.join(SP, "base.xlsx")
+def ledger_last(wb):
+    """Last populated row of the ledger, by the Name column.
+
+    The extent was typed as 528 in fourteen files, which was true for exactly as long as
+    the owner never sent a new dataset. He has: the ledger is his data, its size is his
+    call, and every script now measures instead of assuming. Interior blank rows (191-192
+    are spare input rows by design) stay inside the window - every formula already guards
+    itself with IF(TRIM($B)="","").
+    """
+    R = wb[REVIEW]
+    r = R.max_row
+    while r > 1 and not str(R.cell(r, 2).value or "").strip():
+        r -= 1
+    return r
+
+
+def ledger_count(wb):
+    """Populated roles in the ledger - the figure the '525' labels used to hardcode."""
+    R = wb[REVIEW]
+    return sum(1 for i in range(2, ledger_last(wb) + 1)
+               if str(R.cell(i, 2).value or "").strip())
+
+
 REVIEW = "REVIEW - Complete Role Mapping"
 
 FN = "Calibri"
@@ -764,11 +787,11 @@ def _rows32():
         nm = str(n).strip()
         is_coe = nm.startswith("COE") or nm == "EGI"
         ohr = 0 if is_coe else sum(
-            1 for i in range(2, 529)
+            1 for i in range(2, ledger_last(D.v) + 1)
             if str(R.cell(i, 2).value or "").strip()
             and R.cell(i, 36).value == nm and R.cell(i, 44).value != "Squad")
         ohf = 0 if is_coe else sum(
-            1 for i in range(2, 529)
+            1 for i in range(2, ledger_last(D.v) + 1)
             if str(R.cell(i, 2).value or "").strip()
             and R.cell(i, 36).value == nm and R.cell(i, 44).value != "Squad"
             and R.cell(i, 37).value == "Filled")

@@ -21,7 +21,7 @@ import opts
 
 REVIEW = f2.REVIEW
 REV = f2.REV
-LAST = f2.LAST
+LAST = None                             # refreshed from f2 after _boot_last
 S = f2.S
 A3 = "'0.3 Squad Archetypes'"
 G1, G2, G3 = "'3.1 Group Summary'", "'3.2 Total Cost'", "'3.3 FTE View'"
@@ -51,7 +51,7 @@ def anchors(wb):
     s2, s3 = wb[G2.strip("'")], wb[G3.strip("'")]
     a = dict(a3["3.1"])
     a["ohtot32"] = find_row(s2, "Every overhead line")
-    a["ohpf32"] = find_row(s2, "Of which sits in the 525-role ledger")
+    a["ohpf32"] = find_row(s2, "Of which sits in the")
     a["g33"] = find_row(s3, "Group total")
     a["first33"] = find_row(s3, "Portfolio") + 1
     return a
@@ -109,7 +109,7 @@ def build_exec(wb, a, a2):
         ("Roles in the ledger", f"={G1}!${C31['roles']}${gt}", opts.CT),
         ("Filled", f"={G1}!${C31['filled']}${gt}", opts.CT),
         ("Vacant", f"={G1}!${C31['vacant']}${gt}", opts.CT),
-        ("Cost of the 525 roles in the ledger ($m)", f"={G1}!${C31['actual']}${gt}", opts.M2),
+        (f"Cost of the {opts.ledger_count(wb)} roles in the ledger ($m)", f"={G1}!${C31['actual']}${gt}", opts.M2),
         ("Of which filled roles ($m)",
          f'=SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AK$2:$AK${LAST},"Filled")/1000000',
          opts.M2),
@@ -277,7 +277,7 @@ def build_qa(wb, a, a2):
              f"(N({G1}!${C31['actual']}${a[k]})-N({G1}!${C31['acost']}${a[k]}))"
              for k in ("arch", "direct", "overhead")) + ",6)",
          f"={G1}!${C31['var']}${a['comparable']}", opts.M2),
-        ("Roles including the GM layer against 525 plus the GM count",
+        ("Roles including the GM layer against the ledger plus the GM count",
          f"={G1}!${C31['roles']}${a['grand']}",
          f"=COUNTA({REV}!$B$2:$B${LAST})+N(Lists!$AG$11)", opts.CT),
         # ---- the design side ----
@@ -426,6 +426,9 @@ def cream(wb):
 
 
 def run(src, dst):
+    global LAST
+    f2._boot_last(src)
+    LAST = f2.LAST
     wb = openpyxl.load_workbook(src)
     a = anchors(wb)
     a2 = json.load(open("anchors_final.json"))

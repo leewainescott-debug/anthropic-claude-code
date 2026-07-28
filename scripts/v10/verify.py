@@ -45,7 +45,11 @@ def coverage(wv):
     """525 roles, each on exactly one working tab, once."""
     R = wv[REVIEW]
     want = {}
-    for i in range(2, 529):
+    R0 = wv[REVIEW]
+    r529 = R0.max_row + 1
+    while r529 > 2 and not str(R0.cell(r529 - 1, 2).value or '').strip():
+        r529 -= 1
+    for i in range(2, r529):
         n = str(R.cell(i, 2).value or "").strip()
         if n:
             want[i] = (str(R.cell(i, 36).value), str(R.cell(i, 46).value))
@@ -231,7 +235,7 @@ def lever(path):
     # number or a tab title, both of which have moved under me before
     bridge = next(t for t in wb.sheetnames if t.startswith("3.1 "))
     detail = next(t for t in wb.sheetnames if t.startswith("3.3 "))
-    LEDGER = "Cost of the 525 roles in the ledger"
+    LEDGER = "Cost of the"
     PROBE = [
         (bridge, LEDGER, "Cost after decisions ($m)", "cost after decisions",
          -cost / 1000000),

@@ -30,7 +30,7 @@ import opts
 
 REVIEW = "REVIEW - Complete Role Mapping"
 REV = f"'{REVIEW}'"
-LAST = 528
+LAST = None                             # measured from the ledger in run()
 NONE_FILL = PatternFill()
 NO_BORDER = Border()
 
@@ -242,12 +242,14 @@ NOTE_FIX = {
 # still on 1.1, 1.4, 1.5 and 1.6 after the recolour. The same five formulas also read
 # REVIEW rows 529 and 530, which are outside the 528-row window every other formula uses,
 # and grouped on column AP instead of AT, the grouping column the rest of the model joins on.
-IN_FORMULA = {"yellow cell": "cream cell",
-              "$AA$2:$AA$530": "$AA$2:$AA$528",
-              "$AP$2:$AP$530": "$AT$2:$AT$528"}
+IN_FORMULA = {"yellow cell": "cream cell"}
 
 
 def fix_formula_notes(wb):
+    # the window repairs are built at run time off the measured extent, so a ledger that
+    # grows past 528 does not resurrect the off-window bug this map was written to fix
+    IN_FORMULA["$AA$2:$AA$530"] = f"$AA$2:$AA${LAST}"
+    IN_FORMULA["$AP$2:$AP$530"] = f"$AT$2:$AT${LAST}"
     n = 0
     for ws in wb.worksheets:
         for row in ws.iter_rows():
@@ -285,7 +287,9 @@ def fix_notes(wb):
 
 
 def run(src, dst, ledger="w1r.xlsx"):
+    global LAST
     wb = openpyxl.load_workbook(src)
+    LAST = opts.ledger_last(wb)
     wv = openpyxl.load_workbook(src, data_only=True)
     lg = openpyxl.load_workbook(ledger, data_only=True)[REVIEW]
     out = (extend_lists(wb, lg) + offshore_line(wb) + collapse_shells(wb, wv)

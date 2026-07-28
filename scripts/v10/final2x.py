@@ -37,7 +37,7 @@ from build_2xfix import DESIGN, squad_table_bounds
 REVIEW = "REVIEW - Complete Role Mapping"
 REV = f"'{REVIEW}'"
 A3 = "'0.3 Squad Archetypes'"
-LAST = 528
+LAST = None                             # set from the ledger by set_last()
 
 # ---- squad summary columns, B onwards ----
 # "Roles after decisions" replaced "Vacancies remaining", which counted vacancies set to
@@ -98,6 +98,12 @@ P_W = [30, 44, 11, 15, 15, 19]
 OH_ORDER = ["Head of Technology", "Business Partner", "Domain Architect",
             "Delivery Manager", "Technology Manager", "Leadership",
             "Leadership - squad not stated"]
+
+
+def set_last(wb):
+    global LAST
+    LAST = opts.ledger_last(wb)
+    return LAST
 
 
 def ledger(wv):
@@ -631,6 +637,7 @@ def _m(ws, r, c, formula, fmt=None):
 
 
 def run(src, dst):
+    _boot_last(src)
     wb = openpyxl.load_workbook(src)
     wv = openpyxl.load_workbook(src, data_only=True)
     rows = ledger(wv)
@@ -652,6 +659,10 @@ def run(src, dst):
     json.dump(anchors, open("anchors_final.json", "w"), indent=1)
     wb.save(dst)
     return out
+
+
+def _boot_last(src):
+    set_last(openpyxl.load_workbook(src))
 
 
 if __name__ == "__main__":

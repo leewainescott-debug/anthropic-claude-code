@@ -21,7 +21,7 @@ import final2x as f2
 import opts
 
 REV = f2.REV
-LAST = f2.LAST
+LAST = None                             # refreshed from f2 after _boot_last
 S = f2.S
 COE_ORDER = ["COE Cyber", "COE BP&T", "COE SA&D", "EGI"]
 
@@ -145,6 +145,9 @@ def build_35(wb):
 
 
 def run(src, dst):
+    global LAST
+    f2._boot_last(src)
+    LAST = f2.LAST
     wb = openpyxl.load_workbook(src)
     anchors = json.load(open("anchors_final.json"))
     a34 = build_34(wb, anchors)

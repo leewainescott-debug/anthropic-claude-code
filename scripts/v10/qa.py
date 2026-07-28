@@ -293,7 +293,7 @@ def check_cross_tab_facts(wf, wv):
     # the tabs are found by number prefix, so a rename cannot break the check
     detail = next(t for t in wf.sheetnames if t.startswith("3.3 "))
     bridge = next(t for t in wf.sheetnames if t.startswith("3.1 "))
-    rows = {bridge: "Cost of the 525 roles in the ledger", detail: "Group total"}
+    rows = {bridge: "Cost of the", detail: "Group total"}
     at = {}
     for tab, lab in rows.items():
         r = find_row(wf, tab, "B", lab)
