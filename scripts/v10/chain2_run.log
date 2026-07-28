@@ -120,3 +120,8 @@
    3.1: cost bridge, every directly funded programme named, ledger row 45, grand total row 47
    3.2: overhead and leadership, line by line, plus what the allowance is built from
    3.3: every squad by portfolio, total row 120
+   Lists archetype-roles lookup repointed on 11 portfolios
+   3 inputs recoloured to cream across the live model
+   Exec Summary rebuilt on design against actual, with a portfolio drill-down
+   4.0 Data QA rebuilt: 74 checks, model / expected / difference
+   anchors: 3.1 ledger r45 grand r47, 3.2 overhead total r12, 3.3 total r120
