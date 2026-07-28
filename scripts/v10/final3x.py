@@ -169,7 +169,7 @@ def build_31(wb, anchors):
     ws.column_dimensions["A"].width = 2
     ws.cell(2, 2).value = "TDD cost bridge - archetype cost to actual cost"
     ws.cell(2, 2).font = opts.TITLE
-    pfs, coes = order(anchors)
+    pfs, coes = order(anchors, wb)
 
     r = opts.head(ws, 4, 2, H31, W31)
 
@@ -439,11 +439,21 @@ def build_31(wb, anchors):
 # reader nothing 3.1 did not already give them, and the owner deleted it. What it did carry
 # that nothing else does is the overhead allowance, line by line, and the GM layer - so
 # that is what the tab is now, and only that.
+# "Roles inside the COEs" was the count of every role on the line that does not sit in a
+# portfolio, and EGI's roles are in it as well as the three COEs', so the heading named
+# less than the column held. J and K are unchanged - the wording now says what they have
+# always computed. M is new: the whole ledger, portfolios and COEs and EGI, each role
+# counted once, which is the figure the owner asked the tab to state.
 H32 = ["Overhead line", "Basis", "Rate ($m)", "Times applied", "Allowance ($m)",
        "Roles in the portfolios", "Cost in the portfolios ($m)",
-       "Portfolio cost less allowance ($m)", "Roles inside the COEs",
-       "Cost inside the COEs ($m)", "Allowance drawn in the portfolios"]
-W32 = [26, 13, 11, 13, 14, 13, 15, 19, 12, 15, 17]
+       "Portfolio cost less allowance ($m)",
+       "Roles outside the portfolios - the COEs and EGI",
+       "Cost outside the portfolios - the COEs and EGI ($m)",
+       "Is the allowance drawn in the portfolios?",
+       "All roles - portfolios, COEs and EGI"]
+# the bar on row 4 and the header on row 5 are both drawn off len(H32), so a column is
+# added by adding to these two lists and to nothing else
+W32 = [26, 13, 11, 13, 14, 13, 15, 19, 14, 16, 46, 13]
 
 
 def build_32(wb, anchors, a31, wcol):
@@ -464,6 +474,7 @@ def build_32(wb, anchors, a31, wcol):
     r = opts.bar(ws, 4, 2, len(H32), "Overhead roles, line by line")
     r = opts.head(ws, r, 2, H32, W32)
     st = r
+    n_roles = opts.ledger_count(wb)
     for i in range(2, 8):
         ws.cell(r, 2).value = f"=Lists!$AF${i}"
         ws.cell(r, 3).value = f"=Lists!$AI${i}"
@@ -487,9 +498,25 @@ def build_32(wb, anchors, a31, wcol):
         f2._m(ws, r, 11, gm.format(
             r=r, v="0",
             e=f"SUMIFS({REV}!$AA$2:$AA${LAST},{both})/1000000-$H{r}"))
-        ws.cell(r, 12).value = f"=Lists!${wcol}${i}"
+        # The column read "Yes" or "No" under the heading "Allowance drawn in the
+        # portfolios", and a reader had no way to tell what a "No" meant: that the line is
+        # not allowed for, that its people are somewhere else, or that the allowance is
+        # wrong. It is a sentence now, and it says which. It is still derived from the same
+        # Lists cell and from this row's own COE count, so it cannot disagree with the
+        # maths beside it - change either and the sentence changes with it.
+        ws.cell(r, 12).value = (
+            f'=IF(Lists!${wcol}${i}="Yes",'
+            f'"Yes - the roles for this line sit in the portfolios",'
+            f'IF(N($J{r})>0,'
+            f'"No - all "&TEXT($J{r},"0")&" of these roles sit in the COEs",'
+            f'"No - these people sit above the {n_roles}-role ledger"))')
         ws.cell(r, 12).font = opts.BODY
-        ws.cell(r, 12).alignment = opts.CEN
+        ws.cell(r, 12).alignment = LFTW
+        # a sentence in a 46-wide column runs to two lines
+        ws.row_dimensions[r].height = 28
+        # the whole-ledger column carries a figure on one row, the band that states it.
+        # An overhead line is a slice of the ledger, not a count of it, so it says so.
+        f2._m(ws, r, 13, '="-"', opts.CT)
         r += 1
     opts.row(ws, r, 2, ["Overheads incl. GMs"] +
              [None] * (len(H32) - 1),
@@ -540,6 +567,55 @@ def build_32(wb, anchors, a31, wcol):
     # but their people are not in one. The two "of which" rows add to the total above them.
     band(r, "Of which is allowed for people who sit outside the portfolios",
          {6: (f"=ROUND($F{tot32}-$F{ohpf},6)", None)})
+    ohout = r
+    # M is a count of the whole ledger, so it carries the count format on the band rows
+    # that state a dash as well as on the one that states a figure
+    for rw in (tot32, ohpf, ohout):
+        ws.cell(rw, 13).number_format = opts.CT
+    r += 1
+
+    # ---- the whole model, each role counted once ----
+    # The three bands above split the allowance. This one splits the ledger, which is the
+    # question a reader arrives with and which nothing on the tab answered: how many people
+    # sit in the portfolios, how many sit in the COEs and EGI, and do the two come back to
+    # the ledger. G and J partition the ledger on the same column the working tabs are
+    # built from, so no role is in both and none is in neither - and the control under the
+    # row is what proves it rather than asking the reader to take it on trust.
+    allrow = r
+    # the split is already named by the G and J column heads, so the label states only the
+    # rule; the long form was 81 characters against 68 of room on the rendered page
+    opts.row(ws, r, 2,
+             ["All roles in the model - each role counted once"]
+             + [None] * (len(H32) - 1),
+             [None] * len(H32), bg=opts.MID, bold=True, top=True)
+    ws.cell(r, 2).alignment = opts.LFT
+    # the ten portfolios by name off Lists rather than "not a COE": a role whose portfolio
+    # is blank or mistyped then falls out of both halves and the control says so, instead
+    # of being swept into whichever half carries the negation
+    pfs32 = "Lists!$AS$2:$AS$11"
+    coe_n = (f'COUNTIFS({REV}!$AJ$2:$AJ${LAST},"COE*",{REV}!$B$2:$B${LAST},"<>")'
+             f'+COUNTIFS({REV}!$AJ$2:$AJ${LAST},"EGI",{REV}!$B$2:$B${LAST},"<>")')
+    coe_c = (f'SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},"COE*")'
+             f'+SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},"EGI")')
+    stated = {7: (f"=SUMPRODUCT(COUNTIFS({REV}!$AJ$2:$AJ${LAST},{pfs32},"
+                  f'{REV}!$B$2:$B${LAST},"<>"))', opts.CT),
+              8: (f"=SUMPRODUCT(SUMIFS({REV}!$AA$2:$AA${LAST},"
+                  f"{REV}!$AJ$2:$AJ${LAST},{pfs32}))/1000000", opts.M2),
+              10: (f"={coe_n}", opts.CT),
+              11: (f"=({coe_c})/1000000", opts.M2),
+              13: (f"=COUNTA({REV}!$B$2:$B${LAST})", opts.CT)}
+    for c, (f, nf) in stated.items():
+        f2._m(ws, r, c, f, nf)
+    for c in range(4, len(H32) + 2):
+        if c not in stated:
+            x = ws.cell(r, c)
+            x.value, x.alignment = '="-"', opts.RGT
+        ws.cell(r, c).font = opts.BOLD
+    r += 1
+    ws.cell(r, 2).value = ("Control - the portfolios plus the COEs and EGI against the "
+                           "ledger, must be 0")
+    ws.cell(r, 2).font = opts.BODY
+    f2._m(ws, r, 13, f"=ROUND($G{allrow}+$J{allrow}-$M{allrow},6)", opts.CTL_C)
     r += 2
 
     # ---- what the allowance is built from, in full, on the page ----
@@ -616,7 +692,7 @@ def build_33(wb, anchors):
     ws.column_dimensions["A"].width = 2
     ws.cell(2, 2).value = "Squad Detail - roles and cost, squad by squad"
     ws.cell(2, 2).font = opts.TITLE
-    pfs, coes = order(anchors)
+    pfs, coes = order(anchors, wb)
     r = opts.bar(ws, 4, 2, len(H33), "Every squad on every working tab")
     r = opts.head(ws, r, 2, H33, W33)
     pf_rows = []
@@ -627,7 +703,12 @@ def build_33(wb, anchors):
                             ("No figure to compare", a["nofig"]),
                             ("Overhead", a["overhead"])):
             for gname in names:
-                s = a["srow"][gname]
+                # a group named on the anchor with no row on the working tab has nothing
+                # to read, so it is skipped rather than pointing every column at a
+                # row number that does not exist
+                s = a["srow"].get(gname)
+                if not s:
+                    continue
                 ws.cell(r, 2).value = pf
                 ws.cell(r, 3).value = kind
                 for c in (2, 3):
@@ -645,6 +726,10 @@ def build_33(wb, anchors):
                     else:
                         x.alignment = opts.LFT
                 r += 1
+        if r == st:
+            # a portfolio the workbook carries no squad row for gets no total row either:
+            # SUM over a range that runs backwards is not a zero, it is an error
+            continue
         opts.row(ws, r, 2, [f"{pf} total"] + [None] * (len(H33) - 1),
                  [None] * len(H33), bg=opts.GREY, bold=True)
         ws.cell(r, 2).alignment = opts.LFT

@@ -41,6 +41,7 @@ DESIGN = {
     "2.6 Finance": "1.6 Finance", "2.7 Infrastructure": "1.7 Infrastructure",
     "2.8 Energy Solutions & B2B": "1.8 Energy Solutions & B2B",
     "2.9 Commercial Fuels": "1.9 Commercial Fuels", "2.10 Z Retail": "1.10 Z Retail",
+    "2.15 TDD Cyber": "1.14 TDD Cyber",
 }
 
 

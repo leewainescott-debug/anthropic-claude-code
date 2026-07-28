@@ -16,9 +16,11 @@ import sys
 import openpyxl
 
 REVIEW = "REVIEW - Complete Role Mapping"
+# the reading order the builders use, not a list of what exists: a name with no ledger
+# rows and no working tab yet contributes nothing here and is skipped in silence
 PF = ["Ampol Retail", "Customer", "Enterprise Data", "TDD Group Functions", "P&C",
       "Finance", "Infrastructure", "Energy Solutions & B2B", "Commercial Fuels",
-      "Z Retail"]
+      "Z Retail", "TDD Cyber"]
 COE = ["COE Cyber", "COE BP&T", "COE SA&D", "EGI"]
 TOL = 1e-6
 
@@ -96,15 +98,21 @@ def run(path, anchors="anchors_final.json"):
     # ---- every squad row on every working tab ----
     S = a[list(a)[0]]["cols"]
     for v in a.values():
-        ws = wv[tab_of[v["pf"]]]
+        # a portfolio named on the anchors whose working tab is not in this workbook has
+        # nothing to recompute against, so it is skipped rather than stopping the pass
+        t = tab_of.get(v["pf"])
+        if t is None:
+            continue
+        ws = wv[t]
         for g in v["squads"] + v["direct"] + v["nofig"] + v["overhead"]:
-            r, k = v["srow"][g], (v["pf"], g)
+            r, k = v["srow"].get(g), (v["pf"], g)
+            if not r:
+                continue
             for key, exp, cnt in (("actual", cost[k] / 1e6, False),
                                   ("roles", roles[k], True),
                                   ("filled", filled[k], True),
                                   ("vacant", vacant[k], True)):
-                check(out, f"{tab_of[v['pf']]} {g} {key}", ws.cell(r, S[key]).value,
-                      exp, cnt)
+                check(out, f"{t} {g} {key}", ws.cell(r, S[key]).value, exp, cnt)
 
     # ---- the bridge on 3.1 ----
     b = next(t for t in wv.sheetnames if t.startswith("3.1 "))
@@ -191,8 +199,10 @@ def run(path, anchors="anchors_final.json"):
     check(out, "3.2 portfolio overhead roles",
           ws.cell(r, col_of(ws, "Roles in the portfolios")).value, ohroles["pf"], True)
     t = find(ws, "Overheads incl. GMs")
-    check(out, "3.2 overhead inside the COEs",
-          ws.cell(t, col_of(ws, "Cost inside the COEs ($m)")).value, ohcost["coe"] / 1e6)
+    check(out, "3.2 overhead outside the portfolios",
+          ws.cell(t, col_of(ws,
+                            "Cost outside the portfolios - the COEs and EGI ($m)")).value,
+          ohcost["coe"] / 1e6)
 
     # ---- 3.3 group total and 3.4 COE total ----
     d = next(t for t in wv.sheetnames if t.startswith("3.3 "))

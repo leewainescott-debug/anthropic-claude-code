@@ -140,26 +140,67 @@ def ledger(wv):
 # the three overhead lines the archetype draws inside a portfolio. The other three -
 # Business Partner, Domain Architect and the Leadership layer - are allowed for per
 # portfolio but their people sit in the COEs and above the ledger.
+#
+# Which of the three a tab carries is not a constant: it is which half of the design tab's
+# overhead the tab actually draws. The portfolio overhead buys the Head of Technology; the
+# per-platform overhead buys the Delivery Manager and the Technology Manager.
 IN_PF = ["Head of Technology", "Delivery Manager", "Technology Manager"]
+PF_LINES = ("Head of Technology",)
+PLAT_LINES = ("Delivery Manager", "Technology Manager")
 
 
-def groups(rows, design=None):
+def draws(wv, design, row):
+    """True when the design tab actually draws the allowance on one of its two overhead
+    rows - N() of that row's Total column, read the way every other consumer reads it."""
+    if design is None or not row:
+        return False
+    v = wv[design].cell(row, 6).value
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and v > 0
+
+
+def groups(rows, want=()):
     """Delivery squads, and the overhead lines this portfolio is measured on.
 
-    The three portfolio-drawn overhead lines are always listed, whether or not anyone is
-    in them. The archetype allows a Delivery Manager per platform whether the seat is
-    filled or not, and listing only the lines with people in them handed that allowance to
-    the "sitting outside this portfolio" line - Finance has no Delivery Manager, so its
-    allowance quietly left the portfolio and the group allowance came out 0.31 light.
+    An overhead line the design tab draws is listed whether or not anyone is in it. The
+    archetype allows a Delivery Manager per platform whether the seat is filled or not,
+    and listing only the lines with people in them handed that allowance to the "sitting
+    outside this portfolio" line - Finance has no Delivery Manager, so its allowance
+    quietly left the portfolio and the group allowance came out 0.31 light.
+
+    A line is forced only where its allowance is actually drawn. All ten portfolio tabs
+    draw both halves and so carry all three lines, exactly as before. 1.14 TDD Cyber draws
+    the platform half only - it is not one of the ten funded portfolios on 0.2 - so 2.15
+    carries the two managers and no Head of Technology. Forcing one on would have put
+    0.1375 of allowance into 3.1's overhead sum that Lists!AJ9 does not have, and broken
+    the 4.0 tie by exactly that.
     """
     seen = {}
     for r in rows:
         seen.setdefault(r["grp"], r["oh"])
     delivery = sorted(g for g, oh in seen.items() if not oh)
-    want = set(IN_PF) if design else set()
+    want = set(want)
     overhead = [g for g in OH_ORDER if seen.get(g) or g in want]
     overhead += sorted(g for g, oh in seen.items() if oh and g not in OH_ORDER)
     return delivery, overhead
+
+
+def design_squads(wv, design, lo, hi):
+    """The delivery squads of a design tab, read off its own squad table.
+
+    A portfolio with no ledger rows yet has no squads to group, so its working copy is
+    seeded from the tab that designs it. The table runs from its platform bar to its total
+    row; everything between them that is not the bar, the header, the per-platform
+    overhead line or the total is a squad.
+    """
+    ws = wv[design]
+    out = []
+    for r in range(lo, hi + 1):
+        b = str(ws.cell(r, 2).value or "").strip()
+        if not b or b.startswith("Platform") or b == "Squad" or b.endswith("Total"):
+            continue
+        if b not in out:
+            out.append(b)
+    return sorted(out)
 
 
 def has_archetype(wb, wv, design, squad):
@@ -233,21 +274,37 @@ def oh_rows(wv, design):
     return got.get("pf"), got.get("plat")
 
 
-def build(wb, wv, tab, rows, bounds):
+def build(wb, wv, tab, rows, bounds, pf=None):
     ws = wb[tab]
     design = DESIGN.get(tab)
-    pf = rows[0]["pf"]
+    # the portfolio is the ledger's own name for it where the ledger has rows, and the
+    # caller's where it has none - a portfolio can exist on a design tab before a single
+    # role in REVIEW carries it
+    pf = rows[0]["pf"] if rows else pf
     oh_pf, oh_plat = oh_rows(wv, design)
     # the archetype's own overhead for this portfolio, straight off the design tab, and the
     # number of platforms behind the per-platform half of it
     ALLOW = (f"(N('{design}'!$F${oh_pf})+N('{design}'!$F${oh_plat}))"
              if oh_pf and oh_plat else '0')
     PLAT = f"N('{design}'!$F${oh_plat})/{CFG}!$N$16" if oh_plat else "0"
-    delivery, overhead = groups(rows, design)
+    want = set()
+    if draws(wv, design, oh_pf):
+        want |= set(PF_LINES)
+    if draws(wv, design, oh_plat):
+        want |= set(PLAT_LINES)
+    delivery, overhead = groups(rows, want)
     lo, hi = bounds[design] if design else (0, 0)
     # split the delivery squads by whether the archetype library actually prices them
-    arch = [g for g in delivery if has_archetype(wb, wv, design, g)]
-    rest = [g for g in delivery if g not in arch]
+    if rows:
+        arch = [g for g in delivery if has_archetype(wb, wv, design, g)]
+        rest = [g for g in delivery if g not in arch]
+    else:
+        # Nothing in the ledger to group, so the squads come off the design tab. They sit
+        # in its archetype-priced squad table and its H column is what prices them, which
+        # is what the Squads section reads on every other tab - including where the owner
+        # has not typed a size yet and that H reads "check size".
+        arch = design_squads(wv, design, lo, hi) if design else []
+        delivery, rest = arch, []
     # a directly funded programme has an amount typed against it on the design tab, or is
     # EGI (priced at actual on the owner's ruling), or sits on a COE tab where the planned
     # spend is the comparison. Anything else - the two Leadership groups - has no figure to
@@ -674,6 +731,14 @@ def build(wb, wv, tab, rows, bounds):
             _m(ws, rw, P["after"],
                f"=${L(P['cost'])}{rw}*IFERROR(INDEX(Lists!$AD:$AD,"
                f"MATCH(${L(P['lever'])}{rw},Lists!$AC:$AC,0)),1)", opts.M0)
+    if not staffed:
+        # The block is the family's - bar and header - with one line saying why there is
+        # nothing under it. A header with nothing beneath it reads as a table that failed
+        # to load; the sentence says the tab is right and the ledger is empty.
+        x = ws.cell(r_ftehdr + 1, P["name"])
+        x.value = (f"No roles in the ledger carry {pf} yet - this tab will fill itself "
+                   f"when they do.")
+        x.font, x.alignment = opts.BODY, opts.LFT
 
     # no frozen panes anywhere in this workbook - owner's instruction
     # A section that is not on the tab has no anchor, and a one-row section anchors on its
@@ -723,15 +788,24 @@ def run(src, dst):
               "2.4": "TDD Group Functions", "2.5": "P&C", "2.6": "Finance",
               "2.7": "Infrastructure", "2.8": "Energy Solutions & B2B",
               "2.9": "Commercial Fuels", "2.10": "Z Retail", "2.11": "COE Cyber",
-              "2.12": "COE BP&T", "2.13": "COE SA&D", "2.14": "EGI"}
+              "2.12": "COE BP&T", "2.13": "COE SA&D", "2.14": "EGI",
+              "2.15": "TDD Cyber"}
     for tab in tabs:
         pf = wv[tab]["C3"].value
         if pf not in bypf:
             pf = next((p for p in bypf if p and tab.endswith(str(p))),
                       BY_NUM.get(tab.split(" ")[0]))
-        if pf not in bypf:
+        if pf is None:
             raise SystemExit(f"{tab}: no portfolio found (C3, suffix and number all miss)")
-        a = build(wb, wv, tab, bypf[pf], bounds)
+        # A portfolio can be designed before it is staffed: 1.14 TDD Cyber prices a squad
+        # that no role in the ledger carries yet. The tab is built from its design tab in
+        # that case, with every ledger-driven figure left as the live SUMIFS it always is,
+        # so it fills itself the day the first role arrives. With neither ledger rows nor
+        # a design tab there is nothing to build from and that is still fatal.
+        if pf not in bypf and tab not in DESIGN:
+            raise SystemExit(f"{tab}: no ledger row carries {pf!r} and no design tab "
+                             f"seeds it - nothing to build the tab from")
+        a = build(wb, wv, tab, bypf.get(pf, []), bounds, pf)
         anchors[tab] = a
         out.append(f"{tab}: {len(a['squads'])} archetyped, {len(a['direct'])} directly "
                    f"funded, {len(a['nofig'])} with no figure, {len(a['overhead'])} "

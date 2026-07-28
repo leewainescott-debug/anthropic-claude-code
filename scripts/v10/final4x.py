@@ -53,6 +53,9 @@ def anchors(wb):
     a["ohtot32"] = find_row(s2, "Overheads incl. GMs")
     a["ohpf32"] = find_row(s2, "Of which sits in the")
     a["ohout32"] = find_row(s2, "Of which is allowed for")
+    # 3.2's ledger band. Found the same way as the three above, so inserting a row on that
+    # tab moves the check with it rather than leaving it pointed at whatever lands there.
+    a["all32"] = find_row(s2, "All roles in the model")
     a["g33"] = find_row(s3, "Group total")
     a["first33"] = find_row(s3, "Portfolio") + 1
     return a
@@ -293,7 +296,9 @@ def build_qa(wb, a, a2):
         ("Archetype roles on 3.3 against the priced-per-portfolio list on Lists",
          f"=SUMIFS({G3}!${C33['aroles']}${lo33}:${C33['aroles']}${hi33},"
          f'{G3}!${C33["kind"]}${lo33}:${C33["kind"]}${hi33},"Archetype")',
-         "=SUM(Lists!$K$2:$K$11)", opts.C1),
+         # Lists!J12 carries an eleventh portfolio and K12 prices it, so a range stopping
+         # at row 11 tested ten of eleven rows and the eleventh could go wrong unseen
+         "=SUM(Lists!$K$2:$K$12)", opts.C1),
         ("Offshore archetype against 40% of onshore, first archetype",
          f"=ROUND({A3}!$H$5/{A3}!$G$5,6)", f"=ROUND({A3}!$K$5,6)", opts.C1),
         # ---- the overhead allowance ----
@@ -302,16 +307,27 @@ def build_qa(wb, a, a2):
         ("Allowance drawn in the portfolios against the lines that draw it ($m)",
          "=N(Lists!$AJ$9)", '=SUMIF(Lists!$AM$2:$AM$7,"Yes",Lists!$AJ$2:$AJ$7)',
          opts.M2),
-        ("Overhead roles in the portfolios plus those inside the COEs against "
+        # 3.2's J and K columns are headed "outside the portfolios - the COEs and EGI",
+        # which is what they have always counted: EGI's roles are in them as well as the
+        # three COEs'. These two labels named the columns by their old heading.
+        ("Overhead roles in the portfolios plus those outside the portfolios against "
          "every overhead role",
          f"={G2}!${C32['pfroles']}${a['ohpf32']}"
          f"+{G2}!${C32['coeroles']}${a['ohtot32']}",
          f"=COUNTIFS({oh})", opts.CT),
-        ("Overhead cost in the portfolios plus inside the COEs against every "
+        ("Overhead cost in the portfolios plus outside the portfolios against every "
          "overhead role ($m)",
          f"={G2}!${C32['pfcost']}${a['ohpf32']}"
          f"+{G2}!${C32['coecost']}${a['ohtot32']}",
          f"=SUMIFS({REV}!$AA$2:$AA${LAST},{oh})/1000000", opts.M2),
+        # 3.2 now states the whole ledger split in two - the portfolios against the COEs
+        # and EGI, each role counted once - and this is the check that the split is the
+        # ledger. The tab carries its own control on the row under it; this one proves the
+        # same fact from 4.0, where a reader looks for it.
+        ("All roles on 3.2 against the ledger",
+         f"={G2}!${C32['pfroles']}${a['all32']}"
+         f"+{G2}!${C32['coeroles']}${a['all32']}",
+         f"=COUNTA({REV}!$B$2:$B${LAST})", opts.CT),
         ("Overhead on 3.1 against the portfolio lines on 3.2 ($m)",
          f"={G1}!${C31['actual']}${a['overhead']}",
          f"={G2}!${C32['pfcost']}${a['ohpf32']}", opts.M2),

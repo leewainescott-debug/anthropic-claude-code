@@ -24,7 +24,8 @@ if abs(total - 16522075.33) > 0.05:
 print(f"   Customer block prices at {total:,.2f} == dataset total, gate passed")
 EOF
 python3 repair_design.py b1.xlsx b2.xlsx
-python3 ensure_lists.py b2.xlsx base2.xlsx
+python3 cyber14.py b2.xlsx b2c.xlsx
+python3 ensure_lists.py b2c.xlsx base2.xlsx
 cp base2.xlsx w0.xlsx
 python3 overrides.py w0.xlsx w1.xlsx
 python3 -c "import wbio,shutil; shutil.copy(wbio.recalc('w1.xlsx'),'w1r.xlsx')"

@@ -76,6 +76,9 @@ TAB_PORTFOLIO = {
     "2.12 BP&T": "COE BP&T",
     "2.13 SA&D": "COE SA&D",
     "2.14 EGI": "EGI",
+    # TDD Cyber is a portfolio in the model before it is one in the ledger: 1.14 prices it
+    # and 2.15 is its working copy, and no role in REVIEW carries it yet.
+    "2.15 TDD Cyber": "TDD Cyber",
 }
 
 REVIEW = "REVIEW - Complete Role Mapping"
