@@ -36,7 +36,6 @@ SOFT = opts.GREY                      # FFF2F2F2, the lighter band
 NONE_FILL = PatternFill()
 NO_BORDER = Border()
 WRAPL = Alignment(horizontal="left", vertical="center", wrap_text=True)
-CTR = Alignment(horizontal="center", vertical="center")
 
 DESIGN = re.compile(r"^1\.\d+ ")      # the portfolio and COE design tabs
 PORTFOLIO = re.compile(r"^1\.(?:[1-9]|10) ")   # 1.1 - 1.10, the squad tabs
@@ -137,14 +136,21 @@ def write(ws, r, c, value):
 
 
 def deref(wb, ws, r, c):
-    """The value behind ='Some tab'!$X$9 - the COE lists are built entirely of these."""
+    """The value behind ='Some tab'!$X$9 - the COE lists are built entirely of these.
+
+    One hop, and only a bare reference. A cell that resolves to another formula is
+    reported as unknown rather than measured as if the formula text were its value: the
+    ledger's Status column is itself a formula, and treating that as a 55-character
+    string had this widening two columns that render six characters.
+    """
     v = ws.cell(r, c).value
     if not isinstance(v, str) or not v.startswith("="):
         return v
     m = re.fullmatch(r"='([^']+)'!\$?([A-Z]{1,3})\$?(\d+)", v.strip())
     if not m or m.group(1) not in wb.sheetnames:
         return None
-    return wb[m.group(1)].cell(int(m.group(3)), CI(m.group(2))).value
+    got = wb[m.group(1)].cell(int(m.group(3)), CI(m.group(2))).value
+    return None if isinstance(got, str) and got.startswith("=") else got
 
 
 def tabs(wb, rx):
@@ -161,21 +167,31 @@ def merged_span(ws, r, c):
 # ----------------------------------------------------------------- table finders
 
 def squad_blocks(ws):
-    """Every squad table: its platform bar, header row, total row and last column."""
+    """Every squad table: its platform bar, header row, total row and last column.
+
+    The last column is the last navy header cell walking right from B, not the last
+    labelled cell: on 1.4, 1.5 and 1.6 the owner's own scratch headers sit in the same
+    row, grey, and counting those made the squad table five columns wider than it is.
+    """
     out = []
     for r in range(1, ws.max_row + 1):
         if label(ws, r, 2) != "Squad" or rgb(ws.cell(r, 2)) != opts.NAVY:
             continue
-        last = last_labelled(ws, r, 2, 14) or 10
+        last = 2
+        for c in range(3, min(ws.max_column, 20) + 1):
+            if rgb(ws.cell(r, c)) == opts.NAVY and label(ws, r, c):
+                last = c
+            else:
+                break
         total = None
         for k in range(r + 1, min(ws.max_row, r + 40) + 1):
             t = label(ws, k, 2)
             if t.endswith("Total"):
                 total = k
                 break
-            if t.startswith("Platform"):
+            if t.startswith("Platform:"):     # the next bar. "Platform Overhead" is a row
                 break
-        bar = r - 1 if label(ws, r - 1, 2).startswith("Platform") else None
+        bar = r - 1 if label(ws, r - 1, 2).startswith("Platform:") else None
         out.append({"hdr": r, "total": total, "last": last, "bar": bar})
     return out
 
@@ -188,7 +204,12 @@ def summary_block(ws):
         hdr = r + 1
         if label(ws, hdr, 2) != "Cost":
             return None
-        last = last_labelled(ws, hdr, 2, 10) or 6
+        last = 2                    # navy header cells only: H on this row is the
+        for c in range(3, 11):      # budget box's first label, not a summary column
+            if rgb(ws.cell(hdr, c)) == opts.NAVY:
+                last = c
+            else:
+                break
         total = next((k for k in range(hdr + 1, min(ws.max_row, hdr + 12) + 1)
                       if label(ws, k, 2) == "Total Cost"), None)
         return {"bar": r, "hdr": hdr, "last": last, "total": total}
@@ -218,17 +239,19 @@ def funding_block(ws):
 
 
 def role_list(ws):
-    """A COE tab's roles list: bar row, header row, first and last data row."""
+    """A COE tab's roles list: bar row, header row, first and last data row.
+
+    A role row is one whose name is pulled from the ledger, so the list ends where the
+    formulas end - not at the first blank, which would swallow the check row underneath.
+    """
     for r in range(1, ws.max_row + 1):
         if label(ws, r, 2) != "Name" or rgb(ws.cell(r, 2)) != opts.NAVY:
             continue
         last = last_labelled(ws, r, 2, 14) or 8
-        lo = r + 1
-        hi = lo - 1
+        lo, hi = r + 1, r
         for k in range(lo, ws.max_row + 1):
-            if ws.cell(k, 2).value is None:
-                break
-            hi = k
+            if str(ws.cell(k, 2).value or "").startswith("="):
+                hi = k
         return {"hdr": r, "last": last, "lo": lo, "hi": hi,
                 "bar": r - 1 if label(ws, r - 1, 2) == "Roles" else None}
     return None
@@ -294,12 +317,21 @@ def orange_block(wb):
             if val and isinstance(ws.cell(r, val).value, (int, float)):
                 paint(ws, r, val, fill=opts.fl(CREAM))   # a typed number is an input
                 cream += 1
-        if len(rows) > 1:                       # 1.9's two rows were 34.0 and 28.5
+        if len(rows) > 1 and len({height(ws, r) for r in rows}) > 1:
+            # levelled up to the tallest, but only where no row of the block is still a
+            # plain single line: on most tabs the top row of the block also carries the
+            # funding table's header, and raising a 14.25 data row to match it would
+            # invent a double-height row rather than tidy one
             h = max(height(ws, r) for r in rows)
-            if len({height(ws, r) for r in rows}) > 1:
+            if min(height(ws, r) for r in rows) > 15:
                 for r in rows:
                     ws.row_dimensions[r].height = h
                 out.append(f"{ws.title}: budget block rows {rows} levelled to {h}")
+            else:
+                out.append(f"{ws.title}: budget block rows {rows} are "
+                           f"{[height(ws, r) for r in rows]} - one of them is a single "
+                           f"line and the other carries the funding table's header row, "
+                           f"so the difference is not the block's to level; reported")
     out.append(f"orange budget blocks: {n} label cells returned to plain, {cream} typed "
                f"inputs painted cream")
     return out
@@ -374,12 +406,16 @@ def bucket_bar(wb):
     for r in range(1, min(ws.max_row, 30) + 1):
         if not label(ws, r, 2).startswith("Funding buckets"):
             continue
-        last = 2
+        body = []
         for k in range(r + 1, min(ws.max_row, r + 12) + 1):
-            if not label(ws, k, 2):
+            if not label(ws, k, 2) or rgb(ws.cell(k, 2)):
+                break                          # the table ends at the next blank or bar
+            body.append(k)
+        last = 2
+        for c in range(3, 8):                  # the table is as wide as it is unbroken
+            if not any(ws.cell(k, c).value is not None for k in body):
                 break
-            cols = [c for c in range(2, 8) if ws.cell(k, c).value is not None]
-            last = max([last] + cols)
+            last = c
         for c in range(2, last + 1):
             paint(ws, r, c, fill=opts.fl(opts.BARC), font=opts.BARF)
         paint(ws, r, 2, align=opts.LFT)
@@ -417,21 +453,26 @@ def footer_header(wb):
 
 
 def empty_navy_rows(wb):
-    """A navy row with no text anywhere on it is a band of colour saying nothing."""
+    """A run of navy cells with no text in any of them is a band of colour saying nothing.
+
+    Run by run rather than row by row: 1.3 carries an empty navy strip in B:C on a row
+    that has a live funding line out in H:J, so the row is not empty and the strip is.
+    """
     out = []
     for ws in tabs(wb, DESIGN):
         for r in range(1, ws.max_row + 1):
-            cols = [c for c in range(2, min(ws.max_column, 14) + 1)
-                    if rgb(ws.cell(r, c)) in (opts.NAVY, opts.BARC)]
-            if not cols:
-                continue
-            if any(ws.cell(r, c).value is not None
-                   for c in range(1, min(ws.max_column, 20) + 1)):
-                continue
-            for c in cols:
-                paint(ws, r, c, fill=NONE_FILL, border=NO_BORDER)
-            out.append(f"{ws.title} row {r}: an entirely empty navy row, fill removed")
-    return out or ["no entirely empty navy rows found"]
+            run = []
+            for c in range(2, min(ws.max_column, 20) + 2):
+                if rgb(ws.cell(r, c)) in (opts.NAVY, opts.BARC):
+                    run.append(c)
+                    continue
+                if run and not any(label(ws, r, k) for k in run):
+                    for k in run:
+                        paint(ws, r, k, fill=NONE_FILL, border=NO_BORDER)
+                    out.append(f"{ws.title}!{L(run[0])}{r}:{L(run[-1])}{r}: a navy strip "
+                               f"with no text in it, fill removed")
+                run = []
+    return out or ["no empty navy strips found"]
 
 
 def funding_header(wb):
@@ -596,7 +637,8 @@ def summary_formats(wb):
         for r in range(b["hdr"] + 1, b["total"] + 1):
             for c in range(3, b["last"] + 1):
                 x = ws.cell(r, c)
-                if x.number_format in ("0.00", "General") and x.value is not None:
+                if x.number_format == "0.00" or (x.number_format == "General"
+                                                 and x.value is not None):
                     x.number_format = MONEY
                     n += 1
     return [f"{n} Portfolio Summary cells moved off a bare 0.00 onto the family's "
@@ -614,7 +656,11 @@ def funding_formats(wb):
                     if "allocated to people" in label(ws, f["hdr"], c).lower()), None)
         if col is None:
             continue
-        for r in range(f["hdr"] + 1, min(ws.max_row, f["hdr"] + 16) + 1):
+        for r in range(f["hdr"] + 1, min(ws.max_row, f["hdr"] + 20) + 1):
+            if rgb(ws.cell(r, f["c0"])) in (opts.NAVY, opts.BARC):
+                break                          # the next table's header row
+            if not label(ws, r, f["c0"]) and ws.cell(r, col).value is None:
+                break                          # past the bottom of this table
             x = ws.cell(r, col)
             if x.value is not None and x.number_format == "General":
                 x.number_format = MONEY
@@ -686,8 +732,8 @@ def config_actions(ws):
         if need > 50.0:                    # finish.py's fix_02 would flatten it anyway
             capped.append(r)
             need = 50.0
-        if height(ws, r) + 1 < need:
-            ws.row_dimensions[r].height = need
+        if abs(min(max(height(ws, r), need), 50.0) - height(ws, r)) > 1:
+            ws.row_dimensions[r].height = min(max(height(ws, r), need), 50.0)
         paint(ws, r, col, align=WRAPL)
         n += 1
     out = [f"0.2 Actions column {L(col)} widened to {ws.column_dimensions[L(col)].width} "
@@ -742,11 +788,11 @@ def config_overheads(ws):
     for c, seen in want.items():
         full = max(seen, key=len)
         for r in heads:
-            if label(ws, r, c) and label(ws, r, c) != full and full.startswith(
-                    label(ws, r, c)[:5]):
+            was = label(ws, r, c)
+            if was and was != full and full.startswith(was[:5]):
                 write(ws, r, c, full)
-                out.append(f"0.2!{L(c)}{r} '{seen[0]}' -> '{full}', so both overhead "
-                           f"tables use one word for one thing")
+                out.append(f"0.2!{L(c)}{r} '{was}' -> '{full}', so both overhead tables "
+                           f"use one word for one thing")
     n = 0
     for r in range(1, ws.max_row + 1):
         if "subtotal" not in label(ws, r, 11).lower():
@@ -805,6 +851,8 @@ def config_shape(ws):
                 if rgb(ws.cell(r, c)):
                     paint(ws, r, c, fill=NONE_FILL, border=NO_BORDER)
             continue
+        if any(label(ws, r, c) for c in range(8, 10)):
+            continue                            # a Notes or Actions row; sized below
         # a data row wraps and doubles only where its own label needs the room
         fits = len(label(ws, r, 2)) + 1 <= bw
         if fits and height(ws, r) > 20:
@@ -871,8 +919,22 @@ def config_notes_band(ws):
             continue
         paint(ws, r, col, fill=NONE_FILL, border=NO_BORDER)
         cleared.append(r)
-    return [f"0.2 Notes column {L(col)}: band trimmed to the table's own rows, "
-            f"{('cleared on rows ' + ','.join(map(str, cleared))) if cleared else 'it already ended at the last table row (' + str(hi) + ')'}"]
+    where = ("cleared on rows " + ",".join(map(str, cleared))) if cleared else \
+        f"it already ended at the last table row ({hi})"
+    return [f"0.2 Notes column {L(col)}: band trimmed to the table's own rows, {where}"]
+
+
+def config_ceiling(ws):
+    """No row on this tab may leave here taller than 50pt.
+
+    finish.py's fix_02 flattens any 0.2 row over 50 back to a single line, so a row left
+    at 52 loses everything it was given the height for. Capped here, deliberately.
+    """
+    over = [r for r in range(1, ws.max_row + 1) if height(ws, r) > 50]
+    for r in over:
+        ws.row_dimensions[r].height = 50.0
+    return [f"0.2 rows {over} held at 50pt - finish.py flattens anything taller, so a "
+            f"row above the ceiling would come out on one line"] if over else []
 
 
 def data_config(wb):
@@ -880,7 +942,8 @@ def data_config(wb):
         return [f"{CONFIG} not in this workbook - skipped"]
     ws = wb[CONFIG]
     return (config_recon(ws) + config_overheads(ws) + config_bars(ws)
-            + config_shape(ws) + config_notes_band(ws) + config_actions(ws))
+            + config_shape(ws) + config_notes_band(ws) + config_actions(ws)
+            + config_ceiling(ws))
 
 
 # ----------------------------------------------------------------- 8  scratch blocks
@@ -935,7 +998,7 @@ def move_scratch(ws, blk, to):
             "hi": blk["hi"]}
 
 
-def dress_scratch(ws, blk, cap=30.0):
+def dress_scratch(ws, blk, cap=50.0):
     """A grey bold mini-header, columns that fit, rows tall enough for what wraps."""
     for c in range(blk["c0"], blk["c1"] + 1):
         paint(ws, blk["hdr"], c, fill=opts.fl(SOFT), font=opts.BOLD, align=WRAPL)
@@ -985,7 +1048,9 @@ def bar_continuity(wb):
                 x = ws.cell(b["bar"], c)
                 if themed(x) or rgb(x) != opts.BARC:
                     bad.append(f"{ws.title}!{L(c)}{b['bar']}")
-    return [f"bar continuity check: {'all platform bars solid FF002F6C end to end' if not bad else 'still broken at ' + ', '.join(bad)}"]
+    how = "all platform bars solid FF002F6C end to end" if not bad \
+        else "still broken at " + ", ".join(bad)
+    return [f"bar continuity check: {how}"]
 
 
 # ----------------------------------------------------------------- 9  COE tabs
@@ -1069,9 +1134,11 @@ def coe_list_shape(wb):
                 v = deref(wb, ws, r, c)
                 if not isinstance(v, str) or not v.strip():
                     continue
+                if len(v) <= runway(ws, r, c):
+                    continue                    # it fits as it stands
                 if ws.cell(r, c).alignment.wrap_text:
                     lines = max(lines, opts.wrap_lines(v, width(ws, c)))
-                elif len(v) > runway(ws, r, c):
+                else:
                     wide[c] = max(wide.get(c, 0), len(v) + 1)
             if lines > 1 and height(ws, r) + 1 < 14 * lines + 6:
                 ws.row_dimensions[r].height = 14 * lines + 6
@@ -1154,21 +1221,37 @@ def coe_odds(wb):
     if "1.13 Cyber Roles" in wb.sheetnames:
         ws = wb["1.13 Cyber Roles"]
         head = next((r for r in range(1, 20) if label(ws, r, 2) == "Grouping"), None)
-        if head:
-            spend = next((c for c in range(3, 12)
-                          if label(ws, head, c).startswith("Planned spend")), None)
-            for r in range(head + 1, min(ws.max_row, head + 12) + 1):
-                if spend is None or ws.cell(r, spend).value is None:
+        bar = next((r for r in range(1, 20)
+                    if label(ws, r, 2).startswith("Funding buckets")), None)
+        spend = next((c for c in range(3, 12)
+                      if head and label(ws, head, c).startswith("Planned spend")), None)
+        if head and bar and spend:
+            body = []
+            for k in range(bar + 1, min(ws.max_row, bar + 10) + 1):
+                if not label(ws, k, 2) or rgb(ws.cell(k, 2)):
+                    break
+                body.append(k)
+            wide = max([c for c in range(2, spend)
+                        if any(ws.cell(k, c).value is not None for k in body)] + [2])
+            for r in body:
+                if ws.cell(r, spend).value is None:
                     continue
-                if any(ws.cell(r, c).value is not None for c in range(2, spend)):
-                    continue                      # the row already carries its own label
-                if label(ws, r, spend - 1):
-                    continue
+                if any(ws.cell(r, c).value is not None for c in range(wide + 1, spend)):
+                    continue                     # something already sits beside it
+                # the bucket table beside it ends at column `wide`, so this figure sits
+                # in the summary table's spend column with nothing on its own row to name
+                # it. Its formula is the spend total less the CapEx input below it.
                 write(ws, r, spend - 1, "Planned spend less CapEx ($m)")
                 paint(ws, r, spend - 1, font=opts.BODY, align=opts.RGT)
-                out.append(f"1.13!{L(spend - 1)}{r} labels the {L(spend)}{r} working "
-                           f"figure ( = total planned spend less the CapEx input), which "
-                           f"had no label anywhere on its row")
+                out.append(f"1.13!{L(spend - 1)}{r} now labels the working figure in "
+                           f"{L(spend)}{r} ({ws.cell(r, spend).value}) - it sat under the "
+                           f"'Planned spend' column with no label anywhere on its row")
+            lone = [r for r in range(head + 1, bar)
+                    if ws.cell(r, spend).value is not None and label(ws, r, 2)
+                    and all(ws.cell(r, c).value is None for c in range(3, spend))]
+            for r in lone:
+                out.append(f"1.13!{L(spend)}{r} renders '-' a long way from its label in "
+                           f"B{r} ('{label(ws, r, 2)}'), but it is labelled - left alone")
     return out or ["no COE odds and ends to fix"]
 
 
@@ -1312,8 +1395,11 @@ def squad_archetypes(wb):
                        and label(ws, r, c)) >= 4), None)
     if hdr is None:
         return [f"{ARCH}: no header row found - skipped"]
+    # the table is the run of header cells sharing the first one's fill; the lone navy
+    # caption further right is an input label over a single cell, not part of it
     c0 = min(c for c in range(1, 12) if label(ws, hdr, c))
-    c1 = max(c for c in range(1, 12) if label(ws, hdr, c))
+    tone = rgb(ws.cell(hdr, c0))
+    c1 = max(c for c in range(c0, 12) if rgb(ws.cell(hdr, c)) == tone)
     title = label(ws, 2, 2)
     dup = next((c for c in range(3, 12) if label(ws, 2, c)), None)
     if dup and title:
@@ -1322,20 +1408,24 @@ def squad_archetypes(wb):
         if bar > 2 and empty(ws, bar, 1, c1):
             for c in range(c0, c1 + 1):
                 paint(ws, bar, c, fill=opts.fl(opts.BARC), font=opts.BARF)
-            write(ws, bar, c0, text)
-            paint(ws, bar, c0, align=opts.LFT)
+            # the title goes in the first column wide enough to show it: this tab's first
+            # column is the lookup key at gutter width, and text put there disappears
+            at = next((c for c in range(c0, c1 + 1) if width(ws, c) >= 8.43), c0)
+            write(ws, bar, at, text)
+            paint(ws, bar, at, align=opts.LFT)
             ws.row_dimensions[bar].height = max(height(ws, bar), 19)
             ws.cell(2, dup).value = None
             out.append(f"{ARCH}: '{text}' moved off row 2, where it collided with the "
                        f"tab title and rendered as one doubled heading, into a section "
-                       f"bar on row {bar} - the treatment 0.2 already has")
+                       f"bar {L(c0)}{bar}:{L(c1)}{bar} titled at {L(at)}{bar} - the "
+                       f"treatment 0.2 already has")
         else:
             out.append(f"{ARCH}: row {hdr - 1} is not free for a section bar - the "
                        f"duplicated title on row 2 left alone")
     else:
         out.append(f"{ARCH}: title row is already single - nothing doubled")
     widened = []
-    for c in range(c0, c1 + 1):
+    for c in range(max(c0, 2), c1 + 1):        # column A is the gutter the family uses
         need = len(label(ws, hdr, c))
         for r in range(hdr + 1, ws.max_row + 1):
             v = ws.cell(r, c).value
