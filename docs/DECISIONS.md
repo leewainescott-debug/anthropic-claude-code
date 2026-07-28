@@ -735,6 +735,46 @@ span and punched a hole through the header bar, so that one moves right of the t
 verbatim; K/L then carry the Actual/Variance pair like every other 1.x tab, retiring the
 P/Q exception.
 
+### D104. Hybrid prices two roles onshore and the rest offshore, and the two is his to set.
+His rule, replacing the 50/50 assumption: per-FTE cost is the archetype's squad cost over
+its # of roles; two FTE price onshore, the remainder at the offshore rate. The "2" is a
+cream input on 0.3 beside his offshore rate, so the rule re-prices the whole workbook
+from one cell. MIN(k, n) makes the one-person archetype price fully onshore, and
+fractional squad sizes fall out naturally. All 40 squad formulas across the eleven design
+tabs carry the rule; nothing moves until a squad is set to Hybrid. 0.3 stays his tab -
+the parity check now exempts exactly the two declared input cells and nothing else.
+
+### D105. The 1.x comparison table is his mock, verbatim.
+"Actuals vs archetype": Actual portfolio, Archetype portfolio, Variance - roles and cost,
+live off the working tab's own totals, identical on all eleven tabs. Roles carry one
+decimal because the archetype side is FTE and a rounded column stops adding on the page.
+The Actual row reads the after-decisions total, which is what his own original Actuals
+wiring read (D88); on 1.7 - the one tab with a lever pulled - that is 7.58 against a
+pre-decision 7.75, and both facts are one column apart on 2.7.
+
+### D106. 3.2 tells his story: applied to the portfolios against the organisation.
+Per overhead line: the roles and dollars the allowance applies to the portfolios, the
+roles and cost the organisation actually carries - all of them, everywhere - and the two
+gaps between those numbers, with one plain-English cell saying where the people sit. The
+Yes/No column and the extra split columns are gone. The counted-once row and its control
+stay, and the partition now counts future TDD Cyber roles by name so a role can never
+fall out of both halves.
+
+### D107. The Exec vacancy block is a true partition, proven by the triple check.
+Three Opus checkers verified the people layer three independent ways: a raw-column
+recompute (531/531 on tab, squad, overhead line and cost), a full formula re-evaluation
+(15,682 of 15,682 reproduce their cached values) and a person-by-person roster diff
+(0 missing, 0 duplicated, 0 misplaced). The one logic defect found: the Exec vacancy
+lines summed lever counts blind to status and added to 145 only because two errors
+cancelled. The block is now five status-qualified lines - hire 134, offshore 2, hold 8,
+fill-as-is 1 - that genuinely partition the 145, with the filled role he offshored
+(Stevani Kho) stated on its own line. Data facts surfaced for his ruling, not changed:
+Rob Jadrjevic (r190) ships at $0 with his file's own "can't find this record" note; six
+ring-fenced placeholder rows count as Filled; seven part-timers may carry full-time
+bases; the AU columns mean "not NZ" (six WIPRO rows, one USA, fourteen Singapore inside
+them); his 1.12 grouping labels differ from the ledger's for five roles; and his S:W
+review tables hold nine stale review-time figures.
+
 ### D100. 1.14 TDD Cyber is a real portfolio tab, integrated end to end.
 His ask: a 1.x tab exactly like the portfolio family, one platform (TDD Cyber), one
 squad (Cyber Uplift). Built as 1.14 after the COE tabs, with a 2.15 working tab seeded
