@@ -549,7 +549,14 @@ def build(wb, wv, tab, rows, bounds, pf=None):
             # cost after decisions sums the levers in the detail block, and there is none
             _m(ws, rw, S["after"], "=0")
         else:
-            for k, f in (("roles", f"=COUNTA(${L(P['name'])}${a}:${L(P['name'])}${b})"),
+            # COUNTA counted cells, and every cell in the block holds a formula, so it
+            # counted the block's height rather than its people: pad the block by a row
+            # and the role count goes up by one with nobody behind it. "?*" counts cells
+            # that resolve to at least one character of text - a name - so a row whose
+            # reference lands on an empty ledger cell (which reads back as 0) is not a
+            # role. Same number today on all fourteen tabs; right number tomorrow.
+            for k, f in (("roles",
+                          f'=COUNTIF(${L(P["name"])}${a}:${L(P["name"])}${b},"?*")'),
                          ("filled", f'=COUNTIFS({st},"Filled")'),
                          ("vacant", f'=COUNTIFS({st},"Vacant")'),
                          ("hire", f'=COUNTIFS({st},"Vacant",{lev},"Hire")'),
@@ -717,7 +724,8 @@ def build(wb, wv, tab, rows, bounds, pf=None):
         opts.row(ws, bd, 2, [g] + [None] * (len(P_HDR) - 1), [None] * len(P_HDR),
                  bg=opts.PALE, bold=True)
         ws.cell(bd, P["name"]).alignment = opts.LFT
-        n = f'COUNTA(${L(P["name"])}${a}:${L(P["name"])}${b})'
+        # counts people, not formula cells - see the roles column above
+        n = f'COUNTIF(${L(P["name"])}${a}:${L(P["name"])}${b},"?*")'
         ws.cell(bd, P["role"]).value = f'={n}&IF({n}=1," role"," roles")'
         ws.cell(bd, P["role"]).alignment = opts.LFT
         for k in ("cost", "after"):
@@ -726,16 +734,27 @@ def build(wb, wv, tab, rows, bounds, pf=None):
             x.number_format, x.alignment = opts.M0, opts.RGT
         for rw, x in people.get(g, []):
             i = x["row"]
+            # A direct reference - ='REVIEW...'!$B$36 - and not INDEX(col, 36). Both read
+            # the same cell today, but INDEX takes the row as a number: insert or delete a
+            # row in the ledger and the literal 36 goes on pointing at the 36th row, which
+            # is now somebody else. Every person on the tab silently reattaches to the
+            # wrong name, role, status and cost, and nothing errors. A direct reference is
+            # a real reference, so Excel rewrites it with the insert and the person stays
+            # attached. This is the form the COE design tabs already use.
             for k, col in (("name", "B"), ("role", "C"), ("status", "AK")):
                 cell = ws.cell(rw, P[k])
-                cell.value = f"=INDEX({REV}!${col}:${col},{i})"
+                cell.value = f"={REV}!${col}${i}"
                 cell.font, cell.alignment = opts.BODY, opts.LFT
             lv = ws.cell(rw, P["lever"])
             lv.value = "Filled" if x["status"] == "Filled" else "Hire"
             lv.fill, lv.border = opts.fl(opts.YEL), opts.BOX
             lv.font, lv.alignment = opts.BODY, opts.CEN
             dv.add(lv)
-            _m(ws, rw, P["cost"], f"=INDEX({REV}!$AA:$AA,{i})", opts.M0)
+            # same reasoning as the three columns above: a real reference, not INDEX of a
+            # literal row number. The IFERROR(INDEX(Lists!...,MATCH(...))) below stays -
+            # that one indexes a range with a *computed* position, which is what INDEX is
+            # for.
+            _m(ws, rw, P["cost"], f"={REV}!$AA${i}", opts.M0)
             _m(ws, rw, P["after"],
                f"=${L(P['cost'])}{rw}*IFERROR(INDEX(Lists!$AD:$AD,"
                f"MATCH(${L(P['lever'])}{rw},Lists!$AC:$AC,0)),1)", opts.M0)

@@ -151,10 +151,14 @@ def build(wb, out):
         put(f"{c}6", t3, f"{c}6", f)
 
     # row 7 - one platform, so one I-cell in the SUM. The AU/NZ branch is the family's:
-    # the portfolio's own 0.2 row decides which column the cost lands in.
+    # the portfolio's Home country cell on 0.2 decides which column the cost lands in.
+    # It used to be the family's older shape - which of the portfolio's two budget cells
+    # is bigger - and repair_design has repointed the other ten tabs off that and onto
+    # the Home country column; this tab is written here, after that pass, so it is
+    # written the new way rather than repointed.
     like("B7", t3, "B7")
-    put("C7", t3, "C7", f"=IF(({CFG}!$D${CFGROW})>({CFG}!$C${CFGROW}),0,SUM(I27))")
-    put("D7", t3, "D7", f"=IF(({CFG}!$D${CFGROW})>({CFG}!$C${CFGROW}),SUM(I27),0)")
+    put("C7", t3, "C7", f'=IF({CFG}!$J${CFGROW}="NZ",0,SUM(I27))')
+    put("D7", t3, "D7", f'=IF({CFG}!$J${CFGROW}="NZ",SUM(I27),0)')
     put("E7", t3, "E7", "=0")
     put("F7", t3, "F7", "=C7+D7+E7")
 

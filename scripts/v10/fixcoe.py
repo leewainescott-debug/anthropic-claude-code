@@ -12,7 +12,38 @@ What remains: the banned Category columns survived as three defined names - BPTC
 SADCat, CYBCat - pointing at Lists!E2:G4. No formula used them and no COE tab has a
 Category column, so the money was never affected, but the columns the owner ruled out
 were still in the file and would reappear in any dropdown built off a name.
+
+--- the "formulas that make no sense" round -------------------------------------------
+
+THE LEVER PRICE LIVES IN ONE PLACE.  `Lists!AC2:AD5` is the model's lever table - Filled
+1, Hire 1, Hold 0, Offshore 0.4 - and it is what the 2.x working tabs price their levers
+off. The three COE design tabs did not read it: all 102 of their T-column cost engines
+(24 on 1.11, 26 on 1.12, 52 on 1.13) carried
+`IF($H21="Hold",0,IF($H21="Offshore",0.4,1))` inline, so the 0.4 the owner can retype on
+Lists moved the working tabs and left the design tabs exactly where they were. They
+look it up now, in the house idiom the 2.x tabs already use:
+
+    IFERROR(INDEX(Lists!$AD$2:$AD$5,MATCH($H21,Lists!$AC$2:$AC$5,0)),1)
+
+The IFERROR default of 1 is not decoration - it is what preserves the behaviour exactly.
+The inline IF charged full price for anything that was not "Hold" or "Offshore", which on
+these tabs means "Onshore" and a blank cell, and neither is in the lever table; both fall
+through to 1 as they did before. "Filled" and "Hire" are in the table and are 1 there, so
+they are unmoved either way. 1.11's Hold branch, added a round earlier in fix1x, survives
+as the Hold row of the table.
+
+THE PLATFORM TOTAL ROWS.  Column H of a platform total stops at the last squad row while
+column I runs one further and takes in the Platform Overhead line. It reads like a typo
+and it is not: an overhead is not a squad and has no archetype price, so it exists in the
+TDD Cost column only, and the H cell on every overhead row is empty. Widening H would
+double-count against the portfolio summary, which already reads the overhead out of I.
+Checked on all 29 total rows across all fourteen 1.x tabs - every one of them is the same
+way round. They carry a comment now so the next reader does not "fix" them. This runs
+here rather than in repair_design because fix1x collapses the empty platform blocks in
+between, and a comment on a collapsed row would outlive its cell.
 """
+import re
+
 import openpyxl
 from openpyxl.styles import Border, PatternFill
 
@@ -106,10 +137,81 @@ def drop_orphan_overheads(wb):
     return out
 
 
+LISTS_LEVER = ("IFERROR(INDEX(Lists!$AD$2:$AD$5,"
+               "MATCH({h},Lists!$AC$2:$AC$5,0)),1)")
+# the inline engine as all three tabs write it, with the lever cell captured
+INLINE = re.compile(r'IF\((\$[A-Z]{1,2}\d+)="Hold",0,IF\(\1="Offshore",0\.4,1\)\)')
+COE_TABS = ("1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles")
+
+
+def lever_from_lists(wb):
+    """The T-column engines look the lever factor up instead of carrying it."""
+    out = []
+    if "Lists" not in wb.sheetnames:
+        return ["Lists is not in the workbook - lever factors left inline"]
+    l = wb["Lists"]
+    table = {str(l.cell(r, 29).value): l.cell(r, 30).value for r in range(2, 6)}
+    if table.get("Hold") != 0 or table.get("Offshore") != 0.4:
+        return [f"Lists!AC2:AD5 reads {table} - not the factors the engines carry, "
+                f"left inline"]
+    for tab in COE_TABS:
+        if tab not in wb.sheetnames:
+            out.append(f"{tab}: not in the workbook")
+            continue
+        ws = wb[tab]
+        n = 0
+        for row in ws.iter_rows(min_row=1, max_row=ws.max_row):
+            for c in row:
+                v = c.value
+                if not (isinstance(v, str) and v.startswith("=")):
+                    continue
+                new, k = INLINE.subn(
+                    lambda m: LISTS_LEVER.format(h=m.group(1)), v)
+                if k:
+                    c.value = new
+                    n += k
+        out.append(f"{tab}: {n} lever factors now read Lists!AC2:AD5"
+                   if n else f"{tab}: no inline lever factor left to repoint")
+    out.append("lever factors (Hold 0, Offshore 0.4, everything else 1) now priced from "
+               "Lists!AC2:AD5 on the design tabs as well as the working tabs")
+    return out
+
+
+TOTAL_NOTE = ("Total Squad Cost stops at the last squad row on purpose. A platform "
+              "overhead is not a squad and has no archetype price, so it exists in the "
+              "TDD Cost column only and the cell beside this one on the overhead row is "
+              "empty by design. Widening this SUM to take the overhead row in would "
+              "double-count it against the portfolio summary above, which already reads "
+              "the overhead out of column I. Checked on all fourteen 1.x tabs.")
+
+
+def note_total_asymmetry(wb, out):
+    """The H-vs-I total rows get a comment so nobody 'fixes' them."""
+    from openpyxl.comments import Comment
+    n = 0
+    for tab in [t for t in wb.sheetnames if re.match(r"^1\.\d+ ", t)]:
+        ws = wb[tab]
+        for r in range(1, min(ws.max_row, 95) + 1):
+            if not str(ws.cell(r, 2).value or "").strip().endswith(" Total"):
+                continue
+            h, i = ws.cell(r, 8), ws.cell(r, 9)
+            if not (isinstance(h.value, str) and isinstance(i.value, str)):
+                continue
+            # the overhead row is the one this total's I range reaches and its H does not
+            if h.value == i.value.replace("I", "H"):
+                continue                       # symmetric block, no overhead row
+            h.comment = Comment(TOTAL_NOTE, "TDD cost model")
+            n += 1
+    out.append(f"{n} platform total rows noted: H stops at the squads, I takes in the "
+               f"Platform Overhead row, and that is deliberate")
+
+
+
 def run(src, dst):
     wb = openpyxl.load_workbook(src)
     out = (drop_names(wb) + fix_validation(wb) + fix_signs(wb)
-           + drop_orphan_overheads(wb))
+           + drop_orphan_overheads(wb) + lever_from_lists(wb))
+    note_total_asymmetry(wb, out)
     wb.save(dst)
     return out
 

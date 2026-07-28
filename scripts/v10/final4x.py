@@ -53,6 +53,37 @@ def find_row(ws, label, col=2, limit=200, exact=False):
     raise KeyError(f"{ws.title}: no row matching {label!r}")
 
 
+def fte_rows(ws):
+    """First and last data row of a 2.x tab's FTE block.
+
+    anchors_final.json does not carry these - final2x returns anchors for the squad table
+    and its sections but the FTE block's bounds stay local to the builder - so they are
+    found here off the block's own header row, which is the next best thing to an anchor
+    and is still not a literal: the header is written by the same builder, in one place,
+    and a tab that grew or shrank moves the answer with it.
+
+    The header is the only row on the tab carrying "Name" in B and "Status" in D. The
+    block is the last thing on the tab, so it runs to the last row carrying a person -
+    read off column B, which holds either a name reference or a squad band label on every
+    row of the block and nothing below it.
+    """
+    hdr = None
+    for r in range(1, ws.max_row + 1):
+        if (str(ws.cell(r, 2).value or "").strip() == "Name"
+                and str(ws.cell(r, 4).value or "").strip() == "Status"):
+            hdr = r
+            break
+    if hdr is None:
+        raise KeyError(f"{ws.title}: no FTE block header (B='Name', D='Status')")
+    last = hdr
+    for r in range(hdr + 1, ws.max_row + 1):
+        if any(ws.cell(r, c).value not in (None, "") for c in range(2, 8)):
+            last = r
+    # an empty block - a portfolio designed before it is staffed - still needs a range
+    # Excel accepts, and one row of header is a range that counts nothing
+    return hdr + 1, max(last, hdr + 1)
+
+
 def anchors(wb):
     a3 = json.load(open("anchors_final3.json"))
     s3 = wb[G3.strip("'")]
@@ -138,8 +169,18 @@ def build_exec(wb, a, a2):
          f"={G1}!${C31['var']}${a['arch']}", opts.M2),
         ("Directly funded programmes - over/(under) funded ($m)",
          f"={G1}!${C31['var']}${a['direct']}", opts.M2),
-        ("COEs and EGI - over/(under) their 1.x planned spend ($m)",
-         f"={G1}!${C31['var']}${a['coe']}", opts.M2),
+        # This line used to read "COEs and EGI - over/(under) their 1.x planned spend
+        # ($m)" and point at 3.1's variance column for the COE step, which is the literal
+        # string "-". A dash under a $m heading on an over/(under) line reads as "nothing
+        # in it", and the four groups behind it cost 28.68 - a quarter of TDD.
+        #
+        # There is no such over/(under) to state. EGI has no 1.x tab; the three that do
+        # carry a "planned spend" that is their own ledger cost after decisions, net of an
+        # allowance the actual column is gross of. The note above the COE block in
+        # final3x.build_31 works all four through cell by cell. So the line names what the
+        # figure actually is - the cost - and promises no comparison.
+        ("COEs and EGI - actual cost, no independent plan to compare ($m)",
+         f"={G1}!${C31['actual']}${a['coe']}", opts.M2),
         ("Overhead roles - not covered by the allowance ($m)",
          f"={G1}!${C31['var']}${a['overhead']}", opts.M2),
         # without this line the four components above summed to 6.378 under a total of
@@ -156,11 +197,21 @@ def build_exec(wb, a, a2):
     # status-qualified. Summing the 2.x lever columns instead only added to 145 by
     # coincidence: the owner's r431 vacancy set to fill fell out of all three buckets
     # while Stevani Kho - a filled role he offshored - fell in, and the two cancelled.
-    # The whole-column COUNTIFS is safe: "Vacant"/"Filled" appear only in the FTE
-    # blocks' status column D, and the lever words only in their column E.
+    #
+    # These were whole-column COUNTIFS - '2.1 Ampol Retail'!$D:$D - and they were right
+    # only by luck. On a 2.x tab columns D and E hold "Squad Size" and "Archetype roles"
+    # in the squad table at the top; Status and Vacancy lever are D and E of the FTE
+    # block further down. The counts came out right because no squad-table cell happens
+    # to contain the word "Vacant" or "Hire" today, which is a property of the data and
+    # not of the model. Each range is bounded to its tab's own FTE block now, found by
+    # that block's header row rather than typed, so the meaning of the count does not
+    # depend on what a squad is called.
+    fte = {t: fte_rows(wb[t]) for t in a2}
+
     def _lev(status, lever):
         return "=" + "+".join(
-            f"COUNTIFS('{t}'!$D:$D,\"{status}\",'{t}'!$E:$E,\"{lever}\")"
+            f"COUNTIFS('{t}'!$D${fte[t][0]}:$D${fte[t][1]},\"{status}\","
+            f"'{t}'!$E${fte[t][0]}:$E${fte[t][1]},\"{lever}\")"
             for t in a2)
 
     r = block(r, "The vacancy decision", [
@@ -197,14 +248,36 @@ def build_exec(wb, a, a2):
     # funded. Reading it off 3.1 instead would have lost the portfolio's overhead cost,
     # because the overhead allowance is a group figure and sits on one row for all ten.
     lo3, hi3 = a["first33"], a["g33"] - 1
-    def s33(col, kind=None):
-        # rounded to six places: summing 3.3's already-rounded per-squad variances gave
-        # (0.766475) against (0.766476) for the same fact on 3.1
-        f = (f"=ROUND(SUMIFS({G3}!${col}${lo3}:${col}${hi3},"
+    def _sumifs(col, kind=None):
+        f = (f"SUMIFS({G3}!${col}${lo3}:${col}${hi3},"
              f"{G3}!${C33['pf']}${lo3}:${C33['pf']}${hi3},$C${sel}")
         if kind:
             f += f',{G3}!${C33["kind"]}${lo3}:${C33["kind"]}${hi3},"{kind}"'
-        return f + "),6)"
+        return f + ")"
+
+    def s33(col, kind=None):
+        return f"=ROUND({_sumifs(col, kind)},6)"
+
+    def var33(kind):
+        """A variance on the same route 3.1 takes: difference first, rounded once.
+
+        Adding up 3.3's variance column instead added up figures each already rounded to
+        six places, and the rounding error survived the total: Ampol Retail's archetype
+        variance read (0.766475) here and (0.766476) on 3.1!F6, for the same fact, three
+        clicks apart. 3.1 differences the two totals and rounds the difference once, so
+        this does too. Same correction the count and cost lines above already carry.
+
+        The third criterion is 3.1's gate, not an extra one: on 3.1 the directly funded
+        subtotal covers only the rows that have a funded figure, and the rows that do not
+        are shown separately below the comparison. A row with no figure carries "-" in the
+        archetype column, which is text, so ">=0" keeps exactly those rows out of BOTH
+        sums - archetype costs are never negative. Without it this line would set EGI
+        TDD's 0.2997 of actual against a funded figure of nothing and call the difference
+        overspend, which is the one thing this tab is built not to do.
+        """
+        gate = (f',{G3}!${C33["acost"]}${lo3}:${C33["acost"]}${hi3},">=0"')
+        return (f"=ROUND({_sumifs(C33['actual'], kind)[:-1]}{gate})-"
+                f"{_sumifs(C33['acost'], kind)[:-1]}{gate}),6)")
 
     for lab, f, nf in (
             ("Roles", s33(C33["roles"]), opts.CT),
@@ -214,9 +287,9 @@ def build_exec(wb, a, a2):
             ("Actual cost ($m)", s33(C33["actual"]), opts.M2),
             ("Of which overhead roles ($m)", s33(C33["actual"], "Overhead"), opts.M2),
             ("Squads priced by an archetype - over/(under) archetype ($m)",
-             s33(C33["var"], "Archetype"), opts.M2),
+             var33("Archetype"), opts.M2),
             ("Directly funded programmes - over/(under) funded ($m)",
-             s33(C33["var"], "Directly funded"), opts.M2),
+             var33("Directly funded"), opts.M2),
             ("Cost after vacancy decisions ($m)", s33(C33["after"]), opts.M2)):
         ws.cell(r, 2).value = lab
         ws.cell(r, 2).font = opts.BODY

@@ -100,15 +100,20 @@ def build_34(wb, anchors):
         x.number_format, x.alignment = F34[c - 2], opts.RGT
     gt = r
     r += 2
+    # The four COE names as one array constant, so each control is one call over four
+    # criteria rather than four calls spelled out and added. The cost control was the
+    # worst of them - four SUMIFS, identical apart from a name, on one line - and the
+    # reader had to check all four to see that the set was complete. It is COE_ORDER
+    # itself now, which is the list the tab above was built from, so the control and the
+    # table cannot come to cover different groups.
+    coes = "{" + ",".join(f'"{p}"' for p in COE_ORDER) + "}"
     for lab, col, f, nf in (
             ("Control - roles against the ledger, must be 0", 4,
-             "=$D%d-(%s)" % (gt, "+".join(
-                 f'COUNTIFS({REV}!$AJ$2:$AJ${LAST},"{p}")' for p in COE_ORDER)),
+             f'=$D{gt}-SUMPRODUCT(COUNTIFS({REV}!$AJ$2:$AJ${LAST},{coes}))',
              opts.CTL_C),
             ("Control - cost against the ledger ($m), must be 0", 7,
-             "=ROUND($G%d-(%s)/1000000,6)" % (gt, "+".join(
-                 f'SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},"{p}")'
-                 for p in COE_ORDER)), opts.CTL_M),
+             f"=ROUND($G{gt}-SUMPRODUCT(SUMIFS({REV}!$AA$2:$AA${LAST},"
+             f"{REV}!$AJ$2:$AJ${LAST},{coes}))/1000000,6)", opts.CTL_M),
             ("Control - AU plus NZ against cost ($m), must be 0", 9,
              f"=ROUND($H{gt}+$I{gt}-$G{gt},6)", opts.CTL_M)):
         ws.cell(r, 2).value = lab

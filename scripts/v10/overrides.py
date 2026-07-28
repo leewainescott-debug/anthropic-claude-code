@@ -13,14 +13,24 @@ Two further moves were proposed and withdrawn on the owner's instruction: Viren 
 stays in Ampol Retail, which is his home, and Vikram Chhahira stays in the EGI P&C squad,
 which is a squad in its own right. Neither is in the table.
 
-The table was three rows wide and hardcoded at $AN$2:$AN$4. It is now ten, and it carries
-an overhead-line override as well as portfolio and squad, because moving a role onto an
-overhead line has to change REVIEW!AR or the role lands in a delivery block under an
-overhead name.
+The table was three rows wide and hardcoded at $AN$2:$AN$4. It is now ten.
+
+It is keyed on the person - "Name | Position Title", the two columns a reader can see in
+REVIEW B and C - and not on a REVIEW row number. Row numbers were the worst trap in the
+file: insert a row anywhere above 283 and all three agreed moves apply to three different
+people, silently, with every total still balancing. Name alone is not enough (143 rows are
+called "Vacant"), so the title is part of the key, and run() refuses to build if a key
+matches anything other than exactly one ledger row.
+
+It carried a fourth column, an overhead-line override read by REVIEW!AR. It was empty in
+every build, so the branch in AR could never fire and was costing 250 characters and two
+IF levels in a formula on 531 rows. Both are gone - the column and the branch - rather
+than leave a control on Lists that no formula reads.
 """
 import re
 
 import openpyxl
+from openpyxl.styles import Border, PatternFill
 from openpyxl.utils import get_column_letter as L
 
 import opts
@@ -72,7 +82,6 @@ COST = {491: (169740.0,
               "roles in this portfolio use. Column U was blank, so the formula read zero.")}
 # build scaffolding and stray input colour left in the ledger
 CLEAR_NOTES = [(191, 29), (491, 29)]
-LABELS = {"AS1": "Squad name on the 1.x tab"}
 
 # ---- the live control sitting on the ledger ----
 # REVIEW ships with an AutoFilter carrying active criteria - column F held to "Strategy,
@@ -94,8 +103,14 @@ PORTFOLIOS = ["Ampol Retail", "Customer", "Enterprise Data", "TDD Group Function
               "P&C", "Finance", "Infrastructure", "Energy Solutions & B2B",
               "Commercial Fuels", "Z Retail"]
 
-# the keyword chain that classifies a position title into an overhead line. Unchanged;
-# it just moves inside the override wrapper.
+# The keyword chain that classifies a position title into an overhead line. This is the
+# whole of REVIEW!AR now - the override wrapper that used to sit in front of it is gone.
+#
+# "technology manger" is not a typo in this file. It is a typo in the owner's ledger:
+# at least one Position Title is spelt that way, and without the extra SEARCH that person
+# classifies as "Squad" and lands in a delivery block instead of on the Technology Manager
+# overhead line. Correcting his raw column is not ours to do, so the chain catches it.
+# Delete this branch and a real person moves.
 KEYWORD = ('IF(ISNUMBER(SEARCH("head of ",$C{r})),"Head of Technology",'
            'IF(ISNUMBER(SEARCH("TDD BP",$C{r})),"Business Partner",'
            'IF(OR(ISNUMBER(SEARCH("domain architect",$C{r})),'
@@ -165,23 +180,65 @@ def sweep_filters(wb, last):
     return out
 
 
-def ovr(col):
-    """The override lookup for one column of the table."""
-    return (f'IFERROR(INDEX(Lists!${col}$2:${col}${N},'
-            f'MATCH(ROW(),Lists!$AN$2:$AN${N},0)),"")')
+def key_expr(r):
+    """The cell expression that identifies a person, for matching against the table.
+
+    Name alone is not a key: 143 of the 531 rows are called "Vacant". Name and position
+    title together are unique for every row the table names, and build_key() below proves
+    that at build time rather than trusting it.
+    """
+    return f'TRIM($B{r})&" | "&TRIM($C{r})'
+
+
+def build_key(name, title):
+    """The same key, as text, for the table cell."""
+    return f"{str(name or '').strip()} | {str(title or '').strip()}"
+
+
+def ovr(col, r):
+    """One override lookup for one column of the table, evaluated once.
+
+    The old shape computed IFERROR(INDEX(...)) to test it and then computed the identical
+    expression again to use it - the same lookup twice in one cell, in a formula already
+    seven IFs deep. The COUNTIFS is the test: it is zero both when nobody in the table is
+    this person and when the table names them but leaves this column empty, which are the
+    two cases that have to fall through to the raw data. Where it is non-zero there is a
+    value to take, and the INDEX runs once.
+
+    Note the key: the person, not their row number. MATCH(ROW(), ...) against a table of
+    typed row numbers is wrong the moment anybody inserts a row in the ledger - the three
+    agreed moves would land on whoever slid into rows 283, 313 and 528.
+    """
+    k = key_expr(r)
+    test = f'COUNTIFS(Lists!$AN$2:$AN${N},{k},Lists!${col}$2:${col}${N},"<>")'
+    take = f'INDEX(Lists!${col}$2:${col}${N},MATCH({k},Lists!$AN$2:$AN${N},0))'
+    return test, take
 
 
 def formulas(r):
-    o = ovr("AO")
-    aj = (f'=IF(TRIM($B{r})="","",IF({o}<>"",{o},'
+    t, x = ovr("AO", r)
+    aj = (f'=IF(TRIM($B{r})="","",IF({t},{x},'
           f'IFERROR(INDEX(Lists!$U:$U,MATCH(TRIM($I{r}),Lists!$T:$T,0)),TRIM($I{r}))))')
-    q = ovr("AQ")
-    ar = f'=IF(TRIM($B{r})="","",IF({q}<>"",{q},{KEYWORD.format(r=r)}))'
-    p = ovr("AP")
-    at = (f'=IF(TRIM($B{r})="","",IF({p}<>"",{p},'
+    # AR carries no override branch. It used to wrap the keyword chain in a lookup against
+    # Lists!AQ, which is empty and always has been, so that branch could never fire - it
+    # was 250 characters and two extra IF levels of dead weight in front of the only thing
+    # the cell actually does, which is read the position title. The override column went
+    # with it rather than leave a control on Lists that nothing reads.
+    ar = f'=IF(TRIM($B{r})="","",{KEYWORD.format(r=r)})'
+    t, x = ovr("AP", r)
+    at = (f'=IF(TRIM($B{r})="","",IF({t},{x},'
           f'IF(OR(LEFT($AJ{r},3)="COE",$AJ{r}="EGI"),$AP{r},'
           f'IF($AR{r}<>"Squad",$AR{r},$AP{r}))))')
     return {36: aj, 44: ar, 46: at}
+
+
+# REVIEW columns that nothing in the workbook reads. AL (MAUNZ), AM (MRank) and AN (MKey)
+# are a previous session's scaffolding: AM is read only by AN, and AN by nothing at all.
+# AS looked up Lists!Z:AA, which is empty, so it always returned AP unchanged, and nothing
+# read AS either. Every formula in the built workbook was grepped for each of them, on the
+# REVIEW sheet and from every other sheet, before this list was written.
+# (Lists!AN, the override table, is a different column on a different sheet - untouched.)
+DEAD = {38: "AL", 39: "AM", 40: "AN", 45: "AS"}
 
 
 def run(src, dst):
@@ -194,7 +251,7 @@ def run(src, dst):
     # The columns the new table needs must be empty, or already hold this table from a
     # previous run - the build has to be re-runnable against its own output, or the second
     # run stops on the header the first one wrote.
-    OURS = {43: "Overhead line override", 45: "Portfolios (10)"}
+    OURS = {45: "Portfolios (10)"}
     for c, mine in OURS.items():
         if l.cell(1, c).value in (None, mine):
             continue
@@ -214,42 +271,93 @@ def run(src, dst):
     if gone:
         out.append("fold removed: " + "; ".join(gone))
 
-    keep = []
+    # ---- the table, re-keyed on the person ----
+    # It used to hold typed REVIEW row numbers - 283, 313, 528 - and the grouping columns
+    # found their row with MATCH(ROW(), ...). Insert one row anywhere above 283 in the
+    # ledger and all three agreed moves apply to three different people, quietly, with
+    # every total still adding up. The key is now the person: "Name | Position Title",
+    # which is what a reader checking the row would look for anyway.
+    R = wb[REVIEW]
+    key_of, rows_for = {}, {}
+    for r in range(2, LAST + 1):
+        if not str(R.cell(r, 2).value or "").strip():
+            continue
+        k = build_key(R.cell(r, 2).value, R.cell(r, 3).value)
+        key_of[r] = k
+        rows_for.setdefault(k, []).append(r)
+
+    def as_key(v):
+        """Accept either shape in the table on Lists: a typed row number from an older
+        build, or a name key this build already wrote."""
+        if isinstance(v, (int, float)):
+            return key_of.get(int(v)), int(v)
+        s = str(v or "").strip()
+        if not s:
+            return None, None
+        return s, (rows_for.get(s) or [None])[0]
+
+    keep, seen = [], set()
     for r in range(2, 40):
-        row = l.cell(r, 40).value
-        if isinstance(row, (int, float)) and int(row) not in DROP_OVERRIDE:
-            keep.append((int(row), l.cell(r, 41).value, l.cell(r, 42).value, None))
-        elif isinstance(row, (int, float)):
-            out.append(f"override removed: REVIEW row {int(row)} -> "
-                       f"{l.cell(r, 42).value!r}")
-    have = {k[0] for k in keep}
-    moves = keep + [m for m in NEW if m[0] not in have]
+        k, row = as_key(l.cell(r, 40).value)
+        if k is None:
+            continue
+        if row in DROP_OVERRIDE:
+            out.append(f"override removed: {k} -> {l.cell(r, 42).value!r}")
+            continue
+        keep.append((k, l.cell(r, 41).value, l.cell(r, 42).value))
+        seen.add(k)
+    for row, pf, sq, _oh in NEW:
+        k = key_of.get(row)
+        if k is None:
+            raise SystemExit(f"REVIEW row {row} carries no name - the override table "
+                             f"cannot be keyed on it")
+        if k not in seen:
+            keep.append((k, pf, sq))
+            seen.add(k)
+    moves = keep
     if len(moves) + 1 > N:
         raise SystemExit(f"{len(moves)} moves will not fit in {N - 1} slots")
-    out.append("kept " + ", ".join(f"r{k[0]}" for k in keep))
 
-    l.cell(1, 43).value = "Overhead line override"
-    for c in (40, 41, 42, 43):
+    # a key that names two people is a key that moves two people. The whole point of
+    # dropping the row numbers is that the new key is unambiguous, so it is checked, not
+    # assumed - "Vacant" on its own matches 143 rows, which is why the title is in the key.
+    for k, _pf, _sq in moves:
+        hit = rows_for.get(k, [])
+        if len(hit) != 1:
+            raise SystemExit(f"override key {k!r} matches {len(hit)} ledger rows "
+                             f"({hit}) - it must match exactly one")
+    out.append("keyed on the person: " + "; ".join(
+        f"{k} (row {rows_for[k][0]} today)" for k, _p, _s in moves))
+
+    HEAD = {40: "Person (Name | Position Title)", 41: "Portfolio override",
+            42: "Squad override"}
+    for c, h in HEAD.items():
         x = l.cell(1, c)
+        x.value = h
         x.font, x.fill, x.alignment = opts.HDRF, opts.fl(opts.NAVY), opts.CEN
-        l.column_dimensions[L(c)].width = 24
-    for i, (row, pf, sq, oh) in enumerate(moves):
+        l.column_dimensions[L(c)].width = 34 if c == 40 else 24
+    l.cell(1, 43).value = None                       # the dead overhead-line override
+    for i, (k, pf, sq) in enumerate(moves):
         r = 2 + i
-        for c, v in ((40, row), (41, pf), (42, sq), (43, oh)):
+        for c, v in ((40, k), (41, pf), (42, sq), (43, None)):
             x = l.cell(r, c)
             x.value = v
             x.font, x.border = opts.BODY, opts.BOX
-            x.fill = opts.fl(opts.YEL)
-            x.alignment = opts.RGT if c == 40 else opts.LFT
+            x.fill = opts.fl(opts.YEL) if c != 43 else PatternFill()
+            x.alignment = opts.LFT
     for r in range(2 + len(moves), N + 1):              # spare, declared and empty
-        for c in (40, 41, 42, 43):
+        for c in (40, 41, 42):
             x = l.cell(r, c)
             x.value = None
             x.font, x.border, x.fill = opts.BODY, opts.BOX, opts.fl(opts.YEL)
-    l.cell(N + 2, 40).value = ("Agreed moves. REVIEW's own columns are untouched; these "
-                               "override the grouping only.")
+        x = l.cell(r, 43)
+        x.value, x.border, x.fill = None, Border(), PatternFill()
+    l.cell(N + 2, 40).value = (
+        "Agreed moves, keyed on the person - Name | Position Title, exactly as they read "
+        "in REVIEW columns B and C - so the moves follow the person if rows are inserted "
+        "or deleted. REVIEW's own columns are untouched; these override the grouping only.")
     l.cell(N + 2, 40).font = opts.BODY
-    out.append(f"Lists override table: {len(moves)} moves, {N - 1} slots")
+    out.append(f"Lists override table: {len(moves)} moves, {N - 1} slots, name-keyed")
 
     # a clean list of the ten portfolios, so the allowance stops counting a block of
     # cells on 3.1 whose row numbers move every time the tab is rebuilt
@@ -304,9 +412,18 @@ def run(src, dst):
         out.append(f"REVIEW row {row}: cost override {cost:,.0f} - {why[:48]}...")
     for row, col in CLEAR_NOTES:
         R.cell(row, col).value = None
-    for ref, val in LABELS.items():
-        R[ref].value = val
-    out.append("REVIEW: build notes removed, AS1 relabelled")
+    # ---- the columns nothing reads ----
+    # Cleared, not left to rot: four columns of formulas on 531 rows each, every one of
+    # them a thing a reader has to work out is dead before they can ignore it. See DEAD.
+    dead = 0
+    for c in DEAD:
+        R.cell(1, c).value = None
+        for r in range(2, LAST + 1):
+            if R.cell(r, c).value is not None:
+                R.cell(r, c).value = None
+                dead += 1
+    out.append("REVIEW: build notes removed; dead columns "
+               + ", ".join(DEAD.values()) + f" cleared ({dead} cells)")
     out += rename_squads(wb)
 
     # ---- every fixed window over the ledger follows the measured extent ----

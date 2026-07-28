@@ -112,7 +112,12 @@ def actuals_column(wb, wv, out):
 
 
 # ---------------------------------------------------------------- 2. his live levers
-_NAME_REF = re.compile(r"'REVIEW - Complete Role Mapping'!\$B:\$B,(\d+)\)")
+# The ledger row behind an FTE line, recovered from the formula that names the person.
+# Two shapes are live: the direct reference the 2.x tabs now use - 'REVIEW…'!$B$36 - and
+# the older INDEX($B:$B,36) form, which is still what a workbook built before the join
+# was made insert-safe will carry. Matching both is what stops this step going quietly
+# blind and dropping ten of the owner's levers.
+_NAME_REF = re.compile(r"'REVIEW - Complete Role Mapping'!\$B(?::\$B,|\$)(\d+)")
 
 
 def _fte_rows(wb, tab):

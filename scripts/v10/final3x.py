@@ -15,7 +15,7 @@ because the organisation is funded four ways, and each block states which one it
 
     squads priced by an archetype    the archetype library on 0.3
     directly funded programmes       the amount funded on the design tab's platform block
-    COEs and EGI                     the planned spend on their own 1.x tabs
+    COEs and EGI                     nothing - see the note above the block on 3.1
     overhead roles                   the allowance on Lists
 
 The old build put the archetype cost of the squads that have one against the actual cost of
@@ -49,13 +49,11 @@ PF_ORDER = ["Ampol Retail", "Customer", "Enterprise Data", "TDD Group Functions"
             "Finance", "Infrastructure", "Energy Solutions & B2B", "Commercial Fuels",
             "Z Retail", "TDD Cyber"]
 COE_ORDER = ["COE Cyber", "COE BP&T", "COE SA&D", "EGI"]
-# A COE's design cost is the planned spend on its own 1.x tab, built from its real roles
-# rather than from an archetype. Reading the 1.x tab rather than the actual keeps it an
-# independent number: where the 1.x roles list is short of the ledger the variance shows it
-# instead of hiding it behind a cell that points at itself.
-COE_DESIGN = {"COE BP&T": "='1.11 BP&T'!$F$6+'1.11 BP&T'!$F$7",
-              "COE SA&D": "='1.12 SA&D'!$G$6+'1.12 SA&D'!$G$7",
-              "COE Cyber": "='1.13 Cyber Roles'!$F$6+'1.13 Cyber Roles'!$F$7"}
+# There is no COE_DESIGN map any more. It held the "planned spend" cell on each COE's own
+# 1.x tab and was already dead code - nothing read it - but leaving it here advertised a
+# comparison the model deliberately does not make. The block that builds the COE step on
+# 3.1 sets out, cell by cell, why those three figures cannot be set against the actual and
+# why EGI has nothing to set against it at all.
 
 # Lists!AF2:AJ7 is the overhead allowance. Three of the six lines are drawn in the
 # portfolios; the Business Partner and Domain Architect allowances are drawn inside the
@@ -213,13 +211,21 @@ def build_31(wb, anchors):
                 cells = ",".join(f"$D{k}" for k in pick)
                 x.value = f'=IF(COUNT({cells})={len(pick)},SUM({cells}),"-")'
             elif priced_only:
-                # both sides of the comparison cover the same members: a line whose
-                # archetype is not a number stays out of the actual and the counts too,
-                # and joins every column at once the moment it is priced. Same mechanism
-                # split() uses. If an unpriced portfolio ever carries real roles, the
-                # ledger ties on 4.0 go loudly non-zero rather than absorbing it.
-                x.value = (f"=SUMPRODUCT(--ISNUMBER($D{r0}:$D{r1}),"
-                           f"{L(c)}{r0}:{L(c)}{r1})")
+                # Plain SUM, not the SUMPRODUCT(--ISNUMBER(...)) gate split() uses.
+                #
+                # WHY THE GATE IS NOT NEEDED HERE, AND IS LOAD-BEARING ON THE DIRECTLY
+                # FUNDED ROW - read this before "simplifying" the other one. On this
+                # subtotal every row the gate would drop is a portfolio that has no
+                # archetype set AND no roles yet (2.15 TDD Cyber ships that way), so it
+                # contributes zero to every column and the gate and the SUM agree to the
+                # last decimal - 62.5140911449 either way. On the directly funded subtotal
+                # the rows the gate drops are real programmes with real cost and no funded
+                # figure (EGI TDD, EGI P&C, EGI Finance), so there the gate is the
+                # difference between 8.657 and 10.462, and the 1.805 it holds back is
+                # deliberately shown on its own row below the comparison. Take the gate off
+                # that row and the subtotal charges 1.805 of actual against an archetype
+                # that never covered it.
+                x.value = f"=SUM({L(c)}{r0}:{L(c)}{r1})"
             else:
                 x.value = "=" + "+".join(f"N({L(c)}{k})" for k in pick)
             x.number_format, x.alignment = NUM[c], opts.RGT
@@ -349,18 +355,39 @@ def build_31(wb, anchors):
     r += 1
 
     # ---- the COEs and EGI ----
-    # No figure prices these independently of what they cost. The column used to read the
-    # planned spend off their own 1.x tabs, and planned spend is the same SUMIFS over the
-    # ledger that the actual column is - EGI read the identical cell on both sides. Four
-    # lines of 27.77 against 27.77 padded the comparable total by a quarter of the group
-    # and moved nothing. The comparison is a dash and the step sits below the line.
-    label(r, "COEs and EGI - nothing prices these apart from what they cost")
+    # No figure prices these independently of what they cost, so this step carries a dash
+    # in the archetype column and both its label and Exec's say so in words. That was
+    # re-tested against the 1.x tabs cell by cell, because "over/(under) their 1.x planned
+    # spend" is the obvious thing to want here and it cannot honestly be built:
+    #
+    #   * EGI has no 1.x tab at all. There is no planned spend anywhere to compare to.
+    #   * 1.13 Cyber Roles!F8 (10.111458294) is the SUM of the COE's own per-role
+    #     cost-after-On/Off column, and it is equal to the cell for cost AFTER decisions on
+    #     2.11 COE Cyber!Q13 to the last decimal. Set against the actual (10.915989044) it
+    #     does not measure plan against outturn, it measures the offshoring decisions the
+    #     owner has already taken - 0.804531, a number 3.1 already publishes in column G.
+    #   * 1.11 BP&T!F8 (3.976556022) and 1.12 SA&D!G8 (4.406098202) are the same
+    #     construction NET of the Business Partner / Domain Architect allowance drawn in
+    #     the portfolio overheads (1.11!C13 = 2.2, 1.12!C13 = 1.4 - their own tabs say so
+    #     on the line under the total). The actual column is gross of it. Differencing them
+    #     would report 2.424006 and 2.016790, of which 2.2 and 1.4 are a basis difference
+    #     and nothing else.
+    #
+    # 1.13!H8 reads 6.111458294 and is sometimes mistaken for this comparison. Its own
+    # header is "Left to fund ($m)" and its formula is F8-G8: planned spend less the
+    # funding buckets on 0.2 Data Config. It is a funding gap, not a plan-versus-actual
+    # gap, and it belongs on 1.13 where it is labelled.
+    #
+    # So the honest answer is "not comparable", and the fix is to stop promising a
+    # comparison rather than to invent one: the row label and the Exec line below it both
+    # name what the figure is - actual cost, with no plan behind it.
+    label(r, "COEs and EGI - no independent plan to compare to, so no variance is shown")
     r += 1
     st = r
     for pf, tab, a in coes:
         line(r, pf, pf, tab, a["total_row"], '="-"')
         r += 1
-    sub(r, "COEs and EGI", st, r - 1, blank=(4, 6))
+    sub(r, "COEs and EGI - no independent plan to compare to", st, r - 1, blank=(4, 6))
     s3 = r
     r += 1
 
@@ -397,8 +424,13 @@ def build_31(wb, anchors):
         # else. Same treatment as the Total portfolio row on every 2.x tab.
         steps = (s1, s2, s2c, s2b, s3, s4)
         if c == 4:
-            cells = ",".join(f"{L(c)}{p}" for p in steps)
-            x.value = f'=IF(COUNT({cells})=0,"-",SUM({cells}))'
+            # One fact, one cell. Three of the six steps carry '="-"' in this column by
+            # construction - a literal, not a formula that could ever return a number -
+            # so this total is D(arch) + D(direct) + D(overhead), which is exactly what
+            # the "Everything with a figure to compare" row above already is. It was
+            # being recomputed here from the six steps, which meant two cells could
+            # disagree if either sum was edited. It reads that row now, so they cannot.
+            x.value = f"=$D{cmp_row}"
         elif c == 6:
             x.value = f'=IF(ISNUMBER($D{r}),ROUND($E{r}-$D{r},6),"-")'
         else:
@@ -681,11 +713,26 @@ def build_32(wb, wcol, vals=None):
     # The roles and cost are counted here off REVIEW, line by line, and not read back off
     # 3.1 - 3.1's overhead step is measured against this band on 4.0, and a band that read
     # 3.1 would have made that check compare a cell to itself.
-    pf_n = "+".join(f"COUNTIFS({REV}!$AR$2:$AR${LAST},$B{k},"
-                    f"{REV}!$B$2:$B${LAST},\"<>\","
-                    f"{REV}!$AT$2:$AT${LAST},$B{k})" for k in lines)
-    pf_c = "+".join(f"SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AR$2:$AR${LAST},$B{k},"
-                    f"{REV}!$AT$2:$AT${LAST},$B{k})" for k in lines)
+    # One SUMPRODUCT over the six line labels, not six COUNTIFS/SUMIFS spelled out and
+    # added. The six terms were identical apart from the row they named, so the pair
+    # rendered as two ~976-character formulas that a reader had to diff against
+    # themselves to see they were the same test six times. $B{st}:$B{lines[-1]} is the
+    # six labels, and the criteria arrays make the same six calls; the result is the
+    # same number, on one line each.
+    #
+    # The two were also ASYMMETRIC: the roles side excluded blank-name ledger rows with
+    # B<>"" and the cost side did not, so the same band was defined two ways in two
+    # adjacent cells. They are consistent now, and the guard is the direction they were
+    # made consistent in - REVIEW carries empty rows whose AR is a blank string, and the
+    # roles side was already right to keep them out. The cost side is unchanged in value
+    # (an unnamed row carries no cost) but is now the same population as the count.
+    span32 = f"$B{st}:$B{lines[-1]}"
+    pf_n = (f"SUMPRODUCT(COUNTIFS({REV}!$AR$2:$AR${LAST},{span32},"
+            f'{REV}!$B$2:$B${LAST},"<>",'
+            f"{REV}!$AT$2:$AT${LAST},{span32}))")
+    pf_c = (f"SUMPRODUCT(SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AR$2:$AR${LAST},{span32},"
+            f'{REV}!$B$2:$B${LAST},"<>",'
+            f"{REV}!$AT$2:$AT${LAST},{span32}))")
     r += 1
     ohpf = r
     band(r, "Of which sits in the portfolios",
@@ -907,7 +954,19 @@ def build_33(wb, anchors):
         if c in T33:
             x.value = "=" + "+".join(f"{L(c)}{p}" for p in pf_rows)
         elif c == 14:
-            x.value = f'=IF(ISNUMBER($L{r}),ROUND($M{r}-$L{r},6),"-")'
+            # Retired, and deliberately not replaced. It used to read
+            # =IF(ISNUMBER($L),ROUND($M-$L,6),"-") and published 41.210646, which is the
+            # actual cost of all 531 roles (115.5897351079) less the archetype cost of
+            # only the rows that carry an archetype (74.379089). Two different populations
+            # on one subtraction: it is not a variance, it is mostly just the cost of
+            # everything the archetype does not price. Nothing in the workbook referenced
+            # it - Exec's drill-down reads column N on the leaf rows, filtered by "How it
+            # is funded", never this row - and the group's real comparable variance is
+            # already published, once, on 3.1's "Everything with a figure to compare" row
+            # and on Exec beneath it. So this cell now carries the dash every other
+            # not-comparable column on this row already carries, and the four COE total
+            # rows above it already show.
+            x.value = '="-"'
         elif c in A33:
             # SUM ignores the portfolio totals that carry a dash, so this is the archetype
             # where there is one - the same rule the row above it uses one level down
