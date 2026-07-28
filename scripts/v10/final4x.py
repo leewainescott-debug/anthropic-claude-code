@@ -330,7 +330,7 @@ def build_qa(wb, a, a2):
          f"=COUNTA({REV}!$B$2:$B${LAST})", opts.CT),
         # 3.2 counts the people who sit in a portfolio off REVIEW rather than reading them
         # back off 3.1, so this compares two independent routes to the same figure.
-        ("Overhead on 3.1 against the roles that sit in the portfolios on 3.2 ($m)",
+        ("Overhead on 3.1 against the cost that sits in the portfolios on 3.2 ($m)",
          f"={G1}!${C31['actual']}${a['overhead']}",
          f"={G2}!${C32['cost']}${a['ohpf32']}", opts.M2),
         # the two tabs stated two different allowances for the same 43 overhead roles -

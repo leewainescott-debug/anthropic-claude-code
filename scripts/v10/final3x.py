@@ -477,8 +477,8 @@ H32 = ["Overhead line", "Basis", "Rate ($m)", "Applied to portfolios - roles",
 # the bar on row 4 and the header on row 5 are both drawn off len(H32), so a column is
 # added by adding to these two lists and to nothing else
 W32 = [26, 13, 11, 16, 16, 15, 17, 11, 13, 44]
-# B .. K, so the last column of the table is 2 + len(H32) - 1
-C32B, C32K = 2, 2 + len(H32) - 1
+# the last column of the table: B is 2, so B .. K is 2 .. 2 + len(H32) - 1
+C32K = 2 + len(H32) - 1
 # The allocation each overhead line grants per application, on 0.2 Data Config, keyed by
 # the line's row on Lists. Lists!AH holds how many times the line is applied and 0.2's M
 # column holds the fraction of a role each application buys, so the two multiplied are the
@@ -490,7 +490,7 @@ ALLOC32 = {2: "$M$6", 3: "$M$7", 4: "$M$8", 5: "$M$14", 6: "$M$15", 7: "$M$9"}
 GM32 = "Leadership - 8 GMs"
 
 
-def build_32(wb, anchors, a31, wcol):
+def build_32(wb, wcol):
     """Overhead and leadership. The one thing no other tab states.
 
     Every figure is computed. A role carrying an overhead title inside a COE has AT set to
@@ -679,7 +679,6 @@ def build_32(wb, anchors, a31, wcol):
                   ["Input", "Where it is set on 0.2 Data Config", "Full role cost ($m)",
                    "Allocation %", "Allocated rate ($m)"],
                   [26, 42, 14, 12, 16])
-    st3 = r
     # 0.2's overhead tables moved two columns right (K:N) for the owner's Notes and
     # Actions columns, so cost sits in L and allocation in M
     for lab, where, full, pct, i in (
@@ -713,8 +712,10 @@ def build_32(wb, anchors, a31, wcol):
     lines_hi = max(opts.wrap_lines(t, ws.column_dimensions[L(2 + n)].width or 8.43)
                    for n, t in enumerate(H32))
     ws.row_dimensions[hdr].height = max(32, 14 * lines_hi + 6)
-    return {"total": st, "ohtot32": tot32, "ohpf32": ohpf, "ohout32": ohout,
-            "all32": allrow, "first32": st, "last32": lines[-1]}
+    # every row 4.0 points at, by name. The keys ending in 32 are the ones final4x lifts
+    # straight into its anchor map, so a row that moves here moves the check with it.
+    return {"first32": st, "last32": lines[-1], "ohtot32": tot32, "ohpf32": ohpf,
+            "ohout32": ohout, "all32": allrow}
 
 
 H33 = ["Portfolio", "How it is funded", "Squad", "Archetype Type", "Squad Size",
@@ -844,7 +845,7 @@ def run(src, dst):
     msg, wcol = patch_lists(wb)
     out = [msg]
     a31 = build_31(wb, anchors)
-    a32 = build_32(wb, anchors, a31, wcol)
+    a32 = build_32(wb, wcol)
     a33 = build_33(wb, anchors)
     json.dump({"3.1": a31, "3.2": a32, "3.3": a33},
               open("anchors_final3.json", "w"), indent=1)
