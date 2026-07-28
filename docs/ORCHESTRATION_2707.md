@@ -64,6 +64,17 @@ auditor confirms every task in the owner's message was done.
    chainA2 rerun and all seven passes back to zero; the adversarial QA report folds into
    the same loop when it lands.
 4. **Ship** - candidate to `TDD_Cost_Calc.xlsx`, docs updated, committed and pushed.
+5. **Wave G (owner's post-ship round)** - his instructions verbatim: 0.3 was not to be
+   changed (it is his cost library - the chain now treats it as a source tab and a parity
+   check against rev enforces it); the 1.x bottom actuals/decisions table moves up top as
+   a clean uniform table with zero row shifts; 3.2 states the Business Partner and Domain
+   Architect role counts sitting in the COEs, adds one no-double-count row for total
+   roles across COEs and portfolios, and replaces the opaque column L; and a new
+   1.14 TDD Cyber portfolio-style design tab (platform TDD Cyber, one squad Cyber
+   Uplift) is integrated end to end - 2.15 working tab, 3.1/3.3 rows, 4.0 ties - with
+   an Opus investigator mapping the blast radius first (the ten-portfolio allocation
+   counts must not inflate; EGI is the precedent for sitting outside them). Opus
+   builders implement; the regression gate grows to cover all of it.
 
 ## Ground rules carried over
 
