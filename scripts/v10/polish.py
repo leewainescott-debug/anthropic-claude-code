@@ -257,10 +257,15 @@ def gutters_and_grid(wb):
     n = 0
     for ws in live(wb):
         ws.sheet_view.showGridLines = False
-        if ws.title != "REVIEW - Complete Role Mapping":
+        # 0.3's column A is the live lookup Key the 1.x MATCH formulas read - a 2-wide
+        # gutter there hides a working column, which is how unlabelled-live-column
+        # findings get written
+        if ws.title == "0.3 Squad Archetypes":
+            ws.column_dimensions["A"].width = 32
+        elif ws.title != "REVIEW - Complete Role Mapping":
             ws.column_dimensions["A"].width = 2
         n += 1
-    return [f"gridlines off and a 2-wide gutter on {n} tabs"]
+    return [f"gridlines off and a 2-wide gutter on {n} tabs (0.3 keeps its Key column)"]
 
 
 def freeze(wb):

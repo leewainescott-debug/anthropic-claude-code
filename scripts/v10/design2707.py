@@ -725,24 +725,18 @@ def config_actions(ws):
     while w < 34 and max(opts.wrap_lines(t, w) + t.count("\n") for _, t in notes) > 3:
         w += 1
     ws.column_dimensions[L(col)].width = round(w, 1)
-    n, capped = 0, []
+    n = 0
     for r, t in notes:
         lines = opts.wrap_lines(t, w) + t.count("\n")
         need = 14 * lines + 6
-        if need > 50.0:                    # finish.py's fix_02 would flatten it anyway
-            capped.append(r)
-            need = 50.0
-        if abs(min(max(height(ws, r), need), 50.0) - height(ws, r)) > 1:
-            ws.row_dimensions[r].height = min(max(height(ws, r), need), 50.0)
+        # finish.py's fix_02 flattens tall 0.2 rows but skips any row whose Actions cell
+        # holds text, so the full height a note needs survives the chain
+        if abs(max(height(ws, r), need) - height(ws, r)) > 1:
+            ws.row_dimensions[r].height = max(height(ws, r), need)
         paint(ws, r, col, align=WRAPL)
         n += 1
-    out = [f"0.2 Actions column {L(col)} widened to {ws.column_dimensions[L(col)].width} "
-           f"and {n} notes wrapped, each row raised to the lines its note needs"]
-    if capped:
-        out.append(f"0.2 rows {capped}: the Actions note needs more than 50pt of row and "
-                   f"finish.py's fix_02 flattens any 0.2 row over 50 - held at 50 and "
-                   f"reported rather than set to a height that will not survive")
-    return out
+    return [f"0.2 Actions column {L(col)} widened to {ws.column_dimensions[L(col)].width} "
+            f"and {n} notes wrapped, each row raised to the lines its note needs"]
 
 
 def config_recon(ws):
@@ -819,7 +813,8 @@ def config_bars(ws):
                 if ws.cell(r, c).alignment.horizontal != "left":
                     paint(ws, r, c, align=opts.LFT)
                     n += 1
-    return [f"0.2: {n} section bars left-aligned, so all three read the same way"]
+    return [f"0.2: {n} of the tab's section bars re-aligned to the left, so all of them "
+            f"read the same way"]
 
 
 def config_shape(ws):

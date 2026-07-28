@@ -59,7 +59,7 @@ SHORTEN = {"3.1 Cost Bridge": {
 TITLES = {"3.2 Overhead & Leadership": "Overhead & Leadership comparison",
           "1.13 Cyber Roles": "Cyber, Risk & Service Operations - roles and funding"}
 # one width profile for the three COE design tabs, wide enough for all three
-COE_W = {"B": 46, "C": 38, "D": 24, "E": 11, "F": 11, "G": 15, "H": 15, "I": 15, "J": 15,
+COE_W = {"B": 46, "C": 38, "D": 36, "E": 11, "F": 11, "G": 15, "H": 15, "I": 15, "J": 15,
          "K": 15}
 COE_TABS = ["1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles"]
 REV = "rev.xlsx"
@@ -173,6 +173,10 @@ def fix_02(wb):
     out = []
     for r in range(1, 40):
         h = ws.row_dimensions[r].height
+        # a row carrying one of his Actions notes keeps the height the wrapped note
+        # needs - design2707 sizes those, and flattening them clips his own words
+        if isinstance(ws.cell(r, 9).value, str) and ws.cell(r, 9).value.strip():
+            continue
         if h and h > 50:
             ws.row_dimensions[r].height = 14.25
             out.append(f"0.2 row {r} height {h} -> 14.25")

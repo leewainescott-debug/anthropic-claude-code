@@ -350,6 +350,8 @@ NOTE_FIX = {
     # two typed slips in his own text: a section heading on 1.3 and a note on 0.2
     "Siginificant": "Significant",
     "acorss": "across",
+    # 1.5's summary header lost its country word; nine siblings read "TDD AU ($m)"
+    "TDD  ($m)": "TDD AU ($m)",
 }
 
 
