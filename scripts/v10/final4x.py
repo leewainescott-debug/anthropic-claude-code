@@ -36,8 +36,8 @@ C31 = dict(name="B", pf="C", acost="D", actual="E", var="F", after="G", roles="H
 # old per-portfolio / outside-the-portfolios pairs are gone - the split they used to spell
 # out across four columns is two band rows now, and the roles and cost columns are the
 # organisation's.
-C32 = dict(line="B", basis="C", rate="D", appfte="E", applied="F", roles="G", cost="H",
-           rgap="I", cgap="J", where="K")
+C32 = dict(line="B", basis="C", rate="D", times="E", appfte="F", applied="G", roles="H",
+           cost="I", rgap="J", cgap="K", where="L")
 
 
 def find_row(ws, label, col=2, limit=200, exact=False):
@@ -312,8 +312,15 @@ def build_qa(wb, a, a2):
         ("Offshore archetype against 40% of onshore, first archetype",
          f"=ROUND({A3}!$H$5/{A3}!$G$5,6)", f"=ROUND({A3}!$K$5,6)", opts.C1),
         # ---- the overhead allowance ----
-        ("Applied to the portfolios on 3.2 against the allowance on Lists ($m)",
-         f"={G2}!${C32['applied']}${a['ohtot32']}", "=N(Lists!$AJ$8)", opts.M2),
+        # the applied columns are driven by the owner's own Times applied cells, so this
+        # proves the table's arithmetic - his count times the rate, line by line, against
+        # the total he reads - rather than comparing his figure to the derived one. That
+        # comparison is stated on 3.2 itself, under the bands, where he is typing.
+        ("Applied to the portfolios on 3.2 against its own lines ($m)",
+         f"={G2}!${C32['applied']}${a['ohtot32']}",
+         f"=ROUND(SUMPRODUCT({G2}!${C32['times']}${a['first32']}:"
+         f"${C32['times']}${a['last32']},{G2}!${C32['rate']}${a['first32']}:"
+         f"${C32['rate']}${a['last32']}),6)", opts.M2),
         ("Applied where the people sit against the lines that draw it ($m)",
          "=N(Lists!$AJ$9)", '=SUMIF(Lists!$AM$2:$AM$7,"Yes",Lists!$AJ$2:$AJ$7)',
          opts.M2),
@@ -344,8 +351,11 @@ def build_qa(wb, a, a2):
         # 3.2 read Lists, which priced the per-platform lines over a typed 30 platforms,
         # and 3.1 read what the ten design tabs actually allow. Lists now counts the
         # platforms off the design tabs, and this is the check that keeps it that way.
-        ("Applied where the people sit on 3.2 against the overhead step on 3.1 ($m)",
-         f"={G2}!${C32['applied']}${a['ohpf32']}",
+        # both sides derived, so this stays a tie between the two tabs whatever the owner
+        # types into Times applied: Lists holds the count the model carries and 3.1's
+        # overhead step is what the ten design tabs actually draw.
+        ("The allowance the model carries against the overhead step on 3.1 ($m)",
+         "=N(Lists!$AJ$9)",
          f"={G1}!${C31['acost']}${a['overhead']}", opts.M2),
         ("The two 'of which' bands on 3.2 against the overheads total above them ($m)",
          f"={G2}!${C32['applied']}${a['ohpf32']}"

@@ -470,13 +470,14 @@ def build_31(wb, anchors):
 # not about the people; "Where they sit" answers the question a reader actually has. The
 # separate "All roles" column stated one figure on one row and a dash on every other, so
 # it is a row now and not a column.
-H32 = ["Overhead line", "Basis", "Rate ($m)", "Applied to portfolios - roles",
+H32 = ["Overhead line", "Basis", "Rate ($m)", "Times applied",
+       "Applied to portfolios - roles",
        "Applied to portfolios ($m)", "Roles in the organisation",
        "Cost in the organisation ($m)", "Roles gap", "Cost gap ($m)",
        "Where they sit"]
 # the bar on row 4 and the header on row 5 are both drawn off len(H32), so a column is
 # added by adding to these two lists and to nothing else
-W32 = [26, 13, 11, 16, 16, 15, 17, 11, 13, 44]
+W32 = [26, 13, 11, 13, 16, 16, 15, 17, 11, 13, 44]
 # the last column of the table: B is 2, so B .. K is 2 .. 2 + len(H32) - 1
 C32K = 2 + len(H32) - 1
 # The allocation each overhead line grants per application, on 0.2 Data Config, keyed by
@@ -523,40 +524,51 @@ def build_32(wb, wcol):
             ws.cell(r, c).font = opts.BODY
             ws.cell(r, c).alignment = opts.LFT
         f2._m(ws, r, 4, f"=Lists!$AG${i}", opts.M3)
+        # How many times this line has been applied - the owner's cell. It arrives holding
+        # the count the model carries (the ten portfolios, or the platforms the 1.x tabs
+        # actually draw) so the tab is right on the day it is built and follows a new
+        # platform on its own. It is cream because he sets it: type a number over it and
+        # the two applied columns, both gaps and the bands follow, without touching the
+        # ledger side of the table. The line under the bands says how far his figure has
+        # moved from what the model carries.
+        x = f2._m(ws, r, 5, f"=Lists!$AH${i}", opts.C1)
+        x.fill = opts.fl(opts.YEL)
         # the FTE the allowance grants: times applied x the allocation per application.
         # Half a Head of Technology over ten portfolios is five people's worth of Head of
         # Technology, and that is the number the 15 in the next column but one is short of.
-        f2._m(ws, r, 5,
-              f"=Lists!$AH${i}*N('0.2 Data Config'!{ALLOC32[i]})", opts.C1)
-        f2._m(ws, r, 6, f"=Lists!$AJ${i}")
+        f2._m(ws, r, 6,
+              f"=$E{r}*N('0.2 Data Config'!{ALLOC32[i]})", opts.C1)
+        # the allowance: his count times the rate. Reading Lists!AJ here instead would
+        # have made his cell a number that changed nothing.
+        f2._m(ws, r, 7, f"=ROUND($E{r}*$D{r},6)")
         # the 8 GMs carry no role in the ledger, so their count and cost are the input
-        f2._m(ws, r, 7, gm.format(r=r, v="N(Lists!$AG$11)",
+        f2._m(ws, r, 8, gm.format(r=r, v="N(Lists!$AG$11)",
                                   e=f"COUNTIFS({both})"), opts.CT)
-        f2._m(ws, r, 8, gm.format(
+        f2._m(ws, r, 9, gm.format(
             r=r, v="N(Lists!$AG$12)",
             e=f"SUMIFS({REV}!$AA$2:$AA${LAST},{both})/1000000"))
         # the two gaps. They are the tab: what the organisation carries less what the
         # portfolios are allowed, in people and in dollars, on every line.
-        for c, f, nf in ((9, f"=ROUND($G{r}-$E{r},6)", opts.C1),
-                         (10, f"=ROUND($H{r}-$F{r},6)", opts.M2)):
+        for c, f, nf in ((10, f"=ROUND($H{r}-$F{r},6)", opts.C1),
+                         (11, f"=ROUND($I{r}-$G{r},6)", opts.M2)):
             f2._m(ws, r, c, f, nf).font = opts.BOLD
         # One plain-English cell instead of a Yes/No and a sentence about the allowance.
         # Built off the same AR = AT test the bands below use, so it cannot go stale: move
         # a Head of Technology out of a COE and this cell says so on the next calculation.
-        ws.cell(r, 11).value = (
+        ws.cell(r, 12).value = (
             f'=IF($B{r}="{GM32}","Above the ledger",'
-            f'IF($G{r}=0,"No roles in the ledger carry this line",'
+            f'IF($H{r}=0,"No roles in the ledger carry this line",'
             f'IF({pf_only}=0,'
-            f'"All "&TEXT($G{r},"0")&IF($G{r}=1," in a COE"," in the COEs"),'
-            f'IF({pf_only}=$G{r},'
-            f'"All "&TEXT($G{r},"0")'
-            f'&IF($G{r}=1," in a portfolio"," in the portfolios"),'
+            f'"All "&TEXT($H{r},"0")&IF($H{r}=1," in a COE"," in the COEs"),'
+            f'IF({pf_only}=$H{r},'
+            f'"All "&TEXT($H{r},"0")'
+            f'&IF($H{r}=1," in a portfolio"," in the portfolios"),'
             f'TEXT({pf_only},"0")'
             f'&IF({pf_only}=1," in a portfolio, "," in the portfolios, ")'
-            f'&TEXT($G{r}-{pf_only},"0")'
-            f'&IF($G{r}-{pf_only}=1," in a COE"," in the COEs")))))')
-        ws.cell(r, 11).font = opts.BODY
-        ws.cell(r, 11).alignment = LFTW
+            f'&TEXT($H{r}-{pf_only},"0")'
+            f'&IF($H{r}-{pf_only}=1," in a COE"," in the COEs")))))')
+        ws.cell(r, 12).font = opts.BODY
+        ws.cell(r, 12).alignment = LFTW
         # the column is as wide as its own longest sentence, so every line renders on one;
         # the height is two lines' worth anyway, for a line that ever states more
         ws.row_dimensions[r].height = 30
@@ -576,8 +588,8 @@ def build_32(wb, wcol):
     opts.row(ws, r, 2, ["Overheads incl. GMs"] + [None] * (len(H32) - 1),
              [None] * len(H32), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
-    adds = ((5, opts.C1), (6, opts.M2), (7, opts.CT), (8, opts.M2),
-            (9, opts.C1), (10, opts.M2))
+    adds = ((5, opts.C1), (6, opts.C1), (7, opts.M2), (8, opts.CT), (9, opts.M2),
+            (10, opts.C1), (11, opts.M2))
     for c, nf in adds:
         x = ws.cell(r, c)
         x.value = f"=SUM({L(c)}{st}:{L(c)}{r-1})"
@@ -615,22 +627,35 @@ def build_32(wb, wcol):
     r += 1
     ohpf = r
     band(r, "Of which sits in the portfolios",
-         {5: (f'=SUMIF(Lists!${wcol}$2:${wcol}$7,"Yes",$E{st}:$E{lines[-1]})', opts.C1),
-          6: ("=N(Lists!$AJ$9)", opts.M2),
-          7: (f"={pf_n}", opts.CT),
-          8: (f"=({pf_c})/1000000", opts.M2),
-          9: (f"=ROUND($G{r}-$E{r},6)", opts.C1),
-          10: (f"=ROUND($H{r}-$F{r},6)", opts.M2)})
+         {6: (f'=SUMIF(Lists!${wcol}$2:${wcol}$7,"Yes",$F{st}:$F{lines[-1]})', opts.C1),
+          # the drawn lines' allowance, summed off his own applied column so the band
+          # follows his cells rather than restating the derived figure on Lists
+          7: (f'=ROUND(SUMIF(Lists!${wcol}$2:${wcol}$7,"Yes",'
+              f'$G{st}:$G{lines[-1]}),6)', opts.M2),
+          8: (f"={pf_n}", opts.CT),
+          9: (f"=({pf_c})/1000000", opts.M2),
+          10: (f"=ROUND($H{r}-$F{r},6)", opts.C1),
+          11: (f"=ROUND($I{r}-$G{r},6)", opts.M2)})
     r += 1
     ohout = r
     band(r, f"Of which sits in the COEs and EGI, or above the {n_roles}-role ledger",
-         {5: (f"=ROUND($E{tot32}-$E{ohpf},6)", opts.C1),
-          6: (f"=ROUND($F{tot32}-$F{ohpf},6)", opts.M2),
-          7: (f"=$G{tot32}-$G{ohpf}", opts.CT),
-          8: (f"=ROUND($H{tot32}-$H{ohpf},6)", opts.M2),
-          9: (f"=ROUND($G{r}-$E{r},6)", opts.C1),
-          10: (f"=ROUND($H{r}-$F{r},6)", opts.M2)})
+         {6: (f"=ROUND($F{tot32}-$F{ohpf},6)", opts.C1),
+          7: (f"=ROUND($G{tot32}-$G{ohpf},6)", opts.M2),
+          8: (f"=$H{tot32}-$H{ohpf}", opts.CT),
+          9: (f"=ROUND($I{tot32}-$I{ohpf},6)", opts.M2),
+          10: (f"=ROUND($H{r}-$F{r},6)", opts.C1),
+          11: (f"=ROUND($I{r}-$G{r},6)", opts.M2)})
     r += 1
+    # what his own count has done to the allowance, stated where he is typing. Zero as
+    # shipped, because the cells arrive holding the model's own count.
+    ws.cell(r, 2).value = ("Times applied set above, against the count the model carries "
+                           "- the ten portfolios and the platforms the 1.x tabs draw")
+    ws.cell(r, 2).font = opts.BODY
+    ws.cell(r, 2).alignment = opts.LFT
+    f2._m(ws, r, 7,
+          f"=ROUND($G{tot32}-SUMPRODUCT(Lists!$AG$2:$AG$7,Lists!$AH$2:$AH$7),6)",
+          opts.CTL_M)
+    r += 2
 
     # ---- the whole model, each role counted once ----
     # The bands above split the overhead lines. This one row states the ledger itself,
@@ -665,12 +690,12 @@ def build_32(wb, wcol):
     ws.cell(r, 2).alignment = opts.LFT
     # C to F stay empty so the sentence has the room to render; the count itself sits in
     # the column that is headed for it, which is what 4.0 reads
-    f2._m(ws, r, 7, f"={all_roles}", opts.CT).font = opts.BOLD
+    f2._m(ws, r, 8, f"={all_roles}", opts.CT).font = opts.BOLD
     r += 1
     ws.cell(r, 2).value = ("Control - the portfolios plus the COEs and EGI against the "
                            "ledger, must be 0")
     ws.cell(r, 2).font = opts.BODY
-    f2._m(ws, r, 7, f"=({pf_roles})+({coe_roles})-{all_roles}", opts.CTL_C)
+    f2._m(ws, r, 8, f"=({pf_roles})+({coe_roles})-{all_roles}", opts.CTL_C)
     r += 2
 
     # ---- what the allowance is built from, in full, on the page ----
