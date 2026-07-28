@@ -1,0 +1,101 @@
+   Claude Log dropped - a working log, not a model tab
+   1.2 Customer!I54 = 2.21 (his 2707 input carried onto the new base)
+   1.8 Energy Solutions & B2B!E12 = 7.2 (his 2707 input carried onto the new base)
+   scaffold AA/AP/AQ/AS/AU restored on rows 2..534 (533 rows)
+   REVIEW: AR and AT given the headings they carry - AR1 'Overhead line', AT1 'Squad or overhead line'
+   rows 191 and 192 cleared across 52 columns - the spacers between the Customer block and the block after it
+   Customer rows 108-190 replaced from PCM_Data; 9 rows where the stated cost disagrees with its own components - each priced at the stated cost via the AU override, noted in AV
+      r122 Raj Ganesan: formula 220,275.0 vs stated 216,046.05
+      r123 Maria Salman: formula 200,250.0 vs stated 240,302
+      r124 Christian Lazano: formula 220,275.0 vs stated 216,045.05
+      r126 Abhilash Reddy: formula 213,600.0 vs stated 240,301
+      r127 Shreema Das: formula 253,650.0 vs stated 243,090.15
+      r132 Toby Clark: formula 271,739.25 vs stated 216,044.05
+      r133 Sri Balan Raj: formula 271,739.25 vs stated 216,047.05
+      r137 Safiq Iqbal: formula 285,999.85 vs stated 304,903.1
+      r165 Ashwini Gaikwad: formula 166,150.25 vs stated 146,465.7
+   Lists!T:U portfolio map: Z ENERGY (DIGITAL) -> Customer at T20
+   19 typed slips corrected in the ledger's name, title and country cells
+      M80 'australia' -> 'Australia'
+      C91 'Support Analyst -Retail' -> 'Support Analyst - Retail'
+      M240 'australia' -> 'Australia'
+      C242 'Project Manger' -> 'Project Manager'
+      E242 'Project Manger' -> 'Project Manager'
+      C246 'strategic program architect' -> 'Strategic Program Architect'
+      E246 'Project Manger' -> 'Project Manager'
+      M248 'australia' -> 'Australia'
+      B249 'michelle Siegman' -> 'Michelle Siegman'
+      C250 'Portfolio Mnager' -> 'Portfolio Manager'
+      B253 'vijay Solanki' -> 'Vijay Solanki'
+      M321 'australia' -> 'Australia'
+      C327 'EnterpriseProcess Analyst' -> 'Enterprise Process Analyst'
+      M413 'australia' -> 'Australia'
+      M418 'australia' -> 'Australia'
+      M430 'australia' -> 'Australia'
+      C446 'DeveloperSAP ECC' -> 'Developer SAP ECC'
+      M446 'australia' -> 'Australia'
+      M499 'australia' -> 'Australia'
+   Customer block prices at 16,522,075.33 == dataset total, gate passed
+   19 budget reads of empty 0.1 cells wrapped in N()
+   4 of his typed inputs declared cream
+   31 long headers set to wrap
+   1.13!B17 bar extended across the On/Off column
+   1.1 Ampol Retail!B52 'Platform: Network / QSR' -> 'Platform: Network & QSR' (ledger name)
+   1.1 Ampol Retail!B54 'Network / QSR' -> 'Network & QSR' (ledger name)
+   1.1 Ampol Retail!B56 'Network / QSR Total' -> 'Network & QSR Total' (ledger name)
+   1.2 Customer!B39 'Z Energy Apps' -> 'Z App and Web' (ledger name)
+   1.2 Customer!B40 'Z Energy Martech' -> 'Z Loyalty & Martech' (ledger name)
+   1.2 Customer!B47 'AU CRM & Martech' -> 'Ampol Loyalty & Martech' (ledger name)
+   1.2 Customer!B48 'Customer AI' -> 'Customer, AI' (ledger name)
+   1.4 TDD Group Functions!B22 'Network & Infrastructure' -> 'Cloud, Network & Infra Ops' (ledger name)
+   1.4 TDD Group Functions!B23 'DevOps & Engineering' -> 'DevOps & QE' (ledger name)
+   1.4 TDD Group Functions!B24 'Integration' -> 'Integration & Process Automation' (ledger name)
+   1.5 P&C!B26 'P&C - RTA' -> 'P&C RTA' (ledger name)
+   1.6 Finance!B26 'AU Finance' -> 'SAP ERP' (ledger name)
+   1.7 Infrastructure!B32 'Manufacturing & Group Projects' -> 'Manufacturing Group Projects' (ledger name)
+   1.2 Customer!K41 'CPI actuals; pull through' moved to M41 - his note outlives the row it sat on
+   1.2 Customer!B41 'Digital Support NZ' removed - zero people in the ledger; carried B='Digital Support NZ'; C='Operations'; D='S'; E='Offshore'
+   1.3 Enterprise Data!B30 'Enterprise Data Delivery' removed - zero people in the ledger; carried B='Enterprise Data Delivery'; C='Enterprise Data and Insights'; D='M'; E='Offshore'
+   1.3 Enterprise Data!B36 'EGI Data' removed - zero people in the ledger; carried B='EGI Data'; C='Enterprise Data and Insights'; D='M'; E='Onshore'
+   1.2 Customer!C7: H34/H42/H49 -> I columns inside his IF
+   1.2 Customer!C7 -> =IF(('0.2 Data Config'!$D$13+'0.2 Data Config'!$D$14)>('0.2 Data Config'!$C$13+'0.2 Data Config'!$C$14),SUM(I34,I42,I49),0)*0.5
+   1.2 Customer!D7 -> =IF(('0.2 Data Config'!$D$13+'0.2 Data Config'!$D$14)>('0.2 Data Config'!$C$13+'0.2 Data Config'!$C$14),SUM(I34,I42,I49),0)*0.5
+   0.2 Data Config!F18 -> ='1.5 P&C'!$C$9+N('1.5 P&C'!$D$9)
+   0.2 Data Config!F13 -> ='1.2 Customer'!$C$9
+   0.2 Data Config!F14 -> ='1.2 Customer'!$D$9
+   0.2 Data Config!F15 -> ='1.9 Commercial Fuels'!$C$9
+   1.10 Z Retail!D7 -> =IF(('0.2 Data Config'!$D$12)>('0.2 Data Config'!$C$12),SUM(I27,I34),0)
+   0.2!'Legal': F20 = 0 and G20 = E20-F20, the pair every other row of this table carries
+   0.2!'EG': F24 = 0 and G24 = E24-F24, the pair every other row of this table carries
+   0.2!'EGI': F25 = 0 and G25 = E25-F25, the pair every other row of this table carries
+   Lists W:X: 16 cells restored from the ancestor
+   Lists AC:AD: 10 cells restored from the ancestor
+   Lists AE:AJ: 50 cells restored from the ancestor
+   kept 
+   Lists override table: 3 moves, 10 slots
+   Lists!AS2:AS11: the ten portfolios, named
+   widened override window in 0 formulas
+   REVIEW AJ / AR / AT rebuilt on 531 rows
+   REVIEW row 491: cost override 169,740 - Priced from her local base of 150,000 at the 0.9...
+   REVIEW: build notes removed, AS1 relabelled
+   ledger windows widened to row 534 in 422 formulas
+   portfolio count keyed off the named list in 5 formulas
+   REVIEW - Complete Role Mapping: filter reset to A1:AX534, no criteria, no sort (was A1:AH528, 2 criteria, a sortState, 519 rows hidden)
+   2.2 Customer: filter and sort removed (was B23:F107, 0 criteria, a sortState, 0 rows hidden)
+   Squads: filter and sort removed (was A1:XEV538, 0 criteria, no sortState, 0 rows hidden)
+   Added data: filter and sort removed (was A1:AC550, 1 criteria, a sortState, 525 rows hidden)
+   Sheet2: filter and sort removed (was A1:AB153, 0 criteria, no sortState, 0 rows hidden)
+   2.1 Ampol Retail: 7 archetyped, 3 directly funded, 0 with no figure, 3 overhead, 70 people
+   2.2 Customer: 7 archetyped, 1 directly funded, 4 with no figure, 3 overhead, 83 people
+   2.3 Enterprise Data: 3 archetyped, 0 directly funded, 0 with no figure, 3 overhead, 28 people
+   2.4 TDD Group Functions: 4 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 46 people
+   2.5 P&C: 2 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 18 people
+   2.6 Finance: 2 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 17 people
+   2.7 Infrastructure: 4 archetyped, 0 directly funded, 1 with no figure, 3 overhead, 36 people
+   2.8 Energy Solutions & B2B: 3 archetyped, 0 directly funded, 0 with no figure, 3 overhead, 33 people
+   2.9 Commercial Fuels: 3 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 42 people
+   2.10 Z Retail: 4 archetyped, 0 directly funded, 0 with no figure, 3 overhead, 39 people
+   2.11 TDD Cyber: 0 archetyped, 5 directly funded, 0 with no figure, 0 overhead, 52 people
+   2.12 BP&T: 0 archetyped, 3 directly funded, 0 with no figure, 0 overhead, 24 people
+   2.13 SA&D: 0 archetyped, 5 directly funded, 0 with no figure, 0 overhead, 26 people
+   2.14 EGI: 0 archetyped, 1 directly funded, 0 with no figure, 0 overhead, 17 people
