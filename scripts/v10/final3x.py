@@ -27,19 +27,27 @@ funded, so nothing is compared to nothing and nothing is left out.
 import json
 
 import openpyxl
+from openpyxl.styles import Alignment
 from openpyxl.utils import get_column_letter as L
 
 import final2x as f2
 import opts
+
+# a left-aligned wrapped body cell. opts.LFT does not wrap and opts.CEN centres, and the
+# one column on 3.2 that now holds a sentence rather than a word needs both.
+LFTW = Alignment(horizontal="left", vertical="center", wrap_text=True)
 
 REVIEW = f2.REVIEW
 REV = f2.REV
 LAST = None                             # refreshed from f2 after _boot_last
 S = f2.S
 
+# The reading order of the portfolios, not a list of what exists. A name can sit here
+# before the ledger rows and the working tab that will carry it do - order() skips any
+# name with nothing behind it yet - so the tab can be added without a second edit here.
 PF_ORDER = ["Ampol Retail", "Customer", "Enterprise Data", "TDD Group Functions", "P&C",
             "Finance", "Infrastructure", "Energy Solutions & B2B", "Commercial Fuels",
-            "Z Retail"]
+            "Z Retail", "TDD Cyber"]
 COE_ORDER = ["COE Cyber", "COE BP&T", "COE SA&D", "EGI"]
 # A COE's design cost is the planned spend on its own 1.x tab, built from its real roles
 # rather than from an archetype. Reading the 1.x tab rather than the actual keeps it an
@@ -124,10 +132,26 @@ NUM = {4: opts.M2, 5: opts.M2, 6: opts.M2, 7: opts.M2,
 FIRST, LASTC = 4, 11                                     # D .. K
 
 
-def order(anchors):
+def order(anchors, wb=None):
+    """PF_ORDER and COE_ORDER against what the workbook actually carries.
+
+    A name on either list is skipped in silence when nothing stands behind it yet: no
+    ledger rows, so no anchor was written for it, or an anchor whose working tab is not
+    in this workbook. The lists are the reading order the owner wants, and a portfolio
+    can be named here before the tab that will hold it exists.
+    """
     by = {a["pf"]: t for t, a in anchors.items()}
-    return ([(p, by[p], anchors[by[p]]) for p in PF_ORDER if p in by],
-            [(p, by[p], anchors[by[p]]) for p in COE_ORDER if p in by])
+
+    def pick(names):
+        out = []
+        for p in names:
+            t = by.get(p)
+            if t is None or (wb is not None and t not in wb.sheetnames):
+                continue
+            out.append((p, t, anchors[t]))
+        return out
+
+    return pick(PF_ORDER), pick(COE_ORDER)
 
 
 def build_31(wb, anchors):
