@@ -89,3 +89,141 @@
    80 cells declared in design2707_manifest.json
   A injected {'cells': 13575, 'sheets': 46, 'verified': True}
   A errors 0 blank 2
+
+==============================================================================
+ANCHORS: 10
+    ledger: 531 roles, 529.30 FTE, $115,589,735.11, 386 filled, 145 vacant
+    2.x: all 531 people appear exactly once across the working tabs
+    2.x: every person sits on the tab the ledger assigns
+    controls: 38 control cells, 0 not zero
+    4.0: 75 checks with two computed sides
+    standards: 166 column-shape breaks, 0 buried constants
+    inputs: 12 cream formulas, 33 unmarked typed numbers
+    rounding: 26 sums over rounded chains
+    refs: 1062 whole-column references, 0 error cells
+    labels: 9616 labels written to labels.txt for the plain-English read
+
+==============================================================================
+CONTROL: 3
+    4.0!D36: expected side is a literal zero (1.11 BP&T own control - roles listed against roles counted)
+    4.0!D37: expected side is a literal zero (1.12 SA&D own control - roles listed against roles counted)
+    4.0!D38: expected side is a literal zero (1.13 Cyber Roles own control - roles listed against roles co)
+
+==============================================================================
+CONSISTENCY: 166
+    0.2 Data Config!N10: one row in a block of 4 identical formulas does not match them
+    1.1 Ampol Retail!I29: one row in a block of 4 identical formulas does not match them
+    1.2 Customer!I34: one row in a block of 3 identical formulas does not match them
+    1.4 TDD Group Functions!I25: one row in a block of 4 identical formulas does not match them
+    1.11 BP&T!C45: one row in a block of 24 identical formulas does not match them
+    1.13 Cyber Roles!C71: one row in a block of 52 identical formulas does not match them
+    2.1 Ampol Retail!F26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!G26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!H26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!I26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!J26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!K26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!L26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!M26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!O26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!P26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!Q26: one row in a block of 3 identical formulas does not match them
+    2.1 Ampol Retail!R26: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!F29: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!G29: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!H29: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!I29: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!J29: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!K29: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!L29: one row in a block of 3 identical formulas does not match them
+    ... 141 more
+
+==============================================================================
+INPUTS: 45
+    0.2 Data Config!L22: typed number 43.5 not marked as an input
+    0.2 Data Config!M22: typed number 62.72 not marked as an input
+    1.3 Enterprise Data!J16: marked as a typed input but holds a formula: =H36
+    1.4 TDD Group Functions!S21: typed number 6 not marked as an input
+    1.4 TDD Group Functions!T21: typed number 6 not marked as an input
+    1.4 TDD Group Functions!V21: typed number 2 not marked as an input
+    1.4 TDD Group Functions!W21: typed number 6 not marked as an input
+    1.4 TDD Group Functions!S22: typed number 10 not marked as an input
+    1.4 TDD Group Functions!T22: typed number 13 not marked as an input
+    1.4 TDD Group Functions!V22: typed number 2 not marked as an input
+    1.4 TDD Group Functions!W22: typed number 11 not marked as an input
+    1.4 TDD Group Functions!X22: typed number 7 not marked as an input
+    1.4 TDD Group Functions!S23: typed number 4.5 not marked as an input
+    1.4 TDD Group Functions!T23: typed number 8 not marked as an input
+    1.4 TDD Group Functions!V23: typed number 3 not marked as an input
+    1.4 TDD Group Functions!W23: typed number 6 not marked as an input
+    1.4 TDD Group Functions!S24: typed number 9 not marked as an input
+    1.4 TDD Group Functions!T24: typed number 10 not marked as an input
+    1.4 TDD Group Functions!V24: typed number 2 not marked as an input
+    1.4 TDD Group Functions!W24: typed number 10 not marked as an input
+    1.5 P&C!J14: marked as a typed input but holds a formula: =0.5*I14
+    1.5 P&C!J15: marked as a typed input but holds a formula: =0.5*I15
+    1.5 P&C!J16: marked as a typed input but holds a formula: =0.5*I16
+    1.5 P&C!S25: typed number 9 not marked as an input
+    1.5 P&C!T25: typed number 9 not marked as an input
+    ... 20 more
+
+==============================================================================
+ROUNDING: 26
+    2.1 Ampol Retail!G15: sums 7 already-rounded cells (G8:G14)
+    2.1 Ampol Retail!G20: sums 3 already-rounded cells (G17:G19)
+    2.1 Ampol Retail!G25: sums 3 already-rounded cells (G22:G24)
+    2.2 Customer!G15: sums 7 already-rounded cells (G8:G14)
+    2.2 Customer!G23: sums 4 already-rounded cells (G19:G22)
+    2.2 Customer!G28: sums 3 already-rounded cells (G25:G27)
+    2.3 Enterprise Data!G11: sums 3 already-rounded cells (G8:G10)
+    2.3 Enterprise Data!G16: sums 3 already-rounded cells (G13:G15)
+    2.4 TDD Group Functions!G12: sums 4 already-rounded cells (G8:G11)
+    2.4 TDD Group Functions!G19: sums 3 already-rounded cells (G16:G18)
+    2.5 P&C!G17: sums 3 already-rounded cells (G14:G16)
+    2.6 Finance!G17: sums 3 already-rounded cells (G14:G16)
+    2.7 Infrastructure!G12: sums 4 already-rounded cells (G8:G11)
+    2.7 Infrastructure!G19: sums 3 already-rounded cells (G16:G18)
+    2.8 Energy Solutions & B2B!G11: sums 3 already-rounded cells (G8:G10)
+    2.8 Energy Solutions & B2B!G16: sums 3 already-rounded cells (G13:G15)
+    2.9 Commercial Fuels!G11: sums 3 already-rounded cells (G8:G10)
+    2.9 Commercial Fuels!G18: sums 3 already-rounded cells (G15:G17)
+    2.10 Z Retail!G12: sums 4 already-rounded cells (G8:G11)
+    2.10 Z Retail!G17: sums 3 already-rounded cells (G14:G16)
+    2.11 COE Cyber!G13: sums 5 already-rounded cells (G8:G12)
+    2.12 COE BP&T!G11: sums 3 already-rounded cells (G8:G10)
+    2.13 COE SA&D!G13: sums 5 already-rounded cells (G8:G12)
+    3.2 Overhead & Leadership!H11: sums 6 already-rounded cells (H5:H10)
+    3.2 Overhead & Leadership!I11: sums 6 already-rounded cells (I5:I10)
+    ... 1 more
+
+==============================================================================
+REFS: 1062
+    REVIEW - Complete Role Mapping!AJ2: whole-column reference: =IF(TRIM($B2)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B2)&" | "&TRI
+    REVIEW - Complete Role Mapping!AP2: whole-column reference: =IF(TRIM($B2)="","",IF($AQ2=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
+    REVIEW - Complete Role Mapping!AJ3: whole-column reference: =IF(TRIM($B3)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B3)&" | "&TRI
+    REVIEW - Complete Role Mapping!AP3: whole-column reference: =IF(TRIM($B3)="","",IF($AQ3=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
+    REVIEW - Complete Role Mapping!AJ4: whole-column reference: =IF(TRIM($B4)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B4)&" | "&TRI
+    REVIEW - Complete Role Mapping!AP4: whole-column reference: =IF(TRIM($B4)="","",IF($AQ4=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
+    REVIEW - Complete Role Mapping!AJ5: whole-column reference: =IF(TRIM($B5)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B5)&" | "&TRI
+    REVIEW - Complete Role Mapping!AP5: whole-column reference: =IF(TRIM($B5)="","",IF($AQ5=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
+    REVIEW - Complete Role Mapping!AJ6: whole-column reference: =IF(TRIM($B6)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B6)&" | "&TRI
+    REVIEW - Complete Role Mapping!AP6: whole-column reference: =IF(TRIM($B6)="","",IF($AQ6=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
+    REVIEW - Complete Role Mapping!AJ7: whole-column reference: =IF(TRIM($B7)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B7)&" | "&TRI
+    REVIEW - Complete Role Mapping!AP7: whole-column reference: =IF(TRIM($B7)="","",IF($AQ7=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
+    REVIEW - Complete Role Mapping!AJ8: whole-column reference: =IF(TRIM($B8)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B8)&" | "&TRI
+    REVIEW - Complete Role Mapping!AP8: whole-column reference: =IF(TRIM($B8)="","",IF($AQ8=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
+    REVIEW - Complete Role Mapping!AJ9: whole-column reference: =IF(TRIM($B9)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B9)&" | "&TRI
+    REVIEW - Complete Role Mapping!AP9: whole-column reference: =IF(TRIM($B9)="","",IF($AQ9=1,"Leadership",IFERROR(INDEX(Lists!$X:$X,M
+    REVIEW - Complete Role Mapping!AJ10: whole-column reference: =IF(TRIM($B10)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B10)&" | "&T
+    REVIEW - Complete Role Mapping!AP10: whole-column reference: =IF(TRIM($B10)="","",IF($AQ10=1,"Leadership",IFERROR(INDEX(Lists!$X:$X
+    REVIEW - Complete Role Mapping!AJ11: whole-column reference: =IF(TRIM($B11)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B11)&" | "&T
+    REVIEW - Complete Role Mapping!AP11: whole-column reference: =IF(TRIM($B11)="","",IF($AQ11=1,"Leadership",IFERROR(INDEX(Lists!$X:$X
+    REVIEW - Complete Role Mapping!AJ12: whole-column reference: =IF(TRIM($B12)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B12)&" | "&T
+    REVIEW - Complete Role Mapping!AP12: whole-column reference: =IF(TRIM($B12)="","",IF($AQ12=1,"Leadership",IFERROR(INDEX(Lists!$X:$X
+    REVIEW - Complete Role Mapping!AJ13: whole-column reference: =IF(TRIM($B13)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B13)&" | "&T
+    REVIEW - Complete Role Mapping!AP13: whole-column reference: =IF(TRIM($B13)="","",IF($AQ13=1,"Leadership",IFERROR(INDEX(Lists!$X:$X
+    REVIEW - Complete Role Mapping!AJ14: whole-column reference: =IF(TRIM($B14)="","",IF(COUNTIFS(Lists!$AN$2:$AN$11,TRIM($B14)&" | "&T
+    ... 1037 more
+
+==============================================================================
+OUTSTANDING: 1302

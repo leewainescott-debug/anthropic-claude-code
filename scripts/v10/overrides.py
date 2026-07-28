@@ -218,7 +218,7 @@ def ovr(col, r):
 def formulas(r):
     t, x = ovr("AO", r)
     aj = (f'=IF(TRIM($B{r})="","",IF({t},{x},'
-          f'IFERROR(INDEX(Lists!$U:$U,MATCH(TRIM($I{r}),Lists!$T:$T,0)),TRIM($I{r}))))')
+          f'IFERROR(INDEX(Lists!$U$2:$U$20,MATCH(TRIM($I{r}),Lists!$T$2:$T$20,0)),TRIM($I{r}))))')
     # AR carries no override branch. It used to wrap the keyword chain in a lookup against
     # Lists!AQ, which is empty and always has been, so that branch could never fire - it
     # was 250 characters and two extra IF levels of dead weight in front of the only thing

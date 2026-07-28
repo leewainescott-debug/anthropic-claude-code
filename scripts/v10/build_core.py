@@ -144,7 +144,7 @@ def review_columns(wb):
         # where col K is blank or NA (the only squad split the COEs have), then as typed.
         ws[f"AP{i}"] = (
             f'={live}IF($AQ{i}=1,"Leadership",'
-            f'IFERROR(INDEX(Lists!$X:$X,MATCH(TRIM($K{i}),Lists!$W:$W,0)),'
+            f'IFERROR(INDEX(Lists!$X$2:$X$20,MATCH(TRIM($K{i}),Lists!$W$2:$W$20,0)),'
             f'IF(OR(TRIM($K{i})="",LOWER(TRIM($K{i}))="na"),'
             f'IF(TRIM($G{i})="","Unassigned",TRIM($G{i})),'
             f'TRIM($K{i})))))'

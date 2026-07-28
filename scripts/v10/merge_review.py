@@ -126,6 +126,15 @@ def run(src, dst, ancestor="base_ship.xlsx", pcm="cust_new.xlsx"):
     # squad), AQ (Leadership flag), AS (design-tab name), AU/AV (override + note).
     # AJ / AR / AT are rebuilt by overrides.py for every row, so they are left alone.
     tmpl = {c: B.cell(2, c).value for c in (27, 42, 43, 45)}
+    # the scaffold's canonical-squad lookup scans two whole columns for a nine-row table.
+    # Bounded here, at the one place the template is read, so every one of the 531 rows
+    # gets the bounded form and no formula in the ledger reads an unbounded range.
+    for c, f in list(tmpl.items()):
+        if isinstance(f, str):
+            tmpl[c] = (f.replace("Lists!$X:$X", "Lists!$X$2:$X$20")
+                        .replace("Lists!$W:$W", "Lists!$W$2:$W$20")
+                        .replace("Lists!$U:$U", "Lists!$U$2:$U$20")
+                        .replace("Lists!$T:$T", "Lists!$T$2:$T$20"))
     for c in (42, 43, 45, 47, 48):
         R.cell(1, c).value = B.cell(1, c).value
     n = 0
