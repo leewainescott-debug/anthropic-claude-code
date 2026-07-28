@@ -1,3 +1,293 @@
    Claude Log dropped - a working log, not a model tab
    1.2 Customer!I54 = 2.21 (his 2707 input carried onto the new base)
    1.8 Energy Solutions & B2B!E12 = 7.2 (his 2707 input carried onto the new base)
+   scaffold AA/AP/AQ/AS/AU restored on rows 2..534 (533 rows)
+   REVIEW: AR and AT given the headings they carry - AR1 'Overhead line', AT1 'Squad or overhead line'
+   rows 191 and 192 cleared across 52 columns - the spacers between the Customer block and the block after it
+   Customer rows 108-190 replaced from PCM_Data; 9 rows where the stated cost disagrees with its own components - each priced at the stated cost via the AU override, noted in AV
+      r122 Raj Ganesan: formula 220,275.0 vs stated 216,046.05
+      r123 Maria Salman: formula 200,250.0 vs stated 240,302
+      r124 Christian Lazano: formula 220,275.0 vs stated 216,045.05
+      r126 Abhilash Reddy: formula 213,600.0 vs stated 240,301
+      r127 Shreema Das: formula 253,650.0 vs stated 243,090.15
+      r132 Toby Clark: formula 271,739.25 vs stated 216,044.05
+      r133 Sri Balan Raj: formula 271,739.25 vs stated 216,047.05
+      r137 Safiq Iqbal: formula 285,999.85 vs stated 304,903.1
+      r165 Ashwini Gaikwad: formula 166,150.25 vs stated 146,465.7
+   Lists!T:U portfolio map: Z ENERGY (DIGITAL) -> Customer at T20
+   19 typed slips corrected in the ledger's name, title and country cells
+      M80 'australia' -> 'Australia'
+      C91 'Support Analyst -Retail' -> 'Support Analyst - Retail'
+      M240 'australia' -> 'Australia'
+      C242 'Project Manger' -> 'Project Manager'
+      E242 'Project Manger' -> 'Project Manager'
+      C246 'strategic program architect' -> 'Strategic Program Architect'
+      E246 'Project Manger' -> 'Project Manager'
+      M248 'australia' -> 'Australia'
+      B249 'michelle Siegman' -> 'Michelle Siegman'
+      C250 'Portfolio Mnager' -> 'Portfolio Manager'
+      B253 'vijay Solanki' -> 'Vijay Solanki'
+      M321 'australia' -> 'Australia'
+      C327 'EnterpriseProcess Analyst' -> 'Enterprise Process Analyst'
+      M413 'australia' -> 'Australia'
+      M418 'australia' -> 'Australia'
+      M430 'australia' -> 'Australia'
+      C446 'DeveloperSAP ECC' -> 'Developer SAP ECC'
+      M446 'australia' -> 'Australia'
+      M499 'australia' -> 'Australia'
+   Customer block prices at 16,522,075.33 == dataset total, gate passed
+   19 budget reads of empty 0.1 cells wrapped in N()
+   4 of his typed inputs declared cream
+   31 long headers set to wrap
+   1.13!B17 bar extended across the On/Off column
+   1.1 Ampol Retail!B52 'Platform: Network / QSR' -> 'Platform: Network & QSR' (ledger name)
+   1.1 Ampol Retail!B54 'Network / QSR' -> 'Network & QSR' (ledger name)
+   1.1 Ampol Retail!B56 'Network / QSR Total' -> 'Network & QSR Total' (ledger name)
+   1.2 Customer!B39 'Z Energy Apps' -> 'Z App and Web' (ledger name)
+   1.2 Customer!B40 'Z Energy Martech' -> 'Z Loyalty & Martech' (ledger name)
+   1.2 Customer!B47 'AU CRM & Martech' -> 'Ampol Loyalty & Martech' (ledger name)
+   1.2 Customer!B48 'Customer AI' -> 'Customer, AI' (ledger name)
+   1.4 TDD Group Functions!B22 'Network & Infrastructure' -> 'Cloud, Network & Infra Ops' (ledger name)
+   1.4 TDD Group Functions!B23 'DevOps & Engineering' -> 'DevOps & QE' (ledger name)
+   1.4 TDD Group Functions!B24 'Integration' -> 'Integration & Process Automation' (ledger name)
+   1.5 P&C!B26 'P&C - RTA' -> 'P&C RTA' (ledger name)
+   1.6 Finance!B26 'AU Finance' -> 'SAP ERP' (ledger name)
+   1.7 Infrastructure!B32 'Manufacturing & Group Projects' -> 'Manufacturing Group Projects' (ledger name)
+   1.2 Customer!K41 'CPI actuals; pull through' moved to M41 - his note outlives the row it sat on
+   1.2 Customer!B41 'Digital Support NZ' removed - zero people in the ledger; carried B='Digital Support NZ'; C='Operations'; D='S'; E='Offshore'
+   1.3 Enterprise Data!B30 'Enterprise Data Delivery' removed - zero people in the ledger; carried B='Enterprise Data Delivery'; C='Enterprise Data and Insights'; D='M'; E='Offshore'
+   1.3 Enterprise Data!B36 'EGI Data' removed - zero people in the ledger; carried B='EGI Data'; C='Enterprise Data and Insights'; D='M'; E='Onshore'
+   1.2 Customer!C7: H34/H42/H49 -> I columns inside his IF
+   1.2 Customer!C7 -> =IF(('0.2 Data Config'!$D$13+'0.2 Data Config'!$D$14)>('0.2 Data Config'!$C$13+'0.2 Data Config'!$C$14),SUM(I34,I42,I49),0)*0.5
+   1.2 Customer!D7 -> =IF(('0.2 Data Config'!$D$13+'0.2 Data Config'!$D$14)>('0.2 Data Config'!$C$13+'0.2 Data Config'!$C$14),SUM(I34,I42,I49),0)*0.5
+   0.2 Data Config!F18 -> ='1.5 P&C'!$C$9+N('1.5 P&C'!$D$9)
+   0.2 Data Config!F13 -> ='1.2 Customer'!$C$9
+   0.2 Data Config!F14 -> ='1.2 Customer'!$D$9
+   0.2 Data Config!F15 -> ='1.9 Commercial Fuels'!$C$9
+   0.2 Data Config!F23 -> ='1.13 Cyber Roles'!$F$11+N('1.14 TDD Cyber'!$F$9)
+   1.10 Z Retail!D7 -> =IF(('0.2 Data Config'!$D$12)>('0.2 Data Config'!$C$12),SUM(I27,I34),0)
+   0.2!'Legal': F20 = 0 and G20 = E20-F20, the pair every other row of this table carries
+   0.2!'EG': F24 = 0 and G24 = E24-F24, the pair every other row of this table carries
+   0.2!'EGI': F25 = 0 and G25 = E25-F25, the pair every other row of this table carries
+   1.14 TDD Cyber rebuilt: one platform, one squad (Cyber Uplift), platform overhead drawn, portfolio overhead not - layout off 1.3 Enterprise Data, squad row off 1.9 Commercial Fuels
+   2.15 TDD Cyber created empty after 2.14 EGI - final2x builds it
+   0.3 Squad Archetypes!K7 = 'Onshore roles in a hybrid squad', 0.3 Squad Archetypes!K8 = 2 (cream input, styled off K4/K5) - the only two cells the chain writes on this tab
+   1.1 Ampol Retail: 7 squad rows repriced [H25, H26, H27, H28, H34, H54, H60]
+   1.10 Z Retail: 4 squad rows repriced [H26, H32, H33, H39]
+   1.2 Customer: 7 squad rows repriced [H31, H32, H33, H39, H40, H47, H48]
+   1.3 Enterprise Data: 3 squad rows repriced [H27, H28, H29]
+   1.4 TDD Group Functions: 4 squad rows repriced [H21, H22, H23, H24]
+   1.5 P&C: 2 squad rows repriced [H25, H26]
+   1.6 Finance: 2 squad rows repriced [H26, H27]
+   1.7 Infrastructure: 4 squad rows repriced [H26, H32, H33, H39]
+   1.8 Energy Solutions & B2B: 3 squad rows repriced [H28, H29, H35]
+   1.9 Commercial Fuels: 3 squad rows repriced [H26, H27, H33]
+   1.14 TDD Cyber: 1 squad rows repriced [H26]
+   40 Hybrid branches rewritten to G*MIN(k,n)/n + H*(n-MIN(k,n))/n, k = '0.3 Squad Archetypes'!$K$8
+   Lists W:X: 16 cells restored from the ancestor
+   Lists AC:AD: 10 cells restored from the ancestor
+   Lists AE:AJ: 50 cells restored from the ancestor
+   kept 
+   Lists override table: 3 moves, 10 slots
+   Lists!AS2:AS11: the ten portfolios, named
+   widened override window in 0 formulas
+   REVIEW AJ / AR / AT rebuilt on 531 rows
+   REVIEW row 491: cost override 169,740 - Priced from her local base of 150,000 at the 0.9...
+   REVIEW: build notes removed, AS1 relabelled
+   ledger windows widened to row 534 in 422 formulas
+   portfolio count keyed off the named list in 5 formulas
+   REVIEW - Complete Role Mapping: filter reset to A1:AX534, no criteria, no sort (was A1:AH528, 2 criteria, a sortState, 519 rows hidden)
+   2.2 Customer: filter and sort removed (was B23:F107, 0 criteria, a sortState, 0 rows hidden)
+   Squads: filter and sort removed (was A1:XEV538, 0 criteria, no sortState, 0 rows hidden)
+   Added data: filter and sort removed (was A1:AC550, 1 criteria, a sortState, 525 rows hidden)
+   Sheet2: filter and sort removed (was A1:AB153, 0 criteria, no sortState, 0 rows hidden)
+   2.1 Ampol Retail: 7 archetyped, 3 directly funded, 0 with no figure, 3 overhead, 70 people
+   2.2 Customer: 7 archetyped, 1 directly funded, 4 with no figure, 3 overhead, 83 people
+   2.3 Enterprise Data: 3 archetyped, 0 directly funded, 0 with no figure, 3 overhead, 28 people
+   2.4 TDD Group Functions: 4 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 46 people
+   2.5 P&C: 2 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 18 people
+   2.6 Finance: 2 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 17 people
+   2.7 Infrastructure: 4 archetyped, 0 directly funded, 1 with no figure, 3 overhead, 36 people
+   2.8 Energy Solutions & B2B: 3 archetyped, 0 directly funded, 0 with no figure, 3 overhead, 33 people
+   2.9 Commercial Fuels: 3 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 42 people
+   2.10 Z Retail: 4 archetyped, 0 directly funded, 0 with no figure, 3 overhead, 39 people
+   2.11 TDD Cyber: 0 archetyped, 5 directly funded, 0 with no figure, 0 overhead, 52 people
+   2.12 BP&T: 0 archetyped, 3 directly funded, 0 with no figure, 0 overhead, 24 people
+   2.13 SA&D: 0 archetyped, 5 directly funded, 0 with no figure, 0 overhead, 26 people
+   2.14 EGI: 0 archetyped, 1 directly funded, 0 with no figure, 0 overhead, 17 people
+   2.15 TDD Cyber: 1 archetyped, 0 directly funded, 0 with no figure, 2 overhead, 0 people
+   Lists: overhead lines tagged in AM, portfolio-drawn allowance at AJ9, per-platform lines counted off the design tabs
+   3.1: cost bridge, every directly funded programme named, ledger row 45, grand total row 47
+   3.2: overhead and leadership, line by line, plus what the allowance is built from
+   3.3: every squad by portfolio, total row 120
+   Lists archetype-roles lookup repointed on 11 portfolios
+   3 inputs recoloured to cream across the live model
+   Exec Summary rebuilt on design against actual, with a portfolio drill-down
+   4.0 Data QA rebuilt: 74 checks, model / expected / difference
+   anchors: 3.1 ledger r45 grand r47, 3.2 overhead total r11, 3.3 total r120
+   3.4 COE detail rebuilt: squad by squad, AU / NZ on the owner's own basis (country <> NZ), overhead titles, total row 24
+   1.11 BP&T: roles list complete, 24 roles
+   1.12 SA&D: 3 roles written in (REVIEW rows 283, 301, 313), each set Onshore in column H
+   1.12 SA&D: not carried across from the template row - I45 ('Hold' on the template row); I46 ('Hold' on the template row); I47 ('Hold' on the template row)
+   1.13 Cyber Roles: roles list complete, 52 roles
+   1.11 BP&T: portfolio-funded line stated at B18, figure in C18
+   1.12 SA&D: portfolio-funded line stated at B19, figure in C19
+   1.13 Cyber Roles: planned spend is not netted against a funded line, no funding line written
+   1.11 BP&T: Hold branch added to 24 lever formulas, rows 21-44
+   1.11 BP&T: 1 lever dropdown(s) now offer Hold
+   1.12 SA&D: lever formulas already carry the Hold branch
+   1.12 SA&D: lever dropdown already offers Hold
+   1.13 Cyber Roles: lever formulas already carry the Hold branch
+   1.13 Cyber Roles: lever dropdown already offers Hold
+   1.1 Ampol Retail: 'Platform: Pricing & WFM' collapsed to one line, rows 39-45
+   1.3 Enterprise Data: 'Platform: EGI Data' collapsed to one line, rows 34-38
+   6 labels corrected - two stale tab references, the yellow-cell wording the recolour made wrong, and two typed slips
+   1.4 TDD Group Functions!M30: 'EGI TDD' also sits under ['Ampol Retail'], so the note now reads 'TDD Group Functions' only ('2.4 TDD Group Functions'!$C$3)
+   1 programme notes given their own portfolio as a criterion
+   5 formula-built notes corrected - the cream wording, the 528-row window and the AT grouping column
+   defined name BPTCat removed
+   defined name SADCat removed
+   defined name CYBCat removed
+   Lists!E1:G5 cleared, 12 cells - the banned Category columns
+   1.4 TDD Group Functions!H8 '(Over)/ Under budget ' -> 'TDD over/(under) budget ($m)'
+   1.4 TDD Group Functions!I8 '=I6-I7' -> '=I7-I6'
+   1.7 Infrastructure!C17 '=I8+I9' -> '=$I$7+$I$8'
+   1.5 P&C!H10 None -> None
+   1.5 P&C!I10 '=I8+I9' -> None
+   1.5 P&C!C16 '=I8+I9' -> '=$I$8'
+   1.4 TDD Group Functions!F20 None -> 'AU / NZ'
+   1.4 TDD Group Functions!F29 None -> 'AU / NZ'
+   1.5 P&C!F24 'AU' -> 'AU / NZ'
+   1.1 Ampol Retail!B49 orphan 'Platform Overhead' label removed
+   1.10 Z Retail!B40 orphan 'Platform Overhead' label removed
+   0 notes removed that pointed at a tab being deleted
+   Sheet2: deleted
+   Added data: deleted
+   FY26 Budget (superseded): deleted
+   squad mapping (superseded): deleted
+   3.5 Source Reconciliation: deleted
+   Squads: deleted
+   3.3 FTE View -> 3.3 Squad Detail, 26 references and labels repointed
+   3.4 COE Summary -> 3.4 COE Detail, 6 references and labels repointed
+   2.11 TDD Cyber -> 2.11 COE Cyber, 77 references and labels repointed
+   2.12 BP&T -> 2.12 COE BP&T, 53 references and labels repointed
+   2.13 SA&D -> 2.13 COE SA&D, 77 references and labels repointed
+   3.1 Group Summary -> 3.1 Cost Bridge, 42 references and labels repointed
+   3.2 Total Cost -> 3.2 Overhead & Leadership, 8 references and labels repointed
+   45 tabs ordered to match the numbering and coloured by group
+   [Red] stripped from 0 number formats
+   376 fonts set to plain black Calibri, nothing under 10pt
+   16 cyan note-block cells restyled to the standard grey
+   1.1 Ampol Retail!K52 cleared
+   1.9 Commercial Fuels!S13 cleared
+   21 en dashes replaced with a hyphen
+   gridlines off and a 2-wide gutter on 38 tabs
+   8 header rows wrapped and re-widthed on the COE and input tabs
+   52 section bars widened to the table under them
+   40 header cells given the row height their text needs
+   0 build-commentary sentences removed from data areas
+   frozen panes removed from 1 tabs
+   print setup on 38 tabs, landscape and fitted to the page width
+   hidden: 0.1 Budget Table (Fin), 0.4 Presentation Pack, Lists; every other tab set visible
+   turned back on: Exec Summary - hidden on the way in, not by this build
+   49 theme-filled bar cells on the 1.x tabs given the explicit FF002F6C they were meant to have - they were rendering black
+   1.2 Customer: budget block rows [13, 14] are [34.0, 14.25] - one of them is a single line and the other carries the funding table's header row, so the difference is not the block's to level; reported
+   1.5 P&C: budget block rows [12, 13] levelled to 34.0
+   1.6 Finance: budget block rows [13, 14] are [34.0, 14.25] - one of them is a single line and the other carries the funding table's header row, so the difference is not the block's to level; reported
+   1.7 Infrastructure: budget block rows [13, 14] are [34.0, 14.25] - one of them is a single line and the other carries the funding table's header row, so the difference is not the block's to level; reported
+   1.8 Energy Solutions & B2B: budget block rows [12, 13] are [34.0, 14.25] - one of them is a single line and the other carries the funding table's header row, so the difference is not the block's to level; reported
+   1.9 Commercial Fuels: budget block rows [12, 13] levelled to 34.0
+   1.10 Z Retail: budget block rows [13, 14] are [34.0, 14.25] - one of them is a single line and the other carries the funding table's header row, so the difference is not the block's to level; reported
+   orange budget blocks: 16 label cells returned to plain, 1 typed inputs painted cream
+   1.2 Customer: Notes header moved out of the data row 14 up into the table's header row 13, navy like 1.5
+   1.8 Energy Solutions & B2B: Notes header moved out of the data row 13 up into the table's header row 12, navy like 1.5
+   1.9 Commercial Fuels: Notes header moved out of the data row 13 up into the table's header row 12, navy like 1.5
+   Portfolio Summary bar made one uniform strip on 11 tabs
+   budget-box bar squared to its two columns on 11 tabs
+   Other funding bar added where it was missing: 1.4 TDD Group Functions!H11:J11, 1.5 P&C!H11:L11, 1.8 Energy Solutions & B2B!H11:L11, 1.9 Commercial Fuels!H11:L11
+   Other funding bar squared to its table: 1.1 Ampol Retail!H12:K12, 1.2 Customer!H12:L12, 1.3 Enterprise Data!H12:J12, 1.6 Finance!H12:K12, 1.7 Infrastructure!H12:K12, 1.10 Z Retail!H12:K12, 1.14 TDD Cyber!H13:J13
+   29 platform bars run the full width of their squad table, unbroken
+   1.13!B10 bar spans B:C, the width of its own table
+   the actuals table header rows are square - a label in every navy cell that is not part of the K:L merge, so there is nothing to clear
+   the actuals tables already carry the owner's shape - bar to the left over its own columns, header at the budget box's depth, label left and both figure columns right on all three lines
+   1.3 Enterprise Data!B16:C16: a navy strip with no text in it, fill removed
+   1.14 TDD Cyber!B17:C17: a navy strip with no text in it, fill removed
+   1.3 Enterprise Data row 13: blank navy past the table cleared at K; header squared to H:J
+   1.5 P&C!D5 was blank navy; labelled 'TDD NZ ($m)', which 10 sibling tabs carry there
+   41 cells added to squad subtotal bands so each runs the full width of its table - column F (AU / NZ) was unfilled on every one of them
+   stray band fill cleared from data rows: 1.1 Ampol Retail!C29
+   one column profile across 11 portfolio tabs: B=40, C=27, D=9.5, E=17.8, F=10.0, G=11.0, H=43.5, I=14.0, J=45.0, K=24.8, L=25.5
+   10 labels wrapped and given the row height their text needs (1.1 Ampol Retail!H5, 1.2 Customer!H5, 1.3 Enterprise Data!H5, 1.4 TDD Group Functions!H5, 1.5 P&C!H5, 1.6 Finance!H5, 1.8 Energy Solutions & B2B!H5, 1.9 Commercial Fuels!H5, ...)
+   176 Portfolio Summary cells moved off a bare 0.00 onto the family's bracketed money format
+   allocation-column cells given the family's money format: 1.7 Infrastructure!J14
+   4 labels trimmed of trailing space: 0.2 Data Config!I5, 0.2 Data Config!N21, 0.2 Data Config!O21, 0.2 Data Config!K23
+   nothing to trim (label not present as described): 'CPI actuals; pull through' on 0.2 Data Config
+   0.2!K21 was an empty navy corner; titled 'Reconciliation ($m)'
+   0.2 reconciliation block K21:O24: title bar squared and 9 figures put on one bracketed money format
+   0.2!M13 'Alloc %' -> 'Allocation %', so both overhead tables use one word for one thing
+   0.2: 2 overhead subtotal rows banded like every other subtotal and put on two decimals
+   0.2: 1 of the tab's section bars re-aligned to the left, so all of them read the same way
+   0.2 column B widened to 55.0 to fit 'COE - Cyber, Risk & Service Ops (see 1.13 Cyber Roles)'
+   0.2: data cells B13, E13, F13, G13, B23 were centred and wrapped where every other row on the table is left and plain - normalised
+   0.2: double-height data rows [24] put back on one line - the label fits column B now, so nothing needed the second line
+   0.2: every data cell in B:O vertically centred
+   0.2 Notes column H: band trimmed to the table's own rows, it already ended at the last table row (28)
+   0.2 Actions column I widened to 34.0 and 12 notes wrapped, each row raised to the lines its note needs
+   0.2 rows [8, 11, 14, 19, 23] held at 50pt - finish.py flattens anything taller, so a row above the ceiling would come out on one line
+   1.4 TDD Group Functions: role-review block M:R given a grey header row, fitted widths and rows that hold their own text
+   1.5 P&C: role-review block M:Q given a grey header row, fitted widths and rows that hold their own text
+   1.6 Finance: role-review block moved verbatim from K25:O27 to S25:W27 - it sat inside the squad table and broke its header bar
+   1.6 Finance: role-review block S:W given a grey header row, fitted widths and rows that hold their own text
+   bar continuity check: all platform bars solid FF002F6C end to end
+   1.13 Cyber Roles!H19:H70: 52 lever cells painted cream, the input colour its siblings already use
+   1.11 BP&T!T20 headed 'Cost after On/Off ($)' - the column held per-role costs with nothing to say so
+   1.12 SA&D!T21 headed 'Cost after On/Off ($)' - the column held per-role costs with nothing to say so
+   1.13 Cyber Roles!T18 headed 'Cost after On/Off ($)' - the column held per-role costs with nothing to say so
+   1.11 BP&T: rows [34] raised so their wrapped title is not clipped
+   1.12 SA&D: rows [23, 26, 32, 36, 39] raised so their wrapped title is not clipped
+   1.12 SA&D: columns D widened to their longest value - NOTE finish.py's coe_widths resets the COE width profile afterwards, so this needs COE_W widened to hold
+   1.12 SA&D: empty ruled rows [48, 49, 50] at the foot of the roles list stripped of their borders and fill
+   1.13 Cyber Roles: rows [28, 43, 65] raised so their wrapped title is not clipped
+   1.11 BP&T: column B labels on rows [11, 12, 13, 14, 16, 18] wrapped and their rows raised - they were being cut off by the figure beside them
+   1.12 SA&D: column B labels on rows [11, 12, 13, 14, 19] wrapped and their rows raised - they were being cut off by the figure beside them
+   1.12!C13 carried an accounting format that printed a lone '$' in the value column; put on '0.00' like its siblings
+   1.13!E11 now labels the working figure in F11 (=F8-0.5) - it sat under the 'Planned spend' column with no label anywhere on its row
+   1.2 Customer: 'Net New' moved out of the gutter column A41 to N41
+   1.2 Customer: 'Net New - 3FTE' moved out of the gutter column A48 to N48
+   1.8 Energy Solutions & B2B!H10 labelled 'TDD over/(under) budget ($m)' (7 sibling tabs use it for the same sum) - the figure in I10 was the orphan the review saw at the foot of the budget box
+   1.9 Commercial Fuels!H10 labelled 'TDD over/(under) budget ($m)' (7 sibling tabs use it for the same sum) - the figure in I10 was the orphan the review saw at the foot of the budget box
+   floating cream cells cleared - empty, unlabelled and read by no formula anywhere in the workbook: 1.3 Enterprise Data!J18, 1.3 Enterprise Data!J19, 1.4 TDD Group Functions!J16, 1.4 TDD Group Functions!J17
+   0.3 Squad Archetypes: left exactly as it arrives - it is the owner's cost library, a source tab like 0.1 and 0.4, and nothing in this pass touches it. regress2707 proves it cell-for-cell against rev.xlsx.
+   62 cells declared in design2707_manifest.json
+   rev whitelist: 43,563 of his own literals, from rev.xlsx
+   [RED] stripped from 973 number formats, case-insensitively this time
+   0 sentences cleared from data cells, and the long section labels on 3.1 cut to fit their row
+   1.11 BP&T!B9 kept - his, unchanged
+   1.11 BP&T!B47 kept - his, unchanged
+   1.11 BP&T!B49 kept - his, unchanged
+   1.12 SA&D!B9 kept - his, unchanged
+   1.12 SA&D!B53 kept - his, as the chain corrected it
+   1.12 SA&D!B55 kept - his, unchanged
+   1.2 Customer!L15 kept - his, unchanged
+   1.2 Customer!L18 kept - his, unchanged
+   1.8 Energy Solutions & B2B!E17 kept - his, unchanged
+   1.8 Energy Solutions & B2B!E18 kept - his, unchanged
+   1.13 Cyber Roles!B73 kept - his, unchanged
+   0.2 row 26 is the total row, shaded as one
+   0.2: subtotal grey removed from 59 data cells
+   1.1!H12 bar extended across H..K
+   1.13 row 17: empty bordered cells past the bar cleared
+   total rows shaded in one grey, empty shaded rows cleared
+   10 orphan cream cells cleared
+   15 cells set to Calibri across every visible tab
+   one width profile across 1.11 BP&T, 1.12 SA&D, 1.13 Cyber Roles
+   1.13 Cyber Roles!B2 title left alone - his, unchanged
+   1 titles matched to their tab name
+   1.1 Ampol Retail!E18 unlabelled ratio cleared
+   1.9 Commercial Fuels!E17 unlabelled ratio cleared
+   1.10 Z Retail!E16 unlabelled ratio cleared
+   3 stray input-coloured cells cleared from the ledger
+   column B set to 34 on all 4 summary tabs, so the left edge lines up
+   4.0 given a section bar, like every other built tab
+  injected {'cells': 15455, 'sheets': 46, 'verified': True}
+  errors 0 blank 2

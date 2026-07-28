@@ -508,9 +508,23 @@ def where_sits(wb, vals=None):
     he can edit cannot also be a formula. Built every run, so a rebuild always states
     today's split, and 4.0 carries the count it was built from beside it.
     """
-    # the placement columns are formulas, so this has to read the calculated workbook -
-    # reading wb would see "=IF(..." on every row and report every line as empty
-    R = (vals or wb)[REVIEW]
+    # The placement columns are formulas and openpyxl drops cached values on every save,
+    # so neither wb nor a data_only read of this step's own input carries them. The
+    # recalculated ledger does - it is the file the chain recalculates before the 2.x
+    # tabs are built - and it is what fix1x reads for the same reason.
+    R = None
+    for cand in (vals, wb):
+        if cand is None:
+            continue
+        t = cand[REVIEW]
+        if any(isinstance(t.cell(r, 44).value, str)
+               and not str(t.cell(r, 44).value).startswith("=")
+               for r in range(2, min(t.max_row, 60))):
+            R = t
+            break
+    if R is None:
+        WHERE32.clear()
+        return WHERE32
     names = ["Head of Technology", "Business Partner", "Domain Architect",
              "Delivery Manager", "Technology Manager"]
     for i, line in enumerate(names, start=2):
@@ -915,12 +929,18 @@ def build_33(wb, anchors):
     return {"group_total": gt}
 
 
-def run(src, dst):
+def run(src, dst, ledger="w1r.xlsx"):
     global LAST
     f2._boot_last(src)
     LAST = f2.LAST
     wb = openpyxl.load_workbook(src)
-    vals = openpyxl.load_workbook(src, data_only=True)
+    vals = None
+    for p_ in (ledger, src):
+        try:
+            vals = openpyxl.load_workbook(p_, data_only=True)
+            break
+        except Exception:                                   # noqa: BLE001
+            continue
     anchors = json.load(open("anchors_final.json"))
     msg, wcol = patch_lists(wb)
     out = [msg]
