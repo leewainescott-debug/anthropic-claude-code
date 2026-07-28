@@ -1,0 +1,38 @@
+   Claude Log dropped - a working log, not a model tab
+   1.2 Customer!I54 = 2.21 (his 2707 input carried onto the new base)
+   1.8 Energy Solutions & B2B!E12 = 7.2 (his 2707 input carried onto the new base)
+   scaffold AA/AP/AQ/AS/AU restored on rows 2..534 (533 rows)
+   REVIEW: AR and AT given the headings they carry - AR1 'Overhead line', AT1 'Squad or overhead line'
+   rows 191 and 192 cleared across 52 columns - the spacers between the Customer block and the block after it
+   Customer rows 108-190 replaced from PCM_Data; 9 rows where the stated cost disagrees with its own components - each priced at the stated cost via the AU override, noted in AV
+      r122 Raj Ganesan: formula 220,275.0 vs stated 216,046.05
+      r123 Maria Salman: formula 200,250.0 vs stated 240,302
+      r124 Christian Lazano: formula 220,275.0 vs stated 216,045.05
+      r126 Abhilash Reddy: formula 213,600.0 vs stated 240,301
+      r127 Shreema Das: formula 253,650.0 vs stated 243,090.15
+      r132 Toby Clark: formula 271,739.25 vs stated 216,044.05
+      r133 Sri Balan Raj: formula 271,739.25 vs stated 216,047.05
+      r137 Safiq Iqbal: formula 285,999.85 vs stated 304,903.1
+      r165 Ashwini Gaikwad: formula 166,150.25 vs stated 146,465.7
+   Lists!T:U portfolio map: Z ENERGY (DIGITAL) -> Customer at T20
+   19 typed slips corrected in the ledger's name, title and country cells
+      M80 'australia' -> 'Australia'
+      C91 'Support Analyst -Retail' -> 'Support Analyst - Retail'
+      M240 'australia' -> 'Australia'
+      C242 'Project Manger' -> 'Project Manager'
+      E242 'Project Manger' -> 'Project Manager'
+      C246 'strategic program architect' -> 'Strategic Program Architect'
+      E246 'Project Manger' -> 'Project Manager'
+      M248 'australia' -> 'Australia'
+      B249 'michelle Siegman' -> 'Michelle Siegman'
+      C250 'Portfolio Mnager' -> 'Portfolio Manager'
+      B253 'vijay Solanki' -> 'Vijay Solanki'
+      M321 'australia' -> 'Australia'
+      C327 'EnterpriseProcess Analyst' -> 'Enterprise Process Analyst'
+      M413 'australia' -> 'Australia'
+      M418 'australia' -> 'Australia'
+      M430 'australia' -> 'Australia'
+      C446 'DeveloperSAP ECC' -> 'Developer SAP ECC'
+      M446 'australia' -> 'Australia'
+      M499 'australia' -> 'Australia'
+   Customer block prices at 16,522,075.33 == dataset total, gate passed
