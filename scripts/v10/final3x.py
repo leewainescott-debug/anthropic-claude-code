@@ -452,21 +452,42 @@ def build_31(wb, anchors):
 # reader nothing 3.1 did not already give them, and the owner deleted it. What it did carry
 # that nothing else does is the overhead allowance, line by line, and the GM layer - so
 # that is what the tab is now, and only that.
-# "Roles inside the COEs" was the count of every role on the line that does not sit in a
-# portfolio, and EGI's roles are in it as well as the three COEs', so the heading named
-# less than the column held. J and K are unchanged - the wording now says what they have
-# always computed. M is new: the whole ledger, portfolios and COEs and EGI, each role
-# counted once, which is the figure the owner asked the tab to state.
-H32 = ["Overhead line", "Basis", "Rate ($m)", "Times applied", "Allowance ($m)",
-       "Roles in the portfolios", "Cost in the portfolios ($m)",
-       "Portfolio cost less allowance ($m)",
-       "Roles outside the portfolios - the COEs and EGI",
-       "Cost outside the portfolios - the COEs and EGI ($m)",
-       "Is the allowance drawn in the portfolios?",
-       "All roles - portfolios, COEs and EGI"]
+#
+# The layout below is the owner's own brief, in his words: "the whole purpose is to show
+# how much we've applied to portfolios and how many roles there are in the organisation,
+# the discrepancy between those two numbers and then the discrepancy between the cost."
+# So the table reads left to right as exactly that sentence - what the allowance grants a
+# portfolio, what the organisation actually carries, and the two gaps - and the two gap
+# columns are the point of the tab, so they are the ones set in bold.
+#
+# What went, and why. "Roles in the portfolios" and "Cost in the portfolios" answered half
+# the question and the other half sat four columns away under "outside the portfolios",
+# so a reader had to add two cells to learn how many people are on a line. The roles and
+# the cost columns are the organisation's now - portfolios, COEs and EGI together - which
+# is the number he asked for. "Portfolio cost less allowance" is the cost gap, on the same
+# basis as the roles gap beside it. The Yes/No column and the sentence that replaced it
+# both answered "is the allowance drawn here", which is a question about the allowance,
+# not about the people; "Where they sit" answers the question a reader actually has. The
+# separate "All roles" column stated one figure on one row and a dash on every other, so
+# it is a row now and not a column.
+H32 = ["Overhead line", "Basis", "Rate ($m)", "Applied to portfolios - roles",
+       "Applied to portfolios ($m)", "Roles in the organisation",
+       "Cost in the organisation ($m)", "Roles gap", "Cost gap ($m)",
+       "Where they sit"]
 # the bar on row 4 and the header on row 5 are both drawn off len(H32), so a column is
 # added by adding to these two lists and to nothing else
-W32 = [26, 13, 11, 13, 14, 13, 15, 19, 14, 16, 46, 13]
+W32 = [26, 13, 11, 16, 16, 15, 17, 11, 13, 44]
+# B .. K, so the last column of the table is 2 + len(H32) - 1
+C32B, C32K = 2, 2 + len(H32) - 1
+# The allocation each overhead line grants per application, on 0.2 Data Config, keyed by
+# the line's row on Lists. Lists!AH holds how many times the line is applied and 0.2's M
+# column holds the fraction of a role each application buys, so the two multiplied are the
+# FTE the allowance grants the portfolios. The rate block at the foot of this tab reads the
+# same six cells for its allocation column, which is what keeps the two halves of the tab
+# on one set of inputs.
+ALLOC32 = {2: "$M$6", 3: "$M$7", 4: "$M$8", 5: "$M$14", 6: "$M$15", 7: "$M$9"}
+# the one line whose people have no role in the ledger at all
+GM32 = "Leadership - 8 GMs"
 
 
 def build_32(wb, anchors, a31, wcol):
@@ -474,167 +495,182 @@ def build_32(wb, anchors, a31, wcol):
 
     Every figure is computed. A role carrying an overhead title inside a COE has AT set to
     its COE squad rather than to the overhead line, so AR = AT selects the roles that sit
-    in a portfolio. That split is the whole point of the tab: counting every role with an
-    overhead title against the portfolio allowance produced 62 roles and $22.9m against a
-    real 43 and $11.7m, and the same allowance read 1.271 under on one row and 9.996 over
-    seven rows below it.
+    in a portfolio. That test is what the "Where they sit" column and the two "of which"
+    bands are built on; the roles and cost columns themselves do not use it, because the
+    question they answer is how many of these people the organisation has in total.
     """
     ws = wb["3.2 Total Cost"]
     f2.wipe(ws)
     ws.column_dimensions["A"].width = 2
-    ws.cell(2, 2).value = "Overhead and leadership - the allowance against what it costs"
+    ws.cell(2, 2).value = ("Overhead and leadership - what the portfolios are allowed "
+                           "against what the organisation has")
     ws.cell(2, 2).font = opts.TITLE
-    r = opts.bar(ws, 4, 2, len(H32), "Overhead roles, line by line")
+    r = opts.bar(ws, 4, 2, len(H32), "Every overhead line - applied to the portfolios, "
+                                     "carried by the organisation, and the gap")
     r = opts.head(ws, r, 2, H32, W32)
     st = r
     n_roles = opts.ledger_count(wb)
     for i in range(2, 8):
+        # every role in the ledger carrying this line, wherever the person sits, which is
+        # the figure the columns state; and the same count narrowed to the people who sit
+        # in a portfolio, which only the "Where they sit" sentence and the bands use
+        both = f"{REV}!$AR$2:$AR${LAST},$B{r},{REV}!$B$2:$B${LAST},\"<>\""
+        pf_only = f"COUNTIFS({both},{REV}!$AT$2:$AT${LAST},$B{r})"
+        gm = '=IF($B{r}="' + GM32 + '",{v},{e})'
         ws.cell(r, 2).value = f"=Lists!$AF${i}"
         ws.cell(r, 3).value = f"=Lists!$AI${i}"
         for c in (2, 3):
             ws.cell(r, c).font = opts.BODY
             ws.cell(r, c).alignment = opts.LFT
         f2._m(ws, r, 4, f"=Lists!$AG${i}", opts.M3)
-        f2._m(ws, r, 5, f"=Lists!$AH${i}", opts.CT)
+        # the FTE the allowance grants: times applied x the allocation per application.
+        # Half a Head of Technology over ten portfolios is five people's worth of Head of
+        # Technology, and that is the number the 15 in the next column but one is short of.
+        f2._m(ws, r, 5,
+              f"=Lists!$AH${i}*N('0.2 Data Config'!{ALLOC32[i]})", opts.C1)
         f2._m(ws, r, 6, f"=Lists!$AJ${i}")
-        both = f"{REV}!$AR$2:$AR${LAST},$B{r},{REV}!$B$2:$B${LAST},\"<>\""
-        pf_only = f"{both},{REV}!$AT$2:$AT${LAST},$B{r}"
-        gm = '=IF($B{r}="Leadership - 8 GMs",{v},{e})'
         # the 8 GMs carry no role in the ledger, so their count and cost are the input
         f2._m(ws, r, 7, gm.format(r=r, v="N(Lists!$AG$11)",
-                                  e=f"COUNTIFS({pf_only})"), opts.CT)
+                                  e=f"COUNTIFS({both})"), opts.CT)
         f2._m(ws, r, 8, gm.format(
             r=r, v="N(Lists!$AG$12)",
-            e=f"SUMIFS({REV}!$AA$2:$AA${LAST},{pf_only})/1000000"))
-        f2._m(ws, r, 9, f"=ROUND($H{r}-$F{r},6)")
-        f2._m(ws, r, 10, gm.format(r=r, v="0", e=f"COUNTIFS({both})-$G{r}"), opts.CT)
-        f2._m(ws, r, 11, gm.format(
-            r=r, v="0",
-            e=f"SUMIFS({REV}!$AA$2:$AA${LAST},{both})/1000000-$H{r}"))
-        # The column read "Yes" or "No" under the heading "Allowance drawn in the
-        # portfolios", and a reader had no way to tell what a "No" meant: that the line is
-        # not allowed for, that its people are somewhere else, or that the allowance is
-        # wrong. It is a sentence now, and it says which. It is still derived from the same
-        # Lists cell and from this row's own COE count, so it cannot disagree with the
-        # maths beside it - change either and the sentence changes with it.
-        ws.cell(r, 12).value = (
-            f'=IF(Lists!${wcol}${i}="Yes",'
-            f'"Yes - the roles for this line sit in the portfolios",'
-            f'IF(N($J{r})>0,'
-            f'"No - all "&TEXT($J{r},"0")&" of these roles sit in the COEs",'
-            f'"No - these people sit above the {n_roles}-role ledger"))')
-        ws.cell(r, 12).font = opts.BODY
-        ws.cell(r, 12).alignment = LFTW
-        # a sentence in a 46-wide column runs to two lines
-        ws.row_dimensions[r].height = 28
-        # the whole-ledger column carries a figure on one row, the band that states it.
-        # An overhead line is a slice of the ledger, not a count of it, so it says so.
-        f2._m(ws, r, 13, '="-"', opts.CT)
+            e=f"SUMIFS({REV}!$AA$2:$AA${LAST},{both})/1000000"))
+        # the two gaps. They are the tab: what the organisation carries less what the
+        # portfolios are allowed, in people and in dollars, on every line.
+        for c, f, nf in ((9, f"=ROUND($G{r}-$E{r},6)", opts.C1),
+                         (10, f"=ROUND($H{r}-$F{r},6)", opts.M2)):
+            f2._m(ws, r, c, f, nf).font = opts.BOLD
+        # One plain-English cell instead of a Yes/No and a sentence about the allowance.
+        # Built off the same AR = AT test the bands below use, so it cannot go stale: move
+        # a Head of Technology out of a COE and this cell says so on the next calculation.
+        ws.cell(r, 11).value = (
+            f'=IF($B{r}="{GM32}","Above the ledger",'
+            f'IF($G{r}=0,"No roles in the ledger carry this line",'
+            f'IF({pf_only}=0,'
+            f'"All "&TEXT($G{r},"0")&IF($G{r}=1," in a COE"," in the COEs"),'
+            f'IF({pf_only}=$G{r},'
+            f'"All "&TEXT($G{r},"0")'
+            f'&IF($G{r}=1," in a portfolio"," in the portfolios"),'
+            f'TEXT({pf_only},"0")'
+            f'&IF({pf_only}=1," in a portfolio, "," in the portfolios, ")'
+            f'&TEXT($G{r}-{pf_only},"0")'
+            f'&IF($G{r}-{pf_only}=1," in a COE"," in the COEs")))))')
+        ws.cell(r, 11).font = opts.BODY
+        ws.cell(r, 11).alignment = LFTW
+        # the column is as wide as its own longest sentence, so every line renders on one;
+        # the height is two lines' worth anyway, for a line that ever states more
+        ws.row_dimensions[r].height = 30
         r += 1
-    opts.row(ws, r, 2, ["Overheads incl. GMs"] +
-             [None] * (len(H32) - 1),
+    lines = list(range(st, r))
+
+    def dash(rw, skip):
+        """Every column the row does not state carries a dash, so a band reads as one row
+        across the whole table rather than one that gives up halfway."""
+        for c in range(4, C32K + 1):
+            if c in skip:
+                continue
+            x = ws.cell(rw, c)
+            x.value = '="-"'
+            x.alignment = opts.LFT if c == C32K else opts.RGT
+
+    opts.row(ws, r, 2, ["Overheads incl. GMs"] + [None] * (len(H32) - 1),
              [None] * len(H32), bg=opts.MID, bold=True, top=True)
     ws.cell(r, 2).alignment = opts.LFT
-    adds = (6, 7, 8, 9, 10, 11)
-    for c, nf in ((6, opts.M2), (7, opts.CT), (8, opts.M2), (9, opts.M2),
-                  (10, opts.CT), (11, opts.M2)):
+    adds = ((5, opts.C1), (6, opts.M2), (7, opts.CT), (8, opts.M2),
+            (9, opts.C1), (10, opts.M2))
+    for c, nf in adds:
         x = ws.cell(r, c)
         x.value = f"=SUM({L(c)}{st}:{L(c)}{r-1})"
         x.number_format, x.alignment = nf, opts.RGT
-    # a rate and a count of times applied cannot be added across six different lines, and
-    # the last column is a Yes/No. They say so rather than sitting blank inside the band.
-    for c in range(4, len(H32) + 2):
-        if c not in adds:
-            x = ws.cell(r, c)
-            x.value, x.alignment = '="-"', opts.RGT
+    # a rate cannot be added across six lines on six different bases, and the last column
+    # holds words. They say so rather than sitting blank inside the band.
+    dash(r, {c for c, _ in adds})
     tot32 = r
-    # the two lines that split the total above and tie this tab to the overhead step on the
-    # bridge. Every column the line does not state carries a dash, so the band reads as one
-    # row across the whole table rather than a row that gives up halfway.
+
     def band(rw, text, cells):
-        # the fill and the border run B to L, the full width of the header above, and every
-        # column the line does not state carries a dash rather than being left blank, so the
-        # band reads as one row across the table instead of one that gives up halfway.
+        # the fill and the border run B to K, the full width of the header above.
         # C stays empty: the label in B is longer than B and has to run into it.
         opts.row(ws, rw, 2, [text] + [None] * (len(H32) - 1), [None] * len(H32),
                  bg=opts.GREY, bold=True)
         ws.cell(rw, 2).alignment = opts.LFT
         for c, (f, nf) in cells.items():
             f2._m(ws, rw, c, f, nf)
-        for c in range(4, len(H32) + 2):
-            if c not in cells:
-                x = ws.cell(rw, c)
-                x.value, x.alignment = '="-"', opts.RGT
+        dash(rw, set(cells))
+        for c in range(4, C32K + 1):
             ws.cell(rw, c).font = opts.BOLD
 
+    # The two bands split every column above them on one test - where the people are. The
+    # allowance splits with them: three of the six lines are drawn where their people sit,
+    # and the other three are allowed for per portfolio while their people sit in a COE or
+    # above the ledger entirely. That is why the ten portfolios draw 5.005 of an 11.605
+    # allowance, and it is the fact the old tab left a reader to work out.
+    # The roles and cost are counted here off REVIEW, line by line, and not read back off
+    # 3.1 - 3.1's overhead step is measured against this band on 4.0, and a band that read
+    # 3.1 would have made that check compare a cell to itself.
+    pf_n = "+".join(f"COUNTIFS({REV}!$AR$2:$AR${LAST},$B{k},"
+                    f"{REV}!$B$2:$B${LAST},\"<>\","
+                    f"{REV}!$AT$2:$AT${LAST},$B{k})" for k in lines)
+    pf_c = "+".join(f"SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AR$2:$AR${LAST},$B{k},"
+                    f"{REV}!$AT$2:$AT${LAST},$B{k})" for k in lines)
     r += 1
     ohpf = r
-    band(r, f"Of which sits in the {opts.ledger_count(wb)}-role ledger",
-         {6: ("=N(Lists!$AJ$9)", None),
-          7: (f"='3.1 Group Summary'!$H${a31['overhead']}", opts.CT),
-          8: (f"='3.1 Group Summary'!$E${a31['overhead']}", None),
-          9: (f"=ROUND($H{r}-$F{r},6)", None)})
+    band(r, "Of which sits in the portfolios",
+         {5: (f'=SUMIF(Lists!${wcol}$2:${wcol}$7,"Yes",$E{st}:$E{lines[-1]})', opts.C1),
+          6: ("=N(Lists!$AJ$9)", opts.M2),
+          7: (f"={pf_n}", opts.CT),
+          8: (f"=({pf_c})/1000000", opts.M2),
+          9: (f"=ROUND($G{r}-$E{r},6)", opts.C1),
+          10: (f"=ROUND($H{r}-$F{r},6)", opts.M2)})
     r += 1
-    # Why the portfolios draw 5.34 of an 11.94 allowance, stated on the page rather than
-    # left for the reader to work out: the other three lines are allowed for per portfolio
-    # but their people are not in one. The two "of which" rows add to the total above them.
-    band(r, "Of which is allowed for people who sit outside the portfolios",
-         {6: (f"=ROUND($F{tot32}-$F{ohpf},6)", None)})
     ohout = r
-    # M is a count of the whole ledger, so it carries the count format on the band rows
-    # that state a dash as well as on the one that states a figure
-    for rw in (tot32, ohpf, ohout):
-        ws.cell(rw, 13).number_format = opts.CT
+    band(r, f"Of which sits in the COEs and EGI, or above the {n_roles}-role ledger",
+         {5: (f"=ROUND($E{tot32}-$E{ohpf},6)", opts.C1),
+          6: (f"=ROUND($F{tot32}-$F{ohpf},6)", opts.M2),
+          7: (f"=$G{tot32}-$G{ohpf}", opts.CT),
+          8: (f"=ROUND($H{tot32}-$H{ohpf},6)", opts.M2),
+          9: (f"=ROUND($G{r}-$E{r},6)", opts.C1),
+          10: (f"=ROUND($H{r}-$F{r},6)", opts.M2)})
     r += 1
 
     # ---- the whole model, each role counted once ----
-    # The three bands above split the allowance. This one splits the ledger, which is the
-    # question a reader arrives with and which nothing on the tab answered: how many people
-    # sit in the portfolios, how many sit in the COEs and EGI, and do the two come back to
-    # the ledger. G and J partition the ledger on the same column the working tabs are
-    # built from, so no role is in both and none is in neither - and the control under the
-    # row is what proves it rather than asking the reader to take it on trust.
+    # The bands above split the overhead lines. This one row states the ledger itself,
+    # which is the question a reader arrives with: how many people are in the organisation
+    # at all, how many of them sit in a portfolio, how many sit in a COE or EGI. It is one
+    # sentence and one figure, not a set of columns, because it is one fact. The ten
+    # portfolios are named off Lists rather than tested as "not a COE": a role whose
+    # portfolio is blank or mistyped then falls out of both halves and the control under
+    # the row says so, instead of being swept into whichever half carries the negation.
     allrow = r
-    # the split is already named by the G and J column heads, so the label states only the
-    # rule; the long form was 81 characters against 68 of room on the rendered page
-    opts.row(ws, r, 2,
-             ["All roles in the model - each role counted once"]
-             + [None] * (len(H32) - 1),
-             [None] * len(H32), bg=opts.MID, bold=True, top=True)
-    ws.cell(r, 2).alignment = opts.LFT
-    # the ten portfolios by name off Lists rather than "not a COE": a role whose portfolio
-    # is blank or mistyped then falls out of both halves and the control says so, instead
-    # of being swept into whichever half carries the negation
     pfs32 = "Lists!$AS$2:$AS$11"
-    coe_n = (f'COUNTIFS({REV}!$AJ$2:$AJ${LAST},"COE*",{REV}!$B$2:$B${LAST},"<>")'
-             f'+COUNTIFS({REV}!$AJ$2:$AJ${LAST},"EGI",{REV}!$B$2:$B${LAST},"<>")')
-    coe_c = (f'SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},"COE*")'
-             f'+SUMIFS({REV}!$AA$2:$AA${LAST},{REV}!$AJ$2:$AJ${LAST},"EGI")')
-    stated = {7: (f"=SUMPRODUCT(COUNTIFS({REV}!$AJ$2:$AJ${LAST},{pfs32},"
-                  f'{REV}!$B$2:$B${LAST},"<>"))', opts.CT),
-              8: (f"=SUMPRODUCT(SUMIFS({REV}!$AA$2:$AA${LAST},"
-                  f"{REV}!$AJ$2:$AJ${LAST},{pfs32}))/1000000", opts.M2),
-              10: (f"={coe_n}", opts.CT),
-              11: (f"=({coe_c})/1000000", opts.M2),
-              13: (f"=COUNTA({REV}!$B$2:$B${LAST})", opts.CT)}
-    for c, (f, nf) in stated.items():
-        f2._m(ws, r, c, f, nf)
-    for c in range(4, len(H32) + 2):
-        if c not in stated:
-            x = ws.cell(r, c)
-            x.value, x.alignment = '="-"', opts.RGT
-        ws.cell(r, c).font = opts.BOLD
+    pf_roles = (f"SUMPRODUCT(COUNTIFS({REV}!$AJ$2:$AJ${LAST},{pfs32},"
+                f'{REV}!$B$2:$B${LAST},"<>"))')
+    coe_roles = (f'COUNTIFS({REV}!$AJ$2:$AJ${LAST},"COE*",{REV}!$B$2:$B${LAST},"<>")'
+                 f'+COUNTIFS({REV}!$AJ$2:$AJ${LAST},"EGI",{REV}!$B$2:$B${LAST},"<>")')
+    all_roles = f"COUNTA({REV}!$B$2:$B${LAST})"
+    opts.row(ws, r, 2, [None] * len(H32), [None] * len(H32), bg=opts.GREY)
+    # the sentence is built from the three counts rather than typed beside them, so the
+    # row cannot state one number and mean another. It is left unbolded on purpose: it
+    # runs across B to F and bold text at this length would not fit the five columns.
+    ws.cell(r, 2).value = (
+        f'="Roles in the organisation, all lines and squads: "&TEXT({all_roles},"0")'
+        f'&" - portfolios "&TEXT({pf_roles},"0")'
+        f'&", COEs and EGI "&TEXT({coe_roles},"0")&", each counted once"')
+    ws.cell(r, 2).font = opts.BODY
+    ws.cell(r, 2).alignment = opts.LFT
+    # C to F stay empty so the sentence has the room to render; the count itself sits in
+    # the column that is headed for it, which is what 4.0 reads
+    f2._m(ws, r, 7, f"={all_roles}", opts.CT).font = opts.BOLD
     r += 1
     ws.cell(r, 2).value = ("Control - the portfolios plus the COEs and EGI against the "
                            "ledger, must be 0")
     ws.cell(r, 2).font = opts.BODY
-    f2._m(ws, r, 13, f"=ROUND($G{allrow}+$J{allrow}-$M{allrow},6)", opts.CTL_C)
+    f2._m(ws, r, 7, f"=({pf_roles})+({coe_roles})-{all_roles}", opts.CTL_C)
     r += 2
 
     # ---- what the allowance is built from, in full, on the page ----
     # The rate on the block above is an allocated share: half a Head of Technology per
     # portfolio, 30% of a manager per platform. The actual is whole heads. That is the
-    # whole reason 6.33 of allowance sits against 11.65 of cost, and a reader cannot judge
+    # whole reason 11.61 of allowance sits against 23.29 of cost, and a reader cannot judge
     # it unless the full role cost and the allocation are both stated, so they are.
     r = opts.bar(ws, r, 2, 5, "What the allocated rate is built from")
     # rate, times applied and allowance are already on the block above; repeating them here
@@ -670,7 +706,15 @@ def build_32(wb, anchors, a31, wcol):
                            "Cost is roles in role mapping")
     ws.cell(r, 2).font = opts.BODY
     ws.cell(r, 2).alignment = opts.LFT
-    return {"total": st}
+    # The rate block above reset the widths of B to F, which the main table shares, so the
+    # header of the main table is measured again against the widths it will actually be
+    # rendered at. Sizing it when it was written measured columns that no longer exist.
+    hdr = st - 1
+    lines_hi = max(opts.wrap_lines(t, ws.column_dimensions[L(2 + n)].width or 8.43)
+                   for n, t in enumerate(H32))
+    ws.row_dimensions[hdr].height = max(32, 14 * lines_hi + 6)
+    return {"total": st, "ohtot32": tot32, "ohpf32": ohpf, "ohout32": ohout,
+            "all32": allrow, "first32": st, "last32": lines[-1]}
 
 
 H33 = ["Portfolio", "How it is funded", "Squad", "Archetype Type", "Squad Size",

@@ -695,7 +695,10 @@ def top_block(ws, wsv, tab, anchor, out):
         last = rr == r3
         ws.merge_cells(start_row=rr, start_column=TOP_C0, end_row=rr, end_column=TOP_LAB)
         ws.cell(rr, TOP_C0).value = name
-        _m(ws, rr, TOP_ROLES, roles[rr], fmt=opts.CT, bold=last)
+        # one decimal, not integers: the archetype side is FTE (31.6, 37.5), and a Roles
+        # column that rounds to whole numbers stops adding on the page - 33 - 31 printing
+        # as 3 where the truth is 2.5 is exactly the kind of gap the owner checks for
+        _m(ws, rr, TOP_ROLES, roles[rr], fmt=opts.C1, bold=last)
         _m(ws, rr, TOP_COST, cost[rr], bold=last)
         for c in range(TOP_C0, TOP_COST + 1):
             y = ws.cell(rr, c)

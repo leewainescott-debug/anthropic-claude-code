@@ -31,9 +31,13 @@ C33 = dict(pf="B", kind="C", squad="D", aroles="G", roles="H", filled="I", vacan
 # 3.1 is a bridge now: the line name is in B, the portfolio in C, and the figures start at D
 C31 = dict(name="B", pf="C", acost="D", actual="E", var="F", after="G", roles="H",
            filled="I", vacant="J", rafter="K")
-# 3.2 gained a Basis column, so every figure on it moved one to the right
-C32 = dict(line="B", basis="C", rate="D", times="E", allow="F", pfroles="G", pfcost="H",
-           notcov="I", coeroles="J", coecost="K")
+# 3.2 is one row per overhead line reading left to right: what the allowance applies to the
+# portfolios, what the organisation actually carries, and the two gaps between them. The
+# old per-portfolio / outside-the-portfolios pairs are gone - the split they used to spell
+# out across four columns is two band rows now, and the roles and cost columns are the
+# organisation's.
+C32 = dict(line="B", basis="C", rate="D", appfte="E", applied="F", roles="G", cost="H",
+           rgap="I", cgap="J", where="K")
 
 
 def find_row(ws, label, col=2, limit=200, exact=False):
@@ -48,14 +52,13 @@ def find_row(ws, label, col=2, limit=200, exact=False):
 
 def anchors(wb):
     a3 = json.load(open("anchors_final3.json"))
-    s2, s3 = wb[G2.strip("'")], wb[G3.strip("'")]
+    s3 = wb[G3.strip("'")]
     a = dict(a3["3.1"])
-    a["ohtot32"] = find_row(s2, "Overheads incl. GMs")
-    a["ohpf32"] = find_row(s2, "Of which sits in the")
-    a["ohout32"] = find_row(s2, "Of which is allowed for")
-    # 3.2's ledger band. Found the same way as the three above, so inserting a row on that
-    # tab moves the check with it rather than leaving it pointed at whatever lands there.
-    a["all32"] = find_row(s2, "All roles in the model")
+    # 3.2's four band rows come from the builder rather than from a label search. Two of
+    # them now begin with the same four words, and the ledger row's label is a formula -
+    # it states the counts it is built from, so it cannot be a literal - and a search of
+    # the formula workbook would find neither.
+    a.update({k: v for k, v in a3["3.2"].items() if k.endswith("32")})
     a["g33"] = find_row(s3, "Group total")
     a["first33"] = find_row(s3, "Portfolio") + 1
     return a
@@ -302,46 +305,45 @@ def build_qa(wb, a, a2):
         ("Offshore archetype against 40% of onshore, first archetype",
          f"=ROUND({A3}!$H$5/{A3}!$G$5,6)", f"=ROUND({A3}!$K$5,6)", opts.C1),
         # ---- the overhead allowance ----
-        ("Overhead allowance on 3.2 against Lists ($m)",
-         f"={G2}!${C32['allow']}${a['ohtot32']}", "=N(Lists!$AJ$8)", opts.M2),
-        ("Allowance drawn in the portfolios against the lines that draw it ($m)",
+        ("Applied to the portfolios on 3.2 against the allowance on Lists ($m)",
+         f"={G2}!${C32['applied']}${a['ohtot32']}", "=N(Lists!$AJ$8)", opts.M2),
+        ("Applied where the people sit against the lines that draw it ($m)",
          "=N(Lists!$AJ$9)", '=SUMIF(Lists!$AM$2:$AM$7,"Yes",Lists!$AJ$2:$AJ$7)',
          opts.M2),
-        # 3.2's J and K columns are headed "outside the portfolios - the COEs and EGI",
-        # which is what they have always counted: EGI's roles are in them as well as the
-        # three COEs'. These two labels named the columns by their old heading.
-        ("Overhead roles in the portfolios plus those outside the portfolios against "
-         "every overhead role",
-         f"={G2}!${C32['pfroles']}${a['ohpf32']}"
-         f"+{G2}!${C32['coeroles']}${a['ohtot32']}",
+        # 3.2's roles and cost columns are the organisation's - the portfolios, the COEs
+        # and EGI together - and the only overhead people the ledger does not carry are
+        # the GMs, whose count and cost are typed on Lists. Take those out and what is
+        # left has to be every ledger role carrying an overhead line, exactly.
+        ("Roles in the organisation on 3.2, less the GM layer, against every overhead "
+         "role in the ledger",
+         f"={G2}!${C32['roles']}${a['ohtot32']}-N(Lists!$AG$11)",
          f"=COUNTIFS({oh})", opts.CT),
-        ("Overhead cost in the portfolios plus outside the portfolios against every "
-         "overhead role ($m)",
-         f"={G2}!${C32['pfcost']}${a['ohpf32']}"
-         f"+{G2}!${C32['coecost']}${a['ohtot32']}",
+        ("Cost in the organisation on 3.2, less the GM layer, against every overhead "
+         "role in the ledger ($m)",
+         f"={G2}!${C32['cost']}${a['ohtot32']}-N(Lists!$AG$12)",
          f"=SUMIFS({REV}!$AA$2:$AA${LAST},{oh})/1000000", opts.M2),
-        # 3.2 now states the whole ledger split in two - the portfolios against the COEs
-        # and EGI, each role counted once - and this is the check that the split is the
-        # ledger. The tab carries its own control on the row under it; this one proves the
-        # same fact from 4.0, where a reader looks for it.
-        ("All roles on 3.2 against the ledger",
-         f"={G2}!${C32['pfroles']}${a['all32']}"
-         f"+{G2}!${C32['coeroles']}${a['all32']}",
+        # 3.2 states the ledger itself on one row - every role in the organisation, all
+        # lines and squads, each counted once. The tab carries its own control on the row
+        # under it; this one proves the same fact from 4.0, where a reader looks for it.
+        ("Roles in the organisation, all lines and squads, on 3.2 against the ledger",
+         f"={G2}!${C32['roles']}${a['all32']}",
          f"=COUNTA({REV}!$B$2:$B${LAST})", opts.CT),
-        ("Overhead on 3.1 against the portfolio lines on 3.2 ($m)",
+        # 3.2 counts the people who sit in a portfolio off REVIEW rather than reading them
+        # back off 3.1, so this compares two independent routes to the same figure.
+        ("Overhead on 3.1 against the roles that sit in the portfolios on 3.2 ($m)",
          f"={G1}!${C31['actual']}${a['overhead']}",
-         f"={G2}!${C32['pfcost']}${a['ohpf32']}", opts.M2),
+         f"={G2}!${C32['cost']}${a['ohpf32']}", opts.M2),
         # the two tabs stated two different allowances for the same 43 overhead roles -
         # 3.2 read Lists, which priced the per-platform lines over a typed 30 platforms,
         # and 3.1 read what the ten design tabs actually allow. Lists now counts the
         # platforms off the design tabs, and this is the check that keeps it that way.
-        ("Overhead allowance on 3.2 against the allowance on 3.1 ($m)",
-         f"={G2}!${C32['allow']}${a['ohpf32']}",
+        ("Applied where the people sit on 3.2 against the overhead step on 3.1 ($m)",
+         f"={G2}!${C32['applied']}${a['ohpf32']}",
          f"={G1}!${C31['acost']}${a['overhead']}", opts.M2),
-        ("Allowance in the portfolios plus allowance outside them against the total "
-         "allowance on 3.2 ($m)",
-         f"={G2}!${C32['allow']}${a['ohpf32']}+{G2}!${C32['allow']}${a['ohout32']}",
-         f"={G2}!${C32['allow']}${a['ohtot32']}", opts.M2),
+        ("The two 'of which' bands on 3.2 against the overheads total above them ($m)",
+         f"={G2}!${C32['applied']}${a['ohpf32']}"
+         f"+{G2}!${C32['applied']}${a['ohout32']}",
+         f"={G2}!${C32['applied']}${a['ohtot32']}", opts.M2),
         # the working tabs price each portfolio at what its own design tab says, which
         # includes the Business Partner, Domain Architect and Leadership allowance whose
         # people sit in the COEs and above the ledger. 3.1 carries those in its COE step

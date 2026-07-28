@@ -34,8 +34,16 @@ def last(wv):
 
 
 def ledger(wv):
+    """Every figure 3.1, 3.2, 3.3 and 3.4 state, rebuilt from the ledger.
+
+    line_n / line_c are the organisation's count and cost per overhead line - every role
+    carrying the line, wherever the person sits - which is what 3.2's roles and cost
+    columns state. line_pfn / line_pfc narrow the same two to the people who sit in a
+    portfolio, which is what its "Where they sit" column and its first band state.
+    """
     R = wv[REVIEW]
     cost, roles, filled, vacant, ohcost, ohroles = (collections.Counter() for _ in range(6))
+    line_n, line_c, line_pfn, line_pfc = (collections.Counter() for _ in range(4))
     for i in range(2, last(wv) + 1):
         if not str(R.cell(i, 2).value or "").strip():
             continue
@@ -50,10 +58,17 @@ def ledger(wv):
         if str(R.cell(i, 44).value) != "Squad":
             # AR == AT selects the roles that sit in a portfolio; a COE role carrying an
             # overhead title has AT set to its COE squad
-            key = "pf" if str(R.cell(i, 44).value) == grp else "coe"
+            line = str(R.cell(i, 44).value)
+            key = "pf" if line == grp else "coe"
             ohcost[key] += c
             ohroles[key] += 1
-    return cost, roles, filled, vacant, ohcost, ohroles
+            line_n[line] += 1
+            line_c[line] += c
+            if key == "pf":
+                line_pfn[line] += 1
+                line_pfc[line] += c
+    return (cost, roles, filled, vacant, ohcost, ohroles,
+            line_n, line_c, line_pfn, line_pfc)
 
 
 def find(ws, label, col=2):
@@ -90,7 +105,8 @@ def check(out, name, got, exp, count=False):
 def run(path, anchors="anchors_final.json"):
     wv = openpyxl.load_workbook(path, data_only=True)
     a = json.load(open(anchors))
-    cost, roles, filled, vacant, ohcost, ohroles = ledger(wv)
+    (cost, roles, filled, vacant, ohcost, ohroles,
+     line_n, line_c, line_pfn, line_pfc) = ledger(wv)
     # tabs are renamed after the anchors are written, so map by the portfolio cell
     tab_of = {str(wv[t]["C3"].value): t for t in wv.sheetnames if t.startswith("2.")}
     out = []
@@ -189,20 +205,66 @@ def run(path, anchors="anchors_final.json"):
     g = find(ws, "Total cost of TDD including the GM layer")
     check(out, "3.1 grand total", ws.cell(g, ca).value, total / 1e6 + gm)
 
-    # ---- 3.2 overhead, portfolios against the COEs ----
+    # ---- 3.2 overhead: applied to the portfolios against the organisation ----
+    # One row per line. The roles and the cost are the organisation's, so they are rebuilt
+    # from every ledger role carrying the line and not from the portfolio half of it, and
+    # the two gaps are rebuilt as the difference against what the allowance applies.
     o = next(t for t in wv.sheetnames if t.startswith("3.2 "))
     ws = wv[o]
-    r = find(ws, "Of which sits in the")
-    check(out, "3.2 portfolio overhead cost",
-          ws.cell(r, col_of(ws, "Cost in the portfolios ($m)")).value,
-          ohcost["pf"] / 1e6)
-    check(out, "3.2 portfolio overhead roles",
-          ws.cell(r, col_of(ws, "Roles in the portfolios")).value, ohroles["pf"], True)
-    t = find(ws, "Overheads incl. GMs")
-    check(out, "3.2 overhead outside the portfolios",
-          ws.cell(t, col_of(ws,
-                            "Cost outside the portfolios - the COEs and EGI ($m)")).value,
-          ohcost["coe"] / 1e6)
+    cE = col_of(ws, "Applied to portfolios - roles")
+    cF = col_of(ws, "Applied to portfolios ($m)")
+    cG = col_of(ws, "Roles in the organisation")
+    cH = col_of(ws, "Cost in the organisation ($m)")
+    cI, cJ = col_of(ws, "Roles gap"), col_of(ws, "Cost gap ($m)")
+    if None in (cE, cF, cG, cH, cI, cJ):
+        out.append("3.2 is missing one of its columns")
+    else:
+        gm_n, gm_c = wv["Lists"]["AG11"].value, wv["Lists"]["AG12"].value
+        for line in ("Head of Technology", "Business Partner", "Domain Architect",
+                     "Delivery Manager", "Technology Manager", "Leadership - 8 GMs"):
+            r = find(ws, line)
+            if r is None:
+                out.append(f"3.2 has no row {line!r}")
+                continue
+            n = gm_n if line.startswith("Leadership") else line_n[line]
+            c = gm_c if line.startswith("Leadership") else line_c[line] / 1e6
+            check(out, f"3.2 {line} roles in the organisation",
+                  ws.cell(r, cG).value, n, True)
+            check(out, f"3.2 {line} cost in the organisation", ws.cell(r, cH).value, c)
+            check(out, f"3.2 {line} roles gap", round(ws.cell(r, cI).value or 0, 6),
+                  round(n - (ws.cell(r, cE).value or 0), 6))
+            check(out, f"3.2 {line} cost gap", round(ws.cell(r, cJ).value or 0, 6),
+                  round(c - (ws.cell(r, cF).value or 0), 6))
+        t = find(ws, "Overheads incl. GMs")
+        check(out, "3.2 overhead roles in the organisation", ws.cell(t, cG).value,
+              sum(line_n.values()) + gm_n, True)
+        check(out, "3.2 overhead cost in the organisation", ws.cell(t, cH).value,
+              sum(line_c.values()) / 1e6 + gm_c)
+        r = find(ws, "Of which sits in the portfolios")
+        check(out, "3.2 overhead roles sitting in the portfolios",
+              ws.cell(r, cG).value, ohroles["pf"], True)
+        check(out, "3.2 overhead cost sitting in the portfolios",
+              ws.cell(r, cH).value, ohcost["pf"] / 1e6)
+        b = find(ws, "Of which sits in the COEs and EGI")
+        check(out, "3.2 overhead roles sitting outside the portfolios",
+              ws.cell(b, cG).value, ohroles["coe"] + gm_n, True)
+        check(out, "3.2 overhead cost sitting outside the portfolios",
+              ws.cell(b, cH).value, ohcost["coe"] / 1e6 + gm_c)
+        # the one row that states the ledger itself, and the sentence that reads it out
+        allrow = find(ws, "Roles in the organisation, all lines and squads")
+        if allrow is None:
+            out.append("3.2 has no all-roles row")
+        else:
+            n_pf = sum(v for (p, _), v in roles.items() if p in PF)
+            n_coe = sum(v for (p, _), v in roles.items() if p in COE)
+            check(out, "3.2 all roles", ws.cell(allrow, cG).value,
+                  sum(roles.values()), True)
+            want = (f"Roles in the organisation, all lines and squads: "
+                    f"{sum(roles.values())} - portfolios {n_pf}, "
+                    f"COEs and EGI {n_coe}, each counted once")
+            got = str(ws.cell(allrow, 2).value or "")
+            if got != want:
+                out.append(f"3.2 all-roles line: tab {got!r}, recomputed {want!r}")
 
     # ---- 3.3 group total and 3.4 COE total ----
     d = next(t for t in wv.sheetnames if t.startswith("3.3 "))
