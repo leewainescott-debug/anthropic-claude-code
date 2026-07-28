@@ -80,11 +80,17 @@ def archetypes_parity(path, rev=REV):
     a = openpyxl.load_workbook(rev)[ARCH]
     b = openpyxl.load_workbook(path)[ARCH]
     bad = []
+    # the one declared addition to his tab: the hybrid input he asked for, two cells
+    # beside his offshore rate. Everything else stays an equality; the gate's own
+    # hybrid checks assert what these two cells must hold.
+    EXEMPT = {"K7", "K8"}
     rows = max(a.max_row, b.max_row)
     cols = max(a.max_column, b.max_column)
     for r in range(1, rows + 1):
         for c in range(1, cols + 1):
             x, y = a.cell(r, c), b.cell(r, c)
+            if x.coordinate in EXEMPT:
+                continue
             if x.value != y.value:
                 bad.append(f"value {x.coordinate}: {x.value!r} -> {y.value!r}")
             if _fill_of(x) != _fill_of(y):
@@ -345,35 +351,129 @@ def run(path):
         check("2.15 draws no Head of Technology line", not hot15)
         check("0.2!F23 includes the 1.14 spend",
               "'1.14 TDD Cyber'" in str(wb["0.2 Data Config"]["F23"].value))
+    # ---- wave H: the 3.2 story table
     v32g = wv["3.2 Overhead & Leadership"]
     w32g = wb["3.2 Overhead & Leadership"]
+    # the all-roles row states its counts inside the sentence it is built from, so its
+    # label is a formula: it is found on the calculated workbook, not the formula one
+    ALL32 = ("Roles in the organisation, all lines and squads: 531 - portfolios 412, "
+             "COEs and EGI 119, each counted once")
     allrow = next((r for r in range(6, 30)
-                   if str(w32g.cell(r, 2).value or "").startswith("All roles in the model")),
-                  None)
+                   if str(v32g.cell(r, 2).value or "").startswith(
+                       "Roles in the organisation, all lines and squads")), None)
     check("3.2 all-roles row present", allrow is not None)
     if allrow:
-        g_, j_, m_ = (v32g.cell(allrow, 7).value, v32g.cell(allrow, 10).value,
-                      v32g.cell(allrow, 13).value)
-        mc_ = v32g.cell(allrow + 1, 13).value
         check("3.2 counts each role once (412 + 119 = 531)",
-              g_ == 412 and j_ == 119 and m_ == 531, f"{g_}+{j_}={m_}")
-        check("3.2 all-roles control reads 0", abs(mc_ or 0) < 1e-9, str(mc_))
-    check("3.2 BP row states its six COE roles", "all 6" in str(v32g["L7"].value or ""),
-          repr(str(v32g["L7"].value)[:52]))
-    check("3.2 DA row states its seven COE roles", "all 7" in str(v32g["L8"].value or ""),
-          repr(str(v32g["L8"].value)[:52]))
-    check("3.2!F13 = 5.005 with the 1.14 platform priced",
-          abs((v32g["F13"].value or 0) - 5.005) < 1e-6, str(v32g["F13"].value))
-    tops, bots = [], []
+              str(v32g.cell(allrow, 2).value or "") == ALL32
+              and v32g.cell(allrow, 7).value == 531,
+              f"{v32g.cell(allrow, 2).value!r} G={v32g.cell(allrow, 7).value}")
+        check("3.2 all-roles control reads 0",
+              abs(v32g.cell(allrow + 1, 7).value or 0) < 1e-9,
+              str(v32g.cell(allrow + 1, 7).value))
+    check("3.2 headline columns are the organisation's, not the portfolios'",
+          [w32g.cell(5, c).value for c in range(5, 12)]
+          == ["Applied to portfolios - roles", "Applied to portfolios ($m)",
+              "Roles in the organisation", "Cost in the organisation ($m)",
+              "Roles gap", "Cost gap ($m)", "Where they sit"],
+          str([w32g.cell(5, c).value for c in range(5, 12)]))
+    check("3.2 states every line's roles in the organisation",
+          [v32g.cell(r, 7).value for r in range(6, 12)] == [15, 6, 7, 10, 24, 8],
+          str([v32g.cell(r, 7).value for r in range(6, 12)]))
+    check("3.2 HoT row splits its fifteen roles",
+          str(v32g["K6"].value or "") == "10 in the portfolios, 5 in the COEs",
+          repr(v32g["K6"].value))
+    check("3.2 BP row places all six of its roles in the COEs",
+          str(v32g["K7"].value or "") == "All 6 in the COEs", repr(v32g["K7"].value))
+    check("3.2 DA row places all seven of its roles in the COEs",
+          str(v32g["K8"].value or "") == "All 7 in the COEs", repr(v32g["K8"].value))
+    totrow = next((r for r in range(6, 30) if str(w32g.cell(r, 2).value or "").strip()
+                   == "Overheads incl. GMs"), None)
+    check("3.2 overheads total row present", totrow is not None)
+    if totrow:
+        check("3.2 the two gaps total 38.8 roles and 11.68m",
+              abs((v32g.cell(totrow, 9).value or 0) - 38.8) < 1e-6
+              and abs((v32g.cell(totrow, 10).value or 0) - 11.682053) < 1e-6,
+              f"{v32g.cell(totrow, 9).value} / {v32g.cell(totrow, 10).value}")
+    ohrow = next((r for r in range(6, 30) if str(w32g.cell(r, 2).value or "").strip()
+                  == "Of which sits in the portfolios"), None)
+    check("3.2 'of which sits in the portfolios' band present", ohrow is not None)
+    if ohrow:
+        check("3.2 applied where the people sit = 5.005 with the 1.14 platform priced",
+              abs((v32g.cell(ohrow, 6).value or 0) - 5.005) < 1e-6,
+              str(v32g.cell(ohrow, 6).value))
+
+    # ---- wave H: the owner's Actuals-vs-archetype table on every 1.x tab
+    BARH = "Actuals vs archetype"
+    WANTH = [BARH, "What the cost covers",
+             "Actual portfolio", "Archetype portfolio", "Variance"]
+    # retired labels, matched EXACTLY: "Actual cost after decisions ($m)" is still the
+    # head of every squad table's own actual column and always will be. The bar went.
+    DEAD_EXACT = ("Actual cost after decisions", "Squads priced by an archetype",
+                  "Squads with no archetype to price them",
+                  "Overhead roles in this portfolio", "Additional costs",
+                  "Total actual cost after decisions")
+    DEAD_START = ("Archetype against actual",)
+    tops, bots, shape, stale, wired = [], [], [], [], []
     for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", x)]:
-        if not any(str(wb[t].cell(r, 11).value or "").startswith("Actual cost after decisions")
-                   for r in range(3, 8)):
+        ws = wb[t]
+        r0 = next((r for r in range(3, 9)
+                   if str(ws.cell(r, 11).value or "").strip() == BARH), None)
+        for row in ws.iter_rows():
+            for c in row:
+                s = str(c.value or "").strip()
+                if s in DEAD_EXACT:
+                    stale.append(f"{t}!{c.coordinate} {s!r}")
+                elif any(s.startswith(x) for x in DEAD_START):
+                    bots.append(f"{t}!{c.coordinate} {s!r}")
+        if r0 is None:
             tops.append(t)
-        for r in range(30, wb[t].max_row + 1):
-            if str(wb[t].cell(r, 2).value or "").startswith("Archetype against actual"):
-                bots.append(t)
+            continue
+        got = [str(ws.cell(r0 + i, 11).value or "").strip() for i in range(5)]
+        if got != WANTH:
+            shape.append(f"{t}: {got}")
+        if any(ws.cell(r, c).value is not None
+               for r in range(r0 + 5, r0 + 8) for c in range(11, 15)):
+            shape.append(f"{t}: K{r0 + 5}:N{r0 + 7} is not clear under the block")
+        tot = next((r for r in range(1, 20)
+                    if str(ws.cell(r, 2).value or "").strip() == "Total Cost"), None)
+        if tot and str(ws.cell(tot, 7).value or "").strip() != f"=$N${r0 + 2}":
+            wired.append(f"{t}!G{tot} = {ws.cell(tot, 7).value!r}")
+        if tot and abs((wv[t].cell(tot, 7).value or 0)
+                       - (wv[t].cell(r0 + 2, 14).value or 0)) > 1e-9:
+            wired.append(f"{t}!G{tot} value {wv[t].cell(tot, 7).value!r}")
     check("the actuals table sits up top on every 1.x tab", not tops, str(tops))
-    check("no old bottom block remains on any 1.x tab", not bots, str(bots))
+    check("every 1.x actuals table is bar + header + Actual / Archetype / Variance, "
+          "with nothing under it", not shape, str(shape[:4]))
+    check("no retired actuals label or bar text left on a 1.x tab", not stale,
+          str(stale[:6]))
+    check("no old bottom block remains on any 1.x tab", not bots, str(bots[:4]))
+    check("the summary Actuals cell reads the table's Actual portfolio cost", not wired,
+          str(wired[:4]))
+
+    # ---- wave H: the hybrid rule
+    a03, a03v = wb["0.3 Squad Archetypes"], wv["0.3 Squad Archetypes"]
+    check("0.3 hybrid input present, labelled and 2",
+          a03["K7"].value == "Onshore roles in a hybrid squad" and a03["K8"].value == 2,
+          f"{a03['K7'].value!r} / {a03['K8'].value!r}")
+    check("0.3 hybrid input is cream and not a percent",
+          (a03["K8"].fill.patternType and
+           str(a03["K8"].fill.start_color.rgb).upper() == "FFFFF2CC"
+           and "%" not in (a03["K8"].number_format or "")))
+    h19 = str(wb["1.9 Commercial Fuels"]["H26"].value or "")
+    check("hybrid branch prices 2 onshore plus the rest offshore (1.9 probe)",
+          "MIN('0.3 Squad Archetypes'!$K$8,INDEX('0.3 Squad Archetypes'!$F$5:$F$23,"
+          in h19 and "))/2," not in h19)
+    n_hyb = bad_hyb = 0
+    for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", x)]:
+        for row in wb[t].iter_rows(min_col=8, max_col=8):
+            for c in row:
+                f = str(c.value or "")
+                if f.startswith("=") and "0.3 Squad Archetypes" in f:
+                    n_hyb += 1
+                    if "$K$8" not in f or "))/2," in f:
+                        bad_hyb += 1
+    check("all 40 squad formulas carry the hybrid rule, none the old midpoint",
+          n_hyb == 40 and bad_hyb == 0, f"{n_hyb} formulas, {bad_hyb} old-shape")
 
     # ---- 4.0 all zero
     v40 = wv["4.0 Data QA"]
