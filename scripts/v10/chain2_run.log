@@ -99,3 +99,54 @@
    2.12 BP&T: 0 archetyped, 3 directly funded, 0 with no figure, 0 overhead, 24 people
    2.13 SA&D: 0 archetyped, 5 directly funded, 0 with no figure, 0 overhead, 26 people
    2.14 EGI: 0 archetyped, 1 directly funded, 0 with no figure, 0 overhead, 17 people
+   Lists: overhead lines tagged in AM, portfolio-drawn allowance at AJ9, per-platform lines counted off the design tabs
+   3.1: cost bridge, every directly funded programme named, ledger row 44, grand total row 46
+   3.2: overhead and leadership, line by line, plus what the allowance is built from
+   3.3: every squad by portfolio, total row 116
+   Lists archetype-roles lookup repointed on 11 portfolios
+   3 inputs recoloured to cream across the live model
+   Exec Summary rebuilt on design against actual, with a portfolio drill-down
+   4.0 Data QA rebuilt: 70 checks, model / expected / difference
+   anchors: 3.1 ledger r44 grand r46, 3.2 overhead total r12, 3.3 total r116
+   3.4 COE detail rebuilt: squad by squad, AU / NZ on the owner's own basis (country <> NZ), overhead titles, total row 24
+   1.11 BP&T: roles list complete, 24 roles
+   1.12 SA&D: 3 roles written in (REVIEW rows 283, 301, 313), each set Onshore in column H
+   1.12 SA&D: not carried across from the template row - I45 ('Hold' on the template row); I46 ('Hold' on the template row); I47 ('Hold' on the template row)
+   1.13 Cyber Roles: roles list complete, 52 roles
+   1.11 BP&T: portfolio-funded line stated at B18, figure in C18
+   1.12 SA&D: portfolio-funded line stated at B19, figure in C19
+   1.13 Cyber Roles: planned spend is not netted against a funded line, no funding line written
+   1.11 BP&T: Hold branch added to 24 lever formulas, rows 21-44
+   1.11 BP&T: 1 lever dropdown(s) now offer Hold
+   1.12 SA&D: lever formulas already carry the Hold branch
+   1.12 SA&D: lever dropdown already offers Hold
+   1.13 Cyber Roles: lever formulas already carry the Hold branch
+   1.13 Cyber Roles: lever dropdown already offers Hold
+   1.1 Ampol Retail: 'Platform: Pricing & WFM' collapsed to one line, rows 39-45
+   1.3 Enterprise Data: 'Platform: EGI Data' collapsed to one line, rows 34-38
+   6 labels corrected - two stale tab references, the yellow-cell wording the recolour made wrong, and two typed slips
+   1.4 TDD Group Functions!M30: 'EGI TDD' also sits under ['Ampol Retail'], so the note now reads 'TDD Group Functions' only ('2.4 TDD Group Functions'!$C$3)
+   1 programme notes given their own portfolio as a criterion
+   5 formula-built notes corrected - the cream wording, the 528-row window and the AT grouping column
+   defined name BPTCat removed
+   defined name SADCat removed
+   defined name CYBCat removed
+   Lists!E1:G5 cleared, 12 cells - the banned Category columns
+   1.4 TDD Group Functions!H8 '(Over)/ Under budget ' -> 'TDD over/(under) budget ($m)'
+   1.4 TDD Group Functions!I8 '=I6-I7' -> '=I7-I6'
+   1.7 Infrastructure!C17 '=I8+I9' -> '=$I$7+$I$8'
+   1.5 P&C!H10 None -> None
+   1.5 P&C!I10 '=I8+I9' -> None
+   1.5 P&C!C16 '=I8+I9' -> '=$I$8'
+   1.4 TDD Group Functions!F20 None -> 'AU / NZ'
+   1.4 TDD Group Functions!F29 None -> 'AU / NZ'
+   1.5 P&C!F24 'AU' -> 'AU / NZ'
+   1.1 Ampol Retail!B49 orphan 'Platform Overhead' label removed
+   1.10 Z Retail!B40 orphan 'Platform Overhead' label removed
+   0 notes removed that pointed at a tab being deleted
+   Sheet2: deleted
+   Added data: deleted
+   FY26 Budget (superseded): deleted
+   squad mapping (superseded): deleted
+   3.5 Source Reconciliation: deleted
+   Squads: deleted
