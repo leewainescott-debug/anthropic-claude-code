@@ -52,6 +52,7 @@ def anchors(wb):
     a = dict(a3["3.1"])
     a["ohtot32"] = find_row(s2, "Overheads incl. GMs")
     a["ohpf32"] = find_row(s2, "Of which sits in the")
+    a["ohout32"] = find_row(s2, "Of which is allowed for")
     a["g33"] = find_row(s3, "Group total")
     a["first33"] = find_row(s3, "Portfolio") + 1
     return a
@@ -314,6 +315,17 @@ def build_qa(wb, a, a2):
         ("Overhead on 3.1 against the portfolio lines on 3.2 ($m)",
          f"={G1}!${C31['actual']}${a['overhead']}",
          f"={G2}!${C32['pfcost']}${a['ohpf32']}", opts.M2),
+        # the two tabs stated two different allowances for the same 43 overhead roles -
+        # 3.2 read Lists, which priced the per-platform lines over a typed 30 platforms,
+        # and 3.1 read what the ten design tabs actually allow. Lists now counts the
+        # platforms off the design tabs, and this is the check that keeps it that way.
+        ("Overhead allowance on 3.2 against the allowance on 3.1 ($m)",
+         f"={G2}!${C32['allow']}${a['ohpf32']}",
+         f"={G1}!${C31['acost']}${a['overhead']}", opts.M2),
+        ("Allowance in the portfolios plus allowance outside them against the total "
+         "allowance on 3.2 ($m)",
+         f"={G2}!${C32['allow']}${a['ohpf32']}+{G2}!${C32['allow']}${a['ohout32']}",
+         f"={G2}!${C32['allow']}${a['ohtot32']}", opts.M2),
         # the working tabs price each portfolio at what its own design tab says, which
         # includes the Business Partner, Domain Architect and Leadership allowance whose
         # people sit in the COEs and above the ledger. 3.1 carries those in its COE step
@@ -387,6 +399,13 @@ def build_qa(wb, a, a2):
                        f"='{tab}'!${L(S['actual'])}${t}",
                        f"=SUMIFS({REV}!$AA$2:$AA${LAST},"
                        f"{REV}!$AJ$2:$AJ${LAST},\"{inf['pf']}\")/1000000", opts.M2))
+    # The check column holds a sentence, not a heading, and the longest of them is the
+    # portfolio-by-portfolio archetype tie, which names two tabs: 96 characters against a
+    # 72-wide column, so eight of the checks read "...against Total Cost on 1.4 TDD Group
+    # Functions (" and the reader could not tell which check had failed. The column is as
+    # wide as its own longest label - the rest of the tab is one line per row and stays
+    # that way, which is what this tab's style is.
+    ws.column_dimensions["B"].width = max(72, max(len(lab) for lab, _, _, _ in checks) + 2)
     r = HDR + 1
     for lab, m, e, nf in checks:
         ws.cell(r, 2).value = lab

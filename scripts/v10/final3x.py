@@ -63,9 +63,39 @@ COE_DESIGN = {"COE BP&T": "='1.11 BP&T'!$F$6+'1.11 BP&T'!$F$7",
 DRAWN = ["Yes", "No", "No", "Yes", "Yes", "No"]
 
 
+def platforms(wb):
+    """How many platforms the ten design tabs actually carry, as a formula.
+
+    Each design tab's "Platform Overheads" line is the per-platform rate times that tab's
+    own platform count, so dividing the ten of them by the rate gives the count back. Lists
+    carried a typed 30 here. The design tabs do not carry 30, so the two per-platform
+    allowances on Lists were built on a number the model does not use anywhere else: 3.2
+    stated 6.325 of allowance for the 43 overhead roles in the portfolios and 3.1 stated
+    5.335 for the same 43 roles, and neither tab said which one the reader should believe.
+    Counting the platforms off the design tabs puts both tabs on the same basis - what the
+    ten portfolios are actually allowed - and the two figures become one figure.
+    """
+    parts = []
+    for design in sorted(set(f2.DESIGN.values())):
+        if design not in wb.sheetnames:
+            continue
+        _, plat = f2.oh_rows(wb, design)
+        if plat:
+            parts.append(f"N('{design}'!$F${plat})")
+    if not parts:
+        return None
+    return f"=ROUND(({'+'.join(parts)})/{f2.CFG}!$N$16,6)"
+
+
 def patch_lists(wb):
     """Say where each overhead line's cost sits, and total the portfolio-drawn allowance."""
     l = wb["Lists"]
+    n_plat = platforms(wb)
+    if n_plat:
+        for i in range(2, 8):
+            if str(l.cell(i, 35).value or "").strip() == "platforms":
+                l.cell(i, 34).value = n_plat
+                l.cell(i, 34).number_format = opts.C1
     col = next(c for c in range(39, 70)
                if all(l.cell(r, c).value is None for r in range(1, 40)))
     cl = L(col)
@@ -81,7 +111,8 @@ def patch_lists(wb):
     b = l.cell(9, 36)
     b.value = f'=SUMIF(${cl}$2:${cl}$7,"Yes",$AJ$2:$AJ$7)'
     b.font, b.number_format, b.alignment = opts.BOLD, opts.M2, opts.RGT
-    return f"Lists: overhead lines tagged in {cl}, portfolio-drawn allowance at AJ9", cl
+    return (f"Lists: overhead lines tagged in {cl}, portfolio-drawn allowance at AJ9, "
+            f"per-platform lines counted off the design tabs"), cl
 
 
 H31 = ["Line", "Portfolio", "Archetype cost ($m)", "Actual cost ($m)",
@@ -204,43 +235,28 @@ def build_31(wb, anchors):
     label(r, "Directly funded programmes and platforms - no archetype prices them, so "
              "the comparison is the amount funded on the 1.x tab")
     r += 1
-    st = r
+    d_st = r
     for pf, tab, a in pfs:
         for g in a["direct"]:
             line(r, g, pf, tab, a["srow"][g],
                  f"='{tab}'!${L(S['acost'])}${a['srow'][g]}")
             r += 1
-    en = r - 1
+    d_en = r - 1
     # Two subtotals, not one. Some of these programmes have a funded figure set against
     # them on the 1.x tab and some do not, and a single subtotal put an archetype side
     # covering two of eight rows against an actual side covering all eight - the imbalance
     # the owner picked up on the 2.x overhead lines, one level up. The split is by formula,
     # so a figure typed into a 1.x tab tomorrow moves its programme to the top line by
     # itself.
-    split(r, "Directly funded, where the funded figure is set", st, en, True)
+    #
+    # Only the half with a funded figure sits here, directly under the rows it draws from.
+    # The other half has nothing to compare to, so it belongs below the comparison with the
+    # rest of what cannot be compared - see the block after the subtotal.
+    split(r, "Directly funded, where the funded figure is set", d_st, d_en, True)
     s2 = r
     r += 1
-    split(r, "Directly funded, where no funded figure is set yet", st, en, False)
-    s2c = r
-    r += 1
 
-    # ---- step 4: the COEs and EGI ----
-    # No figure prices these independently of what they cost. The column used to read the
-    # planned spend off their own 1.x tabs, and planned spend is the same SUMIFS over the
-    # ledger that the actual column is - EGI read the identical cell on both sides. Four
-    # lines of 27.77 against 27.77 padded the comparable total by a quarter of the group
-    # and moved nothing. The comparison is a dash and the step sits below the line.
-    label(r, "COEs and EGI - nothing prices these apart from what they cost")
-    r += 1
-    st = r
-    for pf, tab, a in coes:
-        line(r, pf, pf, tab, a["total_row"], '="-"')
-        r += 1
-    sub(r, "COEs and EGI", st, r - 1, blank=(4, 6))
-    s3 = r
-    r += 1
-
-    # ---- step 5: overhead in the portfolios, against the allowance ----
+    # ---- step 3: overhead in the portfolios, against the allowance ----
     # One row. The allowance is built per portfolio and per platform at group level, so
     # there is no per-portfolio allowance to set beside a per-portfolio cost - ten rows of
     # dashes under a subtotal carrying 6.325 is a subtotal that is not the sum of its rows.
@@ -250,9 +266,10 @@ def build_31(wb, anchors):
              [None] * (len(H31) - 1), [None] * len(H31), bg=opts.GREY, bold=True)
     ws.cell(r, 2).alignment = opts.LFT
     # the allowance the ten design tabs actually give these lines, read off the working
-    # tabs, not the group figure on Lists. Lists prices the per-platform lines over 30
-    # platforms; the design tabs carry 21, so the two differed by 1.485 on the same fact
-    # and 3.1 disagreed with every 2.x tab under it.
+    # tabs. Lists used to price the two per-platform lines over a typed 30 platforms while
+    # the design tabs carried fewer, so 3.2 stated one allowance for these 43 roles and 3.1
+    # stated another for the same 43 roles. patch_lists now counts the platforms off the
+    # design tabs, so both tabs are on this basis and the two figures are the same figure.
     f2._m(ws, r, 4, "=" + "+".join(
         f"N('{t}'!${L(S['acost'])}${a['overhead_row']})" for _, t, a in oh))
     for c, k in ((5, "actual"), (7, "after")):
@@ -282,8 +299,35 @@ def build_31(wb, anchors):
     cmp_row = r
     r += 1
 
-    # ---- the group with nothing to compare, after the comparable steps ----
-    # ---- step 5: groups with nothing to compare against ----
+    # ---- everything the subtotal above does not reach, after it and not before it ----
+    # The three steps below carry a dash in the archetype column: nothing prices them, so
+    # they cannot be inside a comparison. They used to be printed above the subtotal, which
+    # left a bold grey total sitting under two grey rows it did not include - 83.19 drawn
+    # under a 1.81 and a 28.68 that are not in it. Every row above the subtotal is now in
+    # it and every row below it is not, which is the only arrangement a reader can check.
+    label(r, "Nothing prices these, so they sit below the comparison")
+    r += 1
+    split(r, "Directly funded, where no funded figure is set yet", d_st, d_en, False)
+    s2c = r
+    r += 1
+
+    # ---- the COEs and EGI ----
+    # No figure prices these independently of what they cost. The column used to read the
+    # planned spend off their own 1.x tabs, and planned spend is the same SUMIFS over the
+    # ledger that the actual column is - EGI read the identical cell on both sides. Four
+    # lines of 27.77 against 27.77 padded the comparable total by a quarter of the group
+    # and moved nothing. The comparison is a dash and the step sits below the line.
+    label(r, "COEs and EGI - nothing prices these apart from what they cost")
+    r += 1
+    st = r
+    for pf, tab, a in coes:
+        line(r, pf, pf, tab, a["total_row"], '="-"')
+        r += 1
+    sub(r, "COEs and EGI", st, r - 1, blank=(4, 6))
+    s3 = r
+    r += 1
+
+    # ---- groups with nothing to compare against ----
     nofig = [(p, t, a) for p, t, a in pfs if a["nofig"]]
     # the label and the subtotal must not read identically, or anything looking the row
     # up by name finds the label - which carries no figures
@@ -327,8 +371,11 @@ def build_31(wb, anchors):
     r += 1
 
     # ---- the GM layer, which has no role in the ledger to price ----
+    # A data row, styled as one. It carried the pale fill this tab uses for a section label,
+    # so the one line on the bridge that is neither a heading nor a subtotal was wearing the
+    # heading's colour and a reader had to work out from the figures that it was a line.
     opts.row(ws, r, 2, [f"Leadership - the 8 GMs, outside the {n_roles}-role ledger"] +
-             [None] * (len(H31) - 1), [None] * len(H31), bg=opts.PALE)
+             [None] * (len(H31) - 1), [None] * len(H31))
     ws.cell(r, 2).alignment = opts.LFT
     f2._m(ws, r, 4, "=N(Lists!$AJ$7)")
     f2._m(ws, r, 5, "=N(Lists!$AG$12)")
@@ -429,17 +476,39 @@ def build_32(wb, anchors, a31, wcol):
         x = ws.cell(r, c)
         x.value = f"=SUM({L(c)}{st}:{L(c)}{r-1})"
         x.number_format, x.alignment = nf, opts.RGT
+    tot32 = r
+    # the two lines that split the total above and tie this tab to the overhead step on the
+    # bridge. Every column the line does not state carries a dash, so the band reads as one
+    # row across the whole table rather than a row that gives up halfway.
+    def band(rw, text, cells):
+        # the fill and the border run B to L, the full width of the header above, and every
+        # column the line does not state carries a dash rather than being left blank, so the
+        # band reads as one row across the table instead of one that gives up halfway.
+        # C stays empty: the label in B is longer than B and has to run into it.
+        opts.row(ws, rw, 2, [text] + [None] * (len(H32) - 1), [None] * len(H32),
+                 bg=opts.GREY, bold=True)
+        ws.cell(rw, 2).alignment = opts.LFT
+        for c, (f, nf) in cells.items():
+            f2._m(ws, rw, c, f, nf)
+        for c in range(4, len(H32) + 2):
+            if c not in cells:
+                x = ws.cell(rw, c)
+                x.value, x.alignment = '="-"', opts.RGT
+            ws.cell(rw, c).font = opts.BOLD
+
     r += 1
-    # the one line that ties this tab to the overhead step on the bridge
-    opts.row(ws, r, 2, [f"Of which sits in the {opts.ledger_count(wb)}-role ledger"] +
-             [None] * (len(H32) - 1), [None] * len(H32), bg=opts.GREY, bold=True)
-    ws.cell(r, 2).alignment = opts.LFT
-    f2._m(ws, r, 6, "=N(Lists!$AJ$9)")
-    f2._m(ws, r, 7, f"='3.1 Group Summary'!$H${a31['overhead']}", opts.CT)
-    f2._m(ws, r, 8, f"='3.1 Group Summary'!$E${a31['overhead']}")
-    f2._m(ws, r, 9, f"=ROUND($H{r}-$F{r},6)")
-    for c in (6, 7, 8, 9):
-        ws.cell(r, c).font = opts.BOLD
+    ohpf = r
+    band(r, f"Of which sits in the {opts.ledger_count(wb)}-role ledger",
+         {6: ("=N(Lists!$AJ$9)", None),
+          7: (f"='3.1 Group Summary'!$H${a31['overhead']}", opts.CT),
+          8: (f"='3.1 Group Summary'!$E${a31['overhead']}", None),
+          9: (f"=ROUND($H{r}-$F{r},6)", None)})
+    r += 1
+    # Why the portfolios draw 5.34 of an 11.94 allowance, stated on the page rather than
+    # left for the reader to work out: the other three lines are allowed for per portfolio
+    # but their people are not in one. The two "of which" rows add to the total above them.
+    band(r, "Of which is allowed for people who sit outside the portfolios",
+         {6: (f"=ROUND($F{tot32}-$F{ohpf},6)", None)})
     r += 2
 
     # ---- what the allowance is built from, in full, on the page ----
@@ -488,15 +557,26 @@ H33 = ["Portfolio", "How it is funded", "Squad", "Archetype Type", "Squad Size",
        "Archetype roles", "Total roles", "Filled", "Vacant",
        "Total roles after decisions", "Archetype cost ($m)", "Actual cost ($m)",
        "Variance to archetype ($m)", "Cost after decisions ($m)"]
-W33 = [22, 17, 30, 24, 7, 11, 7, 7, 8, 13, 13, 13, 15, 19]
+# "How it is funded" holds one of four words, and the longest of them - "No figure to
+# compare" - is 20 characters against a 17-wide column with the squad name in the cell
+# beside it, so eleven rows on the tab read "No figure to compa". The column is as wide as
+# its own longest value.
+W33 = [22, 22, 30, 24, 7, 11, 7, 7, 8, 13, 13, 13, 15, 19]
 # one entry per column B..N, indexed F33[c - 2]
 F33 = [None, None, None, None, None, opts.C1, opts.CT, opts.CT, opts.CT, opts.CT,
        opts.M2, opts.M2, opts.M2, opts.M2]
 # the totals cover the columns that can be added across every kind of row: roles, filled,
-# vacant, actual cost and cost after decisions. Archetype roles, design cost and variance
-# are not among them - only some rows carry an archetype, so totalling those three beside a
-# total actual for every row would read as numbers that do not compute.
+# vacant, actual cost and cost after decisions.
 T33 = (8, 9, 10, 11, 13, 15)
+# Archetype roles, archetype cost and the variance are the other three. Only some rows carry
+# an archetype, so these were left as a flat dash - which printed "-" against a portfolio
+# whose squads above it carry 9.88 of archetype and a real variance, and a reader has no way
+# to tell that dash from "there is nothing here". They now add the rows that do carry a
+# figure and state a dash only where no row above them carries one at all. The variance is
+# actual less archetype on the total row itself, never the sum of the row variances: a row
+# with a dash in the archetype column drops out of a SUM and would leave a variance covering
+# some of the block measured against an actual covering all of it.
+A33 = (7, 12, 14)
 
 
 def build_33(wb, anchors):
@@ -539,7 +619,15 @@ def build_33(wb, anchors):
         ws.cell(r, 2).alignment = opts.LFT
         for c in range(6, 2 + len(H33)):
             x = ws.cell(r, c)
-            x.value = f"=SUM({L(c)}{st}:{L(c)}{r-1})" if c in T33 else '="-"'
+            if c in T33:
+                x.value = f"=SUM({L(c)}{st}:{L(c)}{r-1})"
+            elif c == 14:
+                x.value = (f'=IF(ISNUMBER($L{r}),ROUND($M{r}-$L{r},6),"-")')
+            elif c in A33:
+                x.value = (f'=IF(COUNT({L(c)}{st}:{L(c)}{r-1})=0,"-",'
+                           f"SUM({L(c)}{st}:{L(c)}{r-1}))")
+            else:
+                x.value = '="-"'
             x.number_format, x.alignment = F33[c - 2] or opts.M2, opts.RGT
         pf_rows.append(r)
         r += 1
@@ -548,7 +636,17 @@ def build_33(wb, anchors):
     ws.cell(r, 2).alignment = opts.LFT
     for c in range(6, 2 + len(H33)):
         x = ws.cell(r, c)
-        x.value = ("=" + "+".join(f"{L(c)}{p}" for p in pf_rows) if c in T33 else '="-"')
+        cells = ",".join(f"{L(c)}{p}" for p in pf_rows)
+        if c in T33:
+            x.value = "=" + "+".join(f"{L(c)}{p}" for p in pf_rows)
+        elif c == 14:
+            x.value = f'=IF(ISNUMBER($L{r}),ROUND($M{r}-$L{r},6),"-")'
+        elif c in A33:
+            # SUM ignores the portfolio totals that carry a dash, so this is the archetype
+            # where there is one - the same rule the row above it uses one level down
+            x.value = f'=IF(COUNT({cells})=0,"-",SUM({cells}))'
+        else:
+            x.value = '="-"'
         x.number_format, x.alignment = F33[c - 2] or opts.M2, opts.RGT
     gt = r
     r += 2

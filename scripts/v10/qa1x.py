@@ -65,11 +65,34 @@ def levered(wv, tab):
 
 
 def groups(wv, tab, lo, hi):
-    """Every group named on a working tab between its first squad row and its total."""
+    """Every group named on a working tab between its first squad row and its total.
+
+    A group row carries a roles count in F; a section label, the "allowed for elsewhere"
+    line and the note under it do not, and a subtotal is named "<section> total". Both tests
+    are needed: dropping the count test let every section heading into the list, and
+    dropping the name test let every subtotal in - and the Squads subtotal used to be named
+    a bare "Total", which the name test alone never caught.
+    """
     ws = wv[tab]
     return {str(ws.cell(r, 2).value).strip() for r in range(lo, hi)
             if isinstance(ws.cell(r, 2).value, str) and ws.cell(r, 2).value.strip()
-            and not ws.cell(r, 2).value.strip().endswith(" total")}
+            and not ws.cell(r, 2).value.strip().endswith(" total")
+            and isinstance(ws.cell(r, 6).value, (int, float))}
+
+
+NOTE_MIN = 40
+
+
+def _says_why(ws, wsv, r, last=15):
+    """Row r is a written note under the summary block, not a labelled figure row."""
+    v = wsv.cell(r, 2).value
+    if isinstance(v, str) and v.startswith("These are centres"):
+        return True
+    f = ws.cell(r, 2).value
+    if not isinstance(f, str) or f.startswith("=") or len(f.strip()) < NOTE_MIN:
+        return False
+    return all(ws.cell(r, c).value is None and wsv.cell(r, c).value is None
+               for c in range(3, last + 1))
 
 
 def variant_of(wb):
@@ -88,7 +111,9 @@ def untouched(path, base="cand.xlsx"):
     columns wider than the others: K and L held the owner's own Nbr Archetype Roles and
     Published Roles, typed numbers, and they were silently replaced. No formula broke, no
     total moved and all six other passes stayed green, because a typed number that is
-    overwritten by a formula returning a different number is still just a number.
+    overwritten by a formula returning a different number is still just a number. Design A
+    now aims at K and L on all ten tabs and steps past them where they are still occupied,
+    so this pass is what proves stepping past is all it ever does.
     """
     b, w = (openpyxl.load_workbook(base), openpyxl.load_workbook(path))
     bv, wv = (openpyxl.load_workbook(base, data_only=True),
@@ -142,8 +167,9 @@ def tables(wsv):
     """Every table on the tab that carries an actual cost, as (header row, {label: col}).
 
     The columns are found by reading the header text, never by knowing where the writer put
-    them - design A puts its pair at K on most tabs and at P on 1.6, and a checker that
-    assumed a column would have confirmed the wrong cells.
+    them. Design A aims for K and L on all ten tabs and falls back where they are occupied -
+    that fallback is exactly what a checker that assumed a column would have missed, and it
+    would have confirmed whatever cells happened to be at K instead.
     """
     out = []
     for r in range(1, wsv.max_row + 1):
@@ -185,8 +211,12 @@ def scan(path, anchors="anchors_final.json"):
     bad, seen, tabs = [], 0, 0
     for one in sorted(t for t in wb.sheetnames if re.match(r"^1\.\d+ ", t)):
         if one in COE:
+            # The generic note, or the owner's own basis note where he has written one -
+            # actuals writes the generic sentence only into an empty slot, so on 1.11 and
+            # 1.12 the note under the summary is his. Either answers the question; two
+            # notes answering it twice is what the writer now avoids.
             note = [r for r in range(1, min(wv[one].max_row, 30) + 1)
-                    if str(wv[one].cell(r, 2).value or "").startswith("These are centres")]
+                    if _says_why(wb[one], wv[one], r)]
             if not note:
                 bad.append(f"{one}: a COE tab with no note saying why it has no comparison")
             continue

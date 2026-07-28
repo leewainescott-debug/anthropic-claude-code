@@ -43,6 +43,12 @@ PAIR = {v: k for k, v in DESIGN.items()}
 ARCH, ACT, VAR = 8, 11, 12                          # H, K, L
 LAST = 12                                           # the band runs B:L
 A_HDR = {ACT: "Actual cost after decisions ($m)", VAR: "Variance to archetype ($m)"}
+# The comparison belongs in K and L on all ten tabs, so a reader flicking between them finds
+# it in the same place every time. free_pair only moves off K when K or L is still carrying
+# somebody else's content on a row this writes to - 1.6 carried the owner's own five scratch
+# columns there - and the fallback is reported rather than made quietly, because a tab whose
+# comparison sits in P and Q is not the same tab as its nine siblings.
+HOME = (ACT, VAR)
 
 
 def blocks(ws, wsv, limit=95):
@@ -86,6 +92,7 @@ def blocks(ws, wsv, limit=95):
             # be added to one that has.
             comparable = all(isinstance(wsv.cell(s, 8).value, (int, float)) for s in squads)
             out.append({"name": name, "hdr": hdr, "squads": squads, "total": total,
+                        "names": [str(wsv.cell(s, 2).value or "").strip() for s in squads],
                         "comparable": comparable})
         r = k + 1
     return out
@@ -143,13 +150,16 @@ def _head(ws, r, spec):
     return _span(ws, r, spec, opts.HDRF, opts.NAVY, opts.CEN, max(32, 14 * lines + 6))
 
 
-def free_pair(ws, wsv, blks, start=11, limit=40):
-    """The first two adjacent columns that are empty on every row design A writes to.
+def free_pair(ws, wsv, blks, start=ACT, limit=40):
+    """K and L, or the first adjacent pair after them that design A can write to.
 
-    The squad tables are not all the same width. 1.4, 1.5 and 1.6 carry five more columns
-    the owner added - Nbr Archetype Roles, Published Roles, Review Outcome, Vacant Now,
-    FY27 - and writing at a fixed K and L destroyed two of them on 1.6 without a single
-    check noticing: they hold typed numbers, so nothing recalculated and nothing broke.
+    The comparison belongs in K and L on all ten tabs and the search starts there, so it
+    lands there whenever K and L are clear. It only moves when they are not: the squad
+    tables are not all the same width, 1.4, 1.5 and 1.6 carry five more columns the owner
+    added - Nbr Archetype Roles, Published Roles, Review Outcome, Vacant Now, FY27 - and
+    writing at a fixed K and L destroyed two of them on 1.6 without a single check noticing,
+    because a typed number overwritten by a formula is still just a number. Moving is the
+    guard, not the aim, and run() reports every tab that has to move.
     """
     rows, note = set(), set()
     for b in blks:
@@ -297,7 +307,8 @@ def design_b(ws, blks, tab, lo, hi, after, anchor):
         _m(ws, r, VAR, diff(f"${L(ARCH)}{r}", f"${L(ACT)}{r}"), bold=True)
         (subs if b["comparable"] else unpriced).append((f"${L(ARCH)}{r}", f"${L(ACT)}{r}"))
         r += 1
-    return _foot(ws, r, subs, unpriced, tab, anchor, (ARCH, ACT, VAR))
+    return _foot(ws, r, subs, unpriced, tab, anchor, (ARCH, ACT, VAR),
+                 [n for b in blks if not b["comparable"] for n in b["names"]])
 
 
 def _line(ws, r, text, cols, arch, act, var, band=False):
@@ -312,12 +323,24 @@ def _line(ws, r, text, cols, arch, act, var, band=False):
     return r + 1
 
 
-def _foot(ws, r, subs, unpriced, tab, anchor, cols):
-    """The portfolio lines every design ends on.
+def _foot(ws, r, subs, unpriced, tab, anchor, cols, unpriced_names=()):
+    """The portfolio lines every design ends on. One label set, one order, one rule.
 
-    Squads an archetype prices, then - only where there are any - squads it does not, then
-    overhead, then whatever the working tab carries and this tab has no row for, then the
-    total. Every line the archetype does not price states a dash rather than a figure, so
+    Order, on all ten tabs and never varied:
+
+        Squads priced by an archetype
+        Squads with no archetype to price them
+        Overhead roles in this portfolio
+        Additional costs
+        Total actual cost after decisions - ties to the working tab
+
+    The rule for what appears: the first line and the total are always printed, because a
+    portfolio always has squads and always has a total. Each of the three lines between them
+    is printed only when its own figure is not zero - a line reading 0.00 states nothing the
+    total does not already state, and the owner took the nil ones off himself. The test is
+    the same test for all three, taken from the working tab's own cached figures, so a tab
+    cannot drop a line its siblings keep for any reason other than having nothing to put on
+    it. Every line the archetype does not price states a dash rather than a figure, so
     nothing on this block adds two different bases together.
     """
     A, oh = L(anchor["cols"]["after"]), anchor["overhead_row"]
@@ -329,17 +352,17 @@ def _foot(ws, r, subs, unpriced, tab, anchor, cols):
               "=" + "+".join(f"N({b})" for _, b in subs),
               diff(f"${L(ca)}{r}", f"${K}{r}"), band=True)
     add.append(r - 1)
-    if unpriced:
+    if unpriced and abs(_after(tab, anchor, unpriced_names)) > 1e-6:
         r = _line(ws, r, "Squads with no archetype to price them", cols, '="-"',
                   "=" + "+".join(f"N({b})" for _, b in unpriced), '="-"')
         add.append(r - 1)
-    r = _line(ws, r, "Overhead roles in this portfolio", cols,
-              '="-"', f"=N('{tab}'!${A}${oh})" if oh else '="-"', '="-"')
-    add.append(r - 1)
+    if oh and abs(_after(tab, anchor, rows=[oh])) > 1e-6:
+        r = _line(ws, r, "Overhead roles in this portfolio", cols,
+                  '="-"', f"=N('{tab}'!${A}${oh})", '="-"')
+        add.append(r - 1)
     # squads the working tab carries with no row on this tab - the owner renamed the line
-    # "Additional costs" and dropped it where it is nil, so it appears only when it is a
-    # real figure. The zero-check control moved off the tab with his edit; qa1x recomputes
-    # the same arithmetic in Python on every run.
+    # "Additional costs" and dropped it where it is nil. The zero-check control moved off
+    # the tab with his edit; qa1x recomputes the same arithmetic in Python on every run.
     resid = f"=ROUND(N('{tab}'!${A}${anchor['total_row']})-" \
             + "-".join(f"${K}{x}" for x in add) + ",6)"
     if abs(_residual(ws.parent, tab, anchor, add, K)) > 1e-6:
@@ -352,6 +375,22 @@ def _foot(ws, r, subs, unpriced, tab, anchor, cols):
 
 _WV = None
 _NAMES = None
+
+
+def _after(tab, anchor, names=(), rows=()):
+    """After-decisions cost on the working tab, for named groups or for named rows.
+
+    The footer rows written this run have no cached value yet, so what a footer line is
+    going to say is read off the working tab's own cached figures instead. Same source for
+    every line, so the suppress-when-nil rule is one test rather than three.
+    """
+    A = anchor["cols"]["after"]
+    got = list(rows) + [anchor["srow"][g] for g in names if g in anchor["srow"]]
+    tot = 0.0
+    for rw in got:
+        v = _WV[tab].cell(rw, A).value
+        tot += v if isinstance(v, (int, float)) else 0
+    return tot
 
 
 def _residual(wb, tab, anchor, add_rows, K):
@@ -397,12 +436,31 @@ def portfolio_block(ws, blks, tab, anchor, cols):
                  (cv, cv, "Variance to archetype ($m)")])
     ref = [(f"${L(ca)}{b['total']}", f"${L(cb)}{b['total']}") for b in blks]
     _foot(ws, r, [x for x, b in zip(ref, blks) if b["comparable"]],
-          [x for x, b in zip(ref, blks) if not b["comparable"]], tab, anchor, cols)
+          [x for x, b in zip(ref, blks) if not b["comparable"]], tab, anchor, cols,
+          [n for b in blks if not b["comparable"] for n in b["names"]])
 
 
 COE_NOTE = ("These are centres of excellence, funded by allocation rather than priced by an "
             "archetype, so there is no archetype cost to compare against. The actual cost "
             "after decisions for these groups is on 3.4 COE Detail and on the working tab.")
+
+
+# a sentence under the summary block, as against a row label with figures beside it
+NOTE_MIN = 40
+
+
+def own_note(ws, wsv, r, last=15):
+    """True when row r under the summary is somebody's own written note.
+
+    A note is a literal sentence in B with nothing beside it on its own row. A row label -
+    "COE - Cyber allocation ($m) - 0.2 Data Config" is 44 characters - always has its figure
+    in the cell next to it, so the figure is what tells the two apart, not the length.
+    """
+    v = ws.cell(r, 2).value
+    if not isinstance(v, str) or v.startswith("=") or len(v.strip()) < NOTE_MIN:
+        return False
+    return all(ws.cell(r, c).value is None and wsv.cell(r, c).value is None
+               for c in range(3, last + 1))
 
 
 def coe_note(wb, wv):
@@ -412,6 +470,11 @@ def coe_note(wb, wv):
     while the working tab groups by squad, so the split cannot be taken from either tab
     without inventing a mapping. Saying so is better than a silent gap on three of thirteen
     tabs.
+
+    Where the owner has written his own basis note in that slot - "Planned spend is net of
+    the Business Partner FTEs funded inside the portfolios" on 1.11 and 1.12 - his sentence
+    is the answer and this one is not written at all. Two notes under one summary block, one
+    of them generic, is the tab answering the same question twice.
     """
     out = []
     for one in ("1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles"):
@@ -422,6 +485,11 @@ def coe_note(wb, wv):
                     if str(wsv.cell(r, 2).value or "").strip() == "Total"), None)
         if tot is None:
             out.append(f"{one}: no Total row on the summary table")
+            continue
+        own = next((k for k in range(tot + 1, tot + 9) if own_note(ws, wsv, k)), None)
+        if own is not None:
+            out.append(f"{one}: the basis note already on row {own} is kept - "
+                       f"the generic note is not written")
             continue
         r = next((k for k in range(tot + 1, tot + 9)
                   if not str(wsv.cell(k, 2).value or "").strip()
@@ -464,6 +532,11 @@ def run(src, dst, variant="A", anchors="anchors_final.json"):
             portfolio_block(ws, blks, tab, anchor, (ARCH, act, var))
             where = f"in {L(act)} and {L(var)}"
             out += [f"  {one}: {m}" for m in moved]
+            if (act, var) != HOME:
+                out.append(f"  {one}: NOT UNIFORM - {L(HOME[0])} and {L(HOME[1])} are "
+                           f"still carrying other content on the squad-table rows, so the "
+                           f"comparison fell back to {L(act)} and {L(var)}. Nothing was "
+                           f"overwritten.")
         else:
             design_b(ws, blks, tab, lo, hi, after, anchor)
             where = "in one table at the foot"

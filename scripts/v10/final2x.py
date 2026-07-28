@@ -28,11 +28,15 @@ import json
 import re
 
 import openpyxl
+from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter as L
 from openpyxl.worksheet.datavalidation import DataValidation
 
 import opts
 from build_2xfix import DESIGN, squad_table_bounds
+
+# a sentence explaining a line above it, not a figure and not a heading
+NOTE = Font(name=opts.FN, size=11, italic=True)
 
 REVIEW = "REVIEW - Complete Role Mapping"
 REV = f"'{REVIEW}'"
@@ -63,6 +67,13 @@ SECTION = {"arch": "Squads",
            "direct": "Directly funded programmes and platforms",
            "none": "No archetype in 1.x tabs",
            "oh": "Overhead roles"}
+# One pattern for every subtotal on every tab: "<section, short> total". The Squads block
+# used to print a bare "Total" while its three siblings printed "<section> total", so the
+# one row a reader scans for on fourteen tabs was labelled two different ways.
+SUBTOTAL = {"arch": "Squads total",
+            "direct": "Directly funded total",
+            "none": "No archetype total",
+            "oh": "Overhead roles total"}
 # the label goes in the Squad column, not the Archetype Type column - a sentence in a data
 # column is still a sentence in a data column
 NONE_TEXT = {"arch": "None - no squad here is priced by an archetype",
@@ -88,7 +99,12 @@ OH_RATE = {"Head of Technology": ("$N$6", "$M$6", False),
 CFG = "'0.2 Data Config'"
 ELSEWHERE = ("Allowed for in the archetype, sitting outside this portfolio")
 ELSEWHERE_WHY = "Business Partners and Domain Architects sit in the COEs"
-S_W = [30, 26, 11, 11, 9, 8, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
+# The Squad column carries the longest text on the tab: a section label, the "allowed for
+# elsewhere" line, and the two control labels under the table. The controls now state their
+# figure in the column beside them, so nothing spills any more and the column has to be wide
+# enough to hold "Control - cost against the ledger ($m), must be 0" on its own. One width
+# for all fourteen tabs - the point of the family is that they are the same shape.
+S_W = [50, 26, 11, 11, 9, 8, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
 P = dict(name=2, role=3, status=4, lever=5, cost=6, after=7)
@@ -257,22 +273,34 @@ def build(wb, wv, tab, rows, bounds):
     # platforms total, 10" directly under "EGI Customer, 10" is the same number twice, and
     # the tab carried five total rows where it needed three - which is what buried the one
     # total that matters.
-    srow, empty, label, sub, anchor = {}, set(), {}, {}, {}
-    oh_else = None
-    for kind, names in (("arch", arch), ("direct", direct), ("none", nofig),
-                        ("oh", overhead)):
-        if not names:
-            empty.add(kind)
-            continue
+    #
+    # One rule, all fourteen tabs: a section gets a subtotal row when it has two or more
+    # data rows AND the tab has two or more sections carrying data. The second half is what
+    # kills the duplicate on the four COE tabs, where a single section's subtotal was
+    # followed immediately by a "Total portfolio" grand total holding the identical figure -
+    # the same number twice, one row apart, with two different names.
+    data = {"arch": arch, "direct": direct, "none": nofig, "oh": overhead}
+    live = [k for k in KINDS if data[k]]
+    many = len(live) > 1
+    srow, label, sub, anchor, srange = {}, {}, {}, {}, {}
+    oh_else = oh_note = None
+    for kind in live:
+        names = data[kind]
         label[kind] = r
         r += 1
+        first = r
         for g in names:
             srow[g] = r
             r += 1
-        if len(names) > 1:
+        srange[kind] = (first, r - 1)
+        if len(names) > 1 and many:
             sub[kind] = r
             r += 1
-        anchor[kind] = sub.get(kind, srow[names[-1]])
+        # a one-row section anchors on its own row; a multi-row section anchors on its
+        # subtotal, and where the rule gives it none there is no single cell holding that
+        # section's total, so there is no anchor to hand out either. Every total that used
+        # to be built off these anchors is now built off the section's own data rows.
+        anchor[kind] = sub.get(kind) if len(names) > 1 else srow[names[0]]
         # The archetype allows for six overhead lines per portfolio; three of them have
         # nobody in a portfolio at all - the Business Partners and Domain Architects sit in
         # the COEs and the eight GMs sit above the ledger. Their allowance is part of what
@@ -286,7 +314,13 @@ def build(wb, wv, tab, rows, bounds):
         if kind == "oh" and design is not None:
             oh_else = r
             r += 1
-    live = [k for k in KINDS if k not in empty]
+            # the reason those people are not here is a note, not a data column. It used to
+            # sit in C of the same row, where it truncated the label in B beside it - B
+            # holds a 59-character sentence and C holds a 54-character one - so a reader saw
+            # "Allowed for in the archetype, si" against half a note. The note now has its
+            # own row under the line it explains, in B, italic, with nothing beside it.
+            oh_note = r
+            r += 1
     r_tot = r
     r += 2
     r_ctl = r
@@ -521,9 +555,10 @@ def build(wb, wv, tab, rows, bounds):
         ws.cell(oh_else, S["squad"]).value = ELSEWHERE
         ws.cell(oh_else, S["squad"]).font = opts.BODY
         ws.cell(oh_else, S["squad"]).alignment = opts.LFT
-        ws.cell(oh_else, S["type"]).value = ELSEWHERE_WHY
-        ws.cell(oh_else, S["type"]).font = opts.BODY
-        ws.cell(oh_else, S["type"]).alignment = opts.LFT
+        # C stays empty on this row, so the label in B is read in full
+        ws.cell(oh_note, S["squad"]).value = ELSEWHERE_WHY
+        ws.cell(oh_note, S["squad"]).font = NOTE
+        ws.cell(oh_note, S["squad"]).alignment = opts.LFT
         _m(ws, oh_else, S["aroles"],
            f"=ROUND(SUM({CFG}!$M$6:$M$9)+SUM({CFG}!$M$14:$M$15)*({PLAT})-({nfte}),6)",
            opts.C1)
@@ -539,17 +574,23 @@ def build(wb, wv, tab, rows, bounds):
                  [None] * len(S_HDR), bg=opts.PALE, bold=True)
         ws.cell(label[kind], 2).alignment = opts.LFT
         if kind in sub:
-            total(sub[kind], "Total" if kind == "arch" else f"{SECTION[kind]} total",
-                  label[kind] + 1, sub[kind] - 1, opts.GREY)
+            total(sub[kind], SUBTOTAL[kind], srange[kind][0], srange[kind][1], opts.GREY)
 
     opts.row(ws, r_tot, 2, ["Total portfolio"] + [None] * (len(S_HDR) - 1),
              [None] * len(S_HDR), bg=opts.MID, bold=True, top=True)
     ws.cell(r_tot, S["squad"]).alignment = opts.LFT
-    src = [anchor[kk] for kk in live] + ([oh_else] if oh_else else [])
     for k in ("aroles", "roles", "fte", "filled", "vacant", "hire", "offshore", "hold",
               "rafter", "acost", "actual", "var", "after", "newvar"):
         c = S[k]
         x = ws.cell(r_tot, c)
+        # built off each section's own data rows, never off its subtotal: a section that
+        # does not earn a subtotal under the rule above still has to be counted here, and
+        # in full. The ranges hold data rows only - no label row and no subtotal is inside
+        # one - so nothing can be added twice.
+        src = [f"{L(c)}{srange[kk][0]}:{L(c)}{srange[kk][1]}" for kk in live]
+        if oh_else:
+            src.append(f"{L(c)}{oh_else}")
+        src = ",".join(src)
         # The archetype total is what the archetype prices across the whole portfolio, and
         # the variance beside it is actual less that. It is the number the owner asked for
         # and it is the same one the 1.x tab states; what it must not do is pretend the
@@ -562,24 +603,28 @@ def build(wb, wv, tab, rows, bounds):
                        f'ROUND(${b}{r_tot}-${a}{r_tot},6),"-")')
         elif k == "acost":
             # SUM ignores the dashes, so this is the archetype where there is one
-            x.value = (f'=IF(COUNT({",".join(f"{L(c)}{s}" for s in src)})=0,"-",'
-                       f'SUM({",".join(f"{L(c)}{s}" for s in src)}))')
+            x.value = f'=IF(COUNT({src})=0,"-",SUM({src}))'
         else:
-            x.value = "=" + "+".join(f"N({L(c)}{s})" for s in src)
+            x.value = f"=SUM({src})"
         x.number_format = (opts.M2 if c >= S["acost"] else
                            (opts.C1 if k == "aroles" else opts.CT))
         x.alignment = opts.RGT
 
-    for i, (lab, col, f, nf) in enumerate([
-            ("Control - roles against the ledger, must be 0", S["roles"],
+    # Both controls state their figure in C, beside the label in B. They used to sit under
+    # the column they were derived from - one in F, one in O - so the two rows that must
+    # both read zero were eleven columns apart and neither was next to the words that say
+    # what it is. The reader checks two cells in one place now, on all fourteen tabs.
+    CTL_COL = S["type"]
+    for i, (lab, f, nf) in enumerate([
+            ("Control - roles against the ledger, must be 0",
              f"=${L(S['roles'])}${r_tot}-COUNTIFS({REV}!$AJ$2:$AJ${LAST},$C$3)",
              opts.CTL_C),
-            ("Control - cost against the ledger ($m), must be 0", S["actual"],
+            ("Control - cost against the ledger ($m), must be 0",
              f"=ROUND(${L(S['actual'])}${r_tot}-SUMIFS({REV}!$AA$2:$AA${LAST},"
              f"{REV}!$AJ$2:$AJ${LAST},$C$3)/1000000,6)", opts.CTL_M)]):
         ws.cell(r_ctl + i, 2).value = lab
         ws.cell(r_ctl + i, 2).font = opts.BODY
-        _m(ws, r_ctl + i, col, f, nf)
+        _m(ws, r_ctl + i, CTL_COL, f, nf)
 
     # ---- FTE ----
     opts.bar(ws, r_ftebar, 2, len(P_HDR), f"{pf} FTE")
@@ -626,7 +671,12 @@ def build(wb, wv, tab, rows, bounds):
     return {"tab": tab, "pf": pf, "total_row": r_tot,
             "delivery_row": anchor.get("arch"), "direct_row": anchor.get("direct"),
             "nofig_row": anchor.get("none"), "overhead_row": anchor.get("oh"),
-            "elsewhere_row": oh_else,
+            "elsewhere_row": oh_else, "note_row": oh_note,
+            # first and last data row of each section that is on the tab, so a consumer
+            # that needs a section total can add the rows even where the section has no
+            # subtotal row of its own
+            "spans": {k: list(v) for k, v in srange.items()},
+            "control_col": CTL_COL, "control_rows": [r_ctl, r_ctl + 1],
             "header_row": HDR,
             "first_squad": min(srow.values()) if srow else HDR + 1,
             "last_squad": max(srow.values()) if srow else HDR + 1,

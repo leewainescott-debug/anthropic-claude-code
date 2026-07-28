@@ -179,6 +179,32 @@ def check_hardcoded(wf, wv):
     return bad
 
 
+def hdr_row(ws, label="Squad", limit=12):
+    """The row a table's header sits on, found by reading it.
+
+    This check named row 5 and row 6, and the 2.x header has been on row 6 with a 6pt
+    spacer above it since the family was rebuilt - so the header comparison was comparing
+    fourteen empty tuples and the skeleton comparison was comparing fourteen copies of the
+    header row. Two checks that could not fail, on the one family the owner asks about.
+    """
+    for r in range(1, limit + 1):
+        if str(ws[f"B{r}"].value or "").strip() == label:
+            return r
+    return None
+
+
+def first_data(ws, hdr, limit=40):
+    """The first row under the header that carries a squad, not a section label.
+
+    A section label row has a name in B and nothing anywhere else on the row; every data
+    row carries a roles count in F.
+    """
+    for r in range(hdr + 1, min(ws.max_row, hdr + limit) + 1):
+        if str(ws[f"B{r}"].value or "").strip() and ws[f"F{r}"].value is not None:
+            return r
+    return None
+
+
 def check_family_consistency(wf):
     """Every tab in a family must be built the same way."""
     out = []
@@ -190,11 +216,25 @@ def check_family_consistency(wf):
     shapes = {}
     for sn in fam["2.x"]:
         ws = wf[sn]
-        hdr = tuple(str(ws[f"{c}5"].value or "")[:28] for c in "BCDEFGHIJKLMNOPQRST")
+        h = hdr_row(ws)
+        if h is None:
+            out.append(("2.x has no Squad header row", sn, ""))
+            continue
+        hdr = tuple(str(ws[f"{c}{h}"].value or "")[:28] for c in "BCDEFGHIJKLMNOPQRST")
         shapes.setdefault(hdr, []).append(sn)
     if len(shapes) > 1:
         for h, tabs in shapes.items():
             out.append(("2.x headers differ", ", ".join(tabs), h[1][:40]))
+    # 2.x: one width profile across the family. The Squad column carries the longest text
+    # on the tab and it is the column a reader lands on first.
+    widths = {}
+    for sn in fam["2.x"]:
+        key = tuple(round(wf[sn].column_dimensions[c].width or 8.43, 2)
+                    for c in "BCDEFGHIJKLMNOPQR")
+        widths.setdefault(key, []).append(sn)
+    if len(widths) > 1:
+        for k, tabs in widths.items():
+            out.append(("2.x column widths differ", ", ".join(tabs), str(k[:4])))
     # 2.x: same formula skeleton on the first squad row
     ARCH = {f"2.{i} " for i in range(1, 11)}
     for family in ("archetype", "coe"):
@@ -204,12 +244,29 @@ def check_family_consistency(wf):
             if (family == "archetype") != is_arch:
                 continue
             ws = wf[sn]
-            s = tuple(re.sub(r"\d+", "#", re.sub(r"'[^']+'", "'T'", str(ws[f"{c}6"].value or "")))[:70]
+            h = hdr_row(ws)
+            d = first_data(ws, h) if h else None
+            if d is None:
+                continue
+            s = tuple(re.sub(r"\d+", "#", re.sub(r"'[^']+'", "'T'", str(ws[f"{c}{d}"].value or "")))[:70]
                       for c in "EGHIJMOPQ")
             sk.setdefault(s, []).append(sn)
         if len(sk) > 1:
             out.append((f"2.x {family} squad-row formulas differ",
                         " | ".join(",".join(v) for v in sk.values()), ""))
+    # 2.x: one subtotal rule and one label pattern. A section subtotal is "<section> total"
+    # on every tab, and the grand total is "Total portfolio" on every tab.
+    for sn in fam["2.x"]:
+        ws = wf[sn]
+        h = hdr_row(ws)
+        if h is None:
+            continue
+        for r in range(h + 1, min(ws.max_row, h + 60) + 1):
+            v = str(ws[f"B{r}"].value or "").strip()
+            if v == "Total portfolio":
+                break
+            if v.lower() == "total" or (v.lower().startswith("total") and v != ""):
+                out.append(("2.x subtotal not named for its section", sn, f"B{r} {v!r}"))
     return out, fam
 
 
