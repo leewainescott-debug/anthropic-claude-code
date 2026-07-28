@@ -104,7 +104,7 @@ ELSEWHERE_WHY = "Business Partners and Domain Architects sit in the COEs"
 # figure in the column beside them, so nothing spills any more and the column has to be wide
 # enough to hold "Control - cost against the ledger ($m), must be 0" on its own. One width
 # for all fourteen tabs - the point of the family is that they are the same shape.
-S_W = [50, 26, 11, 11, 9, 8, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
+S_W = [56, 26, 11, 11, 9, 8, 8, 8, 8, 11, 8, 14, 13, 12, 14, 17, 14]
 
 # ---- FTE columns ----
 P = dict(name=2, role=3, status=4, lever=5, cost=6, after=7)

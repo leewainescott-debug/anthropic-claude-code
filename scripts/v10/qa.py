@@ -243,7 +243,7 @@ def check_family_consistency(wf):
         # tab and says so on its face; its squad row legitimately reads different sources
         # until roles arrive, so its formula shape is not the family's to compare
         return any(isinstance(c.value, str)
-                   and c.value.startswith("No roles in the ledger carry")
+                   and c.value.startswith("No roles in the")
                    for row in ws.iter_rows(max_col=4) for c in row)
 
     for family in ("archetype", "coe"):

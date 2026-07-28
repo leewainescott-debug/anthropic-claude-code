@@ -309,7 +309,7 @@ def run(path, anchors="anchors_final.json"):
     for i in range(2, last(wv) + 1):
         if str(R.cell(i, 2).value or "").strip() and str(R.cell(i, 37).value) == "Filled":
             filled_cost += R.cell(i, 27).value or 0
-    for lab, exp, cnt in (("Roles in the ledger", sum(roles.values()), True),
+    for lab, exp, cnt in (("Roles in the role mapping", sum(roles.values()), True),
                           ("Cost of the", total / 1e6,
                            False),
                           ("Of which filled roles ($m)", filled_cost / 1e6, False),

@@ -35,9 +35,9 @@ SAY = [
     ("the ledger plus", "the role mapping plus"),
     ("the ledger", "the role mapping"),
     # two more of mine that a GM would have to decode
-    ("Budget to draw down", "Budget available to this COE"),
-    ("Total budget to draw down", "Total budget available to this COE"),
-    ("budget to draw down", "budget available to this COE"),
+    ("Total budget to draw down", "Total budget available"),
+    ("Budget to draw down", "Budget available"),
+    ("budget to draw down", "budget available"),
 ]
 
 

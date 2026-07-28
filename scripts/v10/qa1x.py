@@ -245,7 +245,7 @@ def scan(path, anchors="anchors_final.json"):
         # so on its own face. A stated fact, not a broken tie; every tie on this pair
         # goes live the moment roles arrive and the shell line goes away.
         shell = any(isinstance(c.value, str)
-                    and c.value.startswith("No roles in the ledger carry")
+                    and c.value.startswith("No roles in the")
                     for row in wb[tab].iter_rows(max_col=4) for c in row)
         if shell:
             continue
