@@ -218,10 +218,18 @@ def run(path):
     check("no hidden rows on REVIEW", not hid, str(hid[:5]))
 
     # ---- QA H3 / M1: platform overhead
+    # 1.2's C7 and D7 hold the same formula, so Customer's platform overhead is added into
+    # the AU column and again into the NZ column: F7 is 0.99 for 0.495 of overhead. That
+    # is his sheet and he has ruled on it (D112) - the pair is pinned here so it cannot
+    # drift back the other way without someone deciding to.
     v12 = wv["1.2 Customer"]
-    check("1.2!F7 = 0.495 (double-count dead)", abs((v12["F7"].value or 0) - 0.495) < 1e-9,
-          str(v12["F7"].value))
-    check("1.2!F9 = 15.5625", abs((v12["F9"].value or 0) - 15.5625) < 1e-6, str(v12["F9"].value))
+    check("1.2!F7 = 0.99 - his shape, both columns carry the platform overhead",
+          abs((v12["F7"].value or 0) - 0.99) < 1e-9, str(v12["F7"].value))
+    check("1.2!F9 = 16.0575", abs((v12["F9"].value or 0) - 16.0575) < 1e-6,
+          str(v12["F9"].value))
+    check("1.2!C7 and D7 are the same formula, which is what makes F7 0.99",
+          str(wb["1.2 Customer"]["C7"].value) == str(wb["1.2 Customer"]["D7"].value),
+          str(wb["1.2 Customer"]["C7"].value)[:50])
     v10 = wv["1.10 Z Retail"]
     check("1.10!F7 = 0.330 (his no-overhead note honoured)",
           abs((v10["F7"].value or 0) - 0.330) < 1e-9, str(v10["F7"].value))
@@ -250,8 +258,19 @@ def run(path):
             if str(wb[t].cell(r, 2).value or "").strip() == "Platform Overhead" \
                     and wv[t].cell(r, 9).value:
                 n_rows += 1
-    check("Lists platform count == priced overhead rows on 1.x", ah5 == n_rows,
-          f"Lists {ah5} vs 1.x rows {n_rows}")
+    # Lists!AH5 counts platforms by dividing the 1.x platform-overhead total by the rate,
+    # so a platform counted twice is a platform. 1.2's C7 and D7 are the same formula and
+    # both fire, so Customer's three platforms are counted six times and AH5 reads 25 for
+    # 22 real rows. That is his sheet (D112). The check holds the gap to exactly that one
+    # cause, so any other tab that starts miscounting still turns this red.
+    rate = wv["0.2 Data Config"]["N16"].value or 0
+    twin = ((wv["1.2 Customer"]["C7"].value or 0)
+            if str(wb["1.2 Customer"]["C7"].value)
+            == str(wb["1.2 Customer"]["D7"].value) else 0)
+    dup = round(twin / rate, 6) if rate else 0
+    check("the platform count is over the priced rows by 1.2's twinned pair, and nothing "
+          "else", abs((ah5 - n_rows) - dup) < 1e-6,
+          f"Lists {ah5} vs 1.x rows {n_rows}, 1.2 accounts for {dup}")
 
     # ---- QA: 3.4 on his country basis
     w34, v34 = wb["3.4 COE Detail"], wv["3.4 COE Detail"]
@@ -379,19 +398,30 @@ def run(path):
         got = [w32g.cell(h32, c).value for c in range(2, 14)]
         check("3.2 carries his headings, in his order", got == HDR32, str(got[:5]))
         lo = h32 + 1
+        # The platform count is not pinned to a number here. It is whatever the 1.x tabs
+        # add up to on Lists!AH5, and 1.2's twinned C7/D7 make that 25 for 22 platforms
+        # (D112). Checking 3.2 against the model's own count tests the thing that matters -
+        # that every tab is counting the same platforms - and keeps telling the truth if
+        # he changes his mind about 1.2.
+        plat = wv["Lists"]["AH5"].value
         check("3.2 Times applied is his to set, cream and seeded from the model's count",
-              [v32g.cell(r, 5).value for r in range(lo, lo + 6)] == [10, 10, 10, 22, 22, 10]
+              [v32g.cell(r, 5).value for r in range(lo, lo + 6)]
+              == [10, 10, 10, plat, plat, 10]
               and all(w32g.cell(r, 5).fill.patternType
                       and str(w32g.cell(r, 5).fill.start_color.rgb).upper() == "FFFFF2CC"
                       for r in range(lo, lo + 6)),
-              str([v32g.cell(r, 5).value for r in range(lo, lo + 6)]))
+              f"{[v32g.cell(r, 5).value for r in range(lo, lo + 6)]} vs Lists {plat}")
         check("3.2 states every line's roles in the organisation",
               [v32g.cell(r, 7).value for r in range(lo, lo + 6)] == [15, 6, 7, 10, 24, 8],
               str([v32g.cell(r, 7).value for r in range(lo, lo + 6)]))
+        # roles not priced for = the roles that exist less the roles the archetype pays
+        # for, on every one of the six lines. Derived, so the two platform lines follow
+        # the platform count instead of a snapshot of it.
+        want_gap = [round((v32g.cell(r, 7).value or 0) - (v32g.cell(r, 6).value or 0), 4)
+                    for r in range(lo, lo + 6)]
         check("3.2 states every line's roles not priced for",
-              [round(v32g.cell(r, 8).value or 0, 1)
-               for r in range(lo, lo + 6)] == [10.0, 1.0, 2.0, 3.4, 17.4, 5.0],
-              str([v32g.cell(r, 8).value for r in range(lo, lo + 6)]))
+              [round(v32g.cell(r, 8).value or 0, 4) for r in range(lo, lo + 6)] == want_gap,
+              f"{[v32g.cell(r, 8).value for r in range(lo, lo + 6)]} want {want_gap}")
         check("3.2 HoT row splits its fifteen roles",
               str(v32g.cell(lo, 12).value or "") == "10 in the portfolios, 5 in the COEs",
               repr(v32g.cell(lo, 12).value))
@@ -422,21 +452,31 @@ def run(path):
                    == "Overheads incl. GMs"), None)
     check("3.2 overheads total row present", totrow is not None)
     if totrow:
-        check("3.2 totals 70 roles carried against 31.2 priced for",
+        # 70 leadership roles is a count off the role mapping and does not move with the
+        # platform count; roles priced for does, at 0.3 of a manager per platform on two
+        # of the six lines, so it is derived from the lines above it rather than typed.
+        priced = round(sum(v32g.cell(r, 6).value or 0 for r in range(lo, lo + 6)), 4)
+        check("3.2 totals 70 roles carried, against the six lines' priced-for",
               v32g.cell(totrow, 7).value == 70
-              and abs((v32g.cell(totrow, 6).value or 0) - 31.2) < 1e-6,
-              f"{v32g.cell(totrow, 7).value} / {v32g.cell(totrow, 6).value}")
-        check("3.2 the two gaps total 38.8 roles and 11.68m",
-              abs((v32g.cell(totrow, 8).value or 0) - 38.8) < 1e-6
-              and abs((v32g.cell(totrow, 11).value or 0) - 11.682053) < 1e-6,
-              f"{v32g.cell(totrow, 8).value} / {v32g.cell(totrow, 11).value}")
+              and abs((v32g.cell(totrow, 6).value or 0) - priced) < 1e-6,
+              f"{v32g.cell(totrow, 7).value} / {v32g.cell(totrow, 6).value} want {priced}")
+        check("3.2 the role gap is 70 less priced-for, and the cost gap ties to it",
+              abs((v32g.cell(totrow, 8).value or 0) - (70 - priced)) < 1e-6
+              and abs((v32g.cell(totrow, 11).value or 0)
+                      - ((v32g.cell(totrow, 10).value or 0)
+                         - (v32g.cell(totrow, 9).value or 0))) < 1e-6,
+              f"{v32g.cell(totrow, 8).value} want {round(70 - priced, 4)} | "
+              f"{v32g.cell(totrow, 11).value}")
     ohrow = next((r for r in range(5, 30) if str(w32g.cell(r, 2).value or "").strip()
                   == "Of which sits in the portfolios"), None)
     check("3.2 'of which sits in the portfolios' band present", ohrow is not None)
     if ohrow:
-        check("3.2 archetype cost where the people sit = 5.005",
-              abs((v32g.cell(ohrow, 9).value or 0) - 5.005) < 1e-6,
-              str(v32g.cell(ohrow, 9).value))
+        # the one figure 3.1 and 3.2 have to agree on. Checked against 3.1, not against a
+        # remembered 5.005, so the two tabs can only ever be wrong together.
+        check("3.2 archetype cost where the people sit ties to 3.1",
+              d_over is not None
+              and abs((v32g.cell(ohrow, 9).value or 0) - d_over) < 1e-6,
+              f"3.2 {v32g.cell(ohrow, 9).value} vs 3.1 {d_over}")
 
     # ---- wave H: the owner's Actuals-vs-archetype table on every 1.x tab
     BARH = "Actuals vs archetype"
@@ -553,20 +593,24 @@ def run(path):
     check("3.1's archetype subtotal is a plain SUM", e17.startswith("=SUM("), e17[:40])
     check("3.1 keeps the gate on the step that needs it",
           "SUMPRODUCT(--ISNUMBER" in e27, e27[:40])
+    # The two checks that stood here pinned a Home country column on 0.2 and forbade the
+    # 1.x tabs from deciding AU or NZ by comparing the two budget cells. Both are retired:
+    # the column was mine, he never asked for it, and it is off his config tab. The budget
+    # comparison is his own rule and it is back on all eleven tabs. What is worth holding
+    # is that all eleven decide it the same way, so a new tab cannot invent a third.
     cfg = wb["0.2 Data Config"]
-    homes = [cfg.cell(r, 10).value for r in range(11, 26)]
-    check("0.2 states each portfolio's home country",
-          cfg["J5"].value == "Home country"
-          and all(h in ("AU", "NZ") for h in homes if h is not None)
-          and any(h == "NZ" for h in homes), f"{cfg['J5'].value!r} {homes[:6]}")
-    geo = []
+    check("0.2 has no Home country column", cfg["J5"].value is None
+          and all(cfg.cell(r, 10).value is None for r in range(4, 28)),
+          repr(cfg["J5"].value))
+    geo = set()
     for t in [x for x in wb.sheetnames if re.match(r"^1\.(10|14|[1-9]) ", x)]:
         for r in range(5, 10):
-            for c in (3, 4):
-                v = str(wb[t].cell(r, c).value or "")
-                if "'0.2 Data Config'!$D$" in v and ">" in v:
-                    geo.append(f"{t}!{wb[t].cell(r, c).coordinate}")
-    check("no tab decides its country by which budget is bigger", not geo, str(geo[:4]))
+            v = str(wb[t].cell(r, 3).value or "")
+            if ("'0.2 Data Config'!$D$" in v and ">" in v
+                    and "'0.2 Data Config'!$C$" in v):
+                geo.add(t)
+    check("all eleven 1.x tabs pick AU or NZ the same way - the bigger budget cell",
+          len(geo) == 11, f"{len(geo)} tabs: {sorted(geo)[:3]}")
     lev = []
     for t in ("1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles"):
         for row in wb[t].iter_rows(min_col=20, max_col=20):

@@ -20,3 +20,7 @@ for x in e[:10]: print('    ',x)
 
 # the mechanical audit: figures against the ledger, controls, modelling standards
 python3 audit.py cand_A.xlsx || true
+
+# what of his own typing is not in the file - his question, answered every build
+python3 whatsgone.py base_2707.xlsx cand_A.xlsx --later rev.xlsx || true
+python3 whatsgone.py rev.xlsx cand_A.xlsx || true

@@ -1,39 +1,39 @@
 # TDD Cost Calculator - plan and instruction log
 
-Live document. Updated every time work lands or an instruction changes.
-Companion file: `docs/DECISIONS.md` (what was decided and why).
-The original 101-item brief is `docs/INSTRUCTION_REGISTER.md` and still stands except
-where superseded below.
+Live document. **Read `RETIRED.md` first**: anything in it is dead and must not be acted
+on, however reasonable it sounds. `DECISIONS.md` records what was decided and why.
+The original brief is `INSTRUCTION_REGISTER.md`, live except where superseded.
 
-Last updated: after wave J - the model-wide formula sweep. 3.2 rebuilt to his own layout; the 2.x ledger join made insert-safe; ~4,200 inert cells removed; every label that promised something its formula did not deliver either fixed or relabelled. Gate 120 checks, all passing.
+**Where it stands.** The role mapping holds 531 roles, 529.30 FTE, $115,589,735.11
+(386 filled, 145 vacant). After the decisions currently set - 8 on hold, 3 offshored,
+1 vacancy set to fill - 523 roles and $113,777,703.16.
 
-Previous update - wave H. Hybrid now prices 2 roles onshore + the rest offshore,
-settable at 0.3!K8; every 1.x tab carries his "Actuals vs archetype" table (Actual /
-Archetype / Variance, roles + cost); 3.2 tells the applied-vs-organisation story with
-both gaps per overhead line; the Exec vacancy block is a true partition (134 hire +
-2 offshore + 8 hold + 1 fill-as-is = 145, the offshored filled role stated separately).
-The triple people-check (three Opus agents, three methods) verified 531/531 placement
-from raw columns, re-evaluated all 15,682 formulas to their cached values, and roster-
-diffed every person: 0 missing, 0 duplicated, 0 misplaced. Gate 102/102, every pass
-zero. Data flags awaiting the owner's ruling are in DECISIONS D107.
+**The rule that outranks every other rule in this file: his content is his.** A figure he
+typed, a formula he wrote, a label he chose and a block he built are not the build's to
+correct. Where the model disagrees with something of his, the model says so beside the
+cell; it does not change it. Four things were changed without asking and have been
+reversed - they are listed in `RETIRED.md` section B. That section is the standing
+reminder, not a closed incident.
 
-Previous update - wave G, the owner's post-ship round. New in this cut: 0.3 Squad
-Archetypes restored to exactly his file and locked as a source tab; the 1.x actuals
-table relocated up top beside the budget box as one clean fixed-shape table; 3.2
-stating the BP/DA role counts in the COEs in words plus one counted-once row
-(412 + 119 = 531) with a live control; and **1.14 TDD Cyber** - a real portfolio-style
-design tab (platform TDD Cyber, squad Cyber Uplift, cream inputs awaiting him) with a
-**2.15** working shell that fills itself as roles arrive, integrated through 3.1/3.3,
-4.0 and the tab order, outside the ten-portfolio allocation counts. Pricing the new
-platform moves the overhead allowance to **5.005** on 3.1 and 3.2 together.
-Ledger unchanged: **531 roles, 529.3 FTE, $115,589,735.11**; after the live decision
-set (8 holds, 3 offshores, the r431 QA vacancy set to fill): **523 roles,
-$113,777,703.16**, impact **-$1,812,031.95**. Wave G ran as one Opus investigator,
-five Opus builders and an integration pass; `regress2707.py` now asserts 89 checks and
-every scripted pass reads zero. Sections 6-7 below show the pre-consolidation 525-role
-tables and remain as history.
+The one exception, and it is narrow: a **name** he typed that does not match the role
+mapping is normalised to the role mapping's spelling, because a label that does not match
+does not join and the roles behind it vanish off the tab. Wording is never touched.
+`whatsgone.py` proves the distinction on every build - it lists every value he typed that
+is not in the file, so a wording change cannot hide among the name normalisations.
 
----
+**Verification is scripted, not delegated.** `audit.py` recomputes every figure from the
+role mapping, proves all 531 people appear exactly once on the tab it assigns, checks every
+control, and applies the model-review tests - column consistency, constants buried in
+formulas, unmarked inputs, rounding inside chains, controls incapable of failing,
+unbounded references. It runs on every build in seconds. `regress2707.py` asserts every
+defect ever found stays dead. `qa.py`, `verify.py`, `recompute.py` and `qa1x.py` are the
+independent recomputations. `whatsgone.py` answers "what of his is not in the file".
+Agents are for judgement only.
+
+A check that a decision of his makes fail is **retired or re-derived, never re-baselined
+to the new number**. Re-baselining turns a gate into a rubber stamp: the six 3.2 checks the
+1.2 revert moved now compute their expected figure from the model's own platform count, so
+they test that every tab counts the same platforms rather than that 3.2 still says 5.005.
 
 ## 1. What this workbook is for
 

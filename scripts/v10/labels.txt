@@ -199,7 +199,6 @@
   G5: Variance
   H5: Notes
   I5: Actions
-  J5: Home country
   K5: Role
   L5: Cost ($m)
   M5: Allocation %
@@ -222,41 +221,30 @@
   B11: Ampol Retail
   I11: AmPOS support uplift to IC. Individual role type offshoring.
 Actual payments squad is 600k less than archetype figures (archetype is already small)
-  J11: AU
   B12: Z Retail
   I12: Review 2027 TDD Z headcount and cost allocation
-  J12: NZ
   K12: Platform Overhead (roles, $m)
   B13: Ampol Customer
-  J13: AU
   K13: Role
   L13: Cost ($m)
-  M13: Allocation %
+  M13: Alloc %
   N13: Platform cost ($m)
   B14: Z Customer
   I14: Migrate % of more squads to WiPro
 Review 2027 TDD Z headcount and cost allocation.
-  J14: NZ
   K14: Delivery Manager
   B15: Commercial Fuels
-  J15: AU
   K15: Tech Manager
   B16: Energy Solutions & B2B
   I16: Working with GMs to confirm funding for 2027
-  J16: AU
   K16: Platform overhead subtotal (per platform)
   B17: Infrastructure
   I17: Investment required to enable solutions to be modernised and offshored
-  J17: AU
   B18: P&C
-  J18: AU
   B19: Finance
   I19: Published roles in AU is 9, archetype is 6. Have reviewed and 2 roles will be removed in FY27
-  J19: AU
   B20: Legal
-  J20: AU
   B21: TDD Group Functions
-  J21: AU
   K21: Reconciliation ($m)
   L21: Allocated budget
   M21: Spend against allocation
@@ -264,19 +252,15 @@ Review 2027 TDD Z headcount and cost allocation.
   O21: Variance to total
   B22: TDD Data
   I22: Potential upside through data platform consolidation and further offshoring
-  J22: AU
   K22: Position on 23/07
   B23: TDD Cyber incl. COE - Cyber, Risk & Service Ops
   I23: Assessment of offshoring to reduce gap
 Vacancies add 900k to FY26 baseline
-  J23: AU
   K23: Position today
   B24: EG
-  J24: AU
   K24: Notes
   L24: Reallocated 7m across Ampol & Z Retail
   B25: EGI
-  J25: AU
   B26: Total
   B27: Budget
   B28: Variance to full TDD budget
@@ -4438,7 +4422,7 @@ AUD
   D5: Filled
   E5: Vacant
   F5: Planned spend ($m)
-  G5: Budget available ($m)
+  G5: Budget to draw down ($m)
   H5: Variance
   I5: Cost - AU ($m)
   J5: Cost - NZ ($m)
@@ -4453,7 +4437,7 @@ AUD
   B14: COE - Business Partnering allocation ($m) - 0.2 Data Config
   B15: Total Business Partnering budget ($m)
   B16: COE - Transformation allocation ($m) - 0.2 Data Config
-  B17: Total budget available ($m)
+  B17: Total budget to draw down ($m)
   B18: Business Partner funding met by portfolio overheads, netted out of planned spend ($m)
   B19: Roles
   B20: Name
@@ -4621,7 +4605,7 @@ AUD
   E5: Vacant
   F5: Paused
   G5: Planned spend ($m)
-  H5: Budget available ($m)
+  H5: Budget to draw down ($m)
   I5: Left to fund ($m)
   J5: Cost - AU ($m)
   K5: Cost - NZ ($m)
@@ -4636,7 +4620,7 @@ AUD
   B14: COE - Strategy Architecture allocation ($m) - 0.2 Data Config
   B15: Total Strategy & Architecture budget ($m)
   B16: COE - Data allocation ($m) - 0.2 Data Config
-  B17: Total budget available ($m)
+  B17: Total budget to draw down ($m)
   B18: Paused roles - cost if released ($m)
   B19: Domain Architect funding met by portfolio overheads, netted out of planned spend ($m)
   B20: Roles
@@ -4820,7 +4804,7 @@ AUD
   D5: Filled
   E5: Vacant
   F5: Planned spend ($m)
-  G5: Budget available ($m)
+  G5: Budget to draw down ($m)
   H5: Left to fund ($m)
   I5: Cost - AU ($m)
   J5: Cost - NZ ($m)
@@ -4833,7 +4817,7 @@ AUD
   E11: Planned spend less CapEx ($m)
   B12: TDD Cyber budget ($m) - 0.2 Data Config
   B13: Cyber CapEx - Monitoring ($m) - input
-  B14: Total budget available ($m)
+  B14: Total budget to draw down ($m)
   B15: Left to fund ($m)
   B17: Roles
   B18: Name
@@ -8816,11 +8800,11 @@ AUD
   B8: Delivery Manager
   C8: platforms
   L8: 9 in the portfolios, 1 in the COE
-  M8: 30% across 22 platforms
+  M8: 30% across 25 platforms
   B9: Technology Manager
   C9: platforms
   L9: All 24 in the portfolios
-  M9: 30% across 22 platforms
+  M9: 30% across 25 platforms
   B10: Leadership - 8 GMs
   C10: portfolios
   L10: Above the role mapping

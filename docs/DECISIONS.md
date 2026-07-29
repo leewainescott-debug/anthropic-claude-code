@@ -6,7 +6,7 @@ Companion file: `docs/PLAN.md` (what we are doing and what is outstanding).
 "Lee" means you decided it. "Build" means I decided it and it is reversible - each one is
 flagged so you can overturn it without hunting for where it lives.
 
-Last updated: after the squad-assignment and design-rename build.
+Last updated: after the reversal build - his 1.2, his labels, no Home country column.
 
 ---
 
@@ -784,6 +784,65 @@ When 3.2 was rebuilt to his layout, the recomputation's column lookups kept the 
 headings, returned nothing, and skipped the entire tab behind the message "3.2 is missing
 one of its columns". Every figure on that tab had been unverified since. Rewired, and the
 gate now fails if that message ever appears again.
+
+### D112. 1.2 Customer is reverted to his shape. Lee, directly: "revert 1.2 plz".
+I had "fixed" 1.2!C7 and D7. His two cells hold the *same* formula - `IF(NZ budget > AU
+budget, SUM(I34,I42,I49), 0)` - so both fire and Customer's platform overhead is added into
+the AU column and again into the NZ column. Row 6 above it does the same thing but multiplies
+each side by 0.5, which is how a portfolio genuinely split across two countries should read.
+Row 7 is row 6 without the `*0.5`.
+
+Reverted, and pinned so it cannot drift back. What it does, stated once so nobody has to
+rediscover it:
+
+| | With my change | His shape, as it now ships |
+|---|---|---|
+| 1.2!F7, Customer platform overhead | 0.495 | 0.99 |
+| 1.2!F9, Customer total cost | 15.5625 | 16.0575 |
+| 0.2 Ampol Customer spend | 4.90 | 5.14 |
+| 0.2 Z Customer spend | 4.75 | 4.99 |
+| Lists!AH5, platforms the model counts | 22 | 25 |
+| 3.2 / 3.1 overhead allowance in the portfolios | 5.005 | 5.500 |
+
+`Lists!AH5` counts platforms by dividing the 1.x platform-overhead total by the per-platform
+rate, so a platform paid for twice *is* two platforms to everything downstream. Customer's
+three platforms are counted six times. If he wants it back the change is `*0.5` on the end of
+C7 and D7 - his own row 6, one row up, already written that way.
+
+`regress2707.py` now pins his shape, and holds the platform-count gap to exactly this one
+cause, so any *other* tab that starts miscounting still turns the gate red.
+
+### D113. The Home country column is off 0.2, and the 1.x tabs decide it his way again. Lee.
+"why have u put home country dat config???? pointless information i never asked for."
+
+It was mine. The 1.x tabs decide whether a portfolio's cost lands in the AU or the NZ column
+by comparing its two budget cells on 0.2 and taking the bigger, which is unguessable from the
+formula; I added a column that said it outright. He did not ask for it, it is his config tab,
+and the rule it replaced worked. Gone, and all eleven 1.x tabs are back on his comparison,
+including 1.14 TDD Cyber, which was written directly against the new column and would have
+been left pointing at an empty cell.
+
+Two more of mine reversed in the same pass:
+- **0.2's blank Legal, EG and EGI spend rows.** I wrote 0.00 into them so the column read
+  consistently. A typed zero is a statement he did not make. Blank, as he has them.
+- **"Budget to draw down" renamed to "Budget available"** on 1.11, 1.12 and 1.13.
+  "Ledger" is my word and swapping it for "role mapping" was right. "Budget to draw down"
+  is *his*, it is in his own review workbook, and D83 settled that his labels win. Restored.
+  So is `0.2!M13`, which said "Alloc %" until a tidy-up made it "Allocation %".
+
+### D114. What of his is not in the build, answered mechanically rather than from memory.
+`whatsgone.py` takes every value he typed in his own workbooks - literals only, not formula
+results, which are meant to move - and asks whether that content still appears anywhere on
+the same tab of the build. Against `base_2707.xlsx`: 195 typed values differ, of which 190
+were superseded by his own later review workbook and 5 were mine. Against `rev.xlsx`, the
+later book: 61, now 55 after the restores above.
+
+What is left is not wording, it is naming. His hand-typed squad and platform labels on the
+1.x tabs are normalised to the names in his own role mapping so the join finds them:
+"Network / QSR" to "Network & QSR", "AU Finance" to "SAP ERP", "Network & Infrastructure" to
+"Cloud, Network & Infra Ops", "P&C - RTA" to "P&C RTA", and six more. REVIEW is the source of
+truth (D1); a label that does not match it does not join. Listed in full in his hand-back
+rather than silently kept.
 
 ### D104. Hybrid prices two roles onshore and the rest offshore, and the two is his to set.
 His rule, replacing the 50/50 assumption: per-FTE cost is the archetype's squad cost over

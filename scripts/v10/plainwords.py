@@ -34,10 +34,11 @@ SAY = [
     ("in the ledger", "in the role mapping"),
     ("the ledger plus", "the role mapping plus"),
     ("the ledger", "the role mapping"),
-    # two more of mine that a GM would have to decode
-    ("Total budget to draw down", "Total budget available"),
-    ("Budget to draw down", "Budget available"),
-    ("budget to draw down", "budget available"),
+    # "Budget to draw down" was on this list too, swapped for "Budget available". It should
+    # not have been. "Ledger" is mine and he never wrote it; "Budget to draw down" is his,
+    # it is in his own review workbook on 1.11, 1.12 and 1.13, and D83 settled that his
+    # labels win. Rewording his own heading to one I preferred is the exact mistake this
+    # file was written to undo, committed inside the file undoing it.
     # applied after the swap above: three labels that the longer wording pushes past
     # their column. The count they drop is stated on the same page either way.
     ("outside the 531 roles in the role mapping", "outside the role mapping"),
@@ -45,6 +46,35 @@ SAY = [
     ("against every overhead role in the role mapping",
      "against overhead roles in the role mapping"),
 ]
+
+
+# His exact wording, put back where a pass normalised it for no reason but tidiness.
+# tab -> {cell: (what the build now says, what he wrote)}. The build's text is stated so a
+# rename that lands somewhere else fails loudly instead of overwriting the wrong cell.
+HIS = {
+    "0.2 Data Config": {
+        # his own abbreviation, on his own config tab. M5 four rows up says "Allocation %"
+        # in his book too - the two headings differ because he wrote them that way.
+        "M13": ("Allocation %", "Alloc %"),
+    },
+}
+
+
+def restore(wb, out):
+    for tab, cells in HIS.items():
+        if tab not in wb.sheetnames:
+            out.append(f"{tab} is not in the workbook - nothing restored")
+            continue
+        for cell, (now, his) in cells.items():
+            cur = wb[tab][cell].value
+            if cur == his:
+                continue
+            if cur != now:
+                out.append(f"{tab}!{cell} holds {str(cur)[:40]!r}, expected {now!r} - "
+                           f"left alone")
+                continue
+            wb[tab][cell] = his
+            out.append(f"{tab}!{cell} {now!r} -> {his!r} - his wording")
 
 
 def run(src, dst):
@@ -88,9 +118,11 @@ def run(src, dst):
                 if new != v:
                     c.value = new
                     nf += 1
+    back = []
+    restore(wb, back)
     wb.save(dst)
     return [f"{n} labels and {nf} formula-built labels now say role mapping, not ledger",
-            *[f"  e.g. {h}" for h in hit]]
+            *[f"  e.g. {h}" for h in hit], *back]
 
 
 if __name__ == "__main__":

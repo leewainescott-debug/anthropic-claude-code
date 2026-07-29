@@ -27,26 +27,6 @@ Total Squad Cost column instead of the TDD Cost column).
 
 Four more things on the design side that computed the right number for the wrong reason.
 
-HOME COUNTRY.  Every 1.x tab decided whether its overhead is an AU cost or an NZ cost by
-asking which of the portfolio's two budget cells was bigger:
-
-    =IF('0.2 Data Config'!$D$11>'0.2 Data Config'!$C$11, 0, '0.2 Data Config'!$N$10)
-
-That is not a question about geography, it is a question about budget size, and it only
-answers the first because nobody has yet given an AU portfolio a bigger NZ budget than AU
-one. A 50/50 portfolio lands in AU silently. 0.2 now carries a "Home country" column - one
-cream AU/NZ cell per portfolio row, seeded from exactly what the comparison resolves to
-today - and all forty of those cells read it instead. Adding a column to 0.2 is a
-structural change to a config tab; it is column J, which was free and already 9 wide, and
-the two tables either side of it (B:I and K:N) are untouched.
-
-1.2 Customer is the one dual-country portfolio and it never used the comparison the way
-the other nine do: its C6 and D6 are byte-identical, both `IF(cond, N10, 0)*0.5`, so the
-tab splits the whole overhead half to each country and the condition decides only whether
-the portfolio keeps its overhead at all - build_1x's own note says "if AU ever exceeded NZ
-both branches would go to zero and the whole $0.7975m would vanish". Four cells that read
-a condition whose only possible useful answer is TRUE are four cells that should not read
-a condition, so 1.2's four say what they do: half each, unconditionally. Same figures.
 
 LEFT TO FUND.  1.1's "Left to fund" enumerated the funding lines it subtracts -
 `=SUM(E9-J15-J16-J17-J18)` - where its nine siblings all say `=E9-(J19-J14)`: the applied
@@ -91,28 +71,16 @@ REMOVE = {
     "1.2 Customer": ["Digital Support NZ"],
     "1.3 Enterprise Data": ["EGI Data", "Enterprise Data Delivery"],
 }
-# 1.2's platform overhead, once the H/I typo above is out of the way, is the identical
-# formula in the AU column and the NZ column: both branches count the whole 0.495, so the
-# three Customer platforms are charged twice and F7 reads 0.99.
-#
-# Customer is the one dual-country portfolio on this tab set - 0.2 gives it an AU line
-# (row 13) and a NZ line (row 14) - and row 6 directly above says what that means here:
-# portfolio overhead is the same IF over the same two 0.2 cells with *0.5 on each side, so
-# the tab splits its overhead half to each country rather than choosing one. Row 7 is the
-# same overhead on a per-platform basis and follows the same split. Its nine single-country
-# siblings use the exclusive form instead - all of it to one column, nothing to the other -
-# which is why none of them doubles.
-CUST_PLAT = ("=IF(('0.2 Data Config'!$D$13+'0.2 Data Config'!$D$14)>"
-             "('0.2 Data Config'!$C$13+'0.2 Data Config'!$C$14),SUM(I34,I42,I49),0)")
+# 1.2's C7 and D7 are byte-identical, so both the AU and the NZ column count the whole
+# platform overhead. That reads like a double count and I changed it. It was not mine to
+# change: it is his tab, his formula and his published figure, and the change moved Ampol
+# Customer and Z Customer on 0.2 away from the numbers he had set. Reverted. If the split
+# is wrong it is his to correct, and he knows the tab better than the rule does.
 FIX = {
     # his C7 points platform overhead at column H (Total Squad Cost); the overhead lives
     # in I on this tab's platform-overhead rows, as it did before and as C7 did in the
     # ancestor
-    "1.2 Customer": [("C7", None, None),
-                     # keyed on the byte-identical text the line above produces, so it can
-                     # only fire on the doubled shape and never on a corrected one
-                     ("C7", CUST_PLAT, CUST_PLAT + "*0.5"),
-                     ("D7", CUST_PLAT, CUST_PLAT + "*0.5")],
+    "1.2 Customer": [("C7", None, None)],
     # his 1.5 edit removed the NZ column, so 0.2's P&C spend read wraps the dead D9 the
     # house way
     "0.2 Data Config": [("F18", "=('1.5 P&C'!$C$9+'1.5 P&C'!$D$9)",
@@ -140,11 +108,10 @@ FIX = {
                        "SUM(I27,I34),0)")],
 }
 
-# rows of 0.2's budget table with no Spend cell and no Variance cell, where all their
-# siblings carry both. Written as the sibling pair - a hardcoded 0 spend the way row 7
-# does it, and E less F beside it - so the table reads the same way all the way down and
-# G26 totals a complete column. Row 24 is his restored EG row, which gets the same pair.
-CFG_GAPS = [20, 24, 25]
+# His Legal, EG and EGI rows on 0.2 carry no Spend and no Variance. I filled them with
+# zeros to make the column read consistently; he did not ask for that, and a typed zero is
+# a statement he did not make. Left blank, as he has them.
+CFG_GAPS = []
 
 
 # his typed inputs on tabs the chain does not repaint - declared cream so the
@@ -185,119 +152,6 @@ def close_config_gaps(wb, out):
         g_.value = f"=E{r}-F{r}"
         out.append(f"0.2!{ws.cell(r, 2).value!r}: F{r} = 0 and G{r} = E{r}-F{r}, the pair "
                    f"every other row of this table carries")
-
-
-# ---------------------------------------------------------------- home country
-# 0.2's budget table runs B..I; K..N is the overhead-rate table. J sits between them,
-# empty and already 9 wide, and is where the Home country column goes. Only the portfolio
-# rows get a value: rows 6-10 are the COEs, which have no 1.x tab and no overhead switch.
-HOME_COL = 10                                   # column J
-HOME_HDR = "Home country"
-HOME_ROWS = range(11, 26)                       # Ampol Retail .. EGI
-
-# Every geography switch on the design tabs: tab -> (cells, the 0.2 budget row they
-# compare). 1.7's summary block sits one row lower than its nine siblings' and 1.5 lost
-# its NZ column, so both carry a different cell list; 1.14 has the platform pair only.
-GEO = {
-    "1.1 Ampol Retail":            (("C6", "D6", "C7", "D7"), 11),
-    "1.3 Enterprise Data":         (("C6", "D6", "C7", "D7"), 22),
-    "1.4 TDD Group Functions":     (("C6", "D6", "C7", "D7"), 21),
-    "1.5 P&C":                     (("C6", "C7"), 18),
-    "1.6 Finance":                 (("C6", "D6", "C7", "D7"), 19),
-    "1.7 Infrastructure":          (("C7", "D7", "C8", "D8"), 17),
-    "1.8 Energy Solutions & B2B":  (("C6", "D6", "C7", "D7"), 16),
-    "1.9 Commercial Fuels":        (("C6", "D6", "C7", "D7"), 15),
-    "1.10 Z Retail":               (("C6", "D6", "C7", "D7"), 12),
-}
-# 1.14 TDD Cyber is not here: cyber14.py writes that tab from scratch after this step and
-# writes its pair the new way directly.
-# 1.2 Customer is the dual-country tab: all four cells are the same formula with *0.5, so
-# the switch decides nothing except whether the overhead exists. They state the split.
-CUST_SPLIT = {"C6": "='0.2 Data Config'!$N$10*0.5",
-              "D6": "='0.2 Data Config'!$N$10*0.5",
-              "C7": "=SUM(I34,I42,I49)*0.5",
-              "D7": "=SUM(I34,I42,I49)*0.5"}
-
-# the switch as every tab writes it, with the branches captured so they can be re-hung on
-# the new condition unchanged. group 1 = the 0.2 budget row, 2 = TRUE (NZ) leg, 3 = FALSE.
-GEO_IF = re.compile(
-    r"^=IF\(\('0\.2 Data Config'!\$D\$(\d+)\)>\('0\.2 Data Config'!\$C\$\d+\),"
-    r"(.*),(.*)\)$")
-
-
-def home_country(wb, out):
-    """The AU/NZ column on 0.2, seeded from what the budget comparison resolves to."""
-    import copy
-    import opts as _o
-    ws = wb["0.2 Data Config"]
-    cream = ws.cell(11, 3)                              # C11, a cream input on this tab
-    # The header is cream and bold, not the navy every other header on this tab carries.
-    # That is deliberate twice over: the column is an input, not a figure, and row 5's
-    # navy runs B..I and K..N with J the gap that keeps the budget table and the overhead
-    # table apart. A navy J5 bridges them into one strip, the bar above follows the strip
-    # and stops agreeing with either table, and verify.py says so.
-    h = ws.cell(5, HOME_COL)
-    h._style = copy.copy(cream._style)
-    h.font = _o.BOLD
-    h.alignment = _o.CEN
-    h.number_format = "General"
-    h.value = HOME_HDR
-    seeded = []
-    for r in HOME_ROWS:
-        if ws.cell(r, 2).value is None:
-            continue
-        au, nz = ws.cell(r, 3).value, ws.cell(r, 4).value
-        au = au if isinstance(au, (int, float)) else 0
-        nz = nz if isinstance(nz, (int, float)) else 0
-        x = ws.cell(r, HOME_COL)
-        x._style = copy.copy(cream._style)
-        x.number_format = "General"
-        x.alignment = _o.CEN
-        x.value = "NZ" if nz > au else "AU"          # exactly the test it replaces
-        seeded.append(f"J{r}={x.value}({ws.cell(r, 2).value})")
-    from openpyxl.worksheet.datavalidation import DataValidation
-    dv = DataValidation(type="list", formula1='"AU,NZ"', allow_blank=True)
-    ws.add_data_validation(dv)
-    dv.add(f"J{HOME_ROWS[0]}:J{HOME_ROWS[-1]}")
-    out.append(f"0.2!J5 {HOME_HDR!r} added with an AU/NZ dropdown, {len(seeded)} rows "
-               f"seeded from the budget comparison they replace: {', '.join(seeded)}")
-
-
-def repoint_geography(wb, out):
-    """The forty overhead cells stop comparing budgets and read the Home country cell."""
-    n = 0
-    for tab, (cells, row) in GEO.items():
-        if tab not in wb.sheetnames:
-            out.append(f"{tab}: not in the workbook, geography left alone")
-            continue
-        ws = wb[tab]
-        home = f"'0.2 Data Config'!$J${row}"
-        for cell in cells:
-            cur = ws[cell].value
-            m = GEO_IF.match(cur) if isinstance(cur, str) else None
-            if not m:
-                out.append(f"{tab}!{cell} holds {str(cur)[:60]!r} - not the switch, "
-                           f"left alone")
-                continue
-            if int(m.group(1)) != row:
-                out.append(f"{tab}!{cell} compares 0.2 row {m.group(1)}, expected {row} "
-                           f"- left alone")
-                continue
-            # the NZ leg was the TRUE leg of D>C, so it stays the TRUE leg of ="NZ"
-            ws[cell] = f'=IF({home}="NZ",{m.group(2)},{m.group(3)})'
-            n += 1
-    ws = wb["1.2 Customer"]
-    for cell, f in CUST_SPLIT.items():
-        cur = ws[cell].value
-        if (isinstance(cur, str) and cur.endswith("*0.5")
-                and "'0.2 Data Config'!$D$13" in cur):
-            ws[cell] = f
-            n += 1
-        else:
-            out.append(f"1.2 Customer!{cell} holds {str(cur)[:60]!r} - left alone")
-    out.append(f"{n} overhead cells repointed: {len(GEO)} single-country tabs read "
-               f"0.2's Home country column, 1.2 Customer states its 50/50 split outright "
-               f"(1.14 TDD Cyber's pair is written the new way by cyber14.py, making 40)")
 
 
 # ---------------------------------------------------------------- the rest of the round
@@ -432,8 +286,6 @@ def run(src, dst):
             else:
                 out.append(f"{tab}!{cell} holds {str(cur)[:50]!r} - left alone")
     close_config_gaps(wb, out)
-    home_country(wb, out)
-    repoint_geography(wb, out)
     honest_cells(wb, out)
     wb.save(dst)
     return out
