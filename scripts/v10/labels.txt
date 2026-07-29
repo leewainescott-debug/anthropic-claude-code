@@ -3504,6 +3504,7 @@ AUD
   H16: CapEx
   B17: TDD Variance
   H17: Significant Items EGI
+  J17: Funded outside TDD ($m)
   B18: Other Variance
   H18: Significant Items
   L18: 4.5m? Flagged
@@ -3567,6 +3568,11 @@ AUD
   D40: L
   E40: Onshore
   F40: NZ
+  B41: Z Energy Martech
+  C41: Product
+  D41: S
+  E41: Onshore
+  F41: NZ
   M41: CPI actuals; pull through
   N41: Net New
   B42: Platform Overhead
@@ -3594,25 +3600,30 @@ AUD
   E48: Onshore
   F48: AU
   N48: Net New - 3FTE
-  B49: Platform Overhead
-  B50: Group Customer Platforms Total
-  B52: Platform: EGI Customer
-  B53: Squad
-  C53: Squad Type
-  D53: Size
-  E53: On/Off
-  F53: AU / NZ
-  G53: Support %
-  H53: Total Squad Cost ($m)
-  I53: TDD Cost ($m)
-  J53: Funded outside TDD ($m)
-  K53: Actual cost after decisions ($m)
-  L53: Variance to archetype ($m)
-  B54: EGI Customer
-  C54: Strategic Programs
-  E54: Onshore
-  F54: AU
-  B56: EGI Customer Total
+  B49: AU CRM & Martech
+  C49: Configuration / Integration
+  D49: XS
+  E49: Onshore
+  F49: AU
+  B50: Platform Overhead
+  B51: Group Customer Platforms Total
+  B53: Platform: EGI Customer
+  B54: Squad
+  C54: Squad Type
+  D54: Size
+  E54: On/Off
+  F54: AU / NZ
+  G54: Support %
+  H54: Total Squad Cost ($m)
+  I54: TDD Cost ($m)
+  J54: Funded outside TDD ($m)
+  K54: Actual cost after decisions ($m)
+  L54: Variance to archetype ($m)
+  B55: EGI Customer
+  C55: Strategic Programs
+  E55: Onshore
+  F55: AU
+  B57: EGI Customer Total
 
 ===== 1.3 Enterprise Data
   B2: Enterprise Data
@@ -5639,56 +5650,48 @@ AUD
   Q6: Squad cost after decisions ($m)
   R6: New variance ($m)
   B7: Squads
-  B8: Ampol App
-  C8: Product
-  D8: L
-  B9: Ampol Loyalty & Martech
+  B8: AU CRM & Martech
+  C8: Configuration / Integration
+  D8: XS
+  B9: Ampol App
   C9: Product
-  D9: M
-  B10: Ampol Web
+  D9: L
+  B10: Ampol Loyalty & Martech
   C10: Product
   D10: M
-  B11: Customer, AI
-  C11: Engineering
-  D11: S
-  B12: Digital Operations
-  C12: Operations
-  D12: M
-  B13: Z App and Web
-  C13: Product
-  D13: S
-  B14: Z Loyalty & Martech
+  B11: Ampol Web
+  C11: Product
+  D11: M
+  B12: Customer, AI
+  C12: Engineering
+  D12: S
+  B13: Digital Operations
+  C13: Operations
+  D13: M
+  B14: Z App and Web
   C14: Product
-  D14: L
-  B15: Squads total
-  B16: Directly funded programs and platforms
-  B17: EGI Customer
-  C17: Strategic Programs
-  D17: -
-  E17: -
-  B18: No archetype in 1.x tabs
-  B19: AU CRM & Martech
-  C19: Not on the 1.x tab
+  D14: S
+  B15: Z Energy Martech
+  C15: Product
+  D15: S
+  B16: Z Loyalty & Martech
+  C16: Product
+  D16: L
+  B17: Squads total
+  B18: Directly funded programs and platforms
+  B19: EGI Customer
+  C19: Strategic Programs
   D19: -
   E19: -
-  N19: -
-  P19: -
-  R19: -
-  B20: Energy
-  C20: Not on the 1.x tab
-  D20: -
-  E20: -
-  N20: -
-  P20: -
-  R20: -
-  B21: Leadership
+  B20: No archetype in 1.x tabs
+  B21: Energy
   C21: Not on the 1.x tab
   D21: -
   E21: -
   N21: -
   P21: -
   R21: -
-  B22: Z Energy Martech
+  B22: Leadership
   C22: Not on the 1.x tab
   D22: -
   E22: -
@@ -8759,38 +8762,30 @@ AUD
   D37: -
   F37: -
   B38: Groups with no archetype and no funded figure - nothing to compare to
-  B39: AU CRM & Martech
+  B39: Energy
   C39: Customer
   D39: -
   F39: -
-  B40: Energy
+  B40: Leadership
   C40: Customer
   D40: -
   F40: -
   B41: Leadership
-  C41: Customer
+  C41: Infrastructure
   D41: -
   F41: -
-  B42: Z Energy Martech
-  C42: Customer
+  B42: Groups with no archetype and no funded figure
   D42: -
   F42: -
-  B43: Leadership
-  C43: Infrastructure
+  B43: Cost of the 531 roles in the role mapping
   D43: -
   F43: -
-  B44: Groups with no archetype and no funded figure
-  D44: -
-  F44: -
-  B45: Cost of the 531 roles in the role mapping
+  B44: Leadership - the 8 GMs, outside the role mapping
+  B45: Total cost of TDD including the GM layer
   D45: -
   F45: -
-  B46: Leadership - the 8 GMs, outside the role mapping
-  B47: Total cost of TDD including the GM layer
-  D47: -
-  F47: -
-  B49: Control - roles against the role mapping, must be 0
-  B50: Control - cost against the role mapping ($m), must be 0
+  B47: Control - roles against the role mapping, must be 0
+  B48: Control - cost against the role mapping ($m), must be 0
 
 ===== 3.2 Overhead & Leadership
   B2: Archetype Overhead & Actual Leadership comparison
@@ -8960,64 +8955,58 @@ AUD
   F19: -
   B20: Customer
   C20: Archetype
-  D20: Ampol App
-  E20: Product
-  F20: L
+  D20: AU CRM & Martech
+  E20: Configuration / Integration
+  F20: XS
   B21: Customer
   C21: Archetype
-  D21: Ampol Loyalty & Martech
+  D21: Ampol App
   E21: Product
-  F21: M
+  F21: L
   B22: Customer
   C22: Archetype
-  D22: Ampol Web
+  D22: Ampol Loyalty & Martech
   E22: Product
   F22: M
   B23: Customer
   C23: Archetype
-  D23: Customer, AI
-  E23: Engineering
-  F23: S
+  D23: Ampol Web
+  E23: Product
+  F23: M
   B24: Customer
   C24: Archetype
-  D24: Digital Operations
-  E24: Operations
-  F24: M
+  D24: Customer, AI
+  E24: Engineering
+  F24: S
   B25: Customer
   C25: Archetype
-  D25: Z App and Web
-  E25: Product
-  F25: S
+  D25: Digital Operations
+  E25: Operations
+  F25: M
   B26: Customer
   C26: Archetype
-  D26: Z Loyalty & Martech
+  D26: Z App and Web
   E26: Product
-  F26: L
+  F26: S
   B27: Customer
-  C27: Directly funded
-  D27: EGI Customer
-  E27: Strategic Programs
-  F27: -
-  G27: -
+  C27: Archetype
+  D27: Z Energy Martech
+  E27: Product
+  F27: S
   B28: Customer
-  C28: No figure to compare
-  D28: AU CRM & Martech
-  E28: Not on the 1.x tab
-  F28: -
-  G28: -
-  L28: -
-  N28: -
+  C28: Archetype
+  D28: Z Loyalty & Martech
+  E28: Product
+  F28: L
   B29: Customer
-  C29: No figure to compare
-  D29: Energy
-  E29: Not on the 1.x tab
+  C29: Directly funded
+  D29: EGI Customer
+  E29: Strategic Programs
   F29: -
   G29: -
-  L29: -
-  N29: -
   B30: Customer
   C30: No figure to compare
-  D30: Leadership
+  D30: Energy
   E30: Not on the 1.x tab
   F30: -
   G30: -
@@ -9025,7 +9014,7 @@ AUD
   N30: -
   B31: Customer
   C31: No figure to compare
-  D31: Z Energy Martech
+  D31: Leadership
   E31: Not on the 1.x tab
   F31: -
   G31: -

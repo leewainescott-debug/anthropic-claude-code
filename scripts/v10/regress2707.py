@@ -228,12 +228,23 @@ def run(path):
     v12 = wv["1.2 Customer"]
     check("1.2!F7 = 0.495 - platform overhead once, as in both his workbooks",
           abs((v12["F7"].value or 0) - 0.495) < 1e-9, str(v12["F7"].value))
-    check("1.2!F9 = 15.5625", abs((v12["F9"].value or 0) - 15.5625) < 1e-6,
+    # 17.2625 = his 15.5625 plus the two squads D117 put back on the tab: Z Energy
+    # Martech at Product S (1.3, support 1) and AU CRM & Martech at Config/Int XS
+    # (0.4, support 0.2 - 0.08 TDD + 0.32 funded outside)
+    check("1.2!F9 = 17.2625", abs((v12["F9"].value or 0) - 17.2625) < 1e-6,
           str(v12["F9"].value))
+    # I50, not I49: the AU CRM & Martech insertion moved the Group Customer overhead
+    # row down one, and the seven boundary formulas moved with it (D117)
     check("1.2!C7 is the complement of D7 - one branch fires, never both",
-          str(wb["1.2 Customer"]["C7"].value).endswith("0,SUM(I34,I42,I49))")
-          and str(wb["1.2 Customer"]["D7"].value).endswith("SUM(I34,I42,I49),0)"),
+          str(wb["1.2 Customer"]["C7"].value).endswith("0,SUM(I34,I42,I50))")
+          and str(wb["1.2 Customer"]["D7"].value).endswith("SUM(I34,I42,I50),0)"),
           str(wb["1.2 Customer"]["C7"].value)[-40:])
+    check("1.2 prices all four Martech/CRM squads",
+          all(any(str(wb["1.2 Customer"].cell(r, 2).value or "").strip() == nm
+                  for r in range(30, 60))
+              for nm in ("Ampol Loyalty & Martech", "Z Loyalty & Martech",
+                         "AU CRM & Martech", "Z Energy Martech")),
+          "a squad row is missing")
     v10 = wv["1.10 Z Retail"]
     check("1.10!F7 = 0.330 (his no-overhead note honoured)",
           abs((v10["F7"].value or 0) - 0.330) < 1e-9, str(v10["F7"].value))
@@ -546,8 +557,10 @@ def run(path):
                     n_hyb += 1
                     if "$K$8" not in f or "))/2," in f:
                         bad_hyb += 1
-    check("all 40 squad formulas carry the hybrid rule, none the old midpoint",
-          n_hyb == 40 and bad_hyb == 0, f"{n_hyb} formulas, {bad_hyb} old-shape")
+    # 42 = the original 40 plus the two Customer squads his D117 ruling put back on 1.2
+    # (AU CRM & Martech and Z Energy Martech)
+    check("all 42 squad formulas carry the hybrid rule, none the old midpoint",
+          n_hyb == 42 and bad_hyb == 0, f"{n_hyb} formulas, {bad_hyb} old-shape")
 
     # ---- wave J: the simplification sweep, asserted so it cannot creep back
     idx_join = []
@@ -641,11 +654,20 @@ def run(path):
     box17 = str(wb["1.7 Infrastructure"]["N7"].value or "")
     check("the 1.x Actual portfolio line reads the working tab's Actual cost column",
           "!$O$" in box17, box17)
+    # found by label, not row number - the bridge gains and loses named lines as squads
+    # move between its steps, which is exactly what D117 did
     v31g = wv["3.1 Cost Bridge"]
+    r_led = next((r for r in range(4, 60)
+                  if str(v31g.cell(r, 2).value or "").startswith("Cost of the")), None)
+    r_gr = next((r for r in range(4, 60)
+                 if str(v31g.cell(r, 2).value or "").startswith(
+                     "Total cost of TDD including")), None)
     check("3.1's ledger and grand rows carry a dash, not a 395-vs-531 'variance'",
-          str(v31g["D45"].value) == "-" and str(v31g["F45"].value) == "-"
-          and str(v31g["D47"].value) == "-" and str(v31g["F47"].value) == "-",
-          f"D45={v31g['D45'].value!r} F45={v31g['F45'].value!r}")
+          r_led is not None and r_gr is not None
+          and all(str(v31g.cell(r, c).value) == "-"
+                  for r in (r_led, r_gr) for c in (4, 6)),
+          f"ledger r{r_led} grand r{r_gr}: "
+          f"{[v31g.cell(r, c).value for r in (r_led or 4, r_gr or 4) for c in (4, 6)]}")
     exec_b = [str(wv["Exec Summary"].cell(r, 2).value or "") for r in range(4, 40)]
     check("Exec names the portfolio slice and the COE slice of the overhead gap",
           any(x.startswith("Overhead roles in the portfolios") for x in exec_b)

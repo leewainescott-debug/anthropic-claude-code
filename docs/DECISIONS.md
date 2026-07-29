@@ -6,7 +6,7 @@ Companion file: `docs/PLAN.md` (what we are doing and what is outstanding).
 "Lee" means you decided it. "Build" means I decided it and it is reversible - each one is
 flagged so you can overturn it without hunting for where it lives.
 
-Last updated: after wave K - the three-reviewer QA, the true 1.2 restore, and the GM-readiness fixes.
+Last updated: after D117 - every Customer squad prices; two archetype rows restored to 1.2.
 
 ---
 
@@ -851,12 +851,11 @@ Sentence-level rewording of his prose is not on the list and is not done. Every 
 is visible in the whatsgone output on every build, so a wording change cannot hide among
 the name normalisations. Any of them is reversible on his word.
 
-One naming case is flagged rather than resolved: his role mapping carries BOTH
-"AU CRM & Martech" (2 roles) and "Ampol Loyalty & Martech" (7), and both "Z Energy
-Martech" and "Z Loyalty & Martech". Renaming his two 1.2 squad rows to the larger squads
-left the two small ones with no archetype row - their ~$0.44m shows in 3.1's "nothing
-prices these" bucket, visibly but unpriced. Adding two squad rows to his 1.2 would price
-them; that is his tab, so it waits for his word.
+One naming case surfaced here was resolved by his word the next day: his role mapping
+carries BOTH "AU CRM & Martech" (2 roles) and "Ampol Loyalty & Martech" (7), and both
+"Z Energy Martech" and "Z Loyalty & Martech" - renaming his two 1.2 rows to the larger
+squads had left the two small ones unpriced. He ruled they price; the rows are back
+(D117).
 
 ### D115. Wave K: three reviewers over the shipped file, and what their findings changed.
 Three Opus reviewers read the shipped workbook cold - a GM story lens, a CFO model lens and
@@ -921,6 +920,34 @@ the tab that defines the archetypes, so as typed it taught every reader the rule
 Same precedence as D83: his newer instruction outranks his older text. Corrected to
 "Hybrid = 2 roles onshore, rest offshore"; hybrid.py documents the exemption; the gate pins
 the corrected sentence. One word from him reverses it.
+
+### D117. Every Customer squad prices: the two missing archetype rows are on 1.2. Lee.
+"we need to fix 5... they should [have archetype rows] if they're squads." His role mapping
+carries four Martech/CRM squads in Customer; his 1.2 carried rows for two. The name
+normalisation (D114) had matched his two typed rows to the two big squads, leaving
+AU CRM & Martech (two WIPRO vacancies, $0.147m) and Z Energy Martech ($0.288m) with people
+on the working tab, a named line in 3.1's "nothing prices these" bucket, and no archetype
+row pricing them.
+
+Two rows added by `repair_design.add_missing_squads`, wired identically to their siblings
+(archetype lookup, TDD/funded-outside split, the working-tab actuals join, the hybrid
+sweep). Z Energy Martech sits in row 41 - the row his removed Digital Support NZ squad
+vacated, already inside every range on the tab. AU CRM & Martech is a true insertion in the
+Group Customer block; the seven formulas that cross the insertion point are rewritten by
+exact text match, the pass proves nothing elsewhere references the shifted rows before it
+touches anything, and it refuses to run at all if any expected text is absent.
+
+**The four pricing inputs on each row are seeds, not his numbers - they are cream and his
+to retype:**
+- AU CRM & Martech: Configuration / Integration, XS ("MS Squad - work managed by a
+  partner", 0.3's own use-when; both roles are WIPRO), Onshore, AU, support 0.2 like its
+  two block siblings.
+- Z Energy Martech: Product, S (the smallest Product archetype; it is a Martech squad and
+  both his Loyalty & Martech squads are Product), Onshore, NZ, support 1 like its block
+  siblings.
+
+The gate pins 42 hybrid-swept squad formulas (was 40) and the new 1.2 totals; the two
+squads leave 3.1's unpriced bucket and join Customer's archetype line.
 
 ### D104. Hybrid prices two roles onshore and the rest offshore, and the two is his to set.
 His rule, replacing the 50/50 assumption: per-FTE cost is the archetype's squad cost over
@@ -1341,9 +1368,9 @@ These are in `docs/PLAN.md` section 6 and are not decided yet:
    (totalling 1.7 FTE against 7 headcount) are charged at their full base. If the base
    figures are full-time salaries, cost is overstated ~$0.36m; if they are already
    pro-rated, nothing is wrong. Only Lee knows which his source data is.
-6. His 1.2 squad rows for "AU CRM & Martech" and "Z Energy Martech" (see D114): both
-   squads exist in his role mapping and neither has an archetype row, so ~$0.44m sits in
-   3.1's "nothing prices these" bucket. Two added rows would price them; his call.
+6. ~~The two Customer squads with no archetype row~~ - settled by D117: both rows are on
+   1.2 and priced. Still his: the seeded Type/Size/Support on each row (cream, listed in
+   D117) if the seeds are not what he would pick.
 
 (Frozen panes came off this list: item 94 and his direct instruction settled it - none,
 anywhere. The old entry here claiming they were "applied consistently" described a state
