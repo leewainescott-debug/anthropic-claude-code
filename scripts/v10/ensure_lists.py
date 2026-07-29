@@ -50,6 +50,22 @@ def run(src, dst, ancestor="base_ship.xlsx"):
                 n += 1
         cols = f"{openpyxl.utils.get_column_letter(c0)}:{openpyxl.utils.get_column_letter(c1)}"
         out.append(f"Lists {cols}: {n} cells restored from the ancestor")
+    # One offshore rate, not two. AD5 drives the vacancy lever on all fifteen working
+    # tabs; 0.3!K5 is the owner's own Offshore rate and drives the archetype prices. As
+    # two typed 0.4s, retyping his K5 moved the archetype side only, and every variance
+    # column became a comparison of two different offshore assumptions with no control
+    # that fires. AD5 now reads his cell, so his one input drives both sides.
+    if l["AD5"].value in (0.4, "='0.3 Squad Archetypes'!$K$5"):
+        l["AD5"] = "='0.3 Squad Archetypes'!$K$5"
+        out.append("Lists!AD5 = 0.3!K5 - the lever's offshore rate is his archetype "
+                   "Offshore rate, one input driving both sides")
+    else:
+        out.append(f"Lists!AD5 holds {l['AD5'].value!r} - left alone")
+    # and the note beside the GM layer still said 525 and "ledger"
+    if isinstance(l["AF13"].value, str) and "525" in l["AF13"].value:
+        l["AF13"] = ("The 8 GMs are the only overhead line with no role in REVIEW, so "
+                     "their cost is entered here and sits above the role mapping.")
+        out.append("Lists!AF13: 525/ledger wording brought up to date")
     wb.save(dst)
     return out
 

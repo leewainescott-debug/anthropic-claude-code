@@ -193,6 +193,13 @@ def fix_02(wb):
         if h and h > 50:
             ws.row_dimensions[r].height = 14.25
             out.append(f"0.2 row {r} height {h} -> 14.25")
+    # the platform-overhead rate block foots on the page: at two decimals 0.084 + 0.081
+    # displayed as 0.08 + 0.08 under a subtotal displaying 0.17, and that column is the
+    # first thing a finance reader foots on the input tab
+    for cell in ("N14", "N15", "N16"):
+        if isinstance(ws[cell].value, (int, float, str)) and ws[cell].value is not None:
+            ws[cell].number_format = "0.000"
+    out.append("0.2!N14:N16 shown at three decimals, so the per-platform rate foots")
     # every header row on the tab, sized by the same wrap arithmetic the builders use,
     # so the two overhead bands come out the same depth as each other and nothing clips
     for r in range(1, 30):
@@ -282,14 +289,21 @@ def bars_and_totals(wb):
 
 
 def empty_inputs(wb):
-    """Cream on an empty cell reads as a box waiting for a number that nothing wants."""
-    n = 0
+    """Cream on an empty cell reads as a box waiting for a number that nothing wants.
+
+    And cream on a formula is a worse lie: cream is the file's one promise that a cell is
+    a typed input the reader may change, so a cream cell computing =0.5*I14 both hides a
+    rule and invites the reader to destroy it by typing over it. The formula keeps its
+    value; only the input paint comes off."""
+    n = m = 0
     for ws in wb.worksheets:
         if ws.sheet_state != "visible" or ws.title in SOURCE:
             continue
         for row in ws.iter_rows():
             for c in row:
-                if c.value is None and _fill(c) == opts.YEL:
+                if _fill(c) != opts.YEL:
+                    continue
+                if c.value is None:
                     # keep it where the row it sits on carries a label; otherwise it is
                     # an orphan
                     if not any(isinstance(ws.cell(c.row, k).value, str)
@@ -297,7 +311,12 @@ def empty_inputs(wb):
                                for k in range(2, c.column)):
                         c.fill, c.border = NONE_FILL, NO_BORDER
                         n += 1
-    return [f"{n} orphan cream cells cleared"]
+                elif isinstance(c.value, str) and c.value.startswith("="):
+                    c.fill = NONE_FILL
+                    m += 1
+    return [f"{n} orphan cream cells cleared",
+            f"{m} formula cells stripped of the input colour - cream is for typed "
+            f"inputs only"]
 
 
 def review_font(wb):
@@ -399,11 +418,47 @@ def align_3x(wb):
     return [f"column B set to 34 on all {n} summary tabs, so the left edge lines up"]
 
 
+def snapshot_flag(wb):
+    """His hand-typed role-review columns on 1.4, 1.5 and 1.6, named as a snapshot.
+
+    The blocks are his - "Nbr Archetype Roles", "Published Roles", "Vacant Now" - and
+    they disagree with the live counts on the same tabs on five of the eight squads they
+    cover, because the model has moved since he typed them. His numbers are not touched;
+    the model says what they are beside them, which is the rule for content of his the
+    model disagrees with. Undated and unlabelled they read as a second, contradicting set
+    of live figures."""
+    out = []
+    for t in ("1.4 TDD Group Functions", "1.5 P&C", "1.6 Finance"):
+        if t not in wb.sheetnames:
+            continue
+        ws = wb[t]
+        for r in range(1, min(ws.max_row, 60) + 1):
+            for c in range(18, 26):
+                if str(ws.cell(r, c).value or "").strip() == "Nbr Archetype Roles":
+                    tgt = ws.cell(r - 1, c)
+                    if tgt.value is None:
+                        tgt.value = ("Role review notes - a hand-typed snapshot, not "
+                                     "live model figures")
+                        tgt.font = openpyxl.styles.Font(name="Calibri", size=10,
+                                                        italic=True)
+                        out.append(f"{t}: review block at {L(c)}{r} named as a snapshot")
+                    break
+            else:
+                continue
+            break
+    return out or ["no review blocks found to flag"]
+
+
 def qa_bar(wb):
-    """4.0 was the only built tab with a header row and no bar over it."""
+    """4.0 was the only built tab with a header row and no bar over it.
+
+    Not the tab title's own sentence again: the title two rows up already says every
+    difference must read zero, and a bar repeating it word for word read as a mistake."""
     ws = wb["4.0 Data QA"]
     if _fill(ws.cell(3, 2)) != opts.BARC:
-        opts.bar(ws, 3, 2, 4, "Every difference must read zero")
+        opts.bar(ws, 3, 2, 4, "Live checks - both sides computed from this file")
+    elif str(ws.cell(3, 2).value or "") == "Every difference must read zero":
+        ws.cell(3, 2).value = "Live checks - both sides computed from this file"
     return ["4.0 given a section bar, like every other built tab"]
 
 
@@ -412,7 +467,8 @@ def run(src, dst, rev=REV):
     keep, note = rev_literals(rev)
     out = ([note] + no_red(wb) + hide_sources(wb) + drop_prose(wb, keep) + fix_02(wb)
            + bars_and_totals(wb) + empty_inputs(wb) + review_font(wb) + coe_widths(wb)
-           + titles(wb, keep) + strays(wb, keep) + review_cream(wb) + align_3x(wb) + qa_bar(wb))
+           + titles(wb, keep) + strays(wb, keep) + review_cream(wb) + align_3x(wb)
+           + snapshot_flag(wb) + qa_bar(wb))
     wb.save(dst)
     return out
 

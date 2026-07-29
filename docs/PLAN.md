@@ -15,11 +15,13 @@ cell; it does not change it. Four things were changed without asking and have be
 reversed - they are listed in `RETIRED.md` section B. That section is the standing
 reminder, not a closed incident.
 
-The one exception, and it is narrow: a **name** he typed that does not match the role
-mapping is normalised to the role mapping's spelling, because a label that does not match
-does not join and the roles behind it vanish off the tab. Wording is never touched.
-`whatsgone.py` proves the distinction on every build - it lists every value he typed that
-is not in the file, so a wording change cannot hide among the name normalisations.
+The exceptions are narrow and every one is disclosed: a **name** he typed that does not
+match the role mapping is normalised to the role mapping's spelling (a label that does not
+match does not join, and the roles behind it vanish off the tab); an obvious **typo** that
+would mislead is fixed; a **cross-reference** inside a note of his that points at a
+renamed tab is updated. Sentence-level rewording of his prose is never done. D114 lists
+every current exception by cell. `whatsgone.py` runs on every build and lists every typed
+value of his that is not in the file, so nothing in this class can hide.
 
 **Verification is scripted, not delegated.** `audit.py` recomputes every figure from the
 role mapping, proves all 531 people appear exactly once on the tab it assigns, checks every
@@ -142,50 +144,32 @@ funded programme is on the page by name.
 Every variance on the page is like for like. Where there is nothing to compare against, the
 column says so rather than measuring a cost against a zero.
 
-| Step | Archetype / funded | Actual | Variance | Roles |
-|---|---|---|---|---|
-| Squads priced by an archetype, one line per portfolio | 64.20 | 63.98 | (0.22) | 316 |
-| AmPOS | 1.40 | 2.12 | 0.71 | 10 |
-| EGI Retail | 1.52 | 1.22 | (0.30) | 6 |
-| EGI TDD (Ampol Retail) | - | 0.30 | - | 1 |
-| EGI Customer | - | 2.21 | - | 10 |
-| EGI TDD (TDD Group Functions) | - | 1.02 | - | 4 |
-| EGI P&C | - | 0.24 | - | 1 |
-| EGI Finance | - | 0.24 | - | 1 |
-| CTRM | 3.80 | 3.22 | (0.58) | 14 |
-| **Directly funded, where the funded figure is set** | **6.72** | **6.56** | **(0.17)** | **30** |
-| **Directly funded, where no funded figure is set yet** | **-** | **4.01** | **-** | **17** |
-| COE Cyber, COE BP&T, COE SA&D, EGI | - | 27.77 | - | 113 |
-| **COEs and EGI** | **-** | **27.77** | **-** | **113** |
-| Overhead roles in the portfolios, against the allowance | 4.84 | 11.65 | 6.81 | 43 |
-| **Everything with a figure to compare** | **75.76** | **82.19** | **6.43** | **389** |
-| Leadership (Customer) | - | 1.05 | - | 5 |
-| Leadership (Infrastructure) | - | 0.26 | - | 1 |
-| **Groups with no archetype and no funded figure** | **-** | **1.30** | **-** | **6** |
-| **Cost of the 525 roles in the ledger** | **75.76** | **115.28** | **39.52** | **525** |
-| Leadership - the 8 GMs, outside the ledger | 3.00 | 5.10 | 2.10 | 8 |
-| **Total cost of TDD including the GM layer** | **78.76** | **120.38** | **41.62** | **533** |
+The bridge's steps, in order: squads priced by an archetype (one line per portfolio);
+every directly funded program by name, split into those with a funded figure set and
+those without; the COEs and EGI, which have no archetype and say so; overhead roles in the
+portfolios against the allowance; the comparable subtotal ("Everything with a figure to
+compare" - the only row whose variance means what a reader assumes); groups with no
+archetype and no funded figure; the ledger total; the GM layer; the grand total.
 
-Only three steps carry an archetype figure that prices the whole of their own actual, and
-those three are what the comparable subtotal adds. The totals below it carry the comparison
-too, on the owner's instruction: archetype against actual with the difference beside it. The
-38.03 on the ledger row is everything the archetype does not reach - the COEs, the programmes
-with no funded figure set, Leadership - plus the overspend on what it does. Every one of
-those is a named line above with a dash in the archetype column, so the figure cannot be read
-as anything else.
+**The figures are not restated here.** An earlier version of this section carried the full
+bridge as a table and every number in it went stale within two builds while still reading
+as current (the fidelity review caught it quoting the 525-role era). The bridge is
+`3.1 Cost Bridge`; the log of the latest build is `chain2_run.log`/`chainA2_run.log`; the
+recomputed proof is `audit.py`'s output. Figures live there.
 
-Six of the eight directly funded programmes have no funded figure set against them on their
-1.x tab, so there is nothing to compare them to and the column says so. Set one and that
-programme moves to the line above by itself - the split is a formula, not a list.
+The ledger and grand total rows carry a dash in the archetype and variance columns, not a
+number: their actual side covers all 531 roles and the archetype prices only the
+comparable set, so a "variance" struck there would mix bases - the wave-K review showed
+two independent readers taking exactly that misreading from the earlier shape (D115). The
+comparable variance is the subtotal row, and it is what the Exec Summary quotes.
 
-Of the $115.11m, $86.58m is people in seat and $28.53m is 135 vacancies nobody has been
-hired into yet. Both are on 3.2 and on Exec, so the headline is not read as payroll.
+A directly funded program with no funded figure on its 1.x tab sits on the "no funded
+figure" line; set the figure and the program moves up a line by itself - the split is a
+formula, not a list.
 
-The overhead allowance is 12.925 across six lines. Only three of them draw in the
-portfolios: the Business Partner and Domain Architect allowances are drawn inside the COEs,
-where all thirteen of those people sit, and the 8 GMs sit above the 525-role ledger. 3.2
-states all six line by line, splits the roles between the portfolios and the COEs, and
-carries the one line that reconciles the block to 3.1.
+The overhead allowance is stated line by line on 3.2, split by where the people sit, with
+the control that reconciles it to 3.1. The 8 GMs sit above the role mapping entirely and
+are their own named line everywhere they appear.
 
 ## 6. Where the model stands
 
@@ -245,7 +229,7 @@ Every design squad now has people in it. The three that did not are gone.
 | Cyber vacancies | `1.13!E7` carries your comment "there are a total of 8 vacant roles" against a cell reading 4. REVIEW has 4. If 8 is right, four vacancies are missing from REVIEW and the fix belongs there. | Lee to settle |
 | 1.5 EGI P&C funded amount | `1.5!H32` is a blank cream input, so that platform prices at zero while the squad's one role costs $0.24m. Until it is set, both option workbooks state that squad's variance as a dash and hold its $0.24m on a separate "squads with no archetype to price them" line rather than adding it to a comparison it is not part of. | Lee to set |
 | ~~Which option ships~~ | Settled: Option A. `TDD_Cost_Calc.xlsx` is Option A; Option B is not built. | done |
-| Frozen panes | Register item 70 asks for them on every long table, item 94 records that they were all removed. Applied consistently on every table over 25 rows. One line to reverse. | Lee to pick |
+| Frozen panes | Register item 70 asked for them, item 94 and his direct instruction removed them. **None anywhere in the shipped workbook** - an earlier version of this row claimed they were applied, which was never true of any shipped build. | Settled: none |
 | Bridge tab | One page walking archetype cost to actual cost, line by line. Explained; not yet built. | Lee to say yes or no |
 
 ## 8a. Actual against archetype on the 1.x tabs - two options
@@ -270,16 +254,20 @@ amount and moves no other squad.
 no archetype prices them; their groupings are by department while the working tab groups by
 squad, so the split cannot be taken from either tab without inventing a mapping.
 
-## 9. The seven QA passes
+## 9. The QA passes
 
-`scripts/v10/qaall.sh` runs the five standing passes against a built workbook, and
-`scripts/v10/qa1x.py` adds two more for the 1.x comparison. They are deliberately different
-in what they can see, because four of them passed while two variance bugs were live - both
-were internally consistent additions of the wrong things - and six of them passed while two
-of the owner's own columns had been overwritten on 1.6.
+The count is not the point; the coverage is (RETIRED.md §C). The passes are deliberately
+different in what they can see, because four of them once passed while two variance bugs
+were live - both internally consistent additions of the wrong things - and six passed
+while two of the owner's own columns had been overwritten on 1.6. Scripted passes prove
+arithmetic on every build; reviewer agents are for judgement only, and their findings are
+adjudicated against "his content is his" before anything changes (D115).
 
 | Pass | What it can see |
 |---|---|
+| `audit.py` | every figure recomputed from the role mapping; all 531 people exactly once on their assigned tab; every control; column-shape breaks, buried constants, unmarked inputs, rounding chains, unbounded references |
+| `regress2707.py` | every defect ever found, pinned dead; every reversal pinned in place |
+| `whatsgone.py` | every typed value of his that is not in the file, split into what his own later book replaced and what the build changed |
 | `wbio.audit` | formula errors, and formula cells shipped with no cached value |
 | `4.0 Data QA` | 56 live checks inside the workbook, every difference must read zero |
 | `qa.py` | adversarial: silent zeros, dangling references, bad SUM ranges, stale literals, family drift, cross-tab disagreement |

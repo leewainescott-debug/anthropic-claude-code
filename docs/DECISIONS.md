@@ -6,7 +6,7 @@ Companion file: `docs/PLAN.md` (what we are doing and what is outstanding).
 "Lee" means you decided it. "Build" means I decided it and it is reversible - each one is
 flagged so you can overturn it without hunting for where it lives.
 
-Last updated: after the reversal build - his 1.2, his labels, no Home country column.
+Last updated: after wave K - the three-reviewer QA, the true 1.2 restore, and the GM-readiness fixes.
 
 ---
 
@@ -785,32 +785,28 @@ headings, returned nothing, and skipped the entire tab behind the message "3.2 i
 one of its columns". Every figure on that tab had been unverified since. Rewired, and the
 gate now fails if that message ever appears again.
 
-### D112. 1.2 Customer is reverted to his shape. Lee, directly: "revert 1.2 plz".
-I had "fixed" 1.2!C7 and D7. His two cells hold the *same* formula - `IF(NZ budget > AU
-budget, SUM(I34,I42,I49), 0)` - so both fire and Customer's platform overhead is added into
-the AU column and again into the NZ column. Row 6 above it does the same thing but multiplies
-each side by 0.5, which is how a portfolio genuinely split across two countries should read.
-Row 7 is row 6 without the `*0.5`.
+### D112. 1.2!C7 restored to his true shape - and the first version of this entry was wrong.
+This entry as first written said his C7 and D7 were byte-identical and that 0.99 of platform
+overhead was "his shape". **That was false.** The wave-K fidelity review checked both of his
+workbooks and found:
 
-Reverted, and pinned so it cannot drift back. What it does, stated once so nobody has to
-rediscover it:
+- **His review workbook:** C7 sums column H (empty on the overhead rows), D7 sums column I.
+  One branch carries a figure. F7 = 0.495.
+- **His 27/07 workbook:** C7 is the exact complement of D7 - the `0` and the `SUM` swap
+  branches, so exactly one fires whichever country is home. F7 = 0.495.
+- **Neither of his books ever counted the overhead twice.** The double count was introduced
+  by `repair_design.py`, which "corrected" his C7's H columns to I and made C7 identical to
+  D7. My later `*0.5` "fix" halved my own defect; his "revert 1.2 plz" then removed the
+  halving, restoring the defect, and this entry blamed the result on him.
 
-| | With my change | His shape, as it now ships |
-|---|---|---|
-| 1.2!F7, Customer platform overhead | 0.495 | 0.99 |
-| 1.2!F9, Customer total cost | 15.5625 | 16.0575 |
-| 0.2 Ampol Customer spend | 4.90 | 5.14 |
-| 0.2 Z Customer spend | 4.75 | 4.99 |
-| Lists!AH5, platforms the model counts | 22 | 25 |
-| 3.2 / 3.1 overhead allowance in the portfolios | 5.005 | 5.500 |
+C7 now ships in his 27/07 complement shape - his newest statement of the cell - and the
+figures are his again: F7 0.495, F9 15.5625, 22 platforms on Lists!AH5, the 5.005 overhead
+allowance on 3.1/3.2. `regress2707.py` pins the complement shape, F7, F9 and the exact
+platform-count equality, so neither the corruption nor the false "his shape" story can
+return without the gate going red.
 
-`Lists!AH5` counts platforms by dividing the 1.x platform-overhead total by the per-platform
-rate, so a platform paid for twice *is* two platforms to everything downstream. Customer's
-three platforms are counted six times. If he wants it back the change is `*0.5` on the end of
-C7 and D7 - his own row 6, one row up, already written that way.
-
-`regress2707.py` now pins his shape, and holds the platform-count gap to exactly this one
-cause, so any *other* tab that starts miscounting still turns the gate red.
+Kept in this corrected form rather than deleted, because the lesson is the point: a claim
+about "his shape" is checked against his files, not against the build's memory of them.
 
 ### D113. The Home country column is off 0.2, and the 1.x tabs decide it his way again. Lee.
 "why have u put home country dat config???? pointless information i never asked for."
@@ -833,16 +829,98 @@ Two more of mine reversed in the same pass:
 ### D114. What of his is not in the build, answered mechanically rather than from memory.
 `whatsgone.py` takes every value he typed in his own workbooks - literals only, not formula
 results, which are meant to move - and asks whether that content still appears anywhere on
-the same tab of the build. Against `base_2707.xlsx`: 195 typed values differ, of which 190
-were superseded by his own later review workbook and 5 were mine. Against `rev.xlsx`, the
-later book: 61, now 55 after the restores above.
+the same tab of the build. It runs on every build at the end of `chainA2.sh`; the current
+counts are always the ones in `chainA2_run.log`, and this entry deliberately quotes none
+(the first version quoted four and the fidelity review found all four stale within a day).
 
-What is left is not wording, it is naming. His hand-typed squad and platform labels on the
-1.x tabs are normalised to the names in his own role mapping so the join finds them:
-"Network / QSR" to "Network & QSR", "AU Finance" to "SAP ERP", "Network & Infrastructure" to
-"Cloud, Network & Infra Ops", "P&C - RTA" to "P&C RTA", and six more. REVIEW is the source of
-truth (D1); a label that does not match it does not join. Listed in full in his hand-back
-rather than silently kept.
+What the list contains, honestly stated - the fidelity review corrected this entry's first
+claim that it was "not wording, it is naming":
+- **Names**, the bulk: his hand-typed squad and platform labels normalised to his own role
+  mapping's spelling so the join finds the people ("Network / QSR" to "Network & QSR",
+  "AU Finance" to "SAP ERP", "Network & Infrastructure" to "Cloud, Network & Infra Ops",
+  and the rest). REVIEW is the source of truth (D1); a label that does not match it does
+  not join.
+- **Typo fixes** where a word would otherwise mislead ("acorss", "Siginificant").
+- **Cross-references updated to renamed tabs** inside two of his notes (1.12!B53's
+  "3.3 FTE View" is now "3.3 Squad Detail", and its "4.3" a "2.3").
+- **Two headers**: 1.4!H8 "(Over)/ Under budget" became the family's "TDD over/(under)
+  budget ($m)" with its sign flipped to match (meaning preserved), and 1.5!C5 "TDD  ($m)"
+  gained its missing country word.
+
+Sentence-level rewording of his prose is not on the list and is not done. Every item above
+is visible in the whatsgone output on every build, so a wording change cannot hide among
+the name normalisations. Any of them is reversible on his word.
+
+One naming case is flagged rather than resolved: his role mapping carries BOTH
+"AU CRM & Martech" (2 roles) and "Ampol Loyalty & Martech" (7), and both "Z Energy
+Martech" and "Z Loyalty & Martech". Renaming his two 1.2 squad rows to the larger squads
+left the two small ones with no archetype row - their ~$0.44m shows in 3.1's "nothing
+prices these" bucket, visibly but unpriced. Adding two squad rows to his 1.2 would price
+them; that is his tab, so it waits for his word.
+
+### D115. Wave K: three reviewers over the shipped file, and what their findings changed.
+Three Opus reviewers read the shipped workbook cold - a GM story lens, a CFO model lens and
+a fidelity lens - after his instruction to QA everything to a standard fit for the GMs.
+Mechanical arithmetic was already proven by the scripts; these were judgement findings.
+What changed, beyond D112 and D116:
+
+- **3.1's bold bottom line no longer strikes a "variance" it cannot mean.** The ledger row
+  put the 395-role archetype base under the 531-role actual and called the 40.72 difference
+  "Variance to archetype"; the Exec says 10.42 for the comparable set. Both reviewers took
+  40.72 as the answer. The ledger and grand rows now carry a dash in the archetype and
+  variance columns, like 3.3's Group total; the comparable variance stays on its own named
+  rows, which is what the Exec quotes.
+- **"Actual portfolio" on the 1.x tabs now reads the actual.** The row (and the summary
+  "Actuals" column beside the budget box) read the *after-decisions* column, so the one tab
+  with a lever set - 1.7 - showed 7.58 under the word "Actual" while the Exec's drill-down
+  said 7.75. Any lever pulled in the room would have silently rewritten the "Actuals"
+  column. Rewired to the working tabs' Actual cost column; after-decisions figures live
+  under labels that say so. The "Variance to actuals" line under the summary also flipped
+  to actual-less-archetype, so it no longer shows the same number as the table beside it
+  with the opposite sign.
+- **The Exec now answers the budget question, and names all three slices of the overhead
+  gap.** "Overhead roles - not covered by the allowance" gained "in the portfolios" (it is
+  the portfolio slice of 3.2's larger total), a sibling line states the COE and EGI slice,
+  and one line reads 0.2's own bottom line - over/(under) the allocated budget - which is
+  the question a finance partner arrives with and the Exec never answered.
+- **One offshore rate.** Lists!AD5 (the lever's 40%) and 0.3!K5 (his archetype Offshore
+  rate) were two independently typed 0.4s; retyping his cell would have moved half the
+  model. AD5 now reads his cell. And the ten portfolio working tabs now say in words what
+  the lever does - the sentence previously existed only on the three COE tabs.
+- **Cream means typed input, everywhere.** A handful of formula cells wore the input
+  colour (1.5's "half of each budget line" rule among them); the paint is stripped from
+  formulas on every build, and the gate now fails if a formula is ever cream again.
+- **His review-notes columns on 1.4, 1.5 and 1.6 are named as a snapshot.** His typed
+  role and vacancy counts there disagree with the live model on five of eight squads. His
+  numbers stand untouched; a line above them now says they are a hand-typed snapshot, not
+  live figures - the rule for content of his the model disagrees with.
+- **Smaller repairs:** 1.13's note pointed at 3.4 for an after-decisions figure 3.4 does
+  not carry (now points at 3.1 and the working tabs); 3.2's rate note was half a sentence;
+  3.2's Times-applied control now says "must be 0" and a note explains how a reader gets
+  from the platform headings they can count to the count the allowance prices; 0.2!N14:N16
+  show three decimals so the platform rate foots on the page; 4.0's title no longer repeats
+  as its own subtitle and three check labels lost their shorthand; 1.14 says on its face
+  that no roles carry TDD Cyber yet; Lists!AF13 said "525-role ledger"; built prose now
+  spells "programs" the way his own squad type does; 1.5's empty NZ column no longer gets
+  a sibling-copied header (he removed that column - dressing it as live was mine, now
+  gated).
+
+Findings *rejected*, because the content is his: 1.8's typed 7.2 against budget lines
+totalling 8.9 and its two open questions; the 0.2-versus-1.x sign conventions (both his,
+both labelled); the three COE tabs' three different summary schemas; his workings notes in
+the M columns (including "7 FTE in AmPOS" where the model carries 10); his "Hybrid" notes
+beside squads set Onshore; the four spellings of Significant Items on 1.2; 0.2's zeroed
+COE Cyber row; the dated "Position on 23/07" snapshot; hidden 0.1/0.4. All surfaced in the
+hand-back for his ruling, none changed.
+
+### D116. 0.3!C25 states his hybrid rule the right way round. His newer word over his older.
+His note read "Hybrid = 2 roles offshore, rest offshore" - self-contradictory, and backwards
+against the rule he set in as many words ("assume 2 roles would be onshore and the rest of
+the roles offshore", D104). It is the only written statement of the rule in the workbook, on
+the tab that defines the archetypes, so as typed it taught every reader the rule backwards.
+Same precedence as D83: his newer instruction outranks his older text. Corrected to
+"Hybrid = 2 roles onshore, rest offshore"; hybrid.py documents the exemption; the gate pins
+the corrected sentence. One word from him reverses it.
 
 ### D104. Hybrid prices two roles onshore and the rest offshore, and the two is his to set.
 His rule, replacing the 50/50 assumption: per-FTE cost is the archetype's squad cost over
@@ -1254,8 +1332,19 @@ These are in `docs/PLAN.md` section 6 and are not decided yet:
 
 1. The overhead allowance basis: half a Head of Technology per portfolio against whole
    heads. Labelled honestly, but only Lee can confirm the intent.
-2. The 8 GMs at $5.1m, stated above the ledger rather than added into it.
-3. Frozen panes: register item 70 asks for them, item 94 records their removal. Applied
-   consistently on every table over 25 rows; one line to reverse.
-4. Whether to build the bridge tab that walks archetype cost to actual cost line by line.
-5. Whether to restructure 1.4 so the funding block sits at the same row on every 1.x tab.
+2. The 8 GMs at $5.1m, a typed constant on Lists with no build-up and no presence on 0.2.
+   A CFO asking "how was 5.1 derived" cannot be answered from the file. Moving it to 0.2
+   as a visible input is one nod away, but 0.2 is his tab.
+3. Whether to build the bridge tab that walks archetype cost to actual cost line by line.
+4. Whether to restructure 1.4 so the funding block sits at the same row on every 1.x tab.
+5. Whether FTE prices. Column O (FTE) never enters a cost formula: seven part-time roles
+   (totalling 1.7 FTE against 7 headcount) are charged at their full base. If the base
+   figures are full-time salaries, cost is overstated ~$0.36m; if they are already
+   pro-rated, nothing is wrong. Only Lee knows which his source data is.
+6. His 1.2 squad rows for "AU CRM & Martech" and "Z Energy Martech" (see D114): both
+   squads exist in his role mapping and neither has an archetype row, so ~$0.44m sits in
+   3.1's "nothing prices these" bucket. Two added rows would price them; his call.
+
+(Frozen panes came off this list: item 94 and his direct instruction settled it - none,
+anywhere. The old entry here claiming they were "applied consistently" described a state
+the workbook has never shipped in.)

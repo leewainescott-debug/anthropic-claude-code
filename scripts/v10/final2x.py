@@ -721,6 +721,14 @@ def build(wb, wv, tab, rows, bounds, pf=None):
 
     # ---- FTE ----
     opts.bar(ws, r_ftebar, 2, len(P_HDR), f"{pf} FTE")
+    # what the lever does, said where the levers are. It was written out on the three COE
+    # tabs only; the ten tabs carrying the portfolio vacancies never said what Offshore
+    # costs. Beside the bar, not on a row of its own: these tabs are read by anchored row
+    # numbers all over the model, and an inserted row moves every one of them.
+    note = ws.cell(r_ftebar, 2 + len(P_HDR))
+    note.value = ("Vacancy lever: Hire prices the role in full, Hold prices it at 0, "
+                  "Offshore at the Offshore rate set on 0.3 Squad Archetypes.")
+    note.font, note.alignment = opts.BODY, opts.LFT
     for i, w in enumerate(P_W):
         W[i] = max(W[i], w)
     opts.head(ws, r_ftehdr, 2, list(P_HDR), W)

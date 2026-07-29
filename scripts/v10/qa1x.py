@@ -349,7 +349,10 @@ T_ROLES, T_COST = "Roles", "Cost ($m)"
 T_ACT, T_ARCH, T_VAR = "Actual portfolio", "Archetype portfolio", "Variance"
 # the working tab's own header for each figure the block quotes
 W_HEADS = {"roles": "Total roles", "aroles": "Archetype roles",
-           "acost": "Archetype cost ($m)", "after": "Squad cost after decisions ($m)"}
+           "acost": "Archetype cost ($m)", "after": "Squad cost after decisions ($m)",
+           # the table's Actual line quotes the actual since wave K - a row labelled
+           # "Actual portfolio" that moved when a lever moved was the defect (D115)
+           "actual": "Actual cost ($m)"}
 
 
 def actuals_table(ws):
@@ -420,7 +423,7 @@ def actuals_control(wb, wv, one, a, live):
         return wsw.cell(tot, w_col(wsw, anchor, key)).value
 
     out = []
-    for label, head, key in ((T_ACT, T_ROLES, "roles"), (T_ACT, T_COST, "after"),
+    for label, head, key in ((T_ACT, T_ROLES, "roles"), (T_ACT, T_COST, "actual"),
                              (T_ARCH, T_ROLES, "aroles"), (T_ARCH, T_COST, "acost")):
         x, y = fig(label, head), src(key)
         d = (round(x - y, 6) if isinstance(x, (int, float)) and isinstance(y, (int, float))

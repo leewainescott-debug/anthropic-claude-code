@@ -102,7 +102,11 @@ def actuals_column(wb, wv, out):
                 ws.cell(r, 5).font = opts.BOLD
                 ws.cell(r, 5).alignment = opts.LFT
                 v = ws.cell(r, 6)
-                v.value = f"=$F${tot}-$G${tot}"
+                # actual less archetype, the same way round as the actuals table's own
+                # Variance line and 3.1's F column. The first cut was F-G (archetype less
+                # actual), which put this cell and the table beside it on the same screen
+                # with the same number and opposite signs.
+                v.value = f"=$G${tot}-$F${tot}"
                 v.number_format, v.alignment, v.font = opts.M2, opts.RGT, opts.BOLD
                 placed = True
                 break
@@ -227,6 +231,48 @@ def cyber_bar(wb, out):
             return
 
 
+def freeze_32_counts(wb, out, done="cand.xlsx"):
+    """3.2's Times applied cells become typed cream numbers, seeded from the final count.
+
+    They are the owner's to set (D103): cream, and seeded so the tab is right on the day
+    it is built. final3x cannot know the final platform count - it runs before fix1x
+    takes the empty platforms off the 1.x tabs, so the count at its stage reads 30 where
+    the finished file says 22 - so it writes =Lists!AH placeholders and this step, whose
+    chain input is the fully built and recalculated cand.xlsx, freezes them to the real
+    numbers. A live formula here was wrong twice over: cream promised a typed input, and
+    a cell tracking the model's own count made the control under the bands (his count
+    against the model's) incapable of ever firing.
+    """
+    t32 = "3.2 Overhead & Leadership"
+    if t32 not in wb.sheetnames:
+        return
+    try:
+        lists = openpyxl.load_workbook(done, data_only=True)["Lists"]
+    except Exception as e:                                    # noqa: BLE001
+        out.append(f"3.2 Times applied left as formulas - cannot read {done}: {e}")
+        return
+    ws, n = wb[t32], 0
+    for row in ws.iter_rows(min_col=5, max_col=5):
+        for c in row:
+            m = re.match(r"^=Lists!\$AH\$(\d+)$", str(c.value or ""))
+            if not m:
+                continue
+            v = lists.cell(int(m.group(1)), 34).value
+            if not isinstance(v, (int, float)):
+                out.append(f"3.2!{c.coordinate} left as formula - Lists!AH{m.group(1)} "
+                           f"holds {v!r}")
+                continue
+            v = round(v, 6)
+            c.value = int(v) if abs(v - round(v)) < 1e-6 else v
+            # cream goes back on here: finish.py strips the input colour from every
+            # formula (rightly - these were formulas when it ran), and the freeze is
+            # the moment the cell becomes the typed input the colour promises
+            c.fill = opts.fl(opts.YEL)
+            n += 1
+    out.append(f"3.2 Times applied: {n} cells frozen to the model's final counts, "
+               f"typed and cream, his to retype")
+
+
 def run(src, dst, rev_path="rev.xlsx"):
     wb = openpyxl.load_workbook(src)
     before = {t: {} for t in wb.sheetnames}
@@ -241,6 +287,7 @@ def run(src, dst, rev_path="rev.xlsx"):
     sync_levers(wb, wv, out)
     repoint_02(wb, wv, rev_path, out)
     cyber_bar(wb, out)
+    freeze_32_counts(wb, out)
     # the manifest of every cell this step wrote, so the shipped-workbook diff can tell a
     # declared edit from an accident
     touched = []

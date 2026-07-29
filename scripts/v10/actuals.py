@@ -497,7 +497,8 @@ OLD_BAR = "Archetype against actual - this portfolio"
 # the fallback, so a reworded header is reported rather than silently quoting column E of
 # whatever happens to be there.
 W_HEADS = {"roles": "Total roles", "aroles": "Archetype roles",
-           "acost": "Archetype cost ($m)", "after": "Squad cost after decisions ($m)"}
+           "acost": "Archetype cost ($m)", "after": "Squad cost after decisions ($m)",
+           "actual": "Actual cost ($m)"}
 
 
 def budget_anchor(ws, wsv, limit=13):
@@ -659,7 +660,11 @@ def top_block(ws, wsv, tab, anchor, out):
 
     wsw = _WV[tab]
     tot = anchor["total_row"]
-    A = L(w_col(wsw, anchor, "after", ws.title, out))     # Q, cost after decisions
+    # the Actual line quotes the ACTUAL cost column, not the after-decisions one. A row
+    # labelled "Actual portfolio" that silently rewrites itself when a lever is pulled
+    # stops meaning what it says - the after-decisions figure lives under labels that say
+    # "after decisions" (the squad K columns, 3.1's G, Exec's decisions block).
+    A = L(w_col(wsw, anchor, "actual", ws.title, out))    # O, actual cost
     F = L(w_col(wsw, anchor, "roles", ws.title, out))     # F, total roles
     E = L(w_col(wsw, anchor, "aroles", ws.title, out))    # E, archetype roles
     NC = L(w_col(wsw, anchor, "acost", ws.title, out))    # N, archetype cost
@@ -714,7 +719,8 @@ def top_block(ws, wsv, tab, anchor, out):
 
 COE_NOTE = ("These are centres of excellence, funded by allocation rather than priced by an "
             "archetype, so there is no archetype cost to compare against. The actual cost "
-            "after decisions for these groups is on 3.4 COE Detail and on the working tab.")
+            "of these groups is on 3.4 COE Detail; the cost after the decisions set today "
+            "is on 3.1 Cost Bridge and the working tabs.")
 
 
 # a sentence under the summary block, as against a row label with figures beside it

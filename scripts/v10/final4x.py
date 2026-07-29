@@ -181,17 +181,29 @@ def build_exec(wb, a, a2):
         # figure actually is - the cost - and promises no comparison.
         ("COEs and EGI - actual cost, no plan to compare against ($m)",
          f"={G1}!${C31['actual']}${a['coe']}", opts.M2),
-        ("Overhead roles - not covered by the allowance ($m)",
+        # "in the portfolios" is load-bearing: 3.2's overheads total runs 11.19 over the
+        # allowance, of which this line is the portfolio slice, the next is the COE and
+        # EGI slice, and the GM line is the rest. Without the qualifier a CFO reads the
+        # first line as the whole answer.
+        ("Overhead roles in the portfolios - above the allowance ($m)",
          f"={G1}!${C31['var']}${a['overhead']}", opts.M2),
-        # without this line the four components above summed to 6.378 under a total of
-        # 8.478, because the total includes the GM layer and nothing listed it
+        ("Overhead roles in the COEs and EGI - above the allowance ($m)",
+         f"={G2}!${C32['cgap']}${a['ohtot32']}-{G1}!${C31['var']}${a['overhead']}"
+         f"-{G1}!${C31['var']}${a['gm']}", opts.M2),
+        # without this line the components above summed short of the total, because the
+        # total includes the GM layer and nothing listed it
         ("The 8 GMs - over/(under) their allowance ($m)",
          f"={G1}!${C31['var']}${a['gm']}", opts.M2),
         ("Total over/(under) archetype, everything comparable ($m)",
          f"={G1}!${C31['var']}${a['comparable']}+{G1}!${C31['var']}${a['gm']}",
          opts.M2),
         ("Groups with no archetype and no funded figure ($m)",
-         f"={G1}!${C31['actual']}${a['nofig']}", opts.M2)])
+         f"={G1}!${C31['actual']}${a['nofig']}", opts.M2),
+        # the question a finance partner walks in with - are we over the budget, not the
+        # archetype - answered on the Exec with 0.2's own bottom line, negatives meaning
+        # over
+        ("Over/(under) the allocated TDD budget - 0.2 Data Config ($m)",
+         "='0.2 Data Config'!$G$26", opts.M2)])
 
     # The five vacancy lines are a TRUE partition of the vacant count, each one
     # status-qualified. Summing the 2.x lever columns instead only added to 145 by
@@ -408,7 +420,8 @@ def build_qa(wb, a, a2):
          f"=ROUND(SUMPRODUCT({G2}!${C32['times']}${a['first32']}:"
          f"${C32['times']}${a['last32']},{G2}!${C32['rate']}${a['first32']}:"
          f"${C32['rate']}${a['last32']}),6)", opts.M2),
-        ("Applied where the people sit against the lines that draw it ($m)",
+        ("Overhead allowance drawn in the portfolios - Lists total against the lines "
+         "marked as drawn ($m)",
          "=N(Lists!$AJ$9)", '=SUMIF(Lists!$AM$2:$AM$7,"Yes",Lists!$AJ$2:$AJ$7)',
          opts.M2),
         # 3.2's roles and cost columns are the organisation's - the portfolios, the COEs
@@ -444,7 +457,8 @@ def build_qa(wb, a, a2):
         ("The allowance the model carries against the overhead step on 3.1 ($m)",
          "=N(Lists!$AJ$9)",
          f"={G1}!${C31['acost']}${a['overhead']}", opts.M2),
-        ("The two 'of which' bands on 3.2 against the overheads total above them ($m)",
+        ("3.2's split of the allowance - in the portfolios plus in the COEs - against "
+         "its own total ($m)",
          f"={G2}!${C32['applied']}${a['ohpf32']}"
          f"+{G2}!${C32['applied']}${a['ohout32']}",
          f"={G2}!${C32['applied']}${a['ohtot32']}", opts.M2),
@@ -453,12 +467,15 @@ def build_qa(wb, a, a2):
         # people sit in the COEs and above the ledger. 3.1 carries those in its COE step
         # and its GM line instead, so the two tie only once that 6.60 is taken out - and
         # this check is what proves it still does.
-        ("Archetype on the working tabs, less what sits outside them, against 3.1 ($m)",
+        ("Archetype cost on the working tabs, net of the allowance held elsewhere, "
+         "against 3.1's comparable total ($m)",
          "=" + "+".join(f"N('{t}'!${L(S['acost'])}${i['total_row']})"
                         for t, i in a2.items() if i.get("elsewhere_row"))
          + "-" + "-".join(f"N('{t}'!${L(S['acost'])}${i['elsewhere_row']})"
                           for t, i in a2.items() if i.get("elsewhere_row")),
-         f"={G1}!${C31['acost']}${gt}", opts.M2),
+         # the comparable row, not the ledger total: the ledger row's archetype cell is
+         # now a dash, because its actual side covers 531 roles and the archetype 395
+         f"={G1}!${C31['acost']}${a['comparable']}", opts.M2),
         ("Overhead allowance on 3.1 against the working tabs ($m)",
          f"={G1}!${C31['acost']}${a['overhead']}",
          "=" + "+".join(f"N('{t}'!${L(S['acost'])}${i['overhead_row']})"

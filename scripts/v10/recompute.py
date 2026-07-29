@@ -200,19 +200,21 @@ def run(path, anchors="anchors_final.json"):
                   round(sum(v for v in (ws.cell(x, col).value for x in steps)
                             if isinstance(v, (int, float))), 6),
                   round(ws.cell(cmp_row, col).value, 6))
-    # the totals carry the comparison, so the archetype on the ledger row has to be exactly
-    # the steps that have one - no more, and nothing dropped
-    priced = [find(ws, x) for x in ("Squads priced by an archetype",
-                                    "Directly funded, where the funded figure is set",
-                                    "Overhead roles in the portfolios - the allowance")]
+    # the ledger and grand rows carry a DASH in the archetype and variance columns since
+    # wave K (D115): their actual side covers all 531 roles and the archetype prices only
+    # the comparable set, so a figure there mixed bases and read as "TDD is $40.7m over".
+    # What is checked now is that the dash is a dash - a number reappearing here is the
+    # defect coming back.
     k = find(ws, "Cost of the")
-    check(out, "3.1 ledger archetype is the priced steps",
-          round(ws.cell(k, cc).value, 6),
-          round(sum(ws.cell(x, cc).value for x in priced if x), 6))
+    check(out, "3.1 ledger row archetype is a dash, not a mixed-basis figure",
+          str(ws.cell(k, cc).value), "-", count=True)
+    check(out, "3.1 ledger row variance is a dash",
+          str(ws.cell(k, 6).value), "-", count=True)
     g2 = find(ws, "Total cost of TDD including the GM layer")
-    check(out, "3.1 grand total variance is actual less archetype",
-          round(ws.cell(g2, 6).value, 6),
-          round(ws.cell(g2, ca).value - ws.cell(g2, cc).value, 6))
+    check(out, "3.1 grand row archetype is a dash", str(ws.cell(g2, cc).value), "-",
+          count=True)
+    check(out, "3.1 grand row variance is a dash", str(ws.cell(g2, 6).value), "-",
+          count=True)
     gm = wv["Lists"]["AG12"].value
     g = find(ws, "Total cost of TDD including the GM layer")
     check(out, "3.1 grand total", ws.cell(g, ca).value, total / 1e6 + gm)

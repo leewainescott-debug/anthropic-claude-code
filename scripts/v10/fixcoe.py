@@ -151,7 +151,13 @@ def lever_from_lists(wb):
         return ["Lists is not in the workbook - lever factors left inline"]
     l = wb["Lists"]
     table = {str(l.cell(r, 29).value): l.cell(r, 30).value for r in range(2, 6)}
-    if table.get("Hold") != 0 or table.get("Offshore") != 0.4:
+    # AD5 is either the literal 0.4 or, since wave K, a live read of the owner's own
+    # Offshore rate on 0.3 (one input driving the lever and the archetype side alike).
+    # This guard reads the formula view, so the link is accepted by its text - refusing
+    # it left every COE engine carrying an inline 0.4 the owner could no longer move.
+    off_ok = (table.get("Offshore") == 0.4
+              or str(table.get("Offshore")) == "='0.3 Squad Archetypes'!$K$5")
+    if table.get("Hold") != 0 or not off_ok:
         return [f"Lists!AC2:AD5 reads {table} - not the factors the engines carry, "
                 f"left inline"]
     for tab in COE_TABS:

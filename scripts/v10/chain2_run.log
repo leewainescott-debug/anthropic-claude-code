@@ -57,7 +57,7 @@
    1.2 Customer!B41 'Digital Support NZ' removed - zero people in the ledger; carried B='Digital Support NZ'; C='Operations'; D='S'; E='Offshore'
    1.3 Enterprise Data!B30 'Enterprise Data Delivery' removed - zero people in the ledger; carried B='Enterprise Data Delivery'; C='Enterprise Data and Insights'; D='M'; E='Offshore'
    1.3 Enterprise Data!B36 'EGI Data' removed - zero people in the ledger; carried B='EGI Data'; C='Enterprise Data and Insights'; D='M'; E='Onshore'
-   1.2 Customer!C7: H34/H42/H49 -> I columns inside his IF
+   1.2 Customer!C7: his 27/07 complement shape - platform overhead prices once, whichever country is home
    0.2 Data Config!F18 -> ='1.5 P&C'!$C$9+N('1.5 P&C'!$D$9)
    0.2 Data Config!F13 -> ='1.2 Customer'!$C$9
    0.2 Data Config!F14 -> ='1.2 Customer'!$D$9
@@ -69,7 +69,8 @@
    0.2 Data Config!L23 50.5 -> '=E26' - the allocated-budget total the row beside it already computes
    1.14 TDD Cyber rebuilt: one platform, one squad (Cyber Uplift), platform overhead drawn, portfolio overhead not - layout off 1.3 Enterprise Data, squad row off 1.9 Commercial Fuels
    2.15 TDD Cyber created empty after 2.14 EGI - final2x builds it
-   0.3 Squad Archetypes!K7 = 'Onshore roles in a hybrid squad', 0.3 Squad Archetypes!K8 = 2 (cream input, styled off K4/K5) - the only two cells the chain writes on this tab
+   0.3 Squad Archetypes!K7 = 'Onshore roles in a hybrid squad', 0.3 Squad Archetypes!K8 = 2 (cream input, styled off K4/K5)
+   0.3 Squad Archetypes!C25 -> 'Hybrid = 2 roles onshore, rest offshore' - his rule (D104), stated the right way round (D116)
    1.1 Ampol Retail: 7 squad rows repriced [H25, H26, H27, H28, H34, H54, H60]
    1.10 Z Retail: 4 squad rows repriced [H26, H32, H33, H39]
    1.2 Customer: 7 squad rows repriced [H31, H32, H33, H39, H40, H47, H48]
@@ -85,6 +86,8 @@
    Lists W:X: 16 cells restored from the ancestor
    Lists AC:AD: 10 cells restored from the ancestor
    Lists AE:AJ: 50 cells restored from the ancestor
+   Lists!AD5 = 0.3!K5 - the lever's offshore rate is his archetype Offshore rate, one input driving both sides
+   Lists!AF13: 525/ledger wording brought up to date
    keyed on the person: Deepali Mahajan | Data Operations Manager (row 283 today); Vacant | Service Transition Lead (row 313 today); Jens Tom | SAP Solution Architect (row 528 today)
    Lists override table: 3 moves, 10 slots, name-keyed
    Lists!AS2:AS11: the ten portfolios, named
@@ -175,8 +178,8 @@
    2.11 TDD Cyber -> 2.11 COE Cyber, 77 references and labels repointed
    2.12 BP&T -> 2.12 COE BP&T, 53 references and labels repointed
    2.13 SA&D -> 2.13 COE SA&D, 77 references and labels repointed
-   3.1 Group Summary -> 3.1 Cost Bridge, 42 references and labels repointed
-   3.2 Total Cost -> 3.2 Overhead & Leadership, 8 references and labels repointed
+   3.1 Group Summary -> 3.1 Cost Bridge, 43 references and labels repointed
+   3.2 Total Cost -> 3.2 Overhead & Leadership, 9 references and labels repointed
    45 tabs ordered to match the numbering and coloured by group
    [Red] stripped from 0 number formats
    375 fonts set to plain black Calibri, nothing under 10pt
@@ -216,7 +219,7 @@
    1.3 Enterprise Data!B16:C16: a navy strip with no text in it, fill removed
    1.14 TDD Cyber!B17:C17: a navy strip with no text in it, fill removed
    1.3 Enterprise Data row 13: blank navy past the table cleared at K; header squared to H:J
-   1.5 P&C!D5 was blank navy; labelled 'TDD NZ ($m)', which 10 sibling tabs carry there
+   no blank cell in a Portfolio Summary header row
    41 cells added to squad subtotal bands so each runs the full width of its table - column F (AU / NZ) was unfilled on every one of them
    stray band fill cleared from data rows: 1.1 Ampol Retail!C29
    one column profile across 11 portfolio tabs: B=40, C=27, D=9.5, E=17.8, F=10.0, G=11.0, H=43.5, I=14.0, J=45.0, K=24.8, L=25.5
@@ -260,8 +263,8 @@
    1.8 Energy Solutions & B2B!H10 labelled 'TDD over/(under) budget ($m)' (7 sibling tabs use it for the same sum) - the figure in I10 was the orphan the review saw at the foot of the budget box
    1.9 Commercial Fuels!H10 labelled 'TDD over/(under) budget ($m)' (7 sibling tabs use it for the same sum) - the figure in I10 was the orphan the review saw at the foot of the budget box
    floating cream cells cleared - empty, unlabelled and read by no formula anywhere in the workbook: 1.3 Enterprise Data!J18, 1.3 Enterprise Data!J19, 1.4 TDD Group Functions!J16, 1.4 TDD Group Functions!J17
-   0.3 Squad Archetypes: left exactly as it arrives - it is the owner's cost library, a source tab like 0.1 and 0.4, and nothing in this pass touches it. regress2707 proves it cell-for-cell against rev.xlsx.
-   62 cells declared in design2707_manifest.json
+   0.3 Squad Archetypes: left as it arrives - it is the owner's cost library, a source tab like 0.1 and 0.4, and nothing in THIS pass touches it. The chain's three cell exemptions live in hybrid.py (K7/K8, the onshore-count input, and C25, his rule note corrected per D116); regress2707 proves the rest cell-for-cell against rev.xlsx.
+   61 cells declared in design2707_manifest.json
    rev whitelist: 43,563 of his own literals, from rev.xlsx
    [RED] stripped from 973 number formats, case-insensitively this time
    0 sentences cleared from data cells, and the long section labels on 3.1 cut to fit their row
@@ -276,12 +279,14 @@
    1.8 Energy Solutions & B2B!E17 kept - his, unchanged
    1.8 Energy Solutions & B2B!E18 kept - his, unchanged
    1.13 Cyber Roles!B73 kept - his, unchanged
+   0.2!N14:N16 shown at three decimals, so the per-platform rate foots
    0.2 row 26 is the total row, shaded as one
    0.2: subtotal grey removed from 59 data cells
    1.1!H12 bar extended across H..K
    1.13 row 17: empty bordered cells past the bar cleared
    total rows shaded in one grey, empty shaded rows cleared
    10 orphan cream cells cleared
+   12 formula cells stripped of the input colour - cream is for typed inputs only
    15 cells set to Calibri across every visible tab
    one width profile across 1.11 BP&T, 1.12 SA&D, 1.13 Cyber Roles
    1.13 Cyber Roles!B2 title left alone - his, unchanged
@@ -291,6 +296,7 @@
    1.10 Z Retail!E16 unlabelled ratio cleared
    3 stray input-coloured cells cleared from the ledger
    column B set to 34 on all 4 summary tabs, so the left edge lines up
+   1.6 Finance: review block at S25 named as a snapshot
    4.0 given a section bar, like every other built tab
-  injected {'cells': 13332, 'sheets': 46, 'verified': True}
+  injected {'cells': 13335, 'sheets': 46, 'verified': True}
   errors 0 blank 2

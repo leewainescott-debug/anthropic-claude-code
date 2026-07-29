@@ -424,13 +424,16 @@ def build_31(wb, anchors):
         # else. Same treatment as the Total portfolio row on every 2.x tab.
         steps = (s1, s2, s2c, s2b, s3, s4)
         if c == 4:
-            # One fact, one cell. Three of the six steps carry '="-"' in this column by
-            # construction - a literal, not a formula that could ever return a number -
-            # so this total is D(arch) + D(direct) + D(overhead), which is exactly what
-            # the "Everything with a figure to compare" row above already is. It was
-            # being recomputed here from the six steps, which meant two cells could
-            # disagree if either sum was edited. It reads that row now, so they cannot.
-            x.value = f"=$D{cmp_row}"
+            # A dash, like 3.3's own Group total. This row's actual side covers all 531
+            # roles; the archetype prices 395 of them. Putting the 395-role archetype
+            # under the 531-role actual made F45 read "variance to archetype 40.72" in
+            # bold at the foot of the bridge, when $32.40m of that is just the COEs, EGI
+            # and unfunded programmes the tab itself says have nothing to compare to.
+            # The comparable variance is the "Everything with a figure to compare" row
+            # (F29), which is what the Exec Summary quotes. Two reviewers reading the
+            # tab cold both took 40.72 as the answer; a number that reliable a misread
+            # does not belong on the boldest row of the tab.
+            x.value = '="-"'
         elif c == 6:
             x.value = f'=IF(ISNUMBER($D{r}),ROUND($E{r}-$D{r},6),"-")'
         else:
@@ -460,8 +463,15 @@ def build_31(wb, anchors):
     ws.cell(r, 2).alignment = opts.LFT
     for c in range(FIRST, LASTC + 1):
         x = ws.cell(r, c)
-        x.value = (f'=IF(ISNUMBER($D{r}),ROUND($E{r}-$D{r},6),"-")' if c == 6
-                   else f"=N({L(c)}{gt})+N({L(c)}{gm})")
+        if c == 4:
+            # same dash, same reason as the ledger row above: N("-") is 0, so summing
+            # the dashed row with the GM row would have put the GM allowance alone under
+            # "archetype" here and struck a 44.9 "variance" against it
+            x.value = '="-"'
+        elif c == 6:
+            x.value = f'=IF(ISNUMBER($D{r}),ROUND($E{r}-$D{r},6),"-")'
+        else:
+            x.value = f"=N({L(c)}{gt})+N({L(c)}{gm})"
         x.number_format, x.alignment = NUM[c], opts.RGT
     grand = r
     r += 2
@@ -618,13 +628,14 @@ def build_32(wb, wcol, vals=None):
             ws.cell(r, c).alignment = opts.LFT
         f2._m(ws, r, 4, f"=Lists!$AG${i}", opts.M3)
         alloc = f"N('0.2 Data Config'!{ALLOC32[i]})"
-        # How many times this line has been applied - the owner's cell. It arrives holding
-        # the count the model carries (the ten portfolios, or the platforms the 1.x tabs
-        # actually draw) so the tab is right on the day it is built and follows a new
-        # platform on its own. It is cream because he sets it: type a number over it and
-        # the two applied columns, both gaps and the bands follow, without touching the
-        # ledger side of the table. The line under the bands says how far his figure has
-        # moved from what the model carries.
+        # How many times this line has been applied - the owner's cell, cream because he
+        # sets it. Written here as a =Lists!AH placeholder and FROZEN to a typed number
+        # by post2707.freeze_32_counts, which runs with the fully built file in hand:
+        # this pass runs before fix1x takes the empty platforms off the 1.x tabs, so the
+        # count at this stage reads 30 where the finished file says 22. Left live, the
+        # formula broke the cell both ways at once - cream promised a typed input, and a
+        # cell tracking the model's own count made the control under the bands (his
+        # count against the model's) incapable of ever firing.
         x = f2._m(ws, r, 5, f"=Lists!$AH${i}", opts.C1)
         x.fill = opts.fl(opts.YEL)
         # Roles priced for in the archetype: how many times it is applied, times the
@@ -757,13 +768,24 @@ def build_32(wb, wcol, vals=None):
     r += 1
     # what his own count has done to the allowance, stated where he is typing. Zero as
     # shipped, because the cells arrive holding the model's own count.
-    ws.cell(r, 2).value = ("Times applied set above, against the count the model carries "
-                           "- the ten portfolios and the platforms the 1.x tabs draw")
+    ws.cell(r, 2).value = ("Control - Times applied set above, against the count the "
+                           "model carries (the ten portfolios and the platforms the 1.x "
+                           "tabs draw), must be 0")
     ws.cell(r, 2).font = opts.BODY
     ws.cell(r, 2).alignment = opts.LFT
     f2._m(ws, r, 9,
           f"=ROUND($I{tot32}-SUMPRODUCT(Lists!$AG$2:$AG$7,Lists!$AH$2:$AH$7),6)",
           opts.CTL_M)
+    r += 1
+    # how a reader counting platform headings on the 1.x tabs reaches the count above:
+    # they will find more headings than the allowance prices, and without this line the
+    # gap reads as an error rather than as the directly funded platforms
+    ws.cell(r, 2).value = ("The platform count is the number of Platform Overhead lines "
+                           "the 1.x tabs draw. Directly funded platforms (AmPOS, the EGI "
+                           "lines) carry their own costs, draw no overhead line, and are "
+                           "not in the count.")
+    ws.cell(r, 2).font = opts.BODY
+    ws.cell(r, 2).alignment = opts.LFT
     r += 2
 
     # ---- the whole model, each role counted once ----
@@ -841,8 +863,9 @@ def build_32(wb, wcol, vals=None):
         r += 1
     r += 1
     r += 1
-    ws.cell(r, 2).value = ("Allocated rate = cost x allocation. "
-                           "Cost is roles in role mapping")
+    ws.cell(r, 2).value = ("Allocated rate = the full role cost times the allocation %. "
+                           "Role costs are set on 0.2 Data Config; the roles themselves "
+                           "are in the role mapping.")
     ws.cell(r, 2).font = opts.BODY
     ws.cell(r, 2).alignment = opts.LFT
     # The rate block above reset the widths of B to F, which the main table shares, so the

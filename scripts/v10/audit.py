@@ -304,6 +304,61 @@ def check_rounding(wb):
     add("ANCHORS", "rounding", f"{n} sums over rounded chains")
 
 
+def check_levers_agree(wv):
+    """The COE tabs carry the lever twice, and the two entries must say the same thing.
+
+    1.11/1.12/1.13 hold an On/Off column the owner types (Onshore / Offshore / Hold);
+    the model prices off the Vacancy lever column on 2.12/2.13/2.11. Neither references
+    the other, so a lever flipped on the tab in front of a GM would not move the bridge.
+    This is the divergence alarm: per person, "Offshore" must meet Offshore, "Hold" must
+    meet Hold, and "Onshore" must meet Filled or Hire.
+    """
+    PAIRS = [("1.11 BP&T", "2.12 COE BP&T"), ("1.12 SA&D", "2.13 COE SA&D"),
+             ("1.13 Cyber Roles", "2.11 COE Cyber")]
+    OK = {"Offshore": {"Offshore"}, "Hold": {"Hold"}, "Onshore": {"Filled", "Hire"}}
+    for one, two in PAIRS:
+        if one not in wv.sheetnames or two not in wv.sheetnames:
+            continue
+        d, w = wv[one], wv[two]
+        # the design tab's roles table: Name in B under a "Name" header; the On/Off
+        # column is the one headed On/Off on the same row
+        hdr = onoff = None
+        for r in range(1, min(d.max_row, 40) + 1):
+            if str(d.cell(r, 2).value or "").strip() == "Name":
+                hdr = r
+                for c in range(3, 24):
+                    if str(d.cell(r, c).value or "").strip() == "On/Off":
+                        onoff = c
+                break
+        if hdr is None or onoff is None:
+            continue
+        design = {}
+        for r in range(hdr + 1, d.max_row + 1):
+            nm, lv = d.cell(r, 2).value, d.cell(r, onoff).value
+            if isinstance(nm, str) and nm.strip() and isinstance(lv, str):
+                design.setdefault(f"{nm.strip()}|{d.cell(r, 3).value}", lv.strip())
+        whdr = wlev = None
+        for r in range(1, min(w.max_row, 60) + 1):
+            if str(w.cell(r, 2).value or "").strip() == "Name":
+                whdr = r
+                for c in range(3, 12):
+                    if str(w.cell(r, c).value or "").strip() == "Vacancy lever":
+                        wlev = c
+                break
+        if whdr is None or wlev is None:
+            continue
+        for r in range(whdr + 1, w.max_row + 1):
+            nm, lv = w.cell(r, 2).value, w.cell(r, wlev).value
+            if not (isinstance(nm, str) and nm.strip() and isinstance(lv, str)):
+                continue
+            key = f"{nm.strip()}|{w.cell(r, 3).value}"
+            his = design.get(key)
+            if his and his in OK and lv.strip() not in OK[his]:
+                add("LEVER2", f"{one} vs {two}",
+                    f"{nm.strip()}: the design tab says {his!r}, the working tab prices "
+                    f"{lv.strip()!r} - the model follows the working tab")
+
+
 def check_refs(wb):
     whole = errs = 0
     for t in wb.sheetnames:
@@ -350,10 +405,11 @@ def run(path):
     check_inputs(wb)
     check_rounding(wb)
     check_refs(wb)
+    check_levers_agree(wv)
     dump_labels(wb, wv)
 
     order = ["ANCHORS", "ERROR", "TIE", "COVERAGE", "CONTROL", "CONSISTENCY", "HARDCODE",
-             "INPUTS", "ROUNDING", "REFS"]
+             "INPUTS", "ROUNDING", "REFS", "LEVER2"]
     bad = 0
     for k in order:
         rows = OUT.get(k, [])

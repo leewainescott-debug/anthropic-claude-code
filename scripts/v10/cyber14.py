@@ -67,7 +67,9 @@ PLATFORM = "TDD Cyber"
 
 WHY_NO_PF_OVERHEAD = (
     "TDD Cyber does not draw a portfolio overhead - it is not one of the ten funded "
-    "portfolios on 0.2 Data Config. The platform overhead is drawn.")
+    "portfolios on 0.2 Data Config. The platform overhead is drawn. No roles in the "
+    "role mapping carry TDD Cyber yet - today's cyber roles are on 1.13, and the "
+    "working tab fills itself as roles move here.")
 WHY_BUDGET = "This is the same TDD Cyber budget that 1.13 Cyber Roles draws on."
 HOW_TO_PRICE = ("Set the Squad Type, Size, On/Off and Support % and this squad prices "
                 "itself")

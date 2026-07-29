@@ -32,8 +32,15 @@ the whole model reprices. It is written next to his existing Offshore rate pair 
 K7 label, K8 value - which are the only two cells this chain ever writes on that tab.
 0.3 is his source tab: assemble_base carries it over from rev.xlsx untouched, polish,
 finish and design2707 all name it as out of scope, and regress2707 proves it against
-rev.xlsx cell for cell. Those two cells are the exemption, and nothing else here goes near
-it - his C25 typo included, which stays exactly as he typed it.
+rev.xlsx cell for cell. The exemptions are three cells: the K7/K8 input pair, and C25.
+
+C25 is his note stating the hybrid rule, and as typed it reads "Hybrid = 2 roles offshore,
+rest offshore" - the opposite of the rule he set in as many words ("assume 2 roles would
+be onshore and the rest of the roles offshore", D104). His newer instruction outranks his
+older note, the same way his newest workbook's labels outrank an earlier ruling (D83). It
+is the only written statement of the rule a reader can find, on the tab that defines the
+archetypes, so left as typed it teaches every GM the rule backwards. Corrected to what he
+ruled, and disclosed (D116) so one word from him reverses it.
 
 Placement: K4/K5 sit label-over-value at the right of the archetype table, so the new pair
 sits the same way one blank row below at K7/K8, in the same column, with K4's and K5's own
@@ -101,8 +108,19 @@ def input_cell(wb, out):
     val.value = VALUE
     val.number_format = "General"     # K5 is a rate and formats 0.4 as 40%; this is a count
     out.append(f"{ARCH}!{LABEL_AT} = {LABEL!r}, {ARCH}!{VALUE_AT} = {VALUE} "
-               f"(cream input, styled off {LIKE_LABEL}/{LIKE_VALUE}) - "
-               "the only two cells the chain writes on this tab")
+               f"(cream input, styled off {LIKE_LABEL}/{LIKE_VALUE})")
+    # his C25 note states the rule this file implements, backwards - see the module
+    # docstring. His D104 instruction wins over his older note, and only over the exact
+    # text he typed: anything else in the cell is left alone and reported.
+    old = ("Hybrid = 2 roles offshore, rest offshore ",
+           "Hybrid = 2 roles offshore, rest offshore")
+    new = "Hybrid = 2 roles onshore, rest offshore"
+    if ws["C25"].value in old:
+        ws["C25"] = new
+        out.append(f"{ARCH}!C25 -> {new!r} - his rule (D104), stated the right way "
+                   "round (D116)")
+    elif ws["C25"].value != new:
+        out.append(f"{ARCH}!C25 holds {str(ws['C25'].value)[:50]!r} - left alone")
 
 
 def sweep(wb, out):

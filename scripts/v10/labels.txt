@@ -14,34 +14,36 @@
   B15: Squads priced by an archetype - archetype cost ($m)
   B16: Squads priced by an archetype - actual ($m)
   B17: Squads priced by an archetype - over/(under) ($m)
-  B18: Directly funded programmes - over/(under) funded ($m)
+  B18: Directly funded programs - over/(under) funded ($m)
   B19: COEs and EGI - actual cost, no plan to compare against ($m)
-  B20: Overhead roles - not covered by the allowance ($m)
-  B21: The 8 GMs - over/(under) their allowance ($m)
-  B22: Total over/(under) archetype, everything comparable ($m)
-  B23: Groups with no archetype and no funded figure ($m)
-  B25: The vacancy decision
-  B26: Vacant roles
-  B27: Vacancies set to hire
-  B28: Vacancies set to offshore
-  B29: Vacancies put on hold
-  B30: Vacancies set to fill as they are
-  B31: Filled roles offshored
-  B32: Roles after the decisions set today
-  B33: Cost after the decisions set today ($m)
-  B34: Impact of those decisions ($m)
-  B36: Portfolio drill-down
-  B37: Pick a portfolio
-  C37: Ampol Retail
-  B38: Roles
-  B39: Filled
-  B40: Vacant
-  B41: Roles after decisions
-  B42: Actual cost ($m)
-  B43: Of which overhead roles ($m)
-  B44: Squads priced by an archetype - over/(under) archetype ($m)
-  B45: Directly funded programmes - over/(under) funded ($m)
-  B46: Cost after vacancy decisions ($m)
+  B20: Overhead roles in the portfolios - above the allowance ($m)
+  B21: Overhead roles in the COEs and EGI - above the allowance ($m)
+  B22: The 8 GMs - over/(under) their allowance ($m)
+  B23: Total over/(under) archetype, everything comparable ($m)
+  B24: Groups with no archetype and no funded figure ($m)
+  B25: Over/(under) the allocated TDD budget - 0.2 Data Config ($m)
+  B27: The vacancy decision
+  B28: Vacant roles
+  B29: Vacancies set to hire
+  B30: Vacancies set to offshore
+  B31: Vacancies put on hold
+  B32: Vacancies set to fill as they are
+  B33: Filled roles offshored
+  B34: Roles after the decisions set today
+  B35: Cost after the decisions set today ($m)
+  B36: Impact of those decisions ($m)
+  B38: Portfolio drill-down
+  B39: Pick a portfolio
+  C39: Ampol Retail
+  B40: Roles
+  B41: Filled
+  B42: Vacant
+  B43: Roles after decisions
+  B44: Actual cost ($m)
+  B45: Of which overhead roles ($m)
+  B46: Squads priced by an archetype - over/(under) archetype ($m)
+  B47: Directly funded programs - over/(under) funded ($m)
+  B48: Cost after vacancy decisions ($m)
 
 ===== - INPUTS -
   B2: INPUTS  >>>
@@ -375,7 +377,7 @@ Vacancies add 900k to FY26 baseline
   C24: Exceptions (will need to incl. rules)
   E24: TBC
   I24: TBC
-  C25: Hybrid = 2 roles offshore, rest offshore
+  C25: Hybrid = 2 roles onshore, rest offshore
   C27: Exception for ES EVCI - 6 FTE vs 4.5 FTE
   C29: Exception for TDD DevOps - no BA, DL 6 FTE vs 4.5 FTE
 
@@ -3787,7 +3789,6 @@ AUD
   K4: Actuals vs archetype
   B5: Cost
   C5: TDD AU ($m)
-  D5: TDD NZ ($m)
   E5: Other ($m)
   F5: Total ($m)
   G5: Actuals
@@ -3928,6 +3929,7 @@ AUD
   H21: Other cost (this model)
   H22: Left to fund
   B24: Platform: Finance
+  S24: Role review notes - a hand-typed snapshot, not live model figures
   B25: Squad
   C25: Squad Type
   D25: Size
@@ -4811,7 +4813,7 @@ AUD
   B6: Cyber & Risk
   B7: Service Operations
   B8: Total
-  B9: These are centres of excellence, funded by allocation rather than priced by an archetype, so there is no archetype cost to compare against. The actual cost after decisions for these groups is on 3.4 COE Detail and on the working tab.
+  B9: These are centres of excellence, funded by allocation rather than priced by an archetype, so there is no archetype cost to compare against. The actual cost of these groups is on 3.4 COE Detail; the cost after the decisions set today is on 3.1 Cost Bridge and the working tabs.
   B10: Funding buckets to draw down
   B11: COE - Cyber allocation ($m) - 0.2 Data Config
   E11: Planned spend less CapEx ($m)
@@ -5171,7 +5173,7 @@ AUD
   H9: NZ over/(under) budget ($m)
   E10: Variance to actuals
   H10: TDD over/(under) budget ($m)
-  B11: TDD Cyber does not draw a portfolio overhead - it is not one of the ten funded portfolios on 0.2 Data Config. The platform overhead is drawn.
+  B11: TDD Cyber does not draw a portfolio overhead - it is not one of the ten funded portfolios on 0.2 Data Config. The platform overhead is drawn. No roles in the role mapping carry TDD Cyber yet - today's cyber roles are on 1.13, and the working tab fills itself as roles move here.
   H11: This is the same TDD Cyber budget that 1.13 Cyber Roles draws on.
   H13: Other funding
   H14: Funding position
@@ -5251,7 +5253,7 @@ AUD
   C14: Operations
   D14: M
   B15: Squads total
-  B16: Directly funded programmes and platforms
+  B16: Directly funded programs and platforms
   B17: AmPOS
   C17: Strategic Programs
   D17: -
@@ -5300,6 +5302,7 @@ AUD
   B30: Control - roles against the role mapping, must be 0
   B31: Control - cost against the role mapping ($m), must be 0
   B33: Ampol Retail FTE
+  H33: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B34: Name
   C34: Role
   D34: Status
@@ -5658,7 +5661,7 @@ AUD
   C14: Product
   D14: L
   B15: Squads total
-  B16: Directly funded programmes and platforms
+  B16: Directly funded programs and platforms
   B17: EGI Customer
   C17: Strategic Programs
   D17: -
@@ -5726,6 +5729,7 @@ AUD
   B33: Control - roles against the role mapping, must be 0
   B34: Control - cost against the role mapping ($m), must be 0
   B36: Customer FTE
+  H36: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B37: Name
   C37: Role
   D37: Status
@@ -6158,6 +6162,7 @@ AUD
   B21: Control - roles against the role mapping, must be 0
   B22: Control - cost against the role mapping ($m), must be 0
   B24: Enterprise Data FTE
+  H24: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B25: Name
   C25: Role
   D25: Status
@@ -6323,7 +6328,7 @@ AUD
   C11: Configuration / Integration
   D11: S
   B12: Squads total
-  B13: Directly funded programmes and platforms
+  B13: Directly funded programs and platforms
   B14: EGI TDD
   C14: Strategic Programs
   D14: -
@@ -6361,6 +6366,7 @@ AUD
   B24: Control - roles against the role mapping, must be 0
   B25: Control - cost against the role mapping ($m), must be 0
   B27: TDD Group Functions FTE
+  H27: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B28: Name
   C28: Role
   D28: Status
@@ -6598,7 +6604,7 @@ AUD
   C9: Configuration / Integration
   D9: S
   B10: Squads total
-  B11: Directly funded programmes and platforms
+  B11: Directly funded programs and platforms
   B12: EGI P&C
   C12: Strategic Programs
   D12: -
@@ -6636,6 +6642,7 @@ AUD
   B22: Control - roles against the role mapping, must be 0
   B23: Control - cost against the role mapping ($m), must be 0
   B25: P&C FTE
+  H25: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B26: Name
   C26: Role
   D26: Status
@@ -6757,7 +6764,7 @@ AUD
   C9: Configuration / Integration
   D9: S
   B10: Squads total
-  B11: Directly funded programmes and platforms
+  B11: Directly funded programs and platforms
   B12: EGI Finance
   C12: Strategic Programs
   D12: -
@@ -6795,6 +6802,7 @@ AUD
   B22: Control - roles against the role mapping, must be 0
   B23: Control - cost against the role mapping ($m), must be 0
   B25: Finance FTE
+  H25: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B26: Name
   C26: Role
   D26: Status
@@ -6952,6 +6960,7 @@ AUD
   B24: Control - roles against the role mapping, must be 0
   B25: Control - cost against the role mapping ($m), must be 0
   B27: Infrastructure FTE
+  H27: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B28: Name
   C28: Role
   D28: Status
@@ -7182,6 +7191,7 @@ AUD
   B21: Control - roles against the role mapping, must be 0
   B22: Control - cost against the role mapping ($m), must be 0
   B24: Energy Solutions & B2B FTE
+  H24: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B25: Name
   C25: Role
   D25: Status
@@ -7366,7 +7376,7 @@ AUD
   C10: Enterprise Data and Insights
   D10: M
   B11: Squads total
-  B12: Directly funded programmes and platforms
+  B12: Directly funded programs and platforms
   B13: CTRM
   C13: Strategic Programs
   D13: -
@@ -7401,6 +7411,7 @@ AUD
   B23: Control - roles against the role mapping, must be 0
   B24: Control - cost against the role mapping ($m), must be 0
   B26: Commercial Fuels FTE
+  H26: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B27: Name
   C27: Role
   D27: Status
@@ -7656,6 +7667,7 @@ AUD
   B22: Control - roles against the role mapping, must be 0
   B23: Control - cost against the role mapping ($m), must be 0
   B25: Z Retail FTE
+  H25: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B26: Name
   C26: Role
   D26: Status
@@ -7855,7 +7867,7 @@ AUD
   P6: Variance to archetype ($m)
   Q6: Squad cost after decisions ($m)
   R6: New variance ($m)
-  B7: Directly funded programmes and platforms
+  B7: Directly funded programs and platforms
   B8: Cyber GRC
   C8: -
   D8: -
@@ -7898,6 +7910,7 @@ AUD
   B15: Control - roles against the role mapping, must be 0
   B16: Control - cost against the role mapping ($m), must be 0
   B18: COE Cyber FTE
+  H18: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B19: Name
   C19: Role
   D19: Status
@@ -8145,7 +8158,7 @@ AUD
   P6: Variance to archetype ($m)
   Q6: Squad cost after decisions ($m)
   R6: New variance ($m)
-  B7: Directly funded programmes and platforms
+  B7: Directly funded programs and platforms
   B8: Commercial
   C8: -
   D8: -
@@ -8174,6 +8187,7 @@ AUD
   B13: Control - roles against the role mapping, must be 0
   B14: Control - cost against the role mapping ($m), must be 0
   B16: COE BP&T FTE
+  H16: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B17: Name
   C17: Role
   D17: Status
@@ -8305,7 +8319,7 @@ AUD
   P6: Variance to archetype ($m)
   Q6: Squad cost after decisions ($m)
   R6: New variance ($m)
-  B7: Directly funded programmes and platforms
+  B7: Directly funded programs and platforms
   B8: Architecture
   C8: -
   D8: -
@@ -8348,6 +8362,7 @@ AUD
   B15: Control - roles against the role mapping, must be 0
   B16: Control - cost against the role mapping ($m), must be 0
   B18: COE SA&D FTE
+  H18: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B19: Name
   C19: Role
   D19: Status
@@ -8491,7 +8506,7 @@ AUD
   P6: Variance to archetype ($m)
   Q6: Squad cost after decisions ($m)
   R6: New variance ($m)
-  B7: Directly funded programmes and platforms
+  B7: Directly funded programs and platforms
   B8: EGI
   C8: -
   D8: -
@@ -8506,6 +8521,7 @@ AUD
   B11: Control - roles against the role mapping, must be 0
   B12: Control - cost against the role mapping ($m), must be 0
   B14: EGI FTE
+  H14: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B15: Name
   C15: Role
   D15: Status
@@ -8640,6 +8656,7 @@ AUD
   B17: Control - roles against the role mapping, must be 0
   B18: Control - cost against the role mapping ($m), must be 0
   B20: TDD Cyber FTE
+  H20: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B21: Name
   C21: Role
   D21: Status
@@ -8689,7 +8706,7 @@ AUD
   D16: -
   F16: -
   B17: Squads priced by an archetype
-  B18: Directly funded programmes and platforms - funded on the 1.x tab
+  B18: Directly funded programs and platforms - funded on the 1.x tab
   B19: AmPOS
   C19: Ampol Retail
   B20: EGI Retail
@@ -8766,8 +8783,12 @@ AUD
   D44: -
   F44: -
   B45: Cost of the 531 roles in the role mapping
+  D45: -
+  F45: -
   B46: Leadership - the 8 GMs, outside the role mapping
   B47: Total cost of TDD including the GM layer
+  D47: -
+  F47: -
   B49: Control - roles against the role mapping, must be 0
   B50: Control - cost against the role mapping ($m), must be 0
 
@@ -8800,11 +8821,11 @@ AUD
   B8: Delivery Manager
   C8: platforms
   L8: 9 in the portfolios, 1 in the COE
-  M8: 30% across 25 platforms
+  M8: 30% across 22 platforms
   B9: Technology Manager
   C9: platforms
   L9: All 24 in the portfolios
-  M9: 30% across 25 platforms
+  M9: 30% across 22 platforms
   B10: Leadership - 8 GMs
   C10: portfolios
   L10: Above the role mapping
@@ -8824,28 +8845,29 @@ AUD
   E13: -
   L13: -
   M13: -
-  B14: Times applied set above, against the count the model carries - the ten portfolios and the platforms the 1.x tabs draw
-  B16: Roles in the organisation, all lines and squads: 531 - portfolios 412, COEs and EGI 119, each counted once
-  B17: Control - the portfolios plus the COEs and EGI against the role mapping, must be 0
-  B19: What the allocated rate is built from
-  B20: Input
-  C20: Where it is set on 0.2 Data Config
-  D20: Full role cost ($m)
-  E20: Allocation %
-  F20: Allocated rate ($m)
-  B21: Head of Technology
-  C21: Portfolio Overhead, Head of Tech
-  B22: Business Partner
-  C22: Portfolio Overhead, Business Partner
-  B23: Domain Architect
-  C23: Portfolio Overhead, Domain Architect
-  B24: Delivery Manager
-  C24: Platform Overhead, Delivery Manager
-  B25: Technology Manager
-  C25: Platform Overhead, Tech Manager
-  B26: Leadership - 8 GMs
-  C26: Portfolio Overhead, Leadership Overhead
-  B29: Allocated rate = cost x allocation. Cost is roles in role mapping
+  B14: Control - Times applied set above, against the count the model carries (the ten portfolios and the platforms the 1.x tabs draw), must be 0
+  B15: The platform count is the number of Platform Overhead lines the 1.x tabs draw. Directly funded platforms (AmPOS, the EGI lines) carry their own costs, draw no overhead line, and are not in the count.
+  B17: Roles in the organisation, all lines and squads: 531 - portfolios 412, COEs and EGI 119, each counted once
+  B18: Control - the portfolios plus the COEs and EGI against the role mapping, must be 0
+  B20: What the allocated rate is built from
+  B21: Input
+  C21: Where it is set on 0.2 Data Config
+  D21: Full role cost ($m)
+  E21: Allocation %
+  F21: Allocated rate ($m)
+  B22: Head of Technology
+  C22: Portfolio Overhead, Head of Tech
+  B23: Business Partner
+  C23: Portfolio Overhead, Business Partner
+  B24: Domain Architect
+  C24: Portfolio Overhead, Domain Architect
+  B25: Delivery Manager
+  C25: Platform Overhead, Delivery Manager
+  B26: Technology Manager
+  C26: Platform Overhead, Tech Manager
+  B27: Leadership - 8 GMs
+  C27: Portfolio Overhead, Leadership Overhead
+  B30: Allocated rate = the full role cost times the allocation %. Role costs are set on 0.2 Data Config; the roles themselves are in the role mapping.
 
 ===== 3.3 Squad Detail
   B2: Squad Detail - roles and cost, squad by squad
@@ -9538,7 +9560,7 @@ AUD
 
 ===== 4.0 Data QA
   B2: Data QA - every difference must read zero
-  B3: Every difference must read zero
+  B3: Live checks - both sides computed from this file
   B4: Check
   C4: Model
   D4: Expected
@@ -9560,14 +9582,14 @@ AUD
   B19: Squads whose archetype does not resolve, against the one disclosed
   B20: Offshore archetype against 40% of onshore, first archetype
   B21: Applied to the portfolios on 3.2 against its own lines ($m)
-  B22: Applied where the people sit against the lines that draw it ($m)
+  B22: Overhead allowance drawn in the portfolios - Lists total against the lines marked as drawn ($m)
   B23: Roles in the organisation on 3.2, less the GM layer, against overhead roles in the role mapping
   B24: Cost in the organisation on 3.2, less the GM layer, against overhead roles in the role mapping ($m)
   B25: Roles in the organisation, all lines and squads, on 3.2 against the role mapping
   B26: Overhead on 3.1 against the cost that sits in the portfolios on 3.2 ($m)
   B27: The allowance the model carries against the overhead step on 3.1 ($m)
-  B28: The two 'of which' bands on 3.2 against the overheads total above them ($m)
-  B29: Archetype on the working tabs, less what sits outside them, against 3.1 ($m)
+  B28: 3.2's split of the allowance - in the portfolios plus in the COEs - against its own total ($m)
+  B29: Archetype cost on the working tabs, net of the allowance held elsewhere, against 3.1's comparable total ($m)
   B30: Overhead allowance on 3.1 against the working tabs ($m)
   B31: Roles after decisions against roles less anything on hold
   B32: Decision impact on 3.1 against the working tabs ($m)

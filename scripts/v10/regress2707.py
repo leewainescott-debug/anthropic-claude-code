@@ -80,10 +80,11 @@ def archetypes_parity(path, rev=REV):
     a = openpyxl.load_workbook(rev)[ARCH]
     b = openpyxl.load_workbook(path)[ARCH]
     bad = []
-    # the one declared addition to his tab: the hybrid input he asked for, two cells
-    # beside his offshore rate. Everything else stays an equality; the gate's own
-    # hybrid checks assert what these two cells must hold.
-    EXEMPT = {"K7", "K8"}
+    # the declared exemptions on his tab: the hybrid input pair he asked for, and C25,
+    # his rule note corrected to the rule he set (D116 - rev still carries the backwards
+    # wording). Everything else stays an equality; the gate's own hybrid checks assert
+    # exactly what these three cells must hold, so the exemption cannot hide drift.
+    EXEMPT = {"K7", "K8", "C25"}
     rows = max(a.max_row, b.max_row)
     cols = max(a.max_column, b.max_column)
     for r in range(1, rows + 1):
@@ -218,18 +219,21 @@ def run(path):
     check("no hidden rows on REVIEW", not hid, str(hid[:5]))
 
     # ---- QA H3 / M1: platform overhead
-    # 1.2's C7 and D7 hold the same formula, so Customer's platform overhead is added into
-    # the AU column and again into the NZ column: F7 is 0.99 for 0.495 of overhead. That
-    # is his sheet and he has ruled on it (D112) - the pair is pinned here so it cannot
-    # drift back the other way without someone deciding to.
+    # In both of his workbooks 1.2's C7 and D7 are DIFFERENT formulas and exactly one
+    # fires, so F7 is 0.495 - the platform overhead once. A build pass rewrote C7 to
+    # match D7 (both branches firing, 0.99, a shape in neither of his books), a fix
+    # halved it, and the "revert" of the fix restored the corrupted 0.99 and called it
+    # his (the first D112, now rewritten). These pins hold his true shape: the 27/07
+    # complement, one branch firing, 0.495 once.
     v12 = wv["1.2 Customer"]
-    check("1.2!F7 = 0.99 - his shape, both columns carry the platform overhead",
-          abs((v12["F7"].value or 0) - 0.99) < 1e-9, str(v12["F7"].value))
-    check("1.2!F9 = 16.0575", abs((v12["F9"].value or 0) - 16.0575) < 1e-6,
+    check("1.2!F7 = 0.495 - platform overhead once, as in both his workbooks",
+          abs((v12["F7"].value or 0) - 0.495) < 1e-9, str(v12["F7"].value))
+    check("1.2!F9 = 15.5625", abs((v12["F9"].value or 0) - 15.5625) < 1e-6,
           str(v12["F9"].value))
-    check("1.2!C7 and D7 are the same formula, which is what makes F7 0.99",
-          str(wb["1.2 Customer"]["C7"].value) == str(wb["1.2 Customer"]["D7"].value),
-          str(wb["1.2 Customer"]["C7"].value)[:50])
+    check("1.2!C7 is the complement of D7 - one branch fires, never both",
+          str(wb["1.2 Customer"]["C7"].value).endswith("0,SUM(I34,I42,I49))")
+          and str(wb["1.2 Customer"]["D7"].value).endswith("SUM(I34,I42,I49),0)"),
+          str(wb["1.2 Customer"]["C7"].value)[-40:])
     v10 = wv["1.10 Z Retail"]
     check("1.10!F7 = 0.330 (his no-overhead note honoured)",
           abs((v10["F7"].value or 0) - 0.330) < 1e-9, str(v10["F7"].value))
@@ -258,19 +262,10 @@ def run(path):
             if str(wb[t].cell(r, 2).value or "").strip() == "Platform Overhead" \
                     and wv[t].cell(r, 9).value:
                 n_rows += 1
-    # Lists!AH5 counts platforms by dividing the 1.x platform-overhead total by the rate,
-    # so a platform counted twice is a platform. 1.2's C7 and D7 are the same formula and
-    # both fire, so Customer's three platforms are counted six times and AH5 reads 25 for
-    # 22 real rows. That is his sheet (D112). The check holds the gap to exactly that one
-    # cause, so any other tab that starts miscounting still turns this red.
-    rate = wv["0.2 Data Config"]["N16"].value or 0
-    twin = ((wv["1.2 Customer"]["C7"].value or 0)
-            if str(wb["1.2 Customer"]["C7"].value)
-            == str(wb["1.2 Customer"]["D7"].value) else 0)
-    dup = round(twin / rate, 6) if rate else 0
-    check("the platform count is over the priced rows by 1.2's twinned pair, and nothing "
-          "else", abs((ah5 - n_rows) - dup) < 1e-6,
-          f"Lists {ah5} vs 1.x rows {n_rows}, 1.2 accounts for {dup}")
+    # with 1.2's C7 back to his one-branch shape, every platform is counted exactly once
+    # and the model's count is the number of priced overhead rows, no allowance for a gap
+    check("Lists platform count == priced overhead rows on 1.x", ah5 == n_rows,
+          f"Lists {ah5} vs 1.x rows {n_rows}")
 
     # ---- QA: 3.4 on his country basis
     w34, v34 = wb["3.4 COE Detail"], wv["3.4 COE Detail"]
@@ -336,8 +331,11 @@ def run(path):
     check("exactly one Total portfolio per 2.x tab", dup == 0, f"{dup} tabs off")
 
     # ---- design: 1.5/1.6 family repairs
-    check("1.5 headers TDD AU / TDD NZ",
-          wb["1.5 P&C"]["C5"].value == "TDD AU ($m)" and wb["1.5 P&C"]["D5"].value == "TDD NZ ($m)",
+    # D5 is deliberately unlabelled: he removed 1.5's NZ column, and a sibling-copied
+    # "TDD NZ ($m)" header over four empty cells dressed a column he removed as one that
+    # exists
+    check("1.5 headers: TDD AU labelled, the removed NZ column not resurrected",
+          wb["1.5 P&C"]["C5"].value == "TDD AU ($m)" and wb["1.5 P&C"]["D5"].value is None,
           f"{wb['1.5 P&C']['C5'].value!r}/{wb['1.5 P&C']['D5'].value!r}")
     w6 = wb["1.6 Finance"]
     check("1.6 scratch moved to S25", str(w6["S25"].value or "").startswith("Nbr Archetype"),
@@ -624,6 +622,60 @@ def run(path):
     check("0.2's position figure is computed, not typed",
           isinstance(cfg["L23"].value, str) and cfg["L23"].value.startswith("="),
           repr(cfg["L23"].value))
+
+    # ---- the reversals that had no pin, and the wave-K review fixes
+    check("0.2 Legal/EG/EGI spend cells are blank, not typed zeros",
+          all(cfg[c].value is None for c in ("F20", "F24", "F25")),
+          str([cfg[c].value for c in ("F20", "F24", "F25")]))
+    check("his six labels stand - Budget to draw down, Alloc %",
+          wb["1.11 BP&T"]["G5"].value == "Budget to draw down ($m)"
+          and wb["1.12 SA&D"]["H5"].value == "Budget to draw down ($m)"
+          and wb["1.13 Cyber Roles"]["G5"].value == "Budget to draw down ($m)"
+          and wb["1.11 BP&T"]["B17"].value == "Total budget to draw down ($m)"
+          and wb["1.12 SA&D"]["B17"].value == "Total budget to draw down ($m)"
+          and cfg["M13"].value == "Alloc %",
+          f"{wb['1.11 BP&T']['G5'].value!r} / {cfg['M13'].value!r}")
+    # the actuals table quotes the actual, not the after-decisions figure. On ten tabs
+    # the two are equal today; 1.7 carries a lever, so it is the tab that proves the
+    # wiring - and the tab that misreported the moment a lever moved.
+    box17 = str(wb["1.7 Infrastructure"]["N7"].value or "")
+    check("the 1.x Actual portfolio line reads the working tab's Actual cost column",
+          "!$O$" in box17, box17)
+    v31g = wv["3.1 Cost Bridge"]
+    check("3.1's ledger and grand rows carry a dash, not a 395-vs-531 'variance'",
+          str(v31g["D45"].value) == "-" and str(v31g["F45"].value) == "-"
+          and str(v31g["D47"].value) == "-" and str(v31g["F47"].value) == "-",
+          f"D45={v31g['D45'].value!r} F45={v31g['F45'].value!r}")
+    exec_b = [str(wv["Exec Summary"].cell(r, 2).value or "") for r in range(4, 40)]
+    check("Exec names the portfolio slice and the COE slice of the overhead gap",
+          any(x.startswith("Overhead roles in the portfolios") for x in exec_b)
+          and any(x.startswith("Overhead roles in the COEs and EGI") for x in exec_b),
+          str([x for x in exec_b if x.startswith("Overhead")][:2]))
+    check("Exec states the budget position off 0.2",
+          any(x.startswith("Over/(under) the allocated TDD budget") for x in exec_b),
+          "not found")
+    check("one offshore rate - the lever's factor reads his 0.3 cell",
+          str(wb["Lists"]["AD5"].value) == "='0.3 Squad Archetypes'!$K$5",
+          repr(wb["Lists"]["AD5"].value))
+    check("0.3's hybrid note states his rule the right way round",
+          str(wb["0.3 Squad Archetypes"]["C25"].value or "").strip()
+          == "Hybrid = 2 roles onshore, rest offshore",
+          repr(wb["0.3 Squad Archetypes"]["C25"].value))
+    check("the 2.x tabs say what the vacancy lever does, beside the lever",
+          any(isinstance(c.value, str) and c.value.startswith("Vacancy lever: Hire")
+              for row in wb["2.1 Ampol Retail"].iter_rows(min_col=8, max_col=8)
+              for c in row), "no lever note on 2.1")
+    src_tabs = {"0.1 Budget Table (Fin)", "0.4 Presentation Pack",
+                "0.3 Squad Archetypes"}
+    cream_formula = [f"{ws.title}!{c.coordinate}"
+                     for ws in wb.worksheets
+                     if ws.sheet_state == "visible" and ws.title not in src_tabs
+                     for row in ws.iter_rows() for c in row
+                     if isinstance(c.value, str) and c.value.startswith("=")
+                     and c.fill.patternType
+                     and str(c.fill.start_color.rgb).upper() == "FFFFF2CC"]
+    check("cream marks typed inputs only - no formula wears the input colour",
+          not cream_formula, str(cream_formula[:5]))
 
     # ---- 4.0 all zero
     v40 = wv["4.0 Data QA"]

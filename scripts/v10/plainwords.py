@@ -45,6 +45,11 @@ SAY = [
     ("above the 531 roles in the role mapping", "above the role mapping"),
     ("against every overhead role in the role mapping",
      "against overhead roles in the role mapping"),
+    # one spelling. His own squad type is "Strategic Programs"; the built prose said
+    # "programmes" in some places and "program" in others, so the same thing wore two
+    # spellings on one page. His spelling wins, as always.
+    ("programmes", "programs"),
+    ("programme", "program"),
 ]
 
 

@@ -71,15 +71,15 @@ REMOVE = {
     "1.2 Customer": ["Digital Support NZ"],
     "1.3 Enterprise Data": ["EGI Data", "Enterprise Data Delivery"],
 }
-# 1.2's C7 and D7 are byte-identical, so both the AU and the NZ column count the whole
-# platform overhead. That reads like a double count and I changed it. It was not mine to
-# change: it is his tab, his formula and his published figure, and the change moved Ampol
-# Customer and Z Customer on 0.2 away from the numbers he had set. Reverted. If the split
-# is wrong it is his to correct, and he knows the tab better than the rule does.
+# 1.2 C7. In both of his workbooks C7 and D7 are different formulas and only one fires:
+# his review book's C7 sums column H, which is empty on the platform-overhead rows, and
+# his 27/07 book's C7 is the exact complement of D7 (the 0 and the SUM swap branches).
+# Either way F7 = 0.495 - the overhead counted once. An earlier pass here "corrected"
+# C7's H columns to I, which made C7 byte-identical to D7 and both branches fire: the
+# overhead counted twice, a shape that exists in NEITHER of his books. That rewrite was
+# the defect. C7 is now set to his 27/07 shape - the complement, his newest statement of
+# the cell, robust in both countries - and the 0.495 stands.
 FIX = {
-    # his C7 points platform overhead at column H (Total Squad Cost); the overhead lives
-    # in I on this tab's platform-overhead rows, as it did before and as C7 did in the
-    # ancestor
     "1.2 Customer": [("C7", None, None)],
     # his 1.5 edit removed the NZ column, so 0.2's P&C spend read wraps the dead D9 the
     # house way
@@ -273,12 +273,18 @@ def run(src, dst):
         for cell, expect, repl in fixes:
             cur = ws[cell].value
             if expect is None:
-                # his 1.2 C7 wraps the platform-overhead sum in a NZ/AU condition; only
-                # the column letters inside are wrong (H, the squad-cost column, where
-                # the overhead lives in I)
-                if isinstance(cur, str) and "SUM(H34,H42,H49)" in cur:
-                    ws[cell] = cur.replace("SUM(H34,H42,H49)", "SUM(I34,I42,I49)")
-                    out.append(f"{tab}!{cell}: H34/H42/H49 -> I columns inside his IF")
+                # C7 arrives in his review-book shape (SUM over the empty H columns) and
+                # leaves in his 27/07 shape: the complement of D7, one branch firing
+                if isinstance(cur, str) and cur.endswith("SUM(H34,H42,H49),0)"):
+                    ws[cell] = cur.replace("SUM(H34,H42,H49),0)",
+                                           "0,SUM(I34,I42,I49))")
+                    out.append(f"{tab}!{cell}: his 27/07 complement shape - platform "
+                               f"overhead prices once, whichever country is home")
+                elif isinstance(cur, str) and cur.endswith("0,SUM(I34,I42,I49))"):
+                    out.append(f"{tab}!{cell} already his 27/07 shape")
+                else:
+                    out.append(f"{tab}!{cell} holds {str(cur)[:60]!r} - LEFT ALONE, "
+                               f"expected his review or 27/07 shape")
                 continue
             if cur == expect:
                 ws[cell] = repl

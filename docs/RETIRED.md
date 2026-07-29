@@ -12,7 +12,7 @@ rule appears only here, it is not a rule.
 
 | Retired rule | Where it came from | What replaced it, and when |
 |---|---|---|
-| Squads with no people in them are removed from the design tabs | D6a, from "we cannot have squads with 0 people in them" | Still live for the three already removed - Pricing & WFM, Digital Support NZ, Enterprise Data Delivery, EGI Data - which he confirmed stay out. **It is not a licence to remove anything further.** No block comes off a design tab again without him saying so. |
+| Squads with no people in them are removed from the design tabs | D6a, from "we cannot have squads with 0 people in them" | Still live for the four already removed - Pricing & WFM, Digital Support NZ, Enterprise Data Delivery, EGI Data - which he confirmed stay out. **It is not a licence to remove anything further.** No block comes off a design tab again without him saying so. |
 | Frozen panes on every table over 25 rows | Original register item 70 | Item 94, then his direct instruction: **no frozen panes anywhere**. |
 | "Lights on budget" and "Total to fund" are banned wordings | An early banned-word ruling | His own newest workbook uses both, consistently. **His labels win.** (D83) |
 | The 1.x actuals block sits at the foot of the tab | The first design-A build | **Up top, beside the budget box**, one clean fixed-shape table. (D102) |
@@ -36,10 +36,15 @@ Home country column and that **no** tab decided its country by comparing budget 
 encoded the instruction above, and both are retired: the file now checks that the column is
 gone and that all eleven 1.x tabs use his comparison, identically.
 
-Six 3.2 checks were re-derived rather than re-baselined. They pinned a snapshot - 22
-platforms, 5.005, 31.2 priced for, a 38.8-role gap - which the 1.2 revert moved. They now
-compute the expected figure from the model's own platform count and tie 3.2 to 3.1, so they
-test the thing that matters and keep telling the truth whichever way he rules on 1.2.
+Six 3.2 checks were re-derived rather than re-baselined: they compute their expected figure
+from the model's own platform count and tie 3.2 to 3.1, so they test the thing that matters
+whatever the count is.
+
+**Retired with wave K (D112 corrected): the claim that 1.2's double-counted platform
+overhead was "his shape".** It was not - both his workbooks price it once (0.495), and the
+double count was the build's own corruption of his C7. The three checks that pinned 0.99 /
+16.0575 / "C7 == D7" as his are gone; the pins now hold his true 27/07 complement shape.
+Anyone reading an old log or the first D112 and concluding 0.99 is his: it never was.
 
 ## C. Superseded process rules
 

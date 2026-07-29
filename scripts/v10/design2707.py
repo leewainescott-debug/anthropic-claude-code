@@ -590,6 +590,11 @@ def summary_head_labels(wb):
         for c in range(2, b["last"] + 1):
             if label(ws, b["hdr"], c) or rgb(ws.cell(b["hdr"], c)) != opts.NAVY:
                 continue
+            # a header only where the column holds something. 1.5 has no NZ column - the
+            # owner took it out - and labelling its empty band "TDD NZ ($m)" off the
+            # siblings dressed a column he removed as one that exists
+            if all(ws.cell(b["hdr"] + k, c).value is None for k in range(1, 5)):
+                continue
             best = max(seen.get(c, {}).items(), key=lambda kv: kv[1], default=None)
             if best and best[1] >= 2 and write(ws, b["hdr"], c, best[0]):
                 paint(ws, b["hdr"], c, font=opts.HDRF, align=opts.CEN)
@@ -1467,9 +1472,11 @@ def squad_archetypes(wb):
     """
     if ARCH not in wb.sheetnames:
         return [f"{ARCH} not in this workbook"]
-    return [f"{ARCH}: left exactly as it arrives - it is the owner's cost library, a "
-            f"source tab like 0.1 and 0.4, and nothing in this pass touches it. "
-            f"regress2707 proves it cell-for-cell against rev.xlsx."]
+    return [f"{ARCH}: left as it arrives - it is the owner's cost library, a source tab "
+            f"like 0.1 and 0.4, and nothing in THIS pass touches it. The chain's three "
+            f"cell exemptions live in hybrid.py (K7/K8, the onshore-count input, and "
+            f"C25, his rule note corrected per D116); regress2707 proves the rest "
+            f"cell-for-cell against rev.xlsx."]
 
 
 # ----------------------------------------------------------------- run
