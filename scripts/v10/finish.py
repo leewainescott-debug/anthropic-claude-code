@@ -378,6 +378,46 @@ def titles(wb, keep=None):
     return out + [f"{n} titles matched to their tab name"]
 
 
+# ---- the cyber COE, called what he calls it -----------------------------------------
+# His ruling: it is "Cyber, Risk & Service Operations". The tab name is abbreviated because
+# Excel stops at 31 characters, and the words on the page are not.
+#
+# What is NOT renamed, and why it matters: the portfolio cell on 2.11 (C3), column B of 3.4,
+# and the raw grouping value in REVIEW all read "COE Cyber", and every count and every sum
+# in the file joins the ledger on that string. Renaming a join key would take fifty-two
+# roles off four tabs and leave every control reading zero, because both halves of each
+# control read the same renamed key. Display text only, listed cell by cell, with the join
+# keys declared here so the next reader does not "finish the job".
+CRSO = "Cyber, Risk & Service Operations"
+CRSO_OLD = "COE Cyber"
+CRSO_KEEP = "the portfolio cell (2.11!C3), 3.4's COE column and REVIEW's grouping columns "\
+            "stay 'COE Cyber' - they are the ledger join key, not a label"
+
+
+def crso_labels(wb):
+    """Display text on the cyber COE's own tabs, in his words."""
+    out = []
+    tab = next((t for t in wb.sheetnames if t.split(" ", 1)[0] == "2.11"), None)
+    if tab:
+        ws = wb[tab]
+        for r in range(1, min(ws.max_row, 40) + 1):
+            v = ws.cell(r, 2).value
+            if (isinstance(v, str) and not v.startswith("=") and CRSO_OLD in v
+                    and r != 3):
+                ws.cell(r, 2).value = v.replace(CRSO_OLD, CRSO)
+                out.append(f"{tab}!B{r} -> {ws.cell(r, 2).value[:52]!r}")
+    if "3.4 COE Detail" in wb.sheetnames:
+        ws = wb["3.4 COE Detail"]
+        for r in range(1, min(ws.max_row, 60) + 1):
+            v = ws.cell(r, 2).value
+            # the total row only. The rows above it are the join key.
+            if isinstance(v, str) and v.strip() == f"{CRSO_OLD} total":
+                ws.cell(r, 2).value = f"{CRSO} total"
+                out.append(f"3.4 COE Detail!B{r} -> {CRSO} total")
+    out.append(CRSO_KEEP)
+    return out
+
+
 def strays(wb, keep):
     out = []
     # a naked ratio with no label, in an otherwise blank area
@@ -470,7 +510,8 @@ def run(src, dst, rev=REV):
     keep, note = rev_literals(rev)
     out = ([note] + no_red(wb) + hide_sources(wb) + drop_prose(wb, keep) + fix_02(wb)
            + bars_and_totals(wb) + empty_inputs(wb) + review_font(wb) + coe_widths(wb)
-           + titles(wb, keep) + strays(wb, keep) + review_cream(wb) + align_3x(wb)
+           + titles(wb, keep) + crso_labels(wb) + strays(wb, keep)
+           + review_cream(wb) + align_3x(wb)
            + snapshot_flag(wb) + qa_bar(wb))
     wb.save(dst)
     return out

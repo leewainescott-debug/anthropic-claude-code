@@ -6,7 +6,7 @@ Companion file: `docs/PLAN.md` (what we are doing and what is outstanding).
 "Lee" means you decided it. "Build" means I decided it and it is reversible - each one is
 flagged so you can overturn it without hunting for where it lives.
 
-Last updated: after D119 - Deepali and the vacant Service Transition Lead home in Enterprise Data leadership.
+Last updated: after D120 - wave M, the cyber uplift restructure and the Customer corrections.
 
 ---
 
@@ -734,6 +734,122 @@ Test". They stay, formatted so nothing truncates. The 1.6 copy sat inside the sq
 span and punched a hole through the header bar, so that one moves right of the table
 verbatim; K/L then carry the Actual/Variance pair like every other 1.x tab, retiring the
 P/Q exception.
+
+### D120. Wave M: the cyber uplift is a portfolio, the COE is what is left, and Customer gets his own figures back. Lee.
+
+Eleven rulings in one round. His words are quoted; every figure below is derived from the
+role mapping, not typed.
+
+**1. "looks nothing like the other coe tabs and doesn't tell me the budget vs spend"** -
+about 1.13 Cyber Roles. He was right twice over. Its nine summary columns matched 1.11 and
+1.12 except that the seventh was "Left to fund" - a funding gap - where its siblings carry
+the variance of budget against spend, and its budget line was buried in a four-row bucket
+table with a CapEx input in the middle of it. 1.13 now reads Grouping / Roles / Filled /
+Vacant / Planned spend / Budget to draw down / **Variance** / Cost AU / Cost NZ, with the
+budget on the total row where the allocation sits and the variance beside it: 2.00 against
+7.02, so (5.02). The funding block is two lines in 1.11's own list style - the COE
+allocation off 0.2 Data Config, then the total to draw down - and the 0.5 CapEx input, its
+bucket total and the Left to fund row are gone with every reference to them.
+
+**2. Nine roles leave the COE for a TDD Cyber portfolio of their own.** Five staff a Cyber
+Uplift squad (Catherine Gire, Dan Balsamo, Kevin Sheerin, Tony Keeler, Vivienne Vasak) and
+four staff Identity (Cameron Watman, Iwan Wibisono, Joe Nahma, Raymond Cheung). They move
+through the Lists override table, keyed on "Name | Position Title" as every move does - his
+raw Portfolio column still reads "COE - Cyber, Risk & Operations" and it is not the build's
+to change. The window widened from ten slots to twenty; eleven are used.
+
+**3. Five COE roles are part-charged to the uplift programme, and stay in the COE.** Chris
+Lyons 50%, James Byrne 50%, Rahul Sahni 40%, Darshan Suvama 25%, Vanessa Castro 0%. 1.13
+carries a cream **Uplift %** column beside the On/Off lever and its cost engine prices
+cost x lever factor x (1 - uplift %); the slice itself is stated in its own column, and
+1.14's funding block totals that column. The COE's planned spend and 2.11's cost after
+decisions are both net of the slice, role for role, so it is counted once.
+
+The maths ties to his own figure to the cent: the Cyber Uplift squad's five roles cost
+$1,299,996.55 and the five part-charges come to $494,819.45. **$1,794,816.00** - exactly
+the figure he gave for the cyber uplift people.
+
+**4. The COE's offshoring levers.** Jack Jenkins, Jas Mann, Ritika Salaria, the two vacant
+Leads, Vacant (AKL) Tech Support Technician, and the two vacant Operations Analysts, which
+move off Hold onto Offshore - a role being offshored is not a role being cancelled. Vacant
+(SYD) stays on Hold; he is recruiting it. After the moves the COE is 43 roles - Cyber & Risk
+19 (16 filled, 3 vacant), Service Operations 24 (17, 7) - 2 to hire, 8 offshored, 3 held,
+40 after decisions, 8.78 actual and 7.02 planned.
+
+**5. 0.2's combined cyber line splits in two, which his own action note asked for**
+("Separate out and incl. cyber uplift funding bucket"). Row 7 is the COE at 1.5 AU / 0.5 NZ
+reading 1.13's planned spend; row 23 is **TDD Cyber** at 1.0 AU / 0.5 NZ reading 1.14's own
+TDD cost. The two allocations still add to the 3.5 he had on one row, so the allocated total
+is 50.5 as it was. His offshoring note moves onto the COE row with the COE.
+
+**6. 1.14 TDD Cyber takes the standard 1.x shape with two squads.** Cyber Uplift is a typed
+cream 1.2998 at support % 0 - no archetype in his library prices a cyber uplift programme,
+and support % 0 means the whole of it shows as funded outside TDD, which is what "fully
+funded from the programme" means on that table. Identity prices off the archetype library
+(Operations, S) at 0.8 with his **80% support toggle**, so 0.64 is TDD and 0.16 is charged to
+the programmes. The programme's funding block states the 2.8 he set aside and what it is
+paying for - the squad, the 1.13 part-charges, Identity's share - leaving 0.845 for
+non-people. There is no Left to fund line: the programme funds all of it.
+
+**7. "the coes and egi need to show archetype = actual"** on 3.1. There is no independent
+plan for those four groups, which the tab used to state as a dash - and a dash is not a
+number, so the total column could never add up and the tab's boldest row carried no
+archetype figure at all. Archetype = actual says the same thing in a way the column can
+carry: no variance, and every row in the total.
+
+**8. 3.1 is his approved layout, and the walk is deleted.** Title "Archetype cost to actual
+cost", band "TDD", one row per group with Ampol Retail and Z Retail adjacent and **no
+subtotal row between them** (removed, not hidden - it was a display row inside a column of
+group rows and it was in no total), the cyber COE named "Cyber, Risk & Service Operations",
+a Total roles after decisions column on every line, then the TDD total, the GM layer and the
+grand total. The forty-row step-by-step walk below it is gone: every step of it is still on
+the tab it came from - 3.3 by squad, 3.2 by overhead line, each working tab by block - and
+the Exec now quotes the group total instead of five walk subtotals.
+
+**9. The EGI squads are funded by EGI at the actual cost of their roles, in every
+portfolio.** Support % 0, Total Squad Cost reading the working tab's own after-decisions
+total, so no part of them is a TDD cost, none of them lands in Squad Support Costs, and the
+whole of each shows in the portfolio's Other column and so in its total cost. This settles
+the open question left by D118: **his 27/07 typed 2.21 in 1.2's TDD Cost column comes out**
+and the cell is his review workbook's own formula again, with EGI Customer's actual (2.099)
+flowing to Significant Items EGI.
+
+**10. Digital Support NZ comes back.** It is a squad on his own review workbook, row 41,
+with "Net New" in the gutter beside it, and taking it off (D6a) removed 0.32 of NZ platform
+cost. With it back and the 2.21 out, Customer reads his review workbook's own figures:
+**Ampol Customer 2.439 against 2.5, Z Customer 5.314 against 4.0.** His note off that row
+moves to the note margin, because K is now a live column.
+
+**11. All six WiPro roles in Customer are offshored, and none of them reprices.** Every one
+costs 73,260, which IS the vendor's offshore rate; multiplying it by 0.4 would invent a 60%
+saving on a rate that already has it. So a role whose Type on the role mapping contains
+WIPRO prices at the full rate whatever its lever says, and the guard sits in the cost-after
+formula on every role rather than on those six, so a seventh vendor role is covered the day
+it arrives. The lever moves the status and the vacancy split and not the price: Customer goes
+to 8 to hire and 6 to offshore, the Exec to 126 / 12 / 6 with 5 filled roles offshored, and
+Customer's cost does not move.
+
+**Tab renamed.** 2.11 is "2.11 Cyber Risk & Service Ops" - 29 characters, because Excel
+stops at 31 - and its own title, its 3.1 line and 3.4's total row say
+"Cyber, Risk & Service Operations" in full. What is deliberately NOT renamed: the portfolio
+cell at 2.11!C3, column B of 3.4, and REVIEW's grouping columns all still read "COE Cyber",
+because every count and every sum in the file joins the ledger on that string. Renaming a
+join key would take 43 roles off four tabs with every control still reading zero, because
+both halves of each control read the same renamed key.
+
+**No dashes.** His ruling, and it is absolute: no cell in this workbook shows a dash. Every
+`="-"` literal is blank, every `"-"` fallback inside an IF or IFERROR returns `""`, and the
+third section of every money and count format - the section that decides what a zero renders
+as - is gone, so a zero reads 0.00 or 0. Swept at source in the writers and again on the
+finished file, which is what makes it checkable in one place.
+
+**Two gates were re-derived rather than re-baselined, and two were retired.** 1.2's F9 was
+pinned at his 15.5625; two of his own rulings move it, so it is now pinned to equal its own
+three columns and 2.2's archetype total - both sides move together or the check fails. The
+Exec hold count was pinned at 8; it is now a recount of every vacant role held, off the
+working tabs. The "all 40 squad formulas" count is derived rather than typed. Retired: the
+1.13 CapEx pin (the input is gone) and the "1.14 awaits its inputs" pin (both squads are
+priced).
 
 ### D108. 3.2 is his layout, and the sentence column is his to write.
 He redrew the tab himself and his order is better: rate, times applied, roles priced for,

@@ -46,6 +46,26 @@ double count was the build's own corruption of his C7. The three checks that pin
 16.0575 / "C7 == D7" as his are gone; the pins now hold his true 27/07 complement shape.
 Anyone reading an old log or the first D112 and concluding 0.99 is his: it never was.
 
+## B2. Retired with wave M (D120)
+
+| Retired | What replaced it |
+|---|---|
+| **3.1's step-by-step walk** - forty rows: squads priced by an archetype, directly funded programmes by name, overhead against the allowance, the COEs, the groups nothing prices, and two subtotals that could only carry a dash | 3.1 is one row per group, his approved layout. Every step of the walk is still on the tab it came from - 3.3 by squad, 3.2 by overhead line, each working tab by block. |
+| **3.1's "Retail - Ampol and Z together" subtotal row** | The two rows sit adjacent with no subtotal. The row is removed, not hidden - it was a display row inside a column of group rows and it was in no total. |
+| **The dash convention on 3.1's total and grand rows** (a dash in the archetype and variance columns) | The COEs and EGI price archetype = actual, so every row carries a figure and the total column adds up. |
+| **1.13's 0.5 Cyber CapEx input**, its bucket total, its "Left to fund" row and the "Planned spend less CapEx" cell beside it | Two funding lines: the COE allocation off 0.2, then the total to draw down. The seventh summary column is a Variance. |
+| **0.2's combined "TDD Cyber incl. COE" line** and the F23 read that summed 1.13 and 1.14 | Row 7 is the COE, row 23 is TDD Cyber, each reading its own tab. The allocated total is unchanged at 50.5. |
+| **1.2!I54's typed 2.21** for EGI Customer | His review workbook's own formula. The EGI squads are funded at the actual cost of their roles (D120 item 9), which settles the question D118 left open. |
+| **Digital Support NZ's removal under D6a** | The squad is back. D6a still holds for a squad with no people AND no line of his behind it; this one has his line behind it. |
+| **The accounting-dash section of every money and count number format** | Two sections, so a zero renders 0.00 or 0. No cell in the workbook shows a dash. |
+| **Exec's five walk-subtotal lines** (squads priced by an archetype x3, directly funded, COEs and EGI actual, overhead in the COEs, everything comparable, groups with no archetype and no funded figure) | Five lines off 3.1's group total plus two "of which" lines read straight off the working tabs. |
+
+Four gates moved with them. Two were **re-derived, not re-baselined**: 1.2!F9's typed
+15.5625 is now a tie between the tab's own three columns and 2.2's archetype total, and the
+Exec hold count is a recount of every vacant role held off the working tabs. The 40-squad
+hybrid count is derived rather than typed. Two were **retired**: 1.13's CapEx-follows-its-
+input pin, and "1.14 Cyber Uplift awaits its inputs".
+
 ## C. Superseded process rules
 
 - **Seven QA passes** as a fixed list - superseded by `audit.py` plus the five scripted

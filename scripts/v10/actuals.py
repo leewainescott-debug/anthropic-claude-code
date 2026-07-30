@@ -107,7 +107,7 @@ def blocks(ws, wsv, limit=95):
 def lookup(tab, lo, hi, row, after):
     """The squad's cost after decisions on its working tab, found by name."""
     return (f"=IFERROR(INDEX('{tab}'!${after}${lo}:${after}${hi},"
-            f"MATCH($B{row},'{tab}'!$B${lo}:$B${hi},0)),\"-\")")
+            f"MATCH($B{row},'{tab}'!$B${lo}:$B${hi},0)),\"\")")
 
 
 def diff(a, b):
@@ -117,7 +117,7 @@ def diff(a, b):
     whole 0.24 as an overspend against nothing. A variance needs two figures on the same
     basis or it is not a variance, and the honest answer is a dash.
     """
-    return f'=IF(AND(ISNUMBER({a}),ISNUMBER({b})),ROUND({b}-{a},6),"-")'
+    return f'=IF(AND(ISNUMBER({a}),ISNUMBER({b})),ROUND({b}-{a},6),"")'
 
 
 def priced(cells):
@@ -273,7 +273,7 @@ def design_a(ws, wsv, blks, tab, lo, hi, after):
         # the block total compares only when every squad in it is priced by an archetype,
         # or the archetype side is short a squad the actual side is carrying
         _m(ws, t, var, f'=IF({priced([f"${L(ARCH)}{r}" for r in b["squads"]])},'
-                       f'{diff(f"${L(ARCH)}{t}", f"${L(act)}{t}")[1:]},"-")', bold=True)
+                       f'{diff(f"${L(ARCH)}{t}", f"${L(act)}{t}")[1:]},"")', bold=True)
         for c in (act, var):
             ws.cell(t, c).fill = copy.copy(ws.cell(t, ARCH).fill)
     return act, var, moved
@@ -300,7 +300,7 @@ def design_b(ws, blks, tab, lo, hi, after, anchor):
             # a blank archetype cell reads back as 0 through "=$H", which would print
             # $0.00m as though the archetype priced this squad at nothing
             for c in (ARCH, 9, 10):
-                _m(ws, r, c, f'=IF({L(c)}{src}="","-",{L(c)}{src})')
+                _m(ws, r, c, f'=IF({L(c)}{src}="","",{L(c)}{src})')
             _m(ws, r, ACT, lookup(tab, lo, hi, src, after).replace(f"$B{src}", f"$D{r}"))
             _m(ws, r, VAR, diff(f"${L(ARCH)}{r}", f"${L(ACT)}{r}"))
             r += 1
@@ -308,7 +308,7 @@ def design_b(ws, blks, tab, lo, hi, after, anchor):
               opts.BOLD, opts.GREY, opts.LFT)
         for c in (ARCH, 9, 10):
             cells = [f"${L(c)}{x}" for x in range(st, r)]
-            _m(ws, r, c, f'=IF({priced(cells)},SUM({",".join(cells)}),"-")', bold=True)
+            _m(ws, r, c, f'=IF({priced(cells)},SUM({",".join(cells)}),"")', bold=True)
         _m(ws, r, ACT, f"=SUM(${L(ACT)}{st}:${L(ACT)}{r-1})", bold=True)
         _m(ws, r, VAR, diff(f"${L(ARCH)}{r}", f"${L(ACT)}{r}"), bold=True)
         (subs if b["comparable"] else unpriced).append((f"${L(ARCH)}{r}", f"${L(ACT)}{r}"))
@@ -366,12 +366,12 @@ def _foot(ws, r, subs, unpriced, tab, anchor, cols, unpriced_names=()):
               diff(f"${L(ca)}{r}", f"${K}{r}"), band=True)
     add.append(r - 1)
     if unpriced and abs(_after(tab, anchor, unpriced_names)) > 1e-6:
-        r = _line(ws, r, "Squads with no archetype to price them", cols, '="-"',
-                  "=" + "+".join(f"N({b})" for _, b in unpriced), '="-"')
+        r = _line(ws, r, "Squads with no archetype to price them", cols, '=""',
+                  "=" + "+".join(f"N({b})" for _, b in unpriced), '=""')
         add.append(r - 1)
     if oh and abs(_after(tab, anchor, rows=[oh])) > 1e-6:
         r = _line(ws, r, "Overhead roles in this portfolio", cols,
-                  '="-"', f"=N('{tab}'!${A}${oh})", '="-"')
+                  '=""', f"=N('{tab}'!${A}${oh})", '=""')
         add.append(r - 1)
     # squads the working tab carries with no row on this tab - the owner renamed the line
     # "Additional costs" and dropped it where it is nil. The zero-check control moved off
@@ -379,10 +379,10 @@ def _foot(ws, r, subs, unpriced, tab, anchor, cols, unpriced_names=()):
     resid = f"=ROUND(N('{tab}'!${A}${anchor['total_row']})-" \
             + "-".join(f"${K}{x}" for x in add) + ",6)"
     if abs(_residual(ws.parent, tab, anchor, add, K)) > 1e-6:
-        r = _line(ws, r, "Additional costs", cols, '="-"', resid, '="-"')
+        r = _line(ws, r, "Additional costs", cols, '=""', resid, '=""')
         add.append(r - 1)
     r = _line(ws, r, "Total actual cost after decisions - ties to the working tab", cols,
-              '="-"', f"='{tab}'!${A}${anchor['total_row']}", '="-"', band=True)
+              '=""', f"='{tab}'!${A}${anchor['total_row']}", '=""', band=True)
     return add[0]
 
 

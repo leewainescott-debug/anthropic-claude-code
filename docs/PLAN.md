@@ -4,9 +4,15 @@ Live document. **Read `RETIRED.md` first**: anything in it is dead and must not 
 on, however reasonable it sounds. `DECISIONS.md` records what was decided and why.
 The original brief is `INSTRUCTION_REGISTER.md`, live except where superseded.
 
-**Where it stands.** The role mapping holds 531 roles, 529.30 FTE, $115,589,735.11
-(386 filled, 145 vacant). After the decisions currently set - 8 on hold, 3 offshored,
-1 vacancy set to fill - 523 roles and $113,777,703.16.
+**Where it stands - wave M is the current wave.** The role mapping holds 531 roles,
+529.30 FTE, $115,589,735.11 (386 filled, 145 vacant). Wave M (D120) is his cyber uplift
+restructure and his Customer corrections: nine roles leave the COE for a TDD Cyber
+portfolio of its own, five more are part-charged to the uplift programme, 1.13 is rebuilt
+in 1.11's shape, 0.2's combined cyber line splits in two, 3.1 is his approved one-row-per-
+group layout with the walk deleted, the EGI squads are funded at the actual cost of their
+roles, Digital Support NZ is back, all six WiPro roles are offshored at the vendor rate,
+and no cell in the workbook shows a dash. Figures after wave M's decisions are re-derived
+on every build - the gates compute them, they are not typed here.
 
 **The rule that outranks every other rule in this file: his content is his.** A figure he
 typed, a formula he wrote, a label he chose and a block he built are not the build's to
@@ -130,6 +136,13 @@ banned list. Still live except where superseded below.
 | 44 | The word "seat" is never used. | Done |
 | 45 | The 2.x overheads belong in the table up top, not in a second table below. | Done - one table, one header |
 | 46 | Do not give me something that is not right. | Standing |
+| 47 | 1.13 "looks nothing like the other coe tabs and doesn't tell me the budget vs spend". | Done - wave M, D120 |
+| 48 | The cyber uplift is its own portfolio; nine roles move, five are part-charged. | Done - wave M, D120 |
+| 49 | The COEs and EGI show archetype = actual on 3.1. Delete the walk. | Done - wave M, D120 |
+| 50 | The EGI squads are funded by EGI at the actual cost of their roles. | Done - wave M, D120 |
+| 51 | Restore Digital Support NZ. Customer reads my review workbook's figures. | Done - wave M, D120 |
+| 52 | Offshore all six WiPro roles. Do not reprice them - 73,260 is the vendor rate. | Done - wave M, D120 |
+| 53 | No dashes anywhere. A zero is a zero and an empty cell is blank. | Done - wave M, D120 |
 
 ## 5. How the cost is compared
 

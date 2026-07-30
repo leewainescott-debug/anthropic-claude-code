@@ -404,7 +404,11 @@ def bucket_bar(wb):
         return []
     ws = wb["1.13 Cyber Roles"]
     for r in range(1, min(ws.max_row, 30) + 1):
-        if not label(ws, r, 2).startswith("Funding buckets"):
+        # "Funding buckets to draw down" was his heading while the block held four buckets.
+        # Wave M leaves two funding lines and the heading is "Funding", so the bar is found
+        # by either word rather than by the old one only - a bar this pass cannot find is a
+        # bar that ships one column wide over a two-column table.
+        if not label(ws, r, 2).startswith(("Funding buckets", "Funding")):
             continue
         body = []
         for k in range(r + 1, min(ws.max_row, r + 12) + 1):
@@ -420,7 +424,7 @@ def bucket_bar(wb):
             paint(ws, r, c, fill=opts.fl(opts.BARC), font=opts.BARF)
         paint(ws, r, 2, align=opts.LFT)
         return [f"1.13!B{r} bar spans B:{L(last)}, the width of its own table"]
-    return ["1.13: no 'Funding buckets to draw down' bar found - skipped"]
+    return ["1.13: no funding bar found - skipped"]
 
 
 # ----------------------------------------------------------------- 3  blank navy
@@ -1296,7 +1300,7 @@ def coe_odds(wb):
         ws = wb["1.13 Cyber Roles"]
         head = next((r for r in range(1, 20) if label(ws, r, 2) == "Grouping"), None)
         bar = next((r for r in range(1, 20)
-                    if label(ws, r, 2).startswith("Funding buckets")), None)
+                    if label(ws, r, 2).startswith(("Funding buckets", "Funding"))), None)
         spend = next((c for c in range(3, 12)
                       if head and label(ws, head, c).startswith("Planned spend")), None)
         if head and bar and spend:
@@ -1307,19 +1311,19 @@ def coe_odds(wb):
                 body.append(k)
             wide = max([c for c in range(2, spend)
                         if any(ws.cell(k, c).value is not None for k in body)] + [2])
+            # The "Planned spend less CapEx" label this pass used to write is retired with
+            # the CapEx input it named: his wave-M ruling takes the 0.5 off 1.13 and every
+            # reference to it, so there is no working figure parked in the spend column to
+            # label. A figure that turns up there again is reported rather than labelled,
+            # because the label would be a guess at what it is.
             for r in body:
                 if ws.cell(r, spend).value is None:
                     continue
                 if any(ws.cell(r, c).value is not None for c in range(wide + 1, spend)):
                     continue                     # something already sits beside it
-                # the bucket table beside it ends at column `wide`, so this figure sits
-                # in the summary table's spend column with nothing on its own row to name
-                # it. Its formula is the spend total less the CapEx input below it.
-                write(ws, r, spend - 1, "Planned spend less CapEx ($m)")
-                paint(ws, r, spend - 1, font=opts.BODY, align=opts.RGT)
-                out.append(f"1.13!{L(spend - 1)}{r} now labels the working figure in "
-                           f"{L(spend)}{r} ({ws.cell(r, spend).value}) - it sat under the "
-                           f"'Planned spend' column with no label anywhere on its row")
+                out.append(f"1.13!{L(spend)}{r} carries {ws.cell(r, spend).value!r} in the "
+                           f"'Planned spend' column with nothing on its row to name it - "
+                           f"NOT labelled, the funding block is two lines now")
             lone = [r for r in range(head + 1, bar)
                     if ws.cell(r, spend).value is not None and label(ws, r, 2)
                     and all(ws.cell(r, c).value is None for c in range(3, spend))]

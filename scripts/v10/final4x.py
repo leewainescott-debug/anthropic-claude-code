@@ -122,6 +122,46 @@ def repoint(wb, a):
     return n
 
 
+# a left-aligned wrapped body cell, for the sentences at the foot of 4.0
+LFTW = openpyxl.styles.Alignment(horizontal="left", vertical="center", wrap_text=True)
+
+# What 4.0 states in words. A check on this tab is model / expected / difference, and these
+# are facts a difference cannot carry.
+QA_FACTS = [
+    "The six WiPro roles in Customer are set to Offshore and their cost does not move. "
+    "Every one of them already prices at 73,260, which IS the vendor's offshore rate, so "
+    "the lever changes where the role sits and how it counts in the vacancy split - "
+    "Customer's To offshore goes to 6 and its To hire drops by 5 - and not the price. Any "
+    "role whose Type on the role mapping says WIPRO prices at the full rate whatever its "
+    "lever says.",
+    "The five cyber roles carrying an Uplift % on 1.13 Cyber Roles stay in the COE and part "
+    "of each of them is charged to the cyber uplift programme. The COE's planned spend and "
+    "2.11's cost after decisions are both net of that share, and the share itself is a "
+    "funding line on 1.14 TDD Cyber, so it is counted once.",
+    "The EGI squads are funded by EGI at the actual cost of their roles. Their support % is "
+    "nil, so no part of them is a TDD cost and their variance to the archetype is zero by "
+    "construction.",
+]
+
+
+# The two working-tab columns the Exec and 4.0 read straight off the 2.x tabs now that 3.1
+# does not carry a walk to quote: Variance to archetype, and Actual cost.
+C33_VAR, C33_ACT = L(S["var"]), L(S["actual"])
+
+
+def _sum2x(a2, key, col, tabs=None):
+    """A live sum of one cell on every working tab that has the row.
+
+    Written as N() of each cell, the way every other cross-tab total in this file is, so a
+    tab whose row is a blank - a portfolio with nothing in that block - contributes zero
+    instead of turning the whole sum into an error. Built from the anchors the working tabs
+    returned, so a row that moves moves here too.
+    """
+    cells = [f"N('{t}'!${col}${i[key]})" for t, i in sorted(a2.items())
+             if i.get(key) and (tabs is None or t in tabs)]
+    return "=" + "+".join(cells) if cells else "=0"
+
+
 # ------------------------------------------------------------------- Exec Summary
 def build_exec(wb, a, a2):
     ws = wb["Exec Summary"]
@@ -160,45 +200,41 @@ def build_exec(wb, a, a2):
         ("The 8 GMs, outside the ledger ($m)", "=N(Lists!$AG$12)", opts.M2),
         ("Cost today including the GM layer ($m)", f"={G1}!${C31['actual']}${a['grand']}", opts.M2)])
 
+    # Five lines off 3.1, then two off the working tabs, then the budget question.
+    #
+    # 3.1 is one row per group now and its total row carries a real archetype figure, so the
+    # organisation's position is five lines rather than eleven: what the archetype prices the
+    # organisation at, what it actually costs, the difference, the GM layer that sits outside
+    # the role mapping, and the two together. The eleven-line version restated 3.1's own
+    # walk, and the walk has gone: the detail is on the tab it belongs to - 3.3 by squad,
+    # 3.2 by overhead line, each working tab by block.
+    #
+    # The two lines that are not on 3.1 read the working tabs directly rather than a 3.1 row
+    # that no longer exists. Both are "of which" lines against the difference above them, so
+    # they say so.
     r = block(r, "Against the archetype", [
-        ("Squads priced by an archetype - archetype cost ($m)",
-         f"={G1}!${C31['acost']}${a['arch']}", opts.M2),
-        ("Squads priced by an archetype - actual ($m)",
-         f"={G1}!${C31['actual']}${a['arch']}", opts.M2),
-        ("Squads priced by an archetype - over/(under) ($m)",
-         f"={G1}!${C31['var']}${a['arch']}", opts.M2),
-        ("Directly funded programmes - over/(under) funded ($m)",
-         f"={G1}!${C31['var']}${a['direct']}", opts.M2),
-        # This line used to read "COEs and EGI - over/(under) their 1.x planned spend
-        # ($m)" and point at 3.1's variance column for the COE step, which is the literal
-        # string "-". A dash under a $m heading on an over/(under) line reads as "nothing
-        # in it", and the four groups behind it cost 28.68 - a quarter of TDD.
-        #
-        # There is no such over/(under) to state. EGI has no 1.x tab; the three that do
-        # carry a "planned spend" that is their own ledger cost after decisions, net of an
-        # allowance the actual column is gross of. The note above the COE block in
-        # final3x.build_31 works all four through cell by cell. So the line names what the
-        # figure actually is - the cost - and promises no comparison.
-        ("COEs and EGI - actual cost, no plan to compare against ($m)",
-         f"={G1}!${C31['actual']}${a['coe']}", opts.M2),
-        # "in the portfolios" is load-bearing: 3.2's overheads total runs 11.19 over the
-        # allowance, of which this line is the portfolio slice, the next is the COE and
-        # EGI slice, and the GM line is the rest. Without the qualifier a CFO reads the
-        # first line as the whole answer.
-        ("Overhead roles in the portfolios - above the allowance ($m)",
-         f"={G1}!${C31['var']}${a['overhead']}", opts.M2),
-        ("Overhead roles in the COEs and EGI - above the allowance ($m)",
-         f"={G2}!${C32['cgap']}${a['ohtot32']}-{G1}!${C31['var']}${a['overhead']}"
-         f"-{G1}!${C31['var']}${a['gm']}", opts.M2),
+        ("Archetype cost of the whole organisation ($m)",
+         f"={G1}!${C31['acost']}${gt}", opts.M2),
+        ("Actual cost of the whole organisation ($m)",
+         f"={G1}!${C31['actual']}${gt}", opts.M2),
+        ("Over/(under) archetype ($m)", f"={G1}!${C31['var']}${gt}", opts.M2),
         # without this line the components above summed short of the total, because the
         # total includes the GM layer and nothing listed it
         ("The 8 GMs - over/(under) their allowance ($m)",
          f"={G1}!${C31['var']}${a['gm']}", opts.M2),
-        ("Total over/(under) archetype, everything comparable ($m)",
-         f"={G1}!${C31['var']}${a['comparable']}+{G1}!${C31['var']}${a['gm']}",
-         opts.M2),
-        ("Groups with no archetype and no funded figure ($m)",
-         f"={G1}!${C31['actual']}${a['nofig']}", opts.M2),
+        ("Total over/(under) archetype including the GM layer ($m)",
+         f"={G1}!${C31['var']}${a['grand']}", opts.M2),
+        # "in the portfolios" is load-bearing: the overheads run well over the allowance
+        # across the whole organisation, and this line is the portfolio slice of it. Read
+        # off each working tab's own overhead row, which is where the allowance and the
+        # actual sit side by side.
+        ("Of which overhead roles in the portfolios - above the allowance ($m)",
+         _sum2x(a2, "overhead_row", C33_VAR), opts.M2),
+        # Energy and the four leadership groups: real people with real cost that no
+        # archetype and no funded figure prices. Read off each working tab's own
+        # "No archetype total" row.
+        ("Of which groups with no archetype - Energy and the leadership groups ($m)",
+         _sum2x(a2, "nofig_row", C33_ACT), opts.M2),
         # the question a finance partner walks in with - are we over the budget, not the
         # archetype - answered on the Exec with 0.2's own bottom line, negatives meaning
         # over
@@ -369,28 +405,31 @@ def build_qa(wb, a, a2):
         ("Total including the GM layer against the ledger plus the GM input ($m)",
          f"={G1}!${C31['actual']}${a['grand']}",
          f"=SUM({REV}!$AA$2:$AA${LAST})/1000000+N(Lists!$AG$12)", opts.M2),
-        ("Archetype variance - the comparable steps against the comparable subtotal ($m)",
-         # the COEs came out of the comparable subtotal when their archetype column stopped
-         # restating the actual, so they come out of the check that reconciles to it.
-         # Built off each step's own two cells rather than off its rounded variance: three
-         # figures rounded to six places and then added differ from one difference rounded
-         # once, and the check was reporting that $1 as a failure.
-         "=ROUND(" + "+".join(
-             f"(N({G1}!${C31['actual']}${a[k]})-N({G1}!${C31['acost']}${a[k]}))"
-             for k in ("arch", "direct", "overhead")) + ",6)",
-         f"={G1}!${C31['var']}${a['comparable']}", opts.M2),
+        # 3.1's variance is one difference on one row now, so the check that used to
+        # reconcile three steps to a comparable subtotal reconciles the row to the tabs it
+        # is built from: every working tab's own archetype and actual totals, differenced
+        # once. Built off the two cells rather than off each tab's rounded variance -
+        # fifteen figures rounded to six places and then added differ from one difference
+        # rounded once, and the old check reported that $1 as a failure.
+        ("Archetype variance on 3.1 against the working tabs, tab by tab ($m)",
+         "=ROUND(" + _sum2x(a2, "total_row", C33_ACT)[1:] + "-("
+         + _sum2x(a2, "total_row", L(S["acost"]))[1:] + "),6)",
+         f"={G1}!${C31['var']}${gt}", opts.M2),
         ("Roles including the GM layer against the ledger plus the GM count",
          f"={G1}!${C31['roles']}${a['grand']}",
          f"=COUNTA({REV}!$B$2:$B${LAST})+N(Lists!$AG$11)", opts.CT),
         # ---- the design side ----
-        ("Archetype cost, squad by squad on 3.3, against 3.1 ($m)",
+        # 3.1 no longer carries a per-step archetype row, so these two reconcile 3.3's own
+        # squad-by-squad archetype and funded figures to the working tabs' subtotals - the
+        # cells 3.1's group rows are themselves built from.
+        ("Archetype cost, squad by squad on 3.3, against the working tabs ($m)",
          f"=SUMIFS({G3}!${C33['acost']}${lo33}:${C33['acost']}${hi33},"
          f'{G3}!${C33["kind"]}${lo33}:${C33["kind"]}${hi33},"Archetype")',
-         f"={G1}!${C31['acost']}${a['arch']}", opts.M2),
-        ("Directly funded amount, squad by squad on 3.3, against 3.1 ($m)",
+         _sum2x(a2, "delivery_row", L(S["acost"])), opts.M2),
+        ("Directly funded amount, squad by squad on 3.3, against the working tabs ($m)",
          f"=SUMIFS({G3}!${C33['acost']}${lo33}:${C33['acost']}${hi33},"
          f'{G3}!${C33["kind"]}${lo33}:${C33["kind"]}${hi33},"Directly funded")',
-         f"={G1}!${C31['acost']}${a['direct']}", opts.M2),
+         _sum2x(a2, "direct_row", L(S["acost"])), opts.M2),
         ("Archetype roles on 3.3 against the priced-per-portfolio list on Lists",
          f"=SUMIFS({G3}!${C33['aroles']}${lo33}:${C33['aroles']}${hi33},"
          f'{G3}!${C33["kind"]}${lo33}:${C33["kind"]}${hi33},"Archetype")',
@@ -444,8 +483,12 @@ def build_qa(wb, a, a2):
          f"=COUNTA({REV}!$B$2:$B${LAST})", opts.CT),
         # 3.2 counts the people who sit in a portfolio off REVIEW rather than reading them
         # back off 3.1, so this compares two independent routes to the same figure.
-        ("Overhead on 3.1 against the cost that sits in the portfolios on 3.2 ($m)",
-         f"={G1}!${C31['actual']}${a['overhead']}",
+        # 3.1 does not carry an overhead step any more, so this reconciles 3.2's portfolio
+        # slice to the working tabs' own overhead rows - two independent routes to the same
+        # figure, which is what the check was always for.
+        ("Overhead cost on the working tabs against the cost that sits in the portfolios "
+         "on 3.2 ($m)",
+         _sum2x(a2, "overhead_row", C33_ACT),
          f"={G2}!${C32['cost']}${a['ohpf32']}", opts.M2),
         # the two tabs stated two different allowances for the same 43 overhead roles -
         # 3.2 read Lists, which priced the per-platform lines over a typed 30 platforms,
@@ -454,36 +497,25 @@ def build_qa(wb, a, a2):
         # both sides derived, so this stays a tie between the two tabs whatever the owner
         # types into Times applied: Lists holds the count the model carries and 3.1's
         # overhead step is what the ten design tabs actually draw.
-        ("The allowance the model carries against the overhead step on 3.1 ($m)",
+        ("The allowance the model carries against the working tabs' overhead rows ($m)",
          "=N(Lists!$AJ$9)",
-         f"={G1}!${C31['acost']}${a['overhead']}", opts.M2),
+         _sum2x(a2, "overhead_row", L(S["acost"])), opts.M2),
         ("3.2's split of the allowance - in the portfolios plus in the COEs - against "
          "its own total ($m)",
          f"={G2}!${C32['applied']}${a['ohpf32']}"
          f"+{G2}!${C32['applied']}${a['ohout32']}",
          f"={G2}!${C32['applied']}${a['ohtot32']}", opts.M2),
-        # the working tabs price each portfolio at what its own design tab says, which
-        # includes the Business Partner, Domain Architect and Leadership allowance whose
-        # people sit in the COEs and above the ledger. 3.1 carries those in its COE step
-        # and its GM line instead, so the two tie only once that 6.60 is taken out - and
-        # this check is what proves it still does.
-        # the whole-organisation block up top and the walk below it state the same
-        # organisation; this is the tie that keeps them from ever drifting apart
-        ("3.1's whole-organisation total against its own ledger row ($m)",
-         f"={G1}!$E${a['org_total']}", f"={G1}!$E${a['total']}", opts.M2),
-        ("Archetype cost on the working tabs, net of the allowance held elsewhere, "
-         "against 3.1's comparable total ($m)",
-         "=" + "+".join(f"N('{t}'!${L(S['acost'])}${i['total_row']})"
-                        for t, i in a2.items() if i.get("elsewhere_row"))
-         + "-" + "-".join(f"N('{t}'!${L(S['acost'])}${i['elsewhere_row']})"
-                          for t, i in a2.items() if i.get("elsewhere_row")),
-         # the comparable row, not the ledger total: the ledger row's archetype cell is
-         # now a dash, because its actual side covers 531 roles and the archetype 395
-         f"={G1}!${C31['acost']}${a['comparable']}", opts.M2),
-        ("Overhead allowance on 3.1 against the working tabs ($m)",
-         f"={G1}!${C31['acost']}${a['overhead']}",
-         "=" + "+".join(f"N('{t}'!${L(S['acost'])}${i['overhead_row']})"
-                        for t, i in a2.items() if i["overhead_row"]), opts.M2),
+        # 3.1 is one row per group off each working tab's Total portfolio row, so the tie
+        # that matters is the whole archetype side, tab by tab, against the row that quotes
+        # it. The old "net of the allowance held elsewhere" subtraction went with the walk:
+        # 3.1's group rows read the working tab's total, which already carries the
+        # elsewhere line, so there is nothing to net out any more.
+        ("Archetype cost on the working tabs against 3.1's TDD total ($m)",
+         _sum2x(a2, "total_row", L(S["acost"])),
+         f"={G1}!${C31['acost']}${gt}", opts.M2),
+        ("Actual cost on the working tabs against 3.1's TDD total ($m)",
+         _sum2x(a2, "total_row", C33_ACT),
+         f"={G1}!${C31['actual']}${gt}", opts.M2),
         # ---- the lever ----
         ("Roles after decisions against roles less anything on hold",
          f"={G1}!${C31['rafter']}${gt}",
@@ -568,6 +600,16 @@ def build_qa(wb, a, a2):
     x = ws.cell(r, 5)
     x.value = f'=COUNTIF($E{HDR+1}:$E{r-1},"<>0")'
     x.number_format, x.alignment = opts.CTL_C, opts.RGT
+    r += 2
+    # Facts about the data that no check can express as a difference, stated on the tab a
+    # reader goes to when a figure looks wrong. Each one is a decision of his with a
+    # consequence a reader would otherwise have to reverse-engineer out of a formula.
+    r = opts.bar(ws, r, 2, 4, "Data facts a check cannot state as a difference")
+    for text in QA_FACTS:
+        ws.cell(r, 2).value = text
+        ws.cell(r, 2).font, ws.cell(r, 2).alignment = opts.BODY, LFTW
+        ws.row_dimensions[r].height = 30
+        r += 1
     return len(checks)
 
 

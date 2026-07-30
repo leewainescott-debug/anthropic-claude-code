@@ -82,6 +82,88 @@ def restore(wb, out):
             out.append(f"{tab}!{cell} {now!r} -> {his!r} - his wording")
 
 
+# ---------------------------------------------------------------- the no-dash sweep
+# His wave-M ruling, in as many words: no dashes anywhere in any output cell. Three things
+# put one on the page and all three are swept here, on the finished workbook, so nothing
+# a later pass writes can survive:
+#
+#   a typed "-" in a cell            -> blank. A cell with nothing in it is blank.
+#   a "-" fallback inside a formula  -> "", which renders blank for the same reason.
+#   the third section of a number    -> dropped. That section is what a zero renders as,
+#   format                              and a zero is 0.00 or 0, not a dash.
+#
+# The writers were changed at source as well (opts.py's five formats, the IFERROR
+# fallbacks in final2x/final3x/final4x/actuals). This sweep is the belt to that braces: it
+# is the only pass that sees the whole finished file, and it is what makes "no dash
+# anywhere" checkable in one place rather than trusted across eighteen scripts.
+#
+# The owner's own source tabs are exempt from the wording sweep above and from this one:
+# 0.1, 0.3 and 0.4 are his and the chain is locked out of them (D101).
+SOURCE_TABS = ("0.1 Budget Table (Fin)", "0.4 Presentation Pack",
+               "0.3 Squad Archetypes")
+DASHES = "-‐‑‒–—―−"
+FMT_DASH = re.compile(r';(?:"[-‐-―−]"|_\(?[-‐-―−]_?\)?)\s*$')
+
+
+def no_dashes(wb, out):
+    vals = fmls = fmts = 0
+    for ws in wb.worksheets:
+        if ws.title in SOURCE_TABS:
+            continue
+        for row in ws.iter_rows():
+            for c in row:
+                v = c.value
+                if isinstance(v, str) and v.strip() and all(ch in DASHES + " " for ch in v):
+                    c.value = None
+                    vals += 1
+                elif isinstance(v, str) and v.startswith("="):
+                    new = v
+                    for d in DASHES:
+                        new = new.replace(f'"{d}"', '""')
+                    if new != v:
+                        c.value = new
+                        fmls += 1
+                nf = c.number_format or ""
+                if FMT_DASH.search(nf):
+                    c.number_format = FMT_DASH.sub("", nf)
+                    fmts += 1
+    out.append(f"no-dash sweep: {vals} typed dashes blanked, {fmls} formula fallbacks now "
+               f'return "", {fmts} number formats no longer render a zero as a dash')
+
+
+# "seat" and "design" are banned words in cell text - he ruled on both ("The word 'seat' is
+# never used"; "Do not call it design. It is the archetype."). En and em dashes are banned
+# in prose for the same reason they are banned in figures: hyphens only. This does not
+# rewrite anything - a banned word in a label is a build defect, not a formatting slip - it
+# reports, so the gate can fail on it and the sentence can be rewritten at source.
+BANNED = (("seat", re.compile(r"\bseats?\b", re.I)),
+          ("design", re.compile(r"\bdesign(s|ed|ing)?\b", re.I)))
+
+
+def banned_words(wb, out):
+    hits = []
+    for ws in wb.worksheets:
+        if ws.title in SOURCE_TABS or ws.title.startswith("REVIEW"):
+            continue
+        for row in ws.iter_rows():
+            for c in row:
+                v = c.value
+                if not isinstance(v, str) or v.startswith("="):
+                    continue
+                for word, pat in BANNED:
+                    if pat.search(v):
+                        hits.append(f"{ws.title}!{c.coordinate} says {word!r}: {v[:56]}")
+                if any(d in v for d in "–—"):
+                    hits.append(f"{ws.title}!{c.coordinate} carries an en/em dash: "
+                                f"{v[:56]}")
+    out.append(f"banned words and en/em dashes in cell text: {len(hits)}")
+    for h in hits[:12]:
+        out.append(f"  {h}")
+    if len(hits) > 12:
+        out.append(f"  ... {len(hits) - 12} more")
+    return hits
+
+
 def run(src, dst):
     wb = openpyxl.load_workbook(src)
     n = 0
@@ -125,6 +207,10 @@ def run(src, dst):
                     nf += 1
     back = []
     restore(wb, back)
+    # last, after every reword, so a sentence the sweep above rebuilt cannot smuggle a dash
+    # back in and the banned-word report is of the file as it ships
+    no_dashes(wb, back)
+    banned_words(wb, back)
     wb.save(dst)
     return [f"{n} labels and {nf} formula-built labels now say role mapping, not ledger",
             *[f"  e.g. {h}" for h in hit], *back]

@@ -116,6 +116,23 @@ OH_ORDER = ["Head of Technology", "Business Partner", "Domain Architect",
             "Delivery Manager", "Technology Manager", "Leadership",
             "Leadership - squad not stated"]
 
+# ---- the lever factor, and the one exemption from it ----
+# A role costs its own cost times the factor its lever carries on Lists!AC2:AD5 - Filled 1,
+# Hire 1, Hold 0, Offshore the rate on 0.3 the owner sets.
+#
+# THE VENDOR EXEMPTION, his ruling. The six WiPro roles in Customer are already priced at
+# the vendor rate: every one of them costs 73,260, which IS the offshore price. Offshoring
+# them is a decision about where the work sits and who is counted as a vacancy, not a
+# repricing - multiplying 73,260 by 0.4 would invent a 60% saving on a rate that already
+# has it. So a role whose Type on the role mapping says WIPRO prices at 1.0 whatever its
+# lever says, and the guard is written on every role rather than on those six, so a reader
+# on any row can see the rule and a seventh vendor role priced the same way is covered the
+# day it arrives.
+VENDOR = "WIPRO"
+LEVER_FACTOR = ('IF(ISNUMBER(SEARCH("' + VENDOR + '",{rev}!$Q${i})),1,'
+                'IFERROR(INDEX(Lists!$AD$2:$AD$5,'
+                'MATCH({lv},Lists!$AC$2:$AC$5,0)),1))')
+
 
 def set_last(wb):
     global LAST
@@ -133,6 +150,9 @@ def ledger(wv):
         is_coe = str(pf or "").startswith("COE") or pf == "EGI"
         out.append({"row": i, "pf": pf, "grp": R.cell(i, 46).value,
                     "status": R.cell(i, 37).value,
+                    # his Type column, column Q. A vendor role arrives offshored and priced
+                    # at the vendor rate - see LEVER_FACTOR.
+                    "vendor": VENDOR in str(R.cell(i, 17).value or "").upper(),
                     "oh": (not is_coe) and R.cell(i, 44).value != "Squad"})
     return out
 
@@ -223,6 +243,29 @@ def has_archetype(wb, wv, design, squad):
         ty = str(ws.cell(r, 3).value or "").strip()
         sz = str(ws.cell(r, 4).value or "").strip()
         return f"{ty}|{sz}" in keys
+    return False
+
+
+def funded_at_actual(wb, wv, design, lo, hi, squad, tab):
+    """True when this squad's funded figure on its design tab IS this tab's own actual.
+
+    His ruling: "EGI squads are funded by EGI at the actual cost of their roles." The design
+    tab states that by pointing its Total Squad Cost cell at the working tab's own
+    after-decisions column - 1.2!H54 = '2.2 Customer'!$Q$17 and its four siblings - so the
+    test is what the design cell says, not a list of squad names kept in step by hand. Add
+    or remove an EGI squad on a 1.x tab and this follows it.
+
+    Read off the formula view, not the cached value: the cached value is the figure the
+    reference last returned, which says nothing about where it came from.
+    """
+    if design is None:
+        return False
+    ws, wsf = wv[design], wb[design]
+    for r in range(lo, hi + 1):
+        if str(ws.cell(r, 2).value or "").strip() != squad:
+            continue
+        f = wsf.cell(r, 8).value
+        return isinstance(f, str) and f.startswith("=") and f"'{tab}'!$Q$" in f
     return False
 
 
@@ -429,11 +472,11 @@ def build(wb, wv, tab, rows, bounds, pf=None):
         if kind == "oh" or design is None:
             # the bar above each block already says what the block is, so the type
             # column stays a dash rather than repeating a sentence on every row
-            ws.cell(rw, S["type"]).value = '="-"'
+            ws.cell(rw, S["type"]).value = '=""'
             ws.cell(rw, S["type"]).alignment = opts.RGT
             for k in ("size",):
                 x = ws.cell(rw, S[k])
-                x.value = '="-"'
+                x.value = '=""'
                 x.alignment = opts.RGT
             if kind == "oh":
                 # the allowance this line draws in this portfolio, and the FTE behind it.
@@ -443,7 +486,7 @@ def build(wb, wv, tab, rows, bounds, pf=None):
                 rate, alloc, per_platform = OH_RATE.get(g, (None, None, False))
                 if rate is None or design is None:
                     for k in ("aroles", "acost", "var", "newvar"):
-                        ws.cell(rw, S[k]).value = '="-"'
+                        ws.cell(rw, S[k]).value = '=""'
                         ws.cell(rw, S[k]).alignment = opts.RGT
                 else:
                     n = f"*({PLAT})" if per_platform else ""
@@ -461,7 +504,7 @@ def build(wb, wv, tab, rows, bounds, pf=None):
                 # both sides of every total above it, so it is a dash.
                 for k in ("aroles", "acost", "var", "newvar"):
                     x = ws.cell(rw, S[k])
-                    x.value = '="-"'
+                    x.value = '=""'
                     x.alignment = opts.RGT
         else:
             key = f'${L(S["type"])}{rw}&"|"&${L(S["size"])}{rw}'
@@ -469,17 +512,17 @@ def build(wb, wv, tab, rows, bounds, pf=None):
             # the same empty-cell guard the Size column has: INDEX over an unset design
             # cell returns 0, and 2.15's squad printed it until the owner types the type
             ws.cell(rw, S["type"]).value = (
-                f"=IFERROR(IF(INDEX('{design}'!$C${lo}:$C${hi},{m})=\"\",\"-\","
+                f"=IFERROR(IF(INDEX('{design}'!$C${lo}:$C${hi},{m})=\"\",\"\","
                 f"INDEX('{design}'!$C${lo}:$C${hi},{m})),\"Not on the 1.x tab\")")
             # INDEX over an empty cell returns 0, not an error, so a strategic programme
             # with no size printed 0 in the Size column
             ws.cell(rw, S["size"]).value = (
-                f"=IFERROR(IF(INDEX('{design}'!$D${lo}:$D${hi},{m})=\"\",\"-\","
-                f"INDEX('{design}'!$D${lo}:$D${hi},{m})),\"-\")")
+                f"=IFERROR(IF(INDEX('{design}'!$D${lo}:$D${hi},{m})=\"\",\"\","
+                f"INDEX('{design}'!$D${lo}:$D${hi},{m})),\"\")")
             if kind == "arch":
                 _m(ws, rw, S["aroles"],
                    f"=IFERROR(INDEX({A3}!$F$5:$F$23,MATCH({key},{A3}!$A$5:$A$23,0)),"
-                   f'"-")', opts.C1)
+                   f'"")', opts.C1)
                 # the design tab's H is the squad's archetype cost - the same library
                 # lookup on nine tabs (now with the owner's Hybrid state priced as the
                 # onshore/offshore midpoint), and his own typed bottom-up figures on 1.2.
@@ -487,7 +530,7 @@ def build(wb, wv, tab, rows, bounds, pf=None):
                 # tab equal to the tab he edits, whichever of the two H happens to be.
                 hh = f"INDEX('{design}'!$H${lo}:$H${hi},{m})"
                 _m(ws, rw, S["acost"],
-                   f'=IFERROR(IF(ISNUMBER({hh}),{hh},"-"),"-")')
+                   f'=IFERROR(IF(ISNUMBER({hh}),{hh},""),"")')
             else:
                 # Directly funded. No archetype prices a strategic programme - the owner's
                 # instruction - so the figure to compare against is the amount he typed on
@@ -503,20 +546,31 @@ def build(wb, wv, tab, rows, bounds, pf=None):
                 # figure is set, compare against it. Where it is blank or zero - five of the
                 # six EGI rows - there is nothing to compare against and the column says so,
                 # rather than manufacturing a comparison out of the actual.
-                _m(ws, rw, S["aroles"], '="-"', opts.C1)
+                _m(ws, rw, S["aroles"], '=""', opts.C1)
                 idx = f"INDEX('{design}'!$H${lo}:$H${hi},{m})"
                 idx_i = f"INDEX('{design}'!$I${lo}:$I${hi},{m})"
-                # the funded amount lives in H (Total Squad Cost); where the owner typed
-                # it into I (TDD Cost) instead - EGI Customer's 2.21 - the I figure is
-                # the funded amount and the comparison uses it
-                _m(ws, rw, S["acost"],
-                   f'=IFERROR(IF(N({idx})>0,{idx},IF(N({idx_i})>0,{idx_i},"-")),"-")')
+                if funded_at_actual(wb, wv, design, lo, hi, g, tab):
+                    # His wave-M ruling on the EGI squads: EGI funds them at the ACTUAL cost
+                    # of their roles. The funded figure on the design tab is therefore this
+                    # tab's own actual - the design row reads it back off this very column -
+                    # so the plan figure here is stated as the actual outright rather than
+                    # fetched back through the design tab it came from. The variance is zero
+                    # by construction, which is what "funded at actual" means, and the round
+                    # trip through 1.x that would otherwise produce it is not something a
+                    # reader should have to trace.
+                    _m(ws, rw, S["acost"], f'=${L(S["actual"])}{rw}')
+                else:
+                    # the funded amount lives in H (Total Squad Cost); where the owner typed
+                    # it into I (TDD Cost) instead the I figure is the funded amount and the
+                    # comparison uses it
+                    _m(ws, rw, S["acost"],
+                       f'=IFERROR(IF(N({idx})>0,{idx},IF(N({idx_i})>0,{idx_i},"")),"")')
             # rounded, or a squad priced exactly at its archetype shows (0.00) on a
             # residual of a few billionths
             _m(ws, rw, S["var"],
-               f'=IFERROR(ROUND(${L(S["actual"])}{rw}-${L(S["acost"])}{rw},6),"-")')
+               f'=IFERROR(ROUND(${L(S["actual"])}{rw}-${L(S["acost"])}{rw},6),"")')
             _m(ws, rw, S["newvar"],
-               f'=IFERROR(ROUND(${L(S["after"])}{rw}-${L(S["acost"])}{rw},6),"-")')
+               f'=IFERROR(ROUND(${L(S["after"])}{rw}-${L(S["acost"])}{rw},6),"")')
         for k in ("type", "size"):
             ws.cell(rw, S[k]).font = opts.BODY
             ws.cell(rw, S[k]).alignment = opts.LFT
@@ -580,7 +634,7 @@ def build(wb, wv, tab, rows, bounds, pf=None):
         for k in ("size", "aroles", "roles", "fte", "filled", "vacant", "hire", "offshore",
                   "hold", "rafter", "acost", "actual", "var", "after", "newvar"):
             x = ws.cell(rw, S[k])
-            x.value = '="-"'
+            x.value = '=""'
             x.font, x.alignment = opts.BODY, opts.RGT
 
     for g in arch:
@@ -612,16 +666,16 @@ def build(wb, wv, tab, rows, bounds, pf=None):
                 # nothing is priced - but where some rows are, the sum of those rows. The
                 # stricter rule dropped 2.92 of priced programmes off Ampol Retail's total
                 # because one row beside them had no funded figure.
-                x.value = (f'=IF(COUNT({L(c)}{r0}:{L(c)}{r1})=0,"-",'
+                x.value = (f'=IF(COUNT({L(c)}{r0}:{L(c)}{r1})=0,"",'
                            f'SUM({L(c)}{r0}:{L(c)}{r1}))')
             elif k == "var":
                 # the variance still needs every row priced, or it measures an archetype
                 # covering some of the block against an actual covering all of it
                 x.value = (f'=IF({full},'
-                           f"ROUND(${L(S['actual'])}{rw}-${L(S['acost'])}{rw},6),\"-\")")
+                           f"ROUND(${L(S['actual'])}{rw}-${L(S['acost'])}{rw},6),\"\")")
             elif k == "newvar":
                 x.value = (f'=IF({full},'
-                           f"ROUND(${L(S['after'])}{rw}-${L(S['acost'])}{rw},6),\"-\")")
+                           f"ROUND(${L(S['after'])}{rw}-${L(S['acost'])}{rw},6),\"\")")
             else:
                 x.value = f"=SUM({L(c)}{r0}:{L(c)}{r1})"
             x.number_format = (opts.M2 if c >= S["acost"] else
@@ -655,11 +709,11 @@ def build(wb, wv, tab, rows, bounds, pf=None):
            f"=ROUND(SUM({CFG}!$M$6:$M$9)*({PFR})-({pf_nfte}),6)", opts.C1)
         _m(ws, oh_else, S["acost"],
            f"=ROUND(N('{design}'!$F${oh_pf})-({pf_drawn}),6)"
-           if oh_pf else '="-"')
+           if oh_pf else '=""')
         for k in ("size", "roles", "fte", "filled", "vacant", "hire", "offshore", "hold",
                   "rafter", "actual", "var", "after", "newvar"):
             x = ws.cell(oh_else, S[k])
-            x.value = '="-"'
+            x.value = '=""'
             x.font, x.alignment, x.border = opts.BODY, opts.RGT, opts.BOX
 
     for kind in live:
@@ -693,10 +747,10 @@ def build(wb, wv, tab, rows, bounds, pf=None):
         if k in ("var", "newvar"):
             a, b = L(S["acost"]), L(S["actual"] if k == "var" else S["after"])
             x.value = (f'=IF(ISNUMBER(${a}{r_tot}),'
-                       f'ROUND(${b}{r_tot}-${a}{r_tot},6),"-")')
+                       f'ROUND(${b}{r_tot}-${a}{r_tot},6),"")')
         elif k == "acost":
             # SUM ignores the dashes, so this is the archetype where there is one
-            x.value = f'=IF(COUNT({src})=0,"-",SUM({src}))'
+            x.value = f'=IF(COUNT({src})=0,"",SUM({src}))'
         else:
             x.value = f"=SUM({src})"
         x.number_format = (opts.M2 if c >= S["acost"] else
@@ -765,6 +819,11 @@ def build(wb, wv, tab, rows, bounds, pf=None):
                 cell.font, cell.alignment = opts.BODY, opts.LFT
             lv = ws.cell(rw, P["lever"])
             lv.value = "Filled" if x["status"] == "Filled" else "Hire"
+            if x.get("vendor"):
+                # His ruling on the WiPro roles: all six are offshored. The lever is set here
+                # rather than by a later pass because it is a decision about the role, and
+                # the lever cell is where this file states every other decision about a role.
+                lv.value = "Offshore"
             lv.fill, lv.border = opts.fl(opts.YEL), opts.BOX
             lv.font, lv.alignment = opts.BODY, opts.CEN
             dv.add(lv)
@@ -773,9 +832,9 @@ def build(wb, wv, tab, rows, bounds, pf=None):
             # that one indexes a range with a *computed* position, which is what INDEX is
             # for.
             _m(ws, rw, P["cost"], f"={REV}!$AA${i}", opts.M0)
-            _m(ws, rw, P["after"],
-               f"=${L(P['cost'])}{rw}*IFERROR(INDEX(Lists!$AD$2:$AD$5,"
-               f"MATCH(${L(P['lever'])}{rw},Lists!$AC$2:$AC$5,0)),1)", opts.M0)
+            factor = LEVER_FACTOR.format(
+                rev=REV, i=i, lv=f"${L(P['lever'])}{rw}")
+            _m(ws, rw, P["after"], f"=${L(P['cost'])}{rw}*{factor}", opts.M0)
     if not staffed:
         # The block is the family's - bar and header - with one line saying why there is
         # nothing under it. A header with nothing beneath it reads as a table that failed

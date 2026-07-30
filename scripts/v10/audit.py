@@ -313,8 +313,14 @@ def check_levers_agree(wv):
     This is the divergence alarm: per person, "Offshore" must meet Offshore, "Hold" must
     meet Hold, and "Onshore" must meet Filled or Hire.
     """
-    PAIRS = [("1.11 BP&T", "2.12 COE BP&T"), ("1.12 SA&D", "2.13 COE SA&D"),
-             ("1.13 Cyber Roles", "2.11 COE Cyber")]
+    # the working tab by its number, not by its name: 2.11 is renamed in the chain, and a
+    # hardcoded name here would skip the tab in silence - which is exactly the divergence
+    # this alarm exists to catch
+    def _by_num(num):
+        return next((t for t in wv.sheetnames if t.split(" ", 1)[0] == num), num)
+
+    PAIRS = [("1.11 BP&T", _by_num("2.12")), ("1.12 SA&D", _by_num("2.13")),
+             ("1.13 Cyber Roles", _by_num("2.11"))]
     OK = {"Offshore": {"Offshore"}, "Hold": {"Hold"}, "Onshore": {"Filled", "Hire"}}
     for one, two in PAIRS:
         if one not in wv.sheetnames or two not in wv.sheetnames:

@@ -148,6 +148,97 @@ def list_columns(ws, hdr):
     return onoff, identity
 
 
+def compact_lists(wb, lg):
+    """Take out of each COE roles list any role the ledger no longer assigns to that COE.
+
+    extend_lists() below has always written a missing role in. Nothing took one out, because
+    until wave M no role had ever left a COE. Nine have now: his cyber uplift ruling moves
+    five roles to the Cyber Uplift squad and four to Identity, both on the TDD Cyber
+    portfolio, through the Lists override table. Their raw rows still read
+    "COE - Cyber, Risk & Operations" - that is his typing and it stays - so the only thing
+    that says where they belong is the grouping column, and this is the pass that reads it.
+
+    A role left on the list after it has left the COE is not a cosmetic problem: 1.13's
+    summary counts and prices its own list, so nine roles worth 2.14m would have been
+    counted twice, once on 1.13 and once on 1.14 / 2.15, and the tab's own check cell
+    ("roles listed vs counted") would have read zero throughout because both halves of it
+    read the same over-long list.
+
+    The list closes up rather than leaving nine blank rows: he asked for it compact. Each
+    surviving row is rewritten at its new position - the REVIEW row inside its formulas is
+    absolute and travels with it, the local row number in the lever engine follows the row -
+    and the tail is cleared, paint and borders included.
+    """
+    out = []
+    for tab, pf in COE:
+        ws = wb[tab]
+        hdr, last, _win = list_bounds(ws)
+        if hdr is None:
+            out.append(f"{tab}: no roles list found - nothing compacted")
+            continue
+        # The table and its cost engine, and nothing else. A column the header row names is
+        # part of the table; a column past it that carries a formula on nearly every role is
+        # the per-role engine. Anything else inside the list's rows is a working cell of his
+        # - 1.13!J61 is a SUM of five "Cost if hired" cells he typed himself - and a working
+        # cell that references other rows cannot be slid up the tab without breaking what it
+        # points at. His stay exactly where he put them, and are reported.
+        rows_all = range(hdr + 1, last + 1)
+        n_rows = max(len(list(rows_all)), 1)
+        cols = [c for c in range(2, 30) if ws.cell(hdr, c).value is not None]
+        cols += [c for c in range(2, 30) if c not in cols
+                 and sum(1 for r in rows_all
+                         if isinstance(ws.cell(r, c).value, str)
+                         and ws.cell(r, c).value.startswith("=")) >= 0.8 * n_rows]
+        cols = sorted(cols)
+        stray = [f"{L(c)}{r}" for r in rows_all for c in range(2, 30)
+                 if c not in cols and ws.cell(r, c).value is not None]
+        keep, drop = [], []
+        for r in range(hdr + 1, last + 1):
+            v = ws.cell(r, 2).value
+            m = ROWREF.search(v) if isinstance(v, str) else None
+            if m is None:
+                keep.append(r)                      # not a ledger-joined row: left alone
+                continue
+            i = int(m.group(2))
+            if str(lg.cell(i, 36).value or "") == pf:
+                keep.append(r)
+            else:
+                drop.append((r, i, lg.cell(i, 2).value, lg.cell(i, 36).value))
+        if not drop:
+            out.append(f"{tab}: every role on the list still carries {pf!r}, "
+                       f"{len(keep)} roles")
+            continue
+        # read every surviving row before writing any of them - the list closes upwards,
+        # so a row that has not been read yet is a row about to be overwritten
+        held = [{c: (ws.cell(r, c).value, ws.cell(r, c)._style,
+                     ws.cell(r, c).number_format) for c in cols} for r in keep]
+        for dst, (src, row) in enumerate(zip(keep, held), start=hdr + 1):
+            for c in cols:
+                v, st, nf = row[c]
+                if isinstance(v, str) and v.startswith("=") and dst != src:
+                    # the REVIEW row is anchored and travels with the person; a bare row
+                    # number is this row's own and follows it down the tab
+                    v = re.sub(r"(?<![$\d])" + str(src) + r"(?![\d])", str(dst), v)
+                x = ws.cell(dst, c)
+                x.value = v
+                x._style = st
+                x.number_format = nf
+        for r in range(hdr + 1 + len(keep), last + 1):
+            for c in cols:
+                x = ws.cell(r, c)
+                x.value = None
+                x.fill, x.border, x.font = NONE_FILL, NO_BORDER, opts.BODY
+        out.append(f"{tab}: {len(drop)} roles taken off the list - the ledger no longer "
+                   f"groups them under {pf!r} ("
+                   + "; ".join(f"r{i} {nm} -> {to}" for _r, i, nm, to in drop[:9])
+                   + f"), {len(keep)} left, rows {hdr + 1}-{hdr + len(keep)}")
+        if stray:
+            out.append(f"{tab}: left where he put them, outside the table's own columns - "
+                       f"{', '.join(stray[:8])}"
+                       + (f" (+{len(stray) - 8} more)" if len(stray) > 8 else ""))
+    return out
+
+
 def extend_lists(wb, lg):
     """Write into each COE roles list any role the ledger has and the list does not.
 
@@ -506,7 +597,9 @@ def run(src, dst, ledger="w1r.xlsx"):
     LAST = opts.ledger_last(wb)
     wv = openpyxl.load_workbook(src, data_only=True)
     lg = openpyxl.load_workbook(ledger, data_only=True)[REVIEW]
-    out = (extend_lists(wb, lg) + funding_line(wb) + hold_lever(wb)
+    # compact before extending: a role that has left the COE comes off the list first, so
+    # the row extend_lists copies its template from is a role that is still there
+    out = (compact_lists(wb, lg) + extend_lists(wb, lg) + funding_line(wb) + hold_lever(wb)
            + collapse_shells(wb, wv) + fix_notes(wb) + fix_double_count(wb, lg)
            + fix_formula_notes(wb))
     wb.save(dst)

@@ -37,7 +37,9 @@ import opts
 
 REVIEW = "REVIEW - Complete Role Mapping"
 LAST = None                             # measured from the ledger in run()
-N = 11                                  # override window runs Lists!$AN$2:$AN$11
+# The window has to hold every agreed move with slots to spare, and wave M moves nine
+# cyber roles at once (two more than the whole table held before), so it runs to AN21.
+N = 21                                  # override window runs Lists!$AN$2:$AN$21
 
 # The three moves the owner instructed (D7). They lived as typed rows in the Lists
 # override table; the review workbook's branch predates that table, so they are
@@ -53,6 +55,22 @@ NEW = [(528, None, "SAP ERP", None),
        # so without this override he counts in the Data COE. Raw columns untouched, as
        # ever - the override moves the grouping only.
        (301, "Enterprise Data", "Reporting & Analytics", None)]
+
+# ---- wave M: the nine roles that leave the COE for the TDD Cyber portfolio ----
+# His ruling: the cyber uplift is a portfolio of its own, funded from the uplift
+# programme, and nine of the COE's fifty-two roles are what staffs it - five on the
+# Cyber Uplift squad, four on Identity. Their raw rows still read "COE - Cyber, Risk &
+# Operations", as they should: he typed that and it is not the build's to change. The
+# grouping override is what moves them, one visible row each, keyed on the person.
+#
+# Everything else about the cyber restructure - the On/Off levers, the uplift part-charge
+# toggles, the 43 roles that stay - is a decision ON a tab, not a re-grouping, so none of
+# it is in this table.
+CYBER_MOVES = [(197, "Cyber Uplift"), (200, "Cyber Uplift"), (212, "Cyber Uplift"),
+               (232, "Cyber Uplift"), (238, "Cyber Uplift"),
+               (196, "Identity"), (206, "Identity"), (210, "Identity"),
+               (223, "Identity")]
+NEW += [(row, "TDD Cyber", squad, None) for row, squad in CYBER_MOVES]
 
 # Folds to take back out of Lists!W:X. The table is meant to fix typing - AmPos to AmPOS,
 # Manuacturing to Manufacturing - and three rows in it were doing something else:
@@ -308,8 +326,15 @@ def run(src, dst):
         return s, (rows_for.get(s) or [None])[0]
 
     keep, seen = [], set()
-    for r in range(2, 40):
-        k, row = as_key(l.cell(r, 40).value)
+    # The window only. The sentence this build writes under the table sits at N+2, and
+    # widening the window walked the read loop straight over the previous build's sentence
+    # and tried to key an override on it - a key that matches no ledger row, which stops
+    # the build. A key is a row number or "Name | Position Title"; nothing else is read.
+    for r in range(2, N + 1):
+        v = l.cell(r, 40).value
+        if isinstance(v, str) and " | " not in v:
+            continue
+        k, row = as_key(v)
         if k is None:
             continue
         if row in DROP_OVERRIDE:
@@ -387,15 +412,20 @@ def run(src, dst):
     # INDEX(Lists!$AO$2:$AO$4, MATCH(ROW(), Lists!$AN$2:$AN$11, 0)): a match at position
     # four indexes past the end of a three-row range, so an override in one of the new
     # slots silently returned nothing.
-    old = re.compile(r"\$(AN|AO|AP|AQ)\$2:\$(AN|AO|AP|AQ)\$4\b")
+    # Any width, not only the original three: the window has been widened twice now, and a
+    # formula left on the previous width indexes past the end of the range it reads.
+    old = re.compile(r"\$(AN|AO|AP|AQ)\$2:\$(AN|AO|AP|AQ)\$(\d+)\b")
     hits = 0
     for s in wb.sheetnames:
         for row in wb[s].iter_rows():
             for c in row:
-                if isinstance(c.value, str) and old.search(c.value):
-                    c.value = old.sub(lambda m: f"${m.group(1)}$2:${m.group(2)}${N}",
-                                      c.value)
-                    hits += 1
+                if not (isinstance(c.value, str) and old.search(c.value)):
+                    continue
+                if all(int(m[2]) == N for m in old.findall(c.value)):
+                    continue
+                c.value = old.sub(lambda m: f"${m.group(1)}$2:${m.group(2)}${N}",
+                                  c.value)
+                hits += 1
     out.append(f"widened override window in {hits} formulas")
 
     # ---- rebuild the three grouping columns ----

@@ -51,8 +51,18 @@ RETITLE = {"3.3 FTE View": "3.3 Squad Detail", "3.4 COE Summary": "3.4 COE Detai
            # the ledger calls them COE BP&T and COE SA&D, and 2.11 already says COE, so
            # "2.11 COE Cyber | 2.12 BP&T | 2.13 SA&D" read as three different things
            "2.12 BP&T": "2.12 COE BP&T", "2.13 SA&D": "2.13 COE SA&D",
+           # His wave-M ruling: the cyber COE is Cyber, Risk & Service Operations. Two
+           # thirds of its 43 roles are service operations, and a tab called "COE Cyber"
+           # tells a reader the opposite. The full name is 34 characters and Excel stops at
+           # 31, so the tab carries the short form and its own title, its portfolio cell
+           # and every summary line say it in full. Renamed last of the three so the
+           # repoint runs over the name 2.11 already has.
+           "2.11 COE Cyber": "2.11 Cyber Risk & Service Ops",
            "3.1 Group Summary": "3.1 Cost Bridge",
            "3.2 Total Cost": "3.2 Overhead & Leadership"}
+# the in-tab wording that goes with that rename: the tab name is abbreviated, the words on
+# the page are not
+CRSO = "Cyber, Risk & Service Operations"
 ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Config",
          "0.3 Squad Archetypes", "0.4 Presentation Pack",
          "REVIEW - Complete Role Mapping", "- PORTFOLIOS -",
@@ -63,7 +73,8 @@ ORDER = ["Exec Summary", "- INPUTS -", "0.1 Budget Table (Fin)", "0.2 Data Confi
          "2.1 Ampol Retail", "2.2 Customer", "2.3 Enterprise Data",
          "2.4 TDD Group Functions", "2.5 P&C", "2.6 Finance", "2.7 Infrastructure",
          "2.8 Energy Solutions & B2B", "2.9 Commercial Fuels", "2.10 Z Retail",
-         "2.11 COE Cyber", "2.12 COE BP&T", "2.13 COE SA&D", "2.14 EGI",
+         "2.11 Cyber Risk & Service Ops", "2.12 COE BP&T", "2.13 COE SA&D",
+         "2.14 EGI",
          "2.15 TDD Cyber",
          "- SUMMARIES -",
          "3.1 Cost Bridge", "3.2 Overhead & Leadership", "3.3 Squad Detail",

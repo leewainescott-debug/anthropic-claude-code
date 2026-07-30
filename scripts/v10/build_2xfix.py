@@ -30,8 +30,8 @@ SUB_FILL = PatternFill("solid", start_color="FFDDEBF7", end_color="FFDDEBF7")
 HDR_FONT = Font(bold=True, color="FFFFFFFF")
 RED = Font(color="FF9C0006")
 GREEN = Font(color="FF006100")
-CNT = '#,##0;[Red](#,##0);"-"'
-MON = '#,##0.00;[Red](#,##0.00);"-"'
+CNT = '#,##0;[Red](#,##0)'
+MON = '#,##0.00;[Red](#,##0.00)'
 
 # 2.x tab -> design tab, for the archetype lookup
 DESIGN = {

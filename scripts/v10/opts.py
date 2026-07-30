@@ -55,18 +55,25 @@ HDRF = Font(name=FN, bold=True, size=11, color="FFFFFFFF")
 BOLD = Font(name=FN, bold=True, size=11)
 BODY = Font(name=FN, size=11)
 BIG = Font(name=FN, bold=True, size=16)
-M2 = '#,##0.00;(#,##0.00);"-"'
+# Two sections, not three. The third section of a number format is what a zero renders as,
+# and every money and count format in the file used to put an accounting dash there. His
+# wave-M ruling is that no cell in this workbook shows a dash: a zero is a zero and reads
+# as 0.00 or 0, and a cell with nothing in it is blank. Dropping the third section makes a
+# zero fall through to the positive section, which is exactly that. Nothing else moves -
+# the same figures, rendered the way he asked for them.
+M2 = '#,##0.00;(#,##0.00)'
 # the overhead rates are allocated shares - 0.1375, 0.084, 0.081 - and at two decimals
 # Head of Technology and Domain Architect both printed 0.14, and Delivery Manager and
 # Technology Manager both printed 0.08, so rate x times applied did not equal the allowance
 # on the face of the page.
-M3 = '#,##0.000;(#,##0.000);"-"'
-M0 = '#,##0;(#,##0);"-"'
-CT = '#,##0;(#,##0);"-"'
-C1 = '#,##0.0;(#,##0.0);"-"'
+M3 = '#,##0.000;(#,##0.000)'
+M0 = '#,##0;(#,##0)'
+CT = '#,##0;(#,##0)'
+C1 = '#,##0.0;(#,##0.0)'
 PCT = '0%'
-# A control cell says "must be 0", so it needs a format that shows 0 rather than the
-# dash the money and count formats use for zero. Same numbers, different rendering.
+# The control formats predate the no-dash ruling: they already showed 0 where the money and
+# count formats showed a dash. They are kept as their own names because a control's "must
+# be 0" is a statement about the cell, and a reader looking for it should find it declared.
 CTL_M = '#,##0.00;(#,##0.00);0.00'
 CTL_C = '#,##0;(#,##0);0'
 

@@ -29,6 +29,64 @@ import openpyxl
 # tabs the chain builds from scratch: their labels are the model's, not his
 BUILT = re.compile(r"^(2\.\d+ |3\.\d+ |4\.0|Exec |Lists$|REVIEW)")
 
+# Content of his that a ruling of his has since replaced. Every entry names the cell, quotes
+# enough of what he typed to find it, and says which ruling took it out. Splitting these off
+# is the point: "green" on this report means every loss is declared, not that the list is
+# empty - his own decisions remove his own earlier content, and a report that cannot tell
+# those two apart is a report nobody reads twice.
+#
+# Wave M, his cyber uplift and Customer rulings:
+DECLARED = [
+    ("0.2 Data Config", "I7", "Separate out and incl. cyber uplift",
+     "his own action note, and this is the pass that actions it - the COE and TDD Cyber "
+     "are funded on two rows now, and his offshoring note has moved onto the COE row"),
+    ("0.2 Data Config", "B23", "TDD Cyber incl. COE",
+     "the line is split in two: row 7 is the COE, row 23 is TDD Cyber, so the label no "
+     "longer says 'incl. COE'"),
+    ("0.2 Data Config", "C23", 2.5,
+     "his 3.5 TDD Cyber allocation splits 2.0 to the COE row and 1.5 to TDD Cyber; the "
+     "total he allocated is unchanged at 50.5"),
+    ("0.2 Data Config", "D23", 1,
+     "same split - the NZ half of his 3.5 allocation now sits on two rows"),
+    ("1.2 Customer", "I54", 2.21,
+     "his 27/07 typed figure for EGI Customer. He has since ruled that the EGI squads are "
+     "funded by EGI at the actual cost of their roles, so the cell is his review "
+     "workbook's formula again and the actual flows to Significant Items EGI"),
+    ("1.13 Cyber Roles", "C13", 0.5,
+     "the Cyber CapEx input, removed on his ruling with the bucket table it sat in"),
+    ("1.13 Cyber Roles", "B13", "Cyber CapEx - Monitoring",
+     "the label of the input above"),
+    ("1.13 Cyber Roles", "B12", "TDD Cyber budget ($m)",
+     "1.13 draws on the COE allocation only now - TDD Cyber is funded on 1.14, and a "
+     "budget read on both tabs was the double count his ruling removes"),
+    ("1.13 Cyber Roles", "B15", "Left to fund ($m)",
+     "the seventh column of the summary is a Variance now, budget less spend, which is the "
+     "figure he asked for; a funding gap stated twice was what made it two different things"),
+    ("1.13 Cyber Roles", "H5", "Left to fund ($m)",
+     "same ruling - the column heading its two sibling tabs already carry"),
+    ("1.13 Cyber Roles", "B10", "Funding buckets to draw down",
+     "there are two funding lines now, not four buckets"),
+    ("1.13 Cyber Roles", "E11", "Planned spend less CapEx",
+     "the label of the CapEx working figure, retired with it"),
+    ("1.13 Cyber Roles", "B73", "52 roles",
+     "the role count inside his own sentence. Nine of the 52 moved to TDD Cyber on his "
+     "ruling, so the sentence would otherwise contradict the table above it - the same "
+     "typo-class exception D114 lists, and the only part of the sentence that changes"),
+]
+
+
+def declared(tab, coord, value):
+    """The ruling that removed this, or None."""
+    for t, ref, want, why in DECLARED:
+        if t != tab or ref != coord:
+            continue
+        if isinstance(want, str):
+            if str(want).lower() in str(value).lower():
+                return why
+        elif norm(want) == norm(value):
+            return why
+    return None
+
 
 def typed(ws, fws=None):
     """Every value he typed on this tab, as (coordinate, value).
@@ -104,14 +162,19 @@ def report(gone, build, later=None, cap=40):
     for t, items in gone.items():
         for coord, v in items:
             seen[str(v)].append((t, coord))
-    mine, superseded = [], []
+    mine, superseded, ruled = [], [], []
     for v, places in sorted(seen.items(), key=lambda kv: -len(kv[1])):
+        # a ruling of his took it out -> declared, and named
+        why = next((w for t, c in places if (w := declared(t, c, v))), None)
+        if why:
+            ruled.append((v, places, why))
+            continue
         # his later book still says it and the build does not -> the build changed it
         bucket = mine
         if later is not None and not any(norm(v) in later.get(t, ()) for t, _ in places):
             bucket = superseded
         bucket.append((v, places))
-    return mine, superseded, b
+    return mine, superseded, ruled, b
 
 
 if __name__ == "__main__":
@@ -126,7 +189,12 @@ if __name__ == "__main__":
     if tabs_gone:
         print(f"tabs of his that are not in the build: {tabs_gone}")
     cap = 40
-    mine, superseded, b = report(gone, build, later)
+    mine, superseded, ruled, b = report(gone, build, later)
+    print(f"\n=== a ruling of his replaced it - declared, not a loss: "
+          f"{sum(len(pl) for _v, pl, _w in ruled)} cells, {len(ruled)} distinct ===")
+    for v, places, why in ruled:
+        t, coord = places[0]
+        print(f"{len(places):>3} x  {str(v)[:44]:<44} | {t}!{coord}\n          {why}")
     for title, group in (("the build changed it", mine),
                          ("his own later workbook replaced it - not a loss", superseded)):
         if later is None and title.startswith("his"):

@@ -15,8 +15,11 @@ Four jobs, each one of his edits generalised the way he applied it:
 3. The 0.2 COE spend cells. His rev formulas read the old '3.4 COE Summary'; the intended
    figures are the COE groupings' net planned spend, which live on the COE tabs
    themselves. Each is repointed at the cell whose cached value his own file shows.
-4. The 1.13 bar, extended over his new On/Off column - done here because the bar
-   normaliser earlier in the chain repaints it to the old width.
+4. The 1.13 bar, extended over his new On/Off column and the wave-M Uplift % column
+   beside it - done here because the bar normaliser earlier in the chain repaints it to the
+   old width. His note under the roles table is corrected here too, for the same reason in
+   reverse: finish.py's prose sweep keeps that sentence only while it matches his own
+   workbook exactly, so the role count in it can only be corrected after finish has run.
 """
 import json
 import re
@@ -142,36 +145,75 @@ def _fte_rows(wb, tab):
     return rows
 
 
+def _tab(wb, num):
+    """A working tab by its number. The names change - 2.11 is renamed twice in the chain -
+    and the number is the one part of a tab's name the model treats as its identity."""
+    return next((s for s in wb.sheetnames if s.split(" ", 1)[0] == num), None)
+
+
 def _design_levers(wb, wv, tab, hdr_col=8):
-    """(REVIEW row, state) parsed from a COE design tab's cost-engine formulas."""
+    """(REVIEW row, state, design row) off a COE design tab's own lever column.
+
+    Every state, not only Hold and Offshore. His demand is that the per-role On/Off column
+    on 1.11 / 1.12 / 1.13 is the single source of lever state and that the working tab
+    matches it role by role. Reading two of the three states meant a lever he moved BACK to
+    Onshore left the working tab holding the old Offshore, and the two tabs could disagree
+    with every control on both of them still reading zero - the counts and the totals are
+    each computed from their own tab.
+    """
     ws = wb[tab]
     out = []
     pat = re.compile(r"\$AA\$?(\d+)")
     for r in range(1, ws.max_row + 1):
         f = ws.cell(r, 20).value                        # column T, the cost engine
         state = str(wv[tab].cell(r, hdr_col).value or "").strip()
-        if isinstance(f, str) and REVIEW in f and state in ("Hold", "Offshore"):
+        if isinstance(f, str) and REVIEW in f and state:
             m = pat.search(f)
             if m:
-                out.append((int(m.group(1)), state))
+                out.append((int(m.group(1)), state, r))
     return out
+
+
+# The design tabs speak Onshore / Offshore / Hold; the working tabs speak Filled / Hire /
+# Offshore / Hold, because a working-tab lever also says whether a vacancy is being filled.
+# Onshore therefore maps to whichever of Filled and Hire the role's own status makes it, and
+# the two tabs agree on the one thing they both state: is this role offshored, held, or
+# neither.
+NEUTRAL = ("Filled", "Hire")
 
 
 def sync_levers(wb, wv, out):
     R = wv[REVIEW]
     # design tab -> its working tab
-    for dtab, wtab in (("1.11 BP&T", "2.12 COE BP&T"), ("1.12 SA&D", "2.13 COE SA&D"),
-                       ("1.13 Cyber Roles", "2.11 COE Cyber")):
+    # by tab number, not by tab name: 2.11 is renamed to "2.11 Cyber Risk & Service Ops" in
+    # the first chain and this step runs in the second, so a hardcoded name here would look
+    # for a tab that no longer exists and silently sync nothing.
+    for dtab, num in (("1.11 BP&T", "2.12"), ("1.12 SA&D", "2.13"),
+                      ("1.13 Cyber Roles", "2.11")):
+        wtab = _tab(wb, num)
+        if wtab is None:
+            out.append(f"no {num} tab in the workbook - {dtab}'s levers are NOT synced")
+            continue
         pairs = _design_levers(wb, wv, dtab)
         fte = _fte_rows(wb, wtab)
         n = 0
-        for rev_row, state in pairs:
+        for rev_row, state, _drow in pairs:
             for r in fte.get(rev_row, []):
-                if str(wb[wtab].cell(r, 5).value or "") != state:
-                    wb[wtab].cell(r, 5).value = state
+                cur = str(wb[wtab].cell(r, 5).value or "")
+                if state in ("Hold", "Offshore"):
+                    want = state
+                elif cur in NEUTRAL:
+                    want = cur                    # already neutral, and status decided it
+                else:
+                    want = ("Filled"
+                            if str(R.cell(rev_row, 37).value or "") == "Filled" else "Hire")
+                if cur != want:
+                    wb[wtab].cell(r, 5).value = want
                     n += 1
                 break
-        out.append(f"{wtab}: {n} levers set from {dtab} ({len(pairs)} states on the tab)")
+        out.append(f"{wtab}: {n} levers set from {dtab} ({len(pairs)} states on the tab) - "
+                   f"the design tab's On/Off column is the single source of lever state")
+    uplift_factor(wb, wv, out)
     # his two hand-set levers on 2.7, found by person in the ledger
     fte = _fte_rows(wb, "2.7 Infrastructure")
     targets = []
@@ -197,6 +239,54 @@ def sync_levers(wb, wv, out):
                        f"FTE block - NOT set")
 
 
+# The cyber uplift part-charge, carried through to the working tab.
+#
+# His toggles on 1.13 charge a share of five COE roles to the cyber uplift programme. The
+# role stays in the COE and the COE carries the rest of it, so 1.13's planned spend is net
+# of the share - and 2.11's cost after decisions has to be the same figure, or the tab a GM
+# pulls levers on disagrees with the tab the levers live on. 1.13!F8 and 2.11!Q13 are the
+# two cells that have to tie, and they tie because both are the sum of the same per-role
+# arithmetic: cost x lever factor x (1 - uplift %).
+#
+# The factor is a direct reference to the Uplift % cell on 1.13, so his cream cell drives
+# both tabs from one place. It is written on every cyber role, not only the five he has
+# toggled, so the column is one formula and a sixth toggle needs no code.
+UPLIFT_TAB = "1.13 Cyber Roles"
+UPLIFT_COL = 9                            # column I on 1.13, his cream Uplift % column
+UPLIFT_SUFFIX = "*(1-N('{tab}'!$I${row}))"
+
+
+def uplift_factor(wb, wv, out):
+    dtab, wtab = UPLIFT_TAB, _tab(wb, "2.11")
+    if dtab not in wb.sheetnames or wtab is None:
+        out.append(f"{dtab} or {wtab} is not in the workbook - the uplift part-charge is "
+                   f"NOT carried through to the working tab")
+        return
+    pairs = _design_levers(wb, wv, dtab)
+    fte = _fte_rows(wb, wtab)
+    ws = wb[wtab]
+    n, missing = 0, []
+    for rev_row, _state, drow in pairs:
+        rows = fte.get(rev_row, [])
+        if not rows:
+            missing.append(rev_row)
+            continue
+        r = rows[0]
+        f = ws.cell(r, 7).value                   # G, cost after decision
+        if not (isinstance(f, str) and f.startswith("=")):
+            continue
+        suffix = UPLIFT_SUFFIX.format(tab=dtab, row=drow)
+        base = f.split("*(1-N('")[0]
+        if base + suffix == f:
+            continue
+        ws.cell(r, 7).value = base + suffix
+        n += 1
+    out.append(f"{wtab}: {n} cost-after cells now carry his 1.13 Uplift % as a factor, so "
+               f"2.11's cost after decisions is 1.13's planned spend role for role"
+               + (f" - {len(missing)} design rows have no FTE row on the working tab "
+                  f"({missing[:6]})" if missing else ""))
+
+
 # ---------------------------------------------------------------- 3. the 0.2 COE cells
 # His rev formulas read the retired '3.4 COE Summary', whose F column was planned spend
 # per COE grouping. Those figures live on the COE tabs' own grouping rows, so each cell
@@ -218,16 +308,64 @@ def repoint_02(wb, wv, rev_path, out):
             out.append(f"0.2!F{r} holds {str(cur)[:40]!r} - not the 3.4 read, left alone")
 
 
-# ---------------------------------------------------------------- 4. the 1.13 bar
+# ------------------------------------------------- 4. the 1.13 bar and his note
+ROWREF = re.compile(r"\$([A-Z]{1,2})\$(\d+)")
+
+
+def _cy_rows(wb):
+    """(design row, REVIEW row, name, title) for every role on 1.13's list."""
+    ws, R = wb[UPLIFT_TAB], wb[REVIEW]
+    hdr = next((r for r in range(1, 30)
+                if str(ws.cell(r, 2).value or "").strip() == "Name"), None)
+    if hdr is None:
+        return None, []
+    rows = []
+    for r in range(hdr + 1, 90):
+        v = ws.cell(r, 2).value
+        if not (isinstance(v, str) and v.startswith("=")):
+            if rows:
+                break
+            continue
+        m = ROWREF.search(v)
+        if not m:
+            continue
+        i = int(m.group(2))
+        rows.append((r, i, str(R.cell(i, 2).value or "").strip(),
+                     str(R.cell(i, 3).value or "").strip()))
+    return hdr, rows
+
+
+def cyber_note(wb, out):
+    """His note under the roles table states the role count, and the count has changed."""
+    ws = wb[UPLIFT_TAB]
+    hdr, rows = _cy_rows(wb)
+    if hdr is None:
+        return
+    n = len(rows)
+    for r in range(hdr, min(ws.max_row, hdr + 80) + 1):
+        v = ws.cell(r, 2).value
+        if not (isinstance(v, str) and "roles)" in v and "come straight from" in v):
+            continue
+        new = re.sub(r"\b\d+ roles\)", f"{n} roles)", v)
+        if new != v:
+            ws.cell(r, 2).value = new
+            out.append(f"{UPLIFT_TAB}!B{r}: the role count in his note reads {n}, not the count "
+                       f"before the cyber uplift roles moved to 1.14 - a figure in a "
+                       f"sentence that would otherwise contradict the table above it")
+        return
+
+
+
 def cyber_bar(wb, out):
     ws = wb["1.13 Cyber Roles"]
     for r in range(1, 30):
         if str(ws.cell(r, 2).value or "").strip() == "Roles" \
                 and (ws.cell(r, 2).fill.patternType or ws.cell(r, 3).fill.patternType):
-            for c in range(2, 9):
+            # B to I: his On/Off column and, since wave M, the Uplift % column beside it
+            for c in range(2, 10):
                 ws.cell(r, c).fill = opts.fl(opts.BARC)
                 ws.cell(r, c).font = opts.BARF
-            out.append(f"1.13!B{r} bar extended over the On/Off column")
+            out.append(f"1.13!B{r} bar extended over the On/Off and Uplift % columns")
             return
 
 
@@ -287,6 +425,7 @@ def run(src, dst, rev_path="rev.xlsx"):
     sync_levers(wb, wv, out)
     repoint_02(wb, wv, rev_path, out)
     cyber_bar(wb, out)
+    cyber_note(wb, out)
     freeze_32_counts(wb, out)
     # the manifest of every cell this step wrote, so the shipped-workbook diff can tell a
     # declared edit from an accident
