@@ -271,6 +271,12 @@ CY_UPLIFT = [("Chris Lyons", "Cyber Security Architect", 0.5),
 ROWREF = re.compile(r"\$([A-Z]{1,2})\$(\d+)")
 
 
+def _cy_key(name, title):
+    """Match keys with his raw data's en dashes folded to hyphens."""
+    f = lambda x: " ".join(str(x).replace("\u2013", "-").replace("\u2014", "-").split())
+    return (f(name), f(title))
+
+
 def _cy_rows(wb):
     """(design row, REVIEW row, name, title) for every role on 1.13's list."""
     ws, R = wb[CY], wb[REVIEW]
@@ -366,20 +372,20 @@ def cyber_uplift(wb, out):
     if hdr is None:
         out.append(f"{CY}: no roles list - levers and uplift column not written")
         return
-    want = {(n, t): "Offshore" for n, t in CY_OFFSHORE}
-    want.update({(n, t): "Hold" for n, t in CY_HOLD})
-    pct = {(n, t): p for n, t, p in CY_UPLIFT}
+    want = {_cy_key(n, t): "Offshore" for n, t in CY_OFFSHORE}
+    want.update({_cy_key(n, t): "Hold" for n, t in CY_HOLD})
+    pct = {_cy_key(n, t): p for n, t, p in CY_UPLIFT}
     for cell, text in ((ws.cell(hdr, UPLIFT_COL), UPLIFT_HDR),
                        (ws.cell(hdr, SLICE_COL), SLICE_HDR)):
         cell.value = text
         cell._style = copy.copy(ws.cell(hdr, 8)._style)
     moved, tog, n_eng = [], [], 0
     for r, i, name, title in rows:
-        state = want.get((name, title), "Onshore")
+        state = want.get(_cy_key(name, title), "Onshore")
         if str(ws.cell(r, 8).value or "").strip() != state:
             moved.append(f"r{i} {name} {ws.cell(r, 8).value!r} -> {state}")
             ws.cell(r, 8).value = state
-        p = pct.get((name, title))
+        p = pct.get(_cy_key(name, title))
         x = ws.cell(r, UPLIFT_COL)
         if p is None:
             x.value = None

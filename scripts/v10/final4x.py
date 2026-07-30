@@ -149,6 +149,15 @@ QA_FACTS = [
 C33_VAR, C33_ACT = L(S["var"]), L(S["actual"])
 
 
+NOARCH_PF = ("COE Cyber", "COE BP&T", "COE SA&D", "EGI")
+
+
+def _noarch_o(a2):
+    """The no-archetype groups' actual totals - 3.1 prices them at actual (D=E)."""
+    return "+".join(f"N('{t}'!${C33_ACT}${i['total_row']})"
+                    for t, i in sorted(a2.items()) if i.get("pf") in NOARCH_PF)
+
+
 def _sum2x(a2, key, col, tabs=None):
     """A live sum of one cell on every working tab that has the row.
 
@@ -413,7 +422,7 @@ def build_qa(wb, a, a2):
         # rounded once, and the old check reported that $1 as a failure.
         ("Archetype variance on 3.1 against the working tabs, tab by tab ($m)",
          "=ROUND(" + _sum2x(a2, "total_row", C33_ACT)[1:] + "-("
-         + _sum2x(a2, "total_row", L(S["acost"]))[1:] + "),6)",
+         + _sum2x(a2, "total_row", L(S["acost"]))[1:] + "+" + _noarch_o(a2) + "),6)",
          f"={G1}!${C31['var']}${gt}", opts.M2),
         ("Roles including the GM layer against the ledger plus the GM count",
          f"={G1}!${C31['roles']}${a['grand']}",
@@ -511,7 +520,9 @@ def build_qa(wb, a, a2):
         # 3.1's group rows read the working tab's total, which already carries the
         # elsewhere line, so there is nothing to net out any more.
         ("Archetype cost on the working tabs against 3.1's TDD total ($m)",
-         _sum2x(a2, "total_row", L(S["acost"])),
+         # the no-archetype groups price at actual on 3.1 (his D=E ruling), so their
+         # working-tab actuals join the archetype side of the tie
+         _sum2x(a2, "total_row", L(S["acost"])) + "+" + _noarch_o(a2),
          f"={G1}!${C31['acost']}${gt}", opts.M2),
         ("Actual cost on the working tabs against 3.1's TDD total ($m)",
          _sum2x(a2, "total_row", C33_ACT),
@@ -562,8 +573,19 @@ def build_qa(wb, a, a2):
         tc = next((r for r in range(1, 16)
                    if str(wb[d].cell(r, 2).value or "").strip() == "Total Cost"), None)
         if tc:
+            # his Net New squads price on the design tab before any role exists, so the
+            # working tab cannot carry them yet - they join the working side of the tie
+            netnew = []
+            wnames = {str(wb[tab].cell(r, 2).value or "").strip()
+                      for r in range(1, 40)}
+            for r in range(20, 80):
+                if "Net New" in str(wb[d].cell(r, 1).value or ""):
+                    nm = str(wb[d].cell(r, 2).value or "").strip()
+                    if nm and nm not in wnames:
+                        netnew.append(f"+N('{d}'!$H${r})")
             checks.append((f"{tab} archetype total against Total Cost on {d} ($m)",
-                           f"='{tab}'!${L(S['acost'])}${inf['total_row']}",
+                           f"='{tab}'!${L(S['acost'])}${inf['total_row']}"
+                           + "".join(netnew),
                            f"='{d}'!$F${tc}", opts.M2))
     for tab, inf in a2.items():
         t = inf["total_row"]

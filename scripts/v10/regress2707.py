@@ -753,10 +753,18 @@ def run(path):
     n29 = next((wv["2.2 Customer"].cell(r, 14).value for r in range(6, 40)
                 if str(wv["2.2 Customer"].cell(r, 2).value or "").strip()
                 == "Total portfolio"), None)
-    check("1.2's Total Cost is its own three columns, and 2.2 quotes the same archetype",
+    # his Net New squads price on 1.2 before any role exists, so 2.2 cannot carry
+    # them yet - their design cost joins the working side of the tie (wave M)
+    w2names = {str(wv["2.2 Customer"].cell(r, 2).value or "").strip() for r in range(1, 40)}
+    netnew = sum(v12.cell(r, 8).value or 0 for r in range(20, 80)
+                 if "Net New" in str(v12.cell(r, 1).value or "")
+                 and str(v12.cell(r, 2).value or "").strip() not in w2names
+                 and str(v12.cell(r, 2).value or "").strip())
+    check("1.2's Total Cost is its own three columns, and 2.2 plus his Net New squads "
+          "quote the same archetype",
           f9 is not None and abs(f9 - parts) < 1e-6
-          and n29 is not None and abs(n29 - f9) < 1e-6,
-          f"F9={f9} C9+D9+E9={parts} 2.2!N={n29}")
+          and n29 is not None and abs(n29 + netnew - f9) < 1e-6,
+          f"F9={f9} C9+D9+E9={parts} 2.2!N={n29} netnew={netnew}")
     check("1.2!C7 is the complement of D7 - one branch fires, never both",
           str(wb["1.2 Customer"]["C7"].value).endswith("0,SUM(I34,I42,I49))")
           and str(wb["1.2 Customer"]["D7"].value).endswith("SUM(I34,I42,I49),0)"),
@@ -1216,34 +1224,20 @@ def run(path):
                    == "Squads priced by an archetype"), None)
     r_dir = next((rr for rr in range(4, 80) if str(w31c.cell(rr, 2).value or "").strip()
                   == "Directly funded, where the funded figure is set"), None)
-    e_arch = str(w31c.cell(r_arch, 5).value or "") if r_arch else ""
-    e_dir = str(w31c.cell(r_dir, 5).value or "") if r_dir else ""
-    check("3.1's archetype subtotal is a plain SUM", e_arch.startswith("=SUM("),
-          e_arch[:40])
-    check("3.1 keeps the gate on the step that needs it",
-          "SUMPRODUCT(--ISNUMBER" in e_dir, e_dir[:40])
-    # D118: the whole-organisation block - every group, Retail grouped, total early
-    bars31 = [str(w31c.cell(rr, 2).value or "") for rr in range(3, 12)]
-    check("3.1 opens with the whole-organisation block",
-          any(b.startswith("The whole organisation") for b in bars31), str(bars31[:3]))
-    r_ret = next((rr for rr in range(4, 40) if str(w31c.cell(rr, 2).value or "").startswith(
-        "Retail - Ampol and Z")), None)
-    check("Ampol Retail and Z Retail sit together under a Retail subtotal",
-          r_ret is not None
-          and str(w31c.cell(r_ret - 2, 2).value or "").strip() == "Ampol Retail"
-          and str(w31c.cell(r_ret - 1, 2).value or "").strip() == "Z Retail",
-          f"subtotal at r{r_ret}")
-    r_orgt = next((rr for rr in range(4, 45) if str(w31c.cell(rr, 2).value or "").startswith(
-        "TDD total - the")), None)
-    v31c = wv["3.1 Cost Bridge"]
-    r_led31 = next((rr for rr in range(4, 90) if str(v31c.cell(rr, 2).value or "").startswith(
-        "Cost of the")), None)
-    check("the whole-organisation total equals the walk's ledger row",
-          r_orgt is not None and r_led31 is not None
-          and abs((v31c.cell(r_orgt, 5).value or 0)
-                  - (v31c.cell(r_led31, 5).value or 0)) < 1e-6,
-          f"org r{r_orgt} {v31c.cell(r_orgt, 5).value if r_orgt else None} vs "
-          f"ledger r{r_led31} {v31c.cell(r_led31, 5).value if r_led31 else None}")
+    # Wave M deleted the walk, so the plain-SUM, gate-on-step and walk-ledger ties
+    # went with it: the wave-M block now pins the single-table layout, its totals and
+    # its controls directly. What survives of D118 is Retail adjacency - now WITHOUT
+    # the subtotal row, per his approved mock.
+    check("the walk is gone from 3.1", r_arch is None and r_dir is None,
+          f"archetype subtotal at r{r_arch}, directly-funded gate at r{r_dir}")
+    bars31 = [str(w31c.cell(rr, 2).value or "").strip() for rr in range(3, 12)]
+    check("3.1 opens with the TDD band", "TDD" in bars31, str(bars31[:4]))
+    names31 = [str(w31c.cell(rr, 2).value or "").strip() for rr in range(4, 45)]
+    ia = names31.index("Ampol Retail") if "Ampol Retail" in names31 else None
+    check("Ampol Retail and Z Retail sit together with no subtotal row",
+          ia is not None and names31[ia + 1] == "Z Retail"
+          and not any(n.startswith("Retail - Ampol and Z") for n in names31),
+          f"after Ampol Retail: {names31[ia + 1] if ia is not None else None}")
     # The two checks that stood here pinned a Home country column on 0.2 and forbade the
     # 1.x tabs from deciding AU or NZ by comparing the two budget cells. Both are retired:
     # the column was mine, he never asked for it, and it is off his config tab. The budget
@@ -1307,17 +1301,19 @@ def run(path):
                   if str(v31g.cell(r, 2).value or "").startswith("Cost of the")), None)
     r_gr = next((r for r in range(4, 120)
                  if str(v31g.cell(r, 2).value or "").startswith(
-                     "Total cost of TDD including")), None)
-    check("3.1's ledger and grand rows carry a dash, not a 395-vs-531 'variance'",
-          r_led is not None and r_gr is not None
-          and all(str(v31g.cell(r, c).value) == "-"
-                  for r in (r_led, r_gr) for c in (4, 6)),
-          f"ledger r{r_led} grand r{r_gr}: "
-          f"{[v31g.cell(r, c).value for r in (r_led or 4, r_gr or 4) for c in (4, 6)]}")
+                     ("Total cost of TDD including", "Total TDD cost including"))), None)
+    # wave M: archetype = actual for the no-plan groups, so the grand row carries real
+    # figures and the old carries-a-dash pin inverted into the no-dash sweep checks
+    check("3.1's grand row carries real archetype and variance figures",
+          r_gr is not None
+          and all(isinstance(v31g.cell(r_gr, c).value, (int, float))
+                  for c in (4, 6)),
+          f"grand r{r_gr}: "
+          f"{[v31g.cell(r_gr, c).value for c in (4, 6)] if r_gr else None}")
     exec_b = [str(wv["Exec Summary"].cell(r, 2).value or "") for r in range(4, 40)]
-    check("Exec names the portfolio slice and the COE slice of the overhead gap",
-          any(x.startswith("Overhead roles in the portfolios") for x in exec_b)
-          and any(x.startswith("Overhead roles in the COEs and EGI") for x in exec_b),
+    # wave M: the COE overhead slice line died with the walk; the portfolios line stays
+    check("Exec names the portfolio overhead gap",
+          any(x.startswith("Overhead roles in the portfolios") for x in exec_b),
           str([x for x in exec_b if x.startswith("Overhead")][:2]))
     check("Exec states the budget position off 0.2",
           any(x.startswith("Over/(under) the allocated TDD budget") for x in exec_b),
