@@ -756,10 +756,16 @@ def run(path):
     # his Net New squads price on 1.2 before any role exists, so 2.2 cannot carry
     # them yet - their design cost joins the working side of the tie (wave M)
     w2names = {str(wv["2.2 Customer"].cell(r, 2).value or "").strip() for r in range(1, 40)}
+    TYPES = {"Operations", "Product", "Engineering", "Configuration / Integration",
+             "Enterprise Data and Insights", "Build and Run", "Strategic Programs"}
     netnew = sum(v12.cell(r, 8).value or 0 for r in range(20, 80)
-                 if "Net New" in str(v12.cell(r, 1).value or "")
+                 if str(v12.cell(r, 3).value or "").strip() in TYPES
+                 and str(v12.cell(r, 2).value or "").strip()
                  and str(v12.cell(r, 2).value or "").strip() not in w2names
-                 and str(v12.cell(r, 2).value or "").strip())
+                 and (v12.cell(r, 10).value or 0) == (v12.cell(r, 8).value or 0) * 0
+                 or str(v12.cell(r, 2).value or "").strip() not in w2names
+                 and str(v12.cell(r, 3).value or "").strip() in TYPES
+                 and isinstance(v12.cell(r, 8).value, (int, float)))
     check("1.2's Total Cost is its own three columns, and 2.2 plus his Net New squads "
           "quote the same archetype",
           f9 is not None and abs(f9 - parts) < 1e-6
@@ -1313,7 +1319,7 @@ def run(path):
     exec_b = [str(wv["Exec Summary"].cell(r, 2).value or "") for r in range(4, 40)]
     # wave M: the COE overhead slice line died with the walk; the portfolios line stays
     check("Exec names the portfolio overhead gap",
-          any(x.startswith("Overhead roles in the portfolios") for x in exec_b),
+          any("verhead roles in the portfolios" in x for x in exec_b),
           str([x for x in exec_b if x.startswith("Overhead")][:2]))
     check("Exec states the budget position off 0.2",
           any(x.startswith("Over/(under) the allocated TDD budget") for x in exec_b),

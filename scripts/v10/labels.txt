@@ -11,39 +11,36 @@
   B11: The 8 GMs, outside the role mapping ($m)
   B12: Cost today including the GM layer ($m)
   B14: Against the archetype
-  B15: Squads priced by an archetype - archetype cost ($m)
-  B16: Squads priced by an archetype - actual ($m)
-  B17: Squads priced by an archetype - over/(under) ($m)
-  B18: Directly funded programs - over/(under) funded ($m)
-  B19: COEs and EGI - actual cost, no plan to compare against ($m)
-  B20: Overhead roles in the portfolios - above the allowance ($m)
-  B21: Overhead roles in the COEs and EGI - above the allowance ($m)
-  B22: The 8 GMs - over/(under) their allowance ($m)
-  B23: Total over/(under) archetype, everything comparable ($m)
-  B24: Groups with no archetype and no funded figure ($m)
-  B25: Over/(under) the allocated TDD budget - 0.2 Data Config ($m)
-  B27: The vacancy decision
-  B28: Vacant roles
-  B29: Vacancies set to hire
-  B30: Vacancies set to offshore
-  B31: Vacancies put on hold
-  B32: Vacancies set to fill as they are
-  B33: Filled roles offshored
-  B34: Roles after the decisions set today
-  B35: Cost after the decisions set today ($m)
-  B36: Impact of those decisions ($m)
-  B38: Portfolio drill-down
-  B39: Pick a portfolio
-  C39: Ampol Retail
-  B40: Roles
-  B41: Filled
-  B42: Vacant
-  B43: Roles after decisions
-  B44: Actual cost ($m)
-  B45: Of which overhead roles ($m)
-  B46: Squads priced by an archetype - over/(under) archetype ($m)
-  B47: Directly funded programs - over/(under) funded ($m)
-  B48: Cost after vacancy decisions ($m)
+  B15: Archetype cost of the whole organisation ($m)
+  B16: Actual cost of the whole organisation ($m)
+  B17: Over/(under) archetype ($m)
+  B18: The 8 GMs - over/(under) their allowance ($m)
+  B19: Total over/(under) archetype including the GM layer ($m)
+  B20: Of which overhead roles in the portfolios - above the allowance ($m)
+  B21: Of which groups with no archetype - Energy and the leadership groups ($m)
+  B22: Over/(under) the allocated TDD budget - 0.2 Data Config ($m)
+  B24: The vacancy decision
+  B25: Vacant roles
+  B26: Vacancies set to hire
+  B27: Vacancies set to offshore
+  B28: Vacancies put on hold
+  B29: Vacancies set to fill as they are
+  B30: Filled roles offshored
+  B31: Roles after the decisions set today
+  B32: Cost after the decisions set today ($m)
+  B33: Impact of those decisions ($m)
+  B35: Portfolio drill-down
+  B36: Pick a portfolio
+  C36: Ampol Retail
+  B37: Roles
+  B38: Filled
+  B39: Vacant
+  B40: Roles after decisions
+  B41: Actual cost ($m)
+  B42: Of which overhead roles ($m)
+  B43: Squads priced by an archetype - over/(under) archetype ($m)
+  B44: Directly funded programs - over/(under) funded ($m)
+  B45: Cost after vacancy decisions ($m)
 
 ===== - INPUTS -
   B2: INPUTS  >>>
@@ -209,7 +206,8 @@
   I6: Delayed vacancy hires will bring us back to black; validation of FTE model
   K6: Head of Tech
   B7: COE - Cyber, Risk & Service Ops (see 1.13 Cyber Roles)
-  I7: Separate out and incl. cyber uplift $3m funding bucket
+  I7: Assessment of offshoring to reduce gap
+Vacancies add 900k to FY26 baseline
   K7: Business Partner
   B8: COE - Transformation
   H8: Offset each other
@@ -256,9 +254,7 @@ Review 2027 TDD Z headcount and cost allocation.
   B22: TDD Data
   I22: Potential upside through data platform consolidation and further offshoring
   K22: Position on 23/07
-  B23: TDD Cyber incl. COE - Cyber, Risk & Service Ops
-  I23: Assessment of offshoring to reduce gap
-Vacancies add 900k to FY26 baseline
+  B23: TDD Cyber
   K23: Position today
   B24: EG
   K24: Notes
@@ -3403,7 +3399,7 @@ AUD
   E48: Onshore
   F48: AU
   M48: 7 FTE in AmPOS
-  N48: People in this program today cost 2.12m. Set the agreed cost in the cream cell.
+  N48: #VALUE!
   B50: AmPOS Total
   B52: Platform: Network & QSR
   B53: Squad
@@ -3459,7 +3455,7 @@ AUD
   C66: Strategic Programs
   E66: Onshore
   F66: AU
-  N66: People in this program today cost 1.22m. Set the agreed cost in the cream cell.
+  N66: #VALUE!
   B68: EGI Retail Total
 
 ===== 1.2 Customer
@@ -3568,6 +3564,11 @@ AUD
   D40: L
   E40: Onshore
   F40: NZ
+  B41: Digital Support NZ
+  C41: Operations
+  D41: S
+  E41: Offshore
+  F41: NZ
   M41: CPI actuals; pull through
   N41: Net New
   B42: Platform Overhead
@@ -3780,7 +3781,7 @@ AUD
   B30: EGI TDD
   C30: Strategic Programs
   E30: Onshore
-  M30: People in this program today cost 1.02m. Set the agreed cost in the cream cell.
+  M30: #VALUE!
   B31: EGI TDD Total
 
 ===== 1.5 P&C
@@ -3875,10 +3876,8 @@ AUD
   C32: Strategic Programs
   E32: Onshore
   F32: AU
-  L32: -
-  N32: People in this program today cost 0.24m. Set the agreed cost in the cream cell.
+  N32: #VALUE!
   B33: EGI P&C Total
-  L33: -
 
 ===== 1.6 Finance
   B2: Finance
@@ -3976,7 +3975,7 @@ AUD
   C33: Strategic Programs
   E33: Onshore
   F33: AU
-  N33: People in this program today cost 0.24m. Set the agreed cost in the cream cell.
+  N33: #VALUE!
   B34: EGI Finance Total
 
 ===== 1.7 Infrastructure
@@ -4790,21 +4789,16 @@ AUD
   E5: Vacant
   F5: Planned spend ($m)
   G5: Budget to draw down ($m)
-  H5: Left to fund ($m)
+  H5: Variance
   I5: Cost - AU ($m)
   J5: Cost - NZ ($m)
   B6: Cyber & Risk
   B7: Service Operations
   B8: Total
   B9: These are centres of excellence, funded by allocation rather than priced by an archetype, so there is no archetype cost to compare against. The actual cost of these groups is on 3.4 COE Detail; the cost after the decisions set today is on 3.1 Cost Bridge and the working tabs.
-  B10: Funding buckets to draw down
-  B11: COE - Cyber allocation ($m) - 0.2 Data Config
-  E11: Planned spend less CapEx ($m)
-  B12: TDD Cyber budget ($m) - 0.2 Data Config
-  B13: Cyber CapEx - Monitoring ($m) - input
-  B14: Total budget to draw down ($m)
-  B15: Left to fund ($m)
-  B17: Roles
+  B10: Funding
+  B11: COE - Cyber, Risk & Service Ops allocation ($m) - 0.2 Data Config
+  B12: Total budget to draw down ($m)
   B18: Name
   C18: Position Title
   D18: Department
@@ -4812,7 +4806,9 @@ AUD
   F18: Status
   G18: Cost if hired ($)
   H18: On/Off
+  I18: Uplift %
   T18: Cost after On/Off ($)
+  U18: Charged to the cyber uplift program ($m)
   B19: Ashley Mueller
   C19: Lead - Service Assurance
   D19: Service Op & Assurance
@@ -4831,302 +4827,248 @@ AUD
   E21: Australia
   F21: Filled
   H21: Onshore
-  B22: Cameron Watman
-  C22: Engineer - IDAM
+  B22: Chris Lyons
+  C22: Cyber Security Architect
   D22: Cyber Strat & Tech
   E22: Australia
   F22: Filled
   H22: Onshore
-  B23: Catherine Gire
-  C23: Cyber Technical Business Analyst
-  D23: Cyber Strat & Tech
+  B23: Chris Rojas
+  C23: Manager, Customer Support Operations
+  D23: Service Op & Assurance
   E23: Australia
   F23: Filled
   H23: Onshore
-  B24: Chris Lyons
-  C24: Cyber Security Architect
-  D24: Cyber Strat & Tech
+  B24: Daniel Jolley
+  C24: Tech Support Technician
+  D24: Service Op & Assurance
   E24: Australia
   F24: Filled
   H24: Onshore
-  B25: Chris Rojas
-  C25: Manager, Customer Support Operations
+  B25: Darren Koller
+  C25: Manager, Service Management & Major Incident Mgmt Lead
   D25: Service Op & Assurance
   E25: Australia
   F25: Filled
   H25: Onshore
-  B26: Dan Balsamo
-  C26: Senior Cyber Project Manager
+  B26: Darshan Suvama
+  C26: Cyber Offensive Security Lead
   D26: Cyber Strat & Tech
   E26: Australia
   F26: Filled
   H26: Onshore
-  B27: Daniel Jolley
-  C27: Tech Support Technician
-  D27: Service Op & Assurance
+  B27: Diya Thomas
+  C27: Manager Cyber Security GRC
+  D27: Cyber GRC
   E27: Australia
   F27: Filled
   H27: Onshore
-  B28: Darren Koller
-  C28: Manager, Service Management & Major Incident Mgmt Lead
+  B28: Ethan Lamhert (FT)
+  C28: Tech Support Technician
   D28: Service Op & Assurance
-  E28: Australia
+  E28: NZ
   F28: Filled
   H28: Onshore
-  B29: Darshan Suvama
-  C29: Cyber Offensive Security Lead
-  D29: Cyber Strat & Tech
+  B29: Jack Jenkins
+  C29: Asset Analyst
+  D29: Service Op & Assurance
   E29: Australia
   F29: Filled
-  H29: Onshore
-  B30: Diya Thomas
-  C30: Manager Cyber Security GRC
-  D30: Cyber GRC
+  H29: Offshore
+  B30: James Byrne
+  C30: Head of Cyber Strategy & Technology
+  D30: Cyber Strat & Tech
   E30: Australia
   F30: Filled
   H30: Onshore
-  B31: Ethan Lamhert (FT)
-  C31: Tech Support Technician
+  B31: Jas Mann
+  C31: Technology Support Engineer
   D31: Service Op & Assurance
-  E31: NZ
+  E31: Australia
   F31: Filled
-  H31: Onshore
-  B32: Iwan Wibisono
-  C32: Engineer - IDAM
-  D32: Cyber Strat & Tech
+  H31: Offshore
+  B32: Kaaviya Salai Manimudian
+  C32: Graduate
+  D32: Service Op & Assurance
   E32: Australia
   F32: Filled
   H32: Onshore
-  B33: Jack Jenkins
-  C33: Asset Analyst
-  D33: Service Op & Assurance
-  E33: Australia
+  B33: Lisa Ng
+  C33: Cyber Security Analyst
+  D33: Cyber Sec Ops
+  E33: NZ
   F33: Filled
   H33: Onshore
-  B34: James Byrne
-  C34: Head of Cyber Strategy & Technology
-  D34: Cyber Strat & Tech
+  B34: Lynda Niewidok
+  C34: Lead - Service Desk
+  D34: Service Op & Assurance
   E34: Australia
   F34: Filled
   H34: Onshore
-  B35: Jas Mann
-  C35: Technology Support Engineer
+  B35: Mark Pearson
+  C35: Lead - Technology Support
   D35: Service Op & Assurance
   E35: Australia
   F35: Filled
   H35: Onshore
-  B36: Joe Nahma
-  C36: Manager Identity & Access Management
-  D36: Cyber Strat & Tech
+  B36: Mary-Grace Rivera
+  C36: Lead, Service Management
+  D36: Service Op & Assurance
   E36: Australia
   F36: Filled
   H36: Onshore
-  B37: Kaaviya Salai Manimudian
-  C37: Graduate
+  B37: Mick Collins
+  C37: Manager, Service Performance & Assurance
   D37: Service Op & Assurance
   E37: Australia
   F37: Filled
   H37: Onshore
-  B38: Kevin Sheerin
-  C38: Cyber Architecture Lead
-  D38: Cyber Strat & Tech
+  B38: Nischal Bhusal
+  C38: Cyber Security Analyst
+  D38: Cyber Sec Ops
   E38: Australia
   F38: Filled
   H38: Onshore
-  B39: Lisa Ng
-  C39: Cyber Security Analyst
-  D39: Cyber Sec Ops
-  E39: NZ
+  B39: Pooja Kuperkar
+  C39: Cyber GRC Analyst
+  D39: Cyber GRC
+  E39: Australia
   F39: Filled
   H39: Onshore
-  B40: Lynda Niewidok
-  C40: Lead - Service Desk
-  D40: Service Op & Assurance
+  B40: Prashanth Chandran
+  C40: Senior Cyber GRC Specialist
+  D40: Cyber GRC
   E40: Australia
   F40: Filled
   H40: Onshore
-  B41: Mark Pearson
-  C41: Lead - Technology Support
-  D41: Service Op & Assurance
+  B41: Rahul Sahni
+  C41: Cyber Security Architect
+  D41: Cyber Strat & Tech
   E41: Australia
   F41: Filled
   H41: Onshore
-  B42: Mary-Grace Rivera
-  C42: Lead, Service Management
+  B42: Rajini Onteddu Reddy
+  C42: Head of Service Operations & Assurance
   D42: Service Op & Assurance
   E42: Australia
   F42: Filled
   H42: Onshore
-  B43: Mick Collins
-  C43: Manager, Service Performance & Assurance
+  B43: Remya Pookat
+  C43: Lead - Change & Release Management
   D43: Service Op & Assurance
   E43: Australia
   F43: Filled
   H43: Onshore
-  B44: Nischal Bhusal
-  C44: Cyber Security Analyst
-  D44: Cyber Sec Ops
+  B44: Ritika Salaria
+  C44: Configuration Analyst
+  D44: Service Op & Assurance
   E44: Australia
   F44: Filled
-  H44: Onshore
-  B45: Pooja Kuperkar
-  C45: Cyber GRC Analyst
-  D45: Cyber GRC
-  E45: Australia
+  H44: Offshore
+  B45: Sameer Pattanaik
+  C45: Cyber Security Operations Lead
+  D45: Cyber Sec Ops
+  E45: NZ
   F45: Filled
   H45: Onshore
-  B46: Prashanth Chandran
-  C46: Senior Cyber GRC Specialist
-  D46: Cyber GRC
-  E46: Australia
+  B46: Shomiya Shayal
+  C46: Risk & Resilience Lead
+  D46: Cyber Risk
+  E46: NZ
   F46: Filled
   H46: Onshore
-  B47: Rahul Sahni
-  C47: Cyber Security Architect
-  D47: Cyber Strat & Tech
+  B47: Shruti Manchanda
+  C47: Cyber GRC Analyst
+  D47: Cyber GRC
   E47: Australia
   F47: Filled
   H47: Onshore
-  B48: Rajini Onteddu Reddy
-  C48: Head of Service Operations & Assurance
+  B48: Spoilagi Bhutwala
+  C48: Tech Support Technician
   D48: Service Op & Assurance
-  E48: Australia
+  E48: NZ
   F48: Filled
   H48: Onshore
-  B49: Raymond Cheung
-  C49: Engineer - IDAM
-  D49: Cyber Strat & Tech
+  B49: Stafford Dowling
+  C49: Cyber Security Analyst
+  D49: Cyber Sec Ops
   E49: Australia
   F49: Filled
   H49: Onshore
-  B50: Remya Pookat
-  C50: Lead - Change & Release Management
-  D50: Service Op & Assurance
+  B50: Steven Atcheson
+  C50: Manager Cyber Security Operations
+  D50: Cyber Sec Ops
   E50: Australia
   F50: Filled
   H50: Onshore
-  B51: Ritika Salaria
-  C51: Configuration Analyst
+  B51: Vacant
+  C51: Lead - Problem Management
   D51: Service Op & Assurance
   E51: Australia
-  F51: Filled
+  F51: Vacant
   H51: Onshore
-  B52: Sameer Pattanaik
-  C52: Cyber Security Operations Lead
-  D52: Cyber Sec Ops
-  E52: NZ
-  F52: Filled
-  H52: Onshore
-  B53: Shomiya Shayal
-  C53: Risk & Resilience Lead
-  D53: Cyber Risk
-  E53: NZ
-  F53: Filled
-  H53: Onshore
-  B54: Shruti Manchanda
-  C54: Cyber GRC Analyst
-  D54: Cyber GRC
+  B52: Vacant
+  C52: Lead - Asset & Configuration
+  D52: Service Op & Assurance
+  E52: Australia
+  F52: Vacant
+  H52: Offshore
+  B53: Vacant
+  C53: Lead - Service Performance & Insights
+  D53: Service Op & Assurance
+  E53: Australia
+  F53: Vacant
+  H53: Offshore
+  B54: Vacant (AKL)
+  C54: Tech Support Technician
+  D54: Service Op & Assurance
   E54: Australia
-  F54: Filled
-  H54: Onshore
-  B55: Spoilagi Bhutwala
-  C55: Tech Support Technician
-  D55: Service Op & Assurance
+  F54: Vacant
+  H54: Offshore
+  B55: Vanessa Castro
+  C55: Cyber GRC Analyst
+  D55: Cyber GRC
   E55: NZ
   F55: Filled
   H55: Onshore
-  B56: Stafford Dowling
-  C56: Cyber Security Analyst
-  D56: Cyber Sec Ops
+  B56: Vacant
+  C56: Cyber Architect (backfill for EGI Secondment)
+  D56: Cyber Strat & Tech
   E56: Australia
-  F56: Filled
+  F56: Vacant
   H56: Onshore
-  B57: Steven Atcheson
-  C57: Manager Cyber Security Operations
-  D57: Cyber Sec Ops
+  B57: Vacant
+  C57: Operations Analyst
+  D57: Service Op & Assurance
   E57: Australia
-  F57: Filled
-  H57: Onshore
-  B58: Tony Keeler
-  C58: Cyber Business Analyst
-  D58: Cyber Strat & Tech
+  F57: Vacant
+  H57: Offshore
+  B58: Vacant
+  C58: Operations Analyst
+  D58: Service Op & Assurance
   E58: Australia
-  F58: Filled
-  H58: Onshore
+  F58: Vacant
+  H58: Offshore
   B59: Vacant
-  C59: Lead - Problem Management
-  D59: Service Op & Assurance
+  C59: Data Risk Analyst
+  D59: Cyber Risk
   E59: Australia
   F59: Vacant
-  H59: Onshore
+  H59: Hold
   B60: Vacant
-  C60: Lead - Asset & Configuration
-  D60: Service Op & Assurance
+  C60: Data Risk Analyst
+  D60: Cyber Risk
   E60: Australia
   F60: Vacant
-  H60: Onshore
-  B61: Vacant
-  C61: Lead - Service Performance & Insights
+  H60: Hold
+  B61: Vacant (SYD)
+  C61: Tech Support Technician
   D61: Service Op & Assurance
   E61: Australia
   F61: Vacant
-  H61: Onshore
-  B62: Vacant (AKL)
-  C62: Tech Support Technician
-  D62: Service Op & Assurance
-  E62: Australia
-  F62: Vacant
-  H62: Onshore
-  B63: Vanessa Castro
-  C63: Cyber GRC Analyst
-  D63: Cyber GRC
-  E63: NZ
-  F63: Filled
-  H63: Onshore
-  B64: Vivienne Vasak
-  C64: Portfolio Manager Cyber Security
-  D64: Cyber Strat & Tech
-  E64: Australia
-  F64: Filled
-  H64: Onshore
-  B65: Vacant
-  C65: Cyber Architect (backfill for EGI Secondment)
-  D65: Cyber Strat & Tech
-  E65: Australia
-  F65: Vacant
-  H65: Onshore
-  B66: Vacant
-  C66: Operations Analyst
-  D66: Service Op & Assurance
-  E66: Australia
-  F66: Vacant
-  H66: Hold
-  B67: Vacant
-  C67: Operations Analyst
-  D67: Service Op & Assurance
-  E67: Australia
-  F67: Vacant
-  H67: Hold
-  B68: Vacant
-  C68: Data Risk Analyst
-  D68: Cyber Risk
-  E68: Australia
-  F68: Vacant
-  H68: Hold
-  B69: Vacant
-  C69: Data Risk Analyst
-  D69: Cyber Risk
-  E69: Australia
-  F69: Vacant
-  H69: Hold
-  B70: Vacant (SYD)
-  C70: Tech Support Technician
-  D70: Service Op & Assurance
-  E70: Australia
-  F70: Vacant
-  H70: Hold
+  H61: Hold
   B71: Check - roles listed vs counted (must be 0)
-  B73: Roles and costs come straight from the REVIEW - Complete Role Mapping tab (updated cyber, risk and operations FTE list, 52 roles). On/Off drives the cost: Onshore = full cost, Offshore = 40%, Hold = 0 (role is retained in the list but drops out of Planned spend).
+  B73: Roles and costs come straight from the REVIEW - Complete Role Mapping tab (updated cyber, risk and operations FTE list, 43 roles). On/Off drives the cost: Onshore = full cost, Offshore = 40%, Hold = 0 (role is retained in the list but drops out of Planned spend).
 
 ===== 1.14 TDD Cyber
   B2: TDD Cyber
@@ -5156,16 +5098,18 @@ AUD
   H9: NZ over/(under) budget ($m)
   E10: Variance to actuals
   H10: TDD over/(under) budget ($m)
-  B11: TDD Cyber does not draw a portfolio overhead - it is not one of the ten funded portfolios on 0.2 Data Config. The platform overhead is drawn. No roles in the role mapping carry TDD Cyber yet - today's cyber roles are on 1.13, and the working tab fills itself as roles move here.
-  H11: This is the same TDD Cyber budget that 1.13 Cyber Roles draws on.
-  H13: Other funding
-  H14: Funding position
-  H15: Other cost (this model)
-  B16: Total to fund
-  H16: Funded from the cyber uplift bucket ($m)
-  H17: Left to fund
+  B11: TDD Cyber does not draw a portfolio overhead - it is not one of the ten funded portfolios on 0.2 Data Config. The platform overhead is drawn. Cyber Uplift is fully funded from the cyber uplift program and carries no overhead cost. Identity is priced on the archetype library like every other squad; 20% of it is charged to the programs through the support % toggle.
+  H11: This is the TDD Cyber allocation on 0.2 Data Config. The COE - Cyber, Risk & Service Operations is funded separately, on its own line, and its roles and funding are on 1.13 Cyber Roles.
+  H13: Cyber uplift program funding
+  H14: Programme funding ($m)
+  H15: Cyber Uplift squad - fully funded ($m)
+  B16: Budget position
+  H16: Part-charges from the COE roles - 1.13 Cyber Roles toggles ($m)
+  H17: Identity share charged to the programs ($m)
   B18: TDD Variance
+  H18: Used for cyber FTE ($m)
   B19: Other Variance
+  H19: Remaining for non-people ($m)
   B20: Total
   B24: Platform: TDD Cyber
   B25: Squad
@@ -5180,13 +5124,17 @@ AUD
   K25: Actual cost after decisions ($m)
   L25: Variance to archetype ($m)
   B26: Cyber Uplift
+  C26: Strategic Programs
+  E26: Onshore
   F26: AU
-  H26: check size
-  L26: -
-  M26: Set the Squad Type, Size, On/Off and Support % and this squad prices itself
-  B27: Platform Overhead
-  B28: TDD Cyber Total
-  L28: -
+  M26: Cyber Uplift is a typed figure - no archetype prices a program. Identity prices itself off its Squad Type and Size
+  B27: Identity
+  C27: Operations
+  D27: S
+  E27: Onshore
+  F27: AU
+  B28: Platform Overhead
+  B29: TDD Cyber Total
 
 ===== - WORKING -
   B2: DECISIONS  >>>
@@ -5239,47 +5187,17 @@ AUD
   B16: Directly funded programs and platforms
   B17: AmPOS
   C17: Strategic Programs
-  D17: -
-  E17: -
   B18: EGI Retail
   C18: Strategic Programs
-  D18: -
-  E18: -
   B19: EGI TDD
   C19: Not on the 1.x tab
-  D19: -
-  E19: -
-  N19: -
-  P19: -
-  R19: -
   B20: Directly funded total
-  P20: -
-  R20: -
   B21: Overhead roles
   B22: Head of Technology
-  C22: -
-  D22: -
   B23: Delivery Manager
-  C23: -
-  D23: -
   B24: Technology Manager
-  C24: -
-  D24: -
   B25: Overhead roles total
   B26: Allowed for in the archetype, sitting outside this portfolio
-  D26: -
-  F26: -
-  G26: -
-  H26: -
-  I26: -
-  J26: -
-  K26: -
-  L26: -
-  M26: -
-  O26: -
-  P26: -
-  Q26: -
-  R26: -
   B27: Business Partners and Domain Architects sit in the COEs
   B28: Total portfolio
   B30: Control - roles against the role mapping, must be 0
@@ -5647,52 +5565,18 @@ AUD
   B16: Directly funded programs and platforms
   B17: EGI Customer
   C17: Strategic Programs
-  D17: -
-  E17: -
   B18: No archetype in 1.x tabs
   B19: Energy
   C19: Not on the 1.x tab
-  D19: -
-  E19: -
-  N19: -
-  P19: -
-  R19: -
   B20: Leadership
   C20: Not on the 1.x tab
-  D20: -
-  E20: -
-  N20: -
-  P20: -
-  R20: -
   B21: No archetype total
-  N21: -
-  P21: -
-  R21: -
   B22: Overhead roles
   B23: Head of Technology
-  C23: -
-  D23: -
   B24: Delivery Manager
-  C24: -
-  D24: -
   B25: Technology Manager
-  C25: -
-  D25: -
   B26: Overhead roles total
   B27: Allowed for in the archetype, sitting outside this portfolio
-  D27: -
-  F27: -
-  G27: -
-  H27: -
-  I27: -
-  J27: -
-  K27: -
-  L27: -
-  M27: -
-  O27: -
-  P27: -
-  Q27: -
-  R27: -
   B28: Business Partners and Domain Architects sit in the COEs
   B29: Total portfolio
   B31: Control - roles against the role mapping, must be 0
@@ -5768,11 +5652,11 @@ AUD
   B52: Vacant
   C52: QA / Tester / Mid
   D52: Vacant
-  E52: Hire
+  E52: Offshore
   B53: Vacant
   C53: Systems Analyst / Mid
   D53: Vacant
-  E53: Hire
+  E53: Offshore
   B54: Vacant
   C54: Solution Architect
   D54: Vacant
@@ -5850,19 +5734,19 @@ AUD
   B74: Vacant
   C74: QA / Tester / Mid
   D74: Vacant
-  E74: Hire
+  E74: Offshore
   B75: Vacant
   C75: .NET Back End Developer / Mid
   D75: Vacant
-  E75: Hire
+  E75: Offshore
   B76: Vacant
   C76: .NET Back End Developer / Mid
   D76: Vacant
-  E76: Hire
+  E76: Offshore
   B77: Emile Violi - QA Wipro
   C77: .NET Back End Developer / Mid
   D77: Filled
-  E77: Filled
+  E77: Offshore
   B78: Shreema Das
   C78: Solution Architect
   D78: Filled
@@ -6100,36 +5984,12 @@ AUD
   B12: No archetype in 1.x tabs
   B13: Leadership
   C13: Not on the 1.x tab
-  D13: -
-  E13: -
-  N13: -
-  P13: -
-  R13: -
   B14: Overhead roles
   B15: Head of Technology
-  C15: -
-  D15: -
   B16: Delivery Manager
-  C16: -
-  D16: -
   B17: Technology Manager
-  C17: -
-  D17: -
   B18: Overhead roles total
   B19: Allowed for in the archetype, sitting outside this portfolio
-  D19: -
-  F19: -
-  G19: -
-  H19: -
-  I19: -
-  J19: -
-  K19: -
-  L19: -
-  M19: -
-  O19: -
-  P19: -
-  Q19: -
-  R19: -
   B20: Business Partners and Domain Architects sit in the COEs
   B21: Total portfolio
   B23: Control - roles against the role mapping, must be 0
@@ -6318,36 +6178,12 @@ AUD
   B13: Directly funded programs and platforms
   B14: EGI TDD
   C14: Strategic Programs
-  D14: -
-  E14: -
-  N14: -
-  P14: -
-  R14: -
   B15: Overhead roles
   B16: Head of Technology
-  C16: -
-  D16: -
   B17: Delivery Manager
-  C17: -
-  D17: -
   B18: Technology Manager
-  C18: -
-  D18: -
   B19: Overhead roles total
   B20: Allowed for in the archetype, sitting outside this portfolio
-  D20: -
-  F20: -
-  G20: -
-  H20: -
-  I20: -
-  J20: -
-  K20: -
-  L20: -
-  M20: -
-  O20: -
-  P20: -
-  Q20: -
-  R20: -
   B21: Business Partners and Domain Architects sit in the COEs
   B22: Total portfolio
   B24: Control - roles against the role mapping, must be 0
@@ -6594,36 +6430,12 @@ AUD
   B11: Directly funded programs and platforms
   B12: EGI P&C
   C12: Strategic Programs
-  D12: -
-  E12: -
-  N12: -
-  P12: -
-  R12: -
   B13: Overhead roles
   B14: Head of Technology
-  C14: -
-  D14: -
   B15: Delivery Manager
-  C15: -
-  D15: -
   B16: Technology Manager
-  C16: -
-  D16: -
   B17: Overhead roles total
   B18: Allowed for in the archetype, sitting outside this portfolio
-  D18: -
-  F18: -
-  G18: -
-  H18: -
-  I18: -
-  J18: -
-  K18: -
-  L18: -
-  M18: -
-  O18: -
-  P18: -
-  Q18: -
-  R18: -
   B19: Business Partners and Domain Architects sit in the COEs
   B20: Total portfolio
   B22: Control - roles against the role mapping, must be 0
@@ -6754,36 +6566,12 @@ AUD
   B11: Directly funded programs and platforms
   B12: EGI Finance
   C12: Strategic Programs
-  D12: -
-  E12: -
-  N12: -
-  P12: -
-  R12: -
   B13: Overhead roles
   B14: Head of Technology
-  C14: -
-  D14: -
   B15: Delivery Manager
-  C15: -
-  D15: -
   B16: Technology Manager
-  C16: -
-  D16: -
   B17: Overhead roles total
   B18: Allowed for in the archetype, sitting outside this portfolio
-  D18: -
-  F18: -
-  G18: -
-  H18: -
-  I18: -
-  J18: -
-  K18: -
-  L18: -
-  M18: -
-  O18: -
-  P18: -
-  Q18: -
-  R18: -
   B19: Business Partners and Domain Architects sit in the COEs
   B20: Total portfolio
   B22: Control - roles against the role mapping, must be 0
@@ -6912,36 +6700,12 @@ AUD
   B13: No archetype in 1.x tabs
   B14: Leadership
   C14: Not on the 1.x tab
-  D14: -
-  E14: -
-  N14: -
-  P14: -
-  R14: -
   B15: Overhead roles
   B16: Head of Technology
-  C16: -
-  D16: -
   B17: Delivery Manager
-  C17: -
-  D17: -
   B18: Technology Manager
-  C18: -
-  D18: -
   B19: Overhead roles total
   B20: Allowed for in the archetype, sitting outside this portfolio
-  D20: -
-  F20: -
-  G20: -
-  H20: -
-  I20: -
-  J20: -
-  K20: -
-  L20: -
-  M20: -
-  O20: -
-  P20: -
-  Q20: -
-  R20: -
   B21: Business Partners and Domain Architects sit in the COEs
   B22: Total portfolio
   B24: Control - roles against the role mapping, must be 0
@@ -7150,29 +6914,10 @@ AUD
   B11: Squads total
   B12: Overhead roles
   B13: Head of Technology
-  C13: -
-  D13: -
   B14: Delivery Manager
-  C14: -
-  D14: -
   B15: Technology Manager
-  C15: -
-  D15: -
   B16: Overhead roles total
   B17: Allowed for in the archetype, sitting outside this portfolio
-  D17: -
-  F17: -
-  G17: -
-  H17: -
-  I17: -
-  J17: -
-  K17: -
-  L17: -
-  M17: -
-  O17: -
-  P17: -
-  Q17: -
-  R17: -
   B18: Business Partners and Domain Architects sit in the COEs
   B19: Total portfolio
   B21: Control - roles against the role mapping, must be 0
@@ -7366,33 +7111,12 @@ AUD
   B12: Directly funded programs and platforms
   B13: CTRM
   C13: Strategic Programs
-  D13: -
-  E13: -
   B14: Overhead roles
   B15: Head of Technology
-  C15: -
-  D15: -
   B16: Delivery Manager
-  C16: -
-  D16: -
   B17: Technology Manager
-  C17: -
-  D17: -
   B18: Overhead roles total
   B19: Allowed for in the archetype, sitting outside this portfolio
-  D19: -
-  F19: -
-  G19: -
-  H19: -
-  I19: -
-  J19: -
-  K19: -
-  L19: -
-  M19: -
-  O19: -
-  P19: -
-  Q19: -
-  R19: -
   B20: Business Partners and Domain Architects sit in the COEs
   B21: Total portfolio
   B23: Control - roles against the role mapping, must be 0
@@ -7626,29 +7350,10 @@ AUD
   B12: Squads total
   B13: Overhead roles
   B14: Head of Technology
-  C14: -
-  D14: -
   B15: Delivery Manager
-  C15: -
-  D15: -
   B16: Technology Manager
-  C16: -
-  D16: -
   B17: Overhead roles total
   B18: Allowed for in the archetype, sitting outside this portfolio
-  D18: -
-  F18: -
-  G18: -
-  H18: -
-  I18: -
-  J18: -
-  K18: -
-  L18: -
-  M18: -
-  O18: -
-  P18: -
-  Q18: -
-  R18: -
   B19: Business Partners and Domain Architects sit in the COEs
   B20: Total portfolio
   B22: Control - roles against the role mapping, must be 0
@@ -7832,11 +7537,11 @@ AUD
   D72: Filled
   E72: Filled
 
-===== 2.11 COE Cyber
-  B2: COE Cyber - working copy
+===== 2.11 Cyber Risk & Service Ops
+  B2: Cyber, Risk & Service Operations - working copy
   B3: Portfolio
   C3: COE Cyber
-  B4: COE Cyber - archetype cost against actual cost
+  B4: Cyber, Risk & Service Operations - archetype cost against actual cost
   B6: Squad
   C6: Archetype Type
   D6: Squad Size
@@ -7856,47 +7561,14 @@ AUD
   R6: New variance ($m)
   B7: Directly funded programs and platforms
   B8: Cyber GRC
-  C8: -
-  D8: -
-  E8: -
-  N8: -
-  P8: -
-  R8: -
   B9: Cyber Risk
-  C9: -
-  D9: -
-  E9: -
-  N9: -
-  P9: -
-  R9: -
   B10: Cyber Sec Ops
-  C10: -
-  D10: -
-  E10: -
-  N10: -
-  P10: -
-  R10: -
   B11: Cyber Strat & Tech
-  C11: -
-  D11: -
-  E11: -
-  N11: -
-  P11: -
-  R11: -
   B12: Service Op & Assurance
-  C12: -
-  D12: -
-  E12: -
-  N12: -
-  P12: -
-  R12: -
   B13: Total portfolio
-  N13: -
-  P13: -
-  R13: -
   B15: Control - roles against the role mapping, must be 0
   B16: Control - cost against the role mapping ($m), must be 0
-  B18: COE Cyber FTE
+  B18: Cyber, Risk & Service Operations FTE
   H18: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
   B19: Name
   C19: Role
@@ -7967,161 +7639,125 @@ AUD
   D36: Filled
   E36: Filled
   B37: Cyber Strat & Tech
-  C37: 14 roles
-  B38: Cameron Watman
-  C38: Engineer - IDAM
+  C37: 5 roles
+  B38: Chris Lyons
+  C38: Cyber Security Architect
   D38: Filled
   E38: Filled
-  B39: Catherine Gire
-  C39: Cyber Technical Business Analyst
+  B39: Darshan Suvama
+  C39: Cyber Offensive Security Lead
   D39: Filled
   E39: Filled
-  B40: Chris Lyons
-  C40: Cyber Security Architect
+  B40: James Byrne
+  C40: Head of Cyber Strategy & Technology
   D40: Filled
   E40: Filled
-  B41: Dan Balsamo
-  C41: Senior Cyber Project Manager
+  B41: Rahul Sahni
+  C41: Cyber Security Architect
   D41: Filled
   E41: Filled
-  B42: Darshan Suvama
-  C42: Cyber Offensive Security Lead
-  D42: Filled
-  E42: Filled
-  B43: Iwan Wibisono
-  C43: Engineer - IDAM
-  D43: Filled
-  E43: Filled
-  B44: James Byrne
-  C44: Head of Cyber Strategy & Technology
+  B42: Vacant
+  C42: Cyber Architect (backfill for EGI Secondment)
+  D42: Vacant
+  E42: Hire
+  B43: Service Op & Assurance
+  C43: 24 roles
+  B44: Ashley Mueller
+  C44: Lead - Service Assurance
   D44: Filled
   E44: Filled
-  B45: Joe Nahma
-  C45: Manager Identity & Access Management
+  B45: Belinda Hoskens
+  C45: Technology Support Engineer
   D45: Filled
   E45: Filled
-  B46: Kevin Sheerin
-  C46: Cyber Architecture Lead
+  B46: Chris Rojas
+  C46: Manager, Customer Support Operations
   D46: Filled
   E46: Filled
-  B47: Rahul Sahni
-  C47: Cyber Security Architect
+  B47: Daniel Jolley
+  C47: Tech Support Technician
   D47: Filled
   E47: Filled
-  B48: Raymond Cheung
-  C48: Engineer - IDAM
+  B48: Darren Koller
+  C48: Manager, Service Management & Major Incident Mgmt Lead
   D48: Filled
   E48: Filled
-  B49: Tony Keeler
-  C49: Cyber Business Analyst
+  B49: Ethan Lamhert (FT)
+  C49: Tech Support Technician
   D49: Filled
   E49: Filled
-  B50: Vivienne Vasak
-  C50: Portfolio Manager Cyber Security
+  B50: Jack Jenkins
+  C50: Asset Analyst
   D50: Filled
-  E50: Filled
-  B51: Vacant
-  C51: Cyber Architect (backfill for EGI Secondment)
-  D51: Vacant
-  E51: Hire
-  B52: Service Op & Assurance
-  C52: 24 roles
-  B53: Ashley Mueller
-  C53: Lead - Service Assurance
+  E50: Offshore
+  B51: Jas Mann
+  C51: Technology Support Engineer
+  D51: Filled
+  E51: Offshore
+  B52: Kaaviya Salai Manimudian
+  C52: Graduate
+  D52: Filled
+  E52: Filled
+  B53: Lynda Niewidok
+  C53: Lead - Service Desk
   D53: Filled
   E53: Filled
-  B54: Belinda Hoskens
-  C54: Technology Support Engineer
+  B54: Mark Pearson
+  C54: Lead - Technology Support
   D54: Filled
   E54: Filled
-  B55: Chris Rojas
-  C55: Manager, Customer Support Operations
+  B55: Mary-Grace Rivera
+  C55: Lead, Service Management
   D55: Filled
   E55: Filled
-  B56: Daniel Jolley
-  C56: Tech Support Technician
+  B56: Mick Collins
+  C56: Manager, Service Performance & Assurance
   D56: Filled
   E56: Filled
-  B57: Darren Koller
-  C57: Manager, Service Management & Major Incident Mgmt Lead
+  B57: Rajini Onteddu Reddy
+  C57: Head of Service Operations & Assurance
   D57: Filled
   E57: Filled
-  B58: Ethan Lamhert (FT)
-  C58: Tech Support Technician
+  B58: Remya Pookat
+  C58: Lead - Change & Release Management
   D58: Filled
   E58: Filled
-  B59: Jack Jenkins
-  C59: Asset Analyst
+  B59: Ritika Salaria
+  C59: Configuration Analyst
   D59: Filled
-  E59: Filled
-  B60: Jas Mann
-  C60: Technology Support Engineer
+  E59: Offshore
+  B60: Spoilagi Bhutwala
+  C60: Tech Support Technician
   D60: Filled
   E60: Filled
-  B61: Kaaviya Salai Manimudian
-  C61: Graduate
-  D61: Filled
-  E61: Filled
-  B62: Lynda Niewidok
-  C62: Lead - Service Desk
-  D62: Filled
-  E62: Filled
-  B63: Mark Pearson
-  C63: Lead - Technology Support
-  D63: Filled
-  E63: Filled
-  B64: Mary-Grace Rivera
-  C64: Lead, Service Management
-  D64: Filled
-  E64: Filled
-  B65: Mick Collins
-  C65: Manager, Service Performance & Assurance
-  D65: Filled
-  E65: Filled
-  B66: Rajini Onteddu Reddy
-  C66: Head of Service Operations & Assurance
-  D66: Filled
-  E66: Filled
-  B67: Remya Pookat
-  C67: Lead - Change & Release Management
-  D67: Filled
-  E67: Filled
-  B68: Ritika Salaria
-  C68: Configuration Analyst
-  D68: Filled
-  E68: Filled
-  B69: Spoilagi Bhutwala
-  C69: Tech Support Technician
-  D69: Filled
-  E69: Filled
-  B70: Vacant
-  C70: Lead - Problem Management
-  D70: Vacant
-  E70: Hire
-  B71: Vacant
-  C71: Lead - Asset & Configuration
-  D71: Vacant
-  E71: Hire
-  B72: Vacant
-  C72: Lead - Service Performance & Insights
-  D72: Vacant
-  E72: Hire
-  B73: Vacant (AKL)
-  C73: Tech Support Technician
-  D73: Vacant
-  E73: Hire
-  B74: Vacant
-  C74: Operations Analyst
-  D74: Vacant
-  E74: Hold
-  B75: Vacant
-  C75: Operations Analyst
-  D75: Vacant
-  E75: Hold
-  B76: Vacant (SYD)
-  C76: Tech Support Technician
-  D76: Vacant
-  E76: Hold
+  B61: Vacant
+  C61: Lead - Problem Management
+  D61: Vacant
+  E61: Hire
+  B62: Vacant
+  C62: Lead - Asset & Configuration
+  D62: Vacant
+  E62: Offshore
+  B63: Vacant
+  C63: Lead - Service Performance & Insights
+  D63: Vacant
+  E63: Offshore
+  B64: Vacant (AKL)
+  C64: Tech Support Technician
+  D64: Vacant
+  E64: Offshore
+  B65: Vacant
+  C65: Operations Analyst
+  D65: Vacant
+  E65: Offshore
+  B66: Vacant
+  C66: Operations Analyst
+  D66: Vacant
+  E66: Offshore
+  B67: Vacant (SYD)
+  C67: Tech Support Technician
+  D67: Vacant
+  E67: Hold
 
 ===== 2.12 COE BP&T
   B2: COE BP&T - working copy
@@ -8147,30 +7783,9 @@ AUD
   R6: New variance ($m)
   B7: Directly funded programs and platforms
   B8: Commercial
-  C8: -
-  D8: -
-  E8: -
-  N8: -
-  P8: -
-  R8: -
   B9: TDD Business Partner
-  C9: -
-  D9: -
-  E9: -
-  N9: -
-  P9: -
-  R9: -
   B10: Transformation
-  C10: -
-  D10: -
-  E10: -
-  N10: -
-  P10: -
-  R10: -
   B11: Total portfolio
-  N11: -
-  P11: -
-  R11: -
   B13: Control - roles against the role mapping, must be 0
   B14: Control - cost against the role mapping ($m), must be 0
   B16: COE BP&T FTE
@@ -8308,44 +7923,11 @@ AUD
   R6: New variance ($m)
   B7: Directly funded programs and platforms
   B8: Architecture
-  C8: -
-  D8: -
-  E8: -
-  N8: -
-  P8: -
-  R8: -
   B9: Data Platforms
-  C9: -
-  D9: -
-  E9: -
-  N9: -
-  P9: -
-  R9: -
   B10: Group Data
-  C10: -
-  D10: -
-  E10: -
-  N10: -
-  P10: -
-  R10: -
   B11: Leadership
-  C11: -
-  D11: -
-  E11: -
-  N11: -
-  P11: -
-  R11: -
   B12: Technology Strategy & AI Capability
-  C12: -
-  D12: -
-  E12: -
-  N12: -
-  P12: -
-  R12: -
   B13: Total portfolio
-  N13: -
-  P13: -
-  R13: -
   B15: Control - roles against the role mapping, must be 0
   B16: Control - cost against the role mapping ($m), must be 0
   B18: COE SA&D FTE
@@ -8483,16 +8065,7 @@ AUD
   R6: New variance ($m)
   B7: Directly funded programs and platforms
   B8: EGI
-  C8: -
-  D8: -
-  E8: -
-  N8: -
-  P8: -
-  R8: -
   B9: Total portfolio
-  N9: -
-  P9: -
-  R9: -
   B11: Control - roles against the role mapping, must be 0
   B12: Control - cost against the role mapping ($m), must be 0
   B14: EGI FTE
@@ -8597,54 +8170,75 @@ AUD
   Q6: Squad cost after decisions ($m)
   R6: New variance ($m)
   B7: Squads
-  B8: Cyber Uplift
-  C8: -
-  D8: -
-  E8: -
-  N8: -
-  P8: -
-  R8: -
-  B9: Overhead roles
-  B10: Delivery Manager
-  C10: -
-  D10: -
-  B11: Technology Manager
-  C11: -
-  D11: -
-  B12: Overhead roles total
-  B13: Allowed for in the archetype, sitting outside this portfolio
-  D13: -
-  F13: -
-  G13: -
-  H13: -
-  I13: -
-  J13: -
-  K13: -
-  L13: -
-  M13: -
-  O13: -
-  P13: -
-  Q13: -
-  R13: -
-  B14: Business Partners and Domain Architects sit in the COEs
-  B15: Total portfolio
-  B17: Control - roles against the role mapping, must be 0
-  B18: Control - cost against the role mapping ($m), must be 0
-  B20: TDD Cyber FTE
-  H20: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
-  B21: Name
-  C21: Role
-  D21: Status
-  E21: Vacancy lever
-  F21: Role cost ($)
-  G21: Cost after decision ($)
-  B22: No roles in the role mapping carry TDD Cyber yet - this tab will fill itself when they do.
+  B8: Identity
+  C8: Operations
+  D8: S
+  B9: Directly funded programs and platforms
+  B10: Cyber Uplift
+  C10: Strategic Programs
+  B11: Overhead roles
+  B12: Delivery Manager
+  B13: Technology Manager
+  B14: Overhead roles total
+  B15: Allowed for in the archetype, sitting outside this portfolio
+  B16: Business Partners and Domain Architects sit in the COEs
+  B17: Total portfolio
+  B19: Control - roles against the role mapping, must be 0
+  B20: Control - cost against the role mapping ($m), must be 0
+  B22: TDD Cyber FTE
+  H22: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
+  B23: Name
+  C23: Role
+  D23: Status
+  E23: Vacancy lever
+  F23: Role cost ($)
+  G23: Cost after decision ($)
+  B24: Cyber Uplift
+  C24: 5 roles
+  B25: Catherine Gire
+  C25: Cyber Technical Business Analyst
+  D25: Filled
+  E25: Filled
+  B26: Dan Balsamo
+  C26: Senior Cyber Project Manager
+  D26: Filled
+  E26: Filled
+  B27: Kevin Sheerin
+  C27: Cyber Architecture Lead
+  D27: Filled
+  E27: Filled
+  B28: Tony Keeler
+  C28: Cyber Business Analyst
+  D28: Filled
+  E28: Filled
+  B29: Vivienne Vasak
+  C29: Portfolio Manager Cyber Security
+  D29: Filled
+  E29: Filled
+  B30: Identity
+  C30: 4 roles
+  B31: Cameron Watman
+  C31: Engineer - IDAM
+  D31: Filled
+  E31: Filled
+  B32: Iwan Wibisono
+  C32: Engineer - IDAM
+  D32: Filled
+  E32: Filled
+  B33: Joe Nahma
+  C33: Manager Identity & Access Management
+  D33: Filled
+  E33: Filled
+  B34: Raymond Cheung
+  C34: Engineer - IDAM
+  D34: Filled
+  E34: Filled
 
 ===== - SUMMARIES -
   B2: SUMMARIES  >>>
 
 ===== 3.1 Cost Bridge
-  B2: TDD cost bridge - archetype cost to actual cost
+  B2: Archetype cost to actual cost
   B4: Line
   C4: Portfolio
   D4: Archetype cost ($m)
@@ -8655,157 +8249,42 @@ AUD
   I4: Filled
   J4: Vacant
   K4: Total roles after decisions
-  B5: The whole organisation - every group, total cost
+  B5: TDD
   B6: Ampol Retail
   C6: Ampol Retail
   B7: Z Retail
   C7: Z Retail
-  B8: Retail - Ampol and Z together
-  B9: Customer
-  C9: Customer
-  B10: Enterprise Data
-  C10: Enterprise Data
-  B11: TDD Group Functions
-  C11: TDD Group Functions
-  B12: P&C
-  C12: P&C
-  B13: Finance
-  C13: Finance
-  B14: Infrastructure
-  C14: Infrastructure
-  B15: Energy Solutions & B2B
-  C15: Energy Solutions & B2B
-  B16: Commercial Fuels
-  C16: Commercial Fuels
-  B17: TDD Cyber
-  C17: TDD Cyber
-  B18: COE Cyber
-  C18: COE Cyber
-  D18: -
-  F18: -
-  B19: COE BP&T
-  C19: COE BP&T
-  D19: -
-  F19: -
-  B20: COE SA&D
-  C20: COE SA&D
-  D20: -
-  F20: -
-  B21: EGI
-  C21: EGI
-  D21: -
-  F21: -
-  B22: TDD total - the 531 roles in the role mapping
-  D22: -
-  F22: -
-  B24: The walk - archetype cost to actual cost, step by step
-  B25: Squads priced by an archetype - detail on 3.3
-  B26: Ampol Retail
-  C26: Ampol Retail
-  B27: Customer
-  C27: Customer
-  B28: Enterprise Data
-  C28: Enterprise Data
-  B29: TDD Group Functions
-  C29: TDD Group Functions
-  B30: P&C
-  C30: P&C
-  B31: Finance
-  C31: Finance
-  B32: Infrastructure
-  C32: Infrastructure
-  B33: Energy Solutions & B2B
-  C33: Energy Solutions & B2B
-  B34: Commercial Fuels
-  C34: Commercial Fuels
-  B35: Z Retail
-  C35: Z Retail
-  B36: TDD Cyber
-  C36: TDD Cyber
-  D36: -
-  F36: -
-  B37: Squads priced by an archetype
-  B38: Directly funded programs and platforms - funded on the 1.x tab
-  B39: AmPOS
-  C39: Ampol Retail
-  B40: EGI Retail
-  C40: Ampol Retail
-  B41: EGI TDD
-  C41: Ampol Retail
-  D41: -
-  F41: -
-  B42: EGI Customer
-  C42: Customer
-  B43: EGI TDD
-  C43: TDD Group Functions
-  D43: -
-  F43: -
-  B44: EGI P&C
-  C44: P&C
-  D44: -
-  F44: -
-  B45: EGI Finance
-  C45: Finance
-  D45: -
-  F45: -
-  B46: CTRM
-  C46: Commercial Fuels
-  B47: Directly funded, where the funded figure is set
-  B48: Overhead roles in the portfolios - the allowance is on 3.2
-  B49: Everything with a figure to compare
-  B50: Nothing prices these, so they sit below the comparison
-  B51: Directly funded, where no funded figure is set yet
-  D51: -
-  F51: -
-  B52: COEs and EGI - no independent plan to compare to, so no variance is shown
-  B53: COE Cyber
-  C53: COE Cyber
-  D53: -
-  F53: -
-  B54: COE BP&T
-  C54: COE BP&T
-  D54: -
-  F54: -
-  B55: COE SA&D
-  C55: COE SA&D
-  D55: -
-  F55: -
-  B56: EGI
-  C56: EGI
-  D56: -
-  F56: -
-  B57: COEs and EGI - no independent plan to compare to
-  D57: -
-  F57: -
-  B58: Groups with no archetype and no funded figure - nothing to compare to
-  B59: Energy
-  C59: Customer
-  D59: -
-  F59: -
-  B60: Leadership
-  C60: Customer
-  D60: -
-  F60: -
-  B61: Leadership
-  C61: Enterprise Data
-  D61: -
-  F61: -
-  B62: Leadership
-  C62: Infrastructure
-  D62: -
-  F62: -
-  B63: Groups with no archetype and no funded figure
-  D63: -
-  F63: -
-  B64: Cost of the 531 roles in the role mapping
-  D64: -
-  F64: -
-  B65: Leadership - the 8 GMs, outside the role mapping
-  B66: Total cost of TDD including the GM layer
-  D66: -
-  F66: -
-  B68: Control - roles against the role mapping, must be 0
-  B69: Control - cost against the role mapping ($m), must be 0
+  B8: Customer
+  C8: Customer
+  B9: Enterprise Data
+  C9: Enterprise Data
+  B10: TDD Group Functions
+  C10: TDD Group Functions
+  B11: P&C
+  C11: P&C
+  B12: Finance
+  C12: Finance
+  B13: Infrastructure
+  C13: Infrastructure
+  B14: Energy Solutions & B2B
+  C14: Energy Solutions & B2B
+  B15: Commercial Fuels
+  C15: Commercial Fuels
+  B16: TDD Cyber
+  C16: TDD Cyber
+  B17: Cyber, Risk & Service Operations
+  C17: Cyber, Risk & Service Operations
+  B18: COE BP&T
+  C18: COE BP&T
+  B19: COE SA&D
+  C19: COE SA&D
+  B20: EGI
+  C20: EGI
+  B21: TDD total - the 531 roles in the role mapping
+  B22: GM roles - excluded from the role mapping
+  B23: Total TDD cost including the GM layer
+  B25: Control - roles against the role mapping, must be 0
+  B26: Control - cost against the role mapping ($m), must be 0
 
 ===== 3.2 Overhead & Leadership
   B2: Archetype Overhead & Actual Leadership comparison
@@ -8846,23 +8325,11 @@ AUD
   L10: Above the role mapping
   M10: 30% across 10 portfolios
   B11: Overheads incl. GMs
-  D11: -
-  E11: -
-  L11: -
-  M11: -
   B12: Of which sits in the portfolios
-  D12: -
-  E12: -
-  L12: -
-  M12: -
   B13: Of which sits in the COEs and EGI, or above the role mapping
-  D13: -
-  E13: -
-  L13: -
-  M13: -
   B14: Control - Times applied set above, against the count the model carries (the ten portfolios and the platforms the 1.x tabs draw), must be 0
   B15: The platform count is the number of Platform Overhead lines the 1.x tabs draw. Directly funded platforms (AmPOS, the EGI lines) carry their own costs, draw no overhead line, and are not in the count.
-  B17: Roles in the organisation, all lines and squads: 531 - portfolios 415, COEs and EGI 116, each counted once
+  B17: Roles in the organisation, all lines and squads: 531 - portfolios 424, COEs and EGI 107, each counted once
   B18: Control - the portfolios plus the COEs and EGI against the role mapping, must be 0
   B20: What the allocated rate is built from
   B21: Input
@@ -8940,39 +8407,24 @@ AUD
   C13: Directly funded
   D13: AmPOS
   E13: Strategic Programs
-  F13: -
-  G13: -
   B14: Ampol Retail
   C14: Directly funded
   D14: EGI Retail
   E14: Strategic Programs
-  F14: -
-  G14: -
   B15: Ampol Retail
   C15: Directly funded
   D15: EGI TDD
   E15: Not on the 1.x tab
-  F15: -
-  G15: -
-  L15: -
-  N15: -
   B16: Ampol Retail
   C16: Overhead
   D16: Head of Technology
-  E16: -
-  F16: -
   B17: Ampol Retail
   C17: Overhead
   D17: Delivery Manager
-  E17: -
-  F17: -
   B18: Ampol Retail
   C18: Overhead
   D18: Technology Manager
-  E18: -
-  F18: -
   B19: Ampol Retail total
-  F19: -
   B20: Customer
   C20: Archetype
   D20: Ampol App
@@ -9012,41 +8464,24 @@ AUD
   C27: Directly funded
   D27: EGI Customer
   E27: Strategic Programs
-  F27: -
-  G27: -
   B28: Customer
   C28: No figure to compare
   D28: Energy
   E28: Not on the 1.x tab
-  F28: -
-  G28: -
-  L28: -
-  N28: -
   B29: Customer
   C29: No figure to compare
   D29: Leadership
   E29: Not on the 1.x tab
-  F29: -
-  G29: -
-  L29: -
-  N29: -
   B30: Customer
   C30: Overhead
   D30: Head of Technology
-  E30: -
-  F30: -
   B31: Customer
   C31: Overhead
   D31: Delivery Manager
-  E31: -
-  F31: -
   B32: Customer
   C32: Overhead
   D32: Technology Manager
-  E32: -
-  F32: -
   B33: Customer total
-  F33: -
   B34: Enterprise Data
   C34: Archetype
   D34: Data Platforms
@@ -9066,27 +8501,16 @@ AUD
   C37: No figure to compare
   D37: Leadership
   E37: Not on the 1.x tab
-  F37: -
-  G37: -
-  L37: -
-  N37: -
   B38: Enterprise Data
   C38: Overhead
   D38: Head of Technology
-  E38: -
-  F38: -
   B39: Enterprise Data
   C39: Overhead
   D39: Delivery Manager
-  E39: -
-  F39: -
   B40: Enterprise Data
   C40: Overhead
   D40: Technology Manager
-  E40: -
-  F40: -
   B41: Enterprise Data total
-  F41: -
   B42: TDD Group Functions
   C42: Archetype
   D42: Cloud, Network & Infra Ops
@@ -9111,27 +8535,16 @@ AUD
   C46: Directly funded
   D46: EGI TDD
   E46: Strategic Programs
-  F46: -
-  G46: -
-  L46: -
-  N46: -
   B47: TDD Group Functions
   C47: Overhead
   D47: Head of Technology
-  E47: -
-  F47: -
   B48: TDD Group Functions
   C48: Overhead
   D48: Delivery Manager
-  E48: -
-  F48: -
   B49: TDD Group Functions
   C49: Overhead
   D49: Technology Manager
-  E49: -
-  F49: -
   B50: TDD Group Functions total
-  F50: -
   B51: P&C
   C51: Archetype
   D51: P&C
@@ -9146,27 +8559,16 @@ AUD
   C53: Directly funded
   D53: EGI P&C
   E53: Strategic Programs
-  F53: -
-  G53: -
-  L53: -
-  N53: -
   B54: P&C
   C54: Overhead
   D54: Head of Technology
-  E54: -
-  F54: -
   B55: P&C
   C55: Overhead
   D55: Delivery Manager
-  E55: -
-  F55: -
   B56: P&C
   C56: Overhead
   D56: Technology Manager
-  E56: -
-  F56: -
   B57: P&C total
-  F57: -
   B58: Finance
   C58: Archetype
   D58: NZ Finance
@@ -9181,27 +8583,16 @@ AUD
   C60: Directly funded
   D60: EGI Finance
   E60: Strategic Programs
-  F60: -
-  G60: -
-  L60: -
-  N60: -
   B61: Finance
   C61: Overhead
   D61: Head of Technology
-  E61: -
-  F61: -
   B62: Finance
   C62: Overhead
   D62: Delivery Manager
-  E62: -
-  F62: -
   B63: Finance
   C63: Overhead
   D63: Technology Manager
-  E63: -
-  F63: -
   B64: Finance total
-  F64: -
   B65: Infrastructure
   C65: Archetype
   D65: Data & Insights
@@ -9226,27 +8617,16 @@ AUD
   C69: No figure to compare
   D69: Leadership
   E69: Not on the 1.x tab
-  F69: -
-  G69: -
-  L69: -
-  N69: -
   B70: Infrastructure
   C70: Overhead
   D70: Head of Technology
-  E70: -
-  F70: -
   B71: Infrastructure
   C71: Overhead
   D71: Delivery Manager
-  E71: -
-  F71: -
   B72: Infrastructure
   C72: Overhead
   D72: Technology Manager
-  E72: -
-  F72: -
   B73: Infrastructure total
-  F73: -
   B74: Energy Solutions & B2B
   C74: Archetype
   D74: B2B
@@ -9265,20 +8645,13 @@ AUD
   B77: Energy Solutions & B2B
   C77: Overhead
   D77: Head of Technology
-  E77: -
-  F77: -
   B78: Energy Solutions & B2B
   C78: Overhead
   D78: Delivery Manager
-  E78: -
-  F78: -
   B79: Energy Solutions & B2B
   C79: Overhead
   D79: Technology Manager
-  E79: -
-  F79: -
   B80: Energy Solutions & B2B total
-  F80: -
   B81: Commercial Fuels
   C81: Archetype
   D81: Supply
@@ -9298,25 +8671,16 @@ AUD
   C84: Directly funded
   D84: CTRM
   E84: Strategic Programs
-  F84: -
-  G84: -
   B85: Commercial Fuels
   C85: Overhead
   D85: Head of Technology
-  E85: -
-  F85: -
   B86: Commercial Fuels
   C86: Overhead
   D86: Delivery Manager
-  E86: -
-  F86: -
   B87: Commercial Fuels
   C87: Overhead
   D87: Technology Manager
-  E87: -
-  F87: -
   B88: Commercial Fuels total
-  F88: -
   B89: Z Retail
   C89: Archetype
   D89: Data NZ
@@ -9340,177 +8704,78 @@ AUD
   B93: Z Retail
   C93: Overhead
   D93: Head of Technology
-  E93: -
-  F93: -
   B94: Z Retail
   C94: Overhead
   D94: Delivery Manager
-  E94: -
-  F94: -
   B95: Z Retail
   C95: Overhead
   D95: Technology Manager
-  E95: -
-  F95: -
   B96: Z Retail total
-  F96: -
   B97: TDD Cyber
   C97: Archetype
-  D97: Cyber Uplift
-  E97: -
-  F97: -
-  G97: -
-  L97: -
-  N97: -
+  D97: Identity
+  E97: Operations
+  F97: S
   B98: TDD Cyber
-  C98: Overhead
-  D98: Delivery Manager
-  E98: -
-  F98: -
+  C98: Directly funded
+  D98: Cyber Uplift
+  E98: Strategic Programs
   B99: TDD Cyber
   C99: Overhead
-  D99: Technology Manager
-  E99: -
-  F99: -
-  B100: TDD Cyber total
-  F100: -
-  B101: COE Cyber
-  C101: Directly funded
-  D101: Cyber GRC
-  E101: -
-  F101: -
-  G101: -
-  L101: -
-  N101: -
+  D99: Delivery Manager
+  B100: TDD Cyber
+  C100: Overhead
+  D100: Technology Manager
+  B101: TDD Cyber total
   B102: COE Cyber
   C102: Directly funded
-  D102: Cyber Risk
-  E102: -
-  F102: -
-  G102: -
-  L102: -
-  N102: -
+  D102: Cyber GRC
   B103: COE Cyber
   C103: Directly funded
-  D103: Cyber Sec Ops
-  E103: -
-  F103: -
-  G103: -
-  L103: -
-  N103: -
+  D103: Cyber Risk
   B104: COE Cyber
   C104: Directly funded
-  D104: Cyber Strat & Tech
-  E104: -
-  F104: -
-  G104: -
-  L104: -
-  N104: -
+  D104: Cyber Sec Ops
   B105: COE Cyber
   C105: Directly funded
-  D105: Service Op & Assurance
-  E105: -
-  F105: -
-  G105: -
-  L105: -
-  N105: -
-  B106: COE Cyber total
-  F106: -
-  G106: -
-  L106: -
-  N106: -
-  B107: COE BP&T
-  C107: Directly funded
-  D107: Commercial
-  E107: -
-  F107: -
-  G107: -
-  L107: -
-  N107: -
+  D105: Cyber Strat & Tech
+  B106: COE Cyber
+  C106: Directly funded
+  D106: Service Op & Assurance
+  B107: COE Cyber total
   B108: COE BP&T
   C108: Directly funded
-  D108: TDD Business Partner
-  E108: -
-  F108: -
-  G108: -
-  L108: -
-  N108: -
+  D108: Commercial
   B109: COE BP&T
   C109: Directly funded
-  D109: Transformation
-  E109: -
-  F109: -
-  G109: -
-  L109: -
-  N109: -
-  B110: COE BP&T total
-  F110: -
-  G110: -
-  L110: -
-  N110: -
-  B111: COE SA&D
-  C111: Directly funded
-  D111: Architecture
-  E111: -
-  F111: -
-  G111: -
-  L111: -
-  N111: -
+  D109: TDD Business Partner
+  B110: COE BP&T
+  C110: Directly funded
+  D110: Transformation
+  B111: COE BP&T total
   B112: COE SA&D
   C112: Directly funded
-  D112: Data Platforms
-  E112: -
-  F112: -
-  G112: -
-  L112: -
-  N112: -
+  D112: Architecture
   B113: COE SA&D
   C113: Directly funded
-  D113: Group Data
-  E113: -
-  F113: -
-  G113: -
-  L113: -
-  N113: -
+  D113: Data Platforms
   B114: COE SA&D
   C114: Directly funded
-  D114: Leadership
-  E114: -
-  F114: -
-  G114: -
-  L114: -
-  N114: -
+  D114: Group Data
   B115: COE SA&D
   C115: Directly funded
-  D115: Technology Strategy & AI Capability
-  E115: -
-  F115: -
-  G115: -
-  L115: -
-  N115: -
-  B116: COE SA&D total
-  F116: -
-  G116: -
-  L116: -
-  N116: -
-  B117: EGI
-  C117: Directly funded
-  D117: EGI
-  E117: -
-  F117: -
-  G117: -
-  L117: -
-  N117: -
-  B118: EGI total
-  F118: -
-  G118: -
-  L118: -
-  N118: -
-  B119: Group total
-  F119: -
-  N119: -
-  B121: Control - roles against the role mapping, must be 0
-  B122: Control - cost against the role mapping ($m), must be 0
+  D115: Leadership
+  B116: COE SA&D
+  C116: Directly funded
+  D116: Technology Strategy & AI Capability
+  B117: COE SA&D total
+  B118: EGI
+  C118: Directly funded
+  D118: EGI
+  B119: EGI total
+  B120: Group total
+  B122: Control - roles against the role mapping, must be 0
+  B123: Control - cost against the role mapping ($m), must be 0
 
 ===== 3.4 COE Detail
   B2: COE detail - where the cost sits
@@ -9535,7 +8800,7 @@ AUD
   C9: Cyber Strat & Tech
   B10: COE Cyber
   C10: Service Op & Assurance
-  B11: COE Cyber total
+  B11: Cyber, Risk & Service Operations total
   B12: COE BP&T
   C12: Commercial
   B13: COE BP&T
@@ -9581,10 +8846,10 @@ AUD
   B11: Roles on 3.3 against 3.1
   B12: Cost on 3.3 against 3.1 ($m)
   B13: Total including the GM layer against the role mapping plus the GM input ($m)
-  B14: Archetype variance - the comparable steps against the comparable subtotal ($m)
+  B14: Archetype variance on 3.1 against the working tabs, tab by tab ($m)
   B15: Roles including the GM layer against the role mapping plus the GM count
-  B16: Archetype cost, squad by squad on 3.3, against 3.1 ($m)
-  B17: Directly funded amount, squad by squad on 3.3, against 3.1 ($m)
+  B16: Archetype cost, squad by squad on 3.3, against the working tabs ($m)
+  B17: Directly funded amount, squad by squad on 3.3, against the working tabs ($m)
   B18: Archetype roles on 3.3 against the priced-per-portfolio list on Lists
   B19: Squads whose archetype does not resolve, against the one disclosed
   B20: Offshore archetype against 40% of onshore, first archetype
@@ -9593,62 +8858,65 @@ AUD
   B23: Roles in the organisation on 3.2, less the GM layer, against overhead roles in the role mapping
   B24: Cost in the organisation on 3.2, less the GM layer, against overhead roles in the role mapping ($m)
   B25: Roles in the organisation, all lines and squads, on 3.2 against the role mapping
-  B26: Overhead on 3.1 against the cost that sits in the portfolios on 3.2 ($m)
-  B27: The allowance the model carries against the overhead step on 3.1 ($m)
+  B26: Overhead cost on the working tabs against the cost that sits in the portfolios on 3.2 ($m)
+  B27: The allowance the model carries against the working tabs' overhead rows ($m)
   B28: 3.2's split of the allowance - in the portfolios plus in the COEs - against its own total ($m)
-  B29: 3.1's whole-organisation total against its own ledger row ($m)
-  B30: Archetype cost on the working tabs, net of the allowance held elsewhere, against 3.1's comparable total ($m)
-  B31: Overhead allowance on 3.1 against the working tabs ($m)
-  B32: Roles after decisions against roles less anything on hold
-  B33: Decision impact on 3.1 against the working tabs ($m)
-  B34: 1.11 BP&T roles against the role mapping
-  B35: 1.12 SA&D roles against the role mapping
-  B36: 1.13 Cyber Roles roles against the role mapping
-  B37: 1.11 BP&T own control - roles listed against roles counted
-  B38: 1.12 SA&D own control - roles listed against roles counted
-  B39: 1.13 Cyber Roles own control - roles listed against roles counted
-  B40: 2.1 Ampol Retail archetype total against Total Cost on 1.1 Ampol Retail ($m)
-  B41: 2.2 Customer archetype total against Total Cost on 1.2 Customer ($m)
-  B42: 2.3 Enterprise Data archetype total against Total Cost on 1.3 Enterprise Data ($m)
-  B43: 2.4 TDD Group Functions archetype total against Total Cost on 1.4 TDD Group Functions ($m)
-  B44: 2.5 P&C archetype total against Total Cost on 1.5 P&C ($m)
-  B45: 2.6 Finance archetype total against Total Cost on 1.6 Finance ($m)
-  B46: 2.7 Infrastructure archetype total against Total Cost on 1.7 Infrastructure ($m)
-  B47: 2.8 Energy Solutions & B2B archetype total against Total Cost on 1.8 Energy Solutions & B2B ($m)
-  B48: 2.9 Commercial Fuels archetype total against Total Cost on 1.9 Commercial Fuels ($m)
-  B49: 2.10 Z Retail archetype total against Total Cost on 1.10 Z Retail ($m)
-  B50: 2.15 TDD Cyber archetype total against Total Cost on 1.14 TDD Cyber ($m)
-  B51: 2.1 Ampol Retail roles against the role mapping
-  B52: 2.1 Ampol Retail cost against the role mapping ($m)
-  B53: 2.2 Customer roles against the role mapping
-  B54: 2.2 Customer cost against the role mapping ($m)
-  B55: 2.3 Enterprise Data roles against the role mapping
-  B56: 2.3 Enterprise Data cost against the role mapping ($m)
-  B57: 2.4 TDD Group Functions roles against the role mapping
-  B58: 2.4 TDD Group Functions cost against the role mapping ($m)
-  B59: 2.5 P&C roles against the role mapping
-  B60: 2.5 P&C cost against the role mapping ($m)
-  B61: 2.6 Finance roles against the role mapping
-  B62: 2.6 Finance cost against the role mapping ($m)
-  B63: 2.7 Infrastructure roles against the role mapping
-  B64: 2.7 Infrastructure cost against the role mapping ($m)
-  B65: 2.8 Energy Solutions & B2B roles against the role mapping
-  B66: 2.8 Energy Solutions & B2B cost against the role mapping ($m)
-  B67: 2.9 Commercial Fuels roles against the role mapping
-  B68: 2.9 Commercial Fuels cost against the role mapping ($m)
-  B69: 2.10 Z Retail roles against the role mapping
-  B70: 2.10 Z Retail cost against the role mapping ($m)
-  B71: 2.11 COE Cyber roles against the role mapping
-  B72: 2.11 COE Cyber cost against the role mapping ($m)
-  B73: 2.12 COE BP&T roles against the role mapping
-  B74: 2.12 COE BP&T cost against the role mapping ($m)
-  B75: 2.13 COE SA&D roles against the role mapping
-  B76: 2.13 COE SA&D cost against the role mapping ($m)
-  B77: 2.14 EGI roles against the role mapping
-  B78: 2.14 EGI cost against the role mapping ($m)
-  B79: 2.15 TDD Cyber roles against the role mapping
-  B80: 2.15 TDD Cyber cost against the role mapping ($m)
-  B81: Checks failing
+  B29: Archetype cost on the working tabs against 3.1's TDD total ($m)
+  B30: Actual cost on the working tabs against 3.1's TDD total ($m)
+  B31: Roles after decisions against roles less anything on hold
+  B32: Decision impact on 3.1 against the working tabs ($m)
+  B33: 1.11 BP&T roles against the role mapping
+  B34: 1.12 SA&D roles against the role mapping
+  B35: 1.13 Cyber Roles roles against the role mapping
+  B36: 1.11 BP&T own control - roles listed against roles counted
+  B37: 1.12 SA&D own control - roles listed against roles counted
+  B38: 1.13 Cyber Roles own control - roles listed against roles counted
+  B39: 2.1 Ampol Retail archetype total against Total Cost on 1.1 Ampol Retail ($m)
+  B40: 2.2 Customer archetype total against Total Cost on 1.2 Customer ($m)
+  B41: 2.3 Enterprise Data archetype total against Total Cost on 1.3 Enterprise Data ($m)
+  B42: 2.4 TDD Group Functions archetype total against Total Cost on 1.4 TDD Group Functions ($m)
+  B43: 2.5 P&C archetype total against Total Cost on 1.5 P&C ($m)
+  B44: 2.6 Finance archetype total against Total Cost on 1.6 Finance ($m)
+  B45: 2.7 Infrastructure archetype total against Total Cost on 1.7 Infrastructure ($m)
+  B46: 2.8 Energy Solutions & B2B archetype total against Total Cost on 1.8 Energy Solutions & B2B ($m)
+  B47: 2.9 Commercial Fuels archetype total against Total Cost on 1.9 Commercial Fuels ($m)
+  B48: 2.10 Z Retail archetype total against Total Cost on 1.10 Z Retail ($m)
+  B49: 2.15 TDD Cyber archetype total against Total Cost on 1.14 TDD Cyber ($m)
+  B50: 2.1 Ampol Retail roles against the role mapping
+  B51: 2.1 Ampol Retail cost against the role mapping ($m)
+  B52: 2.2 Customer roles against the role mapping
+  B53: 2.2 Customer cost against the role mapping ($m)
+  B54: 2.3 Enterprise Data roles against the role mapping
+  B55: 2.3 Enterprise Data cost against the role mapping ($m)
+  B56: 2.4 TDD Group Functions roles against the role mapping
+  B57: 2.4 TDD Group Functions cost against the role mapping ($m)
+  B58: 2.5 P&C roles against the role mapping
+  B59: 2.5 P&C cost against the role mapping ($m)
+  B60: 2.6 Finance roles against the role mapping
+  B61: 2.6 Finance cost against the role mapping ($m)
+  B62: 2.7 Infrastructure roles against the role mapping
+  B63: 2.7 Infrastructure cost against the role mapping ($m)
+  B64: 2.8 Energy Solutions & B2B roles against the role mapping
+  B65: 2.8 Energy Solutions & B2B cost against the role mapping ($m)
+  B66: 2.9 Commercial Fuels roles against the role mapping
+  B67: 2.9 Commercial Fuels cost against the role mapping ($m)
+  B68: 2.10 Z Retail roles against the role mapping
+  B69: 2.10 Z Retail cost against the role mapping ($m)
+  B70: 2.11 Cyber Risk & Service Ops roles against the role mapping
+  B71: 2.11 Cyber Risk & Service Ops cost against the role mapping ($m)
+  B72: 2.12 COE BP&T roles against the role mapping
+  B73: 2.12 COE BP&T cost against the role mapping ($m)
+  B74: 2.13 COE SA&D roles against the role mapping
+  B75: 2.13 COE SA&D cost against the role mapping ($m)
+  B76: 2.14 EGI roles against the role mapping
+  B77: 2.14 EGI cost against the role mapping ($m)
+  B78: 2.15 TDD Cyber roles against the role mapping
+  B79: 2.15 TDD Cyber cost against the role mapping ($m)
+  B80: Checks failing
+  B82: Data facts a check cannot state as a difference
+  B83: The six WiPro roles in Customer are set to Offshore and their cost does not move. Every one of them already prices at 73,260, which IS the vendor's offshore rate, so the lever changes where the role sits and how it counts in the vacancy split - Customer's To offshore goes to 6 and its To hire drops by 5 - and not the price. Any role whose Type on the role mapping says WIPRO prices at the full rate whatever its lever says.
+  B84: The five cyber roles carrying an Uplift % on 1.13 Cyber Roles stay in the COE and part of each of them is charged to the cyber uplift program. The COE's planned spend and 2.11's cost after decisions are both net of that share, and the share itself is a funding line on 1.14 TDD Cyber, so it is counted once.
+  B85: The EGI squads are funded by EGI at the actual cost of their roles. Their support % is nil, so no part of them is a TDD cost and their variance to the archetype is zero by construction.
 
 ===== Lists
   A1: Squad Types
