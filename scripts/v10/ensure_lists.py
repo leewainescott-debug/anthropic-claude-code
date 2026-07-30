@@ -15,7 +15,9 @@ On/Off list, 0.15 in the Support % list, and the portfolio list renaming cyber.
 """
 import openpyxl
 
-UNFOLD = {"Customer, AI", "Z Energy Martech", "AU CRM & Martech"}
+# two of the three unfolds were his old-name-for-the-same-squad case, not merges, and
+# fold back on his ruling (D118); only the Customer, AI rename stays unfolded
+UNFOLD = {"Customer, AI"}
 # (col range, rows) blocks to copy from the ancestor's Lists
 BLOCKS = [
     (23, 24, 1, 13),                    # W:X   squad-name fold table (typos only)

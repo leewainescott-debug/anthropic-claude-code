@@ -168,117 +168,36 @@ HONEST = [
 ]
 
 
-# ------------------------------------------------- the two squads with no pricing row
-# His role mapping carries four Martech/CRM squads in Customer; his 1.2 carried two rows.
-# The name normalisation matched his typed rows to the two big squads, which left
-# AU CRM & Martech (two WIPRO vacancies) and Z Energy Martech with people on the working
-# tab, a named line in 3.1's "nothing prices these" bucket, and no archetype row. His
-# ruling: "they should [have archetype rows] if they're squads" (D117). Two rows, then:
-#
-# - Z Energy Martech takes row 41, the row his removed Digital Support NZ squad vacated -
-#   already inside every SUMIF and total range on the tab, so nothing else moves.
-# - AU CRM & Martech is a real insertion at 49, inside the Group Customer block, and every
-#   formula that crosses that boundary is rewritten by exact text match below. A formula
-#   that does not hold exactly what is expected is reported and left alone.
-#
-# Type, Size, On/Off and Support % are HIS cream inputs on every other row, so the seeds
-# here are only a starting point, disclosed for his review. Both squads seed as
-# Configuration / Integration XS, the smallest archetype in his library (1 role, 0.4):
-# the first seed priced Z Energy Martech as Product S - a 5.5-role, $1.3m archetype for a
-# two-person squad - which put Z Customer $1.3m further from its budget overnight and he
-# rejected it on sight. XS overstates least; sizing the squads up is one retype in the
-# cream cells.
-NEW_SQUADS = [
-    dict(row=41, insert=False, sib=40, b="Z Energy Martech",
-         c="Configuration / Integration", d="XS", e="Onshore", f="NZ", g=1),
-    dict(row=49, insert=True, sib=47, b="AU CRM & Martech",
-         c="Configuration / Integration", d="XS", e="Onshore", f="AU", g=0.2),
-]
-
-# after the row-49 insertion: cell -> (exact text now, text with the boundary crossed)
-SHIFT_49 = [
-    ("C7", "SUM(I34,I42,I49))", "SUM(I34,I42,I50))"),
-    ("D7", "SUM(I34,I42,I49),0)", "SUM(I34,I42,I50),0)"),
-    ("C8", 'SUMIF(F47:F48,"AU",I47:I48)+SUMIF(F54:F54,"AU",I54:I54)',
-           'SUMIF(F47:F49,"AU",I47:I49)+SUMIF(F55:F55,"AU",I55:I55)'),
-    ("D8", 'SUMIF(F47:F48,"NZ",I47:I48)+SUMIF(F54:F54,"NZ",I54:I54)',
-           'SUMIF(F47:F49,"NZ",I47:I49)+SUMIF(F55:F55,"NZ",I55:I55)'),
-    ("E8", "J47,J48,J54)", "J47,J48,J49,J55)"),
-    # the Group Customer total, one row lower after the insert
-    ("H51", "=SUM(H47:H48)", "=SUM(H47:H49)"),
-    ("I51", "=SUM(I47:I49)", "=SUM(I47:I50)"),
-    ("J51", "=SUM(J47:J48)", "=SUM(J47:J49)"),
-    # the EGI block, one row lower: its own row references follow it down
-    ("J55", "=IFERROR($H54*(1-$G54),\"\")", "=IFERROR($H55*(1-$G55),\"\")"),
-    ("H57", "=SUM(H54:H54)", "=SUM(H55:H55)"),
-    ("I57", "=SUM(I54:I54)", "=SUM(I55:I55)"),
-    ("J57", "=SUM(J54:J54)", "=SUM(J55:J55)"),
-]
+# ------------------------------------------------- the two squads that never were
+# D117 added "AU CRM & Martech" and "Z Energy Martech" as squad rows on 1.2. D118
+# reversed it on his ruling: "z energy martech is z loyalty & martech. same frickin
+# squad, not a new squad". The old names in his dataset's pivot are old names for the
+# renamed squads - folded, the counts land on exactly his own pivot totals (Ampol
+# Loyalty & Martech 9 roles / 8.8 FTE, Z Loyalty & Martech 17 / 16.6). The W:X fold
+# rows are back (ensure_lists / overrides UNFOLD keeps only "Customer, AI") and no rows
+# are added here. The insertion machinery D117 used is gone with it; if a squad row
+# ever needs adding again, the D117 commit holds the working pattern and its guards.
 
 
-def add_missing_squads(wb, out):
-    ws = wb["1.2 Customer"]
-    if any(str(ws.cell(r, 2).value or "").strip() == s["b"]
-           for s in NEW_SQUADS for r in range(1, ws.max_row + 1)):
-        out.append("1.2: the two squad rows are already on the tab - nothing added")
-        return
-    # nothing else in the workbook may reference 1.2 rows at or below the insertion
-    # point, or the insert silently repoints it. Proven, not assumed. Tabs the chain
-    # wipes and rebuilds after this pass (the 2.x/3.x/4.0/Exec carcasses carried over
-    # from rev - final2x/3x/4x f2.wipe() them) are excluded: the old 3.3's E34:M34
-    # reference 1.2 rows in the 50s, and those formulas are destroyed before they could
-    # ever be read.
-    pat = re.compile(r"'1\.2 Customer'!\$?[A-Z]{1,2}\$?(\d+)")
-    wiped = re.compile(r"^(2\.\d+ |3\.\d+ |4\.0|Exec )")
-    outside = [f"{t.title}!{c.coordinate}"
-               for t in wb.worksheets
-               if t.title != "1.2 Customer" and not wiped.match(t.title)
-               for row in t.iter_rows() for c in row
-               if isinstance(c.value, str)
-               and any(int(m) >= 49 for m in pat.findall(c.value))]
-    if outside:
-        out.append(f"1.2: NOT changed - {len(outside)} formulas on surviving tabs "
-                   f"reference rows >= 49 ({outside[:4]}) and would silently repoint")
-        return
-    for s in sorted(NEW_SQUADS, key=lambda x: x["row"], reverse=True):
-        r = s["row"]
-        if s["insert"]:
-            ws.insert_rows(r, 1)
-            # openpyxl does not move merged ranges: the EGI header band below steps down
-            for m in [str(x) for x in ws.merged_cells.ranges]:
-                lo = int(re.search(r"(\d+)", m).group(1))
-                if lo >= r:
-                    ws.unmerge_cells(m)
-                    ws.merge_cells(re.sub(r"(\d+)", lambda k: str(int(k.group(1)) + 1),
-                                          m))
-            for cell, now, then in SHIFT_49:
-                cur = str(ws[cell].value or "")
-                if now in cur:
-                    ws[cell] = cur.replace(now, then)
-                elif then not in cur:
-                    out.append(f"1.2!{cell} holds {cur[:60]!r} - expected the "
-                               f"pre-insert text, left alone")
-        else:
-            busy = [f"{L(c)}{r}" for c in range(2, 11)
-                    if ws.cell(r, c).value is not None]
-            if busy:
-                out.append(f"1.2 row {r} is not free ({busy[:3]}) - {s['b']} not added")
-                continue
-        sib = s["sib"] + (1 if s["insert"] and s["sib"] >= s["row"] else 0)
-        for c in range(2, 11):
-            tgt, src_ = ws.cell(r, c), ws.cell(sib, c)
-            tgt._style = copy.copy(src_._style)
-            v = src_.value
-            if isinstance(v, str) and v.startswith("="):
-                tgt.value = re.sub(rf"(?<=[$A-Z]){sib}\b", str(r), v)
-        ws.cell(r, 2).value = s["b"]
-        ws.cell(r, 3).value = s["c"]
-        ws.cell(r, 4).value = s["d"]
-        ws.cell(r, 5).value = s["e"]
-        ws.cell(r, 6).value = s["f"]
-        ws.cell(r, 7).value = s["g"]
-        out.append(f"1.2!{r}: {s['b']} priced as {s['c']} {s['d']}, support {s['g']} - "
-                   f"seeds for his review (D117)")
+def add_data_coe_note(wb, out):
+    """His D118 instruction: 'need to add a note in config tab to explain this'.
+
+    The Data COE's spend carries two roles that organisationally sit in Enterprise
+    Data's leadership group - Deepali Mahajan and a vacant Service Transition Lead
+    (his agreed moves, D7). Without a note on 0.2 the row reads 0.50 heavier than the
+    COE's own people and nothing says why."""
+    ws = wb["0.2 Data Config"]
+    note = ("Incl. Deepali Mahajan and a vacant Service Transition Lead - they sit in "
+            "Enterprise Data's leadership group and are counted in the Data COE.")
+    cur = ws["H10"].value
+    if cur in (None, note):
+        ws["H10"] = note
+        ws["H10"].font = openpyxl.styles.Font(name="Calibri", size=10)
+        out.append("0.2!H10: Data COE note added - the two Enterprise Data leadership "
+                   "roles it carries, named (D118)")
+    else:
+        out.append(f"0.2!H10 holds {str(cur)[:40]!r} - his note, left alone; the Data "
+                   f"COE explanation was NOT written")
 
 
 def honest_cells(wb, out):
@@ -406,7 +325,7 @@ def run(src, dst):
             else:
                 out.append(f"{tab}!{cell} holds {str(cur)[:50]!r} - left alone")
     close_config_gaps(wb, out)
-    add_missing_squads(wb, out)
+    add_data_coe_note(wb, out)
     honest_cells(wb, out)
     wb.save(dst)
     return out

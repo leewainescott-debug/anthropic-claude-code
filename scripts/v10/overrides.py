@@ -44,7 +44,12 @@ N = 11                                  # override window runs Lists!$AN$2:$AN$1
 # reinstated here or the roles silently snap back to their raw homes.
 NEW = [(283, "COE SA&D", "Group Data", None),
        (313, "COE SA&D", "Group Data", None),
-       (528, None, "SAP ERP", None)]
+       (528, None, "SAP ERP", None),
+       # his D118 ruling: "Rihan is in the reporting and analytics squad." His raw row
+       # carries Portfolio "COE - Strategy, Architecture, Data" / Platform "Group Data",
+       # so without this override he counts in the Data COE. Raw columns untouched, as
+       # ever - the override moves the grouping only.
+       (301, "Enterprise Data", "Reporting & Analytics", None)]
 
 # Folds to take back out of Lists!W:X. The table is meant to fix typing - AmPos to AmPOS,
 # Manuacturing to Manufacturing - and three rows in it were doing something else:
@@ -52,13 +57,16 @@ NEW = [(283, "COE SA&D", "Group Data", None),
 #   Customer, AI      -> Customer AI              a rename, not a typo. The owner's column
 #                                                 K has the comma and so does his own list.
 #   Z Energy Martech  -> Z Loyalty & Martech      two real squads merged into one
-#   AU CRM & Martech  -> Ampol Loyalty & Martech  two real squads merged into one
+#   AU CRM & Martech  -> Ampol Loyalty & Martech  an old name for the same squad
 #
-# Merging them hid two of Customer's twelve squads completely: the owner's list has
-# AU CRM & Martech at 2.0 FTE and Z Energy Martech at 2.0, and neither appeared anywhere in
-# the workbook. Undoing the merge also puts Ampol Loyalty & Martech back to 6.8 and
-# Z Loyalty & Martech back to 12.6, which is what his column K says.
-UNFOLD = ["Customer, AI", "Z Energy Martech", "AU CRM & Martech"]
+# Two of the three unfolds were wrong and are undone on his ruling (D118): "z energy
+# martech is z loyalty & martech. same frickin squad, not a new squad". His pivot sheet
+# lists the old and new names with separate FTE lines, which is what read as two squads;
+# his person-level sheet puts every one of those people in one squad, "Loyalty & Martech",
+# and folded the counts come out at exactly his own pivot totals - Ampol 9 roles / 8.8
+# FTE, Z 17 / 16.6. The fold rows for those two go back. "Customer, AI" stays unfolded:
+# that one is a rename, not an old name - his column K carries the comma.
+UNFOLD = ["Customer, AI"]
 
 # The move of Jasper Na off the one-person Energy squad was mine, not the owner's, and his
 # own reconciliation lists Energy at 1.0 FTE. It comes out. The three moves he did instruct -

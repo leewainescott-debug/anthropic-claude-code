@@ -6,7 +6,7 @@ Companion file: `docs/PLAN.md` (what we are doing and what is outstanding).
 "Lee" means you decided it. "Build" means I decided it and it is reversible - each one is
 flagged so you can overturn it without hunting for where it lives.
 
-Last updated: after D117 - every Customer squad prices; two archetype rows restored to 1.2.
+Last updated: after D118 - the fold-back, Rihan to Reporting & Analytics, and the whole-organisation block on 3.1.
 
 ---
 
@@ -921,7 +921,45 @@ Same precedence as D83: his newer instruction outranks his older text. Corrected
 "Hybrid = 2 roles onshore, rest offshore"; hybrid.py documents the exemption; the gate pins
 the corrected sentence. One word from him reverses it.
 
-### D117. Every Customer squad prices: the two missing archetype rows are on 1.2. Lee.
+### D118. The two "missing squads" never existed; his org rulings land. Lee, in his words.
+Four rulings in one message, reversing D117's premise and reshaping 3.1:
+
+**1. "z energy martech is z loyalty & martech. same frickin squad, not a new squad."**
+His dataset's pivot lists old and new names with separate FTE lines, which is what read as
+four squads; his person-level sheet puts every one of those people in one squad. The two
+fold rows go back (only the "Customer, AI" rename stays unfolded), D117's two added 1.2
+rows and their insertion machinery are gone, and folded, the squads carry exactly his own
+pivot totals: Ampol Loyalty & Martech 9 roles / 8.8 FTE, Z Loyalty & Martech 17 / 16.6.
+1.2!F9 returns to his 15.5625.
+
+**2. "Rihan is in the reporting and analytics squad."** His raw row says Portfolio "COE -
+Strategy, Architecture, Data" / Platform "Group Data", so Rihan had been counting in the
+Data COE. A grouping override (raw columns untouched, as ever) moves him to Enterprise
+Data, Reporting & Analytics. The Data COE drops to 2.22.
+
+**3. "deepali is in enterprise data data coe (need to add a note in config tab to explain
+this), same with the vacant service transition lead, also coe."** The two D7 moves stand -
+they count in the Data COE - and 0.2 now carries the note he asked for, in its own Notes
+column beside the COE - Data row: they sit in Enterprise Data's leadership group and are
+counted in the Data COE.
+
+**4. "in 3.1, energy and leadership need to be included in the total portfolio cost ...
+coes need to be grouped with portfolios ... we need to show the total up there early.
+ampol retail and z retail need to be grouped together."** 3.1 now opens with a
+whole-organisation block: one row per group including the COEs and EGI, the actual and
+after-decisions figures reading each working tab's own Total portfolio row - so
+leadership, energy-type squads and directly funded programs are all in. The archetype
+side is the tab's whole design build (same scope, so the group-level variance is apples
+to apples); the COEs carry a dash. Ampol Retail and Z Retail sit together under a Retail
+subtotal, and the TDD total row sits at the top of the tab. The step-by-step walk stays
+below it, unchanged, as the reconciliation; a 4.0 check ties the block's total to the
+walk's ledger row so the two can never drift.
+
+Still open from this exchange: EGI Customer's 2.21 (his 27/07 typed figure in 1.2's TDD
+Cost column; his review book's formula there returns 0). Until he rules, it stays -
+Ampol Customer reads 4.65 against 2.5, and 2.44 of that question is this one cell.
+
+### D117. Superseded by D118 - kept for the mechanics. Was: the two archetype rows on 1.2.
 "we need to fix 5... they should [have archetype rows] if they're squads." His role mapping
 carries four Martech/CRM squads in Customer; his 1.2 carried rows for two. The name
 normalisation (D114) had matched his two typed rows to the two big squads, leaving

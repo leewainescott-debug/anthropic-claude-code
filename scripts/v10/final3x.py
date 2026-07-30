@@ -258,6 +258,54 @@ def build_31(wb, anchors):
                 x.value = f"=SUMPRODUCT({pick},{L(c)}{r0}:{L(c)}{r1})"
             x.number_format, x.alignment = NUM[c], opts.RGT
 
+    # ---- the whole organisation, before the walk (D118) ----
+    # His instruction, in his words: "energy and leadership need to be included in the
+    # total portfolio cost, that's not comparing apples to apples if we don't do that.
+    # also coes need to be grouped with portfolios ... we need to show the total up
+    # there early. ampol retail and z retail need to be grouped together."
+    #
+    # One row per group, every role in it: the actual and after-decisions figures read
+    # the working tab's own Total portfolio row, so leadership, energy-type squads and
+    # the directly funded programs are all in. The archetype side is the working tab's
+    # whole design build - archetype squads, funded figures and the allowance - which is
+    # the same scope, so the variance IS apples to apples at group level. The COEs carry
+    # no design build and show a dash. The walk below is unchanged: it remains the
+    # step-by-step reconciliation of how these totals build.
+    r = opts.bar(ws, r, 2, len(H31), "The whole organisation - every group, total cost")
+    grp0 = r
+
+    def grp(rw, name, pf, tab, a_):
+        tot = a_["total_row"]
+        line(rw, name, pf, tab, tot, f"='{tab}'!${L(S['acost'])}${tot}")
+
+    by_pf = {p: (p, t, a) for p, t, a in pfs}
+    retail = [by_pf[p] for p in ("Ampol Retail", "Z Retail") if p in by_pf]
+    rest = [x for x in pfs if x[0] not in ("Ampol Retail", "Z Retail")]
+    group_rows = []
+    for p, t, a in retail:
+        grp(r, p, p, t, a)
+        group_rows.append(r)
+        r += 1
+    if len(retail) == 2:
+        sub(r, "Retail - Ampol and Z together", r - 2, r - 1)
+        r += 1
+    for p, t, a in rest + coes:
+        grp(r, p, p, t, a)
+        group_rows.append(r)
+        r += 1
+    # the total, up front, off the group rows only - the Retail subtotal is display,
+    # not a member. sub()'s own guard puts a dash in the archetype and variance columns
+    # here: the COEs carry no design build, so a total across both bases has no honest
+    # single figure (the wave-K lesson, D115).
+    sub(r, f"TDD total - the {n_roles} roles in the role mapping", 0, 0,
+        rows=group_rows)
+    org_total = r
+    r += 2
+
+    # ---- the walk: archetype cost to actual cost, step by step ----
+    r = opts.bar(ws, r, 2, len(H31), "The walk - archetype cost to actual cost, "
+                                     "step by step")
+
     # ---- step 1: the squads an archetype prices, one line per portfolio ----
     label(r, "Squads priced by an archetype - detail on 3.3")
     r += 1
@@ -487,7 +535,7 @@ def build_31(wb, anchors):
         r += 1
     return {"total": gt, "grand": grand, "gm": gm, "arch": s1, "direct": s2,
             "direct_unpriced": s2c, "nofig": s2b, "coe": s3, "overhead": s4,
-            "comparable": cmp_row}
+            "comparable": cmp_row, "org_total": org_total}
 
 
 # 3.2 was "Total Cost" and restated 3.1's four subtotals in a second table. It gave a

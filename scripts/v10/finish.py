@@ -56,7 +56,10 @@ REVIEW = "REVIEW - Complete Role Mapping"
 PROSE = {"1.5 P&C": ["B11"], "1.11 BP&T": ["B9", "B47", "B49"],
          "1.12 SA&D": ["B9", "B53", "B55"], "1.2 Customer": ["L15", "L18"],
          "1.8 Energy Solutions & B2B": ["E17", "E18", "B21"],
-         "0.2 Data Config": ["H9", "H10", "H14"], "1.13 Cyber Roles": ["B73"]}
+         # H10 came off this list with D118: the chain now writes his Data COE note
+         # there (repair_design.add_data_coe_note), and this sweep was eating it four
+         # passes after it was written
+         "0.2 Data Config": ["H9", "H14"], "1.13 Cyber Roles": ["B73"]}
 # labels that were too long to sit on a row carrying figures
 SHORTEN = {"3.1 Cost Bridge": {
     "Directly funded programmes and platforms - no archetype prices them, so the "

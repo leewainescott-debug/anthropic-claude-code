@@ -1,5 +1,5 @@
    1.1 Ampol Retail: 6 platform blocks, 9 squads, actual against archetype from 2.1 Ampol Retail, in K and L, the actuals table at K4:N8
-   1.2 Customer: 4 platform blocks, 10 squads, actual against archetype from 2.2 Customer, in K and L, the actuals table at K4:N8
+   1.2 Customer: 4 platform blocks, 8 squads, actual against archetype from 2.2 Customer, in K and L, the actuals table at K4:N8
      1.3 Enterprise Data: note on row 27 moved K -> M, past the new columns
    1.3 Enterprise Data: 1 platform blocks, 3 squads, actual against archetype from 2.3 Enterprise Data, in K and L, the actuals table at K4:N8
    1.4 TDD Group Functions: 2 platform blocks, 5 squads, actual against archetype from 2.4 TDD Group Functions, in K and L, the actuals table at K4:N8
@@ -96,7 +96,7 @@
      e.g. Exec Summary!B47: Directly funded programs - over/(under) funded ($m)
      e.g. 2.1 Ampol Retail!B16: Directly funded programs and platforms
    0.2 Data Config!M13 'Allocation %' -> 'Alloc %' - his wording
-  A injected {'cells': 13563, 'sheets': 46, 'verified': True}
+  A injected {'cells': 13623, 'sheets': 46, 'verified': True}
   A errors 0 blank 2
 
 ==============================================================================
@@ -105,26 +105,24 @@ ANCHORS: 10
     2.x: all 531 people appear exactly once across the working tabs
     2.x: every person sits on the tab the ledger assigns
     controls: 39 control cells, 0 not zero
-    4.0: 75 checks with two computed sides
-    standards: 169 column-shape breaks, 0 buried constants
+    4.0: 76 checks with two computed sides
+    standards: 167 column-shape breaks, 1 buried constants
     inputs: 0 cream formulas, 33 unmarked typed numbers
     rounding: 25 sums over rounded chains
     refs: 0 whole-column references, 0 error cells
-    labels: 9611 labels written to labels.txt for the plain-English read
+    labels: 9624 labels written to labels.txt for the plain-English read
 
 ==============================================================================
 CONTROL: 3
-    4.0!D36: expected side is a literal zero (1.11 BP&T own control - roles listed against roles counted)
-    4.0!D37: expected side is a literal zero (1.12 SA&D own control - roles listed against roles counted)
-    4.0!D38: expected side is a literal zero (1.13 Cyber Roles own control - roles listed against roles co)
+    4.0!D37: expected side is a literal zero (1.11 BP&T own control - roles listed against roles counted)
+    4.0!D38: expected side is a literal zero (1.12 SA&D own control - roles listed against roles counted)
+    4.0!D39: expected side is a literal zero (1.13 Cyber Roles own control - roles listed against roles co)
 
 ==============================================================================
-CONSISTENCY: 169
+CONSISTENCY: 167
     0.2 Data Config!N10: one row in a block of 4 identical formulas does not match them
     1.1 Ampol Retail!I29: one row in a block of 4 identical formulas does not match them
     1.2 Customer!I34: one row in a block of 3 identical formulas does not match them
-    1.2 Customer!I42: one row in a block of 3 identical formulas does not match them
-    1.2 Customer!I50: one row in a block of 3 identical formulas does not match them
     1.4 TDD Group Functions!I25: one row in a block of 4 identical formulas does not match them
     1.11 BP&T!C45: one row in a block of 24 identical formulas does not match them
     1.13 Cyber Roles!C71: one row in a block of 52 identical formulas does not match them
@@ -140,12 +138,18 @@ CONSISTENCY: 169
     2.1 Ampol Retail!P26: one row in a block of 3 identical formulas does not match them
     2.1 Ampol Retail!Q26: one row in a block of 3 identical formulas does not match them
     2.1 Ampol Retail!R26: one row in a block of 3 identical formulas does not match them
-    2.2 Customer!F29: one row in a block of 3 identical formulas does not match them
-    2.2 Customer!G29: one row in a block of 3 identical formulas does not match them
-    2.2 Customer!H29: one row in a block of 3 identical formulas does not match them
-    2.2 Customer!I29: one row in a block of 3 identical formulas does not match them
-    2.2 Customer!J29: one row in a block of 3 identical formulas does not match them
-    ... 144 more
+    2.2 Customer!F27: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!G27: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!H27: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!I27: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!J27: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!K27: one row in a block of 3 identical formulas does not match them
+    2.2 Customer!L27: one row in a block of 3 identical formulas does not match them
+    ... 142 more
+
+==============================================================================
+HARDCODE: 1
+    3.1 Cost Bridge!D22: constant 15 inside a formula: =IF(COUNT($D6,$D7,$D9,$D10,$D11,$D12,$D13,$D14,$D15,$D16,$D17,$D18,$D1
 
 ==============================================================================
 INPUTS: 33
@@ -181,8 +185,8 @@ ROUNDING: 25
     2.1 Ampol Retail!G15: sums 7 already-rounded cells (G8:G14)
     2.1 Ampol Retail!G20: sums 3 already-rounded cells (G17:G19)
     2.1 Ampol Retail!G25: sums 3 already-rounded cells (G22:G24)
-    2.2 Customer!G17: sums 9 already-rounded cells (G8:G16)
-    2.2 Customer!G28: sums 3 already-rounded cells (G25:G27)
+    2.2 Customer!G15: sums 7 already-rounded cells (G8:G14)
+    2.2 Customer!G26: sums 3 already-rounded cells (G23:G25)
     2.3 Enterprise Data!G11: sums 3 already-rounded cells (G8:G10)
     2.3 Enterprise Data!G16: sums 3 already-rounded cells (G13:G15)
     2.4 TDD Group Functions!G12: sums 4 already-rounded cells (G8:G11)
@@ -205,7 +209,7 @@ ROUNDING: 25
     3.2 Overhead & Leadership!K11: sums 6 already-rounded cells (K5:K10)
 
 ==============================================================================
-OUTSTANDING: 230
+OUTSTANDING: 229
 base_2707.xlsx -> cand_A.xlsx
 190 typed values on his own tabs are not in the build, across 15 tabs
 
@@ -246,10 +250,10 @@ base_2707.xlsx -> cand_A.xlsx
   1 x  Total actual cost                                              | 1.8 Energy Solutions & B2B!B48 -> 'None'
   1 x  Cyber, Risk & Service Operations - roles and funding           | 1.13 Cyber Roles!B2 -> 'Cyber, Risk & Service Operations rol'
 rev.xlsx -> cand_A.xlsx
-53 typed values on his own tabs are not in the build, across 13 tabs
+55 typed values on his own tabs are not in the build, across 13 tabs
 tabs of his that are not in the build: ['Claude Log', 'Portfolios', '3.1 Group Summary', '3.2 Total Cost', '3.3 FTE View', '3.4 COE Summary', 'ACTUAL WORKBOOKS', '2.11 TDD Cyber', '2.12 BP&T', '2.13 SA&D', '3.5 Source Reconciliation', 'Squads', 'Added data', 'Sheet2', 'FY26 Budget (superseded)', 'squad mapping (superseded)']
 
-=== the build changed it: 53 cells, 51 distinct ===
+=== the build changed it: 55 cells, 53 distinct ===
   2 x  Funded from TDD Corporate pool (3.4 COE Summary)               | 1.3 Enterprise Data!H15 -> 'Funded from TDD Corporate pool (3.4 '
   2 x  Portfolios funded (2.0 Group Summary)                          | 1.11 BP&T!B10 -> 'Portfolios funded (3.1 Cost Bridge)'
   1 x  Reallocated 7m acorss Ampol & Z Retail                         | 0.2 Data Config!L24 -> 'Reallocated 7m across Ampol & Z Reta'
@@ -261,7 +265,9 @@ tabs of his that are not in the build: ['Claude Log', 'Portfolios', '3.1 Group S
   1 x  Network / QSR                                                  | 1.1 Ampol Retail!B54 -> 'Network & QSR'
   1 x  Network / QSR Total                                            | 1.1 Ampol Retail!B56 -> 'Network & QSR Total'
   1 x  Z Energy Apps                                                  | 1.2 Customer!B39 -> 'Z App and Web'
-  1 x  Digital Support NZ                                             | 1.2 Customer!B41 -> 'Z Energy Martech'
+  1 x  Z Energy Martech                                               | 1.2 Customer!B40 -> 'Z Loyalty & Martech'
+  1 x  Digital Support NZ                                             | 1.2 Customer!B41 -> 'None'
+  1 x  AU CRM & Martech                                               | 1.2 Customer!B47 -> 'Ampol Loyalty & Martech'
   1 x  Customer AI                                                    | 1.2 Customer!B48 -> 'Customer, AI'
   1 x  Siginificant Items - EGI                                       | 1.3 Enterprise Data!H16 -> 'Significant Items - EGI'
   1 x  Enterprise Data Delivery                                       | 1.3 Enterprise Data!B30 -> 'None'
@@ -288,6 +294,4 @@ tabs of his that are not in the build: ['Claude Log', 'Portfolios', '3.1 Group S
   1 x  Notes                                                          | 1.14 TDD Cyber!L12 -> 'None'
   1 x  OpEx Initiatives                                               | 1.14 TDD Cyber!H13 -> 'Other funding'
   1 x  CapEx                                                          | 1.14 TDD Cyber!H14 -> 'Funding position'
-  1 x  TDD CapEx (central pool, reference only)                       | 1.14 TDD Cyber!H15 -> 'Other cost (this model)'
-  1 x  Significant Items                                              | 1.14 TDD Cyber!H16 -> 'Funded from the cyber uplift bucket '
-     ... 11 more distinct
+     ... 13 more distinct

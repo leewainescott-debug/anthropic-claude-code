@@ -218,6 +218,7 @@
   B9: COE - Business Partnering
   K9: Leadership Overhead
   B10: COE - Data
+  H10: Incl. Deepali Mahajan and a vacant Service Transition Lead - they sit in Enterprise Data's leadership group and are counted in the Data COE.
   I10: Validation of FTE model
   K10: Portfolio overhead subtotal
   B11: Ampol Retail
@@ -3504,7 +3505,6 @@ AUD
   H16: CapEx
   B17: TDD Variance
   H17: Significant Items EGI
-  J17: Funded outside TDD ($m)
   B18: Other Variance
   H18: Significant Items
   L18: 4.5m? Flagged
@@ -3568,11 +3568,6 @@ AUD
   D40: L
   E40: Onshore
   F40: NZ
-  B41: Z Energy Martech
-  C41: Configuration / Integration
-  D41: XS
-  E41: Onshore
-  F41: NZ
   M41: CPI actuals; pull through
   N41: Net New
   B42: Platform Overhead
@@ -3600,30 +3595,25 @@ AUD
   E48: Onshore
   F48: AU
   N48: Net New - 3FTE
-  B49: AU CRM & Martech
-  C49: Configuration / Integration
-  D49: XS
-  E49: Onshore
-  F49: AU
-  B50: Platform Overhead
-  B51: Group Customer Platforms Total
-  B53: Platform: EGI Customer
-  B54: Squad
-  C54: Squad Type
-  D54: Size
-  E54: On/Off
-  F54: AU / NZ
-  G54: Support %
-  H54: Total Squad Cost ($m)
-  I54: TDD Cost ($m)
-  J54: Funded outside TDD ($m)
-  K54: Actual cost after decisions ($m)
-  L54: Variance to archetype ($m)
-  B55: EGI Customer
-  C55: Strategic Programs
-  E55: Onshore
-  F55: AU
-  B57: EGI Customer Total
+  B49: Platform Overhead
+  B50: Group Customer Platforms Total
+  B52: Platform: EGI Customer
+  B53: Squad
+  C53: Squad Type
+  D53: Size
+  E53: On/Off
+  F53: AU / NZ
+  G53: Support %
+  H53: Total Squad Cost ($m)
+  I53: TDD Cost ($m)
+  J53: Funded outside TDD ($m)
+  K53: Actual cost after decisions ($m)
+  L53: Variance to archetype ($m)
+  B54: EGI Customer
+  C54: Strategic Programs
+  E54: Onshore
+  F54: AU
+  B56: EGI Customer Total
 
 ===== 1.3 Enterprise Data
   B2: Enterprise Data
@@ -4793,18 +4783,12 @@ AUD
   E45: Australia
   F45: Filled
   H45: Onshore
-  B46: Rihan Schalkwyk
-  C46: Senior Business Analyst
+  B46: Vacant
+  C46: Service Transition Lead
   D46: Group Data
   E46: Australia
-  F46: Filled
+  F46: Vacant
   H46: Onshore
-  B47: Vacant
-  C47: Service Transition Lead
-  D47: Group Data
-  E47: Australia
-  F47: Vacant
-  H47: Onshore
   B51: Check - roles listed vs counted (must be 0)
   B53: Squad-based SA&D roles sit in their portfolio squads (1.3 / 2.3). Leadership roles sit on 3.3 Squad Detail. Planned spend excludes Paused roles - their cost is the memo line above.
   B55: On/Off: set a role to Offshore and it is priced at 40% of the onshore cost. Set it to Hold and its cost is excluded entirely (counted as 0). The totals above and every summary follow.
@@ -5650,457 +5634,447 @@ AUD
   Q6: Squad cost after decisions ($m)
   R6: New variance ($m)
   B7: Squads
-  B8: AU CRM & Martech
-  C8: Configuration / Integration
-  D8: XS
-  B9: Ampol App
+  B8: Ampol App
+  C8: Product
+  D8: L
+  B9: Ampol Loyalty & Martech
   C9: Product
-  D9: L
-  B10: Ampol Loyalty & Martech
+  D9: M
+  B10: Ampol Web
   C10: Product
   D10: M
-  B11: Ampol Web
-  C11: Product
-  D11: M
-  B12: Customer, AI
-  C12: Engineering
-  D12: S
-  B13: Digital Operations
-  C13: Operations
-  D13: M
-  B14: Z App and Web
+  B11: Customer, AI
+  C11: Engineering
+  D11: S
+  B12: Digital Operations
+  C12: Operations
+  D12: M
+  B13: Z App and Web
+  C13: Product
+  D13: S
+  B14: Z Loyalty & Martech
   C14: Product
-  D14: S
-  B15: Z Energy Martech
-  C15: Configuration / Integration
-  D15: XS
-  B16: Z Loyalty & Martech
-  C16: Product
-  D16: L
-  B17: Squads total
-  B18: Directly funded programs and platforms
-  B19: EGI Customer
-  C19: Strategic Programs
+  D14: L
+  B15: Squads total
+  B16: Directly funded programs and platforms
+  B17: EGI Customer
+  C17: Strategic Programs
+  D17: -
+  E17: -
+  B18: No archetype in 1.x tabs
+  B19: Energy
+  C19: Not on the 1.x tab
   D19: -
   E19: -
-  B20: No archetype in 1.x tabs
-  B21: Energy
-  C21: Not on the 1.x tab
-  D21: -
-  E21: -
+  N19: -
+  P19: -
+  R19: -
+  B20: Leadership
+  C20: Not on the 1.x tab
+  D20: -
+  E20: -
+  N20: -
+  P20: -
+  R20: -
+  B21: No archetype total
   N21: -
   P21: -
   R21: -
-  B22: Leadership
-  C22: Not on the 1.x tab
-  D22: -
-  E22: -
-  N22: -
-  P22: -
-  R22: -
-  B23: No archetype total
-  N23: -
-  P23: -
-  R23: -
-  B24: Overhead roles
-  B25: Head of Technology
+  B22: Overhead roles
+  B23: Head of Technology
+  C23: -
+  D23: -
+  B24: Delivery Manager
+  C24: -
+  D24: -
+  B25: Technology Manager
   C25: -
   D25: -
-  B26: Delivery Manager
-  C26: -
-  D26: -
-  B27: Technology Manager
-  C27: -
+  B26: Overhead roles total
+  B27: Allowed for in the archetype, sitting outside this portfolio
   D27: -
-  B28: Overhead roles total
-  B29: Allowed for in the archetype, sitting outside this portfolio
-  D29: -
-  F29: -
-  G29: -
-  H29: -
-  I29: -
-  J29: -
-  K29: -
-  L29: -
-  M29: -
-  O29: -
-  P29: -
-  Q29: -
-  R29: -
-  B30: Business Partners and Domain Architects sit in the COEs
-  B31: Total portfolio
-  B33: Control - roles against the role mapping, must be 0
-  B34: Control - cost against the role mapping ($m), must be 0
-  B36: Customer FTE
-  H36: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
-  B37: Name
-  C37: Role
-  D37: Status
-  E37: Vacancy lever
-  F37: Role cost ($)
-  G37: Cost after decision ($)
-  B38: AU CRM & Martech
-  C38: 2 roles
-  B39: Vacant
-  C39: QA / Tester / Mid
-  D39: Vacant
-  E39: Hire
-  B40: Vacant
-  C40: Systems Analyst / Mid
-  D40: Vacant
-  E40: Hire
-  B41: Ampol App
-  C41: 14 roles
-  B42: Raj Ganesan
-  C42: Engineer - Mobile (ios)
+  F27: -
+  G27: -
+  H27: -
+  I27: -
+  J27: -
+  K27: -
+  L27: -
+  M27: -
+  O27: -
+  P27: -
+  Q27: -
+  R27: -
+  B28: Business Partners and Domain Architects sit in the COEs
+  B29: Total portfolio
+  B31: Control - roles against the role mapping, must be 0
+  B32: Control - cost against the role mapping ($m), must be 0
+  B34: Customer FTE
+  H34: Vacancy lever: Hire prices the role in full, Hold prices it at 0, Offshore at the Offshore rate set on 0.3 Squad Archetypes.
+  B35: Name
+  C35: Role
+  D35: Status
+  E35: Vacancy lever
+  F35: Role cost ($)
+  G35: Cost after decision ($)
+  B36: Ampol App
+  C36: 14 roles
+  B37: Raj Ganesan
+  C37: Engineer - Mobile (ios)
+  D37: Filled
+  E37: Filled
+  B38: Maria Salman
+  C38: Experience Designer
+  D38: Filled
+  E38: Filled
+  B39: Toby Clark
+  C39: Engineer - Mobile (iOS)
+  D39: Filled
+  E39: Filled
+  B40: Penny Pennisi
+  C40: Delivery Lead
+  D40: Filled
+  E40: Filled
+  B41: Khalid Mahmud
+  C41: Lead Engineer - BE
+  D41: Filled
+  E41: Filled
+  B42: Ethan Laffan
+  C42: Associate Experience Designer
   D42: Filled
   E42: Filled
-  B43: Maria Salman
-  C43: Experience Designer
+  B43: Edwin Justin
+  C43: Senior Engineer - BE
   D43: Filled
   E43: Filled
-  B44: Toby Clark
-  C44: Engineer - Mobile (iOS)
+  B44: Binumon Mathai
+  C44: Senior Quality Assurance
   D44: Filled
   E44: Filled
-  B45: Penny Pennisi
-  C45: Delivery Lead
+  B45: Alisha Allport
+  C45: Principal Experience Designer
   D45: Filled
   E45: Filled
-  B46: Khalid Mahmud
-  C46: Lead Engineer - BE
+  B46: Sheetal Karkera
+  C46: Lead Engineer - Mobile
   D46: Filled
   E46: Filled
-  B47: Ethan Laffan
-  C47: Associate Experience Designer
+  B47: Phillip Kewley
+  C47: Quality Assurance
   D47: Filled
   E47: Filled
-  B48: Edwin Justin
-  C48: Senior Engineer - BE
+  B48: Peter (Won) Lee
+  C48: Snr Business Analyst
   D48: Filled
   E48: Filled
-  B49: Binumon Mathai
-  C49: Senior Quality Assurance
+  B49: Anup Antony
+  C49: Engineer - BE
   D49: Filled
   E49: Filled
-  B50: Alisha Allport
-  C50: Principal Experience Designer
+  B50: Annabel Phu
+  C50: Engineer - Mobile
   D50: Filled
   E50: Filled
-  B51: Sheetal Karkera
-  C51: Lead Engineer - Mobile
-  D51: Filled
-  E51: Filled
-  B52: Phillip Kewley
-  C52: Quality Assurance
-  D52: Filled
-  E52: Filled
-  B53: Peter (Won) Lee
-  C53: Snr Business Analyst
-  D53: Filled
-  E53: Filled
-  B54: Anup Antony
-  C54: Engineer - BE
-  D54: Filled
-  E54: Filled
-  B55: Annabel Phu
-  C55: Engineer - Mobile
-  D55: Filled
-  E55: Filled
-  B56: Ampol Loyalty & Martech
-  C56: 7 roles
+  B51: Ampol Loyalty & Martech
+  C51: 9 roles
+  B52: Vacant
+  C52: QA / Tester / Mid
+  D52: Vacant
+  E52: Hire
+  B53: Vacant
+  C53: Systems Analyst / Mid
+  D53: Vacant
+  E53: Hire
+  B54: Vacant
+  C54: Solution Architect
+  D54: Vacant
+  E54: Hire
+  B55: Vacant
+  C55: Data Analyst
+  D55: Vacant
+  E55: Hire
+  B56: Vacant
+  C56: Engineer, Software
+  D56: Vacant
+  E56: Hire
   B57: Vacant
-  C57: Solution Architect
+  C57: Snr Engineer, Data
   D57: Vacant
   E57: Hire
-  B58: Vacant
-  C58: Data Analyst
-  D58: Vacant
-  E58: Hire
-  B59: Vacant
-  C59: Engineer, Software
-  D59: Vacant
-  E59: Hire
-  B60: Vacant
-  C60: Snr Engineer, Data
-  D60: Vacant
-  E60: Hire
-  B61: Angela Gilbert
-  C61: Martech Lead - Dynamics
-  D61: Filled
-  E61: Filled
-  B62: Jeremy Xu
-  C62: Data Analyst
+  B58: Angela Gilbert
+  C58: Martech Lead - Dynamics
+  D58: Filled
+  E58: Filled
+  B59: Jeremy Xu
+  C59: Data Analyst
+  D59: Filled
+  E59: Filled
+  B60: Jawad Hassan
+  C60: Engineer Data (Snowflake)
+  D60: Filled
+  E60: Filled
+  B61: Ampol Web
+  C61: 8 roles
+  B62: Zohan Sim
+  C62: Engineer - BE
   D62: Filled
   E62: Filled
-  B63: Jawad Hassan
-  C63: Engineer Data (Snowflake)
+  B63: Saugata Acharya
+  C63: Delivery Lead
   D63: Filled
   E63: Filled
-  B64: Ampol Web
-  C64: 8 roles
-  B65: Zohan Sim
-  C65: Engineer - BE
+  B64: Jin Zhong
+  C64: Lead Engineer - BE
+  D64: Filled
+  E64: Filled
+  B65: Darwin Morales
+  C65: Snr Engineer - FE
   D65: Filled
   E65: Filled
-  B66: Saugata Acharya
-  C66: Delivery Lead
+  B66: Ashwini Gaikwad
+  C66: Quality Assurance
   D66: Filled
   E66: Filled
-  B67: Jin Zhong
-  C67: Lead Engineer - BE
+  B67: Jordan Askwith
+  C67: Solution Architect
   D67: Filled
   E67: Filled
-  B68: Darwin Morales
-  C68: Snr Engineer - FE
+  B68: Lily Fong
+  C68: Snr Business Analyst
   D68: Filled
   E68: Filled
-  B69: Ashwini Gaikwad
-  C69: Quality Assurance
+  B69: Aaron (Ming) Lu
+  C69: Engineer - BE
   D69: Filled
   E69: Filled
-  B70: Jordan Askwith
-  C70: Solution Architect
-  D70: Filled
-  E70: Filled
-  B71: Lily Fong
-  C71: Snr Business Analyst
-  D71: Filled
-  E71: Filled
-  B72: Aaron (Ming) Lu
-  C72: Engineer - BE
-  D72: Filled
-  E72: Filled
-  B73: Customer, AI
-  C73: 2 roles
+  B70: Customer, AI
+  C70: 2 roles
+  B71: Vacant
+  C71: AI Engineer - Front End
+  D71: Vacant
+  E71: Hire
+  B72: Vacant
+  C72: AI Engineer - Full Stack
+  D72: Vacant
+  E72: Hire
+  B73: Digital Operations
+  C73: 7 roles
   B74: Vacant
-  C74: AI Engineer - Front End
+  C74: QA / Tester / Mid
   D74: Vacant
   E74: Hire
   B75: Vacant
-  C75: AI Engineer - Full Stack
+  C75: .NET Back End Developer / Mid
   D75: Vacant
   E75: Hire
-  B76: Digital Operations
-  C76: 7 roles
-  B77: Vacant
-  C77: QA / Tester / Mid
-  D77: Vacant
-  E77: Hire
-  B78: Vacant
-  C78: .NET Back End Developer / Mid
-  D78: Vacant
-  E78: Hire
-  B79: Vacant
-  C79: .NET Back End Developer / Mid
-  D79: Vacant
-  E79: Hire
-  B80: Emile Violi - QA Wipro
-  C80: .NET Back End Developer / Mid
+  B76: Vacant
+  C76: .NET Back End Developer / Mid
+  D76: Vacant
+  E76: Hire
+  B77: Emile Violi - QA Wipro
+  C77: .NET Back End Developer / Mid
+  D77: Filled
+  E77: Filled
+  B78: Shreema Das
+  C78: Solution Architect
+  D78: Filled
+  E78: Filled
+  B79: Mark Wilson
+  C79: Digital Support Manager (AU)
+  D79: Filled
+  E79: Filled
+  B80: Daniel Arban
+  C80: Service Delivery Lead
   D80: Filled
   E80: Filled
-  B81: Shreema Das
-  C81: Solution Architect
-  D81: Filled
-  E81: Filled
-  B82: Mark Wilson
-  C82: Digital Support Manager (AU)
+  B81: EGI Customer
+  C81: 10 roles
+  B82: Sri Balan Raj
+  C82: Business Analyst
   D82: Filled
   E82: Filled
-  B83: Daniel Arban
-  C83: Service Delivery Lead
+  B83: Safiq Iqbal
+  C83: Principal Engineer
   D83: Filled
   E83: Filled
-  B84: EGI Customer
-  C84: 10 roles
-  B85: Sri Balan Raj
-  C85: Business Analyst
+  B84: Rishabh Bhatia
+  C84: Engineer - Mobile (Android)
+  D84: Filled
+  E84: Filled
+  B85: Ramez Haider
+  C85: Solution Architect
   D85: Filled
   E85: Filled
-  B86: Safiq Iqbal
-  C86: Principal Engineer
+  B86: Angie Ng
+  C86: Snr Engineer - BE
   D86: Filled
   E86: Filled
-  B87: Rishabh Bhatia
-  C87: Engineer - Mobile (Android)
+  B87: Dasha Fothergill
+  C87: Data Analyst
   D87: Filled
   E87: Filled
-  B88: Ramez Haider
-  C88: Solution Architect
+  B88: Waheed Malek
+  C88: Quality Assurance
   D88: Filled
   E88: Filled
-  B89: Angie Ng
-  C89: Snr Engineer - BE
+  B89: Swapnil Pithwa
+  C89: Engineer - BE
   D89: Filled
   E89: Filled
-  B90: Dasha Fothergill
-  C90: Data Analyst
+  B90: Alan Peng
+  C90: Delivery Lead
   D90: Filled
   E90: Filled
-  B91: Waheed Malek
-  C91: Quality Assurance
+  B91: Rob Jadrjevic
+  C91: Engineer - BE
   D91: Filled
   E91: Filled
-  B92: Swapnil Pithwa
-  C92: Engineer - BE
-  D92: Filled
-  E92: Filled
-  B93: Alan Peng
-  C93: Delivery Lead
+  B92: Energy
+  C92: 1 role
+  B93: Jasper Na
+  C93: Associate Engineer - BE
   D93: Filled
   E93: Filled
-  B94: Rob Jadrjevic
-  C94: Engineer - BE
-  D94: Filled
-  E94: Filled
-  B95: Energy
-  C95: 1 role
-  B96: Jasper Na
-  C96: Associate Engineer - BE
+  B94: Leadership
+  C94: 4 roles
+  B95: Vacant
+  C95: Program Manager
+  D95: Vacant
+  E95: Hire
+  B96: Christian Lazano
+  C96: Business Analyst
   D96: Filled
   E96: Filled
-  B97: Leadership
-  C97: 4 roles
-  B98: Vacant
-  C98: Program Manager
-  D98: Vacant
-  E98: Hire
-  B99: Christian Lazano
-  C99: Business Analyst
-  D99: Filled
-  E99: Filled
-  B100: Abhilash Reddy
-  C100: Project Manager
+  B97: Abhilash Reddy
+  C97: Project Manager
+  D97: Filled
+  E97: Filled
+  B98: Ed Tacey
+  C98: AI Enablement Lead
+  D98: Filled
+  E98: Filled
+  B99: Z App and Web
+  C99: 6 roles
+  B100: Byron Thornhill
+  C100: Design Manager
   D100: Filled
   E100: Filled
-  B101: Ed Tacey
-  C101: AI Enablement Lead
+  B101: Shane Abrahams
+  C101: Digital Support Manager - NZ
   D101: Filled
   E101: Filled
-  B102: Z App and Web
-  C102: 6 roles
-  B103: Byron Thornhill
-  C103: Design Manager
+  B102: Ants Jackson
+  C102: Experience Designer
+  D102: Filled
+  E102: Filled
+  B103: James Nicolle
+  C103: Delivery Lead
   D103: Filled
   E103: Filled
-  B104: Shane Abrahams
-  C104: Digital Support Manager - NZ
+  B104: Tim Corin
+  C104: Experience Designer
   D104: Filled
   E104: Filled
-  B105: Ants Jackson
-  C105: Experience Designer
+  B105: Sam Turnball
+  C105: Associate Experience Designer
   D105: Filled
   E105: Filled
-  B106: James Nicolle
-  C106: Delivery Lead
-  D106: Filled
-  E106: Filled
-  B107: Tim Corin
-  C107: Experience Designer
+  B106: Z Loyalty & Martech
+  C106: 14 roles
+  B107: Anthony Gen
+  C107: Data Analyst
   D107: Filled
   E107: Filled
-  B108: Sam Turnball
-  C108: Associate Experience Designer
+  B108: Kellie Gathergood
+  C108: Lead Quality Assurance
   D108: Filled
   E108: Filled
-  B109: Z Energy Martech
-  C109: 2 roles
-  B110: Yash Thakkar
-  C110: Martech Specialist
+  B109: Megan Rodgers
+  C109: Business Analyst
+  D109: Filled
+  E109: Filled
+  B110: Celia Voysey
+  C110: Delivery Lead
   D110: Filled
   E110: Filled
-  B111: Denise Esguerra
-  C111: Martech Specialist
+  B111: Nimi Rose
+  C111: Marketing Technology Lead
   D111: Filled
   E111: Filled
-  B112: Z Loyalty & Martech
-  C112: 12 roles
-  B113: Anthony Gen
-  C113: Data Analyst
+  B112: Bharat Talreja
+  C112: Marketing Technology Lead
+  D112: Filled
+  E112: Filled
+  B113: Carianne Monast
+  C113: Martech Specialist
   D113: Filled
   E113: Filled
-  B114: Kellie Gathergood
-  C114: Lead Quality Assurance
+  B114: Shinal Chamberlain
+  C114: Business Analyst
   D114: Filled
   E114: Filled
-  B115: Megan Rodgers
-  C115: Business Analyst
+  B115: Yash Thakkar
+  C115: Martech Specialist
   D115: Filled
   E115: Filled
-  B116: Celia Voysey
-  C116: Delivery Lead
+  B116: Denise Esguerra
+  C116: Martech Specialist
   D116: Filled
   E116: Filled
-  B117: Nimi Rose
-  C117: Marketing Technology Lead
+  B117: Kishore Ganesan
+  C117: Intermediate Quality Assurance
   D117: Filled
   E117: Filled
-  B118: Bharat Talreja
-  C118: Marketing Technology Lead
+  B118: Jordan Kettles
+  C118: Engineer, Sotware
   D118: Filled
   E118: Filled
-  B119: Carianne Monast
-  C119: Martech Specialist
+  B119: Kaye Javier
+  C119: QA Analyst
   D119: Filled
   E119: Filled
-  B120: Shinal Chamberlain
-  C120: Business Analyst
+  B120: Scott Cullen
+  C120: Engineer, Dev Ops
   D120: Filled
   E120: Filled
-  B121: Kishore Ganesan
-  C121: Intermediate Quality Assurance
-  D121: Filled
-  E121: Filled
-  B122: Jordan Kettles
-  C122: Engineer, Sotware
+  B121: Head of Technology
+  C121: 2 roles
+  B122: Andy Stewart
+  C122: Head of Technology, Loyalty & Martech
   D122: Filled
   E122: Filled
-  B123: Kaye Javier
-  C123: QA Analyst
+  B123: Shona Paul
+  C123: Head of Technology - Digital
   D123: Filled
   E123: Filled
-  B124: Scott Cullen
-  C124: Engineer, Dev Ops
-  D124: Filled
-  E124: Filled
-  B125: Head of Technology
-  C125: 2 roles
-  B126: Andy Stewart
-  C126: Head of Technology, Loyalty & Martech
+  B124: Delivery Manager
+  C124: 2 roles
+  B125: Jill Martin
+  C125: Delivery Manager
+  D125: Filled
+  E125: Filled
+  B126: Adriel Jeyanandhan
+  C126: Delivery Manager
   D126: Filled
   E126: Filled
-  B127: Shona Paul
-  C127: Head of Technology - Digital
-  D127: Filled
-  E127: Filled
-  B128: Delivery Manager
-  C128: 2 roles
-  B129: Jill Martin
-  C129: Delivery Manager
+  B127: Technology Manager
+  C127: 4 roles
+  B128: Vacant
+  C128: Technology Manager, Engineering
+  D128: Vacant
+  E128: Hire
+  B129: Kris Hamilton
+  C129: Technology Manager - Loyalty & Martech
   D129: Filled
   E129: Filled
-  B130: Adriel Jeyanandhan
-  C130: Delivery Manager
+  B130: Zoe Udy
+  C130: Technology Manager - Data & Engineering
   D130: Filled
   E130: Filled
-  B131: Technology Manager
-  C131: 4 roles
-  B132: Vacant
-  C132: Technology Manager, Engineering
-  D132: Vacant
-  E132: Hire
-  B133: Kris Hamilton
-  C133: Technology Manager - Loyalty & Martech
-  D133: Filled
-  E133: Filled
-  B134: Zoe Udy
-  C134: Technology Manager - Data & Engineering
-  D134: Filled
-  E134: Filled
-  B135: Mitesh Shah
-  C135: Technology Manager - Digital
-  D135: Filled
-  E135: Filled
+  B131: Mitesh Shah
+  C131: Technology Manager - Digital
+  D131: Filled
+  E131: Filled
 
 ===== 2.3 Enterprise Data
   B2: Enterprise Data - working copy
@@ -6229,7 +6203,7 @@ AUD
   D40: Filled
   E40: Filled
   B41: Reporting & Analytics
-  C41: 12 roles
+  C41: 13 roles
   B42: Abdul Ghaffar
   C42: Applications Specialist - Demand Planning
   D42: Filled
@@ -6250,50 +6224,54 @@ AUD
   C46: Applications Specialist
   D46: Filled
   E46: Filled
-  B47: Sai Konka
-  C47: Application & Analytics Manager
+  B47: Rihan Schalkwyk
+  C47: Senior Business Analyst
   D47: Filled
   E47: Filled
-  B48: Steve Murray
-  C48: Applications Specialist
+  B48: Sai Konka
+  C48: Application & Analytics Manager
   D48: Filled
   E48: Filled
-  B49: Sumathi Manikkampichai
-  C49: Data Architect
+  B49: Steve Murray
+  C49: Applications Specialist
   D49: Filled
   E49: Filled
-  B50: Vacant
-  C50: Business Analyst
-  D50: Vacant
-  E50: Hire
+  B50: Sumathi Manikkampichai
+  C50: Data Architect
+  D50: Filled
+  E50: Filled
   B51: Vacant
-  C51: Applications Specialist - Strategic Programs
+  C51: Business Analyst
   D51: Vacant
   E51: Hire
   B52: Vacant
-  C52: Reporting analysts - Strategic Programs
+  C52: Applications Specialist - Strategic Programs
   D52: Vacant
   E52: Hire
-  B53: Vincent Lu
-  C53: Reporting Analyst
-  D53: Filled
-  E53: Filled
-  B54: Head of Technology
-  C54: 1 role
-  B55: James Holgate
-  C55: Head of Technology,  Group Data
-  D55: Filled
-  E55: Filled
-  B56: Technology Manager
-  C56: 2 roles
-  B57: Jason Gleason
-  C57: Technology Manager, Data Engineering & Platforms
-  D57: Filled
-  E57: Filled
-  B58: Jonathan Robinson
-  C58: Technology Manager  Data Science
+  B53: Vacant
+  C53: Reporting analysts - Strategic Programs
+  D53: Vacant
+  E53: Hire
+  B54: Vincent Lu
+  C54: Reporting Analyst
+  D54: Filled
+  E54: Filled
+  B55: Head of Technology
+  C55: 1 role
+  B56: James Holgate
+  C56: Head of Technology,  Group Data
+  D56: Filled
+  E56: Filled
+  B57: Technology Manager
+  C57: 2 roles
+  B58: Jason Gleason
+  C58: Technology Manager, Data Engineering & Platforms
   D58: Filled
   E58: Filled
+  B59: Jonathan Robinson
+  C59: Technology Manager  Data Science
+  D59: Filled
+  E59: Filled
 
 ===== 2.4 TDD Group Functions
   B2: TDD Group Functions - working copy
@@ -8409,7 +8387,7 @@ AUD
   D29: Filled
   E29: Filled
   B30: Group Data
-  C30: 9 roles
+  C30: 8 roles
   B31: Deepali Mahajan
   C31: Data Operations Manager
   D31: Filled
@@ -8430,62 +8408,58 @@ AUD
   C35: Data Enablement Lead
   D35: Filled
   E35: Filled
-  B36: Rihan Schalkwyk
-  C36: Senior Business Analyst
+  B36: Sanjay Tikoo
+  C36: Principal, Data Architecture & Governance
   D36: Filled
   E36: Filled
-  B37: Sanjay Tikoo
-  C37: Principal, Data Architecture & Governance
-  D37: Filled
-  E37: Filled
+  B37: Vacant
+  C37: Service Transition Lead
+  D37: Vacant
+  E37: Hire
   B38: Vacant
-  C38: Service Transition Lead
+  C38: Data Governance Lead
   D38: Vacant
   E38: Hire
-  B39: Vacant
-  C39: Data Governance Lead
-  D39: Vacant
-  E39: Hire
-  B40: Leadership
-  C40: 4 roles
-  B41: Joel Vijayakumar
-  C41: Delivery Manager, Strategy, Architecture & Data
-  D41: Filled
-  E41: Filled
+  B39: Leadership
+  C39: 4 roles
+  B40: Joel Vijayakumar
+  C40: Delivery Manager, Strategy, Architecture & Data
+  D40: Filled
+  E40: Filled
+  B41: Vacant
+  C41: Head of Architecture
+  D41: Vacant
+  E41: Hire
   B42: Vacant
-  C42: Head of Architecture
+  C42: Head of Technology Strategy & AI Capability
   D42: Vacant
   E42: Hire
   B43: Vacant
-  C43: Head of Technology Strategy & AI Capability
+  C43: Senior Communications Advisor
   D43: Vacant
   E43: Hire
-  B44: Vacant
-  C44: Senior Communications Advisor
-  D44: Vacant
-  E44: Hire
-  B45: Technology Strategy & AI Capability
-  C45: 5 roles
-  B46: Roger Blazey
-  C46: Architect (AI Innovation)
-  D46: Filled
-  E46: Filled
+  B44: Technology Strategy & AI Capability
+  C44: 5 roles
+  B45: Roger Blazey
+  C45: Architect (AI Innovation)
+  D45: Filled
+  E45: Filled
+  B46: Vacant
+  C46: AI Capability Lead
+  D46: Vacant
+  E46: Hire
   B47: Vacant
-  C47: AI Capability Lead
+  C47: Enterprise Process Lead
   D47: Vacant
   E47: Hire
   B48: Vacant
-  C48: Enterprise Process Lead
+  C48: Enterprise Process Analyst
   D48: Vacant
-  E48: Hire
+  E48: Hold
   B49: Vacant
-  C49: Enterprise Process Analyst
+  C49: Strategy Analyst
   D49: Vacant
   E49: Hold
-  B50: Vacant
-  C50: Strategy Analyst
-  D50: Vacant
-  E50: Hold
 
 ===== 2.14 EGI
   B2: EGI - working copy
@@ -8683,109 +8657,153 @@ AUD
   I4: Filled
   J4: Vacant
   K4: Total roles after decisions
-  B5: Squads priced by an archetype - detail on 3.3
+  B5: The whole organisation - every group, total cost
   B6: Ampol Retail
   C6: Ampol Retail
-  B7: Customer
-  C7: Customer
-  B8: Enterprise Data
-  C8: Enterprise Data
-  B9: TDD Group Functions
-  C9: TDD Group Functions
-  B10: P&C
-  C10: P&C
-  B11: Finance
-  C11: Finance
-  B12: Infrastructure
-  C12: Infrastructure
-  B13: Energy Solutions & B2B
-  C13: Energy Solutions & B2B
-  B14: Commercial Fuels
-  C14: Commercial Fuels
-  B15: Z Retail
-  C15: Z Retail
-  B16: TDD Cyber
-  C16: TDD Cyber
-  D16: -
-  F16: -
-  B17: Squads priced by an archetype
-  B18: Directly funded programs and platforms - funded on the 1.x tab
-  B19: AmPOS
-  C19: Ampol Retail
-  B20: EGI Retail
-  C20: Ampol Retail
-  B21: EGI TDD
-  C21: Ampol Retail
+  B7: Z Retail
+  C7: Z Retail
+  B8: Retail - Ampol and Z together
+  B9: Customer
+  C9: Customer
+  B10: Enterprise Data
+  C10: Enterprise Data
+  B11: TDD Group Functions
+  C11: TDD Group Functions
+  B12: P&C
+  C12: P&C
+  B13: Finance
+  C13: Finance
+  B14: Infrastructure
+  C14: Infrastructure
+  B15: Energy Solutions & B2B
+  C15: Energy Solutions & B2B
+  B16: Commercial Fuels
+  C16: Commercial Fuels
+  B17: TDD Cyber
+  C17: TDD Cyber
+  B18: COE Cyber
+  C18: COE Cyber
+  D18: -
+  F18: -
+  B19: COE BP&T
+  C19: COE BP&T
+  D19: -
+  F19: -
+  B20: COE SA&D
+  C20: COE SA&D
+  D20: -
+  F20: -
+  B21: EGI
+  C21: EGI
   D21: -
   F21: -
-  B22: EGI Customer
-  C22: Customer
-  B23: EGI TDD
-  C23: TDD Group Functions
-  D23: -
-  F23: -
-  B24: EGI P&C
-  C24: P&C
-  D24: -
-  F24: -
-  B25: EGI Finance
-  C25: Finance
-  D25: -
-  F25: -
-  B26: CTRM
-  C26: Commercial Fuels
-  B27: Directly funded, where the funded figure is set
-  B28: Overhead roles in the portfolios - the allowance is on 3.2
-  B29: Everything with a figure to compare
-  B30: Nothing prices these, so they sit below the comparison
-  B31: Directly funded, where no funded figure is set yet
-  D31: -
-  F31: -
-  B32: COEs and EGI - no independent plan to compare to, so no variance is shown
-  B33: COE Cyber
-  C33: COE Cyber
-  D33: -
-  F33: -
-  B34: COE BP&T
-  C34: COE BP&T
-  D34: -
-  F34: -
-  B35: COE SA&D
-  C35: COE SA&D
-  D35: -
-  F35: -
-  B36: EGI
-  C36: EGI
+  B22: TDD total - the 531 roles in the role mapping
+  D22: -
+  F22: -
+  B24: The walk - archetype cost to actual cost, step by step
+  B25: Squads priced by an archetype - detail on 3.3
+  B26: Ampol Retail
+  C26: Ampol Retail
+  B27: Customer
+  C27: Customer
+  B28: Enterprise Data
+  C28: Enterprise Data
+  B29: TDD Group Functions
+  C29: TDD Group Functions
+  B30: P&C
+  C30: P&C
+  B31: Finance
+  C31: Finance
+  B32: Infrastructure
+  C32: Infrastructure
+  B33: Energy Solutions & B2B
+  C33: Energy Solutions & B2B
+  B34: Commercial Fuels
+  C34: Commercial Fuels
+  B35: Z Retail
+  C35: Z Retail
+  B36: TDD Cyber
+  C36: TDD Cyber
   D36: -
   F36: -
-  B37: COEs and EGI - no independent plan to compare to
-  D37: -
-  F37: -
-  B38: Groups with no archetype and no funded figure - nothing to compare to
-  B39: Energy
-  C39: Customer
-  D39: -
-  F39: -
-  B40: Leadership
-  C40: Customer
-  D40: -
-  F40: -
-  B41: Leadership
-  C41: Infrastructure
+  B37: Squads priced by an archetype
+  B38: Directly funded programs and platforms - funded on the 1.x tab
+  B39: AmPOS
+  C39: Ampol Retail
+  B40: EGI Retail
+  C40: Ampol Retail
+  B41: EGI TDD
+  C41: Ampol Retail
   D41: -
   F41: -
-  B42: Groups with no archetype and no funded figure
-  D42: -
-  F42: -
-  B43: Cost of the 531 roles in the role mapping
+  B42: EGI Customer
+  C42: Customer
+  B43: EGI TDD
+  C43: TDD Group Functions
   D43: -
   F43: -
-  B44: Leadership - the 8 GMs, outside the role mapping
-  B45: Total cost of TDD including the GM layer
+  B44: EGI P&C
+  C44: P&C
+  D44: -
+  F44: -
+  B45: EGI Finance
+  C45: Finance
   D45: -
   F45: -
-  B47: Control - roles against the role mapping, must be 0
-  B48: Control - cost against the role mapping ($m), must be 0
+  B46: CTRM
+  C46: Commercial Fuels
+  B47: Directly funded, where the funded figure is set
+  B48: Overhead roles in the portfolios - the allowance is on 3.2
+  B49: Everything with a figure to compare
+  B50: Nothing prices these, so they sit below the comparison
+  B51: Directly funded, where no funded figure is set yet
+  D51: -
+  F51: -
+  B52: COEs and EGI - no independent plan to compare to, so no variance is shown
+  B53: COE Cyber
+  C53: COE Cyber
+  D53: -
+  F53: -
+  B54: COE BP&T
+  C54: COE BP&T
+  D54: -
+  F54: -
+  B55: COE SA&D
+  C55: COE SA&D
+  D55: -
+  F55: -
+  B56: EGI
+  C56: EGI
+  D56: -
+  F56: -
+  B57: COEs and EGI - no independent plan to compare to
+  D57: -
+  F57: -
+  B58: Groups with no archetype and no funded figure - nothing to compare to
+  B59: Energy
+  C59: Customer
+  D59: -
+  F59: -
+  B60: Leadership
+  C60: Customer
+  D60: -
+  F60: -
+  B61: Leadership
+  C61: Infrastructure
+  D61: -
+  F61: -
+  B62: Groups with no archetype and no funded figure
+  D62: -
+  F62: -
+  B63: Cost of the 531 roles in the role mapping
+  D63: -
+  F63: -
+  B64: Leadership - the 8 GMs, outside the role mapping
+  B65: Total cost of TDD including the GM layer
+  D65: -
+  F65: -
+  B67: Control - roles against the role mapping, must be 0
+  B68: Control - cost against the role mapping ($m), must be 0
 
 ===== 3.2 Overhead & Leadership
   B2: Archetype Overhead & Actual Leadership comparison
@@ -8842,7 +8860,7 @@ AUD
   M13: -
   B14: Control - Times applied set above, against the count the model carries (the ten portfolios and the platforms the 1.x tabs draw), must be 0
   B15: The platform count is the number of Platform Overhead lines the 1.x tabs draw. Directly funded platforms (AmPOS, the EGI lines) carry their own costs, draw no overhead line, and are not in the count.
-  B17: Roles in the organisation, all lines and squads: 531 - portfolios 412, COEs and EGI 119, each counted once
+  B17: Roles in the organisation, all lines and squads: 531 - portfolios 413, COEs and EGI 118, each counted once
   B18: Control - the portfolios plus the COEs and EGI against the role mapping, must be 0
   B20: What the allocated rate is built from
   B21: Input
@@ -8955,410 +8973,416 @@ AUD
   F19: -
   B20: Customer
   C20: Archetype
-  D20: AU CRM & Martech
-  E20: Configuration / Integration
-  F20: XS
+  D20: Ampol App
+  E20: Product
+  F20: L
   B21: Customer
   C21: Archetype
-  D21: Ampol App
+  D21: Ampol Loyalty & Martech
   E21: Product
-  F21: L
+  F21: M
   B22: Customer
   C22: Archetype
-  D22: Ampol Loyalty & Martech
+  D22: Ampol Web
   E22: Product
   F22: M
   B23: Customer
   C23: Archetype
-  D23: Ampol Web
-  E23: Product
-  F23: M
+  D23: Customer, AI
+  E23: Engineering
+  F23: S
   B24: Customer
   C24: Archetype
-  D24: Customer, AI
-  E24: Engineering
-  F24: S
+  D24: Digital Operations
+  E24: Operations
+  F24: M
   B25: Customer
   C25: Archetype
-  D25: Digital Operations
-  E25: Operations
-  F25: M
+  D25: Z App and Web
+  E25: Product
+  F25: S
   B26: Customer
   C26: Archetype
-  D26: Z App and Web
+  D26: Z Loyalty & Martech
   E26: Product
-  F26: S
+  F26: L
   B27: Customer
-  C27: Archetype
-  D27: Z Energy Martech
-  E27: Configuration / Integration
-  F27: XS
+  C27: Directly funded
+  D27: EGI Customer
+  E27: Strategic Programs
+  F27: -
+  G27: -
   B28: Customer
-  C28: Archetype
-  D28: Z Loyalty & Martech
-  E28: Product
-  F28: L
+  C28: No figure to compare
+  D28: Energy
+  E28: Not on the 1.x tab
+  F28: -
+  G28: -
+  L28: -
+  N28: -
   B29: Customer
-  C29: Directly funded
-  D29: EGI Customer
-  E29: Strategic Programs
+  C29: No figure to compare
+  D29: Leadership
+  E29: Not on the 1.x tab
   F29: -
   G29: -
+  L29: -
+  N29: -
   B30: Customer
-  C30: No figure to compare
-  D30: Energy
-  E30: Not on the 1.x tab
+  C30: Overhead
+  D30: Head of Technology
+  E30: -
   F30: -
-  G30: -
-  L30: -
-  N30: -
   B31: Customer
-  C31: No figure to compare
-  D31: Leadership
-  E31: Not on the 1.x tab
+  C31: Overhead
+  D31: Delivery Manager
+  E31: -
   F31: -
-  G31: -
-  L31: -
-  N31: -
   B32: Customer
   C32: Overhead
-  D32: Head of Technology
+  D32: Technology Manager
   E32: -
   F32: -
-  B33: Customer
-  C33: Overhead
-  D33: Delivery Manager
-  E33: -
+  B33: Customer total
   F33: -
-  B34: Customer
-  C34: Overhead
-  D34: Technology Manager
-  E34: -
-  F34: -
-  B35: Customer total
-  F35: -
+  B34: Enterprise Data
+  C34: Archetype
+  D34: Data Platforms
+  E34: Enterprise Data and Insights
+  F34: M
+  B35: Enterprise Data
+  C35: Archetype
+  D35: Data Science
+  E35: Enterprise Data and Insights
+  F35: S
   B36: Enterprise Data
   C36: Archetype
-  D36: Data Platforms
+  D36: Reporting & Analytics
   E36: Enterprise Data and Insights
   F36: M
   B37: Enterprise Data
-  C37: Archetype
-  D37: Data Science
-  E37: Enterprise Data and Insights
-  F37: S
+  C37: Overhead
+  D37: Head of Technology
+  E37: -
+  F37: -
   B38: Enterprise Data
-  C38: Archetype
-  D38: Reporting & Analytics
-  E38: Enterprise Data and Insights
-  F38: M
+  C38: Overhead
+  D38: Delivery Manager
+  E38: -
+  F38: -
   B39: Enterprise Data
   C39: Overhead
-  D39: Head of Technology
+  D39: Technology Manager
   E39: -
   F39: -
-  B40: Enterprise Data
-  C40: Overhead
-  D40: Delivery Manager
-  E40: -
+  B40: Enterprise Data total
   F40: -
-  B41: Enterprise Data
-  C41: Overhead
-  D41: Technology Manager
-  E41: -
-  F41: -
-  B42: Enterprise Data total
-  F42: -
+  B41: TDD Group Functions
+  C41: Archetype
+  D41: Cloud, Network & Infra Ops
+  E41: Operations
+  F41: M
+  B42: TDD Group Functions
+  C42: Archetype
+  D42: DevOps & QE
+  E42: Engineering
+  F42: S
   B43: TDD Group Functions
   C43: Archetype
-  D43: Cloud, Network & Infra Ops
-  E43: Operations
+  D43: Integration & Process Automation
+  E43: Configuration / Integration
   F43: M
   B44: TDD Group Functions
   C44: Archetype
-  D44: DevOps & QE
-  E44: Engineering
+  D44: Workplace & Enterprise Tooling
+  E44: Configuration / Integration
   F44: S
   B45: TDD Group Functions
-  C45: Archetype
-  D45: Integration & Process Automation
-  E45: Configuration / Integration
-  F45: M
+  C45: Directly funded
+  D45: EGI TDD
+  E45: Strategic Programs
+  F45: -
+  G45: -
+  L45: -
+  N45: -
   B46: TDD Group Functions
-  C46: Archetype
-  D46: Workplace & Enterprise Tooling
-  E46: Configuration / Integration
-  F46: S
+  C46: Overhead
+  D46: Head of Technology
+  E46: -
+  F46: -
   B47: TDD Group Functions
-  C47: Directly funded
-  D47: EGI TDD
-  E47: Strategic Programs
+  C47: Overhead
+  D47: Delivery Manager
+  E47: -
   F47: -
-  G47: -
-  L47: -
-  N47: -
   B48: TDD Group Functions
   C48: Overhead
-  D48: Head of Technology
+  D48: Technology Manager
   E48: -
   F48: -
-  B49: TDD Group Functions
-  C49: Overhead
-  D49: Delivery Manager
-  E49: -
+  B49: TDD Group Functions total
   F49: -
-  B50: TDD Group Functions
-  C50: Overhead
-  D50: Technology Manager
-  E50: -
-  F50: -
-  B51: TDD Group Functions total
-  F51: -
+  B50: P&C
+  C50: Archetype
+  D50: P&C
+  E50: Configuration / Integration
+  F50: M
+  B51: P&C
+  C51: Archetype
+  D51: P&C RTA
+  E51: Configuration / Integration
+  F51: S
   B52: P&C
-  C52: Archetype
-  D52: P&C
-  E52: Configuration / Integration
-  F52: M
+  C52: Directly funded
+  D52: EGI P&C
+  E52: Strategic Programs
+  F52: -
+  G52: -
+  L52: -
+  N52: -
   B53: P&C
-  C53: Archetype
-  D53: P&C RTA
-  E53: Configuration / Integration
-  F53: S
+  C53: Overhead
+  D53: Head of Technology
+  E53: -
+  F53: -
   B54: P&C
-  C54: Directly funded
-  D54: EGI P&C
-  E54: Strategic Programs
+  C54: Overhead
+  D54: Delivery Manager
+  E54: -
   F54: -
-  G54: -
-  L54: -
-  N54: -
   B55: P&C
   C55: Overhead
-  D55: Head of Technology
+  D55: Technology Manager
   E55: -
   F55: -
-  B56: P&C
-  C56: Overhead
-  D56: Delivery Manager
-  E56: -
+  B56: P&C total
   F56: -
-  B57: P&C
-  C57: Overhead
-  D57: Technology Manager
-  E57: -
-  F57: -
-  B58: P&C total
-  F58: -
+  B57: Finance
+  C57: Archetype
+  D57: NZ Finance
+  E57: Configuration / Integration
+  F57: S
+  B58: Finance
+  C58: Archetype
+  D58: SAP ERP
+  E58: Configuration / Integration
+  F58: S
   B59: Finance
-  C59: Archetype
-  D59: NZ Finance
-  E59: Configuration / Integration
-  F59: S
+  C59: Directly funded
+  D59: EGI Finance
+  E59: Strategic Programs
+  F59: -
+  G59: -
+  L59: -
+  N59: -
   B60: Finance
-  C60: Archetype
-  D60: SAP ERP
-  E60: Configuration / Integration
-  F60: S
+  C60: Overhead
+  D60: Head of Technology
+  E60: -
+  F60: -
   B61: Finance
-  C61: Directly funded
-  D61: EGI Finance
-  E61: Strategic Programs
+  C61: Overhead
+  D61: Delivery Manager
+  E61: -
   F61: -
-  G61: -
-  L61: -
-  N61: -
   B62: Finance
   C62: Overhead
-  D62: Head of Technology
+  D62: Technology Manager
   E62: -
   F62: -
-  B63: Finance
-  C63: Overhead
-  D63: Delivery Manager
-  E63: -
+  B63: Finance total
   F63: -
-  B64: Finance
-  C64: Overhead
-  D64: Technology Manager
-  E64: -
-  F64: -
-  B65: Finance total
-  F65: -
+  B64: Infrastructure
+  C64: Archetype
+  D64: Data & Insights
+  E64: Configuration / Integration
+  F64: S
+  B65: Infrastructure
+  C65: Archetype
+  D65: Distribution, Sales & Services
+  E65: Configuration / Integration
+  F65: M
   B66: Infrastructure
   C66: Archetype
-  D66: Data & Insights
+  D66: Manufacturing Group Projects
   E66: Configuration / Integration
-  F66: S
+  F66: M
   B67: Infrastructure
   C67: Archetype
-  D67: Distribution, Sales & Services
-  E67: Configuration / Integration
-  F67: M
+  D67: Technology Support
+  E67: Operations
+  F67: S
   B68: Infrastructure
-  C68: Archetype
-  D68: Manufacturing Group Projects
-  E68: Configuration / Integration
-  F68: M
+  C68: No figure to compare
+  D68: Leadership
+  E68: Not on the 1.x tab
+  F68: -
+  G68: -
+  L68: -
+  N68: -
   B69: Infrastructure
-  C69: Archetype
-  D69: Technology Support
-  E69: Operations
-  F69: S
+  C69: Overhead
+  D69: Head of Technology
+  E69: -
+  F69: -
   B70: Infrastructure
-  C70: No figure to compare
-  D70: Leadership
-  E70: Not on the 1.x tab
+  C70: Overhead
+  D70: Delivery Manager
+  E70: -
   F70: -
-  G70: -
-  L70: -
-  N70: -
   B71: Infrastructure
   C71: Overhead
-  D71: Head of Technology
+  D71: Technology Manager
   E71: -
   F71: -
-  B72: Infrastructure
-  C72: Overhead
-  D72: Delivery Manager
-  E72: -
+  B72: Infrastructure total
   F72: -
-  B73: Infrastructure
-  C73: Overhead
-  D73: Technology Manager
-  E73: -
-  F73: -
-  B74: Infrastructure total
-  F74: -
+  B73: Energy Solutions & B2B
+  C73: Archetype
+  D73: B2B
+  E73: Configuration / Integration
+  F73: L
+  B74: Energy Solutions & B2B
+  C74: Archetype
+  D74: EVCI
+  E74: Engineering
+  F74: S
   B75: Energy Solutions & B2B
   C75: Archetype
-  D75: B2B
-  E75: Configuration / Integration
-  F75: L
+  D75: Energy
+  E75: Engineering
+  F75: M
   B76: Energy Solutions & B2B
-  C76: Archetype
-  D76: EVCI
-  E76: Engineering
-  F76: S
+  C76: Overhead
+  D76: Head of Technology
+  E76: -
+  F76: -
   B77: Energy Solutions & B2B
-  C77: Archetype
-  D77: Energy
-  E77: Engineering
-  F77: M
+  C77: Overhead
+  D77: Delivery Manager
+  E77: -
+  F77: -
   B78: Energy Solutions & B2B
   C78: Overhead
-  D78: Head of Technology
+  D78: Technology Manager
   E78: -
   F78: -
-  B79: Energy Solutions & B2B
-  C79: Overhead
-  D79: Delivery Manager
-  E79: -
+  B79: Energy Solutions & B2B total
   F79: -
-  B80: Energy Solutions & B2B
-  C80: Overhead
-  D80: Technology Manager
-  E80: -
-  F80: -
-  B81: Energy Solutions & B2B total
-  F81: -
+  B80: Commercial Fuels
+  C80: Archetype
+  D80: Supply
+  E80: Configuration / Integration
+  F80: M
+  B81: Commercial Fuels
+  C81: Archetype
+  D81: Trading & Shipping
+  E81: Configuration / Integration
+  F81: M
   B82: Commercial Fuels
   C82: Archetype
-  D82: Supply
-  E82: Configuration / Integration
+  D82: Trading & Shipping Data
+  E82: Enterprise Data and Insights
   F82: M
   B83: Commercial Fuels
-  C83: Archetype
-  D83: Trading & Shipping
-  E83: Configuration / Integration
-  F83: M
+  C83: Directly funded
+  D83: CTRM
+  E83: Strategic Programs
+  F83: -
+  G83: -
   B84: Commercial Fuels
-  C84: Archetype
-  D84: Trading & Shipping Data
-  E84: Enterprise Data and Insights
-  F84: M
+  C84: Overhead
+  D84: Head of Technology
+  E84: -
+  F84: -
   B85: Commercial Fuels
-  C85: Directly funded
-  D85: CTRM
-  E85: Strategic Programs
+  C85: Overhead
+  D85: Delivery Manager
+  E85: -
   F85: -
-  G85: -
   B86: Commercial Fuels
   C86: Overhead
-  D86: Head of Technology
+  D86: Technology Manager
   E86: -
   F86: -
-  B87: Commercial Fuels
-  C87: Overhead
-  D87: Delivery Manager
-  E87: -
+  B87: Commercial Fuels total
   F87: -
-  B88: Commercial Fuels
-  C88: Overhead
-  D88: Technology Manager
-  E88: -
-  F88: -
-  B89: Commercial Fuels total
-  F89: -
+  B88: Z Retail
+  C88: Archetype
+  D88: Data NZ
+  E88: Enterprise Data and Insights
+  F88: M
+  B89: Z Retail
+  C89: Archetype
+  D89: Site Systems
+  E89: Configuration / Integration
+  F89: M
   B90: Z Retail
   C90: Archetype
-  D90: Data NZ
-  E90: Enterprise Data and Insights
+  D90: Z Retail Backend
+  E90: Build and Run
   F90: M
   B91: Z Retail
   C91: Archetype
-  D91: Site Systems
-  E91: Configuration / Integration
+  D91: Z Supply
+  E91: Build and Run
   F91: M
   B92: Z Retail
-  C92: Archetype
-  D92: Z Retail Backend
-  E92: Build and Run
-  F92: M
+  C92: Overhead
+  D92: Head of Technology
+  E92: -
+  F92: -
   B93: Z Retail
-  C93: Archetype
-  D93: Z Supply
-  E93: Build and Run
-  F93: M
+  C93: Overhead
+  D93: Delivery Manager
+  E93: -
+  F93: -
   B94: Z Retail
   C94: Overhead
-  D94: Head of Technology
+  D94: Technology Manager
   E94: -
   F94: -
-  B95: Z Retail
-  C95: Overhead
-  D95: Delivery Manager
-  E95: -
+  B95: Z Retail total
   F95: -
-  B96: Z Retail
-  C96: Overhead
-  D96: Technology Manager
+  B96: TDD Cyber
+  C96: Archetype
+  D96: Cyber Uplift
   E96: -
   F96: -
-  B97: Z Retail total
+  G96: -
+  L96: -
+  N96: -
+  B97: TDD Cyber
+  C97: Overhead
+  D97: Delivery Manager
+  E97: -
   F97: -
   B98: TDD Cyber
-  C98: Archetype
-  D98: Cyber Uplift
+  C98: Overhead
+  D98: Technology Manager
   E98: -
   F98: -
-  G98: -
-  L98: -
-  N98: -
-  B99: TDD Cyber
-  C99: Overhead
-  D99: Delivery Manager
-  E99: -
+  B99: TDD Cyber total
   F99: -
-  B100: TDD Cyber
-  C100: Overhead
-  D100: Technology Manager
+  B100: COE Cyber
+  C100: Directly funded
+  D100: Cyber GRC
   E100: -
   F100: -
-  B101: TDD Cyber total
+  G100: -
+  L100: -
+  N100: -
+  B101: COE Cyber
+  C101: Directly funded
+  D101: Cyber Risk
+  E101: -
   F101: -
+  G101: -
+  L101: -
+  N101: -
   B102: COE Cyber
   C102: Directly funded
-  D102: Cyber GRC
+  D102: Cyber Sec Ops
   E102: -
   F102: -
   G102: -
@@ -9366,7 +9390,7 @@ AUD
   N102: -
   B103: COE Cyber
   C103: Directly funded
-  D103: Cyber Risk
+  D103: Cyber Strat & Tech
   E103: -
   F103: -
   G103: -
@@ -9374,65 +9398,65 @@ AUD
   N103: -
   B104: COE Cyber
   C104: Directly funded
-  D104: Cyber Sec Ops
+  D104: Service Op & Assurance
   E104: -
   F104: -
   G104: -
   L104: -
   N104: -
-  B105: COE Cyber
-  C105: Directly funded
-  D105: Cyber Strat & Tech
-  E105: -
+  B105: COE Cyber total
   F105: -
   G105: -
   L105: -
   N105: -
-  B106: COE Cyber
+  B106: COE BP&T
   C106: Directly funded
-  D106: Service Op & Assurance
+  D106: Commercial
   E106: -
   F106: -
   G106: -
   L106: -
   N106: -
-  B107: COE Cyber total
+  B107: COE BP&T
+  C107: Directly funded
+  D107: TDD Business Partner
+  E107: -
   F107: -
   G107: -
   L107: -
   N107: -
   B108: COE BP&T
   C108: Directly funded
-  D108: Commercial
+  D108: Transformation
   E108: -
   F108: -
   G108: -
   L108: -
   N108: -
-  B109: COE BP&T
-  C109: Directly funded
-  D109: TDD Business Partner
-  E109: -
+  B109: COE BP&T total
   F109: -
   G109: -
   L109: -
   N109: -
-  B110: COE BP&T
+  B110: COE SA&D
   C110: Directly funded
-  D110: Transformation
+  D110: Architecture
   E110: -
   F110: -
   G110: -
   L110: -
   N110: -
-  B111: COE BP&T total
+  B111: COE SA&D
+  C111: Directly funded
+  D111: Data Platforms
+  E111: -
   F111: -
   G111: -
   L111: -
   N111: -
   B112: COE SA&D
   C112: Directly funded
-  D112: Architecture
+  D112: Group Data
   E112: -
   F112: -
   G112: -
@@ -9440,7 +9464,7 @@ AUD
   N112: -
   B113: COE SA&D
   C113: Directly funded
-  D113: Data Platforms
+  D113: Leadership
   E113: -
   F113: -
   G113: -
@@ -9448,51 +9472,35 @@ AUD
   N113: -
   B114: COE SA&D
   C114: Directly funded
-  D114: Group Data
+  D114: Technology Strategy & AI Capability
   E114: -
   F114: -
   G114: -
   L114: -
   N114: -
-  B115: COE SA&D
-  C115: Directly funded
-  D115: Leadership
-  E115: -
+  B115: COE SA&D total
   F115: -
   G115: -
   L115: -
   N115: -
-  B116: COE SA&D
+  B116: EGI
   C116: Directly funded
-  D116: Technology Strategy & AI Capability
+  D116: EGI
   E116: -
   F116: -
   G116: -
   L116: -
   N116: -
-  B117: COE SA&D total
+  B117: EGI total
   F117: -
   G117: -
   L117: -
   N117: -
-  B118: EGI
-  C118: Directly funded
-  D118: EGI
-  E118: -
+  B118: Group total
   F118: -
-  G118: -
-  L118: -
   N118: -
-  B119: EGI total
-  F119: -
-  G119: -
-  L119: -
-  N119: -
-  B120: Group total
-  F120: -
-  N120: -
-  B122: Control - roles against the role mapping, must be 0
-  B123: Control - cost against the role mapping ($m), must be 0
+  B120: Control - roles against the role mapping, must be 0
+  B121: Control - cost against the role mapping ($m), must be 0
 
 ===== 3.4 COE Detail
   B2: COE detail - where the cost sits
@@ -9578,58 +9586,59 @@ AUD
   B26: Overhead on 3.1 against the cost that sits in the portfolios on 3.2 ($m)
   B27: The allowance the model carries against the overhead step on 3.1 ($m)
   B28: 3.2's split of the allowance - in the portfolios plus in the COEs - against its own total ($m)
-  B29: Archetype cost on the working tabs, net of the allowance held elsewhere, against 3.1's comparable total ($m)
-  B30: Overhead allowance on 3.1 against the working tabs ($m)
-  B31: Roles after decisions against roles less anything on hold
-  B32: Decision impact on 3.1 against the working tabs ($m)
-  B33: 1.11 BP&T roles against the role mapping
-  B34: 1.12 SA&D roles against the role mapping
-  B35: 1.13 Cyber Roles roles against the role mapping
-  B36: 1.11 BP&T own control - roles listed against roles counted
-  B37: 1.12 SA&D own control - roles listed against roles counted
-  B38: 1.13 Cyber Roles own control - roles listed against roles counted
-  B39: 2.1 Ampol Retail archetype total against Total Cost on 1.1 Ampol Retail ($m)
-  B40: 2.2 Customer archetype total against Total Cost on 1.2 Customer ($m)
-  B41: 2.3 Enterprise Data archetype total against Total Cost on 1.3 Enterprise Data ($m)
-  B42: 2.4 TDD Group Functions archetype total against Total Cost on 1.4 TDD Group Functions ($m)
-  B43: 2.5 P&C archetype total against Total Cost on 1.5 P&C ($m)
-  B44: 2.6 Finance archetype total against Total Cost on 1.6 Finance ($m)
-  B45: 2.7 Infrastructure archetype total against Total Cost on 1.7 Infrastructure ($m)
-  B46: 2.8 Energy Solutions & B2B archetype total against Total Cost on 1.8 Energy Solutions & B2B ($m)
-  B47: 2.9 Commercial Fuels archetype total against Total Cost on 1.9 Commercial Fuels ($m)
-  B48: 2.10 Z Retail archetype total against Total Cost on 1.10 Z Retail ($m)
-  B49: 2.15 TDD Cyber archetype total against Total Cost on 1.14 TDD Cyber ($m)
-  B50: 2.1 Ampol Retail roles against the role mapping
-  B51: 2.1 Ampol Retail cost against the role mapping ($m)
-  B52: 2.2 Customer roles against the role mapping
-  B53: 2.2 Customer cost against the role mapping ($m)
-  B54: 2.3 Enterprise Data roles against the role mapping
-  B55: 2.3 Enterprise Data cost against the role mapping ($m)
-  B56: 2.4 TDD Group Functions roles against the role mapping
-  B57: 2.4 TDD Group Functions cost against the role mapping ($m)
-  B58: 2.5 P&C roles against the role mapping
-  B59: 2.5 P&C cost against the role mapping ($m)
-  B60: 2.6 Finance roles against the role mapping
-  B61: 2.6 Finance cost against the role mapping ($m)
-  B62: 2.7 Infrastructure roles against the role mapping
-  B63: 2.7 Infrastructure cost against the role mapping ($m)
-  B64: 2.8 Energy Solutions & B2B roles against the role mapping
-  B65: 2.8 Energy Solutions & B2B cost against the role mapping ($m)
-  B66: 2.9 Commercial Fuels roles against the role mapping
-  B67: 2.9 Commercial Fuels cost against the role mapping ($m)
-  B68: 2.10 Z Retail roles against the role mapping
-  B69: 2.10 Z Retail cost against the role mapping ($m)
-  B70: 2.11 COE Cyber roles against the role mapping
-  B71: 2.11 COE Cyber cost against the role mapping ($m)
-  B72: 2.12 COE BP&T roles against the role mapping
-  B73: 2.12 COE BP&T cost against the role mapping ($m)
-  B74: 2.13 COE SA&D roles against the role mapping
-  B75: 2.13 COE SA&D cost against the role mapping ($m)
-  B76: 2.14 EGI roles against the role mapping
-  B77: 2.14 EGI cost against the role mapping ($m)
-  B78: 2.15 TDD Cyber roles against the role mapping
-  B79: 2.15 TDD Cyber cost against the role mapping ($m)
-  B80: Checks failing
+  B29: 3.1's whole-organisation total against its own ledger row ($m)
+  B30: Archetype cost on the working tabs, net of the allowance held elsewhere, against 3.1's comparable total ($m)
+  B31: Overhead allowance on 3.1 against the working tabs ($m)
+  B32: Roles after decisions against roles less anything on hold
+  B33: Decision impact on 3.1 against the working tabs ($m)
+  B34: 1.11 BP&T roles against the role mapping
+  B35: 1.12 SA&D roles against the role mapping
+  B36: 1.13 Cyber Roles roles against the role mapping
+  B37: 1.11 BP&T own control - roles listed against roles counted
+  B38: 1.12 SA&D own control - roles listed against roles counted
+  B39: 1.13 Cyber Roles own control - roles listed against roles counted
+  B40: 2.1 Ampol Retail archetype total against Total Cost on 1.1 Ampol Retail ($m)
+  B41: 2.2 Customer archetype total against Total Cost on 1.2 Customer ($m)
+  B42: 2.3 Enterprise Data archetype total against Total Cost on 1.3 Enterprise Data ($m)
+  B43: 2.4 TDD Group Functions archetype total against Total Cost on 1.4 TDD Group Functions ($m)
+  B44: 2.5 P&C archetype total against Total Cost on 1.5 P&C ($m)
+  B45: 2.6 Finance archetype total against Total Cost on 1.6 Finance ($m)
+  B46: 2.7 Infrastructure archetype total against Total Cost on 1.7 Infrastructure ($m)
+  B47: 2.8 Energy Solutions & B2B archetype total against Total Cost on 1.8 Energy Solutions & B2B ($m)
+  B48: 2.9 Commercial Fuels archetype total against Total Cost on 1.9 Commercial Fuels ($m)
+  B49: 2.10 Z Retail archetype total against Total Cost on 1.10 Z Retail ($m)
+  B50: 2.15 TDD Cyber archetype total against Total Cost on 1.14 TDD Cyber ($m)
+  B51: 2.1 Ampol Retail roles against the role mapping
+  B52: 2.1 Ampol Retail cost against the role mapping ($m)
+  B53: 2.2 Customer roles against the role mapping
+  B54: 2.2 Customer cost against the role mapping ($m)
+  B55: 2.3 Enterprise Data roles against the role mapping
+  B56: 2.3 Enterprise Data cost against the role mapping ($m)
+  B57: 2.4 TDD Group Functions roles against the role mapping
+  B58: 2.4 TDD Group Functions cost against the role mapping ($m)
+  B59: 2.5 P&C roles against the role mapping
+  B60: 2.5 P&C cost against the role mapping ($m)
+  B61: 2.6 Finance roles against the role mapping
+  B62: 2.6 Finance cost against the role mapping ($m)
+  B63: 2.7 Infrastructure roles against the role mapping
+  B64: 2.7 Infrastructure cost against the role mapping ($m)
+  B65: 2.8 Energy Solutions & B2B roles against the role mapping
+  B66: 2.8 Energy Solutions & B2B cost against the role mapping ($m)
+  B67: 2.9 Commercial Fuels roles against the role mapping
+  B68: 2.9 Commercial Fuels cost against the role mapping ($m)
+  B69: 2.10 Z Retail roles against the role mapping
+  B70: 2.10 Z Retail cost against the role mapping ($m)
+  B71: 2.11 COE Cyber roles against the role mapping
+  B72: 2.11 COE Cyber cost against the role mapping ($m)
+  B73: 2.12 COE BP&T roles against the role mapping
+  B74: 2.12 COE BP&T cost against the role mapping ($m)
+  B75: 2.13 COE SA&D roles against the role mapping
+  B76: 2.13 COE SA&D cost against the role mapping ($m)
+  B77: 2.14 EGI roles against the role mapping
+  B78: 2.14 EGI cost against the role mapping ($m)
+  B79: 2.15 TDD Cyber roles against the role mapping
+  B80: 2.15 TDD Cyber cost against the role mapping ($m)
+  B81: Checks failing
 
 ===== Lists
   A1: Squad Types
@@ -9697,9 +9706,13 @@ AUD
   J10: Commercial Fuels
   T10: B2B & Energy Solutions
   U10: Energy Solutions & B2B
+  W10: Z Energy Martech
+  X10: Z Loyalty & Martech
   J11: Z Retail
   T11: Commercial Fuels
   U11: Commercial Fuels
+  W11: AU CRM & Martech
+  X11: Ampol Loyalty & Martech
   J12: TDD Cyber
   T12: Finance
   U12: Finance

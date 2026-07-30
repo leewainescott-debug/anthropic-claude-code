@@ -118,9 +118,11 @@ def run(path):
     ws, vs = wb["1.12 SA&D"], wv["1.12 SA&D"]
     holds = [r for r in range(20, 50) if str(vs.cell(r, 8).value or "").strip() == "Hold"]
     check("1.12 carries exactly his three Holds (rows 31/43/44)", holds == [31, 43, 44], f"holds at {holds}")
-    check("1.12 rows 45-47 Onshore, notes empty",
+    # two appended rows, not three: Rihan prices in Reporting & Analytics now (D118),
+    # so only Deepali and the vacant Service Transition Lead append to the Data COE
+    check("1.12 rows 45-46 Onshore, notes empty, and row 47 empty",
           all(str(vs.cell(r, 8).value or "") == "Onshore" and vs.cell(r, 9).value is None
-              for r in (45, 46, 47)))
+              for r in (45, 46)) and vs.cell(47, 2).value is None)
     w13 = wb["2.13 COE SA&D"]
     lev = [str(wv["2.13 COE SA&D"].cell(r, 5).value or "") for r in range(1, w13.max_row + 1)]
     check("2.13 has exactly 3 Holds, 0 Offshore", lev.count("Hold") == 3 and lev.count("Offshore") == 0,
@@ -228,25 +230,62 @@ def run(path):
     v12 = wv["1.2 Customer"]
     check("1.2!F7 = 0.495 - platform overhead once, as in both his workbooks",
           abs((v12["F7"].value or 0) - 0.495) < 1e-9, str(v12["F7"].value))
-    # 16.3625 = his 15.5625 plus the two squads D117 put back on the tab, both seeded at
-    # Config/Int XS (0.4): Z Energy Martech 0.4 at support 1, AU CRM & Martech 0.4 at
-    # support 0.2 (0.08 TDD + 0.32 funded outside). The first seed priced Z Energy
-    # Martech as Product S (1.3) and he rejected it on sight - a 5.5-role archetype on a
-    # two-person squad.
-    check("1.2!F9 = 16.3625", abs((v12["F9"].value or 0) - 16.3625) < 1e-6,
+    # back to his 15.5625: D118 folded the two "squads" of D117 back into the squads
+    # they always were, so the rows and their archetype cost are gone from 1.2
+    check("1.2!F9 = 15.5625", abs((v12["F9"].value or 0) - 15.5625) < 1e-6,
           str(v12["F9"].value))
-    # I50, not I49: the AU CRM & Martech insertion moved the Group Customer overhead
-    # row down one, and the seven boundary formulas moved with it (D117)
     check("1.2!C7 is the complement of D7 - one branch fires, never both",
-          str(wb["1.2 Customer"]["C7"].value).endswith("0,SUM(I34,I42,I50))")
-          and str(wb["1.2 Customer"]["D7"].value).endswith("SUM(I34,I42,I50),0)"),
+          str(wb["1.2 Customer"]["C7"].value).endswith("0,SUM(I34,I42,I49))")
+          and str(wb["1.2 Customer"]["D7"].value).endswith("SUM(I34,I42,I49),0)"),
           str(wb["1.2 Customer"]["C7"].value)[-40:])
-    check("1.2 prices all four Martech/CRM squads",
-          all(any(str(wb["1.2 Customer"].cell(r, 2).value or "").strip() == nm
-                  for r in range(30, 60))
-              for nm in ("Ampol Loyalty & Martech", "Z Loyalty & Martech",
-                         "AU CRM & Martech", "Z Energy Martech")),
-          "a squad row is missing")
+    # D118: "z energy martech is z loyalty & martech. same frickin squad" - the old
+    # names fold into the squads and appear nowhere as squads of their own. Folded, the
+    # two squads carry exactly his own pivot totals.
+    old_names = []
+    for t in ("1.2 Customer",):
+        for rr in range(25, 60):
+            if str(wb[t].cell(rr, 2).value or "").strip() in ("AU CRM & Martech",
+                                                              "Z Energy Martech"):
+                old_names.append(f"{t}!B{rr}")
+    RR = wb[REVIEW]
+    ap_col = next((c for c in range(30, 50)
+                   if str(RR.cell(1, c).value or "").startswith("Squad (canonical")), None)
+    canon_old = [r for r in range(2, RR.max_row + 1)
+                 if str(RR.cell(r, ap_col).value or "").strip()
+                 in ("AU CRM & Martech", "Z Energy Martech")] if ap_col else ["no col"]
+    check("the two old Martech names fold into their squads everywhere",
+          not old_names and not canon_old,
+          f"1.2 rows {old_names[:2]}, canonical rows {canon_old[:4]}")
+    counts = {}
+    for r in range(2, RR.max_row + 1):
+        s = str(wv[REVIEW].cell(r, ap_col).value or "").strip() if ap_col else ""
+        if s in ("Ampol Loyalty & Martech", "Z Loyalty & Martech"):
+            counts[s] = counts.get(s, 0) + 1
+    check("folded, the squads carry his own pivot counts - Ampol 9 roles, Z 17",
+          counts.get("Ampol Loyalty & Martech") == 9
+          and counts.get("Z Loyalty & Martech") == 17, str(counts))
+    # D118: Rihan Schalkwyk prices in the Reporting & Analytics squad, Enterprise Data.
+    # The grouping override lands in AT (Squad or overhead line) and AJ (MTab); the
+    # K-canonical column deliberately keeps his raw squad. 2.x names are ledger
+    # references, so the placement scan reads cached values.
+    at_col = next((c for c in range(30, 50)
+                   if str(RR.cell(1, c).value or "").startswith("Squad or overhead")),
+                  None)
+    rihan = next((r for r in range(2, RR.max_row + 1)
+                  if str(RR.cell(r, 2).value or "").strip() == "Rihan Schalkwyk"), None)
+    check("Rihan Schalkwyk sits in Reporting & Analytics on the working tabs",
+          rihan is not None and at_col is not None
+          and str(wv[REVIEW].cell(rihan, at_col).value or "").strip()
+          == "Reporting & Analytics"
+          and str(wv[REVIEW].cell(rihan, 36).value or "").strip() == "Enterprise Data"
+          and any(str(wv["2.3 Enterprise Data"].cell(rr, 2).value or "").strip()
+                  == "Rihan Schalkwyk"
+                  for rr in range(1, wv["2.3 Enterprise Data"].max_row + 1)),
+          f"row {rihan}: AT={wv[REVIEW].cell(rihan, at_col).value if rihan and at_col else None!r} "
+          f"AJ={wv[REVIEW].cell(rihan, 36).value if rihan else None!r}")
+    check("0.2 carries the Data COE note - the two Enterprise Data leadership roles",
+          str(wb["0.2 Data Config"]["H10"].value or "").startswith("Incl. Deepali"),
+          repr(wb["0.2 Data Config"]["H10"].value))
     v10 = wv["1.10 Z Retail"]
     check("1.10!F7 = 0.330 (his no-overhead note honoured)",
           abs((v10["F7"].value or 0) - 0.330) < 1e-9, str(v10["F7"].value))
@@ -445,15 +484,18 @@ def run(path):
         check("3.2 says the allocation in words",
               str(v32g.cell(lo, 13).value or "") == "50% across 10 portfolios",
               repr(v32g.cell(lo, 13).value))
-    ALL32 = ("Roles in the organisation, all lines and squads: 531 - portfolios 412, "
-             "COEs and EGI 119, each counted once")
+    # derived, not pinned to a split: D118 moved Rihan portfolio-side, and any future
+    # override moves the split again. What cannot move: the two halves sum to 531 and
+    # the sentence states the count the G cell carries.
     allrow = next((r for r in range(6, 30)
                    if str(v32g.cell(r, 2).value or "").startswith(
                        "Roles in the organisation, all lines and squads")), None)
     check("3.2 all-roles row present", allrow is not None)
     if allrow:
-        check("3.2 counts each role once (412 + 119 = 531)",
-              str(v32g.cell(allrow, 2).value or "") == ALL32
+        m32 = re.search(r"531 - portfolios (\d+), COEs and EGI (\d+), each counted once",
+                        str(v32g.cell(allrow, 2).value or ""))
+        check("3.2 counts each role once - the two halves sum to 531",
+              m32 is not None and int(m32.group(1)) + int(m32.group(2)) == 531
               and v32g.cell(allrow, 7).value == 531,
               f"{v32g.cell(allrow, 2).value!r} G={v32g.cell(allrow, 7).value}")
         check("3.2 all-roles control reads 0",
@@ -559,10 +601,10 @@ def run(path):
                     n_hyb += 1
                     if "$K$8" not in f or "))/2," in f:
                         bad_hyb += 1
-    # 42 = the original 40 plus the two Customer squads his D117 ruling put back on 1.2
-    # (AU CRM & Martech and Z Energy Martech)
-    check("all 42 squad formulas carry the hybrid rule, none the old midpoint",
-          n_hyb == 42 and bad_hyb == 0, f"{n_hyb} formulas, {bad_hyb} old-shape")
+    # back to 40: D118 folded the two D117 rows away - they were old names for squads
+    # already priced
+    check("all 40 squad formulas carry the hybrid rule, none the old midpoint",
+          n_hyb == 40 and bad_hyb == 0, f"{n_hyb} formulas, {bad_hyb} old-shape")
 
     # ---- wave J: the simplification sweep, asserted so it cannot creep back
     idx_join = []
@@ -601,11 +643,41 @@ def run(path):
             and re.search(r"\$[DE]:\$[DE]", ex.cell(r, 3).value)]
     check("Exec's vacancy counts read bounded ranges, not whole columns", not wide,
           f"{len(wide)} whole-column")
-    e17 = str(wb["3.1 Cost Bridge"]["E17"].value or "")
-    e27 = str(wb["3.1 Cost Bridge"]["E27"].value or "")
-    check("3.1's archetype subtotal is a plain SUM", e17.startswith("=SUM("), e17[:40])
+    # found by label - the whole-organisation block (D118) sits above the walk now, so
+    # these rows are no longer at fixed positions
+    w31c = wb["3.1 Cost Bridge"]
+    r_arch = next((rr for rr in range(4, 80) if str(w31c.cell(rr, 2).value or "").strip()
+                   == "Squads priced by an archetype"), None)
+    r_dir = next((rr for rr in range(4, 80) if str(w31c.cell(rr, 2).value or "").strip()
+                  == "Directly funded, where the funded figure is set"), None)
+    e_arch = str(w31c.cell(r_arch, 5).value or "") if r_arch else ""
+    e_dir = str(w31c.cell(r_dir, 5).value or "") if r_dir else ""
+    check("3.1's archetype subtotal is a plain SUM", e_arch.startswith("=SUM("),
+          e_arch[:40])
     check("3.1 keeps the gate on the step that needs it",
-          "SUMPRODUCT(--ISNUMBER" in e27, e27[:40])
+          "SUMPRODUCT(--ISNUMBER" in e_dir, e_dir[:40])
+    # D118: the whole-organisation block - every group, Retail grouped, total early
+    bars31 = [str(w31c.cell(rr, 2).value or "") for rr in range(3, 12)]
+    check("3.1 opens with the whole-organisation block",
+          any(b.startswith("The whole organisation") for b in bars31), str(bars31[:3]))
+    r_ret = next((rr for rr in range(4, 40) if str(w31c.cell(rr, 2).value or "").startswith(
+        "Retail - Ampol and Z")), None)
+    check("Ampol Retail and Z Retail sit together under a Retail subtotal",
+          r_ret is not None
+          and str(w31c.cell(r_ret - 2, 2).value or "").strip() == "Ampol Retail"
+          and str(w31c.cell(r_ret - 1, 2).value or "").strip() == "Z Retail",
+          f"subtotal at r{r_ret}")
+    r_orgt = next((rr for rr in range(4, 45) if str(w31c.cell(rr, 2).value or "").startswith(
+        "TDD total - the")), None)
+    v31c = wv["3.1 Cost Bridge"]
+    r_led31 = next((rr for rr in range(4, 90) if str(v31c.cell(rr, 2).value or "").startswith(
+        "Cost of the")), None)
+    check("the whole-organisation total equals the walk's ledger row",
+          r_orgt is not None and r_led31 is not None
+          and abs((v31c.cell(r_orgt, 5).value or 0)
+                  - (v31c.cell(r_led31, 5).value or 0)) < 1e-6,
+          f"org r{r_orgt} {v31c.cell(r_orgt, 5).value if r_orgt else None} vs "
+          f"ledger r{r_led31} {v31c.cell(r_led31, 5).value if r_led31 else None}")
     # The two checks that stood here pinned a Home country column on 0.2 and forbade the
     # 1.x tabs from deciding AU or NZ by comparing the two budget cells. Both are retired:
     # the column was mine, he never asked for it, and it is off his config tab. The budget
@@ -659,9 +731,9 @@ def run(path):
     # found by label, not row number - the bridge gains and loses named lines as squads
     # move between its steps, which is exactly what D117 did
     v31g = wv["3.1 Cost Bridge"]
-    r_led = next((r for r in range(4, 60)
+    r_led = next((r for r in range(4, 120)
                   if str(v31g.cell(r, 2).value or "").startswith("Cost of the")), None)
-    r_gr = next((r for r in range(4, 60)
+    r_gr = next((r for r in range(4, 120)
                  if str(v31g.cell(r, 2).value or "").startswith(
                      "Total cost of TDD including")), None)
     check("3.1's ledger and grand rows carry a dash, not a 395-vs-531 'variance'",

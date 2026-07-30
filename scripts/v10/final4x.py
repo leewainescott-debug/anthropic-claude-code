@@ -467,6 +467,10 @@ def build_qa(wb, a, a2):
         # people sit in the COEs and above the ledger. 3.1 carries those in its COE step
         # and its GM line instead, so the two tie only once that 6.60 is taken out - and
         # this check is what proves it still does.
+        # the whole-organisation block up top and the walk below it state the same
+        # organisation; this is the tie that keeps them from ever drifting apart
+        ("3.1's whole-organisation total against its own ledger row ($m)",
+         f"={G1}!$E${a['org_total']}", f"={G1}!$E${a['total']}", opts.M2),
         ("Archetype cost on the working tabs, net of the allowance held elsewhere, "
          "against 3.1's comparable total ($m)",
          "=" + "+".join(f"N('{t}'!${L(S['acost'])}${i['total_row']})"
