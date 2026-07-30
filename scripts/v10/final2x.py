@@ -895,10 +895,14 @@ def run(src, dst):
               "2.12": "COE BP&T", "2.13": "COE SA&D", "2.14": "EGI",
               "2.15": "TDD Cyber"}
     for tab in tabs:
-        pf = wv[tab]["C3"].value
+        # the curated number map is authoritative for the known tabs - the base tab
+        # still carries its old-generation name (2.11 says TDD Cyber), and once TDD
+        # Cyber has real ledger rows a name match would hijack the COE's tab
+        pf = BY_NUM.get(tab.split(" ")[0])
+        if pf is None:
+            pf = wv[tab]["C3"].value
         if pf not in bypf:
-            pf = next((p for p in bypf if p and tab.endswith(str(p))),
-                      BY_NUM.get(tab.split(" ")[0]))
+            pf = next((p for p in bypf if p and tab.endswith(str(p))), pf)
         if pf is None:
             raise SystemExit(f"{tab}: no portfolio found (C3, suffix and number all miss)")
         # A portfolio can be designed before it is staffed: 1.14 TDD Cyber prices a squad
