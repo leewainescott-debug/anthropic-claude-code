@@ -180,21 +180,22 @@ HONEST = [
 
 
 def add_data_coe_note(wb, out):
-    """His D118 instruction: 'need to add a note in config tab to explain this'.
+    """His note on the config tab, saying where the two roles actually sit.
 
-    The Data COE's spend carries two roles that organisationally sit in Enterprise
-    Data's leadership group - Deepali Mahajan and a vacant Service Transition Lead
-    (his agreed moves, D7). Without a note on 0.2 the row reads 0.50 heavier than the
-    COE's own people and nothing says why."""
+    D119: "we literally said deepali and service transition lead DO NOT sit in COE-
+    data, they sit in Ent Data." Both count in Enterprise Data's leadership group -
+    their own raw rows, no override - and the note on the COE - Data row states the
+    boundary, because anyone reconciling the COE against an org chart will look for
+    them here and must be told to look in Enterprise Data instead."""
     ws = wb["0.2 Data Config"]
-    note = ("Incl. Deepali Mahajan and a vacant Service Transition Lead - they sit in "
-            "Enterprise Data's leadership group and are counted in the Data COE.")
+    note = ("Deepali Mahajan and the vacant Service Transition Lead are NOT in this "
+            "line - they sit in Enterprise Data's leadership group.")
     cur = ws["H10"].value
-    if cur in (None, note):
+    if cur is None or str(cur).startswith(("Incl. Deepali", "Deepali Mahajan")):
         ws["H10"] = note
         ws["H10"].font = openpyxl.styles.Font(name="Calibri", size=10)
-        out.append("0.2!H10: Data COE note added - the two Enterprise Data leadership "
-                   "roles it carries, named (D118)")
+        out.append("0.2!H10: Data COE boundary note - the two roles sit in Enterprise "
+                   "Data leadership, not here (D119)")
     else:
         out.append(f"0.2!H10 holds {str(cur)[:40]!r} - his note, left alone; the Data "
                    f"COE explanation was NOT written")

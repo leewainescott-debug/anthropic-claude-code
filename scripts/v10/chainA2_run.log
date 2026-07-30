@@ -96,7 +96,7 @@
      e.g. Exec Summary!B47: Directly funded programs - over/(under) funded ($m)
      e.g. 2.1 Ampol Retail!B16: Directly funded programs and platforms
    0.2 Data Config!M13 'Allocation %' -> 'Alloc %' - his wording
-  A injected {'cells': 13623, 'sheets': 46, 'verified': True}
+  A injected {'cells': 13648, 'sheets': 46, 'verified': True}
   A errors 0 blank 2
 
 ==============================================================================
@@ -110,7 +110,7 @@ ANCHORS: 10
     inputs: 0 cream formulas, 33 unmarked typed numbers
     rounding: 25 sums over rounded chains
     refs: 0 whole-column references, 0 error cells
-    labels: 9624 labels written to labels.txt for the plain-English read
+    labels: 9634 labels written to labels.txt for the plain-English read
 
 ==============================================================================
 CONTROL: 3
@@ -188,7 +188,7 @@ ROUNDING: 25
     2.2 Customer!G15: sums 7 already-rounded cells (G8:G14)
     2.2 Customer!G26: sums 3 already-rounded cells (G23:G25)
     2.3 Enterprise Data!G11: sums 3 already-rounded cells (G8:G10)
-    2.3 Enterprise Data!G16: sums 3 already-rounded cells (G13:G15)
+    2.3 Enterprise Data!G18: sums 3 already-rounded cells (G15:G17)
     2.4 TDD Group Functions!G12: sums 4 already-rounded cells (G8:G11)
     2.4 TDD Group Functions!G19: sums 3 already-rounded cells (G16:G18)
     2.5 P&C!G17: sums 3 already-rounded cells (G14:G16)

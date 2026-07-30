@@ -64,7 +64,7 @@
    0.2 Data Config!F15 -> ='1.9 Commercial Fuels'!$C$9
    0.2 Data Config!F23 -> ='1.13 Cyber Roles'!$F$11+N('1.14 TDD Cyber'!$F$9)
    1.10 Z Retail!D7 -> =IF(('0.2 Data Config'!$D$12)>('0.2 Data Config'!$C$12),SUM(I27,I34),0)
-   0.2!H10: Data COE note added - the two Enterprise Data leadership roles it carries, named (D118)
+   0.2!H10: Data COE boundary note - the two roles sit in Enterprise Data leadership, not here (D119)
    1.1 Ampol Retail!J21 '=SUM(E9-J15-J16-J17-J18)' -> '=E9-(J19-J14)' - Left to fund: the applied total less the Lights On line, the shape its nine siblings use, instead of enumerating the four lines in between
    1.13 Cyber Roles!F11 '=F8-0.5' -> '=F8-C13' - planned spend less the Cyber CapEx input at C13, instead of a typed copy of it
    0.2 Data Config!L23 50.5 -> '=E26' - the allocated-budget total the row beside it already computes
@@ -89,8 +89,8 @@
    Lists AE:AJ: 50 cells restored from the ancestor
    Lists!AD5 = 0.3!K5 - the lever's offshore rate is his archetype Offshore rate, one input driving both sides
    Lists!AF13: 525/ledger wording brought up to date
-   keyed on the person: Deepali Mahajan | Data Operations Manager (row 283 today); Vacant | Service Transition Lead (row 313 today); Jens Tom | SAP Solution Architect (row 528 today); Rihan Schalkwyk | Senior Business Analyst (row 301 today)
-   Lists override table: 4 moves, 10 slots, name-keyed
+   keyed on the person: Jens Tom | SAP Solution Architect (row 528 today); Rihan Schalkwyk | Senior Business Analyst (row 301 today)
+   Lists override table: 2 moves, 10 slots, name-keyed
    Lists!AS2:AS11: the ten portfolios, named
    widened override window in 0 formulas
    REVIEW AJ / AR / AT rebuilt on 531 rows
@@ -105,7 +105,7 @@
    Sheet2: filter and sort removed (was A1:AB153, 0 criteria, no sortState, 0 rows hidden)
    2.1 Ampol Retail: 7 archetyped, 3 directly funded, 0 with no figure, 3 overhead, 70 people
    2.2 Customer: 7 archetyped, 1 directly funded, 2 with no figure, 3 overhead, 83 people
-   2.3 Enterprise Data: 3 archetyped, 0 directly funded, 0 with no figure, 3 overhead, 29 people
+   2.3 Enterprise Data: 3 archetyped, 0 directly funded, 1 with no figure, 3 overhead, 31 people
    2.4 TDD Group Functions: 4 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 46 people
    2.5 P&C: 2 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 18 people
    2.6 Finance: 2 archetyped, 1 directly funded, 0 with no figure, 3 overhead, 17 people
@@ -115,22 +115,21 @@
    2.10 Z Retail: 4 archetyped, 0 directly funded, 0 with no figure, 3 overhead, 39 people
    2.11 TDD Cyber: 0 archetyped, 5 directly funded, 0 with no figure, 0 overhead, 52 people
    2.12 BP&T: 0 archetyped, 3 directly funded, 0 with no figure, 0 overhead, 24 people
-   2.13 SA&D: 0 archetyped, 5 directly funded, 0 with no figure, 0 overhead, 25 people
+   2.13 SA&D: 0 archetyped, 5 directly funded, 0 with no figure, 0 overhead, 23 people
    2.14 EGI: 0 archetyped, 1 directly funded, 0 with no figure, 0 overhead, 17 people
    2.15 TDD Cyber: 1 archetyped, 0 directly funded, 0 with no figure, 2 overhead, 0 people
    Lists: overhead lines tagged in AM, portfolio-drawn allowance at AJ9, per-platform lines counted off the design tabs
-   3.1: cost bridge, every directly funded programme named, ledger row 63, grand total row 65
+   3.1: cost bridge, every directly funded programme named, ledger row 64, grand total row 66
    3.2: overhead and leadership, line by line, plus what the allowance is built from
-   3.3: every squad by portfolio, total row 118
+   3.3: every squad by portfolio, total row 119
    Lists archetype-roles lookup repointed on 11 portfolios
    3 inputs recoloured to cream across the live model
    Exec Summary rebuilt on design against actual, with a portfolio drill-down
    4.0 Data QA rebuilt: 76 checks, model / expected / difference
-   anchors: 3.1 ledger r63 grand r65, 3.2 overhead total r11, 3.3 total r118
+   anchors: 3.1 ledger r64 grand r66, 3.2 overhead total r11, 3.3 total r119
    3.4 COE detail rebuilt: squad by squad, AU / NZ on the owner's own basis (country <> NZ), overhead titles, total row 24
    1.11 BP&T: roles list complete, 24 roles
-   1.12 SA&D: 2 roles written in (REVIEW rows 283, 313), each set Onshore in column H
-   1.12 SA&D: not carried across from the template row - I45 ('Hold' on the template row); I46 ('Hold' on the template row)
+   1.12 SA&D: roles list complete, 23 roles
    1.13 Cyber Roles: roles list complete, 52 roles
    1.11 BP&T: portfolio-funded line stated at B18, figure in C18
    1.12 SA&D: portfolio-funded line stated at B19, figure in C19
@@ -163,7 +162,7 @@
    1.1 Ampol Retail!B49 orphan 'Platform Overhead' label removed
    1.10 Z Retail!B40 orphan 'Platform Overhead' label removed
    1.11 BP&T: 24 lever factors now read Lists!AC2:AD5
-   1.12 SA&D: 25 lever factors now read Lists!AC2:AD5
+   1.12 SA&D: 23 lever factors now read Lists!AC2:AD5
    1.13 Cyber Roles: 52 lever factors now read Lists!AC2:AD5
    lever factors (Hold 0, Offshore 0.4, everything else 1) now priced from Lists!AC2:AD5 on the design tabs as well as the working tabs
    24 platform total rows noted: H stops at the squads, I takes in the Platform Overhead row, and that is deliberate
@@ -253,7 +252,7 @@
    1.11 BP&T: rows [34] raised so their wrapped title is not clipped
    1.12 SA&D: rows [23, 26, 32, 36, 39] raised so their wrapped title is not clipped
    1.12 SA&D: columns D widened to their longest value - NOTE finish.py's coe_widths resets the COE width profile afterwards, so this needs COE_W widened to hold
-   1.12 SA&D: empty ruled rows [47, 48, 49, 50] at the foot of the roles list stripped of their borders and fill
+   1.12 SA&D: empty ruled rows [45, 46, 47, 48, 49, 50] at the foot of the roles list stripped of their borders and fill
    1.13 Cyber Roles: rows [28, 43, 65] raised so their wrapped title is not clipped
    1.11 BP&T: column B labels on rows [11, 12, 13, 14, 16, 18] wrapped and their rows raised - they were being cut off by the figure beside them
    1.12 SA&D: column B labels on rows [11, 12, 13, 14, 19] wrapped and their rows raised - they were being cut off by the figure beside them
@@ -299,5 +298,5 @@
    column B set to 34 on all 4 summary tabs, so the left edge lines up
    1.6 Finance: review block at S25 named as a snapshot
    4.0 given a section bar, like every other built tab
-  injected {'cells': 13389, 'sheets': 46, 'verified': True}
+  injected {'cells': 13414, 'sheets': 46, 'verified': True}
   errors 0 blank 2

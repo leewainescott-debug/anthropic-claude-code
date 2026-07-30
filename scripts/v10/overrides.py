@@ -42,9 +42,12 @@ N = 11                                  # override window runs Lists!$AN$2:$AN$1
 # The three moves the owner instructed (D7). They lived as typed rows in the Lists
 # override table; the review workbook's branch predates that table, so they are
 # reinstated here or the roles silently snap back to their raw homes.
-NEW = [(283, "COE SA&D", "Group Data", None),
-       (313, "COE SA&D", "Group Data", None),
-       (528, None, "SAP ERP", None),
+# The 283/313 rows (Deepali Mahajan, the vacant Service Transition Lead -> Data COE)
+# came out on his D119 ruling: "we literally said deepali and service transition lead DO
+# NOT sit in COE- data, they sit in Ent Data." Their raw rows already say Enterprise
+# Data / Leadership, so with no override they are home. The old D7 table entry for them
+# is superseded.
+NEW = [(528, None, "SAP ERP", None),
        # his D118 ruling: "Rihan is in the reporting and analytics squad." His raw row
        # carries Portfolio "COE - Strategy, Architecture, Data" / Platform "Group Data",
        # so without this override he counts in the Data COE. Raw columns untouched, as

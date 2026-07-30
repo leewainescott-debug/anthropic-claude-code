@@ -6,7 +6,7 @@ Companion file: `docs/PLAN.md` (what we are doing and what is outstanding).
 "Lee" means you decided it. "Build" means I decided it and it is reversible - each one is
 flagged so you can overturn it without hunting for where it lives.
 
-Last updated: after D118 - the fold-back, Rihan to Reporting & Analytics, and the whole-organisation block on 3.1.
+Last updated: after D119 - Deepali and the vacant Service Transition Lead home in Enterprise Data leadership.
 
 ---
 
@@ -921,7 +921,26 @@ Same precedence as D83: his newer instruction outranks his older text. Corrected
 "Hybrid = 2 roles onshore, rest offshore"; hybrid.py documents the exemption; the gate pins
 the corrected sentence. One word from him reverses it.
 
+### D119. Deepali and the vacant Service Transition Lead sit in Enterprise Data. Lee, twice.
+"we literally said deepali and service transition lead DO NOT sit in COE- data, they sit
+in Ent Data."
+
+He had said it, explicitly - "Deepali and the service transition lead sit in the Ent Data
+world **(not COE)** in the leadership group" - and D118 item 3 got it backwards: his
+message's later sentence ("deepali is in enterprise data data coe ... also coe") read as
+if it overrode the first, and the build followed the wrong one. When his own two sentences
+disagree, the rule is now to ask, not choose; the explicit parenthetical was the ruling.
+
+Both roles are home: no overrides, their own raw rows (Enterprise Data / Leadership)
+place them, they price on 2.3 in Enterprise Data's leadership group, and the Data COE
+returns to his 1.72 against its 2.0 allocation. The two D7 table entries that moved them
+(283, 313) are superseded and removed; D7's remaining rows (Jens Tom) stand. The 0.2 note
+he asked for flips to state the boundary the right way round: they are NOT in the COE -
+Data line, they sit in Enterprise Data's leadership group. Rihan's D118 ruling
+(Reporting & Analytics) is unchanged.
+
 ### D118. The two "missing squads" never existed; his org rulings land. Lee, in his words.
+**Item 3 of this entry was implemented backwards and corrected the next day - see D119.**
 Four rulings in one message, reversing D117's premise and reshaping 3.1:
 
 **1. "z energy martech is z loyalty & martech. same frickin squad, not a new squad."**

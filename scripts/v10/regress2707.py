@@ -118,11 +118,12 @@ def run(path):
     ws, vs = wb["1.12 SA&D"], wv["1.12 SA&D"]
     holds = [r for r in range(20, 50) if str(vs.cell(r, 8).value or "").strip() == "Hold"]
     check("1.12 carries exactly his three Holds (rows 31/43/44)", holds == [31, 43, 44], f"holds at {holds}")
-    # two appended rows, not three: Rihan prices in Reporting & Analytics now (D118),
-    # so only Deepali and the vacant Service Transition Lead append to the Data COE
-    check("1.12 rows 45-46 Onshore, notes empty, and row 47 empty",
-          all(str(vs.cell(r, 8).value or "") == "Onshore" and vs.cell(r, 9).value is None
-              for r in (45, 46)) and vs.cell(47, 2).value is None)
+    # no appended rows at all: Rihan prices in Reporting & Analytics (D118) and Deepali
+    # and the vacant Service Transition Lead sit in Enterprise Data leadership (D119),
+    # so nobody outside 1.12's own typed table belongs on it
+    check("1.12 has no appended ledger rows - 45-47 empty",
+          all(vs.cell(r, 2).value is None for r in (45, 46, 47)),
+          str([vs.cell(r, 2).value for r in (45, 46, 47)]))
     w13 = wb["2.13 COE SA&D"]
     lev = [str(wv["2.13 COE SA&D"].cell(r, 5).value or "") for r in range(1, w13.max_row + 1)]
     check("2.13 has exactly 3 Holds, 0 Offshore", lev.count("Hold") == 3 and lev.count("Offshore") == 0,
@@ -283,9 +284,24 @@ def run(path):
                   for rr in range(1, wv["2.3 Enterprise Data"].max_row + 1)),
           f"row {rihan}: AT={wv[REVIEW].cell(rihan, at_col).value if rihan and at_col else None!r} "
           f"AJ={wv[REVIEW].cell(rihan, 36).value if rihan else None!r}")
-    check("0.2 carries the Data COE note - the two Enterprise Data leadership roles",
-          str(wb["0.2 Data Config"]["H10"].value or "").startswith("Incl. Deepali"),
+    check("0.2's Data COE note states the boundary - the two roles are NOT in it",
+          str(wb["0.2 Data Config"]["H10"].value or "").startswith("Deepali Mahajan and "
+              "the vacant Service Transition Lead are NOT"),
           repr(wb["0.2 Data Config"]["H10"].value))
+    # D119: both roles home in Enterprise Data - on 2.3, not 2.13, and no override rows
+    on23 = {str(wv["2.3 Enterprise Data"].cell(rr, 2).value or "").strip()
+            for rr in range(1, wv["2.3 Enterprise Data"].max_row + 1)}
+    on213 = {str(wv["2.13 COE SA&D"].cell(rr, 2).value or "").strip()
+             for rr in range(1, wv["2.13 COE SA&D"].max_row + 1)}
+    check("Deepali and the vacant STL price in Enterprise Data, not the Data COE",
+          "Deepali Mahajan" in on23 and "Deepali Mahajan" not in on213,
+          f"on 2.3: {'Deepali Mahajan' in on23}, on 2.13: {'Deepali Mahajan' in on213}")
+    # the override table keys on the person, not the row (D109), so absence is asserted
+    # on the person keys
+    ovr = [str(wb["Lists"].cell(rr, 40).value or "") for rr in range(2, 12)]
+    check("no override rows remain for Deepali or the vacant Service Transition Lead",
+          not any(v.startswith(("Deepali Mahajan |", "Vacant | Service Transition"))
+                  for v in ovr), str([v for v in ovr if v]))
     v10 = wv["1.10 Z Retail"]
     check("1.10!F7 = 0.330 (his no-overhead note honoured)",
           abs((v10["F7"].value or 0) - 0.330) < 1e-9, str(v10["F7"].value))
@@ -328,12 +344,18 @@ def run(path):
     check("3.4 control is live and reads 0", ctl and all(abs(x or 0) < 1e-9 for x in ctl), str(ctl))
 
     # ---- QA: live SUMIFS instead of =0
-    for tab, cells in (("2.3 Enterprise Data", ["O14"]), ("2.6 Finance", ["O14", "O15"])):
-        for ref in cells:
-            f = str(wb[tab][ref].value or "")
-            val = wv[tab][ref].value
-            check(f"{tab}!{ref} live SUMIFS evaluating 0",
-                  f.startswith("=SUMIFS") and abs(val or 0) < 1e-9, f"{f[:24]} -> {val}")
+    # by meaning, not by cell: the original finding was a typed 0 where a live SUMIFS
+    # belonged, and the fixed cells' rows move whenever a group gains or loses members
+    # (D119 moved Leadership onto 2.3). What must stay true: no actual-cost cell in the
+    # group block is a typed number - every one is a formula or a dash.
+    for tab in ("2.3 Enterprise Data", "2.6 Finance"):
+        wt, vt = wb[tab], wv[tab]
+        tot = next((r for r in range(8, 40)
+                    if str(vt.cell(r, 2).value or "").strip() == "Total portfolio"), 30)
+        typed = [f"O{r}" for r in range(8, tot)
+                 if isinstance(wt.cell(r, 15).value, (int, float))]
+        check(f"{tab}: no typed number in the actual-cost column, formulas only",
+              not typed, str(typed[:4]))
 
     # ---- decisions after the fix: 8 holds, after-cost
     ex = wv["Exec Summary"]
