@@ -3569,8 +3569,8 @@ AUD
   E40: Onshore
   F40: NZ
   B41: Z Energy Martech
-  C41: Product
-  D41: S
+  C41: Configuration / Integration
+  D41: XS
   E41: Onshore
   F41: NZ
   M41: CPI actuals; pull through
@@ -5672,8 +5672,8 @@ AUD
   C14: Product
   D14: S
   B15: Z Energy Martech
-  C15: Product
-  D15: S
+  C15: Configuration / Integration
+  D15: XS
   B16: Z Loyalty & Martech
   C16: Product
   D16: L
@@ -8991,8 +8991,8 @@ AUD
   B27: Customer
   C27: Archetype
   D27: Z Energy Martech
-  E27: Product
-  F27: S
+  E27: Configuration / Integration
+  F27: XS
   B28: Customer
   C28: Archetype
   D28: Z Loyalty & Martech

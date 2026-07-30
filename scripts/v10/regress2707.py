@@ -228,10 +228,12 @@ def run(path):
     v12 = wv["1.2 Customer"]
     check("1.2!F7 = 0.495 - platform overhead once, as in both his workbooks",
           abs((v12["F7"].value or 0) - 0.495) < 1e-9, str(v12["F7"].value))
-    # 17.2625 = his 15.5625 plus the two squads D117 put back on the tab: Z Energy
-    # Martech at Product S (1.3, support 1) and AU CRM & Martech at Config/Int XS
-    # (0.4, support 0.2 - 0.08 TDD + 0.32 funded outside)
-    check("1.2!F9 = 17.2625", abs((v12["F9"].value or 0) - 17.2625) < 1e-6,
+    # 16.3625 = his 15.5625 plus the two squads D117 put back on the tab, both seeded at
+    # Config/Int XS (0.4): Z Energy Martech 0.4 at support 1, AU CRM & Martech 0.4 at
+    # support 0.2 (0.08 TDD + 0.32 funded outside). The first seed priced Z Energy
+    # Martech as Product S (1.3) and he rejected it on sight - a 5.5-role archetype on a
+    # two-person squad.
+    check("1.2!F9 = 16.3625", abs((v12["F9"].value or 0) - 16.3625) < 1e-6,
           str(v12["F9"].value))
     # I50, not I49: the AU CRM & Martech insertion moved the Group Customer overhead
     # row down one, and the seven boundary formulas moved with it (D117)

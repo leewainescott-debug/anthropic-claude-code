@@ -182,14 +182,15 @@ HONEST = [
 #   that does not hold exactly what is expected is reported and left alone.
 #
 # Type, Size, On/Off and Support % are HIS cream inputs on every other row, so the seeds
-# here are only a starting point, chosen from the evidence and disclosed for his review:
-# AU CRM & Martech = Configuration / Integration XS (0.3's own "MS Squad ... work managed
-# by a partner" - both roles are WIPRO), support 0.2 like its two block siblings;
-# Z Energy Martech = Product S, the smallest Product archetype (it is a Martech squad,
-# and both his Loyalty & Martech squads are Product), support 1 like its block siblings.
+# here are only a starting point, disclosed for his review. Both squads seed as
+# Configuration / Integration XS, the smallest archetype in his library (1 role, 0.4):
+# the first seed priced Z Energy Martech as Product S - a 5.5-role, $1.3m archetype for a
+# two-person squad - which put Z Customer $1.3m further from its budget overnight and he
+# rejected it on sight. XS overstates least; sizing the squads up is one retype in the
+# cream cells.
 NEW_SQUADS = [
     dict(row=41, insert=False, sib=40, b="Z Energy Martech",
-         c="Product", d="S", e="Onshore", f="NZ", g=1),
+         c="Configuration / Integration", d="XS", e="Onshore", f="NZ", g=1),
     dict(row=49, insert=True, sib=47, b="AU CRM & Martech",
          c="Configuration / Integration", d="XS", e="Onshore", f="AU", g=0.2),
 ]

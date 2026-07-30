@@ -938,13 +938,13 @@ exact text match, the pass proves nothing elsewhere references the shifted rows 
 touches anything, and it refuses to run at all if any expected text is absent.
 
 **The four pricing inputs on each row are seeds, not his numbers - they are cream and his
-to retype:**
-- AU CRM & Martech: Configuration / Integration, XS ("MS Squad - work managed by a
-  partner", 0.3's own use-when; both roles are WIPRO), Onshore, AU, support 0.2 like its
-  two block siblings.
-- Z Energy Martech: Product, S (the smallest Product archetype; it is a Martech squad and
-  both his Loyalty & Martech squads are Product), Onshore, NZ, support 1 like its block
-  siblings.
+to retype.** Both seed as Configuration / Integration XS, the smallest archetype in his
+library (1 role, $0.4m): AU CRM & Martech at support 0.2 like its block siblings, Z Energy
+Martech at support 1 like its. The first shipped seed priced Z Energy Martech as Product S
+- a 5.5-role, $1.3m archetype on a two-person squad - which moved Z Customer's 0.2 spend
+from 4.99 to 6.29 overnight and he rejected it on sight ("z customer so far from
+budget?"). The lesson is recorded: a seed on his tab is sized to overstate least, not to
+match the squad's type family.
 
 The gate pins 42 hybrid-swept squad formulas (was 40) and the new 1.2 totals; the two
 squads leave 3.1's unpriced bucket and join Customer's archetype line.
