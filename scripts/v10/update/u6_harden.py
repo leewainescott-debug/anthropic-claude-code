@@ -1,0 +1,400 @@
+#!/usr/bin/env python3
+"""u6 - spec sections G3, G4 and H: the model made hard to break.
+
+  python3 u6_harden.py <in.xlsx> <out.xlsx> [recalculated_in.xlsx]
+
+Strict dropdowns instead of sheet protection, the long formulas broken into
+helper columns that say what they mean, no format anywhere that prints a dash
+for a zero, and every control still reading 0 in white font.
+
+The optional third argument is a recalculated copy of the input; the format
+sweep needs to know which cells actually hold a number. Without it the script
+recalculates the input itself.
+
+Idempotent: handed its own output it copies it through untouched.
+"""
+import sys, os, re, shutil, collections
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import openpyxl
+from openpyxl.styles import Font, PatternFill
+from openpyxl.worksheet.datavalidation import DataValidation
+from openpyxl.worksheet.cell_range import MultiCellRange, CellRange
+
+import wbio
+from _xl import REVIEW, LEVERS, Log, load, save, shift_rows, white, copy_style
+
+EXEC = "Exec Summary"
+QA = "4.0 Data QA"
+T33 = "3.3 Squad Actuals to Archetype"
+SRC = ("0.1 Budget Table (Fin)", "0.4 Presentation Pack")
+# a column on the QA grid and on the executive summary deliberately mixes
+# counts with dollars, so the in-column format rule does not apply there
+NO_MODAL = SRC + (EXEC, QA, REVIEW, "Lists")
+
+ARCH = "'0.3 Squad Archetypes'"
+HELP = {27: ("Onshore rate ($m)", "$G$5:$G$23"),
+        28: ("Offshore rate ($m)", "$H$5:$H$23"),
+        29: ("Archetype roles", "$F$5:$F$23")}
+SHORT = ('=IFERROR(IF($E{r}="Onshore",$AA{r}*1,IF($E{r}="Hybrid",'
+         '$AA{r}*MIN({a}!$K$8,$AC{r})/$AC{r}+$AB{r}*($AC{r}-MIN({a}!$K$8,$AC{r}))'
+         '/$AC{r},$AB{r}*1)),"check size")')
+
+OLD_DEFAULT = ",Lists!$AC$2:$AC$5,0)),1)"
+NEW_DEFAULT = ",Lists!$AC$2:$AC$5,0)),NA())"
+
+# Exec's five vacancy chains, in the order they sit on the tab
+COUNTS = [("J", '=COUNTIFS($D${a}:$D${z},"Vacant",$E${a}:$E${z},"Hire")'),
+          ("K", '=COUNTIFS($D${a}:$D${z},"Vacant",$E${a}:$E${z},"Offshore")'),
+          ("L", '=COUNTIFS($D${a}:$D${z},"Vacant",$E${a}:$E${z},"Hold")'),
+          ("M", '=COUNTIFS($D${a}:$D${z},"Vacant",$E${a}:$E${z},"Filled")'),
+          ("N", '=COUNTIFS($D${a}:$D${z},"Filled",$E${a}:$E${z},"Offshore")')]
+EXEC_ROWS = {26: "J", 27: "K", 28: "L", 29: "M", 30: "N"}
+
+LEVER_CTRL = ("Control - every lever on this tab is one of the four values, "
+              "must be 0")
+SUMMARY_LBL = "Vacancy levers on this tab, for the executive summary"
+
+DASH = re.compile(r'(\\-|"-")')
+
+
+# ----------------------------------------------------------------- formats
+
+def sections(fmt):
+    out, cur, q, i = [], "", False, 0
+    while i < len(fmt):
+        ch = fmt[i]
+        if ch == '"':
+            q = not q
+            cur += ch
+        elif ch == "\\" and i + 1 < len(fmt):
+            cur += fmt[i:i + 2]
+            i += 2
+            continue
+        elif ch == ";" and not q:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+        i += 1
+    out.append(cur)
+    return out
+
+
+def undash(fmt):
+    """A zero section that prints a dash prints the number instead."""
+    if not fmt or fmt == "General":
+        return fmt
+    s = sections(fmt)
+    if len(s) >= 3 and DASH.search(s[2]):
+        s[2] = s[0]
+        return ";".join(s)
+    return fmt
+
+
+# ------------------------------------------------------------- tab helpers
+
+def tabs2x(wb):
+    return [ws.title for ws in wb.worksheets if ws.title.startswith("2.")]
+
+
+def fte_hdr(ws):
+    for r in range(5, 120):
+        v = ws.cell(r, 2).value
+        if isinstance(v, str) and v.endswith(" FTE"):
+            return r + 1
+    raise SystemExit("STOP: no FTE block on %s" % ws.title)
+
+
+def block_span(ws):
+    """(first row of the helper block, last role row)."""
+    hdr = fte_hdr(ws)
+    first = last = None
+    for r in range(hdr + 1, ws.max_row + 1):
+        c, d = ws.cell(r, 3).value, ws.cell(r, 4).value
+        if isinstance(c, str) and c.startswith("=COUNTIF("):
+            first = first or r
+        elif isinstance(d, str) and REVIEW in d and "$AK$" in d:
+            first = first or r
+            last = r
+    return first, last
+
+
+def role_rows(ws):
+    out = []
+    for r in range(1, ws.max_row + 1):
+        d = ws.cell(r, 4).value
+        if isinstance(d, str) and REVIEW in d and "$AK$" in d:
+            out.append(r)
+    return out
+
+
+def main(src, dst, pre=None):
+    log = Log("u6_harden")
+    wb = load(src)
+
+    a21 = wb["2.1 Ampol Retail"]
+    if any(a21.cell(r, 2).value == SUMMARY_LBL
+           for r in range(1, a21.max_row + 1)):
+        print("input is already hardened - copying through")
+        shutil.copy(src, dst)
+        log.tail()
+        print("wrote", dst)
+        return
+
+    if pre is None:
+        pre = wbio.recalc(src)
+    vals = openpyxl.load_workbook(pre, data_only=True)
+
+    # ---------------------------------------------------------------- G4a
+    log.head("G4  a lever the model cannot price shows #N/A, never full price")
+    n = 0
+    for ws in wb.worksheets:
+        for row in ws.iter_rows():
+            for c in row:
+                v = c.value
+                if isinstance(v, str) and OLD_DEFAULT in v:
+                    c.value = v.replace(OLD_DEFAULT, NEW_DEFAULT)
+                    n += 1
+    log("G4", "workbook", "%d lever cost formulas default to NA() not 1" % n)
+
+    # ---------------------------------------------------------------- G4b/H3
+    log.head("G4 / H3  a control and a summary row on every lever modelling tab")
+    exec_at = {}
+    for title in tabs2x(wb):
+        ws = wb[title]
+        a, z = block_span(ws)
+        ctrl, summ = z + 2, z + 3
+        ws.cell(ctrl, 2).value = LEVER_CTRL
+        ws.cell(ctrl, 3).value = (
+            '=SUMPRODUCT(($E${a}:$E${z}<>"")*($E${a}:$E${z}<>"Filled")'
+            '*($E${a}:$E${z}<>"Hire")*($E${a}:$E${z}<>"Hold")'
+            '*($E${a}:$E${z}<>"Offshore"))').format(a=a, z=z)
+        ws.cell(ctrl, 3).number_format = "0"
+        ws.cell(summ, 2).value = SUMMARY_LBL
+        for col, f in COUNTS:
+            ws[col + str(summ)].value = f.format(a=a, z=z)
+            ws[col + str(summ)].number_format = "0"
+        white(ws, "B%d" % ctrl, "C%d" % ctrl, "B%d" % summ,
+              *[c + str(summ) for c, _ in COUNTS])
+        exec_at[title] = summ
+        log("G4", "%s!B%d:N%d" % (title, ctrl, summ),
+            "lever control and the executive summary row, white font")
+
+    log.head("H3  the executive summary's five chains become short sums")
+    ex = wb[EXEC]
+    for row, col in EXEC_ROWS.items():
+        was = len(ex.cell(row, 3).value)
+        f = "=" + "+".join("N('%s'!$%s$%d)" % (t, col, exec_at[t])
+                           for t in tabs2x(wb))
+        ex.cell(row, 3).value = f
+        log("H3", "%s!C%d" % (EXEC, row),
+            "%d chars -> %d, reading the per tab summary rows" % (was, len(f)))
+
+    # ---------------------------------------------------------------- H3
+    log.head("H3  the archetype formula becomes three helper columns")
+    done = collections.Counter()
+    for ws in wb.worksheets:
+        rows = [c.row for row in ws.iter_rows() for c in row
+                if isinstance(c.value, str) and len(c.value) > 900
+                and c.value.startswith("=IFERROR(IF($E")
+                and "0.3 Squad Archetypes" in c.value and c.column == 8]
+        if not rows:
+            continue
+        heads = set()
+        for r in rows:
+            for col, (lbl, rng) in HELP.items():
+                ws.cell(r, col).value = ("=IFERROR(INDEX(%s!%s,MATCH($C%d&\"|\"&$D%d,"
+                                         "%s!$A$5:$A$23,0)),\"\")"
+                                         % (ARCH, rng, r, r, ARCH))
+                copy_style(ws.cell(r, 8), ws.cell(r, col))
+                ws.cell(r, col).number_format = "#,##0.00" if col < 29 else "0"
+            ws.cell(r, 8).value = SHORT.format(r=r, a=ARCH)
+            h = r - 1
+            while h > 1 and ws.cell(h, 3).value != "Squad Type":
+                h -= 1
+            heads.add(h)
+            done[ws.title] += 1
+        for h in heads:
+            for col, (lbl, rng) in HELP.items():
+                copy_style(ws.cell(h, 8), ws.cell(h, col))
+                ws.cell(h, col).value = lbl
+            white(ws, *["%s%d" % (openpyxl.utils.get_column_letter(c), h)
+                        for c in HELP])
+        log("H3", ws.title,
+            "%d archetype formulas at 1,011 chars -> %d, helper columns AA:AC"
+            % (done[ws.title], len(SHORT.format(r=99, a=ARCH))))
+
+    # ---------------------------------------------------------------- H2
+    log.head("H2  every dropdown a GM types into is strict")
+    n = 0
+    for ws in wb.worksheets:
+        for dv in ws.data_validations.dataValidation:
+            if dv.type != "list":
+                continue
+            dv.showErrorMessage = True
+            dv.errorTitle = "Invalid entry"
+            dv.error = "Pick a value from the list"
+            n += 1
+    log("H2", "workbook",
+        "%d list validations now refuse anything off the list" % n)
+    groups = []
+    t33 = wb[T33]
+    for r in range(6, 122):
+        v = t33.cell(r, 2).value
+        if isinstance(v, str) and v and not v.endswith(" total") \
+                and v not in groups:
+            groups.append(v)
+    if len(groups) != 15:
+        print("STOP: 3.3 carries %d groups, not 15: %r" % (len(groups), groups))
+        raise SystemExit(2)
+    ex.data_validations.dataValidation = []
+    dv = DataValidation(type="list", formula1='"%s"' % ",".join(groups),
+                        allow_blank=False, showErrorMessage=True,
+                        errorTitle="Invalid entry",
+                        error="Pick a value from the list")
+    ex.add_data_validation(dv)
+    dv.sqref = MultiCellRange([CellRange("C36")])
+    log("H2", "%s!C36" % EXEC,
+        "drill-down picker lists all %d groups (was 10 of 15)" % len(groups))
+    guard = ("=IF(COUNTIF('%s'!$B$6:$B$121,$C$36)=0,\"Not a group\","
+             % T33)
+    n = 0
+    for r in range(37, 46):
+        v = ex.cell(r, 3).value
+        if isinstance(v, str) and v.startswith("=") and not v.startswith(guard[:8]):
+            ex.cell(r, 3).value = guard + v[1:] + ")"
+            n += 1
+    log("H2", "%s!C37:C45" % EXEC,
+        "%d drill-down cells read 'Not a group' rather than 0 for a name 3.3 "
+        "does not carry" % n)
+
+    # ---------------------------------------------------------------- H5
+    log.head("H5  the counts in his sentences come off the live model")
+    o32 = wb["3.2 Overhead & Leadership"]
+    o32["L9"].value = '="All "&TEXT($G9,"0")&" in the portfolios"'
+    o32["L9"].fill = PatternFill(fill_type=None)
+    log("H5", "3.2 Overhead & Leadership!L9",
+        "'All 24 in the portfolios' -> his words, the count live off $G9; the "
+        "cream comes off, it is a formula now")
+    b8 = ex["B8"].value
+    ex["B8"].value = ('="Cost of the "&TEXT(COUNTA(\'' + REVIEW +
+                      "'!$B$2:$B$700),\"0\")&\" roles in the role mapping ($m)\"")
+    log("H5", "%s!B8" % EXEC, "%r -> the live count (A4: never hardcode)" % b8)
+
+    # ---------------------------------------------------------------- G3
+    log.head("G3  the overflow control for the two spare ledger rows")
+    q = wb[QA]
+    last = None
+    for r in range(5, 100):
+        if isinstance(q.cell(r, 2).value, str) and \
+                q.cell(r, 2).value == "Checks failing":
+            last = r
+    if last is None:
+        print("STOP: no 'Checks failing' row on 4.0")
+        raise SystemExit(2)
+    shift_rows(wb, QA, last, 1)
+    q = wb[QA]
+    for c in range(2, 6):
+        copy_style(q.cell(last - 1, c), q.cell(last, c))
+    q.cell(last, 2).value = ("Roles typed below the range the model reads - "
+                             "REVIEW rows 701 and beyond")
+    q.cell(last, 3).value = ("=COUNTA('%s'!$B$2:$B$1000)" % REVIEW)
+    q.cell(last, 4).value = ("=COUNTA('%s'!$B$2:$B$700)" % REVIEW)
+    q.cell(last, 5).value = "=ROUND($C%d-$D%d,6)" % (last, last)
+    q.cell(last + 1, 5).value = '=COUNTIF($E$5:$E$%d,"<>0")' % last
+    log("G3", "%s row %d" % (QA, last),
+        "overflow control: COUNTA to row 1000 less COUNTA to row 700, must be 0")
+
+    # ---------------------------------------------------------------- H4
+    log.head("H4  no format on a model tab prints a dash for a zero")
+    n = 0
+    for ws in wb.worksheets:
+        if ws.title in SRC:
+            continue
+        for row in ws.iter_rows():
+            for c in row:
+                f = undash(c.number_format)
+                if f != c.number_format:
+                    c.number_format = f
+                    n += 1
+    log("H4", "workbook", "%d cells lose their dash zero section" % n)
+
+    moved = 0
+    for ws in wb.worksheets:
+        if ws.title in NO_MODAL:
+            continue
+        wv = vals[ws.title] if ws.title in vals.sheetnames else None
+        if wv is None:
+            continue
+        for col in range(1, ws.max_column + 1):
+            run = []
+            for r in range(1, ws.max_row + 2):
+                v = ws.cell(r, col).value if r <= ws.max_row else None
+                live = v is not None and (isinstance(v, (int, float))
+                                          or (isinstance(v, str) and v.startswith("=")))
+                if live:
+                    run.append(r)
+                    continue
+                num = [x for x in run
+                       if isinstance(wv.cell(x, col).value, (int, float))
+                       and not isinstance(wv.cell(x, col).value, bool)]
+                if len(num) >= 3:
+                    fm = collections.Counter(ws.cell(x, col).number_format
+                                             for x in num)
+                    mode = fm.most_common(1)[0][0]
+                    for x in num:
+                        if ws.cell(x, col).number_format != mode:
+                            ws.cell(x, col).number_format = mode
+                            moved += 1
+                run = []
+    log("H4", "the grid tabs",
+        "%d cells take the format the rest of their column carries" % moved)
+
+    log.head("the house rule: a control on a visible tab is invisible")
+    n = 0
+    for ws in wb.worksheets:
+        if ws.sheet_state != "visible":
+            continue
+        for row in ws.iter_rows():
+            for cl in row:
+                t = cl.value
+                if not (isinstance(t, str) and "must be 0" in t
+                        and t.startswith(("Control - ", "Check - "))):
+                    continue
+                cells = [cl.coordinate]
+                for cc in range(cl.column + 1, ws.max_column + 1):
+                    if ws.cell(cl.row, cc).value is not None:
+                        cells.append(ws.cell(cl.row, cc).coordinate)
+                white(ws, *cells)
+                n += 1
+    log("rule", "the visible tabs",
+        "%d control rows in white font - functional, reads 0, invisible" % n)
+
+    cfg = wb["0.2 Data Config"]
+    for co in ("K22", "L22", "M22", "N22", "O22"):
+        c = cfg[co]
+        fo = c.font
+        c.font = Font(name=fo.name, size=fo.size, bold=fo.bold, italic=True,
+                      color="FF808080")
+    log("H4", "0.2 Data Config!K22:O22",
+        "his 'Position on 23/07' block reads as the note it is, text kept")
+
+    tmp = dst + ".raw"
+    save(wb, tmp)
+    log.head("recalculating and writing the cached values back")
+    rc, st = wbio.build(tmp, dst)
+    os.remove(tmp)
+    print("recalculated, %d formula cells populated across %d sheets"
+          % (st["cells"], st["sheets"]), flush=True)
+    err, blank = wbio.audit(dst)
+    if err:
+        print("STOP: %d error cells, e.g. %r" % (len(err), err[:5]))
+        raise SystemExit(2)
+    log.tail()
+    print("wrote", dst)
+
+
+if __name__ == "__main__":
+    main(*sys.argv[1:])

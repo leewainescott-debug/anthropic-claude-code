@@ -216,6 +216,91 @@ def shift_rows(wb, sheet, at, n, move_cells=True):
     return changed
 
 
+def shift_cols(wb, sheet, at, n):
+    """Insert n columns at column index `at` on `sheet`, repointing all refs.
+
+    Same contract as shift_rows but on the other axis. Inserts only (n > 0):
+    the funded outside architecture only ever widens a tab, and a column delete
+    would need the range clamping shift_rows does for rows.
+    """
+    if n <= 0:
+        raise ValueError("shift_cols inserts only")
+
+    def one(cs):
+        d = "$" if cs.startswith("$") else ""
+        i = column_index_from_string(cs.lstrip("$"))
+        return cs if i < at else d + get_column_letter(i + n)
+
+    def fn(sh, c1, r1, c2, r2):
+        if sh != sheet:
+            return (c1, r1, c2, r2)
+        return (one(c1), r1, None if c2 is None else one(c2), r2)
+
+    changed = map_formulas(wb, lambda s, coord, f: rewrite_refs(f, s, fn))
+
+    ws = wb[sheet]
+    ws.insert_cols(at, n)
+    _shift_dv_cols(ws, at, n)
+    dims = dict(ws.column_dimensions)
+    for key in list(ws.column_dimensions):
+        del ws.column_dimensions[key]
+    for key, dim in dims.items():
+        i = column_index_from_string(key)
+        ni = i + n if i >= at else i
+        dim.min = dim.max = ni
+        ws.column_dimensions[get_column_letter(ni)] = dim
+    src = ws.column_dimensions.get(get_column_letter(at + n))
+    for i in range(at, at + n):
+        d = ws.column_dimensions[get_column_letter(i)]
+        if src is not None and src.width:
+            d.width = src.width
+    return changed
+
+
+def swap_col(f, sheet, src, dst):
+    """Rewrite formula f so every ref to column `src` on `sheet` reads `dst`."""
+    def one(c):
+        if c.lstrip("$") != src:
+            return c
+        return ("$" if c.startswith("$") else "") + dst
+
+    def fn(sh, c1, r1, c2, r2):
+        if sh != sheet:
+            return (c1, r1, c2, r2)
+        return (one(c1), r1, None if c2 is None else one(c2), r2)
+
+    return rewrite_refs(f, sheet, fn)
+
+
+def drop_sheet(wb, title):
+    """Remove a sheet; every formula that named it becomes #REF!."""
+    def rewrite(own, coord, f):
+        out, last = [], 0
+        for s, e, m in _scan(f):
+            if m.group("sheet") is None or _sheet_of(m, own) != title:
+                continue
+            out.append(f[last:s])
+            out.append("#REF!")
+            last = e
+        out.append(f[last:])
+        return "".join(out)
+
+    del wb[title]
+    return map_formulas(wb, rewrite)
+
+
+def _shift_dv_cols(ws, at, n):
+    from openpyxl.worksheet.cell_range import MultiCellRange, CellRange
+    for dv in ws.data_validations.dataValidation:
+        keep = []
+        for cr in dv.sqref.ranges:
+            c1 = cr.min_col + n if cr.min_col >= at else cr.min_col
+            c2 = cr.max_col + n if cr.max_col >= at else cr.max_col
+            keep.append(CellRange(min_col=c1, max_col=c2,
+                                  min_row=cr.min_row, max_row=cr.max_row))
+        dv.sqref = MultiCellRange(keep)
+
+
 def _shift_dv(ws, at, n):
     """Keep the lever dropdowns pointing at the rows they were on."""
     from openpyxl.worksheet.cell_range import MultiCellRange, CellRange
