@@ -392,6 +392,46 @@ def main(src, dst, owner=OWNER, pre=None):
     c(abs(outside - (egi + sum(PROGRAMMES.values()))) < 5e-7,
       "the funded outside total ($m)", round(outside, 6),
       round(11.880489 + sum(PROGRAMMES.values()), 6))
+    # the per row kind variance ruling
+    vbad, amp = [], None
+    for t in tabs:
+        wf, wv = f[t], v[t]
+        tot = TOTALS[t]
+        for r in range(7, tot + 1):
+            b = wf.cell(r, 2).value
+            n, o, qq, rr_ = (wv.cell(r, 14).value, wv.cell(r, 15).value,
+                             wv.cell(r, 17).value, wv.cell(r, 18).value)
+            if not (isinstance(rr_, (int, float)) and isinstance(n, (int, float))
+                    and isinstance(o, (int, float))):
+                continue
+            of = wf.cell(r, 15).value
+            is_total = isinstance(of, str) and of.startswith("=SUM(")
+            if (isinstance(b, str) and b in table) or is_total:
+                # a squad somebody else funds, or a total that carries both
+                # kinds: the actual against the archetype or funded figure
+                if abs(rr_ - round(o - n, 6)) > 5e-7:
+                    vbad.append(("%s!R%d" % (t, r), rr_, round(o - n, 6)))
+                if b == "AmPOS":
+                    amp = (rr_, round(o - n, 6))
+            elif abs(rr_ - round(qq - n, 6)) > 5e-7:
+                vbad.append(("%s!R%d" % (t, r), rr_, round(qq - n, 6)))
+    c(not vbad, "D2 the variance compares like with like, per row kind",
+      "%d off %s" % (len(vbad), vbad[:4]),
+      "funded outside rows on O-N, the rest on Q-N")
+    c(amp is not None and abs(amp[0] - amp[1]) < 5e-7,
+      "D2 AmPOS variance to its funded figure, re-derived",
+      "%.6f against actual less funded %.6f" % amp if amp else "not found",
+      "the file, not a constant")
+    a21v, a21f = v["2.1 Ampol Retail"], f["2.1 Ampol Retail"]
+    tp = TOTALS["2.1 Ampol Retail"]
+    c(abs(a21v.cell(tp, 18).value
+          - round(a21v.cell(tp, 15).value - a21v.cell(tp, 14).value, 6)) < 5e-7,
+      "D2 2.1's total portfolio variance, re-derived",
+      "%.6f against actual less archetype %.6f"
+      % (a21v.cell(tp, 18).value,
+         round(a21v.cell(tp, 15).value - a21v.cell(tp, 14).value, 6)),
+      "the pre-D2 reading, off the file")
+
     t14 = v["2.14 EGI"]
     c(abs(t14["P9"].value - t14["O9"].value) < 5e-9
       and abs(t14["Q9"].value) < 5e-9,

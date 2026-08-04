@@ -41,6 +41,11 @@ SHORT = ('=IFERROR(IF($E{r}="Onshore",$AA{r}*1,IF($E{r}="Hybrid",'
          '$AA{r}*MIN({a}!$K$8,$AC{r})/$AC{r}+$AB{r}*($AC{r}-MIN({a}!$K$8,$AC{r}))'
          '/$AC{r},$AB{r}*1)),"check size")')
 
+# a squad somebody else pays for is measured against what they fund, at actual;
+# every other squad is measured against what TDD is left carrying
+FIRST, LAST = 2, 10
+VAR_PICK = "IF(COUNTIF(Lists!$AU${a}:$AU${z},$B{r}),$O{r},$Q{r})"
+
 OLD_DEFAULT = ",Lists!$AC$2:$AC$5,0)),1)"
 NEW_DEFAULT = ",Lists!$AC$2:$AC$5,0)),NA())"
 
@@ -99,6 +104,13 @@ def tabs2x(wb):
     return [ws.title for ws in wb.worksheets if ws.title.startswith("2.")]
 
 
+def total_row(ws):
+    for r in range(5, 60):
+        if ws.cell(r, 2).value == "Total portfolio":
+            return r
+    raise SystemExit("STOP: no 'Total portfolio' row on %s" % ws.title)
+
+
 def fte_hdr(ws):
     for r in range(5, 120):
         v = ws.cell(r, 2).value
@@ -146,6 +158,30 @@ def main(src, dst, pre=None):
     if pre is None:
         pre = wbio.recalc(src)
     vals = openpyxl.load_workbook(pre, data_only=True)
+
+    # ----------------------------------------------------------------- D2
+    log.head("D2  the variance compares like with like, per row kind")
+    for title in tabs2x(wb):
+        ws = wb[title]
+        tot = total_row(ws)
+        n_row = n_tot = 0
+        for r in range(7, tot + 1):
+            var = ws.cell(r, 18).value
+            if not isinstance(var, str) or ("$Q%d" % r) not in var:
+                continue
+            o = ws.cell(r, 15).value
+            if isinstance(o, str) and o.startswith("=SUM("):
+                # a total row carries both kinds, so it compares the two totals
+                ws.cell(r, 18).value = var.replace("$Q%d" % r, "$O%d" % r)
+                n_tot += 1
+            else:
+                ws.cell(r, 18).value = var.replace(
+                    "$Q%d" % r, VAR_PICK.format(r=r, a=FIRST, z=LAST))
+                n_row += 1
+        log("D2", title,
+            "%d squad rows read the actual against the funded figure when the "
+            "squad is funded outside, the TDD-funded cost when it is not; "
+            "%d total rows compare the two totals" % (n_row, n_tot))
 
     # ---------------------------------------------------------------- G4a
     log.head("G4  a lever the model cannot price shows #N/A, never full price")

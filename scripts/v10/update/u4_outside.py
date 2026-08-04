@@ -156,8 +156,9 @@ def main(src, dst):
             if isinstance(v, str) and ("$O%d" % r) in v:
                 ws.cell(r, 18).value = v.replace("$O%d" % r, "$Q%d" % r)
         log("D2", title,
-            "columns P and Q added (%d squad rows, %d total rows); variance "
-            "in R now reads TDD-funded against archetype" % (n_data, n_tot))
+            "columns P and Q added (%d squad rows, %d total rows); the "
+            "variance in R moves onto the TDD-funded cost, and u6 gives it "
+            "the per row kind rule" % (n_data, n_tot))
 
     # ---------------------------------------------------------------- D3
     log.head("D3  3.1 gains the same two columns and a TDD-funded total row")
