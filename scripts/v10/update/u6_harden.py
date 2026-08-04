@@ -571,6 +571,23 @@ def main(src, dst, pre=None):
     log("H4", "0.2 Data Config!K22:O22",
         "his 'Position on 23/07' block reads as the note it is, text kept")
 
+    # D11 - the funding blocks show negatives in parentheses like the rest
+    # of the book, not with a minus sign
+    n = 0
+    for title in ("2.11 Cyber Risk & Service Ops", "2.12 COE BP&T",
+                  "2.13 COE SA&D"):
+        ws = wb[title]
+        fund = next(r for r in range(1, 40) if ws.cell(r, 2).value == "Funding")
+        r = fund + 1
+        while isinstance(ws.cell(r, 2).value, str) and ws.cell(r, 2).value.strip():
+            c = ws.cell(r, 3)
+            if c.value is not None and c.number_format == "#,##0.00":
+                c.number_format = r"#,##0.00;\(#,##0.00\);0.00"
+                n += 1
+            r += 1
+    log("D11", "the consolidated COE funding blocks",
+        "%d cells take the parentheses convention for negatives" % n)
+
     tmp = dst + ".raw"
     save(wb, tmp)
     log.head("recalculating and writing the cached values back")
