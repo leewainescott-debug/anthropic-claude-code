@@ -6,6 +6,34 @@ Companion file: `docs/PLAN.md` (what we are doing and what is outstanding).
 "Lee" means you decided it. "Build" means I decided it and it is reversible - each one is
 flagged so you can overturn it without hunting for where it lives.
 
+
+## D121 - The model update on his 30/07 base (all his rulings, quoted)
+
+His green light with rulings: "yes egi funded" (the eight Enterprise Data roles are
+EGI-funded; they carry their own directly funded line on 2.3 and the 1,811,858.90
+returns to every total); Holds used as exclusion hacks come off; "keep live" (his
+8.98m of lever plays are the live scenario); "if we've named vacancies then they're
+now named and not vacant" (all named vacancies are filled; the three rows carrying
+"Remove" as a name are deleted properly - ledger 531 to 528); the Significant Items
+budget "4.5" (0.1 updated, 1.2 relinked); Programme Management "customer only o/h"
+(overhead line, allowance = its own cost, zero variance contribution); Ed Tacey
+"follow data" (Head of Technology line); contractor end dates parked; Digital
+Support NZ at the 0.32 archetype "but call out the 2.17 on the tab somewhere" (his
+note now reads "CPI actuals; pull through (0.217)"); the four Move-to-Z people wait;
+"best not increase cost" (the 13/07 EGI portfolio moves are not adopted - the
+funded-outside split does the work); the 13/07 book is out of scope beyond its role
+mapping tab; COE consolidation approved (one tab per COE, the 1.x trio removed);
+no sheet protection ("i might've overtyped ur stupid formulas"); inputs are strict
+dropdowns ("it should just be dropdowns"); controls stay functional but invisible
+("controls and shit to be visible looks ai"); his language everywhere, and the
+update builds ON his 30/07 file, never a regeneration of ours.
+
+Verified state: 528 roles, actual 114.968474, funded outside TDD 18.384289 (EGI
+11.880489, CTRM 3.8, AmPOS 1.404, Cyber Uplift 1.2998), TDD-funded 96.584185,
+after levers 106.800980 across 511 roles, 0.2 spend 57.057227 vs 50.5. 87 pipeline
+checks green twice plus an independent re-derivation of every headline from the
+ledger. Pipeline: scripts/v10/update/u1-u7.
+
 Last updated: after D120 - wave M, the cyber uplift restructure and the Customer corrections.
 
 ---

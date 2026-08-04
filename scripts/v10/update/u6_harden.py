@@ -57,6 +57,17 @@ COUNTS = [("J", '=COUNTIFS($D${a}:$D${z},"Vacant",$E${a}:$E${z},"Hire")'),
           ("N", '=COUNTIFS($D${a}:$D${z},"Filled",$E${a}:$E${z},"Offshore")')]
 EXEC_ROWS = {26: "J", 27: "K", 28: "L", 29: "M", 30: "N"}
 
+# the independent QA pass: one dropped owner edit and nine finish defects
+D1_ROW = 464                       # his 2.5 B39 overtype, in the ledger
+D7_TAB, D7_LEDGER, D7_GROUP = "2.7 Infrastructure", 372, "Technology Manager"
+WORDS = [("Cost after decision ($)", "Cost after lever ($)"),
+         ("The vacancy decision", "The vacancy levers"),
+         ("Decision impact on 3.1", "Lever impact on 3.1"),
+         ("cost after decisions", "cost after levers")]
+ORPHAN_FILLS = [("2.2 Customer", ["H55", "I55", "J55", "K55", "L55", "M55"]),
+                ("2.2 Customer", ["A79", "H79", "I79", "J79", "K79", "L79"]),
+                ("2.6 Finance", ["B44", "C44", "D44", "H44"])]
+
 LEVER_CTRL = ("Control - every lever on this tab is one of the four values, "
               "must be 0")
 SUMMARY_LBL = "Vacancy levers on this tab, for the executive summary"
@@ -407,6 +418,149 @@ def main(src, dst, pre=None):
                 n += 1
     log("rule", "the visible tabs",
         "%d control rows in white font - functional, reads 0, invisible" % n)
+
+    # ------------------------------------------------------------ QA finish
+    log.head("QA  the dropped owner edit and the finish defects")
+
+    # D1 - his 2.5 B39 overtype was name to vacancy: honour it in the ledger
+    rv = wb[REVIEW]
+    if rv["B%d" % D1_ROW].value != "Vacant":
+        log("D1", "REVIEW!B%d" % D1_ROW,
+            "%r -> 'Vacant' (his 2.5 B39 overtype, in the proper cell); his "
+            "Hire lever on 2.5 E39 stays" % rv["B%d" % D1_ROW].value)
+        rv["B%d" % D1_ROW].value = "Vacant"
+
+    # D4 - the levers sweep finished
+    n = 0
+    for ws in wb.worksheets:
+        for row in ws.iter_rows():
+            for cl in row:
+                t = cl.value
+                if not isinstance(t, str) or t.startswith("="):
+                    continue
+                new = t
+                for a, b in WORDS:
+                    new = new.replace(a, b)
+                if new != t:
+                    cl.value = new
+                    n += 1
+    log("D4", "workbook",
+        "%d labels move off 'decision' onto his lever wording" % n)
+
+    # D5 / D6
+    t33 = wb[T33]
+    t33["B4"].value = t33["B4"].value.replace("working tab", "lever modelling tab")
+    log("D5", "%s!B4" % T33, "%r" % t33["B4"].value)
+    for r in range(2, rv.max_row + 1):
+        v3 = rv.cell(r, 3).value
+        if isinstance(v3, str) and "(ios)" in v3:
+            rv.cell(r, 3).value = v3.replace("(ios)", "(iOS)")
+            log("D6", "REVIEW!C%d" % r, "(ios) -> (iOS)")
+
+    # D9 - one rounding, not fifteen
+    ex["C20"].value = "='3.2 Overhead & Leadership'!$K$13"
+    log("D9", "%s!C20" % EXEC,
+        "reads 3.2's once-rounded portfolio share, so the 2e-6 drift goes")
+
+    # D3 - the highlights the relocated notes left behind
+    for tab, cells in ORPHAN_FILLS:
+        w = wb[tab]
+        for co in cells:
+            w[co].fill = PatternFill(fill_type=None)
+        log("D3", "%s!%s" % (tab, ",".join(cells)),
+            "highlight cleared, the note lives in REVIEW Commentry")
+
+    # D10 - one FTE format down the column, the total row included
+    n = 0
+    for title in tabs2x(wb):
+        ws = wb[title]
+        tot = total_row(ws)
+        live = [r for r in range(7, tot + 1)
+                if ws.cell(r, 7).value is not None
+                and ws.cell(r, 7).value != '=""']
+        fm = collections.Counter(ws.cell(r, 7).number_format for r in live)
+        mode = fm.most_common(1)[0][0]
+        for r in live:
+            if ws.cell(r, 7).number_format != mode:
+                ws.cell(r, 7).number_format = mode
+                n += 1
+    log("D10", "the lever modelling tabs",
+        "%d FTE cells take the one decimal the column carries" % n)
+
+    # D2 - the bands run unbroken across the two new columns
+    n = 0
+    for title in tabs2x(wb):
+        ws = wb[title]
+        for r in range(1, total_row(ws) + 3):
+            src = ws.cell(r, 15)
+            if not src.fill.patternType:
+                continue
+            for col in (16, 17):
+                band = ws.cell(r, col)
+                if (band.fill.patternType != src.fill.patternType
+                        or band.fill.fgColor.rgb != src.fill.fgColor.rgb):
+                    copy_style(src, ws.cell(r, col))
+                    n += 1
+    w31 = wb["3.1 Archetype to Actuals"]
+    for col in (6, 7):
+        copy_style(w31.cell(5, 5), w31.cell(5, col))
+    log("D2", "the lever modelling tabs and 3.1",
+        "%d band cells filled across P and Q, and 3.1 F5:G5 - the title row "
+        "and the section bands run unbroken again" % (n + 2))
+
+    # D8 - the group totals stop rendering as hashes
+    for title in tabs2x(wb):
+        wb[title].column_dimensions["F"].width = 12
+    log("D8", "the lever modelling tabs", "column F set to width 12")
+
+    # D7 - his C372 repair reclassified the person; the helper grouping follows
+    w27 = wb[D7_TAB]
+    src = None
+    for r in range(1, w27.max_row + 1):
+        d = w27.cell(r, 4).value
+        if isinstance(d, str) and REVIEW in d and d.endswith("$AK$%d" % D7_LEDGER):
+            src = r
+    if src is None:
+        print("STOP: no helper row for ledger %d on %s" % (D7_LEDGER, D7_TAB))
+        raise SystemExit(2)
+    lever = w27.cell(src, 5).value
+    shift_rows(wb, D7_TAB, src, -1)
+    w27 = wb[D7_TAB]
+    hdr = last = None
+    for r in range(1, w27.max_row + 1):
+        c3 = w27.cell(r, 3).value
+        if (w27.cell(r, 2).value == D7_GROUP and isinstance(c3, str)
+                and c3.startswith("=COUNTIF(")):
+            hdr = r
+        elif hdr and last is None:
+            d = w27.cell(r, 4).value
+            if not (isinstance(d, str) and REVIEW in d and "$AK$" in d):
+                last = r - 1
+    shift_rows(wb, D7_TAB, last, 1)
+    w27 = wb[D7_TAB]
+    donor = last + 1
+    for col in range(2, 8):
+        copy_style(w27.cell(donor, col), w27.cell(last, col))
+    q = "='" + REVIEW + "'!$%s$%d"
+    w27.cell(last, 2).value = q % ("B", D7_LEDGER)
+    w27.cell(last, 3).value = q % ("C", D7_LEDGER)
+    w27.cell(last, 4).value = q % ("AK", D7_LEDGER)
+    w27.cell(last, 5).value = lever
+    w27.cell(last, 6).value = q % ("AA", D7_LEDGER)
+    g = w27.cell(donor, 7).value
+    g = re.sub(r"\$F\d+", "$F%d" % last, g)
+    g = re.sub(r"\$E\d+", "$E%d" % last, g)
+    g = re.sub(r"(\$Q\$)\d+", lambda m: m.group(1) + str(D7_LEDGER), g)
+    w27.cell(last, 7).value = g
+    for dv in w27.data_validations.dataValidation:
+        if dv.formula1 and "Filled" in str(dv.formula1):
+            keep = list(dv.sqref.ranges)
+            keep.append(CellRange(min_col=5, max_col=5, min_row=last,
+                                  max_row=last))
+            dv.sqref = MultiCellRange(keep)
+    log("D7", "%s row %d" % (D7_TAB, last),
+        "the helper row for ledger %d joins the %s group, so its actual and "
+        "its cost after levers sit on the same row" % (D7_LEDGER, D7_GROUP))
 
     cfg = wb["0.2 Data Config"]
     for co in ("K22", "L22", "M22", "N22", "O22"):

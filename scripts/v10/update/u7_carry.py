@@ -41,6 +41,7 @@ OWNER = ("/root/.claude/uploads/e550b440-3996-5abb-87e5-bafafe598f82/"
 PRE = os.path.join(HERE, "base_u5.xlsx")      # the state H3 rewrote
 
 CYBER = "2.11 Cyber Risk & Service Ops"
+T33 = "3.3 Squad Actuals to Archetype"
 DEAD = ("1.11 BP&T", "1.12 SA&D", "1.13 Cyber Roles")
 CREAM = "FFFFF2CC"
 SRC = ("0.1 Budget Table (Fin)", "0.4 Presentation Pack")
@@ -538,7 +539,7 @@ def main(src, dst, owner=OWNER, pre=None):
     c(cream_ok, "the Uplift column is cream (typed input)", cream_ok, "cream")
     exdv = list(f["Exec Summary"].data_validations.dataValidation)
     names = str(exdv[0].formula1).strip('"').split(",") if exdv else []
-    t33 = v["3.3 Squad Actuals to Archetype"]
+    t33 = v[T33]
     groups = []
     for r in range(6, 122):
         g = t33.cell(r, 2).value
@@ -563,8 +564,12 @@ def main(src, dst, owner=OWNER, pre=None):
         for ws in pv.worksheets:
             if ws.title not in v.sheetnames:
                 continue
-            wv = v[ws.title]
+            wv, wf = v[ws.title], f[ws.title]
             for r in range(1, ws.max_row + 1):
+                helper = wf.cell(r, 27).value
+                if not (isinstance(helper, str)
+                        and helper.startswith("=IFERROR(INDEX(")):
+                    continue
                 a, b = ws.cell(r, 8).value, wv.cell(r, 8).value
                 if isinstance(a, (int, float)) and isinstance(b, (int, float)):
                     n += 1
@@ -572,13 +577,26 @@ def main(src, dst, owner=OWNER, pre=None):
                         diff.append((ws.title, "H%d" % r, a, b))
         c(not diff, "H3 helper columns: every H value identical to 6dp",
           "%d cells compared, %d differ %s" % (n, len(diff), diff[:3]), "0")
-        exd = [(co, pv["Exec Summary"][co].value, ex[co].value)
-               for co in ("C26", "C27", "C28", "C29", "C30")
-               if pv["Exec Summary"][co].value != ex[co].value]
-        c(not exd, "H3 the Exec vacancy counts identical before and after",
-          "%d differ %s" % (len(exd), exd), "0")
     else:
         c.note("H3 the 6dp before/after comparison", "no pre-H3 file given")
+    want = [0] * 5
+    for t in tabs:
+        wf, wv = f[t], v[t]
+        for r in role_rows(wf):
+            st, lv = wv.cell(r, 4).value, wf.cell(r, 5).value
+            for i, (sv, lvv) in enumerate((("Vacant", "Hire"),
+                                           ("Vacant", "Offshore"),
+                                           ("Vacant", "Hold"),
+                                           ("Vacant", "Filled"),
+                                           ("Filled", "Offshore"))):
+                if st == sv and lv == lvv:
+                    want[i] += 1
+    exd = [(co, want[i], ex[co].value) for i, co in
+           enumerate(("C26", "C27", "C28", "C29", "C30"))
+           if want[i] != ex[co].value]
+    c(not exd, "H3 the Exec vacancy counts re-derived off the role rows",
+      "%s against %s" % (want, [ex[co].value for co in
+                                ("C26", "C27", "C28", "C29", "C30")]), "equal")
     longest = max((len(cl.value), ws.title, cl.coordinate)
                   for ws in f.worksheets if ws.sheet_state == "visible"
                   for row in ws.iter_rows() for cl in row
@@ -647,6 +665,88 @@ def main(src, dst, owner=OWNER, pre=None):
     c(abs((scen - upl) / 1e6 - t31["I21"].value) < 5e-6,
       "I2 the lever scenario cost re-derived from REVIEW",
       "%.6f and %.6f" % ((scen - upl) / 1e6, t31["I21"].value), "equal")
+
+    # ============================================ QA  the ten finish items
+    c(rvf["B464"].value == "Vacant" and f["2.5 P&C"]["E39"].value == "Hire",
+      "D1 his 2.5 B39 overtype honoured in the ledger",
+      "REVIEW B464 %r, 2.5 E39 %r"
+      % (rvf["B464"].value, f["2.5 P&C"]["E39"].value), "Vacant, Hire")
+    fil = sum(1 for r, _, _, _ in roles if rv.cell(r, 37).value == "Filled")
+    vac = sum(1 for r, _, _, _ in roles if rv.cell(r, 37).value == "Vacant")
+    c((ex["C6"].value, ex["C7"].value) == (fil, vac) and (fil, vac) == (394, 134),
+      "D1 filled and vacant re-derived from REVIEW",
+      "%d filled, %d vacant" % (fil, vac), "394 and 134")
+    c(ex["C26"].value == 91, "D1 vacancies set to hire", ex["C26"].value, "91")
+    broken = []
+    for t in tabs:
+        wf = f[t]
+        for r in range(1, TOTALS[t] + 3):
+            src = wf.cell(r, 15)
+            if not src.fill.patternType:
+                continue
+            for col in (16, 17):
+                if wf.cell(r, col).fill.fgColor.rgb != src.fill.fgColor.rgb:
+                    broken.append("%s!%s%d" % (t, "PQ"[col - 16], r))
+    w31f = f["3.1 Archetype to Actuals"]
+    if any(w31f.cell(5, col).fill.fgColor.rgb != w31f.cell(5, 5).fill.fgColor.rgb
+           for col in (6, 7)):
+        broken.append("3.1!F5:G5")
+    c(not broken, "D2 the bands run unbroken across the new columns",
+      "%d broken %s" % (len(broken), broken[:4]), "0")
+    orph = ["%s!%s" % (t, co) for t, cells in
+            (("2.2 Customer", ("H55", "M55", "A79", "L79")),
+             ("2.6 Finance", ("B44", "D44", "H44")))
+            for co in cells if f[t][co].fill.fgColor.rgb == "FFFFFF00"]
+    c(not orph, "D3 the orphaned highlight bands are cleared",
+      "%d left %s" % (len(orph), orph), "0")
+    dec = ["%s!%s" % (ws.title, cl.coordinate) for ws in f.worksheets
+           for row in ws.iter_rows() for cl in row
+           if isinstance(cl.value, str) and not cl.value.startswith("=")
+           and re.search(r"decision", cl.value, re.I)]
+    c(not dec, "D4 the levers sweep leaves no 'decision' in a label",
+      "%d %s" % (len(dec), dec[:4]), "0")
+    c("lever modelling tab" in f[T33]["B4"].value, "D5 3.3 B4",
+      f[T33]["B4"].value, "lever modelling tab")
+    ios = [r for r in range(2, rvf.max_row + 1)
+           if isinstance(rvf.cell(r, 3).value, str)
+           and "(ios)" in rvf.cell(r, 3).value]
+    c(not ios, "D6 the lower case iOS in the ledger", ios, "0")
+    gaps = []
+    for t in tabs:
+        wf, wv = f[t], v[t]
+        pf = wf["C3"].value
+        for r in range(7, TOTALS[t]):
+            b, of = wf.cell(r, 2).value, wf.cell(r, 15).value
+            fc = wv.cell(r, 6).value
+            if not (isinstance(b, str) and not b.startswith("=")
+                    and isinstance(fc, (int, float))):
+                continue
+            if isinstance(of, str) and of.startswith("=SUM("):
+                continue
+            led = sum(1 for rr, _, _, _ in roles
+                      if rv.cell(rr, 36).value == pf
+                      and rv.cell(rr, 46).value == b)
+            if fc != led:
+                gaps.append((t, r, b, fc, led))
+    c(not gaps, "D7 every grid row's helper group matches the ledger",
+      "%d off %s" % (len(gaps), gaps[:3]), "0")
+    wid = [t for t in tabs if f[t].column_dimensions["F"].width != 12]
+    c(not wid, "D8 column F width on the lever modelling tabs",
+      "%d off %s" % (len(wid), wid), "12 everywhere")
+    c("3.2 Overhead & Leadership" in str(f["Exec Summary"]["C20"].value)
+      and abs(ex["C20"].value - o32["K13"].value) < 1e-12,
+      "D9 the overhead line reads 3.2's once-rounded total",
+      "%r, %.9f" % (f["Exec Summary"]["C20"].value, ex["C20"].value), "exact")
+    gfmt = []
+    for t in tabs:
+        wf = f[t]
+        fm = {wf.cell(r, 7).number_format for r in range(7, TOTALS[t] + 1)
+              if wf.cell(r, 7).value is not None
+              and wf.cell(r, 7).value != '=""'}
+        if len(fm) != 1:
+            gfmt.append((t, sorted(fm)))
+    c(not gfmt, "D10 one FTE format down column G on every tab",
+      "%d mixed %s" % (len(gfmt), gfmt[:2]), "one each")
 
     # ------------------------------------------------------- the house rules
     hits = []
