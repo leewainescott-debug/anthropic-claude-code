@@ -1695,3 +1695,46 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Protection: password Tdd123, role mapping fully locked, only levers, uplift
   cells, cream inputs and the toggles open; structure locked.
 - Paused equals Hold, confirmed at zero everywhere. Register: 42 items done.
+
+## D124 - 05/08: his master mapping is the file of record, Lights On on his eighteen columns (shipped)
+
+- His 05/08 updates file IS the REVIEW tab: 526 rows, 29 columns, cell for
+  cell, his three #N/A texts kept verbatim, and no hidden rows - the previous
+  lock hid 513, his file hides none, and the gate now checks visibility
+  against his file permanently.
+- Every downstream block re-homed off the new master: homing by Portfolio 430,
+  Division fallback 86, person-keyed override 10; 6,251 formulas repointed;
+  Role IDs R0001..R0526 in his row order; each person on exactly one tab.
+- Lever carry from the 30/07 model: 375 people kept their levers, 122 vacancy
+  levers carried by title on their tab (his typed Hold and Offshore preserved),
+  5 vacancies filled by name, 24 new people and 5 new vacancies defaulted,
+  14 departed. His three Filled-vacancy edits kept.
+- EGI is EGI: the whole family (six squads, 41 roles, 10.237) sits on 2.14,
+  the portfolio tabs' EGI rows read 0, and 3.4 lists the six squads live.
+- The cyber uplift charge is netted out of 2.11 once and charged to 1.14 once
+  (0.4948); the four uplift percentages follow their people.
+- 3.5 TDD Lights On rebuilt on his eighteen columns verbatim; rows are the
+  0.2 Data Config set. The COE pairs carry squad truth (Strategy Architecture
+  3.34, Transformation 2.88, Business Partnering 3.29, Data 1.43), price their
+  charge off their planned spend lines and note the pot they hold (BP 2.31,
+  DA 1.39), so Still left to fund reads 0 on every COE line. Ampol Customer
+  and Z Customer split the tab with the shared slice and the overhead pool
+  divided on their support costs. TDD Cyber carries an overhead share - the
+  BP, DA and GM pots divide by eleven. EGI is excluded from the overhead
+  engine and its row closes to zero.
+- 3.6 TDD Lights On AU NZ: the same rows with AU spend, NZ spend, total and
+  variance against the 0.2 AU and NZ budgets, the split live off Country.
+- The numbers at default toggles: Total People cost 105.278 (= 104.783 after
+  levers + 0.495 uplift charge); charged to TDD 61.043 against 50.50 allocated
+  (over 10.543) and the 53.80 budget (over 7.243); support 37.870; overheads
+  charged 23.173; noted in the 1.x tabs 34.382; significant items funded
+  17.236; whole of TDD including the GM layer 110.378. Dials: hold the 17
+  vacant overheads on Hire 4.686, the GM layer 5.100, COE Cyber above its
+  allocation 3.928, the unallocated slice of the 53.80 3.300.
+- Customer PCM annotations carried person keyed (82 of 83; one belongs to a
+  person no longer in his file).
+- Protection per his 05/08 ruling: the 0.x and 3.x tabs only, password Tdd123,
+  toggles and cream inputs open, everything else unlocked, structure locked.
+- Gate: 14 groups, 150 sub-checks, green twice with identical output. Deep
+  verify: 50 checks green - raw identity, PCM cross-check, placement against
+  the derivation, EE numbers, and a 40-person salary trace to his file.

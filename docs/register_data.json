@@ -323,7 +323,7 @@
   [
    "Lights On tab",
    "New tab, his five columns (Cost, Support Cost, Overhead cost, TDD Lights On budget, Ove...",
-   "DONE: 3.5 TDD Lights On built with his 15 headers verbatim, all live, toggles cream 0-100 in 5s, analysis block live; gate E 20/20 tied at 1e-6. K total 60.93 vs 50.50."
+   "DONE: 3.5 TDD Lights On built with his 15 headers verbatim, all live, toggles cream 0-100 in 5s, analysis block live; gate E 20/20 tied at 1e-6. K total 60.93 vs 50.50. Superseded on 05/08 by the eighteen column rebuild."
   ],
   [
    "REVIEW mapping",
@@ -389,6 +389,26 @@
    "3.6 TDD Lights On AU NZ",
    "A duplicate of the Lights On tab split AU against NZ.",
    "DONE: 3.6 TDD Lights On AU NZ - the same rows with AU spend, NZ spend, total and variance against your 0.2 AU and NZ budgets, and the split basis stated on the tab in plain English."
+  ],
+  [
+   "3.5 TDD Lights On",
+   "Rebuilt on his eighteen columns, every cost represented once.",
+   "DONE: his eighteen headings verbatim, rows are the 0.2 Data Config set. Total People cost 105.28 = 104.78 after levers + 0.49 cyber uplift charge. Charged to TDD 61.04 against 50.50 allocated (over 10.54) and the 53.80 budget (over 7.24). Support 37.87, overheads charged 23.17, noted in 1.x 34.38. Toggles cream on the fifteen rows that scale something."
+  ],
+  [
+   "COE pair rows",
+   "Each COE line carries its own people, not a proportional share.",
+   "DONE: squad truth per column - Strategy Architecture 3.34, Transformation 2.88, Business Partnering 3.29, Data 1.43; each line prices its charge off its planned spend line and notes the pot it holds (BP 2.31, DA 1.39), so Still left to fund reads 0 on every COE line - the pots are funded inside the eleven allocation columns, nothing is double shown."
+  ],
+  [
+   "EGI",
+   "EGI is EGI - the whole family in one place.",
+   "DONE: six squads, 41 roles, 10.24 on 2.14; the portfolio tabs' EGI rows read 0; 3.4 lists the six squads live off the role mapping; no EGI cost in support, the shares or the overheads."
+  ],
+  [
+   "REVIEW mapping",
+   "The tab must read exactly as his file does, visibility included.",
+   "DONE: 513 hidden rows inherited from the old lock unhidden - his 05/08 file hides none. The gate now checks visibility against his file permanently."
   ]
  ]
 }
