@@ -75,86 +75,6 @@
  ],
  "build": [
   [
-   "BLD-01",
-   "1.3 Enterprise Data",
-   "Add the EGI Ent Data platform and squad line carrying 1.8119, live from 2.3, and net it in the funding block.",
-   "HIGH",
-   "Verified absent: 1.3 B34 only says Platform: EGI Data - removed, no roles. The EGI funding line reads 0.",
-   "there needs to be a whole new platform and squad that says egi ent data on 1.3"
-  ],
-  [
-   "BLD-02",
-   "1.1 Ampol Retail",
-   "EGI line must include the EGI TDD squad: 1.2214 becomes 1.5211.",
-   "HIGH",
-   "Verified: 1.1 J18 = 1.221357614, misses 0.2997.",
-   ""
-  ],
-  [
-   "BLD-03",
-   "1.4 TDD Group Functions",
-   "Relabel Funded from TDD Corporate pool (3.4 COE Breakdown) to EGI. 3.4 carries no such line.",
-   "HIGH",
-   "Verified: 1.02484851 appears nowhere on 3.4.",
-   ""
-  ],
-  [
-   "BLD-04",
-   "Overheads",
-   "Price overheads at platform and portfolio level only. Squads carry none. TDD funds every overhead role, nothing recharged.",
-   "HIGH",
-   "Platform: Delivery Manager, Technology Manager. Portfolio: Head of Tech, Business Partner, Domain Architect, GMs.",
-   "TDD pays for every single overhead role, nothing is recharged"
-  ],
-  [
-   "BLD-05",
-   "Overheads",
-   "Share Business Partners and Domain Architects equally across the 10 portfolios at actual cost.",
-   "HIGH",
-   "BP 2.3135 / 10 = 0.2314 each. DA 1.6647 / 10 = 0.1665 each. Up from the 0.22 and 0.14 allowances.",
-   "domain architects and business partners needs to be equally shared across portfolios"
-  ],
-  [
-   "BLD-06",
-   "2.12 and 2.13 COE",
-   "Move the netting lines to actual: BP 2.20 becomes 2.3135, DA 1.40 becomes 1.6647.",
-   "HIGH",
-   "COE spend falls 0.378, portfolios pick up 0.378. People stay listed on the COE tabs.",
-   "what is the impact on the coes tabs"
-  ],
-  [
-   "BLD-07",
-   "3.1 Archetype to Actuals",
-   "3.1 shows COE cost gross, ignoring the BP and DA netting that 2.12 and 2.13 apply. Make it consistent.",
-   "HIGH",
-   "Verified: 3.1 I18 = 6.176556022 is the gross figure.",
-   ""
-  ],
-  [
-   "BLD-08",
-   "Lights on view",
-   "Build actuals through the lights on structure: squads at actual with the archetype support percentages, plus overheads, against the lights on budget and against what can be recharged.",
-   "HIGH",
-   "Uses your Other funding block shape: budget line, amount that can be allocated to people, total applied, left to fund.",
-   "in the yellow, you'll see it there, that's what i expect"
-  ],
-  [
-   "BLD-09",
-   "Language",
-   "Rechargeable, never to projects. Delete the per FTE and percentage of squad cost metrics.",
-   "HIGH",
-   "",
-   "it's not to projects it's a rechargeable amount"
-  ],
-  [
-   "BLD-10",
-   "REVIEW mapping",
-   "Role ID on every role, every join re-keyed to it. The ID belongs to the role so a vacancy keeps its ID when filled.",
-   "HIGH",
-   "Verified absent: no Role ID anywhere. This is what makes a mapping refresh safe.",
-   "We defo need mapping to roleid, but note that some roles have vacant ties"
-  ],
-  [
    "BLD-11",
    "Whole model",
    "Single lens everywhere so no number needs interpreting.",
@@ -169,22 +89,6 @@
    "HIGH",
    "",
    "Ensure that like for like tabs have consistent formatting, language, layout, design etc."
-  ],
-  [
-   "BLD-16",
-   "Protection",
-   "Lock formulas, leave lever dropdowns and cream inputs open, lock structure.",
-   "HIGH",
-   "Verified: no protection anywhere today.",
-   "how do we protect the workbook?"
-  ],
-  [
-   "BLD-17",
-   "Gate",
-   "Break proof test: sort the mapping and paste a shuffled extract over it, prove every control stays 0 and every number is identical.",
-   "HIGH",
-   "",
-   "updating the review tab right now siginificantly breaks the model"
   ],
   [
    "BLD-20",
@@ -249,118 +153,6 @@
    "LOW",
    "",
    ""
-  ],
-  [
-   "BLD-R-02",
-   "Overheads / Head of Tech",
-   "Ed Tacey on or off the Head of Technology line. His title is AI Enablement Lead and he is not on your list of 15.",
-   "HIGH",
-   "RULED: Ed Tacey OFF the Heads line, reverts to his 30/07 coding. HoT = 15 roles, 4.909.",
-   "these are the roles I have for head of tech"
-  ],
-  [
-   "BLD-R-03",
-   "Overheads / Tech Manager",
-   "Shane Ker in or out of Technology Manager. Not on your list of 24. His title in the data reads Technology Manger - Finance Platfoms.",
-   "HIGH",
-   "RULED: Shane Ker stays IN Technology Manager. Line stays 25 roles, 6.777.",
-   "i have tech managers as this....what's missing?"
-  ],
-  [
-   "BLD-R-14",
-   "Overheads / Business Partner",
-   "Neil Reilly is costed at 666,088, nearly double every other Business Partner and 29% of the whole line. Confirm before we share it equally.",
-   "HIGH",
-   "RULED: Neil Reilly costed in at 666,088.",
-   ""
-  ],
-  [
-   "BLD-R-15",
-   "Overheads / Domain Architect",
-   "4 of the 7 Domain Architects are vacant. Decide whether vacant roles are shared across portfolios or only filled ones are.",
-   "HIGH",
-   "RULED: vacant roles are shared when set to Hire; Hold roles are never priced.",
-   ""
-  ],
-  [
-   "BLD-R-04",
-   "GM layer",
-   "How the 8 GMs are priced in: shared equally across the 10 portfolios, or charged to their own division.",
-   "HIGH",
-   "RULED: GMs priced equally across the 10 portfolios, 0.510 each.",
-   "We also need to price in the GMs, have we done that?"
-  ],
-  [
-   "BLD-R-07",
-   "Single lens",
-   "TDD Cyber reads 0.805 on 0.2 and 0.838 on 3.1. Pick one basis for the whole book.",
-   "HIGH",
-   "RULED: TDD Cyber shows the accurate number, the actuals basis, one lens everywhere.",
-   "We need a single lense and no confusion."
-  ],
-  [
-   "BLD-R-10",
-   "Lights on view",
-   "Where the actuals lights on view lives: its own tab, a block on each 1.x tab, or both.",
-   "HIGH",
-   "RULED: lights on is its own tab.",
-   "it might be that we do it in the 2.x tabs or actually we do it in the data config tab or it's its own tab on itself"
-  ],
-  [
-   "BLD-R-05",
-   "Overheads / programmes",
-   "Whether AmPOS and CTRM carry overhead. You ruled EGI does not.",
-   "HIGH",
-   "RULED: AmPOS and CTRM carry no overhead, same as EGI.",
-   "EGI does not use overheads. if they're egi they're egi, it's simple."
-  ],
-  [
-   "BLD-R-06",
-   "2.1 Ampol Retail",
-   "Viren Khatri, the single EGI TDD role on Ampol Retail. Retag his squad, move him to TDD Group Functions with the other four, or leave him.",
-   "HIGH",
-   "RULED: Viren Khatri retagged into TDD Group Functions with the other four EGI TDD roles.",
-   "I don;t know why ampol retail has egi tdd??"
-  ],
-  [
-   "BLD-R-08",
-   "Protection",
-   "Blank password or a real one.",
-   "HIGH",
-   "RULED: password Tdd123, and the role mapping tab locked down.",
-   "how do we protect the workbook? any suggestions?"
-  ],
-  [
-   "BLD-R-18",
-   "REVIEW mapping / data",
-   "Seven part time people are costed at full rate, not scaled by their FTE.",
-   "HIGH",
-   "RULED: the seven part time people are scaled by their FTE.",
-   ""
-  ],
-  [
-   "BLD-23",
-   "Lights On tab",
-   "New tab, his five columns (Cost, Support Cost, Overhead cost, TDD Lights On budget, Over/Under), flat list like 0.2, TDD Cyber inline, archetype cost shown for comparison. Toggle A: a cream percentage per portfolio, 0 to 100, for how much overhead is charged to lights on. Toggle B: overhead broken out into BP, DA and GM shares (fixed equal splits) plus Other overheads with a percentage lever, his example 50 percent. Awaiting his example layout before final shape.",
-   "HIGH",
-   "His construction confirmed at 62.61 vs 50.50. This is the centrepiece of the build.",
-   "I need a toggle... percentage of overhead charged to TDD lights on... 0 to 100 percent"
-  ],
-  [
-   "BLD-24",
-   "REVIEW mapping",
-   "Recode the vacant Delivery Assurance Manager and Delivery Excellence Manager onto the Delivery Manager line per his list. Line becomes 12 roles, 3.333.",
-   "HIGH",
-   "Both 275,810, currently coded Squad in COE BP&T.",
-   "should be these if i stand corrected"
-  ],
-  [
-   "BLD-25",
-   "New 30/07 ingest",
-   "Bring in the lever changes from the new 30/07 workbook he is about to upload, and only those.",
-   "HIGH",
-   "Awaiting the file.",
-   "i think it's just on the levers"
   ]
  ],
  "done": [
@@ -443,6 +235,136 @@
    "2.11",
    "Cyber uplift percentage column feeding 1.14",
    "494,819 charged"
+  ],
+  [
+   "1.3 Enterprise Data",
+   "Add the EGI Ent Data platform and squad line carrying 1.8119, live from 2.3, and net it...",
+   "DONE: 1.3 carries Platform: EGI Ent Data with the 1.8119 live from 2.3; Significant Items EGI reads it; gate C 8/8."
+  ],
+  [
+   "1.1 Ampol Retail",
+   "EGI line must include the EGI TDD squad: 1.2214 becomes 1.5211.",
+   "DONE as ruled after the Viren move: 1.1 EGI line = EGI Retail 1.2214 live (Viren now on 2.4); gate C."
+  ],
+  [
+   "1.4 TDD Group Functions",
+   "Relabel Funded from TDD Corporate pool (3.4 COE Breakdown) to EGI. 3.4 carries no such ...",
+   "DONE: 1.4 line relabelled Significant Items EGI reading 2.4's EGI TDD funded 1.3245 live; gate C."
+  ],
+  [
+   "2.12 and 2.13 COE",
+   "Move the netting lines to actual: BP 2.20 becomes 2.3135, DA 1.40 becomes 1.6647.",
+   "DONE: 2.12 netting -2.3135, 2.13 netting -1.3889 (Hold DA at zero), live off the group totals; gate G 4/4."
+  ],
+  [
+   "3.1 Archetype to Actuals",
+   "3.1 shows COE cost gross, ignoring the BP and DA netting that 2.12 and 2.13 apply. Make...",
+   "DONE: 3.1 COE rows netted 3.8631 / 3.3863; gate G."
+  ],
+  [
+   "Language",
+   "Rechargeable, never to projects. Delete the per FTE and percentage of squad cost metrics.",
+   "DONE: rechargeable language throughout the new content; hygiene gate J 6/6."
+  ],
+  [
+   "REVIEW mapping",
+   "Role ID on every role, every join re-keyed to it. The ID belongs to the role so a vacan...",
+   "DONE: Role ID R0001-R0528 on REVIEW, 2,683 refs re-keyed by ID, zero row-anchored refs left; shuffle test: controls 0, totals identical; gate L 5/5."
+  ],
+  [
+   "Protection",
+   "Lock formulas, leave lever dropdowns and cream inputs open, lock structure.",
+   "DONE: every sheet locked, only levers, uplift cells and cream inputs open, REVIEW fully locked, structure locked, password Tdd123; gate K 6/6."
+  ],
+  [
+   "Gate",
+   "Break proof test: sort the mapping and paste a shuffled extract over it, prove every co...",
+   "DONE: the break-proof test ran and passed, full random shuffle of the mapping, every control 0, every total identical."
+  ],
+  [
+   "Overheads / Head of Tech",
+   "Ed Tacey on or off the Head of Technology line. His title is AI Enablement Lead and he ...",
+   "DONE: Ed Tacey off the Heads line, block row moved to the Leadership group on 2.2; HoT 15 / 4.9089; gate A."
+  ],
+  [
+   "Overheads / Tech Manager",
+   "Shane Ker in or out of Technology Manager. Not on your list of 24. His title in the dat...",
+   "DONE: Shane Ker stays; TM 25 / 6.7767; gate A."
+  ],
+  [
+   "Overheads / Business Partner",
+   "Neil Reilly is costed at 666,088, nearly double every other Business Partner and 29% of...",
+   "DONE: Neil Reilly in at 666,088."
+  ],
+  [
+   "Overheads / Domain Architect",
+   "4 of the 7 Domain Architects are vacant. Decide whether vacant roles are shared across ...",
+   "DONE: vacant-on-Hire priced and shared, Holds at zero everywhere; gate F."
+  ],
+  [
+   "GM layer",
+   "How the 8 GMs are priced in: shared equally across the 10 portfolios, or charged to the...",
+   "DONE: GM 5.10 shared 0.510 per portfolio on the Lights On tab; gate E."
+  ],
+  [
+   "Single lens",
+   "TDD Cyber reads 0.805 on 0.2 and 0.838 on 3.1. Pick one basis for the whole book.",
+   "DONE: 0.2 TDD Cyber reads the accurate basis 0.8384; gate H 2/2."
+  ],
+  [
+   "Lights on view",
+   "Where the actuals lights on view lives: its own tab, a block on each 1.x tab, or both.",
+   "DONE: lights on is its own tab, 3.5 TDD Lights On."
+  ],
+  [
+   "Overheads / programmes",
+   "Whether AmPOS and CTRM carry overhead. You ruled EGI does not.",
+   "DONE: no overhead on EGI, AmPOS, CTRM anywhere in the tab's build; gate F."
+  ],
+  [
+   "2.1 Ampol Retail",
+   "Viren Khatri, the single EGI TDD role on Ampol Retail. Retag his squad, move him to TDD...",
+   "DONE: Viren Khatri on 2.4 EGI TDD, 5 roles / 1.3245; gate C."
+  ],
+  [
+   "Protection",
+   "Blank password or a real one.",
+   "DONE: password Tdd123, role mapping fully locked; gate K."
+  ],
+  [
+   "REVIEW mapping / data",
+   "Seven part time people are costed at full rate, not scaled by their FTE.",
+   "DONE: the seven part-time people scaled by FTE, 0.3646 total; gate D 21/21."
+  ],
+  [
+   "Lights On tab",
+   "New tab, his five columns (Cost, Support Cost, Overhead cost, TDD Lights On budget, Ove...",
+   "DONE: 3.5 TDD Lights On built with his 15 headers verbatim, all live, toggles cream 0-100 in 5s, analysis block live; gate E 20/20 tied at 1e-6. K total 60.93 vs 50.50."
+  ],
+  [
+   "REVIEW mapping",
+   "Recode the vacant Delivery Assurance Manager and Delivery Excellence Manager onto the D...",
+   "DONE: Delivery Assurance and Delivery Excellence Managers on the DM line, 12 roles; gate A."
+  ],
+  [
+   "New 30/07 ingest",
+   "Bring in the lever changes from the new 30/07 workbook he is about to upload, and only ...",
+   "DONE: his 11 lever edits ingested person-keyed (the old-version ledger trap caught and documented); gate B 23/23."
+  ],
+  [
+   "Overheads",
+   "Price overheads at platform and portfolio level only. Squads carry none. TDD funds ever",
+   "DONE: this IS the Lights On tab's engine, overheads priced at platform and portfolio, squads carry none, nothing recharged; gate E."
+  ],
+  [
+   "Overheads",
+   "Share Business Partners and Domain Architects equally across the 10 portfolios at actua",
+   "DONE: BP 0.2314 and DA 0.1389 shares live on the tab; gate E."
+  ],
+  [
+   "Lights on view",
+   "Build actuals through the lights on structure: squads at actual with the archetype supp",
+   "DONE: built as 3.5 TDD Lights On with his columns; superseded into BLD-23."
   ]
  ]
 }
