@@ -637,16 +637,16 @@ def main(src, dst):
         ["=%s!$I$%d" % (q(OVH), o_all)])
     put(r + 2, "What the overhead people cost after levers, GMs included ($m)",
         ["=$H$%d+%s+%s+%s" % (TOT, POT["bp"], POT["da"], POT["gm"])])
-    put(r + 3, "The gap sits in the leadership lines ($m over archetype): "
-               "Technology Managers, then Heads of Technology, then GMs, "
-               "then Delivery Managers",
-        ["=%s!$K$%d" % (q(OVH), o_tm), "=%s!$K$%d" % (q(OVH), o_hot),
-         "=%s!$K$%d" % (q(OVH), o_gm), "=%s!$K$%d" % (q(OVH), o_dm)])
-    put(r + 4, "Squads after levers run under archetype, which is why the "
+    put(r + 3, "Where the gap sits ($m over archetype):", bold_label=True)
+    put(r + 4, "Technology Managers", ["=%s!$K$%d" % (q(OVH), o_tm)])
+    put(r + 5, "Heads of Technology", ["=%s!$K$%d" % (q(OVH), o_hot)])
+    put(r + 6, "The 8 GMs", ["=%s!$K$%d" % (q(OVH), o_gm)])
+    put(r + 7, "Delivery Managers", ["=%s!$K$%d" % (q(OVH), o_dm)])
+    put(r + 8, "Squads after levers run under archetype, which is why the "
                "total cost never showed it. The overhead people are the "
                "lights on story.")
     log("V6", "%s!B%d" % (TAB, r), "why the number is far from the archetype")
-    r += 6
+    r += 10
 
     lines = []
     for rr in range(2, 9):
