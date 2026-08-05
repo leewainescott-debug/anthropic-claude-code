@@ -37,7 +37,7 @@
    "REVIEW mapping / data",
    "Six Ring fenced placeholder rows: keep, cost, or exclude.",
    "MEDIUM",
-   "Rows 458 onwards.",
+   "Your 05/08 mapping carries four rows named ring fenced. They price as vacancies today, on their levers.",
    ""
   ],
   [
@@ -137,22 +137,6 @@
    "MEDIUM",
    "Mechanically right, reads odd.",
    ""
-  ],
-  [
-   "BLD-18",
-   "2.7 and 2.8",
-   "Four filled people still carry the lever Hire. No cost effect but it is stale state.",
-   "LOW",
-   "2 on Infrastructure, 2 on Energy Solutions & B2B.",
-   ""
-  ],
-  [
-   "BLD-19",
-   "1.10 Z Retail",
-   "Row 17 pulls a dash from your 0.1 tab. Render it as 0.00 on the model tab.",
-   "LOW",
-   "",
-   ""
   ]
  ],
  "done": [
@@ -169,7 +153,7 @@
   [
    "REVIEW mapping",
    "Named vacancies filled, three Remove rows deleted, Nico Lender fills one role",
-   "528 roles, 394 filled, 134 vacant"
+   "Superseded by your 05/08 master mapping, which is now the file of record."
   ],
   [
    "0.1 and 1.2",
@@ -209,7 +193,7 @@
   [
    "Whole model",
    "No sheet or workbook protection anywhere",
-   "Verified: all 43 sheets unprotected"
+   "SUPERSEDED: you asked for protection after this, and on 05/08 for it only where nobody types. Where it landed: the 0.x and 3.x tabs protected, every other tab open."
   ],
   [
    "Whole model",
@@ -274,7 +258,7 @@
   [
    "Protection",
    "Lock formulas, leave lever dropdowns and cream inputs open, lock structure.",
-   "DONE: every sheet locked, only levers, uplift cells and cream inputs open, REVIEW fully locked, structure locked, password Tdd123; gate K 6/6."
+   "DONE, then re-scoped on 05/08: protection sits on the 0.x and 3.x tabs only, the role mapping and the lever tabs are open, structure still locked, password Tdd123."
   ],
   [
    "Gate",
@@ -329,7 +313,7 @@
   [
    "Protection",
    "Blank password or a real one.",
-   "DONE: password Tdd123, role mapping fully locked; gate K."
+   "DONE: password Tdd123. The role mapping is no longer locked - your 05/08 ruling opened it."
   ],
   [
    "REVIEW mapping / data",
@@ -365,6 +349,46 @@
    "Lights on view",
    "Build actuals through the lights on structure: squads at actual with the archetype supp",
    "DONE: built as 3.5 TDD Lights On with his columns; superseded into BLD-23."
+  ],
+  [
+   "2.7, 2.8 and 2.10",
+   "Four filled people still carry the lever Hire. No cost effect but it is stale state.",
+   "DONE: five, not four - Prem Shetty and Karla Orozco Loza on 2.7, Nico Lender and Hitesh Patel on 2.8, Emma Natoli on 2.10, all set to Filled. Filled and Hire both price at cost factor 1, so nothing moved: 29,683 cached values compared before and after, only the five lever cells differ."
+  ],
+  [
+   "1.10 Z Retail",
+   "Row 17 pulls a dash from your 0.1 tab. Render it as 0.00 on the model tab.",
+   "DONE: 1.10 I17 wrapped in N(), so the text on your 0.1 tab reads as zero and the cell prints 0.00. Your 0.1 cell is untouched and the Z-Energy budget total still reads 76.60."
+  ],
+  [
+   "REVIEW mapping",
+   "Your master role mapping is the file of record - 526 rows, 29 columns, your headers kept verbatim.",
+   "DONE: the raw block replaced cell for cell from your 05/08 file, every 2.x block re-homed off it, levers carried person by person, part-time people priced at FTE on top."
+  ],
+  [
+   "Protection",
+   "Protection only where nobody types: the 0.x and 3.x tabs. Everything else open, the role mapping included.",
+   "DONE: the 0.x and 3.x tabs carry protection with the password Tdd123 and nothing else does - the role mapping, Lists, the executive summary, every 1.x and 2.x tab and the QA tab are open. Workbook structure stays locked, and the Lights On toggles stay editable behind the protection."
+  ],
+  [
+   "Overheads / TDD Cyber",
+   "TDD Cyber carries an overhead share the same way a portfolio does.",
+   "DONE: the Business Partner, Domain Architect and GM pots divide by eleven - the ten portfolios plus TDD Cyber - on the Lights On tabs."
+  ],
+  [
+   "Language / Enterprise Data",
+   "TDD Data is not a thing: the line reads Enterprise Data everywhere, 0.2 included.",
+   "DONE: 0.2's budget line relabelled Enterprise Data and the Lights On rows carry the same label, reading that budget line live."
+  ],
+  [
+   "3.5 TDD Lights On",
+   "Customer split into an Ampol Customer and a Z Customer row, with the overheads divided between the two rather than each carrying its own.",
+   "DONE: both rows on the tab; the shares and the Customer overhead pool split between them in proportion to their support cost."
+  ],
+  [
+   "3.6 TDD Lights On AU NZ",
+   "A duplicate of the Lights On tab split AU against NZ.",
+   "DONE: 3.6 TDD Lights On AU NZ - the same rows with AU spend, NZ spend, total and variance against your 0.2 AU and NZ budgets, and the split basis stated on the tab in plain English."
   ]
  ]
 }
