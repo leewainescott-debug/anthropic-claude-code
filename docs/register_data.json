@@ -9,99 +9,19 @@
    "if we need to fund every single overhead position to the lights on budget, then what is the impact of that?"
   ],
   [
-   "DEC-02",
-   "Overheads / Head of Tech",
-   "Ed Tacey on or off the Head of Technology line. His title is AI Enablement Lead and he is not on your list of 15.",
-   "HIGH",
-   "With him 16 roles 5.230. Without him 15 roles 4.909. Verified REVIEW row 161.",
-   "these are the roles I have for head of tech"
-  ],
-  [
-   "DEC-03",
-   "Overheads / Tech Manager",
-   "Shane Ker in or out of Technology Manager. Not on your list of 24. His title in the data reads Technology Manger - Finance Platfoms.",
-   "HIGH",
-   "With him 25 roles 6.777. Without him 24 roles 6.453. Verified REVIEW row 454.",
-   "i have tech managers as this....what's missing?"
-  ],
-  [
-   "DEC-14",
-   "Overheads / Business Partner",
-   "Neil Reilly is costed at 666,088, nearly double every other Business Partner and 29% of the whole line. Confirm before we share it equally.",
-   "HIGH",
-   "Others: 297,150 / 298,100 / 291,422 / 417,425 / 343,364. If wrong, the 0.2314 per portfolio share is wrong.",
-   ""
-  ],
-  [
-   "DEC-15",
-   "Overheads / Domain Architect",
-   "4 of the 7 Domain Architects are vacant. Decide whether vacant roles are shared across portfolios or only filled ones are.",
-   "HIGH",
-   "Filled 3 = 0.694. Vacant 4 = 0.971. Sharing all 7 gives 0.1665 each; filled only gives 0.0694 each.",
-   ""
-  ],
-  [
-   "DEC-04",
-   "GM layer",
-   "How the 8 GMs are priced in: shared equally across the 10 portfolios, or charged to their own division.",
-   "HIGH",
-   "5.10 actual against a 3.00 allowance. Equal share is 0.510 per portfolio. Note they sit outside the 528 role mapping.",
-   "We also need to price in the GMs, have we done that?"
-  ],
-  [
-   "DEC-07",
-   "Single lens",
-   "TDD Cyber reads 0.805 on 0.2 and 0.838 on 3.1. Pick one basis for the whole book.",
-   "HIGH",
-   "0.805 is the 1.14 funding model. 0.838 is actual less the uplift programme.",
-   "We need a single lense and no confusion."
-  ],
-  [
-   "DEC-10",
-   "Lights on view",
-   "Where the actuals lights on view lives: its own tab, a block on each 1.x tab, or both.",
-   "HIGH",
-   "",
-   "it might be that we do it in the 2.x tabs or actually we do it in the data config tab or it's its own tab on itself"
-  ],
-  [
    "DEC-16",
    "REVIEW mapping / geography",
    "The AU/NZ split is computed as not-NZ versus NZ, so 14 Singapore roles count as AU.",
    "HIGH",
-   "Affects every AU/NZ line on the 1.x tabs.",
+   "PARKED: AU/NZ basis left as is.",
    ""
-  ],
-  [
-   "DEC-05",
-   "Overheads / programmes",
-   "Whether AmPOS and CTRM carry overhead. You ruled EGI does not.",
-   "MEDIUM",
-   "Changes how much overhead sits on Retail and Commercial Fuels.",
-   "EGI does not use overheads. if they're egi they're egi, it's simple."
-  ],
-  [
-   "DEC-06",
-   "2.1 Ampol Retail",
-   "Viren Khatri, the single EGI TDD role on Ampol Retail. Retag his squad, move him to TDD Group Functions with the other four, or leave him.",
-   "MEDIUM",
-   "REVIEW row 104, contractor, 299,700, Division Ampol Retail & Z.",
-   "I don;t know why ampol retail has egi tdd??"
-  ],
-  [
-   "DEC-08",
-   "Protection",
-   "Blank password or a real one.",
-   "MEDIUM",
-   "Blank stops accidents and still lets you turn it off in one click.",
-   "how do we protect the workbook? any suggestions?"
   ],
   [
    "DEC-11",
    "FY27",
    "Confirm the three dates: vacancies land 01 Oct 26, offshore transitions done 01 Jan 27, holds stay closed.",
    "MEDIUM",
-   "Under those defaults FY27 lands at 102.01 against a 106.80 run rate.",
+   "PARKED: FY27 dates do not matter right now.",
    "how do we show where we land for FY27"
   ],
   [
@@ -109,15 +29,7 @@
    "REVIEW mapping / data",
    "Rob Jadrjevic is counted as a role but priced at zero.",
    "MEDIUM",
-   "REVIEW row 190, Engineer BE, Customer / EGI Customer.",
-   ""
-  ],
-  [
-   "DEC-18",
-   "REVIEW mapping / data",
-   "Seven part time people are costed at full rate, not scaled by their FTE.",
-   "MEDIUM",
-   "Makes the FTE total and the cost total tell different stories.",
+   "PARKED: Rob Jadrjevic left as is.",
    ""
   ],
   [
@@ -337,6 +249,118 @@
    "LOW",
    "",
    ""
+  ],
+  [
+   "BLD-R-02",
+   "Overheads / Head of Tech",
+   "Ed Tacey on or off the Head of Technology line. His title is AI Enablement Lead and he is not on your list of 15.",
+   "HIGH",
+   "RULED: Ed Tacey OFF the Heads line, reverts to his 30/07 coding. HoT = 15 roles, 4.909.",
+   "these are the roles I have for head of tech"
+  ],
+  [
+   "BLD-R-03",
+   "Overheads / Tech Manager",
+   "Shane Ker in or out of Technology Manager. Not on your list of 24. His title in the data reads Technology Manger - Finance Platfoms.",
+   "HIGH",
+   "RULED: Shane Ker stays IN Technology Manager. Line stays 25 roles, 6.777.",
+   "i have tech managers as this....what's missing?"
+  ],
+  [
+   "BLD-R-14",
+   "Overheads / Business Partner",
+   "Neil Reilly is costed at 666,088, nearly double every other Business Partner and 29% of the whole line. Confirm before we share it equally.",
+   "HIGH",
+   "RULED: Neil Reilly costed in at 666,088.",
+   ""
+  ],
+  [
+   "BLD-R-15",
+   "Overheads / Domain Architect",
+   "4 of the 7 Domain Architects are vacant. Decide whether vacant roles are shared across portfolios or only filled ones are.",
+   "HIGH",
+   "RULED: vacant roles are shared when set to Hire; Hold roles are never priced.",
+   ""
+  ],
+  [
+   "BLD-R-04",
+   "GM layer",
+   "How the 8 GMs are priced in: shared equally across the 10 portfolios, or charged to their own division.",
+   "HIGH",
+   "RULED: GMs priced equally across the 10 portfolios, 0.510 each.",
+   "We also need to price in the GMs, have we done that?"
+  ],
+  [
+   "BLD-R-07",
+   "Single lens",
+   "TDD Cyber reads 0.805 on 0.2 and 0.838 on 3.1. Pick one basis for the whole book.",
+   "HIGH",
+   "RULED: TDD Cyber shows the accurate number, the actuals basis, one lens everywhere.",
+   "We need a single lense and no confusion."
+  ],
+  [
+   "BLD-R-10",
+   "Lights on view",
+   "Where the actuals lights on view lives: its own tab, a block on each 1.x tab, or both.",
+   "HIGH",
+   "RULED: lights on is its own tab.",
+   "it might be that we do it in the 2.x tabs or actually we do it in the data config tab or it's its own tab on itself"
+  ],
+  [
+   "BLD-R-05",
+   "Overheads / programmes",
+   "Whether AmPOS and CTRM carry overhead. You ruled EGI does not.",
+   "HIGH",
+   "RULED: AmPOS and CTRM carry no overhead, same as EGI.",
+   "EGI does not use overheads. if they're egi they're egi, it's simple."
+  ],
+  [
+   "BLD-R-06",
+   "2.1 Ampol Retail",
+   "Viren Khatri, the single EGI TDD role on Ampol Retail. Retag his squad, move him to TDD Group Functions with the other four, or leave him.",
+   "HIGH",
+   "RULED: Viren Khatri retagged into TDD Group Functions with the other four EGI TDD roles.",
+   "I don;t know why ampol retail has egi tdd??"
+  ],
+  [
+   "BLD-R-08",
+   "Protection",
+   "Blank password or a real one.",
+   "HIGH",
+   "RULED: password Tdd123, and the role mapping tab locked down.",
+   "how do we protect the workbook? any suggestions?"
+  ],
+  [
+   "BLD-R-18",
+   "REVIEW mapping / data",
+   "Seven part time people are costed at full rate, not scaled by their FTE.",
+   "HIGH",
+   "RULED: the seven part time people are scaled by their FTE.",
+   ""
+  ],
+  [
+   "BLD-23",
+   "Lights On tab",
+   "New tab, his five columns (Cost, Support Cost, Overhead cost, TDD Lights On budget, Over/Under), flat list like 0.2, TDD Cyber inline, archetype cost shown for comparison. Toggle A: a cream percentage per portfolio, 0 to 100, for how much overhead is charged to lights on. Toggle B: overhead broken out into BP, DA and GM shares (fixed equal splits) plus Other overheads with a percentage lever, his example 50 percent. Awaiting his example layout before final shape.",
+   "HIGH",
+   "His construction confirmed at 62.61 vs 50.50. This is the centrepiece of the build.",
+   "I need a toggle... percentage of overhead charged to TDD lights on... 0 to 100 percent"
+  ],
+  [
+   "BLD-24",
+   "REVIEW mapping",
+   "Recode the vacant Delivery Assurance Manager and Delivery Excellence Manager onto the Delivery Manager line per his list. Line becomes 12 roles, 3.333.",
+   "HIGH",
+   "Both 275,810, currently coded Squad in COE BP&T.",
+   "should be these if i stand corrected"
+  ],
+  [
+   "BLD-25",
+   "New 30/07 ingest",
+   "Bring in the lever changes from the new 30/07 workbook he is about to upload, and only those.",
+   "HIGH",
+   "Awaiting the file.",
+   "i think it's just on the levers"
   ]
  ],
  "done": [
