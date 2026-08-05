@@ -46,7 +46,7 @@ section(f"AGREED, NOT BUILT YET  ({len(R['build'])})",AMBER,R["build"])
 section(f"DONE AND VERIFIED IN THE SHIPPED FILE  ({len(R['done'])})",GREEN,R["done"],done=True)
 dv=DataValidation(type="list",formula1='"Open,In progress,Done,Parked"',allow_blank=True,showErrorMessage=True)
 ws.add_data_validation(dv); dv.add(f"G6:G{r}")
-put(f"B{r+1}",f"{len(R['decisions'])} decisions, {len(R['build'])} to build, {len(R['done'])} done. Nothing has been built since the file you have.",9,True,NAVY)
+put(f"B{r+1}",f"{len(R['decisions'])} decisions, {len(R['build'])} to build, {len(R['done'])} done.",9,True,NAVY)
 ws.merge_cells(f"B{r+1}:H{r+1}")
 ws.freeze_panes="B6"
 wb.save("TDD_Model_Register.xlsx")
