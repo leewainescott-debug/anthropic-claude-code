@@ -1,0 +1,424 @@
+{
+ "decisions": [
+  [
+   "DEC-01",
+   "Overheads",
+   "The overhead funding gap: 12.26 of overhead exists beyond what the lights on budget allows. Decide whether the budget moves, roles come out, or the gap is shown openly.",
+   "HIGH",
+   "Budget allows 12.37, actual overhead is 24.63. Funding it all takes TDD from 6.56 over to 18.67 over.",
+   "if we need to fund every single overhead position to the lights on budget, then what is the impact of that?"
+  ],
+  [
+   "DEC-02",
+   "Overheads / Head of Tech",
+   "Ed Tacey on or off the Head of Technology line. His title is AI Enablement Lead and he is not on your list of 15.",
+   "HIGH",
+   "With him 16 roles 5.230. Without him 15 roles 4.909. Verified REVIEW row 161.",
+   "these are the roles I have for head of tech"
+  ],
+  [
+   "DEC-03",
+   "Overheads / Tech Manager",
+   "Shane Ker in or out of Technology Manager. Not on your list of 24. His title in the data reads Technology Manger - Finance Platfoms.",
+   "HIGH",
+   "With him 25 roles 6.777. Without him 24 roles 6.453. Verified REVIEW row 454.",
+   "i have tech managers as this....what's missing?"
+  ],
+  [
+   "DEC-14",
+   "Overheads / Business Partner",
+   "Neil Reilly is costed at 666,088, nearly double every other Business Partner and 29% of the whole line. Confirm before we share it equally.",
+   "HIGH",
+   "Others: 297,150 / 298,100 / 291,422 / 417,425 / 343,364. If wrong, the 0.2314 per portfolio share is wrong.",
+   ""
+  ],
+  [
+   "DEC-15",
+   "Overheads / Domain Architect",
+   "4 of the 7 Domain Architects are vacant. Decide whether vacant roles are shared across portfolios or only filled ones are.",
+   "HIGH",
+   "Filled 3 = 0.694. Vacant 4 = 0.971. Sharing all 7 gives 0.1665 each; filled only gives 0.0694 each.",
+   ""
+  ],
+  [
+   "DEC-04",
+   "GM layer",
+   "How the 8 GMs are priced in: shared equally across the 10 portfolios, or charged to their own division.",
+   "HIGH",
+   "5.10 actual against a 3.00 allowance. Equal share is 0.510 per portfolio. Note they sit outside the 528 role mapping.",
+   "We also need to price in the GMs, have we done that?"
+  ],
+  [
+   "DEC-07",
+   "Single lens",
+   "TDD Cyber reads 0.805 on 0.2 and 0.838 on 3.1. Pick one basis for the whole book.",
+   "HIGH",
+   "0.805 is the 1.14 funding model. 0.838 is actual less the uplift programme.",
+   "We need a single lense and no confusion."
+  ],
+  [
+   "DEC-10",
+   "Lights on view",
+   "Where the actuals lights on view lives: its own tab, a block on each 1.x tab, or both.",
+   "HIGH",
+   "",
+   "it might be that we do it in the 2.x tabs or actually we do it in the data config tab or it's its own tab on itself"
+  ],
+  [
+   "DEC-16",
+   "REVIEW mapping / geography",
+   "The AU/NZ split is computed as not-NZ versus NZ, so 14 Singapore roles count as AU.",
+   "HIGH",
+   "Affects every AU/NZ line on the 1.x tabs.",
+   ""
+  ],
+  [
+   "DEC-05",
+   "Overheads / programmes",
+   "Whether AmPOS and CTRM carry overhead. You ruled EGI does not.",
+   "MEDIUM",
+   "Changes how much overhead sits on Retail and Commercial Fuels.",
+   "EGI does not use overheads. if they're egi they're egi, it's simple."
+  ],
+  [
+   "DEC-06",
+   "2.1 Ampol Retail",
+   "Viren Khatri, the single EGI TDD role on Ampol Retail. Retag his squad, move him to TDD Group Functions with the other four, or leave him.",
+   "MEDIUM",
+   "REVIEW row 104, contractor, 299,700, Division Ampol Retail & Z.",
+   "I don;t know why ampol retail has egi tdd??"
+  ],
+  [
+   "DEC-08",
+   "Protection",
+   "Blank password or a real one.",
+   "MEDIUM",
+   "Blank stops accidents and still lets you turn it off in one click.",
+   "how do we protect the workbook? any suggestions?"
+  ],
+  [
+   "DEC-11",
+   "FY27",
+   "Confirm the three dates: vacancies land 01 Oct 26, offshore transitions done 01 Jan 27, holds stay closed.",
+   "MEDIUM",
+   "Under those defaults FY27 lands at 102.01 against a 106.80 run rate.",
+   "how do we show where we land for FY27"
+  ],
+  [
+   "DEC-17",
+   "REVIEW mapping / data",
+   "Rob Jadrjevic is counted as a role but priced at zero.",
+   "MEDIUM",
+   "REVIEW row 190, Engineer BE, Customer / EGI Customer.",
+   ""
+  ],
+  [
+   "DEC-18",
+   "REVIEW mapping / data",
+   "Seven part time people are costed at full rate, not scaled by their FTE.",
+   "MEDIUM",
+   "Makes the FTE total and the cost total tell different stories.",
+   ""
+  ],
+  [
+   "DEC-19",
+   "REVIEW mapping / data",
+   "Six Ring fenced placeholder rows: keep, cost, or exclude.",
+   "MEDIUM",
+   "Rows 458 onwards.",
+   ""
+  ],
+  [
+   "DEC-09",
+   "1.4 TDD Group Functions",
+   "The Left to fund 1.48 line: real, or covered by something.",
+   "MEDIUM",
+   "Sits under the mislabelled EGI line.",
+   ""
+  ],
+  [
+   "DEC-20",
+   "1.10 Z Retail",
+   "A 0.165 platform overhead is priced onto the Data NZ platform. Confirm or reverse.",
+   "LOW",
+   "",
+   ""
+  ],
+  [
+   "DEC-12",
+   "2.13 COE SA&D",
+   "Restore the Paused roles - cost if released line that was on your old 1.12, or leave it out.",
+   "LOW",
+   "It read 0 at consolidation so it was not carried.",
+   ""
+  ],
+  [
+   "DEC-13",
+   "Value adds",
+   "Which additions you want: in year phasing, saved scenarios, offshore transition assumptions, assumptions register, actioned vs planned, contractor roll off.",
+   "MEDIUM",
+   "",
+   "Keen to see what you said is worth adding."
+  ]
+ ],
+ "build": [
+  [
+   "BLD-01",
+   "1.3 Enterprise Data",
+   "Add the EGI Ent Data platform and squad line carrying 1.8119, live from 2.3, and net it in the funding block.",
+   "HIGH",
+   "Verified absent: 1.3 B34 only says Platform: EGI Data - removed, no roles. The EGI funding line reads 0.",
+   "there needs to be a whole new platform and squad that says egi ent data on 1.3"
+  ],
+  [
+   "BLD-02",
+   "1.1 Ampol Retail",
+   "EGI line must include the EGI TDD squad: 1.2214 becomes 1.5211.",
+   "HIGH",
+   "Verified: 1.1 J18 = 1.221357614, misses 0.2997.",
+   ""
+  ],
+  [
+   "BLD-03",
+   "1.4 TDD Group Functions",
+   "Relabel Funded from TDD Corporate pool (3.4 COE Breakdown) to EGI. 3.4 carries no such line.",
+   "HIGH",
+   "Verified: 1.02484851 appears nowhere on 3.4.",
+   ""
+  ],
+  [
+   "BLD-04",
+   "Overheads",
+   "Price overheads at platform and portfolio level only. Squads carry none. TDD funds every overhead role, nothing recharged.",
+   "HIGH",
+   "Platform: Delivery Manager, Technology Manager. Portfolio: Head of Tech, Business Partner, Domain Architect, GMs.",
+   "TDD pays for every single overhead role, nothing is recharged"
+  ],
+  [
+   "BLD-05",
+   "Overheads",
+   "Share Business Partners and Domain Architects equally across the 10 portfolios at actual cost.",
+   "HIGH",
+   "BP 2.3135 / 10 = 0.2314 each. DA 1.6647 / 10 = 0.1665 each. Up from the 0.22 and 0.14 allowances.",
+   "domain architects and business partners needs to be equally shared across portfolios"
+  ],
+  [
+   "BLD-06",
+   "2.12 and 2.13 COE",
+   "Move the netting lines to actual: BP 2.20 becomes 2.3135, DA 1.40 becomes 1.6647.",
+   "HIGH",
+   "COE spend falls 0.378, portfolios pick up 0.378. People stay listed on the COE tabs.",
+   "what is the impact on the coes tabs"
+  ],
+  [
+   "BLD-07",
+   "3.1 Archetype to Actuals",
+   "3.1 shows COE cost gross, ignoring the BP and DA netting that 2.12 and 2.13 apply. Make it consistent.",
+   "HIGH",
+   "Verified: 3.1 I18 = 6.176556022 is the gross figure.",
+   ""
+  ],
+  [
+   "BLD-08",
+   "Lights on view",
+   "Build actuals through the lights on structure: squads at actual with the archetype support percentages, plus overheads, against the lights on budget and against what can be recharged.",
+   "HIGH",
+   "Uses your Other funding block shape: budget line, amount that can be allocated to people, total applied, left to fund.",
+   "in the yellow, you'll see it there, that's what i expect"
+  ],
+  [
+   "BLD-09",
+   "Language",
+   "Rechargeable, never to projects. Delete the per FTE and percentage of squad cost metrics.",
+   "HIGH",
+   "",
+   "it's not to projects it's a rechargeable amount"
+  ],
+  [
+   "BLD-10",
+   "REVIEW mapping",
+   "Role ID on every role, every join re-keyed to it. The ID belongs to the role so a vacancy keeps its ID when filled.",
+   "HIGH",
+   "Verified absent: no Role ID anywhere. This is what makes a mapping refresh safe.",
+   "We defo need mapping to roleid, but note that some roles have vacant ties"
+  ],
+  [
+   "BLD-11",
+   "Whole model",
+   "Single lens everywhere so no number needs interpreting.",
+   "HIGH",
+   "",
+   "I need this to be a perfect model that requires no analysis or interpretation"
+  ],
+  [
+   "BLD-15",
+   "Whole model",
+   "Like for like tabs made consistent in formatting, language, layout and design.",
+   "HIGH",
+   "",
+   "Ensure that like for like tabs have consistent formatting, language, layout, design etc."
+  ],
+  [
+   "BLD-16",
+   "Protection",
+   "Lock formulas, leave lever dropdowns and cream inputs open, lock structure.",
+   "HIGH",
+   "Verified: no protection anywhere today.",
+   "how do we protect the workbook?"
+  ],
+  [
+   "BLD-17",
+   "Gate",
+   "Break proof test: sort the mapping and paste a shuffled extract over it, prove every control stays 0 and every number is identical.",
+   "HIGH",
+   "",
+   "updating the review tab right now siginificantly breaks the model"
+  ],
+  [
+   "BLD-20",
+   "COE tabs",
+   "Deliver the one page explanation of why one COE tab not two, and why the old numbers contradicted. You approved the consolidation but never got the explanation.",
+   "HIGH",
+   "",
+   "i also expect absolute clarity as to why we would have 1 tab vs 2 and why the numbers and explanations are contradictory"
+  ],
+  [
+   "BLD-21",
+   "Whole model",
+   "Give the full list of everything changed or removed that you never asked for.",
+   "HIGH",
+   "",
+   "what have you changed that i didn't ask for?"
+  ],
+  [
+   "BLD-12",
+   "FY27",
+   "FY27 landing view with three date assumptions and an FY27 column on the role blocks.",
+   "MEDIUM",
+   "Verified absent as a view. FY27 appears only as a side note on 3 tabs.",
+   ""
+  ],
+  [
+   "BLD-13",
+   "0.0 Cockpit",
+   "New cockpit tab: headline tiles, budget against spend, funded outside legend, levers live today, FY27.",
+   "MEDIUM",
+   "",
+   ""
+  ],
+  [
+   "BLD-14",
+   "All 2.x tabs",
+   "Cockpit strip on every 2.x tab, in cell bars, consistent formats.",
+   "MEDIUM",
+   "",
+   ""
+  ],
+  [
+   "BLD-22",
+   "2.9 Commercial Fuels",
+   "CTRM is funded at a flat 3.800 while its roles cost 3.2218, so TDD funded reads (0.578). Decide whether to show it that way or net it.",
+   "MEDIUM",
+   "Mechanically right, reads odd.",
+   ""
+  ],
+  [
+   "BLD-18",
+   "2.7 and 2.8",
+   "Four filled people still carry the lever Hire. No cost effect but it is stale state.",
+   "LOW",
+   "2 on Infrastructure, 2 on Energy Solutions & B2B.",
+   ""
+  ],
+  [
+   "BLD-19",
+   "1.10 Z Retail",
+   "Row 17 pulls a dash from your 0.1 tab. Render it as 0.00 on the model tab.",
+   "LOW",
+   "",
+   ""
+  ]
+ ],
+ "done": [
+  [
+   "2.3 Enterprise Data",
+   "The 8 EGI roles funded by EGI on their own directly funded line",
+   "Verified: 2.3 EGI line, 8 roles, 1.8119"
+  ],
+  [
+   "2.x lever tabs",
+   "All Hold hacks reversed, your 8.98m of lever plays left live",
+   "67 levers live, 8.17m impact"
+  ],
+  [
+   "REVIEW mapping",
+   "Named vacancies filled, three Remove rows deleted, Nico Lender fills one role",
+   "528 roles, 394 filled, 134 vacant"
+  ],
+  [
+   "0.1 and 1.2",
+   "Significant Items budget 4.5, 1.2 relinked not hardcoded",
+   "Verified"
+  ],
+  [
+   "Customer",
+   "Programme Management as a Customer only overhead line",
+   "3 roles, 0.7612, allocated at its own cost"
+  ],
+  [
+   "REVIEW mapping",
+   "Ed Tacey follows the data onto the Heads line",
+   "Verified row 161. Now under review, see DEC-02"
+  ],
+  [
+   "1.2 Customer",
+   "Digital Support NZ at archetype 0.32 with your 0.217 called out on tab",
+   "Verified"
+  ],
+  [
+   "Scope",
+   "Contractor end dates parked, four Move to Z Customer people parked",
+   "Verified"
+  ],
+  [
+   "Scope",
+   "13/07 EGI portfolio moves not adopted, only its role mapping tab used",
+   "Verified"
+  ],
+  [
+   "COE tabs",
+   "COEs consolidated to one 2.x tab each, funding blocks moved onto them",
+   "1.11, 1.12, 1.13 deleted"
+  ],
+  [
+   "Whole model",
+   "No sheet or workbook protection anywhere",
+   "Verified: all 43 sheets unprotected"
+  ],
+  [
+   "Whole model",
+   "Strict dropdowns instead of protection, controls kept in white font",
+   "72 validations, 54 white rows"
+  ],
+  [
+   "Whole model",
+   "Your language and wording kept from both the 30/07 and 13/07 files",
+   "Verified"
+  ],
+  [
+   "Whole model",
+   "The word wave appears nowhere",
+   "Verified twice across all 43 sheets"
+  ],
+  [
+   "Whole model",
+   "Funded outside TDD architecture: Lists table, P and Q columns on every 2.x, split on 3.1",
+   "EGI 11.88, CTRM 3.80, AmPOS 1.40, uplift 1.30"
+  ],
+  [
+   "2.11",
+   "Cyber uplift percentage column feeding 1.14",
+   "494,819 charged"
+  ]
+ ]
+}
