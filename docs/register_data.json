@@ -409,6 +409,46 @@
    "REVIEW mapping",
    "The tab must read exactly as his file does, visibility included.",
    "DONE: 513 hidden rows inherited from the old lock unhidden - his 05/08 file hides none. The gate now checks visibility against his file permanently."
+  ],
+  [
+   "3.5 TDD Lights On",
+   "Show how the columns add to the total people cost.",
+   "DONE: a live block under the table. 105.28 less 19.07 funded outside equals 86.21 for TDD to fund; less 59.39 charged to lights on equals 26.82 to recharge; less 34.38 noted in the 1.x tabs equals (7.57) still to fund. A second block splits the 59.39: support 36.22, BP 2.31, DA 1.39, GM 5.10, other overheads after the toggles 14.37, against the 53.80 budget, 5.59 over."
+  ],
+  [
+   "EGI",
+   "EGI cost shows in the portfolio that has it and nets out in Sig items funded.",
+   "DONE: EGI is keyed on your Platform column, 49 roles / 12.07. The EGI squads sit in the portfolio they name, the EGI Ent Data row is built on 2.3 from your own 1.3 label, and every portfolio shows its EGI cost in Total people cost and nets it out in Sig items funded. Only the plain EGI squad, 18 roles / 5.15, stays on the EGI row."
+  ],
+  [
+   "Overheads",
+   "The GM cost splits across the COEs as well as the portfolios.",
+   "DONE: the GM pot divides over sixteen, the eleven portfolio units plus the five COE lines, 0.32 each. Business Partner and Domain Architect stay over eleven."
+  ],
+  [
+   "Whole model",
+   "Get rid of the control checks.",
+   "DONE: 56 control rows and the 4.0 Data QA tab removed. Every reconciliation they proved is now checked outside the workbook by the gate, which runs 189 checks."
+  ],
+  [
+   "0.2 Data Config",
+   "0.2 and 3.5 must not price the same portfolio differently.",
+   "DONE: they disagreed by 4.43 across 12 of 18 rows, five flipping sign, because 0.2 priced support at the archetype rate and 3.5 at actual after levers. 0.2 now reads 3.5 row for row."
+  ],
+  [
+   "Whole model",
+   "One sign convention for over budget.",
+   "DONE: over budget reads positive everywhere. It was negative on 0.2 and the 2.x funding blocks and positive on 3.5, 3.6 and the 1.x tabs, and since every tab brackets negatives a bracket meant good on one tab and bad on another."
+  ],
+  [
+   "1.x tabs",
+   "The eleven 1.x tabs made genuinely like for like.",
+   "DONE: 1.7's block aligned with its ten siblings (and a formula that read the NZ budget where its siblings read the NZ variance, corrected), 1.5 given the NZ column its budget needs, the budget and funding blocks on one shape, one label over the block and one on the total."
+  ],
+  [
+   "3.6 TDD Lights On AU NZ",
+   "Answer whether the overspend is AU or NZ.",
+   "DONE: AU 44.96 against 33.00 is 11.96 over; NZ 16.08 against 17.50 is 1.42 under. The duplicated variance column is gone."
   ]
  ]
 }

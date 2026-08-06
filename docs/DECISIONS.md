@@ -1738,3 +1738,51 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Gate: 14 groups, 150 sub-checks, green twice with identical output. Deep
   verify: 50 checks green - raw identity, PCM cross-check, placement against
   the derivation, EE numbers, and a 40-person salary trace to his file.
+
+## D125 - 05/08 review: EGI back in the portfolios, GMs across the COEs, the arithmetic made obvious, controls out
+
+- EGI is keyed on his Platform column, not squad names: 49 roles / 12.07,
+  eight of them (1.84) inside Enterprise Data squads that the squad-name rule
+  had walked straight past. Each EGI squad now sits in the portfolio it names,
+  so a portfolio shows its EGI cost in Total people cost and nets it out in
+  Sig items funded; only the plain EGI squad, 18 roles / 5.15, stays on the
+  EGI row. The EGI Ent Data grid row is built on 2.3 from his own 1.3 label,
+  which is the platform line he asked for on 30/07 and which read 0 until now.
+- The GM pot divides over sixteen units - the eleven portfolio units plus the
+  five COE lines, 0.32 each. Business Partner and Domain Architect stay over
+  eleven. Total GM charged is unchanged at 5.10. A COE line therefore shows
+  its GM share in Still left to fund, because it carries a share it does not
+  employ and has no business to recharge it to; the tab says so.
+- A live block on 3.5 and 3.6 shows how the columns add up: 105.28 less 19.07
+  funded outside equals 86.21 for TDD to fund, less 59.39 charged to lights on
+  equals 26.82 to recharge, less 34.38 noted in the 1.x tabs equals (7.57)
+  still to fund. A second block splits the 59.39 into support 36.22, BP 2.31,
+  DA 1.39, GM 5.10 and other overheads after the toggles 14.37, against the
+  53.80 budget, 5.59 over.
+- 56 control rows and the 4.0 Data QA tab removed. Every reconciliation they
+  proved is now checked outside the workbook by the gate.
+- 0.2 Data Config and 3.5 were pricing the same portfolios differently - 4.43
+  apart across 12 of 18 rows, five flipping sign - because 0.2 priced support
+  at the archetype rate while 3.5 priced it at actual after levers. 0.2 now
+  reads 3.5 row for row.
+- One sign convention: over budget reads positive everywhere. It had been
+  negative on 0.2 and the 2.x funding blocks and positive on 3.5, 3.6 and the
+  1.x tabs, so a bracket meant good on one tab and bad on another.
+- The eleven 1.x tabs made genuinely like for like: 1.7's block aligned with
+  its siblings and a formula corrected that read the NZ budget where the others
+  read the NZ variance; 1.5 given the NZ column its budget needs; the budget
+  and funding blocks on one shape; one label over the block and one on the
+  total.
+- 3.6 now answers its own question: AU 44.96 against 33.00 is 11.96 over, NZ
+  16.08 against 17.50 is 1.42 under. The duplicated variance column is gone.
+- Ten further fixes on 3.5 and 3.6 from a cold read of the tabs: both over or
+  under rows say which budget they measure, the four dials are labelled as
+  alternatives rather than a stack, the gap analysis is all on the after-lever
+  basis and its parts add to the whole, the vacant overhead count is one
+  number everywhere, and both tabs carry the same nine reading notes.
+- Two defects found and fixed during the build: the EGI funding line was being
+  counted in both Sig items funded and Amount noted in the 1.x tabs, because
+  the derived EGI grid row was never named in the funded-squads table; and the
+  mapping stage's copy-through guard had let a rebuild run against its own
+  previous output. Both now carry permanent checks.
+- Gate: 15 groups, 189 checks. Deep verify: 50 checks green.
