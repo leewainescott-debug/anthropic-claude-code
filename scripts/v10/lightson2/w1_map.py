@@ -53,8 +53,8 @@ HIS_HDR_HINT = ("EE Number", "Name", "EE Number", "Position Title")
 # the helper block, left to right, immediately right of a one column spacer
 HELPERS = ["Effective cost (AUD)", "MStatus", "Ring fenced", "MTab",
            "Leadership", "Squad (canonical, from col L)", "Overhead line",
-           "Squad or overhead line", "Status (PCM)", "Commentry (PCM)",
-           "End date (PCM)", "Role ID"]
+           "Squad or overhead line", "EGI funded", "Status (PCM)",
+           "Commentry (PCM)", "End date (PCM)", "Role ID"]
 
 # his raw columns the model reads, by his header
 HIS_READ = {"Name": None, "Position Title": None, "Division (GM)": None,
@@ -296,6 +296,14 @@ def build_maps(wb, log):
         ls.cell(2 + i, ci("Q")).value = a
         ls.cell(2 + i, ci("R")).value = b
 
+    # the name his 1.x tab gives each portfolio's EGI platform line
+    egilab = egi_labels(wb)
+    ls.cell(1, ci("Y")).value = "Portfolio"
+    ls.cell(1, ci("Z")).value = "EGI row on the grid"
+    for i, (k, v) in enumerate(sorted(egilab.items())):
+        ls.cell(2 + i, ci("Y")).value = k
+        ls.cell(2 + i, ci("Z")).value = v
+
     # the TDD Cyber squads, whatever their portfolio says
     ls.cell(1, ci("AR")).value = "Squads that home to TDD Cyber"
     for i, s in enumerate(TDD_CYBER_SQUADS):
@@ -344,8 +352,74 @@ def build_maps(wb, log):
     ohl.discard("")
     funded = [nz(ls.cell(r, ci("AU")).value) for r in range(2, 11)]
     funded = [f for f in funded if f]
+    tenp = [nz(ls.cell(r, ci("AS")).value) for r in range(2, 13)]
+    tenp = [p for p in tenp if p]
     return dict(pmap=pmap, dmap=dmap, canon=canon, pov=pov, sov=sov, oov=oov,
-                ohl=ohl, funded=funded, drift=drift, keys=keys)
+                ohl=ohl, funded=funded, tenp=tenp, egilab=egilab, drift=drift,
+                keys=keys)
+
+
+def egi_labels(wb):
+    """portfolio -> the name his 1.x tab gives its EGI platform line.
+
+    '1.3 Enterprise Data' calls it EGI Ent Data. A portfolio whose 1.x tab has
+    no such line falls back to EGI and the portfolio's own name.
+    """
+    out = {}
+    for t in [ws.title for ws in wb.worksheets if ws.title.startswith("1.")]:
+        ws = wb[t]
+        pair = None
+        for row in ws.iter_rows():
+            for c in row:
+                if isinstance(c.value, str):
+                    m = re.search(r"'(2\.[0-9]+[^']*)'!", c.value)
+                    if m:
+                        pair = m.group(1)
+                        break
+            if pair:
+                break
+        if not pair:
+            continue
+        key = nz(wb[pair]["C3"].value)
+        for r in range(1, ws.max_row + 1):
+            if not nz(ws.cell(r, 2).value).startswith("Platform: EGI"):
+                continue
+            for rr in range(r + 1, min(r + 6, ws.max_row + 1)):
+                b = nz(ws.cell(rr, 2).value)
+                h = ws.cell(rr, 8).value
+                if b and not b.endswith("Total") and isinstance(h, str) \
+                        and h.startswith("="):
+                    out[key] = b
+                    break
+            break
+    return out
+
+
+def egi_group(mtab, ap, M):
+    """The grid row an EGI funded person belongs in.
+
+    Someone whose squad already names EGI keeps it. Someone his Platform column
+    marks EGI but whose squad does not - the Enterprise Data eight - joins the
+    portfolio's own EGI row, so no grid row is part funded and part not.
+    """
+    if ap[:4].upper() == "EGI " or ap.upper() == "EGI":
+        return None
+    return M["egilab"].get(mtab, "EGI " + mtab)
+
+
+def egi_home(ap, M):
+    """A funded squad named after a portfolio homes to that portfolio.
+
+    'EGI Customer' belongs to Customer, netted out of what Customer carries,
+    not lumped onto the EGI tab. Plain 'EGI', or an EGI squad naming no
+    portfolio the model knows, stays on the EGI tab.
+    """
+    if not ap[:4].upper() == "EGI " or len(ap) < 5:
+        return None
+    suf = ap[4:].strip()
+    if suf in M["tenp"]:
+        return suf
+    return M["pmap"].get(suf.lower())
 
 
 def derive(rows, cols, M):
@@ -388,10 +462,13 @@ def derive(rows, cols, M):
         else:
             ar = "Squad"
         src = "portfolio"
+        eh = egi_home(ap, M)
         if key in M["pov"]:
             mt, src = M["pov"][key], "person (agreed move)"
         elif ap in TDD_CYBER_SQUADS:
             mt, src = "TDD Cyber", "TDD Cyber squad"
+        elif eh:
+            mt, src = eh, "funded squad names its portfolio"
         elif port == "" or port.upper() == "NA":
             mt = M["dmap"].get(div.lower(), "")
             src = "division fallback"
@@ -402,8 +479,15 @@ def derive(rows, cols, M):
             mt = M["dmap"].get(div.lower(), "")
             src = "division fallback (portfolio not on the map)"
             fallback.append((i, name, title, port, div, plat, squad, mt))
-        at = ap if (mt.startswith("COE") or mt == "EGI") else (
-            ar if ar != "Squad" else ap)
+        eg = (egi_group(mt, ap, M) if plat.strip().upper() == "EGI" else None)
+        if eg:                          # funded outside, but his squad says nothing
+            at = eg
+        elif ap in M["funded"]:         # a funded squad keeps its own identity
+            at = ap
+        elif mt.startswith("COE") or mt == "EGI":
+            at = ap
+        else:
+            at = ar if ar != "Squad" else ap
         try:
             fte = float(g("FTE"))
         except ValueError:
@@ -411,7 +495,7 @@ def derive(rows, cols, M):
         cost = row[cols["Full Cost \nAUD"] - 1]
         cost = float(cost) if isinstance(cost, (int, float)) else 0.0
         out.append(dict(i=i, rid="R%04d" % (i + 1), name=name, title=title,
-                        key=key, mtab=mt, at=at, ar=ar, ap=ap, src=src,
+                        key=key, mtab=mt, at=at, ar=ar, ap=ap, src=src, plat=plat,
                         status="Vacant" if is_vacancy(name) else "Filled",
                         ring=1 if "ring fenced" in norm(name) else 0,
                         fte=fte, cost=cost,
@@ -524,6 +608,7 @@ def helper_formulas(hcol, cols, n):
         '"ring fenced",%s)),LOWER(TRIM(%s))="remove"),"Vacant","Filled"))'
         % (name, name, name))
     f["Ring fenced"] = guard + '--ISNUMBER(SEARCH("ring fenced",%s)))' % name
+    f["EGI funded"] = guard + '--(UPPER(TRIM(%s))="EGI"))' % C("Platform")
     f["Leadership"] = (guard + '--OR(TRIM(%s)="Leadership",TRIM(%s)="Leadership"))'
                        % (C("Squad"), C("Platform")))
     f["Squad (canonical, from col L)"] = guard + ov.format(
@@ -538,10 +623,16 @@ def helper_formulas(hcol, cols, n):
     port = ('IF(OR(TRIM(%s)="",UPPER(TRIM(%s))="NA"),%s,IFERROR(INDEX('
             'Lists!$U$2:$U$21,MATCH(TRIM(%s),Lists!$T$2:$T$21,0)),%s))'
             % (C("Portfolio"), C("Portfolio"), div, C("Portfolio"), div))
+    # a funded squad named after a portfolio homes to that portfolio
+    sq = H("Squad (canonical, from col L)")
+    suf = "TRIM(MID(%s,5,99))" % sq
+    egi = ('IF(AND(LEFT(%s,4)="EGI ",ISNUMBER(MATCH(%s,Lists!$AS$2:$AS$12,0))),'
+           '%s,IF(AND(LEFT(%s,4)="EGI ",ISNUMBER(MATCH(%s,Lists!$T$2:$T$21,0))),'
+           'INDEX(Lists!$U$2:$U$21,MATCH(%s,Lists!$T$2:$T$21,0)),%s))'
+           % (sq, suf, suf, sq, suf, suf, port))
     f["MTab"] = guard + ov.format(
         k=key, t="AO",
-        els='IF(COUNTIF(Lists!$AR$2:$AR$3,%s),"TDD Cyber",%s)'
-            % (H("Squad (canonical, from col L)"), port)) + ")"
+        els='IF(COUNTIF(Lists!$AR$2:$AR$3,%s),"TDD Cyber",%s)' % (sq, egi)) + ")"
     f["Overhead line"] = guard + ov.format(
         k=key, t="AQ", els=(
             'IF(COUNTIF(Lists!$AF$2:$AF$8,%s),%s,'
@@ -556,11 +647,14 @@ def helper_formulas(hcol, cols, n):
             % (H("Squad (canonical, from col L)"),
                H("Squad (canonical, from col L)"),
                title, title, title, title, title, title, title, title))) + ")"
+    egirow = ('IFERROR(INDEX(Lists!$Z$2:$Z$20,MATCH(%s,Lists!$Y$2:$Y$20,0)),'
+              '"EGI "&%s)' % (H("MTab"), H("MTab")))
     f["Squad or overhead line"] = (
-        guard + 'IF(OR(LEFT(%s,3)="COE",%s="EGI"),%s,IF(%s<>"Squad",%s,%s)))'
-        % (H("MTab"), H("MTab"), H("Squad (canonical, from col L)"),
-           H("Overhead line"), H("Overhead line"),
-           H("Squad (canonical, from col L)")))
+        guard + 'IF(AND(%s=1,LEFT(%s,4)<>"EGI ",%s<>"EGI"),%s,'
+        'IF(COUNTIF(Lists!$AU$2:$AU$10,%s),%s,'
+        'IF(OR(LEFT(%s,3)="COE",%s="EGI"),%s,IF(%s<>"Squad",%s,%s)))))'
+        % (H("EGI funded"), sq, sq, egirow, sq, sq, H("MTab"), H("MTab"), sq,
+           H("Overhead line"), H("Overhead line"), sq))
     return f
 
 
@@ -645,7 +739,25 @@ def block_ranges(layout, first):
     return out, r - 1
 
 
+def egi_slice(key_cell, group_cell):
+    """The EGI funded slice of one grid group, straight off his Platform column."""
+    return ("SUMIFS('{v}'!${e}$2:${e}${L},'{v}'!${m}$2:${m}${L},{k},'{v}'!${g}$2"
+            ":${g}${L},{b},'{v}'!${p}$2:${p}${L},1)/1000000").format(
+                v=REVIEW, e=EFF_COL, m=MTAB_COL, g=GROUP_COL, p=PLAT_COL,
+                L=LAST, k=key_cell, b=group_cell)
+
+
+def write_funded_outside(ws, r):
+    """What the row costs that TDD does not carry: a flat programme number if
+    Lists sets one, otherwise the row's own EGI funded people."""
+    sl = egi_slice("$C$3", "$B%d" % r)
+    look = ("INDEX(Lists!$AW$2:$AW$10,MATCH($B%d,Lists!$AU$2:$AU$10,0))" % r)
+    ws.cell(r, 16).value = ("=IFERROR(IF(ISNUMBER(%s),%s,%s),%s)"
+                            % (look, look, sl, sl))
+
+
 def write_grid_group(ws, r, first, last, empty):
+    write_funded_outside(ws, r)
     if empty:
         for c, v in ((6, 0), (8, 0), (9, 0), (10, 0), (11, 0), (12, 0),
                      (13, 0), (19, 0)):
@@ -705,7 +817,7 @@ def rehome_tab(wb, title, want, styles, log):
             for _, gg in sec[s]["rows"]:
                 if gg == g:
                     return s
-        if g in FUNDED:
+        if g in FUNDED or g in ALL_EGI:
             return ("Directly funded programs and platforms"
                     if "Directly funded programs and platforms" in sec
                     else list(sec)[0])
@@ -1082,6 +1194,93 @@ def fix_34(wb, derived, log):
     return n
 
 
+def fix_1x_egi(wb, derived, log):
+    """His EGI platform line on a 1.x tab reads the portfolio's EGI people.
+
+    Five of the six join a squad row that carries the whole slice and already
+    tie. Enterprise Data's do not - its EGI people sit inside two ordinary
+    squads - so that line joined a squad that does not exist and read 0.
+    """
+    slice_of = collections.defaultdict(float)
+    for d in derived:
+        if d["plat"].strip().upper() == "EGI":
+            slice_of[d["mtab"]] += d["eff"]
+    done = []
+    for t in [ws.title for ws in wb.worksheets if ws.title.startswith("1.")]:
+        ws = wb[t]
+        pair = None
+        for row in ws.iter_rows():
+            for c in row:
+                if isinstance(c.value, str):
+                    m = re.search(r"'(2\.[0-9]+[^']*)'!", c.value)
+                    if m:
+                        pair = m.group(1)
+                        break
+            if pair:
+                break
+        if not pair:
+            continue
+        key = nz(wb[pair]["C3"].value)
+        want = slice_of.get(key, 0.0) / 1e6
+        for r in range(1, ws.max_row + 1):
+            b = nz(ws.cell(r, 2).value)
+            if not b.startswith("Platform: EGI"):
+                continue
+            line = None
+            for rr in range(r + 1, min(r + 6, ws.max_row + 1)):
+                b2 = nz(ws.cell(rr, 2).value)
+                h2 = ws.cell(rr, 8).value
+                if b2 and not b2.endswith("Total") and isinstance(h2, str) \
+                        and h2.startswith("="):
+                    line = rr
+                    break
+            if line is None:
+                continue
+            h = ws.cell(line, 8).value          # does it join a live squad row?
+            live = False
+            if isinstance(h, str):
+                m = re.search(r"'(2\.[0-9]+[^']*)'!\$[A-Z]\$(\d+)", h)
+                if m:
+                    grp = nz(wb[m.group(1)].cell(int(m.group(2)), 2).value)
+                    live = bool(grp) and any(
+                        d["mtab"] == key and d["at"] == grp
+                        and d["plat"].strip().upper() == "EGI" for d in derived)
+            if live or want <= 0:
+                continue
+            label = nz(ws.cell(line, 2).value)
+            grid = None                        # the row his own name now has
+            g = wb[pair]
+            for gr in range(6, fte_hdr(g) - 1):
+                if nz(g.cell(gr, 2).value) == label:
+                    grid = gr
+                    break
+            if grid:
+                ws.cell(line, 8).value = "='%s'!$O$%d" % (pair, grid)
+                ws.cell(line, 11).value = "='%s'!$S$%d" % (pair, grid)
+                done.append(t)
+                log("1.x", "%s!B%d" % (t, line),
+                    "%r joins its own row on %s (%.6f $m of EGI funded people)"
+                    % (label, pair, want))
+                continue
+            hdr = fte_hdr(wb[pair])
+            _, last = read_block(wb[pair], hdr)
+            ws.cell(line, 8).value = ("=SUMIFS('{v}'!${e}$2:${e}${L},'{v}'!${m}"
+                                      "$2:${m}${L},'{p}'!$C$3,'{v}'!${pl}$2:${pl}"
+                                      "${L},1)/1000000").format(
+                v=REVIEW, e=EFF_COL, m=MTAB_COL, pl=PLAT_COL, L=LAST, p=pair)
+            ws.cell(line, 11).value = (
+                "=SUMPRODUCT('{p}'!$G${a}:$G${b},--(COUNTIFS('{v}'!${i}$2:${i}"
+                "${L},'{p}'!$A${a}:$A${b},'{v}'!${pl}$2:${pl}${L},1)>0))"
+                "/1000000").format(p=pair, a=hdr + 1, b=last, v=REVIEW,
+                                   i=RID_COL, pl=PLAT_COL, L=LAST)
+            done.append(t)
+            log("1.x", "%s!B%d" % (t, line),
+                "%r joins the %s people his Platform column marks EGI "
+                "(%.6f $m), not a squad of that name" % (nz(ws.cell(line, 2).value),
+                                                         key, want))
+    return done
+
+
 def fix_32(wb, derived, log):
     """An overhead line with no roles prices no roles."""
     ws = wb["3.2 Overhead & Leadership"]
@@ -1170,11 +1369,14 @@ def chk(name, ok, detail=""):
 # ---------------------------------------------------------------------- main
 
 NAME_COL = TITLE_COL = STATUS_COL = EFF_COL = COUNTRY_COL = RID_COL = None
+MTAB_COL = GROUP_COL = PLAT_COL = None
+ALL_EGI = set()
 FUNDED = []
 
 
 def main(src, dst):
     global NAME_COL, TITLE_COL, STATUS_COL, EFF_COL, COUNTRY_COL, RID_COL, FUNDED
+    global MTAB_COL, GROUP_COL, PLAT_COL, ALL_EGI
     log = Log("w1_map")
     wb = load(src)
     rv = wb[REVIEW]
@@ -1304,8 +1506,12 @@ def main(src, dst):
     STATUS_COL = gl(hcol["MStatus"])
     EFF_COL = gl(hcol["Effective cost (AUD)"])
     RID_COL = gl(hcol["Role ID"])
+    MTAB_COL = gl(hcol["MTab"])
+    GROUP_COL = gl(hcol["Squad or overhead line"])
+    PLAT_COL = gl(hcol["EGI funded"])
 
     derived, fallback = derive(rows, cols, M)
+    ALL_EGI = set(M["egilab"].values())
     bad = [d for d in derived if not d["mtab"] or d["mtab"] == "UNMAPPED"]
     if bad:
         for d in bad[:20]:
@@ -1372,6 +1578,22 @@ def main(src, dst):
             log("Lists", "Lists!AU%d" % r,
                 "funded squad %r matches no squad in his file - kept, it "
                 "prices at 0" % nm)
+
+    # the EGI rows this stage groups on the grid are funded outside too, so
+    # the table has to name them or nothing downstream knows to leave them out
+    have = {nz(ls.cell(r, ci("AU")).value)
+            for r in range(2, ls.max_row + 1)}
+    nxt = 11
+    for lab in sorted({d["at"] for d in derived
+                       if nz(d.get("plat")).upper() == "EGI" and d["at"]}
+                      - have):
+        while nz(ls.cell(nxt, ci("AU")).value):
+            nxt += 1
+        ls.cell(nxt, ci("AU")).value = lab
+        log("Lists", "Lists!AU%d" % nxt,
+            "the grid's own EGI row %r added to the funded table, so the "
+            "support percentage and the funding lines leave it out" % lab)
+        nxt += 1
 
     # ---------------------------------------------------------------- W1-5
     log.head("W1-5  the homing table, proved complete")
@@ -1516,8 +1738,10 @@ def main(src, dst):
     log.head("W1-9  3.4 and 3.2 read the squads and lines his file carries")
     n34 = fix_34(wb, derived, log)
     n32 = fix_32(wb, derived, log)
-    log.note("3.4 / 3.2", "%d COE or EGI section(s) rebuilt, %d overhead line(s) "
-             "stood down" % (n34, n32))
+    n1x = fix_1x_egi(wb, derived, log)
+    log.note("3.4 / 3.2 / 1.x", "%d COE or EGI section(s) rebuilt, %d overhead "
+             "line(s) stood down, %d EGI platform line(s) repointed%s"
+             % (n34, n32, len(n1x), (": " + ", ".join(n1x)) if n1x else ""))
 
     # ---------------------------------------------------------------- W1-10
     log.head("W1-10  the vacant overhead dial on 3.5 names the new role rows")
@@ -1786,6 +2010,131 @@ def self_check(path, hdr, rows, derived, hcol, cols, bytab, tab_of):
     chk("3.2 shows no overhead line pricing a role it does not have", not off,
         "%d lines, %d out of step%s" % (lines, len(off),
                                         ("; " + "; ".join(off)) if off else ""))
+
+    lsv = wv["Lists"]
+    funded, basis = [], {}
+    for r in range(2, 11):
+        nm = nz(lsv.cell(r, ci("AU")).value)
+        if nm:
+            funded.append(nm)
+            basis[nm] = lsv.cell(r, ci("AW")).value
+    M2 = dict(tenp=[nz(lsv.cell(r, ci("AS")).value)
+                    for r in range(2, 13) if nz(lsv.cell(r, ci("AS")).value)],
+              pmap={nz(lsv.cell(r, ci("T")).value).lower():
+                    nz(lsv.cell(r, ci("U")).value) for r in range(2, 22)
+                    if nz(lsv.cell(r, ci("T")).value)})
+    tabof = {nz(wf[t]["C3"].value): t
+             for t in wf.sheetnames if t.startswith("2.")}
+
+    off = []
+    for sq in sorted(set(d["at"] for d in derived if d["at"][:4].upper() == "EGI"
+                         or d["at"].upper() == "EGI")):
+        want = egi_home(sq, M2) or "EGI"
+        on = sorted(set(d["mtab"] for d in derived if d["at"] == sq))
+        if on != [want]:
+            off.append("%s on %s, not %s" % (sq, on, want))
+    chk("every EGI squad sits on the tab its own name points to", not off,
+        "%d EGI squads%s"
+        % (len(set(d["at"] for d in derived if d["at"][:3].upper() == "EGI")),
+           ("; " + "; ".join(off)) if off else ""))
+
+    rows = []
+    bad = []
+    for key, t in sorted(tabof.items()):
+        f, v = wf[t], wv[t]
+        want = sum(d["eff"] for d in derived
+                   if d["mtab"] == key and d["plat"].upper() == "EGI") / 1e6
+        for g in sorted(set(d["at"] for d in derived if d["mtab"] == key)):
+            b = basis.get(g)
+            if isinstance(b, (int, float)):     # a flat funded programme
+                want += b
+        got = None
+        for r in range(1, f.max_row + 1):
+            if nz(f.cell(r, 2).value) == "Total portfolio":
+                got = v.cell(r, 16).value
+        rows.append((t, want, got))
+        if not isinstance(got, (int, float)) or abs(got - want) > 1e-9:
+            bad.append("%s wants %.9f, reads %r" % (t, want, got))
+    chk("every tab's funded outside total is its funding lines plus its "
+        "funded squads", not bad,
+        "%d tabs, %.6f $m funded outside in all%s"
+        % (len(rows), sum(r[1] for r in rows),
+           ("; " + "; ".join(bad)) if bad else ""))
+
+    egi = [d for d in derived if d["plat"].strip().upper() == "EGI"]
+    leak = []
+    labels = set(nz(lsv.cell(r, ci("Z")).value) for r in range(2, 21))
+    for d in egi:
+        if d["ar"] != "Squad":
+            leak.append("%s reads overhead line %s" % (d["name"], d["ar"]))
+        if d["at"] != d["ap"] and d["at"] not in labels:
+            leak.append("%s groups as %s, neither its own squad nor its "
+                        "portfolio's EGI row" % (d["name"], d["at"]))
+    slice_tot = sum(d["eff"] for d in egi) / 1e6
+    chk("every person his Platform column marks EGI is funded outside and on "
+        "no overhead line", not leak,
+        "%d roles, %.6f $m, over %d tabs%s"
+        % (len(egi), slice_tot, len(set(d["mtab"] for d in egi)),
+           ("; " + "; ".join(leak[:6])) if leak else ""))
+
+    mixed, ngrp = [], 0
+    for key, t in sorted(tabof.items()):
+        for g in sorted(set(d["at"] for d in derived if d["mtab"] == key)):
+            who = [d for d in derived if d["mtab"] == key and d["at"] == g]
+            ngrp += 1
+            e = sum(1 for d in who if d["plat"].strip().upper() == "EGI")
+            if 0 < e < len(who):
+                mixed.append("%s %s: %d of %d funded outside"
+                             % (t, g, e, len(who)))
+    chk("no grid row is part funded outside and part not", not mixed,
+        "%d rows across the lever modelling tabs%s"
+        % (ngrp, ("; " + "; ".join(mixed)) if mixed else ""))
+
+    lines = []
+    for t in [ws.title for ws in wf.worksheets if ws.title.startswith("1.")]:
+        f, v = wf[t], wv[t]
+        pair = None
+        for row in f.iter_rows():
+            for c in row:
+                if isinstance(c.value, str):
+                    m = re.search(r"'(2\.[0-9]+[^']*)'!", c.value)
+                    if m and pair is None:
+                        pair = m.group(1)
+        if not pair:
+            continue
+        key = nz(wf[pair]["C3"].value)
+        want = sum(d["eff"] for d in derived
+                   if d["mtab"] == key and d["plat"].upper() == "EGI") / 1e6
+        for r in range(1, f.max_row + 1):
+            if not nz(f.cell(r, 2).value).startswith("Platform: EGI"):
+                continue
+            for rr in range(r + 1, min(r + 6, f.max_row + 1)):
+                b = nz(f.cell(rr, 2).value)
+                h = f.cell(rr, 8).value
+                if not (b and not b.endswith("Total")
+                        and isinstance(h, str) and h.startswith("=")):
+                    continue
+                got = v.cell(rr, 8).value
+                if not isinstance(got, (int, float)) or abs(got - want) > 1e-9:
+                    lines.append("%s %r reads %r, wants %.6f"
+                                 % (t, b, got, want))
+                break
+    chk("every 1.x EGI platform line reads its portfolio's EGI slice",
+        not lines, "%d tabs carry one%s"
+        % (sum(1 for t in wf.sheetnames if t.startswith("1.")
+               and any(nz(wf[t].cell(r, 2).value).startswith("Platform: EGI")
+                       for r in range(1, wf[t].max_row + 1))),
+           ("; " + "; ".join(lines)) if lines else ""))
+
+    book = sum(d["eff"] for d in derived) / 1e6
+    tot = 0.0
+    for t in tabof.values():
+        f, v = wf[t], wv[t]
+        for r in range(1, f.max_row + 1):
+            if nz(f.cell(r, 2).value) == "Total portfolio":
+                tot += v.cell(r, 15).value or 0
+    chk("the whole book still prices every person once", abs(tot - book) <= 1e-9,
+        "%.9f $m across the tabs against %.9f on the role mapping" % (tot, book))
 
     levers = collections.Counter()
     for t in [ws.title for ws in wf.worksheets if ws.title.startswith("2.")]:

@@ -55,6 +55,10 @@ SECT = {"Squads", "Directly funded programs and platforms", "Overhead roles",
 SECT_TOT = {"Squads total", "Directly funded total", "Overhead roles total",
             "No archetype total"}
 
+# his heading, typed by him and sent as an image, so it stands verbatim.
+# What the column actually holds is explained in the reading notes.
+R_HEAD = "Amount noted in 1.x tabs"
+
 # his eighteen columns, in his order, one column each
 HEADERS = [
     ("B", "Portfolios & COEs & EGI"),
@@ -73,16 +77,17 @@ HEADERS = [
     ("O", "Over/ Under lights on budget"),
     ("P", None),
     ("Q", "Total Cost left to be recharged to business"),
-    ("R", "Amount noted in 1.x tabs"),
+    ("R", R_HEAD),
     ("S", "Still left to fund"),
 ]
-# the AU NZ tab keeps C..L then adds its own block before the tail
+# the AU NZ tab keeps C..L, then splits the charge, then his tail
 HEAD2_MID = [("M", "AU spend"), ("N", "NZ spend"), ("O", "Total"),
-             ("P", "AU budget"), ("Q", "NZ budget"), ("R", "Variance")]
-HEAD2_TAIL = [("S", "TDD Lights On budget"), ("T", None),
-              ("U", "Over/ Under lights on budget"), ("V", None),
-              ("W", "Total Cost left to be recharged to business"),
-              ("X", "Amount noted in 1.x tabs"), ("Y", "Still left to fund")]
+             ("P", "AU budget"), ("Q", "NZ budget"),
+             ("R", "AU over/ (under)"), ("S", "NZ over/ (under)")]
+HEAD2_TAIL = [("T", "TDD Lights On budget"), ("U", None),
+              ("V", "Over/ Under lights on budget"), ("W", None),
+              ("X", "Total Cost left to be recharged to business"),
+              ("Y", R_HEAD), ("Z", "Still left to fund")]
 
 # label, kind, 2.x prefix, 1.x prefix, 0.2 budget label(s), pair partner
 #   kind: pf   portfolio, support pairs off the 1.x tab, shares, own overheads
@@ -131,6 +136,15 @@ BP_POT_LABEL = "Business Partner pot after levers ($m)"
 DA_POT_LABEL = "Domain Architect pot after levers ($m)"
 GM_LABEL = "GM cost ($m)"
 BASE_LABEL = "Overhead share base (the ten portfolios plus TDD Cyber)"
+GMB_LABEL = "GM share base (the overhead share base plus the COE lines)"
+
+# the tab's geometry, fixed by the row set
+HR = 4                                  # header row
+D1 = HR + 1                             # first data row
+D2 = D1 + len(ROWS) - 1
+TOT = D2 + 1
+BUD = TOT + 1
+RIX = {r[0]: D1 + i for i, r in enumerate(ROWS)}
 
 
 def stop(msg):
@@ -357,6 +371,7 @@ def main(src, dst):
     c_ctry, _ = pick(rc, "Country")
     c_type, _ = pick(rc, "Type")
     c_id, _ = pick(rc, "Role ID")
+    c_plat, _ = pick(rc, "Platform")
     for nm, cc in (("Name", c_name), ("MStatus", c_stat),
                    ("Overhead line", c_ovh), ("Country", c_ctry),
                    ("Type", c_type)):
@@ -380,6 +395,8 @@ def main(src, dst):
             "status": str(revv.cell(r, c_stat).value or "").strip(),
             "ovh": str(revv.cell(r, c_ovh).value or "").strip(),
             "nz": str(revv.cell(r, c_ctry).value or "").strip().upper() == "NZ",
+            "plat": str(revv.cell(r, c_plat).value or "").strip()
+                    if c_plat else "",
             "wipro": "WIPRO" in str(revv.cell(r, c_type).value or "").upper()}
         if c_id and revv.cell(r, c_id).value:
             people.setdefault("row:%d" % r, people[key])
@@ -433,6 +450,7 @@ def main(src, dst):
                     (ovh_nz if pe["nz"] else ovh_au).append(rr(t, "G", ro["row"]))
                 ro["nz"] = pe["nz"]
                 ro["after"] = full - u
+                ro["up"] = u
             if blk["up"]:
                 up_cells.append(rr(t, "I", grp["row"]))
             gsum[grp["name"]] = s
@@ -527,15 +545,29 @@ def main(src, dst):
                            q(T2["2.13"]), da_g["first"], da_g["total"]),
                         "DA pot")
     base_row = lists_cell(BASE_LABEL, "=COUNTA(Lists!$AS$2:$AS$12)+1", "eleven")
+    # the GM layer sits above every line that carries people, the COEs too, so
+    # its base counts the COE lines on top of the overhead share base
+    gmb_row = lists_cell(
+        GMB_LABEL, '=Lists!$AG$%d+COUNTIF(%s!$B$%d:$B$%d,"COE*")'
+        % (base_row, q(TAB), D1, D2), "the eleven plus the COE lines")
+    lists.cell(gmb_row, 33).number_format = "0"
     for r in (bp_row, da_row):
         money(lists.cell(r, 33))
     lists.cell(base_row, 33).number_format = "0"
     POT = {"bp": "Lists!$AG$%d" % bp_row, "da": "Lists!$AG$%d" % da_row,
            "gm": "Lists!$AG$%d" % gm_row}
     ELEVEN = "Lists!$AG$%d" % base_row
+    GMBASE = "Lists!$AG$%d" % gmb_row
     n_base = sum(1 for r in range(2, 13) if listsv.cell(r, 45).value) + 1
+    n_gm = n_base + sum(1 for x in ROWS if x[0].startswith("COE"))
     if n_base != 11:
         stop("the share base reads %s, his ruling is eleven" % n_base)
+    if n_gm != n_base + 5:
+        stop("the GM share base reads %s, the eleven plus five COE lines is "
+             "%d" % (n_gm, n_base + 5))
+    log("W2", "Lists!AF%d:AG%d" % (gmb_row, gmb_row),
+        "%s reads %d, his ruling that all of the GM cost splits across the "
+        "COEs as well" % (GMB_LABEL, n_gm))
     log("W2", "Lists!AF%d:AG%d" % (bp_row, bp_row), "%s, live off 2.12" % BP_POT_LABEL)
     log("W2", "Lists!AF%d:AG%d" % (da_row, da_row), "%s, live off 2.13" % DA_POT_LABEL)
     log("W2", "Lists!AF%d:AG%d" % (base_row, base_row),
@@ -628,8 +660,30 @@ def main(src, dst):
             v = ws.cell(rrow, 10).value
             if v is None:
                 continue
-            slice_ = any(x in blocked for x in refs_in(v, t)) \
-                if isinstance(v, str) and v.startswith("=") else False
+            # a funding line may reach its funded-outside cell through one of
+            # its own tab's cells (1.3 points at its platform line, its
+            # siblings point straight at the lever tab), so follow the hop
+            # before deciding the line is not already in Sig items funded
+            def reaches(f, hops=2):
+                if not (isinstance(f, str) and f.startswith("=")):
+                    return False
+                seen = refs_in(f, t)
+                for _ in range(hops):
+                    if any(x in blocked for x in seen):
+                        return True
+                    nxt = []
+                    for sh, cl, rw in seen:
+                        if sh != t:
+                            continue
+                        f2 = ws.cell(rw, column_index_from_string(cl)).value
+                        if isinstance(f2, str) and f2.startswith("="):
+                            nxt.extend(refs_in(f2, t))
+                    if not nxt:
+                        break
+                    seen = nxt
+                return any(x in blocked for x in seen)
+
+            slice_ = reaches(v)
             out.append((rrow, str(lab or "").strip(),
                         slice_ or (rrow in lights),
                         "the lights on budget line" if rrow in lights
@@ -659,10 +713,8 @@ def main(src, dst):
     ws = wb.create_sheet(TAB, wb.sheetnames.index(ANCHOR) + 1)
     ws2 = wb.create_sheet(TAB2, wb.sheetnames.index(ANCHOR) + 2)
 
-    HR, D1 = 4, 5
-    D2 = D1 + len(ROWS) - 1
-    TOT, BUD, CTL = D2 + 1, D2 + 2, D2 + 3
-    RIX = {r[0]: D1 + i for i, r in enumerate(ROWS)}
+    REC1 = BUD + 2                      # where the total people cost goes
+    REC2 = REC1 + 9                     # what makes up the charge to TDD
 
     hdr_font = Font(bold=True, color=WHITE)
     hdr_fill = PatternFill("solid", fgColor=NAVY)
@@ -693,14 +745,15 @@ def main(src, dst):
            "N": 2.5, "O": 14, "P": 2.5, "Q": 16, "R": 14, "S": 13}
     lay(ws, HEADERS, "TDD Lights On", W1D)
     W2D = dict(W1D)
-    for col, wd in {"M": 12, "N": 12, "O": 12, "P": 12, "Q": 12, "R": 12,
-                    "S": 13, "T": 2.5, "U": 14, "V": 2.5, "W": 16, "X": 14,
-                    "Y": 13}.items():
+    for col, wd in {"M": 12, "N": 12, "O": 12, "P": 11, "Q": 11, "R": 12,
+                    "S": 12, "T": 13, "U": 2.5, "V": 14, "W": 2.5, "X": 16,
+                    "Y": 15, "Z": 13}.items():
         W2D[col] = wd
     lay(ws2, HEADERS[:11] + HEAD2_MID + HEAD2_TAIL,
         "TDD Lights On, AU and NZ", W2D)
+    ws2.column_dimensions["Z"].width = 13
     log("W5", "%s!B%d:S%d" % (TAB, HR, HR), "his eighteen column headings, verbatim")
-    log("W5", "%s!B%d:Y%d" % (TAB2, HR, HR),
+    log("W5", "%s!B%d:Z%d" % (TAB2, HR, HR),
         "the same rows with the AU and NZ split of the charge")
 
     # ------------------------------------------------------ formula builders
@@ -957,15 +1010,14 @@ def main(src, dst):
         else:
             fE = "=0"
 
-        # F G H  the eleven way shares
+        # F G  the Business Partner and Domain Architect pots, over the eleven
+        # H    the GM layer, over the eleven plus the five COE lines
         shares = kind in ("pf", "cyber", "cust")
-        if shares:
-            sc = "*%s" % W if kind == "cust" else ""
-            fF = "=%s/%s%s" % (POT["bp"], ELEVEN, sc)
-            fG = "=%s/%s%s" % (POT["da"], ELEVEN, sc)
-            fH = "=%s/%s%s" % (POT["gm"], ELEVEN, sc)
-        else:
-            fF = fG = fH = "=0"
+        gmshare = kind != "egi"
+        sc = "*%s" % W if kind == "cust" else ""
+        fF = "=%s/%s%s" % (POT["bp"], ELEVEN, sc) if shares else "=0"
+        fG = "=%s/%s%s" % (POT["da"], ELEVEN, sc) if shares else "=0"
+        fH = "=%s/%s%s" % (POT["gm"], GMBASE, sc) if gmshare else "=0"
 
         # I  the row's own overhead people
         if kind == "cust":
@@ -999,8 +1051,10 @@ def main(src, dst):
             own_i = M["ownovh"]
         else:
             own_i = M["ovhS"] if M["ovhS"] is not None else M["ownovh"]
+        # a toggle only where it can change something, which means the row
+        # has its own overhead people for it to scale
         has_i = own_i > 1e-9
-        if has_i or shares:
+        if has_i:
             for w in (ws, ws2):
                 c = w.cell(r, 10)
                 c.value = 1
@@ -1075,22 +1129,22 @@ def main(src, dst):
         calc[label] = dict(row=r, kind=kind, p2=p2, p1=p1, side=side,
                            brows=brows, toggle=(r in toggles))
         # filled in below once the derivation block rows are known
-        calc[label]["au_parts"] = (eau, iau, shares,
-                                   "*%s" % W if kind == "cust" else "")
-        calc[label]["nz_parts"] = (enz, inz, shares,
-                                   "*%s" % W if kind == "cust" else "")
+        calc[label]["au_parts"] = (eau, iau, shares, gmshare, sc)
+        calc[label]["nz_parts"] = (enz, inz, shares, gmshare, sc)
         ws2.cell(r, 16).value = bau
         ws2.cell(r, 17).value = bnz
-        ws2.cell(r, 19).value = bt
-        ws2.cell(r, 21).value = "=$L%d-$S%d" % (r, r)
-        ws2.cell(r, 23).value = "=$C%d-$D%d-$L%d" % (r, r, r)
-        ws2.cell(r, 24).value = fR
-        ws2.cell(r, 25).value = "=$W%d-$X%d" % (r, r)
-        for c in (16, 17, 19, 21, 23, 24, 25):
+        ws2.cell(r, 18).value = "=$M%d-$P%d" % (r, r)
+        ws2.cell(r, 19).value = "=$N%d-$Q%d" % (r, r)
+        ws2.cell(r, 20).value = bt
+        ws2.cell(r, 22).value = "=$L%d-$T%d" % (r, r)
+        ws2.cell(r, 24).value = "=$C%d-$D%d-$L%d" % (r, r, r)
+        ws2.cell(r, 25).value = fR
+        ws2.cell(r, 26).value = "=$X%d-$Y%d" % (r, r)
+        for c in (16, 17, 18, 19, 20, 22, 24, 25, 26):
             money(ws2.cell(r, c))
 
         if (i % 2) == 1:
-            for w, last in ((ws, 19), (ws2, 25)):
+            for w, last in ((ws, 19), (ws2, 26)):
                 for c in range(2, last + 1):
                     if c == 10 and r in toggles:
                         continue
@@ -1111,8 +1165,9 @@ def main(src, dst):
     log.head("W7  totals, the budget line and the control row")
     for w, cols, last in ((ws, [3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 15, 17, 18, 19], 19),
                           (ws2, [3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16,
-                                 17, 18, 19, 21, 23, 24, 25], 25)):
-        w.cell(TOT, 2).value = "Total"
+                                 17, 18, 19, 20, 22, 24, 25, 26], 26)):
+        w.cell(TOT, 2).value = ("Total, over or under the allocations for "
+                                "these rows")
         for c in cols:
             cl = get_column_letter(c)
             w.cell(TOT, c).value = "=SUM(%s%d:%s%d)" % (cl, D1, cl, D2)
@@ -1122,15 +1177,17 @@ def main(src, dst):
             w.cell(TOT, c).fill = band
 
     bud_row = find_label(cfg, 2, "Budget", 20, 34)
-    ws.cell(BUD, 2).value = "Budget"
+    ws.cell(BUD, 2).value = "Budget, over or under the full TDD budget"
     ws.cell(BUD, 13).value = "=%s" % rr(CFG, "E", bud_row)
     ws.cell(BUD, 15).value = "=$L$%d-$M$%d" % (TOT, BUD)
-    ws2.cell(BUD, 2).value = "Budget"
+    ws2.cell(BUD, 2).value = "Budget, over or under the full TDD budget"
     ws2.cell(BUD, 16).value = "=%s" % rr(CFG, "C", bud_row)
     ws2.cell(BUD, 17).value = "=%s" % rr(CFG, "D", bud_row)
-    ws2.cell(BUD, 19).value = "=%s" % rr(CFG, "E", bud_row)
-    ws2.cell(BUD, 21).value = "=$L$%d-$S$%d" % (TOT, BUD)
-    for w, cs in ((ws, (13, 15)), (ws2, (16, 17, 19, 21))):
+    ws2.cell(BUD, 18).value = "=$M$%d-$P$%d" % (TOT, BUD)
+    ws2.cell(BUD, 19).value = "=$N$%d-$Q$%d" % (TOT, BUD)
+    ws2.cell(BUD, 20).value = "=%s" % rr(CFG, "E", bud_row)
+    ws2.cell(BUD, 22).value = "=$L$%d-$T$%d" % (TOT, BUD)
+    for w, cs in ((ws, (13, 15)), (ws2, (16, 17, 18, 19, 20, 22))):
         for c in cs:
             money(w.cell(BUD, c))
             w.cell(BUD, c).font = bold
@@ -1144,56 +1201,14 @@ def main(src, dst):
             blk_cells.append(rr(T2[p], "G", grp["row"]))
         blk_cells += MOD[p]["up_cells"]
     o_cells = [gtot(p, "O") for p in sorted(MOD, key=float)]
-
-    ctl = [
-        ("Control, every cost in the role mapping is represented, must be 0",
-         "=ROUND(%s-SUM(%s!$%s$2:$%s$%d)/1000000,6)"
-         % ("+".join(o_cells), q(REVIEW), get_column_letter(c_cost),
-            get_column_letter(c_cost), rev.max_row)),
-        ("Control, Total People cost against the fifteen lever tabs person by "
-         "person, must be 0",
-         "=ROUND($C$%d-(%s)/1000000,6)" % (TOT, plus(blk_cells))),
-        ("Control, the whole of TDD after levers is this table plus the GM "
-         "layer, must be 0",
-         "=ROUND($C$%d+%s-((%s)/1000000+%s),6)"
-         % (TOT, POT["gm"], plus(blk_cells), POT["gm"])),
-        ("Control, the charge to TDD against support cost plus overheads, "
-         "must be 0",
-         "=ROUND($L$%d-$E$%d-$K$%d,6)" % (TOT, TOT, TOT)),
-        ("Control, the three pots are fully shared out, must be 0",
-         "=ROUND($F$%d+$G$%d+$H$%d-(%s+%s+%s),6)"
-         % (TOT, TOT, TOT, POT["bp"], POT["da"], POT["gm"])),
-        ("Control, no EGI cost sits in support, shares or overheads, must be 0",
-         "=ROUND($E$%d+$F$%d+$G$%d+$H$%d+$I$%d,6)"
-         % tuple([RIX["EGI"]] * 5)),
-    ]
     coe_rows = sorted(RIX[x[0]] for x in ROWS if x[1] in ("coe", "coe1"))
     if coe_rows != list(range(coe_rows[0], coe_rows[-1] + 1)):
-        stop("the COE rows are not contiguous, the controls assume they are")
-    c1, c2 = coe_rows[0], coe_rows[-1]
-    ctl += [
-        ("Control, the COE lines note the two charged out pots exactly once, "
-         "must be 0",
-         "=ROUND(SUM($R$%d:$R$%d)-(%s+%s),6)" % (c1, c2, POT["bp"], POT["da"])),
-        ("Control, all that is left to fund on the COE lines is the overhead "
-         "the toggles hold back, must be 0",
-         "=ROUND(SUM($S$%d:$S$%d)-SUM($I$%d:$I$%d)+SUM($K$%d:$K$%d),6)"
-         % (c1, c2, c1, c2, c1, c2)),
-    ]
-    ws.cell(CTL, 2).value = "Control, %d checks, each must read 0" % len(ctl)
-    for j, (lab, f) in enumerate(ctl):
-        ws.cell(CTL, 3 + j).value = f
-    white(ws, *["%s%d" % (get_column_letter(c), CTL)
-                for c in range(2, 3 + len(ctl))])
-    ws2.cell(CTL, 2).value = "Control, the AU and NZ split adds back to the " \
-                             "charge to TDD and to Total People cost, three " \
-                             "checks, each must read 0"
-    ws2.cell(CTL, 3).value = "=ROUND($O$%d-$L$%d,6)" % (TOT, TOT)
-    ws2.cell(CTL, 4).value = "=ROUND($M$%d+$N$%d-$O$%d,6)" % (TOT, TOT, TOT)
-    white(ws2, *["%s%d" % (get_column_letter(c), CTL) for c in range(2, 6)])
-    log("W7", "%s!B%d:H%d" % (TAB, CTL, CTL),
-        "white font control row, every cost represented and the pots shared out")
-    for w, col in ((ws, "O"), (ws2, "U")):
+        stop("the COE rows are not contiguous, the reconciliation assumes "
+             "they are")
+    log.note("W7", "no control rows are written, his ruling that they are not "
+             "helpful; every reconciliation they proved is asserted in this "
+             "stage's self check instead")
+    for w, col in ((ws, "O"), (ws2, "V")):
         w.conditional_formatting.add(
             "%s%d:%s%d" % (col, D1, col, BUD),
             FormulaRule(formula=["$%s%d>0" % (col, D1)], font=Font(color=RED)))
@@ -1211,9 +1226,67 @@ def main(src, dst):
         "cream toggles on %d rows, 0 to 100 percent in steps of 5, default 100"
         % len(dv_rows))
 
+    # ------------------------- W7b  how the numbers add up, in plain English
+    log.head("W7b  the two reconciliation blocks, every figure live")
+    AN1 = 7                    # the figures sit clear of the long labels
+
+    def recon(w, row, label, formula, bold_line=False, fmt=M2):
+        w.cell(row, 2).value = label
+        c = w.cell(row, AN1)
+        if formula is not None:
+            c.value = formula
+            c.number_format = fmt
+        if bold_line:
+            w.cell(row, 2).font = bold
+            c.font = bold
+
+    for w, qq, rr_, ss, mm in ((ws, "Q", "R", "S", "M"),
+                               (ws2, "X", "Y", "Z", "T")):
+        recon(w, REC1, "Where the total people cost goes", None, True)
+        recon(w, REC1 + 1, "Total people cost (column C)", "=$C$%d" % TOT)
+        recon(w, REC1 + 2, "less funded outside TDD, the EGI and programme "
+              "funded people (column D)", "=-$D$%d" % TOT)
+        recon(w, REC1 + 3, "equals what TDD has to fund",
+              "=$C$%d-$D$%d" % (TOT, TOT), True)
+        recon(w, REC1 + 4, "less charged to the lights on budget (column L)",
+              "=-$L$%d" % TOT)
+        recon(w, REC1 + 5, "equals left to recharge to the business (column "
+              "%s)" % qq, "=$%s$%d" % (qq, TOT), True)
+        recon(w, REC1 + 6, "less already noted, the 1.x tabs and the two pots "
+              "charged out (column %s)" % rr_, "=-$%s$%d" % (rr_, TOT))
+        recon(w, REC1 + 7, "equals still left to fund (column %s)" % ss,
+              "=$%s$%d" % (ss, TOT), True)
+
+        recon(w, REC2, "What makes up the charge to TDD", None, True)
+        recon(w, REC2 + 1, "Support cost, the percentage in the 1.x tabs "
+              "(column E)", "=$E$%d" % TOT)
+        recon(w, REC2 + 2, "Business Partner share (column F)", "=$F$%d" % TOT)
+        recon(w, REC2 + 3, "Domain Architect share (column G)", "=$G$%d" % TOT)
+        recon(w, REC2 + 4, "GM share (column H)", "=$H$%d" % TOT)
+        recon(w, REC2 + 5, "Other overheads after the toggles (column I times "
+              "column J)", "=$K$%d-$F$%d-$G$%d-$H$%d" % (TOT, TOT, TOT, TOT))
+        recon(w, REC2 + 6, "equals charged to TDD lights on (column L)",
+              "=$L$%d" % TOT, True)
+        recon(w, REC2 + 7, "TDD lights on budget", "=$%s$%d" % (mm, BUD))
+        recon(w, REC2 + 8, "equals over the budget",
+              "=$L$%d-$%s$%d" % (TOT, mm, BUD), True)
+    recon(ws2, REC2 + 9, "of which AU (column M)", "=$M$%d" % TOT)
+    recon(ws2, REC2 + 10, "less the AU budget (column P)", "=-$P$%d" % TOT)
+    recon(ws2, REC2 + 11, "equals AU over or (under) (column R)",
+          "=$R$%d" % TOT, True)
+    recon(ws2, REC2 + 12, "of which NZ (column N)", "=$N$%d" % TOT)
+    recon(ws2, REC2 + 13, "less the NZ budget (column Q)", "=-$Q$%d" % TOT)
+    recon(ws2, REC2 + 14, "equals NZ over or (under) (column S)",
+          "=$S$%d" % TOT, True)
+    log("W7b", "%s!B%d:G%d" % (TAB, REC1, REC2 + 8),
+        "where the total people cost goes, and what makes up the charge, "
+        "every figure reading the total row")
+    log("W7b", "%s!B%d:G%d" % (TAB2, REC1, REC2 + 14),
+        "the same two blocks with the AU and NZ split of the charge")
+
     # ------------------------------- W8  the AU NZ derivation block on 3.6
     log.head("W8  3.6: where the AU and NZ split comes from")
-    dr = CTL + 2
+    dr = REC2 + 17
     ws2.cell(dr, 2).value = "How the AU and NZ split is derived"
     ws2.cell(dr, 2).font = bold
     for j, h in enumerate(("Lever tab", "AU after levers ($m)",
@@ -1242,7 +1315,6 @@ def main(src, dst):
         money(ws2.cell(dtot, c))
         ws2.cell(dtot, c).font = bold
     ws2.cell(dtot, 2).font = bold
-    ws2.cell(CTL, 5).value = "=ROUND($E$%d-$C$%d,6)" % (dtot, TOT)
     AUF = "$C$%d/($C$%d+$D$%d)" % (dtot, dtot, dtot)
     NZF = "$D$%d/($C$%d+$D$%d)" % (dtot, dtot, dtot)
     bp_au = "(%s)/1000000" % plus([rr(T2["2.12"], "G", ro["row"])
@@ -1261,12 +1333,13 @@ def main(src, dst):
         r = cd["row"]
         for col, parts, potau, fr in ((13, cd["au_parts"], (bp_au, da_au), AUF),
                                       (14, cd["nz_parts"], (bp_nz, da_nz), NZF)):
-            e, i, shares, sc = parts
+            e, i, shares, gmshare, sc = parts
             bits = ["(%s)" % e] if e != "0" else []
             if shares:
                 bits.append("(%s)/%s%s" % (potau[0], ELEVEN, sc))
                 bits.append("(%s)/%s%s" % (potau[1], ELEVEN, sc))
-                bits.append("%s/%s*%s%s" % (POT["gm"], ELEVEN, fr, sc))
+            if gmshare:
+                bits.append("%s/%s*%s%s" % (POT["gm"], GMBASE, fr, sc))
             if i != "0":
                 bits.append("(%s)%s" % (i, "*$J%d" % r if cd["toggle"] else ""))
             f = "=" + (plus(bits) if bits else "0")
@@ -1275,12 +1348,7 @@ def main(src, dst):
             ws2.cell(r, col).value = f
             money(ws2.cell(r, col))
         ws2.cell(r, 15).value = "=$M%d+$N%d" % (r, r)
-        ws2.cell(r, 18).value = "=$O%d-($P%d+$Q%d)" % (r, r, r)
         money(ws2.cell(r, 15))
-        money(ws2.cell(r, 18))
-    ws2.cell(BUD, 18).value = "=$O$%d-($P$%d+$Q$%d)" % (TOT, BUD, BUD)
-    money(ws2.cell(BUD, 18))
-    ws2.cell(BUD, 18).font = bold
     log("W8", "%s!B%d:E%d" % (TAB2, dr, dtot),
         "the country split of every lever tab after levers, live off the "
         "role rows")
@@ -1317,10 +1385,8 @@ def main(src, dst):
         if need not in o_line:
             stop("3.2 line %r not found" % need)
 
-    r = CTL + 2
+    r = REC2 + 13
     head_font = Font(bold=True)
-
-    AN1 = 7            # the analysis numbers sit clear of the long labels
 
     def put(row, label, cells=(), fmt=M2, bold_label=False):
         ws.cell(row, 2).value = label
@@ -1331,19 +1397,63 @@ def main(src, dst):
             c.value = f
             c.number_format = fmt if not isinstance(fmt, (list, tuple)) else fmt[j]
 
+    # every overhead line's cost after levers, person by person
+    line_cells, line_row = {}, {}
+    for row in range(2, 12):
+        v = lists.cell(row, 32).value
+        if isinstance(v, str) and lists.cell(row, 36).value is not None \
+                and lists.cell(row, 35).value:      # a basis, so a real line
+            line_row[v] = row
+    for p in sorted(MOD, key=float):
+        for grp in MOD[p]["blk"]["groups"]:
+            for ro in grp["roles"]:
+                pe = people[ro["key"]]
+                if pe["ovh"] and pe["ovh"] != "Squad":
+                    line_cells.setdefault(pe["ovh"], []).append(
+                        rr(T2[p], "G", ro["row"]))
+    miss = [k for k in line_cells if k not in line_row]
+    if miss:
+        stop("overhead lines with no allowance on Lists: %s" % miss)
+    gm_line = [k for k in line_row if "GM" in k]
+    if len(gm_line) != 1:
+        stop("cannot tell which Lists line is the GM layer: %s" % gm_line)
+    gm_line = gm_line[0]
+    tot_alw = find_label(lists, 32, "Total", 2, 12)
+
     put(r, "Why the lights on number is far from the archetype", bold_label=True)
     put(r + 1, "Overhead the archetype allows for, GMs included ($m)",
-        ["=%s" % rr(OVH, "I", o_all)])
+        ["=Lists!$AJ$%d" % tot_alw])
     put(r + 2, "What the overhead people cost after levers, GMs included ($m)",
         ["=$I$%d+%s+%s+%s" % (TOT, POT["bp"], POT["da"], POT["gm"])])
-    put(r + 3, "Where the gap sits ($m over archetype):", bold_label=True)
-    put(r + 4, "Technology Managers", ["=%s" % rr(OVH, "K", o_line["Technology Manager"])])
-    put(r + 5, "Heads of Technology", ["=%s" % rr(OVH, "K", o_line["Head of Technology"])])
-    put(r + 6, "The 8 GMs", ["=%s" % rr(OVH, "K", o_line["Leadership - 8 GMs"])])
-    put(r + 7, "Delivery Managers", ["=%s" % rr(OVH, "K", o_line["Delivery Manager"])])
-    put(r + 8, "Squads after levers run under archetype, which is why the total "
-               "cost never showed it. The overhead people are the lights on story.")
-    r += 10
+    put(r + 3, "The gap ($m)", ["=$G$%d-$G$%d" % (r + 2, r + 1)],
+        bold_label=True)
+    put(r + 4, "Where the gap sits, every line after levers against its "
+               "archetype allowance ($m):", bold_label=True)
+    gr0 = r + 5
+    gi = gr0
+    for line in sorted(line_row, key=lambda k: line_row[k]):
+        act = ("=" + POT["gm"]) if line == gm_line else (
+            "=(%s)/1000000" % plus(line_cells.get(line, [])) if
+            line_cells.get(line) else "=0")
+        put(gi, re.sub(r"\s*-\s*", ", ", line),
+            [act, "=Lists!$AJ$%d" % line_row[line],
+             "=$G%d-$H%d" % (gi, gi)])
+        gi += 1
+    for j, h in enumerate(("After levers ($m)", "Archetype allowance ($m)",
+                           "Gap ($m)")):
+        c = ws.cell(r + 4, AN1 + j)
+        c.value = h
+        c.font = head_font
+        c.alignment = Alignment(wrap_text=True, horizontal="right")
+    put(gi, "Total, which is the gap above",
+        ["=SUM(G%d:G%d)" % (gr0, gi - 1), "=SUM(H%d:H%d)" % (gr0, gi - 1),
+         "=SUM(I%d:I%d)" % (gr0, gi - 1)], bold_label=True)
+    for c in (AN1, AN1 + 1, AN1 + 2):
+        ws.cell(gi, c).font = head_font
+    r = gi + 1
+    put(r, "Squads after levers run under archetype, which is why the total "
+           "cost never showed it. The overhead people are the lights on story.")
+    r += 3
 
     vac = {}
     for p in sorted(MOD, key=float):
@@ -1382,22 +1492,36 @@ def main(src, dst):
         fmt=["0", M2])
     for c in (2, AN1, AN1 + 1):
         ws.cell(vac_tot, c).font = head_font
-    put(vac_tot + 1,
+    all_vac = sorted({(t, br) for ms in vac.values() for t, br, _ in ms})
+    fill = sorted({(t, br) for ms in vac.values() for t, br, lv in ms
+                   if lv == "Filled"})
+    put(vac_tot + 1, "Vacant roles carrying the Filled lever, priced in full "
+                     "but not on Hire",
+        ["=" + (plus(['COUNTIF(%s,"Filled")' % rr(t, "E", br)
+                      for t, br in fill]) if fill else "0"),
+         "=(%s)/1000000" % plus([rr(t, "G", br) for t, br in fill])
+         if fill else "=0"], fmt=["0", M2])
+    priced = vac_tot + 2
+    put(priced, "Every vacant overhead still carrying a price",
+        ["=SUM(G%d:G%d)" % (vac_tot, vac_tot + 1),
+         "=SUM(H%d:H%d)" % (vac_tot, vac_tot + 1)], fmt=["0", M2])
+    for c in (2, AN1, AN1 + 1):
+        ws.cell(priced, c).font = head_font
+    put(priced + 1,
         '="The biggest vacant overhead dial is "&INDEX($B$%d:$B$%d,MATCH(MAX('
         '$H$%d:$H$%d),$H$%d:$H$%d,0))&", "&TEXT(MAX($H$%d:$H$%d),"#,##0.00")&'
         '"m of vacancies still priced on Hire."'
         % (r + 1, rowi - 1, r + 1, rowi - 1, r + 1, rowi - 1, r + 1, rowi - 1))
-    all_vac = sorted({(t, br) for ms in vac.values() for t, br, _ in ms})
     cnt = {k: plus(['COUNTIF(%s,"%s")' % (rr(t, "E", br), k)
-                    for t, br in all_vac]) for k in ("Hold", "Offshore", "Filled")}
-    put(vac_tot + 2,
-        '="Already levered: "&TEXT(%s,"0")&" on Hold at zero, "&TEXT(%s,"0")&'
-        '" offshored and "&TEXT(%s,"0")&" marked to fill."'
-        % (cnt["Hold"], cnt["Offshore"], cnt["Filled"]))
-    claim = vac_tot + 3
-    put(claim, "Hold every vacant overhead role and the lights on total drops "
-               "by this amount ($m)",
-        ["=(%s)/1000000" % plus([rr(t, "G", br) for t, br in all_vac])])
+                    for t, br in all_vac]) for k in ("Hold", "Offshore")}
+    put(priced + 2,
+        '="Already levered and carrying no price: "&TEXT(%s,"0")&" on Hold at '
+        'zero and "&TEXT(%s,"0")&" offshored. Every vacant overhead role, '
+        'priced or not, numbers "&TEXT(%d,"0")&"."'
+        % (cnt["Hold"], cnt["Offshore"], len(all_vac)))
+    claim = priced + 3
+    put(claim, "Hold every vacant overhead role still priced and the lights on "
+               "total drops by this amount ($m)", ["=$H$%d" % priced])
     r = claim + 2
 
     crso = RIX["COE Cyber Risk & Service Ops"]
@@ -1409,7 +1533,12 @@ def main(src, dst):
                "($m over today)", ["=$O$%d" % crso])
     put(r + 4, "The unallocated slice of the full TDD budget ($m)",
         ["=%s" % rr(CFG, "E", var_row)])
-    r += 6
+    put(r + 5, "These four are alternatives, not a stack. They do not add to "
+               "the gap: the GM layer is already inside the charge, COE Cyber "
+               "Risk & Service Ops is already inside the over or under above, "
+               "and the unallocated slice is the bridge between the two over "
+               "or under rows, not a saving.")
+    r += 7
     arc_ws = wb[ARC]
     arc_tot = None
     for row in range(4, arc_ws.max_row + 1):
@@ -1425,37 +1554,60 @@ def main(src, dst):
     put(r + 1, "Add the GM layer and the whole of TDD after levers reads ($m)",
         ["=$C$%d+%s" % (TOT, POT["gm"])])
     r += 3
+    READ = [
+        "Total People cost is the people in the role mapping. The 8 GMs are "
+        "not in the role mapping, so their 5.10 is not in column C, but it is "
+        "in the charge in column H. The two columns are on different "
+        "populations, and the number in column C is right as it stands.",
+        "Total People cost is everything the row's people cost after levers, "
+        "funded squads included, so every cost is represented.",
+        "Sig items funded is the slice paid for outside the TDD budget: the "
+        "EGI squads at their funded amount, AmPOS, CTRM and the Cyber Uplift "
+        "squad, plus the COE Cyber roles charged to the cyber uplift "
+        "programme.",
+        "EGI is funded in full from outside TDD, so its whole cost sits in Sig "
+        "items funded. It carries no support cost, no share of the pots and no "
+        "overheads, and nothing on that line reaches the lights on budget.",
+        "The Business Partner and Domain Architect pots divide by eleven, the "
+        "ten portfolios plus TDD Cyber. The GM layer divides across those "
+        "eleven and the five COE lines as well, sixteen in all.",
+        "Ampol Customer and Z Customer split 2.2 Customer on the AU and NZ "
+        "marks on 1.2 Customer. What sits on neither side, the overhead roles "
+        "and the squads with no archetype, splits in proportion to the two "
+        "support costs, and so does their share of the pots.",
+        "The COE pairs are split by people, not by proportion. Each line takes "
+        "the squads its planned spend line on the 2.x tab names, and the "
+        "overhead people in those squads. The line whose squads hold the "
+        "Business Partner or Domain Architect pot shows that pot as left to "
+        "recharge, and notes it again in the next column, because columns F "
+        "and G already charge it to the eleven sharing rows.",
+        "Every COE line shows a small amount still left to fund, its share of "
+        "the GM layer. A COE carries a GM share it does not employ and has no "
+        "business to recharge, so the number is right and it stays.",
+        '="Amount noted in 1.x tabs holds two things. First, the funding the '
+        '1.x tabs already apply to people, "&TEXT($%s$' + str(TOT) + '-' +
+        POT["bp"] + "-" + POT["da"] + ',"#,##0.00")&"m of it, leaving out the '
+        'lines that Sig items funded and the TDD Lights On budget already '
+        'carry. Second, on the two COE lines, the Business Partner and Domain '
+        'Architect pots, "&TEXT(' + POT["bp"] + "+" + POT["da"] +
+        ',"#,##0.00")&"m, which appear on no 1.x tab because the allocation '
+        'columns charge them to the eleven sharing rows."',
+    ]
     put(r, "How to read the table", bold_label=True)
-    put(r + 1, "Total People cost is everything the row's people cost after "
-               "levers, funded squads included, so every cost is represented. "
-               "Add the GM layer and you have the whole of TDD.")
-    put(r + 2, "Sig items funded is the slice paid for outside the TDD budget: "
-               "the EGI squads at their funded amount, AmPOS, CTRM and the "
-               "Cyber Uplift squad, plus the COE Cyber roles charged to the "
-               "cyber uplift programme.")
-    put(r + 3, "EGI is funded in full from outside TDD, so its whole cost sits "
-               "in Sig items funded. It carries no support cost, no share of "
-               "the pots and no overheads, and nothing on that line reaches "
-               "the lights on budget.")
-    put(r + 4, "The three pots divide by eleven, the ten portfolios plus TDD "
-               "Cyber. The COEs and EGI carry no share of them.")
-    put(r + 5, "Ampol Customer and Z Customer split 2.2 Customer on the AU and "
-               "NZ marks on 1.2 Customer. What sits on neither side, the "
-               "overhead roles and the squads with no archetype, splits in "
-               "proportion to the two support costs, and so does their share "
-               "of the pots.")
-    put(r + 6, "The COE pairs are split by people, not by proportion. Each "
-               "line takes the squads its planned spend line on the 2.x tab "
-               "names, and the overhead people in those squads. The line whose "
-               "squads hold the Business Partner or Domain Architect pot shows "
-               "that pot as left to recharge, and notes it again in Amount "
-               "noted in 1.x tabs, because columns F and G already charge it "
-               "to the eleven sharing rows. Nothing is left to fund on a COE "
-               "line.")
-    put(r + 7, "Amount noted in 1.x tabs leaves out the funding lines that "
-               "Sig items funded already carries, and the lights on budget "
-               "line, which the TDD Lights On budget column already carries.")
-    log("W9", "%s!B%d" % (TAB, CTL + 2), "the analysis block, every number live")
+    for j, n in enumerate(READ):
+        put(r + 1 + j, n % "R" if "%s" in n else n)
+    r += len(READ) + 1
+    log("W9", "%s!B%d" % (TAB, REC2 + 13),
+        "the analysis block and the %d reading notes, every number live"
+        % len(READ))
+    # every reading note goes on 3.6 as well, under its own split notes
+    n6 = dtot + 2 + len(notes2)
+    ws2.cell(n6, 2).value = "How to read the table"
+    ws2.cell(n6, 2).font = head_font
+    for j, n in enumerate(READ):
+        ws2.cell(n6 + 1 + j, 2).value = n % "Y" if "%s" in n else n
+    log("W9", "%s!B%d:B%d" % (TAB2, n6, n6 + len(READ)),
+        "the same %d reading notes, so 3.6 stands on its own" % len(READ))
 
     # protection: keep whatever the input had, toggles stay editable
     if keep_prot is not None:
@@ -1464,6 +1616,127 @@ def main(src, dst):
             w.protection = _copy.deepcopy(keep_prot)
         log("W9", "%s, %s" % (TAB, TAB2),
             "the protection the input carried is kept, toggle cells unlocked")
+
+    # ------------------- W10  what every cell should read, computed here
+    # His ruling is that the control rows go, so the reconciliations they used
+    # to prove are asserted in this stage instead, off the same person level
+    # model the tab is built from.
+    def predict():
+        bp = MOD["2.12"]["gnet"]["TDD Business Partner"] / 1e6
+        da = MOD["2.13"]["gnet"]["Architecture"] / 1e6
+        bpa = sum(x["after"] for x in MOD["2.12"]["groles"]["TDD Business Partner"]
+                  if not x["nz"]) / 1e6
+        daa = sum(x["after"] for x in MOD["2.13"]["groles"]["Architecture"]
+                  if not x["nz"]) / 1e6
+        auf = sum(x["after"] + x["up"] for p in MOD
+                  for g in MOD[p]["groles"].values() for x in g
+                  if not x["nz"]) / 1e6
+        nzf = sum(x["after"] + x["up"] for p in MOD
+                  for g in MOD[p]["groles"].values() for x in g
+                  if x["nz"]) / 1e6
+        gfa, gfn = auf / (auf + nzf), nzf / (auf + nzf)
+        P = {}
+        for label, kind, p2, p1, blabels in ROWS:
+            m, sd = MOD[p2], CUST_SIDE.get(label)
+            e = ea = en = 0.0
+            if kind in ("pf", "cyber", "cust"):
+                sup = SUP[p1]
+                for gr in m["grid"]["rows"]:
+                    if gr["sec"] == "Overhead roles" or norm(gr["name"]) in funded:
+                        continue
+                    if sd is not None and cust_side.get(gr["name"]) != sd:
+                        continue
+                    h = sup.get(norm(gr["name"]))
+                    if not h:
+                        continue
+                    e += m["gnet"].get(gr["name"], 0.0) / 1e6 * h[2]
+                    ea += m["gau"].get(gr["name"], 0.0) / 1e6 * h[2]
+                    en += m["gnz"].get(gr["name"], 0.0) / 1e6 * h[2]
+            P[label] = {"E": e, "EAU": ea, "ENZ": en}
+        wa = P["Ampol Customer"]["E"] / (P["Ampol Customer"]["E"] +
+                                         P["Z Customer"]["E"])
+        CW = {"Ampol Customer": wa, "Z Customer": 1 - wa}
+        for label, kind, p2, p1, blabels in ROWS:
+            d, m, sd = P[label], MOD[p2], CUST_SIDE.get(label)
+            pp = PAIRS.get(label)
+            sc = CW.get(label, 1.0)
+            if kind == "cust":
+                mine = sum(m["gnet"].get(g["name"], 0.0)
+                           for g in m["grid"]["rows"]
+                           if cust_side.get(g["name"]) == sd) / 1e6
+                rest = sum(m["gnet"].get(g["name"], 0.0)
+                           for g in m["grid"]["rows"]
+                           if cust_side.get(g["name"]) is None) / 1e6
+                d["C"] = mine + rest * sc
+                d["D"] = sum(m["gridPr"].get(g["name"], 0.0)
+                             for g in m["grid"]["rows"]
+                             if cust_side.get(g["name"]) == sd and
+                             norm(g["name"]) in funded)
+                d["I"] = m["ovhS"] * sc
+                d["IAU"], d["INZ"] = m["ownovh_au"] * sc, m["ownovh_nz"] * sc
+            elif kind == "coe":
+                d["C"], d["D"], d["I"] = pp["c"], 0.0, pp["i"]
+                d["IAU"], d["INZ"] = pp["i_auv"], pp["i_nzv"]
+                d["E"] = pp["planned"] - pp["i"]
+                d["EAU"] = pp["cau"] - pp["i_auv"] - pp["potau"]
+                d["ENZ"] = pp["cnz"] - pp["i_nzv"] - pp["potnz"]
+            elif kind == "coe1":
+                d["C"], d["D"] = m["net"] + m["uplift"], m["uplift"]
+                d["I"] = m["ownovh"]
+                d["IAU"], d["INZ"] = m["ownovh_au"], m["ownovh_nz"]
+                d["E"] = m["net"] - m["ownovh"]
+                d["EAU"] = m["au"] - m["ownovh_au"]
+                d["ENZ"] = m["nz"] - m["ownovh_nz"]
+            elif kind == "egi":
+                d["C"], d["D"] = m["net"] + m["uplift"], m["gridP"]
+                d["E"] = d["EAU"] = d["ENZ"] = 0.0
+                d["I"] = d["IAU"] = d["INZ"] = 0.0
+            else:
+                d["C"], d["D"] = m["net"] + m["uplift"], m["gridP"]
+                d["I"] = m["ovhS"] if m["ovhS"] is not None else m["ownovh"]
+                d["IAU"], d["INZ"] = m["ownovh_au"], m["ownovh_nz"]
+            sh = kind in ("pf", "cyber", "cust")
+            gs = kind != "egi"
+            d["F"], d["G"] = (bp / n_base * sc, da / n_base * sc) if sh else (0.0, 0.0)
+            d["H"] = v_gm / n_gm * sc if gs else 0.0
+            d["FAU"] = bpa / n_base * sc if sh else 0.0
+            d["GAU"] = daa / n_base * sc if sh else 0.0
+            d["HAU"] = v_gm * gfa / n_gm * sc if gs else 0.0
+            d["FNZ"] = (bp - bpa) / n_base * sc if sh else 0.0
+            d["GNZ"] = (da - daa) / n_base * sc if sh else 0.0
+            d["HNZ"] = v_gm * gfn / n_gm * sc if gs else 0.0
+            d["J"] = 1.0 if RIX[label] in toggles else None
+            j = 1.0 if d["J"] is None else d["J"]
+            d["K"] = d["F"] + d["G"] + d["H"] + d["I"] * j
+            d["L"] = d["E"] + d["K"]
+            brw = [budget_row(x) for x in blabels]
+            d["M"] = sum(cfgv.cell(x, 5).value or 0 for x in brw)
+            d["BA"] = sum(cfgv.cell(x, 3).value or 0 for x in brw)
+            d["BN"] = sum(cfgv.cell(x, 4).value or 0 for x in brw)
+            d["O"] = d["L"] - d["M"]
+            d["Q"] = d["C"] - d["D"] - d["L"]
+            if kind in ("pf", "cyber"):
+                d["R"] = sum(wbv[T1[p1]].cell(x[0], 10).value or 0.0
+                             for x in FUND[p1] if not x[2])
+            elif kind == "cust":
+                d["R"] = sum(wbv[T1[p1]].cell(x[0], 10).value or 0.0
+                             for x in FUND[p1] if not x[2]) * sc
+            elif kind == "coe" and pp["owns_pot"]:
+                d["R"] = pp["potval"]
+            else:
+                d["R"] = 0.0
+            d["S"] = d["Q"] - d["R"]
+            d["AU"] = d["EAU"] + d["FAU"] + d["GAU"] + d["HAU"] + d["IAU"] * j
+            d["NZ"] = d["ENZ"] + d["FNZ"] + d["GNZ"] + d["HNZ"] + d["INZ"] * j
+            d["L2"] = d["L"]
+            d["AUO"], d["NZO"] = d["AU"] - d["BA"], d["NZ"] - d["BN"]
+        return P, {"bp": bp, "da": da, "gm": v_gm}
+
+    cfgv = wbv[CFG]
+    for p in MOD:
+        MOD[p]["gridPr"] = {g["name"]: (wbv[T2[p]].cell(g["row"], 16).value or 0.0)
+                            for g in MOD[p]["grid"]["rows"]}
+    PRED, POTV = predict()
 
     save(wb, dst)
     log.tail()
@@ -1492,6 +1765,32 @@ def main(src, dst):
     chk("3.6 keeps C to L, adds the AU and NZ block, then his tail",
         all(b[c + str(HR)].value == t for c, t in
             HEADERS[:11] + HEAD2_MID + HEAD2_TAIL))
+    chk("the toggle rule holds: a row has a toggle exactly when it has its own "
+        "overheads",
+        all((RIX[x[0]] in toggles) == (PRED[x[0]]["I"] > 1e-9) for x in ROWS),
+        [(x[0], RIX[x[0]] in toggles, round(PRED[x[0]]["I"], 6)) for x in ROWS
+         if (RIX[x[0]] in toggles) != (PRED[x[0]]["I"] > 1e-9)])
+    chk("both tabs say which budget each over or under row measures",
+        a.cell(TOT, 2).value.startswith("Total, over or under") and
+        a.cell(BUD, 2).value.startswith("Budget, over or under") and
+        b.cell(TOT, 2).value.startswith("Total, over or under") and
+        b.cell(BUD, 2).value.startswith("Budget, over or under"))
+    chk("3.6 answers its own question with an AU and an NZ over or under",
+        b.cell(HR, 18).value == "AU over/ (under)" and
+        b.cell(HR, 19).value == "NZ over/ (under)" and
+        b.cell(TOT, 18).value == "=SUM(R%d:R%d)" % (D1, D2))
+    chk("3.6 keeps his over or under heading and drops the duplicate variance",
+        b.cell(HR, 22).value == "Over/ Under lights on budget" and
+        not any(str(b.cell(HR, c).value) == "Variance" for c in range(2, 27)))
+    plain = [n for n in READ if "%s" not in n]
+    chk("both tabs carry the same %d reading notes" % len(READ),
+        [a.cell(rw, 2).value for rw in range(1, a.max_row + 1)
+         if a.cell(rw, 2).value in plain] == plain and
+        [b.cell(rw, 2).value for rw in range(1, b.max_row + 1)
+         if b.cell(rw, 2).value in plain] == plain)
+    chk("his heading stands verbatim on both tabs",
+        a.cell(HR, 18).value == "Amount noted in 1.x tabs" and
+        b.cell(HR, 25).value == "Amount noted in 1.x tabs")
     want = [x[0] for x in ROWS]
     for w, t in ((a, TAB), (b, TAB2)):
         chk("%s carries the eighteen 0.2 Data Config rows in order" % t,
@@ -1502,11 +1801,12 @@ def main(src, dst):
                 ("Legal" in c.value or "TDD Data" in c.value)
                 for w in (a, b) for row in w.iter_rows() for c in row) and
         not find_all(w2b[CFG], 2, "TDD Data", cfg_first, cfg_last))
-    for w, t, last in ((a, TAB, 19), (b, TAB2, 25)):
+    for w, t, last in ((a, TAB, 19), (b, TAB2, 26)):
         tg = [x for x in range(D1, D2 + 1)
               if w.cell(x, 10).fill.patternType == "solid" and
               w.cell(x, 10).fill.fgColor.rgb == CREAM]
-        chk("%s: %d cream toggles, typed 100 percent, unlocked" % (t, len(toggles)),
+        chk("%s: a toggle on every row that has overheads to scale and on no "
+            "other, %d of them" % (t, len(toggles)),
             tg == toggles and all(w.cell(x, 10).value == 1 and
                                   w.cell(x, 10).number_format == "0%" and
                                   w.cell(x, 10).protection.locked is False
@@ -1549,12 +1849,11 @@ def main(src, dst):
         chk("%s: freeze panes below the headings" % t, w.freeze_panes == "C%d" % D1)
         chk("%s: one red when over rule" % t,
             len([x for x in w.conditional_formatting]) == 1)
-    chk("3.5 carries %d controls, all white font" % len(ctl),
-        all(isinstance(a.cell(CTL, c).value, str) and
-            a.cell(CTL, c).value.startswith("=ROUND")
-            for c in range(3, 3 + len(ctl))) and
-        all(a.cell(CTL, c).font.color and a.cell(CTL, c).font.color.rgb == WHITE
-            for c in range(2, 3 + len(ctl))))
+    chk("no control rows are left on either tab, his ruling",
+        not any(isinstance(w.cell(rw, c).value, str) and
+                str(w.cell(rw, c).value).startswith("=ROUND(") and
+                str(w.cell(rw, 2).value or "").startswith("Control")
+                for w in (a, b) for rw in range(D1, 200) for c in range(2, 26)))
     for label, pp in sorted(PAIRS.items()):
         rw = RIX[label]
         chk("%s takes its own squads, %.6f m" % (label, pp["c"]),
@@ -1566,6 +1865,25 @@ def main(src, dst):
             "%s holds no pot, so it notes nothing" % label,
             a.cell(rw, 18).value ==
             ("=%s" % POT[pp["potkey"]] if pp["owns_pot"] else "=0"))
+    line_val = {}
+    for p in MOD:
+        for grp in MOD[p]["blk"]["groups"]:
+            for ro in grp["roles"]:
+                pe = people[ro["key"]]
+                if pe["ovh"] and pe["ovh"] != "Squad":
+                    line_val[pe["ovh"]] = line_val.get(pe["ovh"], 0.0) + ro["after"]
+    line_val = {k: v / 1e6 for k, v in line_val.items()}
+    line_val[gm_line] = v_gm
+    alw = {k: (listsv.cell(line_row[k], 36).value or 0.0) for k in line_row}
+    whole = sum(PRED[x[0]]["I"] for x in ROWS) + POTV["bp"] + POTV["da"] + v_gm
+    chk("the gap analysis is all on the after lever basis and its %d lines add "
+        "to the whole, %.6f less %.6f equals %.6f"
+        % (len(line_row), whole, listsv.cell(tot_alw, 36).value or 0.0,
+           whole - (listsv.cell(tot_alw, 36).value or 0.0)),
+        gi - gr0 == len(line_row) and
+        abs(sum(line_val.get(k, 0.0) for k in line_row) - whole) < 1e-9 and
+        abs(sum(alw.values()) - (listsv.cell(tot_alw, 36).value or 0.0)) < 1e-9,
+        (sorted(line_val), sorted(line_row)))
     chk("the pair rows add back to their tab, cost and own overheads",
         all(abs(sum(PAIRS[k]["c"] for k in PAIRS if PAIRS[k]["p"] == p) -
                 MOD[p]["net"]) < 1e-9 and
@@ -1573,11 +1891,95 @@ def main(src, dst):
                 (MOD[p]["ownovh"] - PAIRS[[k for k in PAIRS
                                            if PAIRS[k]["p"] == p][0]]["potval"]))
             < 1e-9 for p in {PAIRS[k]["p"] for k in PAIRS}))
-    chk("3.6 carries three controls, all white font",
-        all(isinstance(b.cell(CTL, c).value, str) and
-            b.cell(CTL, c).value.startswith("=ROUND") for c in range(3, 6)) and
-        all(b.cell(CTL, c).font.color and
-            b.cell(CTL, c).font.color.rgb == WHITE for c in range(2, 6)))
+
+    # ---- the reconciliations the control rows used to prove, asserted here
+    tot = {k: sum(PRED[x[0]][k] for x in ROWS)
+           for k in ("C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "O",
+                     "Q", "R", "S", "AU", "NZ", "BA", "BN")}
+    tabsum = sum(MOD[p]["net"] + MOD[p]["uplift"] for p in MOD)
+    chk("every cost in the role mapping is represented, %.6f m against the "
+        "fifteen lever tabs" % tot["C"], abs(tot["C"] - tabsum) < 1e-9,
+        (tot["C"], tabsum))
+    chk("the whole of TDD after levers is the table plus the GM layer, "
+        "%.6f m" % (tot["C"] + v_gm), abs(tot["C"] + v_gm -
+                                          (tabsum + v_gm)) < 1e-9)
+    chk("the three pots are shared out exactly once, BP %.6f DA %.6f GM %.6f"
+        % (POTV["bp"], POTV["da"], POTV["gm"]),
+        abs(tot["F"] - POTV["bp"]) < 1e-9 and abs(tot["G"] - POTV["da"]) < 1e-9
+        and abs(tot["H"] - POTV["gm"]) < 1e-9,
+        (tot["F"], tot["G"], tot["H"]))
+    chk("the GM layer divides across %d units, the eleven plus the five COE "
+        "lines, %.6f m each" % (n_gm, v_gm / n_gm),
+        all(abs(PRED[x[0]]["H"] -
+                (v_gm / n_gm if x[0] not in CUST_SIDE else 0.0)) < 1e-9
+            for x in ROWS if x[1] != "egi" and x[0] not in CUST_SIDE) and
+        abs(PRED["Ampol Customer"]["H"] + PRED["Z Customer"]["H"] -
+            v_gm / n_gm) < 1e-9)
+    chk("the Business Partner and Domain Architect pots stay over the eleven",
+        all(abs(PRED[x[0]]["F"] - POTV["bp"] / n_base) < 1e-9 and
+            abs(PRED[x[0]]["G"] - POTV["da"] / n_base) < 1e-9
+            for x in ROWS if x[1] in ("pf", "cyber")))
+    coe_lab = [x[0] for x in ROWS if x[1] in ("coe", "coe1")]
+    chk("the COE lines note the two charged out pots exactly once",
+        abs(sum(PRED[k]["R"] for k in coe_lab) -
+            (POTV["bp"] + POTV["da"])) < 1e-9)
+    bad = [(x[0], PRED[x[0]]["C"] - PRED[x[0]]["D"] - PRED[x[0]]["L"] -
+            PRED[x[0]]["Q"]) for x in ROWS
+           if abs(PRED[x[0]]["C"] - PRED[x[0]]["D"] - PRED[x[0]]["L"] -
+                  PRED[x[0]]["Q"]) > 1e-9]
+    chk("C equals D plus L plus Q on every row and in total", not bad and
+        abs(tot["C"] - tot["D"] - tot["L"] - tot["Q"]) < 1e-9, bad)
+    bad = [(x[0],) for x in ROWS
+           if abs(PRED[x[0]]["L"] - PRED[x[0]]["E"] - PRED[x[0]]["K"]) > 1e-9]
+    chk("L equals E plus K on every row and in total", not bad and
+        abs(tot["L"] - tot["E"] - tot["K"]) < 1e-9, bad)
+    bad = [(x[0],) for x in ROWS
+           if abs(PRED[x[0]]["S"] - PRED[x[0]]["Q"] + PRED[x[0]]["R"]) > 1e-9]
+    chk("S equals Q less R on every row and in total", not bad and
+        abs(tot["S"] - tot["Q"] + tot["R"]) < 1e-9, bad)
+    bad = [(x[0], PRED[x[0]]["AU"] + PRED[x[0]]["NZ"] - PRED[x[0]]["L"])
+           for x in ROWS
+           if abs(PRED[x[0]]["AU"] + PRED[x[0]]["NZ"] - PRED[x[0]]["L"]) > 1e-9]
+    chk("AU spend plus NZ spend equals the charge on every row", not bad, bad)
+
+    # ---- the funded outside slice, row by row
+    dsum = {}
+    for x in ROWS:
+        dsum.setdefault(x[2], 0.0)
+        dsum[x[2]] += PRED[x[0]]["D"]
+    bad = [(p, dsum[p], MOD[p]["gridP"] if p != "2.11" else MOD[p]["uplift"])
+           for p in dsum
+           if abs(dsum[p] - (MOD[p]["gridP"] if p != "2.11"
+                             else MOD[p]["uplift"])) > 1e-9]
+    chk("Sig items funded on every row is its tab's funded outside total, "
+        "%.6f m in all" % tot["D"], not bad, bad)
+    egi_l = [x[0] for x in ROWS if x[1] == "egi"][0]
+    chk("the EGI line is wholly funded outside, C equals D at %.6f m and "
+        "nothing is left to recharge" % PRED[egi_l]["C"],
+        abs(PRED[egi_l]["C"] - PRED[egi_l]["D"]) < 1e-9 and
+        abs(PRED[egi_l]["Q"]) < 1e-9 and
+        all(abs(PRED[egi_l][k]) < 1e-12 for k in ("E", "F", "G", "H", "I")))
+    fs = []
+    for p in MOD:
+        for gr in MOD[p]["grid"]["rows"]:
+            if norm(gr["name"]) not in funded:
+                continue
+            for ro in MOD[p]["groles"].get(gr["name"], []):
+                pe = people[ro["key"]]
+                if pe["ovh"] and pe["ovh"] != "Squad":
+                    fs.append("%s %s on %s" % (T2[p], pe["name"], pe["ovh"]))
+    chk("no person in a funded squad is coded to an overhead line, so the "
+        "funded people attract no overhead", not fs, fs[:6])
+    fe = []
+    for x in ROWS:
+        f = a.cell(RIX[x[0]], 5).value
+        if not (isinstance(f, str) and f.startswith("=")):
+            continue
+        hit = {(sh, rw) for sh, cl, rw in refs_in(f, TAB) if cl == "S"}
+        for gr in MOD[x[2]]["grid"]["rows"]:
+            if norm(gr["name"]) in funded and (T2[x[2]], gr["row"]) in hit:
+                fe.append("%s reads %s" % (x[0], gr["name"]))
+    chk("no funded squad reaches the support cost column", not fe, fe)
     chk("the share base reads eleven, live off the ten portfolios",
         w2b["Lists"].cell(base_row, 33).value == "=COUNTA(Lists!$AS$2:$AS$12)+1")
     egi_r = RIX["EGI"]
@@ -1593,12 +1995,45 @@ def main(src, dst):
         import wbio
         rp = wbio.recalc(dst)
         vv = openpyxl.load_workbook(rp, data_only=True)
-        c5 = [vv[TAB].cell(CTL, c).value for c in range(3, 3 + len(ctl))]
-        c6 = [vv[TAB2].cell(CTL, c).value for c in range(3, 6)]
-        chk("every control on 3.5 reads 0 after a recalculation",
-            all(x is not None and abs(float(x)) < 1e-6 for x in c5), c5)
-        chk("every control on 3.6 reads 0 after a recalculation",
-            all(x is not None and abs(float(x)) < 1e-6 for x in c6), c6)
+        C5 = {"C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8, "I": 9, "K": 11,
+              "L": 12, "M": 13, "O": 15, "Q": 17, "R": 18, "S": 19}
+        C6 = {"C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8, "I": 9, "K": 11,
+              "L": 12, "AU": 13, "NZ": 14, "L2": 15, "BA": 16, "BN": 17,
+              "AUO": 18, "NZO": 19, "M": 20, "O": 22, "Q": 24, "R": 25,
+              "S": 26}
+        off = []
+        for x in ROWS:
+            rw = RIX[x[0]]
+            for tn, cm in ((TAB, C5), (TAB2, C6)):
+                for k, c in cm.items():
+                    got = vv[tn].cell(rw, c).value
+                    got = 0.0 if got in (None, "") else float(got)
+                    if abs(got - float(PRED[x[0]][k])) > 1e-6:
+                        off.append((tn, x[0], k, PRED[x[0]][k], got))
+        for tn, cm in ((TAB, C5), (TAB2, C6)):
+            for k, c in cm.items():
+                got = vv[tn].cell(TOT, c).value
+                got = 0.0 if got in (None, "") else float(got)
+                exp = sum(PRED[x[0]][k] for x in ROWS)
+                if abs(got - exp) > 1e-6:
+                    off.append((tn, "Total", k, exp, got))
+        chk("every cell on both tabs matches this stage's own recompute at "
+            "1e-6", not off, off[:8])
+        rec = [(TAB, REC1 + 1, tot["C"]), (TAB, REC1 + 2, -tot["D"]),
+               (TAB, REC1 + 3, tot["C"] - tot["D"]), (TAB, REC1 + 4, -tot["L"]),
+               (TAB, REC1 + 5, tot["Q"]), (TAB, REC1 + 6, -tot["R"]),
+               (TAB, REC1 + 7, tot["S"]), (TAB, REC2 + 1, tot["E"]),
+               (TAB, REC2 + 2, tot["F"]), (TAB, REC2 + 3, tot["G"]),
+               (TAB, REC2 + 4, tot["H"]),
+               (TAB, REC2 + 5, tot["K"] - tot["F"] - tot["G"] - tot["H"]),
+               (TAB, REC2 + 6, tot["L"]),
+               (TAB2, REC2 + 9, tot["AU"]), (TAB2, REC2 + 12, tot["NZ"]),
+               (TAB2, REC2 + 11, tot["AU"] - sum(PRED[x[0]]["BA"] for x in ROWS)),
+               (TAB2, REC2 + 14, tot["NZ"] - sum(PRED[x[0]]["BN"] for x in ROWS))]
+        bad = [(t, rw, e, vv[t].cell(rw, 7).value) for t, rw, e in rec
+               if vv[t].cell(rw, 7).value is None or
+               abs(float(vv[t].cell(rw, 7).value) - e) > 1e-6]
+        chk("both reconciliation blocks read the total row exactly", not bad, bad)
         errs = [(t, c.coordinate, c.value) for t in (TAB, TAB2)
                 for row in vv[t].iter_rows() for c in row
                 if isinstance(c.value, str) and
@@ -1607,11 +2042,37 @@ def main(src, dst):
         chk("no formula error anywhere on either tab", not errs, errs[:6])
         vv.close()
 
+    print("\n== the table this stage built ($m)")
+    cols = ("C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "O", "Q", "R", "S")
+    print("%-30s" % "row" + "".join("%10s" % c for c in cols) + "%8s" % "toggle")
+    for x in ROWS:
+        d = PRED[x[0]]
+        print("%-30s" % x[0] + "".join("%10.5f" % d[c] for c in cols) +
+              "%8s" % ("100%" if d["J"] else ""))
+    print("%-30s" % "Total" + "".join(
+        "%10.5f" % sum(PRED[x[0]][c] for x in ROWS) for c in cols))
+    ed = [x[0] for x in ROWS if x[2] == "2.3"]
+    if ed:
+        d = PRED[ed[0]]
+        print("\n%s: D %.6f  E %.6f  L %.6f   |   totals D %.6f  L %.6f  "
+              "over budget %.6f" % (ed[0], d["D"], d["E"], d["L"], tot["D"],
+                                    tot["L"], tot["L"] - (cfgv.cell(bud_row, 5).value or 0)))
+    print("\nWhere the total people cost goes ($m): C %.6f less D %.6f "
+          "equals %.6f less L %.6f equals Q %.6f less R %.6f equals S %.6f"
+          % (tot["C"], tot["D"], tot["C"] - tot["D"], tot["L"], tot["Q"],
+             tot["R"], tot["S"]))
+    v_bud = cfgv.cell(bud_row, 5).value or 0.0
+    print("What makes up the charge ($m): E %.6f plus F %.6f plus G %.6f plus "
+          "H %.6f plus I times J %.6f equals L %.6f against a budget of %.6f, "
+          "over by %.6f\n"
+          % (tot["E"], tot["F"], tot["G"], tot["H"],
+             tot["K"] - tot["F"] - tot["G"] - tot["H"], tot["L"], v_bud,
+             tot["L"] - v_bud))
     if not ok[0]:
         raise SystemExit(2)
     print("self-check clean: his columns and rows, the toggles, the controls, "
           "the formats and the hygiene rules all hold")
-    return dict(TOT=TOT, BUD=BUD, CTL=CTL, D1=D1, D2=D2, HR=HR, RIX=RIX,
+    return dict(TOT=TOT, BUD=BUD, D1=D1, D2=D2, HR=HR, RIX=RIX, PRED=PRED,
                 toggles=toggles, dtot=dtot, d0=d0)
 
 

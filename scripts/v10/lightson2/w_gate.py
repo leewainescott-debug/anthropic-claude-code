@@ -41,8 +41,12 @@ any FAIL), then the ledger print:
                    toggles unlocked, structure locked
   M hygiene        dashes, cream formulas, banned words, parens formats,
                    the TDD Data label, BLD-19
-  N controls       every control row 0, 4.0 Data QA, no error cells, the
-                   netting rows, 0.2 TDD Cyber and its column total
+  N controls       the control rows and 4.0 gone, every reconciliation they
+                   proved asserted here, 0.2's spend against 3.5's charge,
+                   one sign convention, the 3.1/3.3/3.4 basis labels
+  O 1.x family     the eleven 1.x tabs share one shape: block rows, column
+                   headers, the seven budget lines, the funding table and
+                   the two labels
 
 Every numeric expectation is re-derived from the file under test or from his
 master upload. The only hard-coded values are his own words (headers, row
@@ -173,6 +177,7 @@ GRID_TOTALS = ("Squads total", "Directly funded total", "No archetype total",
 OFF_LINE = {"ed tacey": "Squad"}          # "Ed Tacey, let's keep him off that"
 DM_TITLES = ("delivery assurance manager", "delivery excellence manager")
 VACANT_NAMES = ("vacant", "ring fenced", "remove")
+EGI_PLATFORM = "egi"       # his Platform column is what marks the EGI slice
 BANNED = (r"\bwaves?\b", r"\bseats?\b", r"design[- ]for[- ]archetype",
           r" to projects")
 
@@ -416,6 +421,89 @@ def is_vacancy(name, status=""):
     n = norm(name)
     return (txt(status) == "Vacant"
             or any(n.startswith(x) or x in n for x in VACANT_NAMES))
+
+
+RECON_HEAD = "where the total people cost goes"
+RECON_WORDS = (RECON_HEAD, "total people cost", "less ", "equals ",
+               "what makes up the charge", "support cost",
+               "business partner share", "domain architect share",
+               "gm share", "other overheads", "tdd lights on budget",
+               "of which ")
+
+
+def recon_lines(lt):
+    """(row, col, label, value, formula) for the reconciliation block under a
+    Lights On table: a label in B and one live figure beside it. The block is
+    bounded by his own vocabulary, so the analysis block below is left out."""
+    out, started = [], False
+    start = (lt.budget_r or lt.total_r or 0) + 1
+    for r in range(start, lt.wf.max_row + 1):
+        lab = txt(lt.wv.cell(r, 2).value) or txt(lt.wf.cell(r, 2).value)
+        if not lab:
+            continue
+        low = norm(lab)
+        if not started:
+            if not low.startswith(RECON_HEAD):
+                continue
+            started = True
+        elif low.startswith("why the lights on"):
+            break                 # the analysis block below, not the ledger
+        elif not any(low.startswith(w) for w in RECON_WORDS):
+            continue              # a neighbour cannot truncate the block
+        for c in range(3, lt.wf.max_column + 1):
+            val = num(lt.wv.cell(r, c).value)
+            if val is None:
+                continue
+            out.append((r, c, lab, val, lt.wf.cell(r, c).value))
+            break
+    return out
+
+
+def recon_chain(rec):
+    """his own words drive the arithmetic: the 'less' lines already carry a
+    minus, so each 'equals' line has to read what the lines above it leave."""
+    off = []
+
+    def find(*keys, plain=False):
+        for _, _, lab, val, _ in rec:
+            low = norm(lab)
+            if plain and (low.startswith("less ")
+                          or low.startswith("equals ")):
+                continue
+            if all(k in low for k in keys):
+                return val
+        return None
+
+    def chk(name, got, want):
+        if got is None or want is None:
+            off.append("%s: line not found" % name)
+        elif abs(got - want) > TOL:
+            off.append("%s reads %.6f against %.6f" % (name, got, want))
+
+    people = find("total people cost", plain=True)
+    funded = find("less funded outside")
+    tofund = find("equals what tdd has to fund")
+    charged = find("less charged")
+    recharge = find("equals left to recharge")
+    noted = find("less already noted")
+    still = find("equals still left to fund")
+    if None not in (people, funded):
+        chk("what TDD has to fund", tofund, people + funded)
+    if None not in (tofund, charged):
+        chk("left to recharge", recharge, tofund + charged)
+    if None not in (recharge, noted):
+        chk("still left to fund", still, recharge + noted)
+    parts = [find("support cost"), find("business partner share"),
+             find("domain architect share"), find("gm share"),
+             find("other overheads")]
+    tdd = find("equals charged to tdd")
+    if None not in parts:
+        chk("charged to TDD lights on", tdd, sum(parts))
+    budget = find("tdd lights on budget", plain=True)
+    over = find("equals over the budget")
+    if None not in (tdd, budget):
+        chk("over the budget", over, tdd - budget)
+    return off
 
 
 def fmt_sections(fmt):
@@ -718,6 +806,17 @@ def main(argv):
         cs = canon_squad(sq, key)
         if norm(cs) in ("cyber uplift", "identity"):
             return "TDD Cyber", "TDD Cyber squad"
+        # an EGI-named squad homes to the portfolio its own name carries, so
+        # EGI Retail sits on 2.1 and the plain EGI squad on 2.14; an EGI role
+        # whose squad names no portfolio falls through to the normal chain
+        if norm(cs).startswith("egi"):
+            tail = norm(cs)[3:].strip()
+            if not tail:
+                return "EGI", "EGI squad"
+            t = PORTMAP.get(tail) or next(
+                (h for h in HOME2TAB if norm(h) == tail), None)
+            if t and t != "EGI":
+                return t, "EGI squad names its portfolio"
         t = PORTMAP.get(norm(port))
         if t:
             return t, "Portfolio"
@@ -732,6 +831,13 @@ def main(argv):
         t, basis = home_of(hnames[r], htitle[r], hport[r], hdiv[r], hsq[r])
         derived_home[r] = t
         home_basis[r] = basis
+    # the derivation carried onto the REVIEW rows, so every group prices off
+    # the gate's own homing rather than off the workbook's MTab helper
+    home_led = {}
+    if his and len(led) == len(his):
+        first = min(his)
+        for i, hr in enumerate(sorted(his)):
+            home_led[first + i] = derived_home[hr]
 
     # ---- the overhead-line derivation, re-run here from his titles + squads
     def derive_line(title, sq, plat, key, name=""):
@@ -830,6 +936,31 @@ def main(argv):
                 uplift_charge = num(v[t114].cell(r, 10).value)
                 break
 
+    # the EGI slice comes off his Platform column, never off squad names: 49
+    # roles whose Platform reads EGI are funded outside, so they carry no
+    # support percentage, no overhead line and no share
+    egi_led = {r for r in led if norm(plat_of.get(r)) == EGI_PLATFORM}
+    egi_tab = collections.defaultdict(float)
+    for r in egi_led:
+        ro = role_by_led.get(r)
+        if ro:
+            egi_tab[ro[0]] += (ro[1]["G"] or 0) / 1e6
+    egi_total = sum(egi_tab.values())
+
+    def sect_egi(tab, sect):
+        """the EGI slice inside one role-list section ($m)."""
+        return sum((ro["G"] or 0) for ro in T[tab].sections.get(sect, [])
+                   if ro["ledger"] in egi_led) / 1e6
+
+    # the flat funding lines: the funded squads Lists prices at a set amount,
+    # as against the EGI squads it prices at their actual cost
+    def flat_funded(tab):
+        s = 0.0
+        for _, lab2 in T[tab].grid:
+            if lab2 in funded and num(funded[lab2][1]) is not None:
+                s += num(funded[lab2][1])
+        return s
+
     def au_nz(rows, basis=None):
         """AU and NZ halves ($m) of a set of REVIEW rows; NZ is Country NZ,
         everyone else AU."""
@@ -861,6 +992,380 @@ def main(argv):
             if lr is not None and ovh_of.get(lr) in ovh_labels:
                 s += ro["G"] or 0
         return s / 1e6
+
+    # ====================================================== the Lights On tabs
+    class LOTab:
+        def __init__(self, title):
+            self.title = title
+            self.wf, self.wv = f[title], v[title]
+            self.hdr_r = None
+            for r in range(1, min(self.wf.max_row, 30) + 1):
+                if txt(self.wf.cell(r, 2).value) == HEADERS[2]:
+                    self.hdr_r = r
+                    break
+            self.cols = {}
+            if self.hdr_r:
+                for c in range(2, self.wf.max_column + 1):
+                    k = txt(self.wf.cell(self.hdr_r, c).value)
+                    if k:
+                        self.cols.setdefault(k, c)
+            self.rows, self.labels = {}, []
+            self.total_r = self.budget_r = None
+            r = (self.hdr_r or 0) + 1
+            while self.hdr_r and r <= self.wf.max_row and len(self.labels) < 40:
+                b = txt(self.wv.cell(r, 2).value) or txt(
+                    self.wf.cell(r, 2).value)
+                # his total row now carries a clause after the word, so it is
+                # matched on the word and never on the whole label
+                if b not in LROWS and re.match(r"(?i)^total\b", b):
+                    self.total_r = r
+                    break
+                if b:
+                    self.labels.append(b)
+                    self.rows[b] = r
+                r += 1
+            if self.total_r:
+                for rr in range(self.total_r + 1, self.total_r + 4):
+                    if "budget" in norm(self.wv.cell(rr, 2).value):
+                        self.budget_r = rr
+                        break
+
+        def colof(self, k):
+            """the column a named quantity sits in on THIS tab: 3.6 shifts
+            M O Q R S right of its AU NZ block, so resolve by his header."""
+            c = self.cols.get(HEADERS.get(COL[k], ""))
+            return c or COL[k]
+
+        def get(self, lab, col):
+            r = self.rows.get(lab)
+            if r is None:
+                return None
+            c = self.colof(col) if isinstance(col, str) else col
+            return num(self.wv.cell(r, c).value)
+
+    lo = LOTab(LO) if LO in sheets else None
+    lo2 = LOTab(LO2) if LO2 in sheets else None
+
+    # -------------------------------------------------- the independent model
+    exp = {}
+    model_note = []
+    try:
+        # support percentages per row
+        pctm = {}
+        for lab, p1 in SRC1X.items():
+            t1 = tabname(p1)
+            if t1:
+                pm, clash = pct_map(f[t1], v[t1])
+                pctm[lab] = pm
+                if clash:
+                    model_note.append("%s support %% clash %s" % (t1,
+                                                                  clash[:2]))
+        # per-row people, from REVIEW homing + the 2.x placement
+        rows_of = collections.defaultdict(list)
+        for r in led:
+            if r not in role_by_led:
+                continue
+            home = home_led.get(r) or mtab_of.get(r)
+            if home == "Customer":
+                side = "Z Customer" if norm(port_of.get(r)) in (
+                    "z energy (digital)", "z customer", "z") \
+                    else "Ampol Customer"
+                rows_of[side].append(r)
+            elif home in ("COE SA&D", "COE BP&T"):
+                rows_of[home].append(r)
+            else:
+                lab = {"COE Cyber": "COE Cyber Risk & Service Ops"}.get(
+                    home, home)
+                rows_of[lab].append(r)
+
+        def sect_after(tab, sect):
+            return sum(ro["G"] or 0 for ro in T[tab].sections.get(sect, [])) \
+                / 1e6
+
+        # which side of the Customer split each 2.2 squad sits on, read off
+        # the people in it
+        cust_side = {}
+        t22 = tabname("2.2")
+        if t22 and t22 in T:
+            zset = set(rows_of["Z Customer"])
+            for sect, ros in T[t22].sections.items():
+                lrs = [ro["ledger"] for ro in ros if ro["ledger"] is not None]
+                if not lrs:
+                    continue
+                z = sum(1 for r in lrs if r in zset)
+                cust_side[sect] = ("Z Customer" if z * 2 > len(lrs)
+                                   else "Ampol Customer")
+
+        # the COE pair splits, resolved against the tab's own planned spend
+        coe_split = {}
+        for prefix, (a, b) in SPLITS.items():
+            if prefix == "2.2":
+                continue
+            t = tabname(prefix)
+            if t is None or t not in T:
+                continue
+            comp = {}
+            for lab, start in ((a, "Business Partnering planned spend")
+                               if prefix == "2.12" else
+                               (a, "Strategy & Architecture planned spend"),
+                               (b, "Transformation planned spend")
+                               if prefix == "2.12" else
+                               (b, "Data planned spend")):
+                val, _ = T[t].label_value(start)
+                comp[lab] = val
+            pot = bp_pot if prefix == "2.12" else da_pot
+            potline = "Business Partner" if prefix == "2.12" \
+                else "Domain Architect"
+            sects = list(T[t].sections)
+            potsect = {ro["section"] for ro in T[t].roles
+                       if ro["ledger"] is not None
+                       and ovh_of.get(ro["ledger"]) == potline}
+            # every subset whose spend nets to his planned component; the pot
+            # is charged out of the COE that hosts it, so a subset holding the
+            # pot sections wins, and the widest such subset at that
+            cands = []
+            for k in range(0, len(sects) + 1):
+                for combo in itertools.combinations(sects, k):
+                    s = sum(sect_after(t, x) for x in combo)
+                    if potsect & set(combo):
+                        s -= pot
+                    if comp[a] is not None and abs(s - comp[a]) <= 1e-6:
+                        cands.append(set(combo))
+            withpot = [c for c in cands if potsect and potsect <= c]
+            found = None
+            if withpot:
+                found = max(withpot, key=len)
+            elif cands:
+                found = max(cands, key=len)
+            coe_split[prefix] = {"comp": comp, "pot": pot, "potline": potline,
+                                 "sections_a": found, "a": a, "b": b,
+                                 "tab": t}
+            if found is None:
+                model_note.append("%s planned-spend split not resolvable from "
+                                  "the sections" % prefix)
+
+        for lab in LROWS:
+            prefix = SRCTAB[lab]
+            t = tabname(prefix)
+            e = {}
+            if t is None or t not in T:
+                continue
+            tb = T[t]
+            mine = rows_of.get(lab, [])
+            split = prefix in SPLITS
+            if lab in ("Ampol Customer", "Z Customer"):
+                # the pair splits the way the tab documents it: the squads
+                # that carry a 1.x support line sit with their own side, and
+                # everything shared - the squads with no 1.x line and the
+                # whole overhead pool - divides on the two Support Costs.
+                # C, D and I are finished once both E values are known.
+                pmc = pctm.get(lab, {})
+                e["side_S"] = e["shared_S"] = 0.0
+                e["side_P"] = e["shared_P"] = 0.0
+                for rr, lab2 in tb.grid:
+                    sv = num(tb.wv.cell(rr, 19).value) or 0.0
+                    pvv = num(tb.wv.cell(rr, 16).value) or 0.0
+                    known = norm(lab2) in pmc and lab2 in cust_side
+                    if known and cust_side[lab2] == lab:
+                        e["side_S"] += sv
+                        e["side_P"] += pvv
+                    elif not known:
+                        e["shared_S"] += sv
+                        e["shared_P"] += pvv
+                e["pool_S"] = tb.gval("Overhead roles total", 19) or 0.0
+                e["shared_co"] = charge_out.get(t, 0.0)
+                e["people"] = list(mine)
+            elif prefix in ("2.12", "2.13"):
+                cs = coe_split.get(prefix, {})
+                comp = cs.get("comp", {}).get(lab)
+                holds_pot = bool(cs.get("sections_a")) and (
+                    lab == cs.get("a")) if cs.get("sections_a") else None
+                mysects = cs.get("sections_a") if lab == cs.get("a") else (
+                    (set(tb.sections) - (cs.get("sections_a") or set()))
+                    if cs.get("sections_a") is not None else None)
+                pot = cs.get("pot") or 0
+                potline = cs.get("potline")
+                if mysects is not None:
+                    ros = [ro for ro in tb.roles if ro["section"] in mysects]
+                    e["C"] = sum(ro["G"] or 0 for ro in ros) / 1e6
+                    ovh = sum(ro["G"] or 0 for ro in ros
+                              if ro["ledger"] is not None
+                              and ovh_of.get(ro["ledger"]) in ovh_labels) / 1e6
+                    haspot = any(ro["ledger"] is not None
+                                 and ovh_of.get(ro["ledger"]) == potline
+                                 for ro in ros)
+                    e["I"] = ovh - (pot if haspot else 0)
+                    e["people"] = [ro["ledger"] for ro in ros
+                                   if ro["ledger"] is not None]
+                    e["holds_pot"] = haspot
+                    e["pot"] = pot
+                elif comp is not None:
+                    e["C"] = comp
+                    e["I"] = None
+                e["planned"] = comp
+                e["potline"] = potline
+            else:
+                # C carries the whole people cost, the slice charged out of
+                # the tab's own roles included
+                e["C"] = (tb.total(19) or 0) + charge_out.get(t, 0.0)
+                e["I"] = own_overhead(prefix)
+                e["people"] = [ro["ledger"] for ro in tb.roles
+                               if ro["ledger"] is not None]
+            # D, the funded-outside slice; a charged-out slice is funded by
+            # the programme that takes it, so it books here too
+            co = charge_out.get(t, 0.0)
+            if lab == "EGI":
+                e["D"] = e.get("C")
+            elif prefix in ("2.12", "2.13", "2.11"):
+                e["D"] = co if abs(co) > TOL else 0.0
+            elif lab in ("Ampol Customer", "Z Customer"):
+                # the funded slice on the tab's own basis, by side
+                e["D"] = sum((num(tb.wv.cell(rr, 16).value) or 0)
+                             for rr, lab2 in tb.grid
+                             if cust_side.get(lab2, lab) == lab)
+            else:
+                e["D"] = tb.total(16)
+            # E, the support cost
+            if prefix in ("2.12", "2.13", "2.11"):
+                if e.get("I") is not None and e.get("planned") is not None:
+                    e["E"] = e["planned"] - e["I"]
+                elif prefix == "2.11" and e.get("I") is not None:
+                    e["E"] = (tb.total(19) or 0) - own_overhead(prefix)
+            elif lab == "EGI":
+                e["E"] = 0.0
+            else:
+                pm = pctm.get(lab, {})
+                # the support base is the squad after levers less its EGI
+                # people: they are funded outside, so they attract no
+                # percentage even when they sit inside a squad that does
+                s = 0.0
+                for rr, lab2 in tb.grid:
+                    if lab in ("Ampol Customer", "Z Customer") \
+                            and cust_side.get(lab2, lab) != lab:
+                        continue
+                    base = (num(tb.wv.cell(rr, 19).value) or 0) \
+                        - sect_egi(t, lab2)
+                    s += base * pm.get(norm(lab2), 0.0)
+                e["E"] = s
+            # the country weights each component splits on, mirroring the
+            # tab's own footnote: support cost splits inside each squad, the
+            # pots split across their own people, other overheads across the
+            # row's own overhead people
+            people = e.get("people") or []
+            ovhp = [r for r in people if ovh_of.get(r) in ovh_labels
+                    and ovh_of.get(r) != e.get("potline")]
+            if prefix in ("2.12", "2.13", "2.11"):
+                e["w_E"] = au_weight([r for r in people
+                                      if ovh_of.get(r) not in ovh_labels])
+            elif lab == "EGI":
+                e["w_E"] = None
+            else:
+                pm = pctm.get(lab, {})
+                a_num = den = 0.0
+                for rr, lab2 in tb.grid:
+                    if lab in ("Ampol Customer", "Z Customer") \
+                            and cust_side.get(lab2, lab) != lab:
+                        continue
+                    pct = pm.get(norm(lab2), 0.0)
+                    if not pct:
+                        continue
+                    sect = tb.sections.get(lab2)
+                    if not sect:
+                        continue
+                    sa, sn = au_nz([ro["ledger"] for ro in sect
+                                    if ro["ledger"] is not None
+                                    and ro["ledger"] not in egi_led])
+                    a_num += sa * pct
+                    den += (sa + sn) * pct
+                e["w_E"] = (a_num / den) if den else None
+            if lab in ("Ampol Customer", "Z Customer"):
+                pool = [ro["ledger"] for ro in tb.roles
+                        if ro["ledger"] is not None
+                        and ovh_of.get(ro["ledger"]) in ovh_labels]
+                e["w_I"] = au_weight(pool)
+            else:
+                e["w_I"] = au_weight(ovhp)
+                if e["w_I"] is None:
+                    # no overhead people left once the pot is out: fall back
+                    # to the whole overhead group, then to the row itself
+                    allo = [r for r in people if ovh_of.get(r) in ovh_labels]
+                    e["w_I"] = au_weight(allo) or au_weight(people)
+                    if (e.get("I") or 0) > TOL:
+                        e["w_I_fallback"] = True
+            exp[lab] = e
+
+        # the two pots divide over the eleven portfolio units; the GM layer
+        # divides over those eleven plus the five COE rows, counted here from
+        # the rows that take a GM share rather than assumed
+        gm_base = len(FULLSHARE) + 1 + len(COE_ROWS)
+        unit = {"F": (bp_pot or 0) / SHARE_BASE,
+                "G": (da_pot or 0) / SHARE_BASE,
+                "H": (gm_cost or 0) / gm_base}
+        ea = exp.get("Ampol Customer", {}).get("E")
+        ez = exp.get("Z Customer", {}).get("E")
+        frac = None
+        if ea is not None and ez is not None and (ea + ez) > 0:
+            frac = ea / (ea + ez)
+        # the Customer pair, finished on the two Support Costs: the shared
+        # squads, the shared funded slice and the whole overhead pool all
+        # divide on the same weight the shares use
+        for lab, w in (("Ampol Customer", frac),
+                       ("Z Customer", None if frac is None else 1 - frac)):
+            e = exp.get(lab)
+            if e is None or w is None or "side_S" not in e:
+                continue
+            e["C"] = e["side_S"] + (e["shared_S"] + e["shared_co"]) * w
+            e["D"] = e["side_P"] + e["shared_P"] * w
+            e["I"] = e["pool_S"] * w
+            e["w_split"] = w
+        for lab in LROWS:
+            e = exp.get(lab)
+            if e is None:
+                continue
+            if lab == "EGI":
+                e["F"] = e["G"] = e["H"] = 0.0
+            elif lab in COE_ROWS:
+                # the COEs carry no BP or DA share, but they do carry a GM one
+                e["F"] = e["G"] = 0.0
+                e["H"] = unit["H"]
+            elif lab in ("Ampol Customer", "Z Customer"):
+                sh = frac if lab == "Ampol Customer" else (
+                    None if frac is None else 1 - frac)
+                for k in ("F", "G", "H"):
+                    e[k] = None if sh is None else unit[k] * sh
+            else:
+                for k in ("F", "G", "H"):
+                    e[k] = unit[k]
+        # I split for the Customer pair comes from the people themselves; the
+        # pro-rata reading is checked separately in group H
+        for lab in LROWS:
+            e = exp.get(lab)
+            if e is None:
+                continue
+            b = cfg_lookup(lab)
+            e["M"] = cfg_val.get(b) if b else None
+            e["M_au"] = cfg_au.get(b) if b else None
+            e["M_nz"] = cfg_nz.get(b) if b else None
+            e["budrow"] = b
+    except Exception as e:
+        model_note.append("model build aborted: %r" % e)
+
+    if "--model" in rest:
+        print("\nthe independent model, row by row ($m)", flush=True)
+        print("        %-30s %10s %8s %9s %8s %8s %8s %9s"
+              % ("row", "C", "D", "E", "F", "G", "H", "I"), flush=True)
+        for lab in LROWS:
+            e = exp.get(lab, {})
+            print("        %-30s %s" % (lab, " ".join(
+                ("%10.6f" % e[k]) if isinstance(e.get(k), (int, float))
+                else "%10s" % "-" for k in ("C", "D", "E", "F", "G", "H",
+                                            "I"))), flush=True)
+        print("        %-30s %10.6f" % ("C total",
+                                        sum(e.get("C") or 0
+                                            for e in exp.values())),
+              flush=True)
+        for t in model_note:
+            print("        note: %s" % t, flush=True)
 
     # ============================================================ A raw identity
     g = gate.group("A", "raw identity")
@@ -939,7 +1444,6 @@ def main(argv):
 
     # ================================================================ B homing
     g = gate.group("B", "homing")
-    home_led = {}
     try:
         unres = [r for r in his if derived_home[r] is None]
         gate.sub(g, not unres,
@@ -968,7 +1472,6 @@ def main(argv):
                 r = first + i
                 want = derived_home[hr]
                 got = mtab_of.get(r)
-                home_led[r] = want
                 if want and norm(got) != norm(want):
                     offm.append((r, hnames[hr], got, want))
             gate.sub(g, not offm,
@@ -999,14 +1502,34 @@ def main(argv):
                  % (len(wrong), wrong[:4]))
         # his funded squad names against Lists
         if his:
-            hsquads = {txt(hsq[r]) for r in his if txt(hsq[r])}
-            drift = [k for k in funded
-                     if k not in hsquads
-                     and norm(k) not in {norm(x) for x in hsquads}
-                     and norm(k) not in ("cyber uplift", "identity")]
+            # the funded table holds two legitimate kinds of name: his own
+            # Squad values (with the squads the Lists person overrides create)
+            # and the grid rows this build derives for EGI people whose squad
+            # does not say EGI. Anything else is a typo.
+            hsquads = {norm(hsq[r]) for r in his if txt(hsq[r])}
+            hsquads |= {norm(x) for x in squad_ovr.values()}
+            derived_egi = set()
+            for t in tabs2:
+                for _, lab2 in T[t].grid:
+                    sect = T[t].sections.get(lab2)
+                    if not sect:
+                        continue
+                    lrs = [ro["ledger"] for ro in sect
+                           if ro["ledger"] is not None]
+                    if lrs and all(r in egi_led for r in lrs) \
+                            and norm(lab2) not in hsquads:
+                        derived_egi.add(norm(lab2))
+            drift = [k for k in funded if norm(k) not in hsquads
+                     and norm(k) not in derived_egi]
             gate.sub(g, not drift,
-                     "every Lists funded squad name matches one of his Squad "
-                     "values: %d adrift %s" % (len(drift), drift[:5]))
+                     "every Lists funded squad name is one of his Squad "
+                     "values or a derived EGI grid row: %d adrift %s"
+                     % (len(drift), drift[:5]))
+            extra = {norm(k) for k in funded if norm(k) not in hsquads}
+            gate.sub(g, extra == derived_egi,
+                     "the derived names in the funded table are exactly the "
+                     "derived EGI grid rows: table has %s, the build derives "
+                     "%s" % (sorted(extra), sorted(derived_egi)))
             # the person-keyed override table, keyed on Name | Position Title
             hkey = collections.Counter(
                 norm("%s | %s" % (hnames[r], htitle[r])) for r in his)
@@ -1025,7 +1548,7 @@ def main(argv):
         def find_person(n):
             return [r for r in his if norm(hnames[r]) == norm(n)]
 
-        for who, want_home in (("Viren Khatri", "EGI"),
+        for who, want_home in (("Viren Khatri", "TDD Group Functions"),
                                ("Ed Tacey", "Customer"),
                                ("Sarsha Tanner", "COE BP&T"),
                                ("Murray Mitchell", "TDD Group Functions"),
@@ -1039,6 +1562,42 @@ def main(argv):
                      and wb_tab.startswith(HOME2TAB[want_home]),
                      "%s homes to %s (his file says %s, the model puts him on "
                      "%s)" % (who, want_home, got, wb_tab))
+        # what each tab funds outside TDD: its flat funding lines plus the
+        # roles his Platform column marks EGI, and the 3.5 D column against it
+        dbad = []
+        for lab in LROWS:
+            t = tabname(SRCTAB[lab])
+            if t is None or t not in T:
+                continue
+            got = T[t].total(16)
+            flat, egis = flat_funded(t), egi_tab.get(t, 0.0)
+            want = flat + egis
+            if got is None or abs(got - want) > TOLC:
+                dbad.append("%s funded-outside %s against %.9f (flat lines "
+                            "%.6f plus %d EGI roles %.9f)"
+                            % (t, got, want, flat,
+                               sum(1 for r in egi_led
+                                   if r in role_by_led
+                                   and role_by_led[r][0] == t), egis))
+        gate.sub(g, not dbad,
+                 "every tab's funded-outside total is its flat funding lines "
+                 "plus its Platform=EGI roles after levers: %d off %s"
+                 % (len(dbad), dbad[:3]))
+        if lo is not None:
+            drow = []
+            for lab in LROWS:
+                want = exp.get(lab, {}).get("D")
+                got = lo.get(lab, "D")
+                if want is None or got is None:
+                    continue
+                if abs(got - want) > TOLC:
+                    drow.append("%s D %s against %.9f" % (lab, got, want))
+            gate.sub(g, not drow,
+                     "every row's D on 3.5 equals its tab's funded-outside "
+                     "total at 1e-9: %d off %s" % (len(drow), drow[:3]))
+            gate.note(g, "funded outside by tab: %s"
+                      % ", ".join("%s %.6f" % (k.split()[0], egi_tab[k])
+                                  for k in sorted(egi_tab)))
         # the ring fenced rows are vacancies
         rf = [r for r in his if norm(hnames[r]).startswith("ring fenced")]
         first = min(his) if his else 2
@@ -1380,372 +1939,6 @@ def main(argv):
     except Exception as e:
         gate.sub(g, False, "exception: %r" % e)
 
-    # ====================================================== the Lights On tabs
-    class LOTab:
-        def __init__(self, title):
-            self.title = title
-            self.wf, self.wv = f[title], v[title]
-            self.hdr_r = None
-            for r in range(1, min(self.wf.max_row, 30) + 1):
-                if txt(self.wf.cell(r, 2).value) == HEADERS[2]:
-                    self.hdr_r = r
-                    break
-            self.cols = {}
-            if self.hdr_r:
-                for c in range(2, self.wf.max_column + 1):
-                    k = txt(self.wf.cell(self.hdr_r, c).value)
-                    if k:
-                        self.cols.setdefault(k, c)
-            self.rows, self.labels = {}, []
-            self.total_r = self.budget_r = None
-            r = (self.hdr_r or 0) + 1
-            while self.hdr_r and r <= self.wf.max_row and len(self.labels) < 40:
-                b = txt(self.wv.cell(r, 2).value) or txt(
-                    self.wf.cell(r, 2).value)
-                if b == "Total":
-                    self.total_r = r
-                    break
-                if b:
-                    self.labels.append(b)
-                    self.rows[b] = r
-                r += 1
-            if self.total_r:
-                for rr in range(self.total_r + 1, self.total_r + 4):
-                    if "budget" in norm(self.wv.cell(rr, 2).value):
-                        self.budget_r = rr
-                        break
-
-        def colof(self, k):
-            """the column a named quantity sits in on THIS tab: 3.6 shifts
-            M O Q R S right of its AU NZ block, so resolve by his header."""
-            c = self.cols.get(HEADERS.get(COL[k], ""))
-            return c or COL[k]
-
-        def get(self, lab, col):
-            r = self.rows.get(lab)
-            if r is None:
-                return None
-            c = self.colof(col) if isinstance(col, str) else col
-            return num(self.wv.cell(r, c).value)
-
-    lo = LOTab(LO) if LO in sheets else None
-    lo2 = LOTab(LO2) if LO2 in sheets else None
-
-    # -------------------------------------------------- the independent model
-    exp = {}
-    model_note = []
-    try:
-        # support percentages per row
-        pctm = {}
-        for lab, p1 in SRC1X.items():
-            t1 = tabname(p1)
-            if t1:
-                pm, clash = pct_map(f[t1], v[t1])
-                pctm[lab] = pm
-                if clash:
-                    model_note.append("%s support %% clash %s" % (t1,
-                                                                  clash[:2]))
-        # per-row people, from REVIEW homing + the 2.x placement
-        rows_of = collections.defaultdict(list)
-        for r in led:
-            if r not in role_by_led:
-                continue
-            home = home_led.get(r) or mtab_of.get(r)
-            if home == "Customer":
-                side = "Z Customer" if norm(port_of.get(r)) in (
-                    "z energy (digital)", "z customer", "z") \
-                    else "Ampol Customer"
-                rows_of[side].append(r)
-            elif home in ("COE SA&D", "COE BP&T"):
-                rows_of[home].append(r)
-            else:
-                lab = {"COE Cyber": "COE Cyber Risk & Service Ops"}.get(
-                    home, home)
-                rows_of[lab].append(r)
-
-        def sect_after(tab, sect):
-            return sum(ro["G"] or 0 for ro in T[tab].sections.get(sect, [])) \
-                / 1e6
-
-        # which side of the Customer split each 2.2 squad sits on, read off
-        # the people in it
-        cust_side = {}
-        t22 = tabname("2.2")
-        if t22 and t22 in T:
-            zset = set(rows_of["Z Customer"])
-            for sect, ros in T[t22].sections.items():
-                lrs = [ro["ledger"] for ro in ros if ro["ledger"] is not None]
-                if not lrs:
-                    continue
-                z = sum(1 for r in lrs if r in zset)
-                cust_side[sect] = ("Z Customer" if z * 2 > len(lrs)
-                                   else "Ampol Customer")
-
-        # the COE pair splits, resolved against the tab's own planned spend
-        coe_split = {}
-        for prefix, (a, b) in SPLITS.items():
-            if prefix == "2.2":
-                continue
-            t = tabname(prefix)
-            if t is None or t not in T:
-                continue
-            comp = {}
-            for lab, start in ((a, "Business Partnering planned spend")
-                               if prefix == "2.12" else
-                               (a, "Strategy & Architecture planned spend"),
-                               (b, "Transformation planned spend")
-                               if prefix == "2.12" else
-                               (b, "Data planned spend")):
-                val, _ = T[t].label_value(start)
-                comp[lab] = val
-            pot = bp_pot if prefix == "2.12" else da_pot
-            potline = "Business Partner" if prefix == "2.12" \
-                else "Domain Architect"
-            sects = list(T[t].sections)
-            potsect = {ro["section"] for ro in T[t].roles
-                       if ro["ledger"] is not None
-                       and ovh_of.get(ro["ledger"]) == potline}
-            # every subset whose spend nets to his planned component; the pot
-            # is charged out of the COE that hosts it, so a subset holding the
-            # pot sections wins, and the widest such subset at that
-            cands = []
-            for k in range(0, len(sects) + 1):
-                for combo in itertools.combinations(sects, k):
-                    s = sum(sect_after(t, x) for x in combo)
-                    if potsect & set(combo):
-                        s -= pot
-                    if comp[a] is not None and abs(s - comp[a]) <= 1e-6:
-                        cands.append(set(combo))
-            withpot = [c for c in cands if potsect and potsect <= c]
-            found = None
-            if withpot:
-                found = max(withpot, key=len)
-            elif cands:
-                found = max(cands, key=len)
-            coe_split[prefix] = {"comp": comp, "pot": pot, "potline": potline,
-                                 "sections_a": found, "a": a, "b": b,
-                                 "tab": t}
-            if found is None:
-                model_note.append("%s planned-spend split not resolvable from "
-                                  "the sections" % prefix)
-
-        for lab in LROWS:
-            prefix = SRCTAB[lab]
-            t = tabname(prefix)
-            e = {}
-            if t is None or t not in T:
-                continue
-            tb = T[t]
-            mine = rows_of.get(lab, [])
-            split = prefix in SPLITS
-            if lab in ("Ampol Customer", "Z Customer"):
-                # the pair splits the way the tab documents it: the squads
-                # that carry a 1.x support line sit with their own side, and
-                # everything shared - the squads with no 1.x line and the
-                # whole overhead pool - divides on the two Support Costs.
-                # C, D and I are finished once both E values are known.
-                pmc = pctm.get(lab, {})
-                e["side_S"] = e["shared_S"] = 0.0
-                e["side_P"] = e["shared_P"] = 0.0
-                for rr, lab2 in tb.grid:
-                    sv = num(tb.wv.cell(rr, 19).value) or 0.0
-                    pvv = num(tb.wv.cell(rr, 16).value) or 0.0
-                    known = norm(lab2) in pmc and lab2 in cust_side
-                    if known and cust_side[lab2] == lab:
-                        e["side_S"] += sv
-                        e["side_P"] += pvv
-                    elif not known:
-                        e["shared_S"] += sv
-                        e["shared_P"] += pvv
-                e["pool_S"] = tb.gval("Overhead roles total", 19) or 0.0
-                e["shared_co"] = charge_out.get(t, 0.0)
-                e["people"] = list(mine)
-            elif prefix in ("2.12", "2.13"):
-                cs = coe_split.get(prefix, {})
-                comp = cs.get("comp", {}).get(lab)
-                holds_pot = bool(cs.get("sections_a")) and (
-                    lab == cs.get("a")) if cs.get("sections_a") else None
-                mysects = cs.get("sections_a") if lab == cs.get("a") else (
-                    (set(tb.sections) - (cs.get("sections_a") or set()))
-                    if cs.get("sections_a") is not None else None)
-                pot = cs.get("pot") or 0
-                potline = cs.get("potline")
-                if mysects is not None:
-                    ros = [ro for ro in tb.roles if ro["section"] in mysects]
-                    e["C"] = sum(ro["G"] or 0 for ro in ros) / 1e6
-                    ovh = sum(ro["G"] or 0 for ro in ros
-                              if ro["ledger"] is not None
-                              and ovh_of.get(ro["ledger"]) in ovh_labels) / 1e6
-                    haspot = any(ro["ledger"] is not None
-                                 and ovh_of.get(ro["ledger"]) == potline
-                                 for ro in ros)
-                    e["I"] = ovh - (pot if haspot else 0)
-                    e["people"] = [ro["ledger"] for ro in ros
-                                   if ro["ledger"] is not None]
-                    e["holds_pot"] = haspot
-                    e["pot"] = pot
-                elif comp is not None:
-                    e["C"] = comp
-                    e["I"] = None
-                e["planned"] = comp
-                e["potline"] = potline
-            else:
-                # C carries the whole people cost, the slice charged out of
-                # the tab's own roles included
-                e["C"] = (tb.total(19) or 0) + charge_out.get(t, 0.0)
-                e["I"] = own_overhead(prefix)
-                e["people"] = [ro["ledger"] for ro in tb.roles
-                               if ro["ledger"] is not None]
-            # D, the funded-outside slice; a charged-out slice is funded by
-            # the programme that takes it, so it books here too
-            co = charge_out.get(t, 0.0)
-            if lab == "EGI":
-                e["D"] = e.get("C")
-            elif prefix in ("2.12", "2.13", "2.11"):
-                e["D"] = co if abs(co) > TOL else 0.0
-            elif lab in ("Ampol Customer", "Z Customer"):
-                # the funded slice on the tab's own basis, by side
-                e["D"] = sum((num(tb.wv.cell(rr, 16).value) or 0)
-                             for rr, lab2 in tb.grid
-                             if cust_side.get(lab2, lab) == lab)
-            else:
-                e["D"] = tb.total(16)
-            # E, the support cost
-            if prefix in ("2.12", "2.13", "2.11"):
-                if e.get("I") is not None and e.get("planned") is not None:
-                    e["E"] = e["planned"] - e["I"]
-                elif prefix == "2.11" and e.get("I") is not None:
-                    e["E"] = (tb.total(19) or 0) - own_overhead(prefix)
-            elif lab == "EGI":
-                e["E"] = 0.0
-            else:
-                pm = pctm.get(lab, {})
-                if lab in ("Ampol Customer", "Z Customer"):
-                    s = 0.0
-                    for rr, lab2 in tb.grid:
-                        if cust_side.get(lab2, lab) != lab:
-                            continue
-                        s += (num(tb.wv.cell(rr, 19).value) or 0) \
-                            * pm.get(norm(lab2), 0.0)
-                    e["E"] = s
-                else:
-                    s = 0.0
-                    for rr, lab2 in tb.grid:
-                        s += (num(tb.wv.cell(rr, 19).value) or 0) \
-                            * pm.get(norm(lab2), 0.0)
-                    e["E"] = s
-            # the country weights each component splits on, mirroring the
-            # tab's own footnote: support cost splits inside each squad, the
-            # pots split across their own people, other overheads across the
-            # row's own overhead people
-            people = e.get("people") or []
-            ovhp = [r for r in people if ovh_of.get(r) in ovh_labels
-                    and ovh_of.get(r) != e.get("potline")]
-            if prefix in ("2.12", "2.13", "2.11"):
-                e["w_E"] = au_weight([r for r in people
-                                      if ovh_of.get(r) not in ovh_labels])
-            elif lab == "EGI":
-                e["w_E"] = None
-            else:
-                pm = pctm.get(lab, {})
-                a_num = den = 0.0
-                for rr, lab2 in tb.grid:
-                    if lab in ("Ampol Customer", "Z Customer") \
-                            and cust_side.get(lab2, lab) != lab:
-                        continue
-                    pct = pm.get(norm(lab2), 0.0)
-                    if not pct:
-                        continue
-                    sect = tb.sections.get(lab2)
-                    if not sect:
-                        continue
-                    sa, sn = au_nz([ro["ledger"] for ro in sect
-                                    if ro["ledger"] is not None])
-                    a_num += sa * pct
-                    den += (sa + sn) * pct
-                e["w_E"] = (a_num / den) if den else None
-            if lab in ("Ampol Customer", "Z Customer"):
-                pool = [ro["ledger"] for ro in tb.roles
-                        if ro["ledger"] is not None
-                        and ovh_of.get(ro["ledger"]) in ovh_labels]
-                e["w_I"] = au_weight(pool)
-            else:
-                e["w_I"] = au_weight(ovhp)
-                if e["w_I"] is None:
-                    # no overhead people left once the pot is out: fall back
-                    # to the whole overhead group, then to the row itself
-                    allo = [r for r in people if ovh_of.get(r) in ovh_labels]
-                    e["w_I"] = au_weight(allo) or au_weight(people)
-                    if (e.get("I") or 0) > TOL:
-                        e["w_I_fallback"] = True
-            exp[lab] = e
-
-        # the shares, divided by eleven
-        unit = {"F": (bp_pot or 0) / SHARE_BASE,
-                "G": (da_pot or 0) / SHARE_BASE,
-                "H": (gm_cost or 0) / SHARE_BASE}
-        ea = exp.get("Ampol Customer", {}).get("E")
-        ez = exp.get("Z Customer", {}).get("E")
-        frac = None
-        if ea is not None and ez is not None and (ea + ez) > 0:
-            frac = ea / (ea + ez)
-        # the Customer pair, finished on the two Support Costs: the shared
-        # squads, the shared funded slice and the whole overhead pool all
-        # divide on the same weight the shares use
-        for lab, w in (("Ampol Customer", frac),
-                       ("Z Customer", None if frac is None else 1 - frac)):
-            e = exp.get(lab)
-            if e is None or w is None or "side_S" not in e:
-                continue
-            e["C"] = e["side_S"] + (e["shared_S"] + e["shared_co"]) * w
-            e["D"] = e["side_P"] + e["shared_P"] * w
-            e["I"] = e["pool_S"] * w
-            e["w_split"] = w
-        for lab in LROWS:
-            e = exp.get(lab)
-            if e is None:
-                continue
-            if lab in NOSHARE:
-                e["F"] = e["G"] = e["H"] = 0.0
-            elif lab in ("Ampol Customer", "Z Customer"):
-                sh = frac if lab == "Ampol Customer" else (
-                    None if frac is None else 1 - frac)
-                for k in ("F", "G", "H"):
-                    e[k] = None if sh is None else unit[k] * sh
-            else:
-                for k in ("F", "G", "H"):
-                    e[k] = unit[k]
-        # I split for the Customer pair comes from the people themselves; the
-        # pro-rata reading is checked separately in group H
-        for lab in LROWS:
-            e = exp.get(lab)
-            if e is None:
-                continue
-            b = cfg_lookup(lab)
-            e["M"] = cfg_val.get(b) if b else None
-            e["M_au"] = cfg_au.get(b) if b else None
-            e["M_nz"] = cfg_nz.get(b) if b else None
-            e["budrow"] = b
-    except Exception as e:
-        model_note.append("model build aborted: %r" % e)
-
-    if "--model" in rest:
-        print("\nthe independent model, row by row ($m)", flush=True)
-        print("        %-30s %10s %8s %9s %8s %8s %8s %9s"
-              % ("row", "C", "D", "E", "F", "G", "H", "I"), flush=True)
-        for lab in LROWS:
-            e = exp.get(lab, {})
-            print("        %-30s %s" % (lab, " ".join(
-                ("%10.6f" % e[k]) if isinstance(e.get(k), (int, float))
-                else "%10s" % "-" for k in ("C", "D", "E", "F", "G", "H",
-                                            "I"))), flush=True)
-        print("        %-30s %10.6f" % ("C total",
-                                        sum(e.get("C") or 0
-                                            for e in exp.values())),
-              flush=True)
-        for t in model_note:
-            print("        note: %s" % t, flush=True)
-
     # ======================================================== F lights on 3.5
     g = gate.group("F", "lights on 3.5")
     try:
@@ -1796,9 +1989,10 @@ def main(argv):
             # toggles: derived, never counted - a row carries one when it has
             # own overheads to scale or shares to carry, and a row with
             # nothing to scale carries none rather than a dead cream input
+            # a toggle only ever scales column I, so a row carries one when
+            # it has own overheads and never otherwise
             need = [lab for lab in lo.labels
-                    if (exp.get(lab, {}).get("I") or 0) > TOL
-                    or lab not in NOSHARE]
+                    if (exp.get(lab, {}).get("I") or 0) > TOL]
             notog = [lab for lab in need
                      if lo.get(lab, "J") != 1]
             gate.sub(g, not notog,
@@ -1843,6 +2037,47 @@ def main(argv):
                 is not None, "the EGI exclusion note on the tab")
             gate.sub(g, re.search(r"1\.x", blob) is not None,
                      "the footnote naming the 1.x basis for the R column")
+            # ---- the live reconciliation block under the table
+            rec = recon_lines(lo)
+            gate.sub(g, len(rec) >= 10,
+                     "a reconciliation block sits under the table: %d lines"
+                     % len(rec))
+            nonf = ["%s%d" % (openpyxl.utils.get_column_letter(c), r)
+                    for r, c, lab, val, fx in rec
+                    if not (isinstance(fx, str) and fx.startswith("="))]
+            gate.sub(g, not nonf,
+                     "every line of the block is a formula: %d typed %s"
+                     % (len(nonf), nonf[:4]))
+            noref = [lab[:34] for r, c, lab, val, fx in rec
+                     if isinstance(fx, str)
+                     and not re.search(r"\$?%d\b" % lo.total_r, fx)
+                     and not (lo.budget_r
+                              and re.search(r"\$?%d\b" % lo.budget_r, fx))]
+            gate.sub(g, not noref,
+                     "every line reads the total row (or the budget row): %d "
+                     "off %s" % (len(noref), noref[:3]))
+            colbad = []
+            for r, c, lab, val, fx in rec:
+                m = re.search(r"column ([A-Z]{1,2})\b", lab)
+                if not (m and val is not None):
+                    continue
+                cc = openpyxl.utils.column_index_from_string(m.group(1))
+                want = num(lo.wv.cell(lo.total_r, cc).value)
+                if "times" in norm(lab):      # the toggled overheads, I x J
+                    want = sum((lo.get(x, "I") or 0) * (lo.get(x, "J") or 0)
+                               for x in lo.labels)
+                if want is not None and norm(lab).startswith("less "):
+                    want = -want              # a 'less' line carries the minus
+                if want is None or abs(val - want) > TOL:
+                    colbad.append("%s reads %s against the column total %s"
+                                  % (lab[:40], val, want))
+            gate.sub(g, not colbad,
+                     "every figure equals the column total it names: %d off "
+                     "%s" % (len(colbad), colbad[:3]))
+            chain = recon_chain(rec)
+            gate.sub(g, chain == [],
+                     "the block's arithmetic closes: %d off %s"
+                     % (len(chain), chain[:3]))
     except Exception as e:
         gate.sub(g, False, "exception: %r" % e)
 
@@ -1957,13 +2192,20 @@ def main(argv):
                                        if e.get("holds_pot") else "no 1.x tab"))
                     continue
                 t1 = tabname(p1)
-                vals = [x for _, x in funding_amounts(f[t1], v[t1])] if t1 \
-                    else []
+                named = funding_amounts(f[t1], v[t1]) if t1 else []
+                vals = [x for _, x in named]
+                applied = next((x for lab2, x in named
+                                if norm(lab2) == "total applied"), None)
+                egi_line = sum(x for lab2, x in named
+                               if "egi" in norm(lab2))
                 pool = set()
                 for x in vals:
                     pool.add(round(x, 6))
                     for y in vals:
                         pool.add(round(x + y, 6))
+                if applied is not None:
+                    # the EGI slice is booked in D, so R must not count it too
+                    pool.add(round(applied - egi_line, 6))
                 if lab in ("Ampol Customer", "Z Customer"):
                     continue
                 if got is None or (round(got, 6) not in pool
@@ -1982,9 +2224,10 @@ def main(argv):
         if lo is None:
             gate.sub(g, False, "tab %r missing" % LO)
         else:
+            gm_base = len(FULLSHARE) + 1 + len(COE_ROWS)
             unit = {"F": (bp_pot or 0) / SHARE_BASE,
                     "G": (da_pot or 0) / SHARE_BASE,
-                    "H": (gm_cost or 0) / SHARE_BASE}
+                    "H": (gm_cost or 0) / gm_base}
             offs = []
             for lab in FULLSHARE:
                 for k in ("F", "G", "H"):
@@ -1993,21 +2236,46 @@ def main(argv):
                         offs.append("%s!%s got %s want %.6f"
                                     % (lab, k, got, unit[k]))
             gate.sub(g, not offs,
-                     "the pots divided by ELEVEN on the ten portfolios and "
-                     "TDD Cyber: %d off %s" % (len(offs), offs[:4]))
+                     "the two pots divided by ELEVEN on the ten portfolios "
+                     "and TDD Cyber: %d off %s" % (len(offs), offs[:4]))
+            # the GM base is counted, not assumed: the eleven portfolio units
+            # (the Customer pair sharing one) plus the five COE rows
+            takers = [lab for lab in LROWS
+                      if (lo.get(lab, "H") or 0) > TOL]
+            counted = len([lab for lab in takers
+                           if lab not in ("Ampol Customer", "Z Customer")]) \
+                + (1 if any(lab in takers for lab in ("Ampol Customer",
+                                                      "Z Customer")) else 0)
+            gate.sub(g, counted == gm_base,
+                     "the rows taking a GM share count to %d units (the "
+                     "eleven portfolio units plus the five COE rows): %d"
+                     % (gm_base, counted))
+            gmoff = []
+            for lab in COE_ROWS:
+                if not near(lo.get(lab, "H"), unit["H"]):
+                    gmoff.append("%s!H got %s want %.6f"
+                                 % (lab, lo.get(lab, "H"), unit["H"]))
+            gate.sub(g, not gmoff,
+                     "the GM pot divided by %d, the COE rows included at "
+                     "%.6f each: %d off %s"
+                     % (gm_base, unit["H"], len(gmoff), gmoff[:4]))
             tdc = [lo.get("TDD Cyber", k) for k in ("F", "G", "H")]
             gate.sub(g, all(near(x, unit[k]) for x, k in
                             zip(tdc, ("F", "G", "H"))),
                      "TDD Cyber carries its overhead share (%s)" % tdc)
             zero = []
-            for lab in NOSHARE:
-                for k in ("F", "G", "H"):
+            for lab in COE_ROWS:
+                for k in ("F", "G"):
                     x = lo.get(lab, k)
                     if x is None or abs(x) > TOL:
                         zero.append("%s!%s=%s" % (lab, k, x))
+            for k in ("F", "G", "H"):
+                x = lo.get("EGI", k)
+                if x is None or abs(x) > TOL:
+                    zero.append("EGI!%s=%s" % (k, x))
             gate.sub(g, not zero,
-                     "the COEs and EGI carry no share: %d off %s"
-                     % (len(zero), zero[:4]))
+                     "the COEs carry no BP or DA share and EGI carries none "
+                     "of the three: %d off %s" % (len(zero), zero[:4]))
             for k, pot in (("F", bp_pot), ("G", da_pot), ("H", gm_cost)):
                 tot = sum(lo.get(lab, k) or 0 for lab in lo.labels)
                 gate.sub(g, near(tot, pot),
@@ -2075,24 +2343,102 @@ def main(argv):
     # =================================================================== I EGI
     g = gate.group("I", "EGI exclusion")
     try:
-        egi_squads = {k for k in funded if norm(k).startswith("egi")}
-        egi_rows = [r for r in led
-                    if norm(canon_squad(squad_of.get(r, ""),
-                                        "%s | %s" % (name_of.get(r),
-                                                     title_of.get(r))))
-                    in {norm(x) for x in egi_squads}
-                    or norm(home_led.get(r) or mtab_of.get(r)) == "egi"]
-        stray = [(r, name_of[r], role_by_led[r][0]) for r in egi_rows
-                 if r in role_by_led
-                 and not role_by_led[r][0].startswith("2.14")]
-        gate.sub(g, not stray,
-                 "every EGI person sits on the EGI tab: %d elsewhere %s"
-                 % (len(stray), stray[:4]))
+        # the slice is whatever his Platform column marks EGI, never a squad
+        # name: the squad-named ones plus the roles sitting inside squads that
+        # do carry a support percentage
+        gate.sub(g, len(egi_led) > 0,
+                 "the EGI slice comes off his Platform column: %d roles, "
+                 "%.6f m after levers" % (len(egi_led), egi_total))
+        named = [r for r in egi_led
+                 if norm(canon_squad(squad_of.get(r, ""),
+                                     "%s | %s" % (name_of.get(r),
+                                                  title_of.get(r))
+                                     )).startswith("egi")]
+        gate.note(g, "%d of them carry an EGI squad name, %d sit inside other "
+                  "squads (%s)"
+                  % (len(named), len(egi_led) - len(named),
+                     ", ".join(sorted({squad_of.get(r, "")
+                                       for r in egi_led
+                                       if r not in named}))))
+        online = [(name_of[r], ovh_of[r]) for r in egi_led
+                  if ovh_of.get(r) in ovh_labels]
+        gate.sub(g, not online,
+                 "no Platform=EGI role carries an overhead line: %d %s"
+                 % (len(online), online[:4]))
         potnames = [r for r in line_rows("Business Partner")
-                    + line_rows("Domain Architect") if r in egi_rows]
+                    + line_rows("Domain Architect") if r in egi_led]
         gate.sub(g, not potnames,
-                 "no EGI person inside the BP or DA pots: %d %s"
+                 "no Platform=EGI role sits in the BP or DA pots: %d %s"
                  % (len(potnames), [name_of[r] for r in potnames[:4]]))
+        # none of them may reach a support base: the row's E is rebuilt on the
+        # squad cost less its EGI people, which is what the model must hold
+        ebad = []
+        for lab in LROWS:
+            want = exp.get(lab, {}).get("E")
+            got = lo.get(lab, "E") if lo else None
+            if want is None or got is None:
+                continue
+            if abs(got - want) > TOL:
+                ebad.append("%s E %s against the EGI-excluded base %.6f"
+                            % (lab, got, want))
+        gate.sub(g, not ebad,
+                 "no Platform=EGI cost inside any support base: %d off %s"
+                 % (len(ebad), ebad[:3]))
+        gate.sub(g, near(sum(egi_tab.values()), egi_total, TOLC),
+                 "the slice adds up across the tabs it sits on: %.6f"
+                 % egi_total)
+        gate.note(g, "the slice by tab, at the role rows' own cost after "
+                  "levers: %s"
+                  % ", ".join("%s %.6f" % (k.split()[0], egi_tab[k])
+                              for k in sorted(egi_tab)))
+        # a grid row funded outside in full has to be named in the Lists
+        # funded table, or nothing downstream knows it is funded
+        unnamed = []
+        for t in tabs2:
+            for rr, lab2 in T[t].grid:
+                p_ = num(T[t].wv.cell(rr, 16).value) or 0.0
+                s_ = num(T[t].wv.cell(rr, 19).value) or 0.0
+                if s_ <= TOL or abs(p_ - s_) > TOL:
+                    continue
+                if norm(lab2) not in {norm(k) for k in funded}:
+                    unnamed.append("%s %s (%.6f funded outside)"
+                                   % (t, lab2, s_))
+        gate.sub(g, not unnamed,
+                 "every grid row funded outside in full is named in the Lists "
+                 "funded table: %d missing %s" % (len(unnamed), unnamed[:3]))
+        # nothing may be counted in both D and R: whatever a row books as
+        # funded outside must be left out of the amount it notes from 1.x
+        dr, drnote = [], []
+        by1x = collections.defaultdict(list)
+        for lab in LROWS:
+            if SRC1X.get(lab):
+                by1x[SRC1X[lab]].append(lab)
+        for p1, labs in sorted(by1x.items()):
+            t1 = tabname(p1)
+            if t1 is None or lo is None:
+                continue
+            named = funding_amounts(f[t1], v[t1])
+            applied = next((x for lab2, x in named
+                            if norm(lab2) == "total applied"), None)
+            egi_line = sum(x for lab2, x in named if "egi" in norm(lab2))
+            rsum = sum(lo.get(lab, "R") or 0 for lab in labs)
+            dsum = sum(lo.get(lab, "D") or 0 for lab in labs)
+            if applied is None:
+                continue
+            if rsum > applied - egi_line + TOLC:
+                dr.append("%s: R %.6f against its applied total %.6f less the "
+                          "EGI funding line %.6f" % (p1, rsum, applied,
+                                                     egi_line))
+            left_out = applied - rsum
+            if abs(left_out - dsum) > 1e-3:
+                drnote.append("%s leaves %.6f out of R against D %.6f"
+                              % (p1, left_out, dsum))
+        gate.sub(g, not dr,
+                 "no EGI funding line is counted in both D and R: %d off %s"
+                 % (len(dr), dr[:3]))
+        gate.sub(g, not drnote,
+                 "what each row leaves out of R matches what its D carries: "
+                 "%d off %s" % (len(drnote), drnote[:3]))
         if lo is not None and "EGI" in lo.rows:
             nz = []
             for k in ("E", "F", "G", "H", "I", "K", "L"):
@@ -2197,24 +2543,20 @@ def main(argv):
             gate.sub(g, not qbad,
                      "Q equals C less D less L and S equals Q less R on every "
                      "row: %d off %s" % (len(qbad), qbad[:4]))
-            # the white control
-            found = []
-            for row in lo.wf.iter_rows():
-                for cl in row:
-                    if isinstance(cl.value, str) \
-                            and cl.value.startswith("Control"):
-                        val = None
-                        for cc in range(cl.column + 1, lo.wf.max_column + 1):
-                            x = num(lo.wv.cell(cl.row, cc).value)
-                            if x is not None:
-                                val = x
-                                break
-                        col = cl.font.color
-                        found.append((cl.coordinate, val,
-                                      col is not None and col.rgb == WHITE))
-            gate.sub(g, bool(found) and all(
-                x is not None and abs(x) <= TOL and w for _, x, w in found),
-                "the white reconciliation control reads 0: %s" % found[:3])
+            # the control rows are gone, so the reconciliation is asserted
+            # from the columns themselves rather than read off a control cell
+            ctot2 = sum(lo.get(lab, "C") or 0 for lab in lo.labels)
+            gate.sub(g, near(ctot2, role_basis_total),
+                     "the C column rebuilt row by row against the role basis: "
+                     "%.6f against %.6f" % (ctot2, role_basis_total))
+            ktot = num(lo.wv.cell(lo.total_r, COL["K"]).value)
+            kparts = sum((lo.get(lab, "F") or 0) + (lo.get(lab, "G") or 0)
+                         + (lo.get(lab, "H") or 0)
+                         + (lo.get(lab, "I") or 0) * (lo.get(lab, "J") or 0)
+                         for lab in lo.labels)
+            gate.sub(g, near(ktot, kparts),
+                     "the K total is the shares plus the toggled overheads: "
+                     "%s against %.6f" % (ktot, kparts))
     except Exception as e:
         gate.sub(g, False, "exception: %r" % e)
 
@@ -2248,22 +2590,31 @@ def main(argv):
             # the AU spend, NZ spend, Total and Variance block sits right of
             # the 'Total portfolio cost charged to TDD' column
             after_l = lo2.cols.get(HEADERS[12], 0)
-            au_c = nz_c = tot_c = var_c = None
+            au_c = nz_c = tot_c = None
+            aub_c = nzb_c = auo_c = nzo_c = None
             for c in range(after_l + 1, lo2.wf.max_column + 1):
                 k = norm(lo2.wf.cell(lo2.hdr_r, c).value)
                 if not k:
                     continue
-                if au_c is None and re.match(r"^au\b", k):
+                if k.startswith("au spend") and au_c is None:
                     au_c = c
-                elif nz_c is None and re.match(r"^nz\b", k):
+                elif k.startswith("nz spend") and nz_c is None:
                     nz_c = c
-                elif tot_c is None and re.match(r"^total\b", k):
+                elif re.match(r"^total\b", k) and tot_c is None:
                     tot_c = c
-                elif var_c is None and re.match(r"^variance\b", k):
-                    var_c = c
-            gate.sub(g, None not in (au_c, nz_c, tot_c, var_c),
-                     "the AU spend, NZ spend, Total and Variance columns are "
-                     "there (%s %s %s %s)" % (au_c, nz_c, tot_c, var_c))
+                elif k.startswith("au budget") and aub_c is None:
+                    aub_c = c
+                elif k.startswith("nz budget") and nzb_c is None:
+                    nzb_c = c
+                elif k.startswith("au over") and auo_c is None:
+                    auo_c = c
+                elif k.startswith("nz over") and nzo_c is None:
+                    nzo_c = c
+            gate.sub(g, None not in (au_c, nz_c, tot_c, aub_c, nzb_c,
+                                     auo_c, nzo_c),
+                     "the AU and NZ spend, Total, the two budgets and the two "
+                     "over/(under) columns are there (%s %s %s %s %s %s %s)"
+                     % (au_c, nz_c, tot_c, aub_c, nzb_c, auo_c, nzo_c))
             if None not in (au_c, nz_c, tot_c):
                 bad = []
                 for lab in LROWS:
@@ -2335,25 +2686,35 @@ def main(argv):
                               "overhead people left once the pot is out, "
                               "split on the whole overhead group instead: %s"
                               % fb)
-            if var_c and None not in (tot_c,):
-                bad = []
+            if None not in (au_c, nz_c, aub_c, nzb_c, auo_c, nzo_c):
+                bad, sbad = [], []
                 for lab in LROWS:
                     if lab not in lo2.rows:
                         continue
                     r = lo2.rows[lab]
-                    t_ = num(lo2.wv.cell(r, tot_c).value)
-                    var = num(lo2.wv.cell(r, var_c).value)
                     b = exp.get(lab, {})
-                    bud = (b.get("M_au") or 0) + (b.get("M_nz") or 0)
-                    if None in (t_, var):
-                        bad.append("%s missing Total or Variance" % lab)
-                    elif abs(var - (t_ - bud)) > TOL:
-                        bad.append("%s Variance %.6f against Total less the "
-                                   "0.2 AU and NZ budgets %.6f"
-                                   % (lab, var, t_ - bud))
+                    for side, sc, bc, oc, want_b in (
+                            ("AU", au_c, aub_c, auo_c, b.get("M_au")),
+                            ("NZ", nz_c, nzb_c, nzo_c, b.get("M_nz"))):
+                        spend = num(lo2.wv.cell(r, sc).value)
+                        bud = num(lo2.wv.cell(r, bc).value)
+                        over = num(lo2.wv.cell(r, oc).value)
+                        if want_b is not None and not near(bud, want_b):
+                            bad.append("%s %s budget %s against 0.2's %s"
+                                       % (lab, side, bud, want_b))
+                        if None in (spend, bud, over):
+                            continue
+                        if abs(over - (spend - bud)) > TOL:
+                            sbad.append("%s %s over/(under) %.6f against "
+                                        "spend less budget %.6f"
+                                        % (lab, side, over, spend - bud))
                 gate.sub(g, not bad,
-                         "Variance is Total less the 0.2 AU plus NZ budgets: "
-                         "%d off %s" % (len(bad), bad[:4]))
+                         "the AU and NZ budgets read 0.2 row for row: %d off "
+                         "%s" % (len(bad), bad[:3]))
+                gate.sub(g, not sbad,
+                         "each side's over/(under) is its spend less its "
+                         "budget, positive when over: %d off %s"
+                         % (len(sbad), sbad[:3]))
             blob = " ".join(txt(cl.value) for row in lo2.wf.iter_rows()
                             for cl in row if isinstance(cl.value, str))
             gate.sub(g, re.search(r"(country|AU|NZ)", blob) is not None
@@ -2537,42 +2898,154 @@ def main(argv):
     # ============================================================== N controls
     g = gate.group("N", "controls")
     try:
-        ctrl_bad, ctrl_n = [], 0
-        for ws in v.worksheets:
+        # his ruling: the control rows and the 4.0 tab go. Nothing may be left
+        # of them, and every reconciliation they used to prove is asserted
+        # here from the underlying numbers instead.
+        ctrl = ["%s!%s" % (ws.title, cl.coordinate) for ws in f.worksheets
+                for row in ws.iter_rows() for cl in row
+                if isinstance(cl.value, str)
+                and norm(cl.value).startswith("control")]
+        gate.sub(g, not ctrl, "no control row left anywhere: %d %s"
+                 % (len(ctrl), ctrl[:5]))
+        qa = [t for t in sheets if t.startswith("4.0")]
+        gate.sub(g, not qa, "the 4.0 Data QA tab is gone: %s" % qa)
+        dangling = []
+        for ws in f.worksheets:
             for row in ws.iter_rows():
                 for cl in row:
-                    if not (isinstance(cl.value, str)
-                            and cl.value.startswith("Control - ")):
+                    if isinstance(cl.value, str) and cl.value.startswith("=") \
+                            and re.search(r"'?4\.0[^'!]*'?!", cl.value):
+                        dangling.append("%s!%s" % (ws.title, cl.coordinate))
+        gate.sub(g, not dangling, "nothing still points at 4.0: %d %s"
+                 % (len(dangling), dangling[:4]))
+
+        # ---- the reconciliations the controls used to prove
+        tabsum = sum(x or 0 for x in tab_after.values())
+        gate.sub(g, near(role_basis_total, tabsum + (uplift_charge or 0)),
+                 "every cost represented: the role mapping at %.6f against "
+                 "the tab totals plus the part-charge %.6f"
+                 % (role_basis_total, tabsum + (uplift_charge or 0)))
+        if lo is not None and lo.total_r:
+            fsum = sum(lo.get(lab, "F") or 0 for lab in lo.labels)
+            gsum = sum(lo.get(lab, "G") or 0 for lab in lo.labels)
+            gate.sub(g, near(fsum, bp_pot) and near(gsum, da_pot),
+                     "each pot shared exactly once: F %.6f against the BP pot "
+                     "%.6f, G %.6f against the DA pot %.6f"
+                     % (fsum, bp_pot or 0, gsum, da_pot or 0))
+            idbad = []
+            for lab in lo.labels:
+                c_, d_, l_, q_ = (lo.get(lab, "C"), lo.get(lab, "D"),
+                                  lo.get(lab, "L"), lo.get(lab, "Q"))
+                if None not in (c_, d_, l_, q_) \
+                        and abs(c_ - (d_ + l_ + q_)) > TOL:
+                    idbad.append("%s C %.6f against D+L+Q %.6f"
+                                 % (lab, c_, d_ + l_ + q_))
+                e_, ff, gg, hh, ii, jj = (lo.get(lab, k) or 0 for k in
+                                          ("E", "F", "G", "H", "I", "J"))
+                if l_ is not None and abs(
+                        l_ - (e_ + ff + gg + hh + ii * jj)) > TOL:
+                    idbad.append("%s L %.6f against E+F+G+H+IxJ %.6f"
+                                 % (lab, l_, e_ + ff + gg + hh + ii * jj))
+                r_, s_ = lo.get(lab, "R"), lo.get(lab, "S")
+                if None not in (q_, r_, s_) and abs(s_ - (q_ - r_)) > TOL:
+                    idbad.append("%s S %.6f against Q-R %.6f" % (lab, s_,
+                                                                 q_ - r_))
+            gate.sub(g, not idbad,
+                     "C = D + L + Q, L = E + F + G + H + I x J and S = Q - R "
+                     "on every row: %d off %s" % (len(idbad), idbad[:3]))
+        # the 2.x block-to-grid tie, section by section and tab by tab
+        blk = []
+        for t in tabs2:
+            tb = T[t]
+            for sect, ros in tb.sections.items():
+                got = tb.gval(sect, 19)
+                want = sum(ro["G"] or 0 for ro in ros) / 1e6
+                if got is not None and abs(got - want) > TOL:
+                    blk.append("%s %s grid %.6f against its roles %.6f"
+                               % (t, sect, got, want))
+            tot = tb.total(19)
+            want = sum(ro["G"] or 0 for ro in tb.roles) / 1e6
+            if tot is not None and abs(tot - want) > TOL:
+                blk.append("%s total %.6f against its roles %.6f"
+                           % (t, tot, want))
+        gate.sub(g, not blk,
+                 "every 2.x grid line and total ties to its own role rows: "
+                 "%d off %s" % (len(blk), blk[:3]))
+        # 3.4's sections against the role mapping
+        t34 = tabname("3.4")
+        if t34:
+            w34 = v[t34]
+            bad34, n34 = [], 0
+            for r in range(5, w34.max_row + 1):
+                sect = txt(w34.cell(r, 3).value)
+                cost = num(w34.cell(r, 7).value)
+                if not sect or cost is None:
+                    continue
+                # a section name recurs across tabs now that the EGI squads
+                # are back in the portfolios, so the comparison is scoped to
+                # the tab the section's own group names
+                grp = txt(w34.cell(r, 2).value)
+                t2 = tabname(HOME2TAB.get(grp, "")) if grp in HOME2TAB else None
+                if t2 is None or t2 not in T:
+                    continue
+                ros = T[t2].sections.get(sect)
+                if not ros:
+                    continue
+                n34 += 1
+                want = 0.0
+                for ro in ros:
+                    x = ro["ledger"]
+                    if x is None:
                         continue
-                    ctrl_n += 1
-                    for cc in range(cl.column + 1, ws.max_column + 1):
-                        x = num(ws.cell(cl.row, cc).value)
-                        if x is not None:
-                            if abs(x) > TOL:
-                                ctrl_bad.append("%s!%s=%s"
-                                                % (ws.title, cl.coordinate, x))
+                    base = eff_of.get(x)
+                    if base is None:
+                        base = full_of[x] * (fte_of[x]
+                                             if (fte_of[x] or 1) < 1 else 1)
+                    want += base
+                want /= 1e6
+                if abs(cost - want) > 1e-4:
+                    bad34.append("%s on %s: %s against its roles %.6f"
+                                 % (sect, t2, cost, want))
+            gate.sub(g, n34 > 0 and not bad34,
+                     "3.4's %d sections tie to the role mapping: %d off %s"
+                     % (n34, len(bad34), bad34[:3]))
+        # 3.1 and 3.3 totals
+        t31, t33 = tabname("3.1"), tabname("3.3")
+        if t31:
+            w31 = v[t31]
+            col31 = None
+            for c in range(3, w31.max_column + 1):
+                if txt(w31.cell(4, c).value).startswith("Cost after levers"):
+                    col31 = c
+            rows31 = {}
+            for r in range(5, w31.max_row + 1):
+                b = txt(w31.cell(r, 2).value)
+                x = num(w31.cell(r, col31).value) if col31 else None
+                if b and x is not None:
+                    rows31.setdefault(b, x)
+            tot31 = None
+            for b, x in rows31.items():
+                if b.startswith("TDD total"):
+                    tot31 = x
+            parts = sum(x for b, x in rows31.items()
+                        if not b.startswith(("TDD total", "TDD-funded",
+                                             "GM roles", "Total TDD")))
+            gate.sub(g, tot31 is not None and near(tot31, parts, 1e-4),
+                     "3.1's portfolio lines sum to its TDD total: %.6f "
+                     "against %s" % (parts, tot31))
+        if t33:
+            w33 = v[t33]
+            tot33 = None
+            for r in range(1, w33.max_row + 1):
+                if txt(w33.cell(r, 2).value).lower().startswith("total"):
+                    for c in range(13, 17):
+                        x = num(w33.cell(r, c).value)
+                        if x is not None and x > 50:
+                            tot33 = x
                             break
-        gate.sub(g, ctrl_n > 10 and not ctrl_bad,
-                 "every control row 0 (%d found): %d off %s"
-                 % (ctrl_n, len(ctrl_bad), ctrl_bad[:4]))
-        if "4.0 Data QA" in sheets:
-            q = v["4.0 Data QA"]
-            qa_n, qa_bad, qa_meta = 0, [], None
-            for r in range(4, q.max_row + 1):
-                x = num(q.cell(r, 5).value)
-                if x is None:
-                    continue
-                if txt(q.cell(r, 2).value) == "Checks failing":
-                    qa_meta = x
-                    continue
-                if q.cell(r, 3).value is None and q.cell(r, 4).value is None:
-                    continue
-                qa_n += 1
-                if abs(x) > TOL:
-                    qa_bad.append((r, txt(q.cell(r, 2).value)[:48], x))
-            gate.sub(g, qa_n >= 8 and not qa_bad,
-                     "4.0 Data QA all zero (%d checks, rollup %s): %d off %s"
-                     % (qa_n, qa_meta, len(qa_bad), qa_bad[:4]))
+            gate.sub(g, tot33 is None or near(tot33, tabsum, 1e-3),
+                     "3.3's total against the tab totals: %s against %.6f"
+                     % (tot33, tabsum))
         # his raw block carries typed #N/A text of his own (A31, C31, S525 in
         # his file); his words are untouchable, so the error scan covers the
         # helper block and every other tab, never A2:AC of the raw block
@@ -2614,25 +3087,226 @@ def main(argv):
         gate.sub(g, near(n13, -(da_pot or 0)),
                  "2.13 nets the DA pot out: %s against %.6f"
                  % (n13, -(da_pot or 0)))
-        t15 = tabname("2.15")
-        S15 = T[t15].total(19) if t15 in T else None
-        want = None if (S15 is None or uplift_fund is None) \
-            else S15 - uplift_fund
-        b = cfg_lookup("TDD Cyber")
-        got = cfg_spend.get(b) if b else None
-        gate.sub(g, near(got, want),
-                 "0.2 TDD Cyber spend %s against 2.15 after levers less the "
-                 "Lists uplift funding (%s less %s)" % (got, S15, uplift_fund))
+        # 0.2's spend column now reads 3.5's charge column row for row, so the
+        # invariant is that identity, not the old 2.15-less-uplift basis
+        sbad = []
+        for lab in LROWS:
+            b = exp.get(lab, {}).get("budrow")
+            l_ = lo.get(lab, "L") if lo else None
+            got = cfg_spend.get(b) if b else None
+            if b is None or l_ is None:
+                continue
+            if got is None or abs(got - l_) > TOLC:
+                sbad.append("%s: 0.2 spend %s against 3.5 charge %.9f"
+                            % (b, got, l_))
+        gate.sub(g, not sbad,
+                 "0.2's spend column equals 3.5's charge column on every row "
+                 "at 1e-9: %d off %s" % (len(sbad), sbad[:3]))
         f26 = num(cfgv.cell(cfg_total_r, 6).value) if cfg_total_r else None
         colsum = sum(x for x in cfg_spend.values() if x is not None)
-        gate.sub(g, near(f26, colsum),
-                 "0.2 spend total %s against its column %.6f" % (f26, colsum))
+        ltot = num(lo.wv.cell(lo.total_r, COL["L"]).value) \
+            if (lo and lo.total_r) else None
+        gate.sub(g, near(f26, colsum) and near(f26, ltot, TOLC),
+                 "0.2's spend total %s is its own column %.6f and 3.5's "
+                 "charge total %s" % (f26, colsum, ltot))
         b22 = None
         for r, lab in cfg_rows:
             if r == 22:
                 b22 = lab
         gate.sub(g, b22 is None or "TDD Data" not in b22,
                  "0.2 B22 relabelled off TDD Data (%r)" % b22)
+
+        # ---- one sign convention: over budget reads positive everywhere
+        vbad = []
+        for r, b in cfg_rows:
+            e_, f_, gv = (num(cfgv.cell(r, 5).value), num(cfgv.cell(r, 6).value),
+                          num(cfgv.cell(r, 7).value))
+            if None in (e_, f_) or gv is None:
+                continue
+            if abs(gv - (f_ - e_)) > TOLC:
+                vbad.append("0.2 %s over/(under) %s against spend less "
+                            "allocation %.9f" % (b, gv, f_ - e_))
+        gate.sub(g, not vbad,
+                 "0.2's over/(under) column is spend less allocation, so over "
+                 "reads positive: %d off %s" % (len(vbad), vbad[:3]))
+        sign = []
+        for t in [x for x in sheets if x.startswith("1.")]:
+            wf1, wv1 = f[t], v[t]
+            lines = {}
+            for r in range(4, 14):
+                lines[norm(wv1.cell(r, 8).value or wf1.cell(r, 8).value)] = r
+            au_r = lines.get("au over/(under) budget ($m)")
+            nz_r = lines.get("nz over/(under) budget ($m)")
+            tdd_r = lines.get("tdd over/(under) budget ($m)")
+            if None in (au_r, nz_r, tdd_r):
+                sign.append("%s is missing an over/(under) line" % t)
+                continue
+            au_b = num(wv1.cell(au_r - 2, 9).value)
+            nz_b = num(wv1.cell(nz_r - 2, 9).value)
+            au_s, nz_s = num(wv1.cell(9, 3).value), num(wv1.cell(9, 4).value)
+            for lab2, got, want in (
+                    ("AU", num(wv1.cell(au_r, 9).value),
+                     None if None in (au_s, au_b) else au_s - au_b),
+                    ("NZ", num(wv1.cell(nz_r, 9).value),
+                     None if None in (nz_s, nz_b) else nz_s - nz_b)):
+                if want is not None and (got is None
+                                         or abs(got - want) > 1e-6):
+                    sign.append("%s %s over/(under) %s against spend less "
+                                "budget %.6f" % (t, lab2, got, want))
+            tdd = num(wv1.cell(tdd_r, 9).value)
+            parts = (num(wv1.cell(au_r, 9).value) or 0) \
+                + (num(wv1.cell(nz_r, 9).value) or 0)
+            if tdd is None or abs(tdd - parts) > 1e-6:
+                sign.append("%s TDD over/(under) %s against its AU and NZ "
+                            "lines %.6f" % (t, tdd, parts))
+        gate.sub(g, not sign,
+                 "every 1.x tab shows over budget as spend less budget, "
+                 "positive when over: %d off %s" % (len(sign), sign[:3]))
+
+        # ---- the basis labels on 3.1, 3.3 and 3.4, and their live figures
+        netted = (role_basis_total - (bp_pot or 0) - (da_pot or 0)
+                  - (uplift_charge or 0))
+        want3 = sorted(round(x, 2) for x in (netted, tabsum,
+                                             role_basis_total))
+        for pref, words in (("3.1", "netted out"), ("3.3", "left in"),
+                            ("3.4", "before the vacancy levers")):
+            t = tabname(pref)
+            if t is None:
+                gate.sub(g, False, "%s missing" % pref)
+                continue
+            hit = None
+            for row in v[t].iter_rows():
+                for cl in row:
+                    if isinstance(cl.value, str) and words in cl.value:
+                        hit = (cl.coordinate, cl.value)
+                        break
+            gate.sub(g, hit is not None,
+                     "%s states its basis in words (%r)" % (pref, words))
+            if hit is None:
+                continue
+            live = isinstance(f[t][hit[0]].value, str) \
+                and f[t][hit[0]].value.startswith("=")
+            gate.sub(g, live, "%s's basis line is live, not typed" % pref)
+            if pref in ("3.1", "3.3"):
+                got3 = sorted(float(x) for x in
+                              re.findall(r"(\d+\.\d\d)m", hit[1])[:3])
+                gate.sub(g, len(got3) == 3
+                         and all(abs(a - b) <= 0.005
+                                 for a, b in zip(got3, want3)),
+                         "%s names all three totals: %s against %s"
+                         % (pref, got3, want3))
+
+        # ---- one EGI row per lever tab, where the tab has EGI people
+        egibad = []
+        for t in tabs2:
+            rows = [lab2 for _, lab2 in T[t].grid
+                    if norm(lab2).startswith("egi")]
+            has = egi_tab.get(t, 0.0) > 0
+            if has and len(rows) != 1:
+                egibad.append("%s has %d EGI grid rows for %.6f m of EGI "
+                              "people" % (t, len(rows), egi_tab.get(t, 0.0)))
+            if not has and rows:
+                egibad.append("%s carries %s with no EGI people" % (t, rows))
+        gate.sub(g, not egibad,
+                 "one EGI row on each lever tab that has EGI people, none "
+                 "where it has not: %d off %s" % (len(egibad), egibad[:3]))
+    except Exception as e:
+        gate.sub(g, False, "exception: %r" % e)
+
+    # ========================================================== O 1.x family
+    g = gate.group("O", "1.x family")
+    try:
+        fam = [t for t in sheets if re.match(r"^1\.\d", t)]
+        gate.sub(g, len(fam) >= 10, "the 1.x family is here: %d tabs" % len(fam))
+        # the shape is taken from the family itself, never pinned: whatever
+        # the majority carries is the shape every sibling has to match
+        def shape_of(t):
+            wf1, wv1 = f[t], v[t]
+            blk = tuple(txt(wv1.cell(r, 2).value or wf1.cell(r, 2).value)
+                        for r in range(4, 10))
+            hdr1 = tuple(txt(wv1.cell(5, c).value or wf1.cell(5, c).value)
+                         for c in range(3, 8))
+            bud = tuple(txt(wv1.cell(r, 8).value or wf1.cell(r, 8).value)
+                        for r in range(4, 11))
+            return blk, hdr1, bud
+
+        shapes = {t: shape_of(t) for t in fam}
+        for i, name in enumerate(("summary block rows B4:B9",
+                                  "block column headers C5:G5",
+                                  "the seven budget lines H4:H10")):
+            counts = collections.Counter(s[i] for s in shapes.values())
+            best, n = counts.most_common(1)[0]
+            off = [t for t in fam if shapes[t][i] != best]
+            gate.sub(g, not off,
+                     "every 1.x tab carries the same %s (%d of %d agree): %s"
+                     % (name, n, len(fam), off[:4]))
+        c9 = [t for t in fam if num(v[t].cell(9, 3).value) is None]
+        gate.sub(g, not c9,
+                 "Total Cost sits at C9 on every 1.x tab: %d without %s"
+                 % (len(c9), c9[:4]))
+        # the funding table: the ten that draw a budget line share one header
+        ftab = {}
+        for t in fam:
+            wf1, wv1 = f[t], v[t]
+            for r in range(4, 30):
+                if norm(wv1.cell(r, 8).value or wf1.cell(r, 8).value) \
+                        == "budget line":
+                    ftab[t] = tuple(
+                        txt(wv1.cell(r, c).value or wf1.cell(r, c).value)
+                        for c in range(8, 12))
+                    break
+        counts = collections.Counter(ftab.values())
+        if counts:
+            best, n = counts.most_common(1)[0]
+            off = [t for t in ftab if ftab[t] != best]
+            gate.sub(g, not off,
+                     "the funding table header is the same on the %d tabs "
+                     "that carry one: %s" % (len(ftab), off[:4]))
+        missing = [t for t in fam if t not in ftab]
+        gate.note(g, "no budget-line funding table on %s (its funding is its "
+                  "own)" % (missing or "none"))
+        # the fund-to-total block: one label over it and one on its total
+        # line, both taken from the family majority. The block sits at a
+        # different row on every tab, so it is anchored on its TDD Variance
+        # line rather than on a row number.
+        pair, noanchor = {}, []
+        for t in fam:
+            wf1, wv1 = f[t], v[t]
+
+            def lab_at(r):
+                return txt(wv1.cell(r, 2).value or wf1.cell(r, 2).value)
+
+            anchor = None
+            for r in range(10, 31):
+                if norm(lab_at(r)).startswith("tdd variance"):
+                    anchor = r
+                    break
+            if anchor is None:
+                noanchor.append(t)
+                continue
+            over = ""
+            for r in range(anchor - 1, anchor - 4, -1):
+                if lab_at(r):
+                    over = lab_at(r)
+                    break
+            ontot = ""
+            for r in range(anchor + 1, anchor + 6):
+                if not lab_at(r):
+                    break              # the block ends at the first gap
+                ontot = lab_at(r)
+            pair[t] = (over, ontot)
+        gate.sub(g, not noanchor,
+                 "every 1.x tab carries the fund-to-total block: %d without "
+                 "one %s" % (len(noanchor), noanchor[:3]))
+        if pair:
+            for i, name in enumerate(("over its block", "on its total line")):
+                counts = collections.Counter(p[i] for p in pair.values())
+                best, n = counts.most_common(1)[0]
+                off = ["%s reads %r" % (t, pair[t][i]) for t in pair
+                       if pair[t][i] != best]
+                gate.sub(g, not off,
+                         "every 1.x tab carries the same label %s, %r (%d of "
+                         "%d agree): %s" % (name, best, n, len(pair), off[:4]))
     except Exception as e:
         gate.sub(g, False, "exception: %r" % e)
 
@@ -2716,13 +3390,17 @@ def main(argv):
             rr = [r for r, b in cfg_rows if b == crso][0]
             gv = num(cfgv.cell(rr, 7).value)
             p("dial 3: COE Cyber against its allocation ($m over)",
-              "%s" % (None if gv is None else round(-gv, 6)))
+              "%s" % (None if gv is None else round(gv, 6)))
         if cfg_var_r:
             p("dial 4: the unallocated slice of the %.2f ($m)" % L_BUDGET,
               "%s" % num(cfgv.cell(cfg_var_r, 5).value))
         egi_t = tabname("2.14")
         egi_cost = T[egi_t].total(19) if egi_t in T else None
-        p("EGI excluded from the overhead engine ($m)", egi_cost)
+        p("EGI slice off his Platform column (roles / $m)",
+          "%d / %.6f" % (len(egi_led), egi_total))
+        for t in sorted(egi_tab):
+            p("  %s" % t, "%.6f" % egi_tab[t])
+        p("the EGI tab itself ($m)", egi_cost)
         if lo is not None:
             p("EGI row C / D / Q ($m)",
               "%s / %s / %s" % (lo.get("EGI", "C"), lo.get("EGI", "D"),

@@ -104,8 +104,9 @@ LEVER_FACTOR = {"filled": 1.0, "hire": 1.0, "hold": 0.0, "offshore": 0.4}
 SETTLED_TM = "shane ker"
 SETTLED_NOT_HOT = "ed tacey"
 REVERSALS = {
-    "viren khatri": ("EGI", "his new row: Portfolio EGI Integration, squad "
-                            "EGI TDD"),
+    "viren khatri": ("TDD Group Functions", "his new row: squad EGI TDD, and "
+                            "an EGI squad names the portfolio it belongs "
+                            "to, so his cost shows there and nets out"),
     "ed tacey": ("Customer", "his new row: Squad Leadership, Head of AI "
                              "enablement"),
     "sarsha tanner": ("COE BP&T", "fills Head of Transformation"),
@@ -386,6 +387,22 @@ def derive_homing(master_rows, overrides, rep):
                                   m["squad"], tab))
         if tab is None:
             unmapped.append((m["row"], m["name"], m["port"], m["div"]))
+        # an EGI squad that names a portfolio homes to that portfolio: his
+        # 05/08 ruling that a portfolio must show its own EGI cost and net it
+        # out. Only the plain EGI squad stays on the EGI tab.
+        sq = norm(m["squad"])
+        if sq.startswith("egi") and sq != "egi":
+            tail = sq[3:].strip()
+            hit = PORT_MAP.get(tail) or DIV_MAP.get(tail)
+            if hit is None:
+                for k, val in list(PORT_MAP.items()) + list(DIV_MAP.items()):
+                    if norm(val) == tail or k == tail:
+                        hit = val
+                        break
+            if hit is None and tail in ("tdd",):
+                hit = "TDD Group Functions"
+            if hit:
+                tab = hit
         # the two funded cyber squads override everything
         if norm(m["squad"]) in CYBER_SQUADS:
             tab = "TDD Cyber"
