@@ -1808,3 +1808,7 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   priced at the model's after-lever run rate divided by 12 times the months
   left, with per-vacancy hire-month overrides. All of it cream typed inputs.
   Month boundaries still to come from Lee.
+
+## D127 - 06/08: the cyber split budgets
+- Cyber COE: 1.0 AU and 0.5 NZ. Service Ops COE: 0.5 AU and 0 NZ. Together
+  they equal the old line's 1.5 AU / 0.5 NZ, so the 0.2 total does not move.
