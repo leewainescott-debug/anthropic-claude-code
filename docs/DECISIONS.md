@@ -1841,3 +1841,22 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   archetype-only squad on 1.2 (typed 100% support, 0.32 planned cost, zero
   roles in the ledger), so it has no 2.2 grid row for its percentage to move
   to. It stays typed on 1.2 until Lee rules where it should live.
+
+## D130 - 09/08: FY26 forecast v1 rejected as fabricated; corrected shape
+- What was wrong with v1: it allocated Finance's leader P&L lines to model
+  portfolios Finance never cuts them by (invented actuals for squads that do
+  not exist), and it took budget from the FY27 model's allocation table
+  instead of Finance's own lights-on budgets. v1 is withdrawn.
+- The facts from Finance's file: lights on is reported at AU and NZ level
+  only. AU (TDD Corporate): FY26 budget 78.90, actuals to June 40.97, their
+  full-year forecast 79.31. NZ (Z-Energy): budget 52.23, actuals to June
+  26.46, forecast 53.47. Nothing gives a portfolio cut of actuals, so the
+  forecast never pre-fills one.
+- The shape Lee specified: Portfolio | Actuals to June, charged to lights on
+  ($m) | July to December forecast, one column per month. Actuals cells are
+  cream typed and sit empty until real numbers are typed. Each month is the
+  portfolio's FY charged to lights on divided by 12, formula-driven off the
+  model. Gross people cost shown against charged to lights on, the charge
+  always formula. Lee is sending an example; the rebuild waits for it.
+- Formatting forever: no italics anywhere in any model, no subheaders, no AI
+  look or feel, no made-up formulas to force a fit.

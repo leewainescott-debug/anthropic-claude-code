@@ -15,10 +15,23 @@
 - Sequencing (agreed): task 2 first (support % + budget tables move to the 2.x
   tabs, 1.x become formula views of them; archetype tables stay on 1.x), then
   the cyber split, then FY26.
-- FY26 forecast: actuals from Finance to June (July optional), split
-  charged-to-lights-on vs recharged, cut AU/NZ; remaining months at the
-  model's after-lever run rate /12 x months, per-vacancy hire-month overrides,
-  everything cream typed inputs. FY26 month boundaries: awaiting Lee.
+- FY26 forecast (corrected 09/08 after Lee rejected v1 as fabricated):
+  Finance reports lights on at AU and NZ level ONLY - their Presentation
+  sheet: AU (TDD Corporate) FY26 lights-on budget 78.90, actuals to June
+  40.97, their full-year forecast 79.31; NZ (Z-Energy) budget 52.23, actuals
+  26.46, forecast 53.47. The budget is FINANCE'S lights-on budget, never the
+  FY27 model's allocation table. NO portfolio/COE cut of actuals exists -
+  never allocate Finance lines to portfolios (v1 mapped their leader P&L
+  lines to portfolios = fabrication; v1 withdrawn, Lee told to bin it).
+  Layout Lee specified: Portfolio | Actuals to June, charged to lights on
+  ($m) | July...December forecast (one column per month). Actuals cells =
+  cream typed, EMPTY until real numbers are typed. Months = portfolio's FY
+  charged (3.5 L) / 12, formula-driven. Show FY gross people cost next to FY
+  charged to lights on, charge always formula never typed. Lee is sending an
+  example to lock the final shape - rebuild only after it lands.
+- FORMATTING FOREVER (Lee 09/08): no italics anywhere in any model, no
+  subheaders, no AI look or feel, no made-up formulas to force numbers to fit
+  an outlook. Mocks and built tabs alike.
 - Prompts for the in-model tool go in chat, never as files, unless Lee asks.
   Every prompt is written in FIRST PERSON, as if Lee drafted it himself —
   never refer to Lee in the third person inside a prompt. Prompts must be
