@@ -103,6 +103,14 @@
    "HIGH",
    "Ruled 06/08 on the audit questions.",
    "they should be egi funded. GM pot is 11. ent data should be offshore lever sure, but the cost shouldn't change with the dials."
+  ],
+  [
+   "DEC-25",
+   "Prompt drafting rules",
+   "Prompts for the in-model tool: first person as if Lee drafted them, fully self-contained with exact cells and expected numbers, no fixes beyond the brief, screenshot mock per build prompt.",
+   "RULED",
+   "Lee, 09/08.",
+   ""
   ]
  ],
  "build": [
@@ -168,6 +176,14 @@
    "CTRM is funded at a flat 3.800 while its roles cost 3.2218, so TDD funded reads (0.578). Decide whether to show it that way or net it.",
    "MEDIUM",
    "Mechanically right, reads odd.",
+   ""
+  ],
+  [
+   "BLD-23",
+   "1.2 Customer",
+   "Digital Support NZ is an archetype-only squad (100% support, 0.32 planned, no roles), so no 2.2 grid row exists for its Support % to move to in the wiring move. It stays typed on 1.2 G41 for now.",
+   "LOW",
+   "Needs a ruling: keep on 1.2, or add a 2.2 row when it gets roles.",
    ""
   ]
  ],

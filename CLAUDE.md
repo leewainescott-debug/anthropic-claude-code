@@ -20,6 +20,21 @@
   model's after-lever run rate /12 x months, per-vacancy hire-month overrides,
   everything cream typed inputs. FY26 month boundaries: awaiting Lee.
 - Prompts for the in-model tool go in chat, never as files, unless Lee asks.
+  Every prompt is written in FIRST PERSON, as if Lee drafted it himself —
+  never refer to Lee in the third person inside a prompt. Prompts must be
+  super detailed and fully self-contained (the tool has no context): exact
+  cells, expected numbers, self-checks, report-back, and a hard no-scope-creep
+  rule (report what looks broken, fix nothing beyond the brief). Each build
+  prompt ships with a screenshot mock of what it produces, on real numbers.
+- Wiring-move fact base (probed 09/08 on his 0608 file): eleven 1.x/2.x pairs
+  (1.14 pairs with 2.15 TDD Cyber; 2.11-2.14 have no 1.x partner and are not
+  touched). 52 typed Support % cells across the 1.x squad tables; budget block
+  H4:I10 uniform on every 1.x; funding-block extents vary by tab (1.2 runs to
+  row 26, 1.14 carries the cyber uplift funding block H13:J19 instead).
+  Columns U:X empty on every 2.x — blocks land at V/W/X same row numbers, the
+  Support % column at U. One exception: Digital Support NZ (1.2 G41, 100%,
+  archetype-only squad, 0.32 planned cost, zero roles in REVIEW) has no 2.2
+  grid row — its percentage stays typed on 1.2 until Lee rules otherwise.
 - Audit rulings (06/08): Platform beginning with EGI = funded outside (the
   three EGI Customer people included). GM pot divides by 11 - the 16-line
   basis is dead, fix stale notes wherever seen. The nine offshore Enterprise

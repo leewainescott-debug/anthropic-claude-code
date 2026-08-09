@@ -1798,8 +1798,9 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   & Tech with a 1.5 allocation; Service Ops takes Service Op & Assurance with
   0.5. Who goes where derives from the Squad column his file already carries -
   his raw role mapping block stays untouched. The four uplift part-charge
-  roles follow their squads to Cyber. The GM share base becomes 17 when the
-  split lands. Still to come from Lee: the AU/NZ split of the 1.5 and the 0.5.
+  roles follow their squads to Cyber. The COEs carry no GM share, so the GM
+  base stays 11 when the split lands (corrected 09/08 - an earlier version of
+  this note said 17, superseded by D128). AU/NZ ruled in D127.
 - Build order agreed: first the support percentages and budget tables move to
   the 2.x tabs (the 1.x tabs stay, fed by formulas; the archetype tables stay
   on 1.x), then the cyber split lands on the new wiring, then FY26.
@@ -1827,3 +1828,16 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   are already priced at the offshore rate, so they take the same exemption
   WiPro roles have (before equals after, no 0.4 applied), keyed on their
   squad so future roles in it behave the same.
+
+## D129 - 09/08: how prompts for the in-model tool are written
+- Every prompt is written in first person, as if Lee drafted it himself -
+  never referring to Lee in the third person inside a prompt. Super detailed
+  and fully self-contained (the tool has no context between runs): exact
+  cells, expected numbers, self-checks, report-back, and a hard rule to fix
+  nothing beyond the brief - anything else that looks broken gets reported,
+  not fixed. Each build prompt ships with a screenshot mock of its output on
+  real numbers.
+- Open item found while detailing the wiring move: Digital Support NZ is an
+  archetype-only squad on 1.2 (typed 100% support, 0.32 planned cost, zero
+  roles in the ledger), so it has no 2.2 grid row for its percentage to move
+  to. It stays typed on 1.2 until Lee rules where it should live.
