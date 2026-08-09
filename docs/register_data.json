@@ -201,6 +201,14 @@
    "LOW",
    "Needs a ruling: keep on 1.2, or add a 2.2 row when it gets roles.",
    ""
+  ],
+  [
+   "BLD-24",
+   "FY26 forecast v2",
+   "Planned and mocked, not built. People-net spine, Finance AU/NZ budgets 35.23/21.75, actuals 20.01/9.40 to June, portfolio months = charge/12 with hire-month dropdowns, gross vs charged shown. Waits on: three prompts run, Lee's sign-off, Finance June/July full file.",
+   "HIGH",
+   "Mock sent 09/08; awaiting Lee's nod.",
+   ""
   ]
  ],
  "done": [

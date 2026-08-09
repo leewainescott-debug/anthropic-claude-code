@@ -1887,3 +1887,27 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   Caveats: NZ actuals lag AU by a month in this file; Staff Cost includes
   people on initiatives (small); NZ books no labour recharge, so NZ net
   equals gross.
+
+## D132 - 09/08: FY26 forecast v2 - the plan (Lee: come up with something; no build yet)
+- Spine of the workbook: people net cost, because both files agree on it -
+  Finance's Staff Cost line and the model's charged to lights on are the
+  same idea, and their FY26 forecast (54.42) sits within 0.10 of the
+  model's planned charge (54.54).
+- Budgets: Finance's people-net budgets, AU 35.23 and NZ 21.75 (AUD, their
+  tabs). Their full lights-on budgets (78.90 / 52.23) appear only as
+  context, never as the track.
+- Actuals: AU to June 20.01 real; NZ their 10.22 NZD June number at their
+  own 0.92 rate = 9.40. No portfolio cut of actuals - cream typed cells,
+  empty until real numbers exist (or until Lee signs off a cost-centre
+  mapping; their raw tabs could then derive one legitimately - stage two,
+  his call).
+- Portfolio table: Lee's exact columns plus Charges in (AU/NZ/Both) and FY
+  gross vs FY charged. Months = FY charge/12 minus vacancies not yet
+  started (hire-month dropdowns, default July, option Not in FY26).
+  Both-country rows split on the fixed 3.6. Four tabs total: Forecast,
+  Vacancy hire months, Data - model, Data - Finance. Values snapshots with
+  source cells named; zero external links; two check lines; no controls
+  sprawl; no italics; no subheaders.
+- Build waits for: the three model prompts to run (snapshot after them, 19
+  lines), Lee's nod on this plan, and ideally Finance's June/July full
+  file. Mock of the main tab sent 09/08 on real numbers.
