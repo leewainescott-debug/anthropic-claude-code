@@ -1860,3 +1860,30 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   always formula. Lee is sending an example; the rebuild waits for it.
 - Formatting forever: no italics anywhere in any model, no subheaders, no AI
   look or feel, no made-up formulas to force a fit.
+
+## D131 - 09/08: what the full May Finance file gives us (review finding)
+- The May file (TDD_Finance_Report May2026 v3.1) is Finance's full working
+  model; the June file Lee had was a two-tab summary print of it. It books
+  people cost in the same shape as the cost model: gross internal labour,
+  minus labour recharged out, equals Staff Cost - the people net cost - by
+  month, actual vs budget vs forecast, AU and NZ separately, and by their GM
+  lines (Digital, CISO, Strategy & Architecture, Data, Operations & Partner,
+  Enterprise Tech, EGM).
+- The numbers (AUD): AU people net YTD May 16.17 actual vs 15.15 budget;
+  FY26 forecast 35.17 vs budget 35.23. NZ people net YTD (their actuals run
+  to April in this file) 5.25 vs 4.78; FY26 forecast 19.25 vs budget 21.75.
+  Combined FY26 people net: forecast 54.42 vs budget 56.98. Gross internal
+  labour FY26 budget 84.00, forecast 77.42; labour recharge out FY26 budget
+  (30.00), forecast (23.57).
+- The story: YTD people net is 1.50 OVER budget, but gross labour is UNDER
+  budget - the miss is recharge under-recovery (8.64 recovered vs 12.25
+  planned). And the model's FY27 charge of 54.54 sits within 0.1 of
+  Finance's FY26 people-net forecast of 54.42.
+- Still no per-portfolio actuals in Finance's cut (their GM lines are not
+  the model's portfolios), but their cost-centre level (Sheet1, the raw GL
+  tabs, the cost-centre mapping tabs) carries lines like IT Business Systems
+  - Retail, IT Above the Store, IT Security Uplift - Cyber. With a mapping
+  Lee signs off, per-portfolio people actuals could be derived legitimately.
+  Caveats: NZ actuals lag AU by a month in this file; Staff Cost includes
+  people on initiatives (small); NZ books no labour recharge, so NZ net
+  equals gross.
