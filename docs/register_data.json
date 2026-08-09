@@ -481,6 +481,11 @@
    "3.6 TDD Lights On AU NZ",
    "Answer whether the overspend is AU or NZ.",
    "DONE: AU 44.96 against 33.00 is 11.96 over; NZ 16.08 against 17.50 is 1.42 under. The duplicated variance column is gone."
+  ],
+  [
+   "FY26 forecast",
+   "One workbook: Finance actuals to June plus the model's remaining months, charged vs recharged, AU and NZ, vacancy hire months.",
+   "DONE: TDD_FY26_Forecast.xlsx shipped 06/08. Landing 56.68 charged, 6.18 over the 50.50 allocations, 2.88 over the 53.80 budget; AU 39.75 over by 3.55, NZ 16.93 under by 0.67. Six actual months at people scope from Finance's file, six modelled at the model's run rate; 70 vacancy hire-month dropdowns default to full months; Finance's own outlook 54.30 shown beside it. Open: Lee's hire months, mapping confirms on 0.3, July actuals when they exist."
   ]
  ]
 }
