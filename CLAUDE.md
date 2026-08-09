@@ -20,3 +20,8 @@
   model's after-lever run rate /12 x months, per-vacancy hire-month overrides,
   everything cream typed inputs. FY26 month boundaries: awaiting Lee.
 - Prompts for the in-model tool go in chat, never as files, unless Lee asks.
+- Audit rulings (06/08): Platform beginning with EGI = funded outside (the
+  three EGI Customer people included). GM pot divides by 11 - the 16-line
+  basis is dead, fix stale notes wherever seen. The nine offshore Enterprise
+  Data delivery roles: Offshore lever, cost unchanged (WiPro-style exemption
+  keyed on their squad).

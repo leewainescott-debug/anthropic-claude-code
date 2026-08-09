@@ -1812,3 +1812,18 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 ## D127 - 06/08: the cyber split budgets
 - Cyber COE: 1.0 AU and 0.5 NZ. Service Ops COE: 0.5 AU and 0 NZ. Together
   they equal the old line's 1.5 AU / 0.5 NZ, so the 0.2 total does not move.
+
+## D128 - 06/08: three rulings on the audit questions
+- The three Customer Programme Management people whose Platform reads EGI
+  Customer (R0072, R0141, R0275) ARE EGI funded. The funded flag widens from
+  Platform equals EGI to Platform beginning with EGI, so they and any future
+  EGI-labelled platform land as funded outside, attract no support and no
+  overhead share, and net out in Sig items funded.
+- The GM pot divides by ELEVEN, permanently. The sixteen-line basis is dead:
+  the formulas are right, the notes claiming a 16-line basis are stale and
+  get fixed, and the COE lines carry no GM share.
+- The nine offshore Enterprise Data delivery roles carry the Offshore lever
+  as their true state, but their cost does not change with the levers - they
+  are already priced at the offshore rate, so they take the same exemption
+  WiPro roles have (before equals after, no 0.4 applied), keyed on their
+  squad so future roles in it behave the same.
