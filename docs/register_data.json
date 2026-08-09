@@ -71,6 +71,30 @@
    "MEDIUM",
    "",
    "Keen to see what you said is worth adding."
+  ],
+  [
+   "DEC-21",
+   "Whole model",
+   "Plain English forever - every question, label and note. Jargon-phrased questions get rethought before being asked.",
+   "HIGH",
+   "Ruled 06/08.",
+   "I need plain english forever. save to memory."
+  ],
+  [
+   "DEC-22",
+   "Cyber split",
+   "2.11 splits into Cyber COE (Cyber GRC, Cyber Risk, Cyber Sec Ops, Cyber Strat & Tech; 1.5) and Service Ops COE (Service Op & Assurance; 0.5). Membership from the Squad column, raw block untouched. GM base goes to 17.",
+   "HIGH",
+   "AU/NZ split of the two budgets still to come.",
+   "cyber risk is in cyber. splitting it like that is fine."
+  ],
+  [
+   "DEC-23",
+   "Build order",
+   "Support percentages and budget tables move to the 2.x tabs first (1.x become formula views; archetype tables stay), then the cyber split, then FY26.",
+   "HIGH",
+   "Agreed 06/08.",
+   "I agree on the process of everything being done."
   ]
  ],
  "build": [

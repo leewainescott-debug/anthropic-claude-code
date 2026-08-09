@@ -1786,3 +1786,25 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   mapping stage's copy-through guard had let a rebuild run against its own
   previous output. Both now carry permanent checks.
 - Gate: 15 groups, 189 checks. Deep verify: 50 checks green.
+
+## D126 - 06/08: plain English forever, the cyber split approved, build order agreed
+
+- Plain English forever: every question to Lee, every label, every note. A
+  question that cannot be asked plainly gets rethought before it is asked.
+  Decisions and plans are saved to the decisions log, the register and the
+  session memory in the same turn they are made - context must never be lost.
+- The cyber split, approved: 2.11 Cyber Risk & Service Ops becomes two COEs.
+  Cyber takes the squads Cyber GRC, Cyber Risk, Cyber Sec Ops and Cyber Strat
+  & Tech with a 1.5 allocation; Service Ops takes Service Op & Assurance with
+  0.5. Who goes where derives from the Squad column his file already carries -
+  his raw role mapping block stays untouched. The four uplift part-charge
+  roles follow their squads to Cyber. The GM share base becomes 17 when the
+  split lands. Still to come from Lee: the AU/NZ split of the 1.5 and the 0.5.
+- Build order agreed: first the support percentages and budget tables move to
+  the 2.x tabs (the 1.x tabs stay, fed by formulas; the archetype tables stay
+  on 1.x), then the cyber split lands on the new wiring, then FY26.
+- FY26: Finance actuals to June (July if it exists), split into charged to
+  lights on vs recharged to the business, cut AU and NZ; the remaining months
+  priced at the model's after-lever run rate divided by 12 times the months
+  left, with per-vacancy hire-month overrides. All of it cream typed inputs.
+  Month boundaries still to come from Lee.
