@@ -10,8 +10,8 @@
   Cyber (squads Cyber GRC, Cyber Risk, Cyber Sec Ops, Cyber Strat & Tech;
   budget 1.5) and Service Ops (squad Service Op & Assurance; budget 0.5).
   Membership derives from the Squad column; his raw REVIEW block stays
-  untouched. The uplift part-charge roles follow their squads to Cyber. GM
-  share base becomes 17 when the split lands. AU/NZ split ruled: Cyber 1.0 AU / 0.5 NZ; Service Ops 0.5 AU / 0 NZ.
+  untouched. The uplift part-charge roles follow their squads to Cyber. COEs carry no GM share, so the
+  GM base stays 11 when the split lands. AU/NZ split ruled: Cyber 1.0 AU / 0.5 NZ; Service Ops 0.5 AU / 0 NZ.
 - Sequencing (agreed): task 2 first (support % + budget tables move to the 2.x
   tabs, 1.x become formula views of them; archetype tables stay on 1.x), then
   the cyber split, then FY26.
