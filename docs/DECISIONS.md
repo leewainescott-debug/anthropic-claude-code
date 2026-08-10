@@ -2112,3 +2112,27 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   cells listed for the pending revert ruling (54.12 today, 54.43 if
   reverted). Scratchpad collision noted between agents - future builds
   work in isolated directories.
+
+## D144 - 10/08: the mining findings - the story, the floor, and new defects
+- THE STORY: TDD exits FY26 running at 50.53 annualised - level with the
+  allocation. The whole FY27 overrun is the hiring pipeline turning into
+  full years (+2.74 from Jul-Nov 2026 starts, +0.85 from 2027 starts =
+  54.12). Robust to the pending ruling. Hire months are the control.
+- THE FLOOR: holding the 19 vacant overhead roles (-4.70) plus offshoring
+  the last 21 onshore roles in offshore-marked squads (-0.91 on the line;
+  disjoint sets, verified) takes the position to 48.5 - under the
+  allocation on either ruling basis.
+- The asymmetries: Z gives back 7 percent of what TDD funds, Ampol 49;
+  78.7 percent of the recharge comes from 37 percent of the cost base;
+  the flat 11-way pot split costs 88.9k per head at TDD Cyber and 6.4k
+  at Ampol Customer; offshoring the last 21 returns 36 cents in the
+  dollar to the line. Killed narratives: big salaries (top ten = 3.8
+  percent), bloated squads (dead level with allowance), offshore-cheap
+  (Singapore is the dearest location per head in the book).
+- NEW DEFECTS from mining: ten Z Retail roles priced at 1.00 FX and one
+  TDD GF role converted the wrong way (0.21 overstatement, why R0520
+  false-reads as the fourth-dearest role); the 3.7 FY27-reduction line
+  double-counts entirely on the current basis; stale headline text on
+  3.1 and 3.6/3.8. Folded into the rulings list for Lee.
+- Deck pass two launched: six insight slides plus a slide-10 enhancement,
+  target ~19 content slides for the cull.
