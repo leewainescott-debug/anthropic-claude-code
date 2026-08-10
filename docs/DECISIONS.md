@@ -1932,3 +1932,29 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   (Forecast, Data - Finance (June), Data - model), only two typed cells
   (the cream budgets), everything else formula or sourced value, no
   external links, no italics, no subheaders.
+
+## D134 - 09/08: AUD analysis and the two-Junes ruling
+- The total TDD lights-on budget DOES exist in AUD and splits cleanly. The
+  June file's Presentation sheet is entirely AUD - proven because its nine
+  segment rows add exactly to its own 86.66 total, and the TDD Pack row
+  labelled Lights on (AUD) carries identical Z numbers. FY26 lights-on
+  budgets: AU (TDD Corporate) 78.90, Z-Energy 52.23, together 131.12 AUD;
+  the whole-technology lights-on budget including business segments is
+  173.12. Actuals to June: AU 40.97, Z 26.46, together 67.43 AUD.
+- Finance's NZD-to-AUD convention is 0.92, proven from their own numbers:
+  Z lights on 28.75 NZD (21.66 TDD-Z EBITDA + 7.09 Z-BU IT and comms)
+  converts to their printed 26.46 AUD at exactly 0.92. So Z people in AUD
+  = the NZD line x 0.92: landing 19.23, budget 19.81.
+- TRAP: the May file's ZTDD GM_AUD sheet is an unconverted duplicate of
+  ZTDD GM_NZD - identical values on both. The 21.75 NZ people budget
+  quoted as AUD in the earlier review came from that sheet and is not a
+  reliable AUD figure; corrected to 21.53 NZD = 19.81 AUD at their rate.
+- Two-Junes ruling: the June file carries two June actuals for the AU
+  lines - closed actuals (column O basis, Staff Cost June 3.84) vs their
+  forecast phasing (June 2.86, the basis of their printed 35.61 full-year
+  number, their own variance column showing the 0.97 gap). RULED: closed
+  actuals win; their printed forecast shows as a labelled comparison row.
+  Corrected landings: AU 36.58 = 0.38 OVER the 36.20 (not 0.59 under as
+  provisionally reported); NZ unchanged 19.23 AUD = 1.63 over 17.60;
+  total 55.81 vs 53.80 = 2.02 over; Finance printed basis 54.84; model
+  charge 54.54.
