@@ -63,3 +63,18 @@
   basis is dead, fix stale notes wherever seen. The nine offshore Enterprise
   Data delivery roles: Offshore lever, cost unchanged (WiPro-style exemption
   keyed on their squad).
+- Wave Q rulings (Lee 09/08 pm): FX for NZ is LIVE FX, typed input cell,
+  0.83 today - never the 0.92 planning rate, never hardcoded. The exec
+  story anchors to the 50.5 ALLOCATION (spend 54.54 = 4.04 over today).
+  Vacancy hire-month toggles are mandatory and drive FY26 H2 and FY27 -
+  the Vacancy Audit workbook holds planned hire months; hire dates matter
+  more than funding plan. Contingent and personnel forecasts are op-model
+  dependent - model-driven, Finance for actuals only. LANGUAGE: never
+  "theirs/their" for Finance - one company, one set of numbers. Latest
+  model = f4ce93da upload: cyber split APPLIED (2.11 COE Cyber, 2.16 COE
+  Service Ops), new 0.4 Presentation Pack, 3.9 Spans & Layers. Exec deck:
+  template = FIRST 5 SLIDES of Template.pptx; FY27_Budget_Update.pptx is
+  the live deck whose FY26/FY27 slides get rebuilt; every chart native
+  Excel-editable, never shapes; MBB standard, Minto, action titles, short
+  sharp sentences, options for key slides; agents build, Fable plans and
+  QAs in loops - nothing reaches Lee below standard.

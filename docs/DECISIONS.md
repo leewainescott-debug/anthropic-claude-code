@@ -1972,3 +1972,24 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   actuals / 132.78 their forecast.
 - Note precision fix during QA: the NZD back-solve figure corrected 28.75
   to 28.76 so the proven-from-their-file sentence is exactly true.
+
+## D136 - 09/08: Wave Q rulings - FX, the 50.5 anchor, vacancy timing, the exec deck
+- Live FX for NZ, typed input, 0.83 today. The 0.92 planning rate is dead
+  for our outputs. FY26 v2's NZ landing restates 19.23 to 17.35 AUD at
+  0.83: NZ moves from 1.63 over to 0.25 inside 17.60, total people cost
+  from 55.82 to 53.93.
+- The executive story tracks to the 50.5 allocation: spend today 54.54 =
+  4.04 over. Hire timing and levers are the path down.
+- Vacancy hire months from the Vacancy Audit drive FY26 H2 and FY27; some
+  vacancies delay, some never get hired; both years can look better. The
+  audit feeds a prompt to the in-model tool to land hire months in the
+  2.x tabs.
+- Contingent and personnel forecasts move with the operating model:
+  model-driven, Finance actuals only. Never "theirs" - one company.
+- Wave Q deliverable: executive confidence deck in the FY27 Budget update
+  template (first 5 slides = the standard), FY26 and FY27 to the 50.5,
+  vacancy story 2-3 views, offshore story (a cost reduction at the 0.4
+  planning rate, never called a saving), all levers, spans and layers.
+  Charts native Excel-editable. Four analysis agents launched in parallel
+  (model, vacancy audit, deck deconstruction, MBB research); build agents
+  follow; Fable QAs everything in loops before Lee sees it.
