@@ -2013,3 +2013,18 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   deconstruction (template = kicker+headline Graphik pattern, green
   palette, no native charts anywhere - all think-cell or PNG; live deck
   numbers stale throughout), MBB style guide distilled to scratchpad.
+
+## D138 - 09/08: FY26 v3 shipped - mechanics complete, refresh-ready
+- Built by agent, independently QA'd: live FX 0.83 and the operating-model
+  adjustment are the only typed cells; everything else formula. Landings
+  at 0.83: AU 36.34 vs 33.0 allocation = 3.34 over; NZ 19.38 NZD = 16.08
+  AUD = 1.42 under 17.5; total 52.42 vs 50.5 = 1.92 over (and 1.38 under
+  the full 53.8). The FY27 planned charge 54.43 sits alongside at 3.93
+  over - the FY26 timing and FX story is the better picture Lee wanted.
+- Agent judgment calls accepted in QA: Internal Labor carries the
+  operating-model balance (a plugged recharge line would read fake);
+  vacancy relief split AU/NZ from REVIEW country data (105 AU / 2 NZ,
+  3.2851 / 0.0798), NZ share shown but not taken, said in plain words.
+- Refresh points named on the Sources tab: model block on tab 3 and the
+  hire-month table on tab 4 re-point to the updated model when Lee runs
+  the vacancy prompt and returns the file. Exec deck build still running.

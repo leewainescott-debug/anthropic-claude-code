@@ -571,6 +571,11 @@
    "FY26 forecast v2",
    "Finance's cut from the June TDD Pack, closed actuals, their monthly forecast, budgets 36.2/17.6 from 0.2 row 27, AUD lights-on block, two-Junes and 0.92 findings baked in.",
    "Shipped 09/08 within Lee's one-hour cap: analysis, Opus build agent (stopped correctly on the two-Junes conflict), ruling, rebuild, double verification, QA render."
+  ],
+  [
+   "FY26 forecast v3",
+   "Live FX input, 50.5 anchor, model-driven H2 less vacancy timing relief, 107-row hire-month tab, sources tab naming every refresh point.",
+   "Shipped 09/08. Landing 52.42 vs 50.5 at 0.83 FX. QA: checks Yes, 2 cream cells, 0 italics, 0 external links."
   ]
  ]
 }
