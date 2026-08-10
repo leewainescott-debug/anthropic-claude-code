@@ -2092,3 +2092,23 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   deliberately - it is Finance's own line name and recharge is Lee's own
   word. QA independent pass: checks Yes, two cream inputs only, zero
   italics, zero external links, banned-word sweep clean.
+
+## D143 - 10/08: deck v2 pass one shipped, built inside Lee's file
+- 17 slides in FY27_Budget_Update_v2.pptx: slides 1, 2, 6, 7, 8 untouched;
+  3, 4, 5, 9, 10, 11, 12 rebuilt on current numbers; five new slides
+  (exec summary SCR, hire timing, marimekko, spans bubble, decisions).
+  Masters, layouts, theme and media byte-identical to Lee's file; the old
+  flattened waterfall PNG replaced by a native chart. Eight native charts
+  with embedded workbooks; mekko and dumbbells drawn, as his own decks do.
+  MBB anatomy per slide: sub-claims, zoning, callout circles, delta chips,
+  heat tints, in-table bars, so-what strips, numbered footnotes, sources.
+- Build agent corrected four stale brief numbers against the live model:
+  vacancy plan spend 18.12 / lands 11.12; COE Service Ops 7 vacancies;
+  overhead gaps TM 4.59 / HoT 3.53; levers take 16.63 of 115.46. QA
+  verified independently: zero italics, zero banned words, fonts MarkOT
+  family only on touched slides, spot numbers all present.
+- Pass two pending: 6-7 insight slides from the mining agent (still
+  running) to reach roughly 20 content slides for Lee's cull. Anchor
+  cells listed for the pending revert ruling (54.12 today, 54.43 if
+  reverted). Scratchpad collision noted between agents - future builds
+  work in isolated directories.
