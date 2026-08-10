@@ -179,9 +179,17 @@
   [
    "DEC-34",
    "Mining findings",
-   "FY26 exit run rate 50.53 = the allocation; FY27 overrun = hiring pipeline annualising. Floor 48.5 via two TDD-controlled levers. Z 7pc vs Ampol 49pc recharge terms. New defects: NZ FX on 11 roles, double-counted FY27 timing line, stale tab headlines.",
+   "FY26 December exit run rate 52.23 annualised - derivable both sides of the pending quarter-code ruling (the 50.53 first cut did not reproduce and is superseded); FY27 overrun = the hiring pipeline annualising. 48.50 via the two reductions of cost TDD controls (hold the 19 vacant overhead roles; offshore the last 21 onshore roles in marked squads, 0.92 landing on what TDD pays). New defects: NZ FX on 11 roles, double-counted FY27 timing line, stale tab headlines, 3.10 Saving labels.",
    "NOTED",
-   "Verified role-by-role by the mining agent 10/08.",
+   "Mined 10/08; exit number corrected in the compliance loop 10/08 pm.",
+   ""
+  ],
+  [
+   "DEC-35",
+   "Saving banned",
+   "Nothing is a saving - it is a reduction of cost. Banned in every form (saving, savings, saves, saved) across the deck, the models, the FY26 workbook, prompts and chat. Say cost reduction / reduction of cost / takes cost out. The model 3.10 labels carry the word - queued for the next in-model fix prompt.",
+   "RULED",
+   "Lee 10/08 pm.",
    ""
   ]
  ],
@@ -269,9 +277,9 @@
   [
    "BLD-25",
    "Wave Q exec deck",
-   "Analysis agents running (model f4ce93da, vacancy audit, 3 decks, MBB research). Then: vacancy prompt to the in-model tool, FY26 v3 workbook, deck build with options, QA loops.",
+   "Deck v2 built in Lee's file (22 slides, 14 native charts). Compliance loop running: formatting normalised to the slides 2-4 standard + reorder to story order; 14-fix round from the 18-item audit (offshore split corrected to 13.59/5.19, exit story rebuilt on 52.23, NZ Finance column 2.40/26.94, saving-language sweep); full-transcript re-read of every instruction. FY26 v3.1 workbook verified whole - all checks pass.",
    "HIGH",
-   "In flight.",
+   "Fix round in flight; nothing ships below standard.",
    ""
   ]
  ],

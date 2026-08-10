@@ -91,3 +91,11 @@
   now carry hire months in the vacancy sheet - show FTE and dollar impact
   of the flip-flopping; not in the numbers yet, narrative only. Updated
   model post-vacancies = 1347cab8 upload; FY26 runs off it.
+- LANGUAGE RULING (Lee 10/08 pm): "saving/savings/saves/saved" BANNED
+  everywhere - nothing is a saving, it is a REDUCTION OF COST. Say cost
+  reduction / reduction of cost / takes cost out. Applies to the deck, the
+  models, the FY26 workbook, prompts and chat. The model's own 3.10 labels
+  (Saving ($m), Saving achieved, Potential saving) go to the next in-model
+  fix prompt. Full banned list now: charge/charged/charging (recharge and
+  Labour Recharge stay - Finance's line name and Lee's word), wave, seat,
+  floor, saving in every form.

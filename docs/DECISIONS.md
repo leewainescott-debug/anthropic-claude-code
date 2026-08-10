@@ -2159,3 +2159,35 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   italics, MarkOT only, 14 embedded chart workbooks, spot numbers tie.
   Cull guidance in the report: timing appears four ways (5, 14, 18,
   21); short pack 13-3-9-18-20-21-22-17.
+
+## D146 - 10/08 pm: "saving" banned; the compliance loop's corrections
+- Lee's ruling, verbatim intent: nothing in any of this is a saving - it is
+  a REDUCTION OF COST. The word is banned in every form (saving, savings,
+  saves, saved) across the deck, the models, the FY26 workbook, prompts and
+  chat. Say cost reduction / reduction of cost / takes cost out. The
+  model's own 3.10 labels (Saving ($m), Saving achieved ($m), Average
+  saving per role, Potential saving ($m)) carry the word - queued for the
+  next in-model fix prompt alongside the NZ FX defect, the 3.7 FY27
+  double-count and the stale 3.1/3.8 headlines. The FY26 workbook's one
+  occurrence (1 FY26 Forecast!D25) fixed and recalculated same turn; the
+  deck sweep is in the running fix round.
+- Lee also ordered an agent to read ALL his instructions across the whole
+  session - deployed against the full transcript, building the complete
+  instruction register, diffed against the working ledger; gaps feed the
+  fix round before anything ships.
+- Compliance audit verdict (18-item ledger, 18 spot checks): FY26 workbook
+  passes whole; deck carries 12 misses, headline three: the offshore
+  pricing split printed 13.98/5.59 where the register sums 13.59/5.19 (67
+  roles; columns must add to 14.61/6.21 with WiPro 0.44 and Enterprise
+  Data 0.58 unchanged); the exit-run-rate slide's 50.53 story (27.06 less
+  4.15 plus 2.36 = 25.27) is not derivable from any model cell and
+  contradicts the FY26 monthly slide; the Finance-table NZ column dropped
+  the Delivery line (2.23 shown where O24+O25 = 2.40, total 26.94 not
+  26.92). D145's "exits FY26 at 50.53 run rate" is superseded: the
+  derivable exit story is December exit run rate 52.23 annualised
+  (54.1177 less 1.8897 that FY27 pays for the 15 priced roles hiring in
+  FY27; identical on the reverted basis, 54.4290 less 2.2010), FY26 H2
+  23.96 annualising 47.91, FY27 plan 54.12. The 0.92 on the two-moves
+  bridge verified exactly by the per-role walk (21 roles, five squads,
+  support percentages: 0.2542 + 0.4024 + 0.0959 + 0.1052 + 0.0570 =
+  0.9147); bridge end 48.50 stands.
