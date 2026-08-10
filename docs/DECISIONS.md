@@ -2136,3 +2136,26 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   3.1 and 3.6/3.8. Folded into the rulings list for Lee.
 - Deck pass two launched: six insight slides plus a slide-10 enhancement,
   target ~19 content slides for the cull.
+
+## D145 - 10/08: deck content ruling applied; v2 final shipped
+- Lee's ruling: the deck is his enumerated spec only - where we landed,
+  how we got there, levers pulled, offshore (squads/roles/cost/FTE),
+  vacancies (cost and FTE), vacancy timing, ramping, waterfalls, plain
+  English. Killed: the recharge-terms slide, the recovery-machinery
+  slide, the flat-pot-split slide, and the word "floor" (banned along
+  with "terms" as jargon). Of the mining set only the annualisation
+  story and the two-moves-to-under-allocation landed - the rest stays
+  analysis, not slides.
+- Final deck: 22 slides, 17 content, 14 native charts, in Lee's file.
+  New in the last pass: the descriptive offshore slide (82 roles at the
+  offshore rate, 8.39 off the base - corrected from the tab's stale
+  8.30 narrative), the two-waterfall levers slide closing exactly on
+  98.83 and 48.50, the hiring ramp (107 dated starts, cumulative line),
+  and FY26 month by month (landing 52.45 v 50.5 and 53.8). Budget
+  answer locked: FY26 hits the full budget (1.35 inside); FY27 as
+  planned is 0.32 over the full budget, exits FY26 at 50.53 run rate,
+  and lands 48.50 with the two decisions TDD controls.
+- QA: zero banned words on all content slides (incl floor), zero
+  italics, MarkOT only, 14 embedded chart workbooks, spot numbers tie.
+  Cull guidance in the report: timing appears four ways (5, 14, 18,
+  21); short pack 13-3-9-18-20-21-22-17.
