@@ -191,6 +191,14 @@
    "RULED",
    "Lee 10/08 pm.",
    ""
+  ],
+  [
+   "DEC-36",
+   "FY26 landing corrected to 53.72",
+   "The second half runs on what TDD pays: relief = each priced vacancy times its squad support percentage (1.99, never the gross 3.10), base = everyone at a full year 54.4290. Landings AU 37.68 / NZ 16.04 / total 53.72 - 3.22 over the 50.5 allocation, 0.08 inside the 53.8 budget. H2 25.22 annualising 50.45; December exit 53.27. Independent of the start-quarter ruling. Supersedes 52.45 and every earlier exit number.",
+   "BUILT",
+   "Found in QA 10/08 pm; rebuilt role by role, verified to 4dp.",
+   ""
   ]
  ],
  "build": [
@@ -277,9 +285,9 @@
   [
    "BLD-25",
    "Wave Q exec deck",
-   "Deck v2 built in Lee's file (22 slides, 14 native charts). Compliance loop running: formatting normalised to the slides 2-4 standard + reorder to story order; 14-fix round from the 18-item audit (offshore split corrected to 13.59/5.19, exit story rebuilt on 52.23, NZ Finance column 2.40/26.94, saving-language sweep); full-transcript re-read of every instruction. FY26 v3.1 workbook verified whole - all checks pass.",
-   "HIGH",
-   "Fix round in flight; nothing ships below standard.",
+   "SHIPPED 10/08 pm: deck 22 slides / 14 native charts, formatting normalised to slides 2-4, story order, 16-fix round + full-transcript instruction audit (107 instructions, six gaps closed); FY26 workbook v4 on the corrected what-TDD-pays basis, ten checks pass. Deck and workbook reconcile to the cent.",
+   "DONE",
+   "Delivered with the compliance summary and cull list.",
    ""
   ]
  ],
@@ -628,6 +636,11 @@
    "Deck v2 final",
    "22 slides / 17 content / 14 native charts in Lee's file, his spec only, banned-word sweep incl floor, budget answer locked (FY26 inside full budget; FY27 48.50 with two decisions).",
    "Shipped 10/08 after redirect + QA."
+  ],
+  [
+   "Wave Q package",
+   "Deck v2 final (22 slides, exec summary up front, all sweeps zero) + TDD_FY26_Forecast v4 (landing 53.72, ten checks). The FY26 relief-basis defect found and fixed in the loop.",
+   "Shipped 10/08 pm after three agent rounds and two QA gates."
   ]
  ]
 }

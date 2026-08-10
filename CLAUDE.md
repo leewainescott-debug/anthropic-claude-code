@@ -39,6 +39,15 @@
   over; model charge 54.54 within 0.30. Fair derived assumptions are
   allowed when drawn from deep analysis of both files (his permission
   09/08). Built TDD_FY26_Forecast.xlsx v2 via Opus agent on this spec.
+  CORRECTED 10/08 pm (v4, supersedes every earlier landing): the second
+  half runs on what TDD pays - relief = each priced vacancy's cost times
+  its squad's support percentage (EGI-funded at zero, NZ at live FX),
+  never the gross 3.10; the base is everyone at a full year, 54.4290
+  (FY27 start-quarter pricing never leaks into FY26; all 12 coded roles
+  proven AU-side). Landings: AU 37.68 / NZ 16.04 (19.32 NZD) / total
+  53.72 - 3.22 over the 50.5 allocation, 0.08 inside the 53.8 budget.
+  H2 25.22, annualising 50.45; December exit run rate 53.27. FY26 is
+  independent of the pending start-quarter ruling.
 - FORMATTING FOREVER (Lee 09/08): no italics anywhere in any model, no
   subheaders, no AI look or feel, no made-up formulas to force numbers to fit
   an outlook. Mocks and built tabs alike.
@@ -98,4 +107,7 @@
   (Saving ($m), Saving achieved, Potential saving) go to the next in-model
   fix prompt. Full banned list now: charge/charged/charging (recharge and
   Labour Recharge stay - Finance's line name and Lee's word), wave, seat,
-  floor, saving in every form.
+  floor, saving in every form. Standing from the model era, enforced in
+  every artefact: em dashes and en dashes, call/calls as jargon, roster,
+  Category as a column label, GM working copy, dashes as cell filler,
+  theirs/their for Finance.

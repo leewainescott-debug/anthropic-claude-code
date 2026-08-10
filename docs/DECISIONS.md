@@ -2191,3 +2191,60 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   bridge verified exactly by the per-role walk (21 roles, five squads,
   support percentages: 0.2542 + 0.4024 + 0.0959 + 0.1052 + 0.0570 =
   0.9147); bridge end 48.50 stands.
+
+## D147 - 10/08 pm: the FY26 landing corrected to 53.72; the full compliance loop closes; the package ships
+- THE CORRECTION (found by my verification of the exit-run-rate slide,
+  confirmed role by role, rebuilt by agent, recalculated and verified):
+  the FY26 workbook's second half subtracted the GROSS hire-timing
+  relief (3.1017) from a post-support-percentage half-year. What TDD
+  pays for a squad vacancy is its cost times its squad's support
+  percentage, so the relief is 1.9895 (July-start halves 4.3933 less
+  planned-months cost 2.4038), with EGI-funded roles at zero and NZ at
+  live FX. The half-year base is everyone-at-a-full-year 54.4290, not
+  the 54.1177 anchor - the 0.3113 of FY27 start-quarter pricing (12
+  roles, all proven AU-side, add-back exact) never belongs in FY26.
+  Corrected landings: AU 37.6785 / NZ 16.0373 AUD (19.3220 NZD) /
+  total 53.7157 - 3.2157 over the 50.5 allocation, 0.0843 inside the
+  53.8 budget. H2 25.2250 annualising 50.4499; December exit run rate
+  53.2722; monthly Jul-Dec 3.8265/3.9391/4.2209/4.3598/4.4394/4.4394.
+  FY26 is independent of the pending start-quarter ruling. Supersedes
+  the 52.4479 landing (D138-era) and D146's 52.23 exit-rate note (that
+  number mixed the current anchor into FY26; the derivable exit is
+  53.27). The deck's old 50.53/25.27/4.15/2.36 story and my earlier
+  23.96 correction were BOTH wrong; the workbook and deck now carry one
+  role-level basis and reconcile to the cent.
+- The full-transcript instruction audit (Lee's order): 107 instructions
+  extracted from 279 direct + 35 queued messages + 10 compaction
+  summaries; the 18-item ledger was faithful for the deck window; six
+  gaps closed in the fix round (saving ban, theirs-for-Finance sweep,
+  em/en dash + model-era vocabulary sweeps, options cross-check,
+  monthly-chart-equals-workbook check, explicit file re-attachment).
+  One workbook violation found and fixed: a freeze pane on tab 4.
+- Deck fix round: 16 fixes + addendum all applied and verified.
+  Headlines: offshore pricing split corrected to 13.59/5.19 (columns
+  now add to 14.61/6.21); exit-run-rate slide rebuilt on the derivable
+  story; NZ Finance column 2.40 with total 26.94; "re-charged" wording
+  on the two retained diagram slides; exec summary carries the full
+  both-years budget answer including 0.32 over 53.8 (3.5 O25); agenda
+  slide rewritten to this deck in MarkOT; FTE added from 3.7 col H
+  (132 roles / 131.5 FTE, one half role R0526); flip-flop shares
+  recomputed with the 0.85 balance named; four rounding footnotes; the
+  saving family swept to zero everywhere. Formatting round before it:
+  slides normalised to the slides 2-4 standard (titles 18pt - his 24pt
+  cannot hold a 70-108 character action title), reordered to the story,
+  exec summary at position 2, five charts fixed that PowerPoint would
+  reject (dLblPos), masters/media proven content-identical to his file
+  (the one flagged master diff is XML quote style from the serializer;
+  image19.png left with his replaced slide 12).
+- QA gates: deck - 22 slides, 14 native charts with embedded workbooks,
+  zero banned words, zero dead numbers, zero italics, MarkOT-only
+  rendered runs, all spot numbers present. Workbook - ten checks pass,
+  two cream inputs only, no freeze panes, values verified to 4dp.
+  Deck FY26 numbers equal the workbook's exactly.
+- Open with Lee: the start-quarter revert ruling (54.12 v 54.43 - only
+  the FY27 end moves); the eleven vacancy rows; the next in-model fix
+  prompt (NZ FX on the 10 Z Retail roles + R0525, the 3.7 FY27
+  double-count, 3.7 r201/r202 basis inconsistency found this round,
+  stale 3.1/3.8 headlines, 3.10 Saving labels); July actuals if they
+  exist; Digital Support NZ percentage home; the INTERNAL USE ONLY
+  italic on his own master (left untouched).
