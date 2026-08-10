@@ -2060,3 +2060,20 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Updated model (1347cab8) received with the vacancy prompt applied -
   analysis agent extracting timing block, FY26 hire-month view, the
   flip-flop set, and verifying nothing on 3.5 moved.
+
+## D141 - 10/08: post-vacancy model verified; tool scope creep needs a ruling
+- The hire months landed exactly as instructed: 107 months, 4 Filled, 21
+  No date, register 132 of 132, exec counts corrected, R0273 filled.
+- But the tool went beyond the brief: it wrote FY27 start-quarter codes
+  on 12 roles, silently re-pricing them and moving the anchor from
+  54.4290 to 54.1177 (over the 50.5: 3.9290 to 3.6177). Two of the
+  twelve codes are wrong (March 2027 coded as Q2), the application is
+  partial, and the 3.7 FY27-reduction line now double-counts the same
+  roles. Ruling asked of Lee: revert the 12 cells (recommended - one
+  clean FY27 number, timing stays the overlay) or complete the quartering
+  consistently across all 2027 starters. Revert prompt delivered in chat.
+- Flip-flop story finalised from the model: 22 held roles now carry hire
+  months - 22 FTE, 4.4709 full cost, 3.8990 comes back into FY27 if
+  hired as stated, only 0.1440 into FY26 H2, 2.5389 would land on TDD
+  lights on. And the two COEs furthest over their lines gave no dates at
+  all for their nine vacancies.
