@@ -1958,3 +1958,17 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   provisionally reported); NZ unchanged 19.23 AUD = 1.63 over 17.60;
   total 55.81 vs 53.80 = 2.02 over; Finance printed basis 54.84; model
   charge 54.54.
+
+## D135 - 09/08: FY26 forecast v2 shipped
+- TDD_FY26_Forecast.xlsx delivered: three tabs, Finance's cut, closed
+  actuals basis, LibreOffice-recalculated so every formula carries its
+  value, verified twice (agent + independent QA). Only two typed cells in
+  the workbook: the cream allocated budgets 36.20 and 17.60. Zero external
+  links, zero italics, print set up landscape fit-to-width on all tabs.
+- Landings shipped: AU 36.58 vs 36.20 = 0.38 over; NZ 20.90 NZD = 19.23
+  AUD vs 17.60 = 1.63 over; total 55.82 vs 53.80 = 2.02 over; Finance's
+  printed basis 54.84 and the model's planned charge 54.54 shown as
+  comparison rows; TDD lights on in AUD block: 131.12 budget / 67.43
+  actuals / 132.78 their forecast.
+- Note precision fix during QA: the NZD back-solve figure corrected 28.75
+  to 28.76 so the proven-from-their-file sentence is exactly true.

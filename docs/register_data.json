@@ -542,6 +542,11 @@
    "FY26 forecast",
    "One workbook: Finance actuals to June plus the model's remaining months, charged vs recharged, AU and NZ, vacancy hire months.",
    "DONE: TDD_FY26_Forecast.xlsx shipped 06/08. Landing 56.68 charged, 6.18 over the 50.50 allocations, 2.88 over the 53.80 budget; AU 39.75 over by 3.55, NZ 16.93 under by 0.67. Six actual months at people scope from Finance's file, six modelled at the model's run rate; 70 vacancy hire-month dropdowns default to full months; Finance's own outlook 54.30 shown beside it. Open: Lee's hire months, mapping confirms on 0.3, July actuals when they exist."
+  ],
+  [
+   "FY26 forecast v2",
+   "Finance's cut from the June TDD Pack, closed actuals, their monthly forecast, budgets 36.2/17.6 from 0.2 row 27, AUD lights-on block, two-Junes and 0.92 findings baked in.",
+   "Shipped 09/08 within Lee's one-hour cap: analysis, Opus build agent (stopped correctly on the two-Junes conflict), ruling, rebuild, double verification, QA render."
   ]
  ]
 }
