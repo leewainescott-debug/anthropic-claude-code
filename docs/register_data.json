@@ -597,6 +597,11 @@
    "Exec deck v1",
    "15 slides, template identity, 10 native charts, Minto storyline, FY26 slide on the v3 live-FX basis, 2 option slides.",
    "Shipped 10/08 after QA fixes (cyber split rows, spans data, FY26 restatement)."
+  ],
+  [
+   "FY26 forecast v3.1",
+   "Updated-model refresh (54.12 basis, revert-ready), NZ takes its own timing relief, monthly view tab with actual/forecast split, banned-word sweep.",
+   "Shipped 10/08. Total landing 52.45 vs 50.5 at 0.83 FX."
   ]
  ]
 }

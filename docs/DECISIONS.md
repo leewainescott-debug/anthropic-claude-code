@@ -2077,3 +2077,18 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   hired as stated, only 0.1440 into FY26 H2, 2.5389 would land on TDD
   lights on. And the two COEs furthest over their lines gave no dates at
   all for their nine vacancies.
+
+## D142 - 10/08: FY26 v3.1 shipped on the updated model, monthly view added
+- Refreshed to the post-vacancy model as it stands (the 54.12 basis,
+  pending the revert ruling; one note row on tab 3 makes the revert a
+  four-value retype). Landings at live FX 0.83: AU 36.44 vs 33.0 = 3.44
+  over; NZ 19.28 NZD = 16.00 AUD = 1.50 under 17.5; total 52.45 vs 50.5
+  = 1.95 over, 1.35 inside the full 53.8.
+- New tab 6: twelve months, actuals to June then model-driven forecast
+  months with vacancies excluded until their hire month; running total
+  ties to the landing; Actual/Forecast labelled per month. This series
+  feeds the deck's FY26 trajectory chart.
+- Language sweep done: no charge/charged anywhere; Labour Recharge kept
+  deliberately - it is Finance's own line name and recharge is Lee's own
+  word. QA independent pass: checks Yes, two cream inputs only, zero
+  italics, zero external links, banned-word sweep clean.
