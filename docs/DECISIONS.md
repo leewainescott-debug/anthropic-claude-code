@@ -1993,3 +1993,23 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   Charts native Excel-editable. Four analysis agents launched in parallel
   (model, vacancy audit, deck deconstruction, MBB research); build agents
   follow; Fable QAs everything in loops before Lee sees it.
+
+## D137 - 09/08: vacancy timing - the mapping and the prompt
+- The audit joins to the model by title + squad + portfolio (no Role ID, no
+  cost in the audit). 107 vacancies mapped cleanly to model Role IDs and
+  get planned hire months written by the in-model tool; the rest are
+  ruling rows for Lee (filled-marked, no-date, clones, one corrupted row).
+- The timing story on the mapped set: FY26 H2 vacancy cost falls from
+  7.72 (everyone starts 1 July) to 4.35 on planned months - 3.36 of
+  relief before any role is cancelled; 2027 starts cut a further 0.55
+  from a timed FY27. Nothing on 3.5 changes - the timing block is a lens.
+- The prompt also completes the vacancy infrastructure the analysis found
+  broken: register 127 to 132 (the five cyber-split roles), COE Service
+  Ops rows added to the 3.7 and 3.10 portfolio tables, Exec Summary lever
+  chains extended to 2.16, the 3.1 fifteen-cell guard lifted to sixteen,
+  and R0273 aligned to Filled on the audit's evidence.
+- Analyses all landed: model fact base (charge 54.4290 vs 50.5 = 3.9290
+  over; 540 roles; 13 defect flags incl the meaningless 117.5568), deck
+  deconstruction (template = kicker+headline Graphik pattern, green
+  palette, no native charts anywhere - all think-cell or PNG; live deck
+  numbers stale throughout), MBB style guide distilled to scratchpad.

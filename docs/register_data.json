@@ -151,6 +151,14 @@
    "RULED",
    "Lee, 09/08 pm.",
    ""
+  ],
+  [
+   "DEC-31",
+   "Vacancy timing mapping",
+   "107 audit rows mapped to model Role IDs; FY26 H2 vacancy cost 4.35 timed vs 7.72 naive (3.36 relief); FY27 timed reduction 0.55; prompt repairs register/rollup/exec-chain defects; 3.5 untouched.",
+   "RULED",
+   "Built 09/08 from both analyses.",
+   ""
   ]
  ],
  "build": [
