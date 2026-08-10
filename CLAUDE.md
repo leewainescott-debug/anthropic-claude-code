@@ -87,7 +87,16 @@
   Excel-editable, never shapes; MBB standard, Minto, action titles, short
   sharp sentences, options for key slides; agents build, Fable plans and
   QAs in loops - nothing reaches Lee below standard.
-- TEMPLATE RULING (Lee 10/08, after deck v1 rejected): THE template is the
+- TEMPLATE RULING SUPERSEDED (Lee 10/08 night): THE template is now his
+  uploaded template.pptx (de0f7c61 - one title slide "FY26 Actuals & H2
+  Forecast with Platform Model", 1 master, 308 layouts, think-cell). ALL
+  slides live inside that package. The deck's MBB grammar (callout chips,
+  kickers, so-what strips, dense slides) is FINE and stays - his words:
+  "CALLOUT CHIPS ARE FINE, KICKERS ARE FINE, YOU JUST NEVER USED MY
+  TEMPLATE". Deck = FY26_Actuals_H2_Forecast_Platform_Model.pptx. The FY26
+  workbook follows the MODEL's house style: Calibri 11/16, header rows
+  white on 0F2E52, minimal words, months must ramp with hires.
+- OLD TEMPLATE RULING (Lee 10/08, after deck v1 rejected): the
   FY27_Budget_Update.pptx deck - its formatting, colours, fonts (Mark OT,
   navy 18249C, red ED0C06, grey 5F5F5F, E0E0E0, coral F76D69, periwinkle
   747BC3). Template.pptx is layout IDEAS only (marimekko, insight rails,

@@ -2248,3 +2248,18 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   stale 3.1/3.8 headlines, 3.10 Saving labels); July actuals if they
   exist; Digital Support NZ percentage home; the INTERNAL USE ONLY
   italic on his own master (left untouched).
+
+## D148 - 10/08 night: his template file is THE vessel; the excel months must ramp
+- Lee uploaded template.pptx and ruled all slides live inside it. The MBB
+  grammar (chips, kickers, so-what strips) is fine and stays - the defect
+  was only that the deck was never built inside his template package. The
+  22 slides were transplanted byte-identical into the template (his title
+  slide leads; 14 native charts and workbooks carried; validator clean bar
+  the source's own comment ids), then reordered to the story.
+- FY26 excel corrections after his review: tab 1's forecast months were
+  flat sixths - rebuilt so Internal Labor (gross people cost) and Staff
+  Cost (the lights on component) ramp month by month off the model and the
+  vacancy hire months (AU 4.28 to 4.88 gross, 2.57 to 3.17 lights on; NZ
+  ramps in NZD); the essays stripped to tight labels; house style matched
+  to the model (Calibri, header rows white on 0F2E52). Landings unchanged:
+  53.72 / +3.22 v 50.5 / 0.08 inside 53.8; all checks pass.
