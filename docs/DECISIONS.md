@@ -1911,3 +1911,24 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Build waits for: the three model prompts to run (snapshot after them, 19
   lines), Lee's nod on this plan, and ideally Finance's June/July full
   file. Mock of the main tab sent 09/08 on real numbers.
+
+## D133 - 09/08: FY26 forecast built on Finance's cut (Lee's ruling)
+- Lee ruled: the June report has everything needed; use Finance's cut, not
+  the model's portfolio cut. TDD Pack (2) gives, per line, YTD actuals,
+  monthly actuals to June, Finance's own July-December monthly forecast and
+  full-year totals. AU (AUD): Internal Labor, Contingent Labour, Personnel
+  Costs, Labour Recharge, Staff Cost = the people cost line. NZ (NZD):
+  People Costs.
+- Allocated budgets come from the model's 0.2 Data Config row 27: AU 36.2,
+  NZ 17.6, total 53.8 - these are the budget lines, not Finance's own
+  budget column.
+- The numbers: AU lands 35.61 vs 36.20 = 0.59 under. NZ lands 20.90 NZD =
+  19.23 AUD at their 0.92 = 1.63 over 17.60. Total 54.84 vs 53.80 = 1.04
+  over. The model's planned charge 54.54 sits within 0.30 of the landing.
+  Finance's Z line carries two full-year forecasts 0.59 apart (20.31
+  printed vs 20.90 summing their months); the workbook uses their months
+  and says so plainly.
+- Built same day by an Opus agent to a cell-level spec: three tabs
+  (Forecast, Data - Finance (June), Data - model), only two typed cells
+  (the cream budgets), everything else formula or sourced value, no
+  external links, no italics, no subheaders.

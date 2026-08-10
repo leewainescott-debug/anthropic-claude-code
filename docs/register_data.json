@@ -127,6 +127,14 @@
    "NOTED",
    "Review 09/08 on Lee's upload.",
    ""
+  ],
+  [
+   "DEC-28",
+   "FY26 on Finance's cut",
+   "June TDD Pack (2) is the source; Finance's line cut (Internal Labor/Contingent/Personnel/Recharge/Staff Cost AU, People Costs NZ); budgets 0.2 row 27 = 36.2 AU / 17.6 NZ. AU 0.59 under, NZ 1.63 over, total 1.04 over; model charge within 0.30.",
+   "RULED",
+   "Lee, 09/08. Built same day.",
+   ""
   ]
  ],
  "build": [
@@ -205,9 +213,9 @@
   [
    "BLD-24",
    "FY26 forecast v2",
-   "Planned and mocked, not built. People-net spine, Finance AU/NZ budgets 35.23/21.75, actuals 20.01/9.40 to June, portfolio months = charge/12 with hire-month dropdowns, gross vs charged shown. Waits on: three prompts run, Lee's sign-off, Finance June/July full file.",
+   "Superseded by Lee's 09/08 ruling: built on Finance's cut instead (see DEC-28). v2 shipped from the June file with 0.2 row-27 budgets.",
    "HIGH",
-   "Mock sent 09/08; awaiting Lee's nod.",
+   "Done - replaced by the Finance-cut build.",
    ""
   ]
  ],

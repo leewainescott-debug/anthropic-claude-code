@@ -23,12 +23,22 @@
   FY27 model's allocation table. NO portfolio/COE cut of actuals exists -
   never allocate Finance lines to portfolios (v1 mapped their leader P&L
   lines to portfolios = fabrication; v1 withdrawn, Lee told to bin it).
-  Layout Lee specified: Portfolio | Actuals to June, charged to lights on
-  ($m) | July...December forecast (one column per month). Actuals cells =
-  cream typed, EMPTY until real numbers are typed. Months = portfolio's FY
-  charged (3.5 L) / 12, formula-driven. Show FY gross people cost next to FY
-  charged to lights on, charge always formula never typed. Lee is sending an
-  example to lock the final shape - rebuild only after it lands.
+  RULED 09/08 (supersedes the portfolio-cut plan): the FY26 forecast uses
+  FINANCE'S CUT, never the model's portfolio cut - "look at how finance has
+  cut it, i dont want ours to be cut differently". Source = the JUNE file
+  sheet TDD Pack (2), which carries per line: YTD actual (col O), monthly
+  actuals Jan-Jun (AY:BD), Finance's own monthly forecast Jul-Dec (BE:BJ),
+  FY forecast (BK), FY budget (X). AU lines (AUD): Internal Labor r31,
+  Contingent r32, Personnel r33, Labour Recharge r34, Staff Cost r35 (= the
+  people cost line, 20.01 YTD, lands 35.61). NZ (NZD): People Costs r49
+  (10.22 YTD, lands 20.90 by their months; their other FY forecast col says
+  20.31 - 0.59 gap, flagged not resolved). Allocated budgets = 0.2 Data
+  Config ROW 27: AU 36.2 / NZ 17.6 / total 53.8 (Lee's ruling; these are
+  the budget, not Finance's X-column budgets). NZ AUD conversion at their
+  0.92. Landings: AU 0.59 under, NZ 1.63 over, total 54.84 vs 53.80 = 1.04
+  over; model charge 54.54 within 0.30. Fair derived assumptions are
+  allowed when drawn from deep analysis of both files (his permission
+  09/08). Built TDD_FY26_Forecast.xlsx v2 via Opus agent on this spec.
 - FORMATTING FOREVER (Lee 09/08): no italics anywhere in any model, no
   subheaders, no AI look or feel, no made-up formulas to force numbers to fit
   an outlook. Mocks and built tabs alike.
