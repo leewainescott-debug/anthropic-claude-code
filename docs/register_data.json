@@ -576,6 +576,11 @@
    "FY26 forecast v3",
    "Live FX input, 50.5 anchor, model-driven H2 less vacancy timing relief, 107-row hire-month tab, sources tab naming every refresh point.",
    "Shipped 09/08. Landing 52.42 vs 50.5 at 0.83 FX. QA: checks Yes, 2 cream cells, 0 italics, 0 external links."
+  ],
+  [
+   "Exec deck v1",
+   "15 slides, template identity, 10 native charts, Minto storyline, FY26 slide on the v3 live-FX basis, 2 option slides.",
+   "Shipped 10/08 after QA fixes (cyber split rows, spans data, FY26 restatement)."
   ]
  ]
 }

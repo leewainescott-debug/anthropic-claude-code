@@ -2028,3 +2028,17 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Refresh points named on the Sources tab: model block on tab 3 and the
   hire-month table on tab 4 re-point to the updated model when Lee runs
   the vacancy prompt and returns the file. Exec deck build still running.
+
+## D139 - 10/08: exec deck v1 shipped after QA fixes
+- 15 slides on the template identity, ten native Excel-editable charts
+  with embedded workbooks, bridge-led Minto storyline, two option slides.
+- QA found and fixed four things before it shipped: the FY27 table now
+  carries the two cyber COEs split (3.16/0.49 and 2.83/0.00, not a
+  merged pair); the spans chart and scatter gained COE Cyber at 16.8;
+  the vacancy label now names COE Service Ops alone for its four roles;
+  and the FY26 slide was restated from the stale 0.92 basis (54.84,
+  1.04 over) to the v3 live-FX basis (52.42 vs 50.5 = 1.92 over, timing
+  relief inside, FY27 charge 54.43 alongside). Also fixed in QA: a
+  duplicated callout, a missing scatter label, a rounding footnote.
+- Numbers refresh on the updated model once the vacancy prompt has run;
+  the FY26 slide and workbook share one basis by construction.
