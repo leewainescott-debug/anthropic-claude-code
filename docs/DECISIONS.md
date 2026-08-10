@@ -2042,3 +2042,21 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   duplicated callout, a missing scatter label, a rounding footnote.
 - Numbers refresh on the updated model once the vacancy prompt has run;
   the FY26 slide and workbook share one basis by construction.
+
+## D140 - 10/08: deck v1 rejected - template ruling, banned word, flip-flop ask
+- Deck v1 was built on Template.pptx's look. Wrong: THE template is the
+  FY27 Budget Update deck itself - Mark OT font, navy 18249C, red ED0C06,
+  its greys and accents. Template.pptx contributes layout ideas only,
+  re-skinned. Process now: 20 template screenshots to Lee first, he picks
+  the ones he likes, then the rebuild - richer tables, marimekko, MBB
+  output, none of the boring-graph look.
+- Banned word: charge/charged. Lee's language only: cost to TDD lights
+  on, what TDD pays, landing. Existing artefacts get relabelled at the
+  next touch.
+- New analysis ruled in: the flip-flop story - roles GMs put on Hold
+  (zero in the model) that now carry hire months in the vacancy sheet.
+  FTE and dollars, the cost that comes back if they hire as stated, by
+  portfolio, 2026 vs 2027. Narrative slide, not yet in the numbers.
+- Updated model (1347cab8) received with the vacancy prompt applied -
+  analysis agent extracting timing block, FY26 hire-month view, the
+  flip-flop set, and verifying nothing on 3.5 moved.

@@ -78,3 +78,16 @@
   Excel-editable, never shapes; MBB standard, Minto, action titles, short
   sharp sentences, options for key slides; agents build, Fable plans and
   QAs in loops - nothing reaches Lee below standard.
+- TEMPLATE RULING (Lee 10/08, after deck v1 rejected): THE template is the
+  FY27_Budget_Update.pptx deck - its formatting, colours, fonts (Mark OT,
+  navy 18249C, red ED0C06, grey 5F5F5F, E0E0E0, coral F76D69, periwinkle
+  747BC3). Template.pptx is layout IDEAS only (marimekko, insight rails,
+  banded tables), always re-skinned into the FY27 deck's identity. NEVER
+  invent a look. Before the deck rebuild: 20 template screenshots to Lee,
+  he picks, then build. BANNED WORD: "charge/charged" - Lee has never said
+  it. Say cost to TDD lights on / what TDD pays / landing. Deck v1 =
+  rejected (wrong template, boring graphs, no tables/mekko, wrong voice).
+- Flip-flop analysis (Lee 10/08): roles GMs put on Hold (priced zero) that
+  now carry hire months in the vacancy sheet - show FTE and dollar impact
+  of the flip-flopping; not in the numbers yet, narrative only. Updated
+  model post-vacancies = 1347cab8 upload; FY26 runs off it.
