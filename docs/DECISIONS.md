@@ -2472,3 +2472,20 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   lights on, held-excluded columns). Run-rate insight corrected to 80
   squad roles. Em and en dashes confirmed banned in chat responses as
   well as artefacts.
+
+## D159 - 11/08: the 2.34 "Other" decomposed and named
+- Lee asked what Other represents in his lever waterfall and ruled it
+  be split and relabeled. Decomposition (squad grids across all 2.x,
+  collision-free keys, identity closes to Exec 16.63 within a cent):
+  filled roles held in Customer digital squads 1.01 (Ampol App 4 roles
+  0.77, Ampol Web 1 role 0.24); Cyber Strat & Tech part-charged to the
+  cyber uplift program 0.49 (the 2.11 Uplift % column); hire plan
+  timing 0.43; one further held-role effect in Service Op & Assurance
+  0.11; small overhead-side and cross-squad effects 0.30. Total 2.34.
+- Finding surfaced to Lee: the model holds five to six FILLED roles
+  (about 1.12), and separately 14 filled roles carry confirmed end
+  dates (3.40); offered to pin his "12 removed" against either
+  definition.
+- Chart guidance given: replace Other with the named steps (or one bar
+  "Filled holds, uplift part-charge and timing"); never label a bar
+  Other.
