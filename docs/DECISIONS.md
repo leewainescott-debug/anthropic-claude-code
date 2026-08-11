@@ -2388,3 +2388,31 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   outside marked squads, cyber COEs carry 17). Three old vacancy-era
   slides fully superseded were dropped; register deltas swept through
   the rest. Deck 21 slides, QA clean.
+
+## D155 - 11/08: deck cut to cover + 8; filled means named; empty markings move nothing
+- Lee's rulings this round: the deck is 8 slides max (his six plus two);
+  "filled" means a named person in the role (the Enterprise Data
+  Delivery nine are NOT filled, they are capacity); an offshore marking
+  on a squad with no coded roles (Digital Support NZ) is a label that
+  moves no number and must be coded or dropped; the 0.43 difference on
+  the hire line is start-quarter timing on the new cyber roles, never
+  "avoided"; the held-roles slide claiming 22 was stale.
+- Register facts (8fe38c44 3.7): Hire 66 / Offshore 31 / Hold 30 = 127.
+  The 31 is the offshore count; holds are 30, all Australian-side.
+  REVIEW named-person check: control squads carry MyHR names, the nine
+  marked squads carry none, so the model's 46 "filled" there are
+  modelled capacity pending HR confirmation of names.
+- FY27 run-rate side split (derived, flagged on-slide): people cost AU
+  78.55 / NZ 20.28 (role countries less side lever effects; NZ lever
+  roles carry 0.77), sig items 19.07 / 0.76, gross 59.47 / 19.52 v
+  64.20 / 23.46 budgets; overheads and support split on lights-on
+  share (16.46/6.43 and 22.45/8.77).
+- FY26 composition analysis (new slide, his ask): sig items 19.83 for
+  the year (1.65 a month, 9.92 per half, H1 on a flagged assumption),
+  vacancy cost 4.35 all in H2 ramping 0.02 to 1.10 by cohort, standing
+  organisation flat 5.26 a month; H1 banked 4.17 against half the
+  87.66 budget, H2 runs 1.98 over, net 2.19 under. December exits
+  96.13 gross annualised, 76.30 net of sig items, marching to 79.00.
+- Deck rebuilt as cover + 8 in his format (yellow-highlight titles,
+  navy tables, red circles, insights-and-assumptions rail right, clean
+  chart with no gridlines and labelled bars). QA clean.
