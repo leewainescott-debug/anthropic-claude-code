@@ -2416,3 +2416,12 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Deck rebuilt as cover + 8 in his format (yellow-highlight titles,
   navy tables, red circles, insights-and-assumptions rail right, clean
   chart with no gridlines and labelled bars). QA clean.
+
+## D156 - 11/08: the 0.43 is immaterial; the cyber roles just go into FY27
+- Lee: the 430k hire-line difference does not matter; just put those
+  roles into FY27. The vacancy stock slide now shows the hire line as
+  "Hire, into FY27 at full price" with no difference column, no callout
+  and no start-quarter storyline; the only trace is one footnote clause
+  ("the new cyber roles sit in FY27 from their start quarters"). The
+  avoided story stays on the offshore and delayed lines (9.10: 5.89
+  delayed, 3.21 offshore). Model totals untouched: 127 / 26.44 / 16.91.
