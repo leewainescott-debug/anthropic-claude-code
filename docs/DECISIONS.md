@@ -2282,3 +2282,16 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   (1.46 under its 17.5 share), AU 37.68 v 36.2 (4.68 over its 33.0
   share), total 53.72 v 53.8 (3.22 over the 50.5 allocation). Months
   are formulas off the vacancy table; checks pass.
+
+## D150 - 11/08: Lee pulls the deck build; a self-contained prompt for another tool
+- After repeated failed deck deliveries (files refusing to open on his
+  machine, then a rebuilt deck he judged well below standard), Lee ruled:
+  stop building, go through the whole conversation, and hand him one
+  self-contained first-person prompt for another excel-capable tool to
+  produce the slides. Deck structure he fixed: executive summary plus
+  four slides each on FY26, FY27, vacancies and offshore; no NZ slide.
+  All verified numbers frozen this session: FY26 lands 52.48 (+1.98 v
+  50.5, -1.32 v 53.8), gross 83.46, months 3.62 to 4.23, H2 build
+  27.21 - 5.63 + 2.40 = 23.99, December exit 50.80, FY27 54.12, two
+  moves to 48.50, vacancies 132/131.5 FTE with holds at zero and the 17
+  undated at January 2027, offshore 82 roles 14.61 to 6.21.
