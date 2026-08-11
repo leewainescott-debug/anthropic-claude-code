@@ -2335,3 +2335,24 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   vacancies 27.65/18.12 with 70 of 102 starts in H2 and the 52.42 exit;
   the six open decisions led by 3.49 and 4.47). Lee to strike anything
   that does not belong.
+
+## D153 - 11/08: HIS FORMAT ruled by screenshot; deck restyled in the template vessel
+- The presented-slides cut (D152) was rejected: wrong format and wrong
+  vessel. Lee's screenshot defines HIS FORMAT: 24pt MarkOT title with the
+  key phrase highlighted yellow, navy-header table, red numbered circle
+  callouts tied to footnotes, an Insights panel in navy with white text,
+  Draft for discussion chip, Ampol mark bottom-left and page number
+  top-right from his template master. The kicker lines, units notes,
+  sub-claim pairs and SO WHAT strips are NOT his format and were removed;
+  each slide's so-what line moved into a navy Insights strip in the same
+  slot. In-body chips and red circles stay per his earlier words.
+- Vessel = FY26_Actuals_H2_Forecast_Platform_Model.pptx, whose master is
+  canonically identical to his template.pptx; the example-file package is
+  not the template and is retired as a vessel. Title slide added at the
+  front replicating the template's own.
+- Every number swept to the ruled basis in the same pass (54.20/3.70/
+  0.40; gross 85.47 v 82.37; NZ 17.61 at 0.92; exit 52.42; walk 28.04
+  less 5.65 plus 2.41 = 24.79 annualising 49.59; 70 of 102 starts in H2,
+  32 in 2027; timing relief 3.24 on what TDD pays) and the monthly, ramp
+  and hires charts re-pointed to the same series. QA clean on the stale
+  list and banned words. Delivered under the D148 deck name.
