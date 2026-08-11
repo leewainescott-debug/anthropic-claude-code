@@ -2425,3 +2425,28 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   ("the new cyber roles sit in FY27 from their start quarters"). The
   avoided story stays on the offshore and delayed lines (9.10: 5.89
   delayed, 3.21 offshore). Model totals untouched: 127 / 26.44 / 16.91.
+
+## D157 - 11/08: gross view includes sig items; the 540-role growth story analysed
+- Lee's revised run-rate view: Gross cost = total people cost including
+  sig-item people (98.83) against the 87.66 staff budget; 11.17 over
+  gross before program recovery, 79.00 and 8.66 inside after. Table
+  with AU/NZ filled delivered in chat (people 78.55/20.28, sig
+  19.07/0.76, support 22.45/8.77, overheads 16.46/6.43, cost charged
+  38.91/15.21, delta 2.71/(2.39)).
+- Growth story analysis (all from the model): 540 roles 537.8 FTE (his
+  503 = 540 less 30 delayed, 6 WiPro, 1 unmatched); full onshore price
+  115.46 charged at 98.83 via levers (delayed 5.89, offshore-rate 67
+  roles 8.39 with WiPro/EntData excluded, balance 2.34); 19.83 funded
+  by programs (52 EGI roles 12.83 + line-funded 7.00) v the original
+  model which had no funded-outside carve-out; vacancies priced ~4%
+  under the filled average (0.208 v 0.218); 14 end-dated filled roles
+  worth 3.40 (7 exit FY26, 7 FY27) still inside 98.83 until they
+  leave; 44 contractors/temps at 11.42 (40 day-rated).
+- NOT verifiable from held files (flagged to Lee): the 420-role and
+  ~100m anchors and any contractor-to-perm conversion count; the
+  original ledger predates Role IDs. Needs the original extract.
+- Offshore sufficiency: 82 on the lever = 15% of FTE, 67 discounted,
+  8.39 achieved = 7% of the base; next mechanical step is the 21
+  onshore roles in marked squads (2.52); beyond that a marking call.
+- Insights list: his four polished plus four new (levers, 53.8 v 50.5,
+  the two gross readings, vacancies inside the number), in chat.
