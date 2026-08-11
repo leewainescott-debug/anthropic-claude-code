@@ -2295,3 +2295,15 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   27.21 - 5.63 + 2.40 = 23.99, December exit 50.80, FY27 54.12, two
   moves to 48.50, vacancies 132/131.5 FTE with holds at zero and the 17
   undated at January 2027, offshore 82 roles 14.61 to 6.21.
+
+## D151 - 11/08: NZ priced at 0.92 for FY26; the landing moves over the full budget
+- Lee's ruling: New Zealand is priced at 0.92 for FY26, superseding the
+  live-rate ruling for this year. The rate stays a typed input; every NZ
+  figure (actuals, forecast months, gross budget) converts at it.
+- At 0.92 the FY26 story changes: lights on lands 54.20, 3.70 over the
+  50.5 allocation and 0.40 OVER the 53.8 full budget (was 1.32 inside at
+  0.83). NZ lands 17.61 v its 17.5 share; AU 36.59 unchanged. Gross
+  lands 85.47 v the 82.37 budgets (AU 62.59 AUD + NZ 21.5 NZD at 0.92).
+  December exit run rate 52.42. Reported straight, not massaged.
+- Delivered as TDD_FY26_Forecast_11.xlsx on his own v10 upload lineage;
+  checks rewritten to rate-independent identities, all pass.
