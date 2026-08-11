@@ -2307,3 +2307,31 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   December exit run rate 52.42. Reported straight, not massaged.
 - Delivered as TDD_FY26_Forecast_11.xlsx on his own v10 upload lineage;
   checks rewritten to rate-independent identities, all pass.
+
+## D152 - 11/08: the example file is the chart standard; deck cut to the presented slides only
+- Lee's correction on the 48-slide example file: it is his example of the
+  graphs and charts standard, NOT a formatting override and not a deck to
+  ship whole. He wants only the slides that are presented.
+- Presented set identified and cut: slides 13 to 28 of the example = title
+  (August 2026), exec summary, FY27 by line, allocation v cost, overheads,
+  FY26 month by month, FY26 exit run rate, vacancies, holds with hire
+  dates, hiring ramp, hire timing, offshore, levers, New Zealand, spans,
+  decisions. 16 slides. Slides 1 to 12 (earlier working set), 29 to 33
+  (diagram and exec variants) and 34 to 48 (the Graphik chart library)
+  dropped. Delivered as TDD_cost_update_presented.pptx.
+- Residual stale numbers found in QA and fixed against the FY26 workbook
+  before shipping: December exit 53.27 corrected to 52.42 everywhere; AU
+  over its share 4.68 corrected to 3.59 and the total over 3.22 to 3.70;
+  "just inside the full budget" corrected to 0.40 over; the H2 walk
+  corrected to 28.04 less 5.65 plus 2.41 = 24.79 (annualises 49.59, 0.91
+  under the allocation); hire cohorts corrected to 70 in FY26 H2 (October
+  18, not 21) and 32 in FY27; the what-TDD-pays walk to 5.65, 2.41 and
+  3.24; "at the live rate" reworded to "at the 0.92 rate" per D151.
+- The placeholder title on the FY27 by-line slide ("Header (only use this
+  formatting)") replaced with a real action title at the blessed 18pt.
+  The empty exec summary slide drafted: five numbered statements on the
+  ruled numbers (54.20/3.70/0.40; 54.12/3.62/0.32 with overheads 22.90 v
+  11.61 and the cyber 3.49; levers 16.63 and the two moves to 48.50;
+  vacancies 27.65/18.12 with 70 of 102 starts in H2 and the 52.42 exit;
+  the six open decisions led by 3.49 and 4.47). Lee to strike anything
+  that does not belong.
