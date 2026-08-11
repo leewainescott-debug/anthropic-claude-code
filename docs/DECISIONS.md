@@ -2263,3 +2263,22 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   ramps in NZD); the essays stripped to tight labels; house style matched
   to the model (Calibri, header rows white on 0F2E52). Landings unchanged:
   53.72 / +3.22 v 50.5 / 0.08 inside 53.8; all checks pass.
+
+## D149 - 11/08: the polished deck - his cull, his storyline, the FY26 narrative on a slide
+- Lee's rulings on the transplanted deck: delete the title slide, the
+  agenda, both model diagrams and the divider (his numbered list), and
+  the spans slide is not wanted ("that's not mekko"). The deck opens on
+  the executive summary. The FY26 gross-and-lights-on narrative built
+  in the excel must live on a slide. The executive summary leads FY26
+  then FY27. Titles at the template's 24pt black. Storyline: exec
+  summary, FY26 gross and lights on, FY26 month by month, exit run
+  rate, FY26 v the FY27 model, FY27 cost by line, mekko, allocation
+  bridge, overheads, levers and two moves, vacancies, hire timing,
+  ramp, flip-flop, offshore, New Zealand, decisions - 17 slides.
+- FY26 excel tab 1 rebuilt earlier tonight to his drawn shape: two
+  tables (Gross and TDD Lights on), NZ and AU rows, monthly columns
+  plus landing, budget and over/(under) allocation. Gross: NZ 18.62,
+  AU 66.45 v 62.59, total 85.07. Lights on: NZ 16.04 v 17.6 budget
+  (1.46 under its 17.5 share), AU 37.68 v 36.2 (4.68 over its 33.0
+  share), total 53.72 v 53.8 (3.22 over the 50.5 allocation). Months
+  are formulas off the vacancy table; checks pass.
