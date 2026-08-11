@@ -2450,3 +2450,25 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   onshore roles in marked squads (2.52); beyond that a marking call.
 - Insights list: his four polished plus four new (levers, 53.8 v 50.5,
   the two gross readings, vacancies inside the number), in chat.
+
+## D158 - 11/08: the 510 basis ruled; 16.91 is spend not reduction; 82 pairs with 6.21
+- Lee's ruling: the total is 510 roles (540 coded less the 30 held,
+  which sit outside both the count and the cost; putting them back in
+  moves both, 540 roles at 104.72). The vacancy view is only the roles
+  we plan to fill: 97 at 16.91. Analysis re-driven from that basis.
+- Corrections confirmed to him in chat: 16.91 is spend, not a
+  reduction of cost (the reduction inside the hiring plan is 3.21,
+  the 31 offshore hires at 2.11 against 5.32 onshore); "70 new roles
+  for the same cost via offshoring" is not the message (this year the
+  70 cost 4.35 and land inside budget mostly on hire months; the
+  whole-book claim is 510 roles at 98.83 against 109.57 full onshore,
+  8.39 of it offshore pricing); 82 lever roles pair with 6.21 after
+  the lever, never with 16.91 (overlap is only the 31 offshore hires
+  at 2.11). The 510 reconciles to people: 413 filled today plus 97 to
+  hire.
+- Vacancy slide rebuilt on this basis: 97/20.55/16.91 table, holds as
+  a grey outside-the-numbers reference line, per-line table restated
+  from the register on the to-hire basis (spend, of-which-offshore,
+  lights on, held-excluded columns). Run-rate insight corrected to 80
+  squad roles. Em and en dashes confirmed banned in chat responses as
+  well as artefacts.
