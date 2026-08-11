@@ -2356,3 +2356,35 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   32 in 2027; timing relief 3.24 on what TDD pays) and the monthly, ramp
   and hires charts re-pointed to the same series. QA clean on the stale
   list and banned words. Delivered under the D148 deck name.
+
+## D154 - 11/08: new model (8fe38c44), updated gross budgets, six net-new slides
+- New model upload 8fe38c44: register now 127 open vacancies (R0273,
+  R0055, R0067, R0326 confirmed filled and removed); plan = 66 hire
+  (14.80) + 31 offshore (2.11) + 30 delayed (zero) = 16.91 planned
+  spend, 26.44 full price, 9.53 avoided; 10.10 on lights on (17 vacant
+  overhead roles 4.08 + 110 squad roles 6.03). Hires 97: 70 in FY26 H2
+  (cohorts unchanged 1/14/30/18/7), 27 across FY27 (12 Jan). Cyber
+  roles now timed to start quarters. July-start H2 8.45, planned 4.35,
+  timing takes out 4.10. Two-moves close becomes 49.12 (54.12 less
+  4.08 less 0.92). 3.5/3.6 totals unchanged.
+- Updated gross staff budgets (Lee): AU 64.2 AUD, NZ 25.5 NZD at 0.92
+  = 23.46, total 87.66. FY26 workbook updated (K10 formula 25.5*C6,
+  K11 64.2): gross lands 85.47 = 2.19 UNDER (AU 0.79 over, NZ 2.98
+  under); on the old 82.37 line it read 3.10 over. Lights on unchanged
+  54.20 / 3.70 / 0.40.
+- The gross story ruled onto the slides: FY26 gross counts everyone
+  including sig-item and EGI-funded people; FY27 gross 79.00 nets the
+  19.83 out (98.83 less 19.83). Same organisation, two nets; both
+  years hold the updated gross budgets, the pressure is lights on.
+- Six net-new slides in his format (tables left, navy Insights and
+  assumptions rail right, yellow-highlight titles): FY27 run rate (his
+  mock exactly: AU/NZ/TDD Total, his column labels including "charged
+  to TDD" as his verbatim headers), FY26 gross landing, vacancy stock,
+  vacancy timing + defer scenarios (deferring FY26 starts does not
+  move FY27; deferring the 12 January starts to July frees ~0.8
+  gross), offshore squads (9 marked, 46/64 filled, 21-role redundancy
+  consideration 2.52, Digital Support NZ = archetype capacity only, no
+  coded roles), offshore lever roles (82 = 51 filled + 31 vacant; 52
+  outside marked squads, cyber COEs carry 17). Three old vacancy-era
+  slides fully superseded were dropped; register deltas swept through
+  the rest. Deck 21 slides, QA clean.
