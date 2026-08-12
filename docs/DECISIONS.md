@@ -2511,3 +2511,27 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   toggle has no month. Verified by recalc: R0468 Oct-2026 gives 0.121
   a year and 0.030 in FY26; the four demo toggles sum 0.071 FY26 and
   0.390 FY27.
+
+## D161 - 12/08: offshore model v1 rejected, rebuilt with the REVIEW tab in
+- Lee rejected the D160 file: not dynamic and broken. Diagnosis confirmed
+  five faults: the chart object carried no series at all (why Excel choked),
+  dropdowns existed only on scenario A, the by-portfolio table double
+  counted (RETAIL and Retail as separate rows with case-blind SUMIFS, an
+  unlabelled criteria row, a footnote wired into live formulas), no cached
+  values (never recalculated), and a stray empty sheet.
+- Lee ruled: the file must copy the REVIEW role mapping tab in. Done -
+  REVIEW - Complete Role Mapping copied verbatim as values from the
+  1347cab8 model (541 rows x 52 cols; its three #N/A cells at A31, C31,
+  S525 are in his source and stay). Role IDs trace by row order (R0001 =
+  REVIEW row 2).
+- Rebuild: dropdowns on all three scenario blocks (Yes/No + month), all
+  toggle and month cells unlocked and blue; by-portfolio table on the 15
+  distinct portfolio values plus a not-mapped row, total ties to the
+  compare table with a visible zero check row; live clustered chart on
+  FY26 impact, FY27 impact and full year (chart-source rows stay visible -
+  hiding them is what killed the chart, LibreOffice drops series whose
+  source rows are hidden); stray sheet removed; Calibri 11 throughout,
+  headers white on 0F2E52, no italics; all four sheets protected Tdd123.
+- Verified by recalc: R0468 unchanged at 0.121 a year / 0.030 FY26; demo
+  scenario 4 roles, 0.071 FY26, 0.390 FY27, portfolio total 0.390 with
+  check row zero. Shipped to deliverables/TDD_Offshore_Scenario_Model.xlsx.
