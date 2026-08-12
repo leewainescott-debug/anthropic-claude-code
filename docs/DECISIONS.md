@@ -2569,3 +2569,18 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   D161 RETAIL/Retail case-insensitive double-count was re-checked and
   fixed here (single case-insensitive SUMIFS, not two added). Recalc clean:
   0 errors across 7,185 formulas; portfolio total 0.390, check row 0.
+
+## D163 - 12/08: offshore Excel pushed to dashboard grade ("is this seriously the best")
+- Lee challenged the redesign as still not the best possible. Rebuilt the
+  front tab as a true dashboard, all clean formulas, no macros: three live
+  cards (name, headline $ taken out, roles/FTE/2026 line, and a % of
+  today's cost line), a self-ranking Ten biggest roles you've picked table
+  (LARGE/MATCH/INDEX with a row epsilon so ties never repeat, blanks until
+  roles are picked, in-cell bars on the $ column), and the run-rate chart
+  moved onto the front page. Compare gained in-cell bars on the portfolio
+  spread and heat shading on the month grid. Card captions split to two
+  lines after a render showed clipping.
+- Engine untouched. Recalc 0 errors / 8,874 formulas; example still ties:
+  0.38966 full year, 0.07118 in 2026, ranked roles sum to the same 0.38966;
+  the $0.00 line in the top ten is honest (that role is already at the
+  offshore rate, moving it gives nothing).
