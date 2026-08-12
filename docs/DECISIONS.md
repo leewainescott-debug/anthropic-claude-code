@@ -2489,3 +2489,25 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Chart guidance given: replace Other with the named steps (or one bar
   "Filled holds, uplift part-charge and timing"); never label a bar
   Other.
+
+## D160 - 12/08: offshore scenario model built as a standalone file
+- Lee's rulings from the design questions: new standalone file, not the
+  model; cost at the 0.4 rate only, no productivity or transition
+  inputs; no redundancy yet; offshoring only; three scenarios, clean;
+  impacts are the toggled roles' own numbers, not tied to budgets;
+  everyone touches it, super robust, not basic. He interrupted the
+  in-model build to rule this and asked for questions first.
+- Built TDD_Offshore_Scenario_Model.xlsx: 1 Scenarios (nameable A/B/C,
+  compare table, by-portfolio reduction table, clean chart, hidden
+  chart-source rows), 2 Roles (all 540 roles as values from the 0608
+  mapping with status, full onshore cost and cost in the book today;
+  three scenario blocks of Offshore?/Start month dropdowns plus
+  reduction, FY26 and FY27 impact columns), 3 Lists (month list
+  Jul-2026 to Dec-2027). Cost-in-book rules: filled at mapped cost,
+  planned hires at planned spend, held at zero (offshoring one shows
+  as added cost), lever roles at 0.4 (toggle adds zero, no double
+  count), WiPro guarded at vendor rates. Sheets protected Tdd123 with
+  only toggles, months and scenario names unlocked; red flag when a
+  toggle has no month. Verified by recalc: R0468 Oct-2026 gives 0.121
+  a year and 0.030 in FY26; the four demo toggles sum 0.071 FY26 and
+  0.390 FY27.
