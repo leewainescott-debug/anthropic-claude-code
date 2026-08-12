@@ -2535,3 +2535,37 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Verified by recalc: R0468 unchanged at 0.121 a year / 0.030 FY26; demo
   scenario 4 roles, 0.071 FY26, 0.390 FY27, portfolio total 0.390 with
   check row zero. Shipped to deliverables/TDD_Offshore_Scenario_Model.xlsx.
+
+## D162 - 12/08: v1 rejected as "looks like shit", rebuilt as a slick web app + clean Excel
+- Lee rejected the D161 Excel: the roles tab was 540 dropdown rows with no
+  way to find or pick a role, no toggles, "looks like shit, not usable".
+  He asked to be grilled before any rebuild.
+- Answered (plain-English question card): keep it in Excel; each role its
+  own start month; three separate baskets to compare; yes to a
+  month-by-month picture. Then escalated: "slick like a coded excel app,
+  automated driven (macro book?), super clean super slick".
+- RULED (my call, stated plainly, no macro): a true macro workbook is the
+  wrong horse - Excel blocks macros by default, they break on Mac/web/phone,
+  and VBA cannot be built or tested in this environment, so it would ship
+  unverified. The slick, automated, coded thing that CAN be built and proven
+  is a web app. Built both: the web app as the star, a clean formula-driven
+  Excel alongside so nothing is lost on the Excel side.
+- Web app (deliverables/offshore_scenario_planner.html, published artifact):
+  540 roles, live search + portfolio/AU-NZ/status filters, A/B/C toggles that
+  light green, per-role start month, three live basket cards, top-bar live
+  chips, an SVG run-rate-by-month chart (crosshair tooltip, direct end
+  labels), CSV export. Self-contained, light+dark theming, responsive.
+  Palette validated for colourblind separation. Rendered and eyeballed in
+  light, dark, a populated state and the held-role negative case; no console
+  errors. Math exact to the model: demo basket 0.38966 a year, 0.07118 in
+  2026, 0.38966 in 2027; already-offshore roles show 0, held roles show as
+  added cost (negative), vendor day-rate roles unchanged.
+- Excel (deliverables/TDD_Offshore_Scenario_Builder.xlsx): 4 tabs (Start
+  here / Pick roles / Compare / Lists hidden). Pick roles = one row per role,
+  AutoFilter, Yes/No toggles lit green by conditional formatting, per-basket
+  month dropdowns, helper maths hidden, protected Tdd123 with only inputs
+  unlocked. Compare = three baskets side by side, by-portfolio table with a
+  zero check row, run-rate-by-month table + line chart, 2026/2027 bar. The
+  D161 RETAIL/Retail case-insensitive double-count was re-checked and
+  fixed here (single case-insensitive SUMIFS, not two added). Recalc clean:
+  0 errors across 7,185 formulas; portfolio total 0.390, check row 0.

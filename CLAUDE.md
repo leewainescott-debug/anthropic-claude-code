@@ -120,3 +120,19 @@
   every artefact: em dashes and en dashes, call/calls as jargon, roster,
   Category as a column label, GM working copy, dashes as cell filler,
   theirs/their for Finance.
+- Offshore scenario tool (Lee 12/08): v1 Excel picker rejected as unusable
+  ("looks like shit", 540 dropdown rows, no toggles). His answers: keep an
+  Excel; each role its own start month; three baskets to COMPARE; yes to a
+  month-by-month picture. He then wanted it "slick like a coded app,
+  automated". RULED: no macro book (blocked by default, breaks on
+  Mac/web/phone, and VBA can't be built or tested in this env = unverified).
+  Delivered BOTH: the slick coded thing = a web app
+  (deliverables/offshore_scenario_planner.html, published artifact) with live
+  search/filters, A/B/C toggles, per-role months, live cards + SVG run-rate
+  chart + CSV export; and a clean formula Excel
+  (deliverables/TDD_Offshore_Scenario_Builder.xlsx, Start here/Pick
+  roles/Compare/Lists, AutoFilter, green toggles, protected Tdd123). Offshore
+  maths unchanged: moved role = 40% of full onshore; vendor day-rate exempt;
+  held = added cost; FY = Ampol calendar year (2026/2027), horizon
+  Jul-2026..Dec-2027. Demo basket ties 0.38966/yr, 0.07118 in 2026. Watch the
+  case-insensitive SUMIFS RETAIL/Retail double-count - fold with ONE SUMIFS.
