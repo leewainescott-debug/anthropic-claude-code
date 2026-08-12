@@ -2584,3 +2584,23 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   0.38966 full year, 0.07118 in 2026, ranked roles sum to the same 0.38966;
   the $0.00 line in the top ten is honest (that role is already at the
   offshore rate, moving it gives nothing).
+
+## D164 - 12/08: REVIEW tab dropped in the rebuild - caught by Lee, restored, rule made permanent
+- Lee: "Why is the review role mapping tab not in here? I don't like when
+  you transpose my raw data. Save that to your memory." He is right on both
+  counts. The D161 ruling (the file must copy the REVIEW role mapping tab
+  in) was honoured in TDD_Offshore_Scenario_Model.xlsx, then LOST when the
+  Builder was rebuilt from scratch (D162/D163) carrying only the converted
+  role grid. Worse, the Start-here note still claimed the mapping was
+  "copied in full" - it was not in the file. Own miss.
+- Fixed: REVIEW - Complete Role Mapping copied back in verbatim from the
+  D161 file (which took it from the 1347cab8 model) - 541 rows, values
+  identical cell for cell (27,591 cells compared, 0 mismatches), his three
+  #N/A markers at A31/C31/S525 intact. Tab sits between 3 Compare and the
+  hidden 4 Lists, protected like the rest. Start-here note corrected.
+- Recalc: the only flags in the whole book are those three #N/A cells -
+  his data, ruled to stay. All 8,877 formulas otherwise clean; example
+  still ties (0.38966 full year / 0.07118 in 2026, portfolio check 0).
+- PERMANENT RULE (now in CLAUDE.md): never transpose/reshape Lee's raw
+  data; source tabs ride along verbatim; derived grids are additions that
+  trace to the raw rows; never state a tab is present unless it is.

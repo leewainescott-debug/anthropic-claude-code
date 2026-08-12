@@ -530,14 +530,29 @@ notes=[
  "The year is the calendar year (Ampol's December year-end). The horizon runs Jul-2026 to Dec-2027.",
  "Figures are A$ millions. NZ roles are converted at the planning rate.",
  "The tabs are locked so the sums can't break. Only the yellow cells take typing. Password to unlock: Tdd123.",
- "Built from the role mapping in TDD_FY27_Cost_Calc_0608 (11 August 2026), copied in full on the hidden data tab.",
+ "Built from the role mapping in TDD_FY27_Cost_Calc_0608 (11 August 2026). Lee's mapping is copied in full, untouched, on the REVIEW - Complete Role Mapping tab.",
 ]
 for i,s in enumerate(notes): ws.cell(R2+1+i,2,s).font=f(11,color=INK)
 
 ws.protection = openpyxl.worksheet.protection.SheetProtection(
     sheet=True, password=PWD, selectLockedCells=False, selectUnlockedCells=False)
 
-order=["1 Start here","2 Pick roles","3 Compare","4 Lists"]
+# =====================================================================
+# REVIEW - Complete Role Mapping  -- Lee's raw tab, copied VERBATIM
+# (same rows, same columns, same orientation; his #N/A cells stay)
+# =====================================================================
+src = openpyxl.load_workbook("deliverables/TDD_Offshore_Scenario_Model.xlsx", data_only=True)
+srv = src["REVIEW - Complete Role Mapping"]
+rv = wb.create_sheet("REVIEW - Complete Role Mapping")
+for row in srv.iter_rows():
+    for c in row:
+        if c.value is not None:
+            rv.cell(c.row, c.column, c.value)
+rv.freeze_panes = "A2"
+rv.protection = openpyxl.worksheet.protection.SheetProtection(
+    sheet=True, password=PWD, selectLockedCells=False, selectUnlockedCells=False)
+
+order=["1 Start here","2 Pick roles","3 Compare","REVIEW - Complete Role Mapping","4 Lists"]
 wb._sheets.sort(key=lambda s: order.index(s.title))
 wb.active = wb.sheetnames.index("1 Start here")
 

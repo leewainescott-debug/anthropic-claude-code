@@ -136,3 +136,12 @@
   held = added cost; FY = Ampol calendar year (2026/2027), horizon
   Jul-2026..Dec-2027. Demo basket ties 0.38966/yr, 0.07118 in 2026. Watch the
   case-insensitive SUMIFS RETAIL/Retail double-count - fold with ONE SUMIFS.
+- RAW DATA RULING (Lee 12/08, permanent): NEVER transpose or reshape his raw
+  data. Any file built off a source tab carries that tab VERBATIM - same
+  rows, same columns, same orientation, values as they are (his #N/A cells
+  at REVIEW A31/C31/S525 stay). Derived working grids are additions, never
+  replacements, and must trace back to the raw tab (R0001 = REVIEW row 2,
+  by row order). The offshore builder always contains REVIEW - Complete
+  Role Mapping in full. Never claim a data tab is in a file unless it is
+  actually there - the v3 dashboard build shipped a front-page note saying
+  the mapping was included when the tab had been dropped; caught by Lee.
