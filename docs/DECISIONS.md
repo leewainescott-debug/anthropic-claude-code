@@ -2604,3 +2604,39 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - PERMANENT RULE (now in CLAUDE.md): never transpose/reshape Lee's raw
   data; source tabs ride along verbatim; derived grids are additions that
   trace to the raw rows; never state a tab is present unless it is.
+
+## D165 - 18/08: finalised FY27 Budget Update deck becomes THE slide standard
+- Lee: "as a note, this is what i finalised. save as memory for language,
+  slide structure, formatting and for reference of all my slides going
+  forward." Supersedes every earlier template ruling (10/08 template.pptx,
+  and the older FY27_Budget_Update formatting note).
+- Deck read three ways before recording anything: full text via markitdown,
+  all 8 slides rendered and inspected, and theme/palette/fonts/shape
+  geometry pulled from the package XML rather than eyeballed. Note:
+  libreoffice-impress was NOT installed in this environment (only calc) -
+  every pptx render was failing with "source file could not be loaded" on
+  ANY deck, including a trivial one. Installed it; renders work now.
+- Captured in docs/DECK_STANDARD.md: canvas 13.33x7.5; Mark OT Book theme
+  with MarkOT/MarkOTBold; palette navy 18249C, red ED0C06 (rationed to
+  over-budget numbers, callout circles, cumulative line), 5F5F5F, E0E0E0,
+  coral F76D69, periwinkle 747BC3, lilac C6CAF6, F2F2F2/E3E3E3; the
+  content-slide archetype with measured geometry (title x0.48 y0.47
+  w12.36; content left ~69%; Insight & Assumptions rail x9.6 w3.3;
+  footnotes at y6.64); table rules (navy header, banded body, labelled
+  total row, brackets for negatives, TBC where unknown); chart rules
+  (native editable, waterfall for bridging, combo columns + red cumulative
+  line with dashed year divider and direct labels); the four other slide
+  types (photo title, 3-column exec summary, From/To diagram, navy
+  side-panel section); notes as full spoken narrative.
+- Language: action titles are full sentences carrying the number; his
+  vocabulary list recorded; sentence case everywhere. Cost reduction /
+  cost avoidance confirmed - saving stays banned.
+- CONFLICT FOUND AND FLAGGED: the old ruling banned "charge/charged" on
+  the grounds Lee had never said it. His finalised deck uses it throughout
+  ("directly charged to strategic programs", "Total Overheads charged to
+  TDD", "Costs will be recharged to the BU"). The finalised artefact wins -
+  ban void, recorded as such, and flagged to him in chat rather than
+  silently switched.
+- Deck itself kept untouched at reference/Ampol_FY27_Budget_Update_FINAL.pptx
+  (raw-data rule D164: his file rides along verbatim). Register DEC-37 added
+  and TDD_Model_Register.xlsx rebuilt (107 rows).

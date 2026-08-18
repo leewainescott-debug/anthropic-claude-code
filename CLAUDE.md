@@ -87,24 +87,28 @@
   Excel-editable, never shapes; MBB standard, Minto, action titles, short
   sharp sentences, options for key slides; agents build, Fable plans and
   QAs in loops - nothing reaches Lee below standard.
-- TEMPLATE RULING SUPERSEDED (Lee 10/08 night): THE template is now his
-  uploaded template.pptx (de0f7c61 - one title slide "FY26 Actuals & H2
-  Forecast with Platform Model", 1 master, 308 layouts, think-cell). ALL
-  slides live inside that package. The deck's MBB grammar (callout chips,
-  kickers, so-what strips, dense slides) is FINE and stays - his words:
-  "CALLOUT CHIPS ARE FINE, KICKERS ARE FINE, YOU JUST NEVER USED MY
-  TEMPLATE". Deck = FY26_Actuals_H2_Forecast_Platform_Model.pptx. The FY26
-  workbook follows the MODEL's house style: Calibri 11/16, header rows
-  white on 0F2E52, minimal words, months must ramp with hires.
-- OLD TEMPLATE RULING (Lee 10/08, after deck v1 rejected): the
-  FY27_Budget_Update.pptx deck - its formatting, colours, fonts (Mark OT,
-  navy 18249C, red ED0C06, grey 5F5F5F, E0E0E0, coral F76D69, periwinkle
-  747BC3). Template.pptx is layout IDEAS only (marimekko, insight rails,
-  banded tables), always re-skinned into the FY27 deck's identity. NEVER
-  invent a look. Before the deck rebuild: 20 template screenshots to Lee,
-  he picks, then build. BANNED WORD: "charge/charged" - Lee has never said
-  it. Say cost to TDD lights on / what TDD pays / landing. Deck v1 =
-  rejected (wrong template, boring graphs, no tables/mekko, wrong voice).
+- SLIDE STANDARD (Lee 18/08, supersedes every earlier template ruling):
+  his FINALISED Ampol FY27 Budget Update deck is THE reference for all
+  slides going forward - language, structure, formatting. File kept
+  untouched at reference/Ampol_FY27_Budget_Update_FINAL.pptx; the full
+  standard with measured geometry is docs/DECK_STANDARD.md - READ IT
+  BEFORE BUILDING ANY SLIDE. Headlines: Mark OT fonts (Mark OT Book theme,
+  MarkOT body, MarkOTBold); navy 18249C, red ED0C06 RATIONED to
+  over-budget numbers/callout circles/cumulative line only, grey 5F5F5F,
+  E0E0E0, coral F76D69, periwinkle 747BC3 (the "Draft for discussion"
+  flag), lilac C6CAF6 table fills, F2F2F2/E3E3E3 panels. 13.33x7.5.
+  Content-slide archetype: action title full width at x0.48 y0.47 w12.36,
+  32pt, a FULL SENTENCE carrying the so-what and the number; left content
+  ~69% (x0.41-0.48, w8.7-9.2); "Insight & Assumptions" rail right ~25%
+  (x9.6, w3.3); navy kicker line above each table saying what it is;
+  numbered footnotes 8pt bottom left by the logo. Tables: navy header,
+  white bold, banded body, ALWAYS a labelled total row, brackets for
+  negatives, red for over, TBC where unknown. Charts native and editable,
+  never pictures - waterfall for bridging, combo columns+red cumulative
+  line with a dashed year divider and direct labels. Speaker notes = the
+  full spoken narrative, conclusion first. Sentence case everywhere.
+  "charged to"/"recharged to" are HIS words and are fine - the old ban on
+  charge/charged is void, his finalised deck uses it throughout.
 - Flip-flop analysis (Lee 10/08): roles GMs put on Hold (priced zero) that
   now carry hire months in the vacancy sheet - show FTE and dollar impact
   of the flip-flopping; not in the numbers yet, narrative only. Updated

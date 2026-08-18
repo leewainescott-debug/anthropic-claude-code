@@ -199,6 +199,14 @@
    "BUILT",
    "Found in QA 10/08 pm; rebuilt role by role, verified to 4dp.",
    ""
+  ],
+  [
+   "DEC-37",
+   "Deck standard finalised",
+   "Lee's finalised Ampol FY27 Budget Update deck is now THE reference for every slide: language, structure, formatting. Mark OT fonts, navy 18249C with red ED0C06 rationed to over-budget numbers and callouts, action titles as full sentences carrying the number, Insight & Assumptions rail on the right ~25%, navy-header tables with a labelled total row, native editable charts, notes as the full spoken narrative. Captured in docs/DECK_STANDARD.md with measured geometry; the deck itself kept at reference/Ampol_FY27_Budget_Update_FINAL.pptx.",
+   "BUILT",
+   "Extracted from his upload 18/08: 8 slides read, rendered and measured; theme, palette, fonts and shape geometry taken from the XML, not eyeballed.",
+   "as a note, this is what i finalised. save as memory for language, slide structure, formatting and for reference of all my slides going forward."
   ]
  ],
  "build": [
