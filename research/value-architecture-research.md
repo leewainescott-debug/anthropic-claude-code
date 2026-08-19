@@ -102,7 +102,7 @@ Every firm shares the same enemy narrative, which is "value leakage." They also 
 | Partners in Performance (now part of Accenture) | Implementation plus value delivery | Charges contingent fees, meaning its money is where its mouth is; talks about "wiring" value into daily behaviour. |
 | Kyndryl / Capgemini / Fujitsu | Named VROs | Kyndryl describes VROs as "air-traffic controllers of transformation," there to cut through the illusion of success defined by activity alone. |
 
-**Naming note:** Deloitte already uses the term "value architecture," in a capital-allocation framing. That isn't a blocker, but the offering name will need its own Slalom-distinct framing, or a variant such as "Value Architecture and Realisation," or it could anchor on the VRO or outcome language instead.
+**Naming note:** value architecture is generic strategy vocabulary used across the market; nobody owns it and the name carries no conflict.
 
 ### The competitor nobody talks about: the vendor's own value team
 SAP has run Value Engineering since 2004, ServiceNow has Now Value plus Impact, Salesforce has Business Value Services, and Snowflake has its own Value Engineering team; all four run these functions in house. **But these teams are motivated by the pre-sale and post-sale moment, and each one is single-vendor**, meaning they exist to justify that vendor's own deal, and they hand off once the deal closes. Databricks has no publicly named equivalent, which is a gap. Any Slalom value pitch has to position itself alongside these teams, since they bring funding and appetite to the table, while owning the part they don't cover, which is realisation during delivery and after go live, across more than one platform.
@@ -250,7 +250,7 @@ Several figures need a proper verification pass before they go in front of a cli
 
 ## 8. Open questions for the storyline: decisions to make before building slides
 
-1. **Name and claim.** Deloitte already owns the "value architecture" language in a CFO context. Should we keep the name and position out on practicality and plumbing instead, or should we differentiate the name itself?
+1. **Name and claim.** Value architecture is the name; the open question is only how Slalom's version gets described in one line so it reads as ours.
 2. **Anchor buyer.** The evidence says CFO or Finance is where value actually gets verified, but Slalom's relationships are often on the CIO or CDO side instead. Which door should the deck lead with, and does the client-partner enablement story need to bridge the two?
 3. **Lead offering.** The platform value assessment is the easiest offering to sell, since it's funded, fixed in scope, and finds concrete waste, but it's also the least differentiated category; the VRO is the most differentiated offering but the biggest ask of a client. Should we lead with the assessment as the wedge and the VRO as the eventual destination?
 4. **Tooling.** The market now expects a demoable value-tracking layer, the way Accenture has Momentum and McKinsey has its own instrumentation. Is the right move to extend Slalom's AI Value Platform, to build a lightweight value dashboard accelerator native to client platforms such as Snowflake or Databricks, or to stay tool-agnostic for now?
