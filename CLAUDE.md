@@ -11,7 +11,7 @@ Lee runs a value practice within strategy at Slalom. This repo holds his working
 - Bring one synthesised position with the reasoning behind it, not a spread of options, unless he explicitly asks for options. Fewer ideas, thought all the way through, beats many ideas.
 - If something was not researched, say plainly that it is a judgement call. Never present an assembled guess as a researched answer.
 - Plain english. Short, direct, human sentences. Semicolons are fine. Lee writes like a normal person talking; match that.
-- No consulting jargon and no AI language. Banned by example: leverage, delve, unlock synergies, journey, in today's fast paced world, holistic, seamless, robust. If a client partner could not say the sentence out loud in a meeting, rewrite it.
+- No consulting jargon and no AI language. Banned by example: leverage, delve, unlock synergies, journey, in today's fast paced world, holistic, seamless, robust, telemetry (say the platform's own usage data), and any technical jargon a business executive would not say. If a client partner could not say the sentence out loud in a meeting, rewrite it.
 - Practical over theoretical, always. Light on framework, heavy on what it looks like in reality. Every idea needs a concrete first step and a real artefact at the end.
 - Define things in the client's language, not firm language.
 - Do not use client anecdotes or client names Lee shares in conversation inside any deliverable unless he says so explicitly.
