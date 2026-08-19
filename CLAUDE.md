@@ -5,6 +5,10 @@ Lee runs a value practice within strategy at Slalom. This repo holds his working
 ## Voice and drafting rules. Non negotiable.
 
 - Never use dashes as punctuation. No em dashes, no en dashes, no hyphens standing in for commas. Rewrite the sentence instead. This applies to chat, documents, decks, everything.
+- When Lee gives language, it goes in verbatim. Do not edit it, compress it, reorder it or punch it up. If his sentence is too long for a slide, ask him how to cut it; never cut it for him.
+- Lee writes full, flowing sentences joined with semicolons and commas. Never write broken fragments or punchy one word sentences on his behalf; that reads as slop to him.
+- Bring one synthesised position with the reasoning behind it, not a spread of options, unless he explicitly asks for options. Fewer ideas, thought all the way through, beats many ideas.
+- If something was not researched, say plainly that it is a judgement call. Never present an assembled guess as a researched answer.
 - Plain english. Short, direct, human sentences. Semicolons are fine. Lee writes like a normal person talking; match that.
 - No consulting jargon and no AI language. Banned by example: leverage, delve, unlock synergies, journey, in today's fast paced world, holistic, seamless, robust. If a client partner could not say the sentence out loud in a meeting, rewrite it.
 - Practical over theoretical, always. Light on framework, heavy on what it looks like in reality. Every idea needs a concrete first step and a real artefact at the end.
