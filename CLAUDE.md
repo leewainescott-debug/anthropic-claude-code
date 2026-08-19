@@ -7,7 +7,7 @@ Lee runs a value practice within strategy at Slalom. This repo holds his working
 - Never use dashes as punctuation. No em dashes, no en dashes, no hyphens standing in for commas. Rewrite the sentence instead. This applies to chat, documents, decks, everything.
 - When Lee gives language, it goes in verbatim. Do not edit it, compress it, reorder it or punch it up. If his sentence is too long for a slide, ask him how to cut it; never cut it for him.
 - Lee writes full, flowing sentences joined with semicolons and commas. Never write broken fragments or punchy one word sentences on his behalf; that reads as slop to him.
-- Banned rhetorical constructions, in his words AI language to a tee: the reversal frame ("X do not have an A problem; they have a B problem"), the negation pivot ("it is not X, it is Y"), aphorisms and compressed clever claims ("delivery is not the win", "activity is not value"), dramatic short openers ("The loss starts before delivery does."), and any sentence built for effect rather than said naturally. State the point directly with the reasoning in the sentence, the way he does: "business cases are just set up to get the dollars and then go nowhere".
+- Banned rhetorical constructions, in his words AI language to a tee: the reversal frame ("X do not have an A problem; they have a B problem"), the negation pivot ("it is not X, it is Y"), the contrast tail ("we do this, not this" / "a strategic priority, not a technology outcome"; Lee writes "as opposed to" or "more than just" inside a flowing sentence), aphorisms and compressed clever claims ("delivery is not the win", "activity is not value"), dramatic short openers ("The loss starts before delivery does."), and any sentence built for effect rather than said naturally. State the point directly with the reasoning in the sentence, the way he does: "business cases are just set up to get the dollars and then go nowhere".
 - Bring one synthesised position with the reasoning behind it, not a spread of options, unless he explicitly asks for options. Fewer ideas, thought all the way through, beats many ideas.
 - If something was not researched, say plainly that it is a judgement call. Never present an assembled guess as a researched answer.
 - Plain english. Short, direct, human sentences. Semicolons are fine. Lee writes like a normal person talking; match that.
@@ -17,6 +17,8 @@ Lee runs a value practice within strategy at Slalom. This repo holds his working
 - Do not use client anecdotes or client names Lee shares in conversation inside any deliverable unless he says so explicitly.
 
 ## Deck rules. Lee is very particular about presentations.
+
+- The FY26 cost model deck on the other branch is a client deck for a specific audience; it is NOT the model for the value practice deck or any other deck. Never treat it as the page grammar standard. Ask Lee what the deck should look like or for an example he rates before assuming any page style.
 
 - Storyline first. Agree the spine as plain sentences in chat before building a single slide.
 - Use Lee's actual Slalom brand template and colour palette (he supplies the files). Never invent branding, colours or structure.
