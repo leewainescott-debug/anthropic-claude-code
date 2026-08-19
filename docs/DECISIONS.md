@@ -2640,3 +2640,34 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Deck itself kept untouched at reference/Ampol_FY27_Budget_Update_FINAL.pptx
   (raw-data rule D164: his file rides along verbatim). Register DEC-37 added
   and TDD_Model_Register.xlsx rebuilt (107 rows).
+
+## D166 - 18/08: deck standard corrected to the METHOD; universal rules split out
+- Lee corrected D165: "the font etc is specific for this client so not so
+  much the standard - it's the way that it flows, the language, how i design
+  things from the perspective of where things are on the page, how it reads
+  left to right, how the story flows, the so what." Right - I had recorded
+  the paint, not the thinking.
+- docs/DECK_STANDARD.md rewritten around the portable method: so-what in the
+  title (a full sentence with the number AND its consequence/condition, bad
+  news stated plainly with the response attached, titles readable alone);
+  story flow (answer first, then what changed, proof, position, forecast,
+  levers - each slide answering the question the last one raised); the page
+  read left to right (evidence left ~70%, meaning right ~25% in a named
+  assumptions rail, before→after left to right, broad→specific top to
+  bottom); five layers of detail (title, kicker, numbers, footnotes, spoken
+  notes) any of which a reader can stop at; numbers always paired with their
+  benchmark; every table resolving with a labelled total row; TBC never a
+  dash; dense but layered. Ampol fonts/colours/inches demoted to a clearly
+  marked client-skin appendix.
+- SECOND ISSUE he raised in the same turn: why language rules (dashes,
+  banned words) live in a project rather than central memory. Checked - he
+  is right that it was muddled: EVERY rule, universal and Ampol-specific,
+  was jammed into this repo's CLAUDE.md, and no user-level memory file
+  existed at all. Split: docs/LEE_STANDARDS.md now holds the universal
+  rules only (permission, plain English, banned words and characters,
+  formatting, raw data, prompt style, slide method, working style),
+  self-contained and portable; CLAUDE.md keeps Ampol facts and carries a
+  header explaining which of the two any new ruling belongs to. Same file
+  also written to /root/.claude/CLAUDE.md so it applies at user level, with
+  the honest caveat that this container's home directory is ephemeral - the
+  repo copy is the durable one.

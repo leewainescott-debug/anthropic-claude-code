@@ -1,3 +1,17 @@
+> HOW MEMORY IS SPLIT (18/08, after Lee asked why language rules sit in a
+> project): there are TWO kinds of rule and they must not be mixed.
+> 1. UNIVERSAL - how Lee works, always, on any client: plain English, banned
+>    words, no dashes, no italics, never build without permission, raw data
+>    untouchable, the slide method. These live in docs/LEE_STANDARDS.md,
+>    written to be portable - copy that file into any other project or into
+>    central memory unchanged. They are repeated below so this file still
+>    loads them on its own.
+> 2. CLIENT-SPECIFIC - Ampol TDD facts: the cyber split, FY26/FY27 numbers,
+>    FX rates, squad names, file versions. These belong ONLY here and must
+>    never be carried to another client.
+> When adding a new ruling, decide which of the two it is first. Slide/deck
+> method = docs/DECK_STANDARD.md (method is universal, fonts and brand
+> colours are a per-client skin).
 
 ## Standing rules from Lee (05-06/08) — permanent, load every session
 - PLAIN ENGLISH FOREVER: every question to Lee, every label, every note — no
@@ -87,28 +101,41 @@
   Excel-editable, never shapes; MBB standard, Minto, action titles, short
   sharp sentences, options for key slides; agents build, Fable plans and
   QAs in loops - nothing reaches Lee below standard.
-- SLIDE STANDARD (Lee 18/08, supersedes every earlier template ruling):
-  his FINALISED Ampol FY27 Budget Update deck is THE reference for all
-  slides going forward - language, structure, formatting. File kept
-  untouched at reference/Ampol_FY27_Budget_Update_FINAL.pptx; the full
-  standard with measured geometry is docs/DECK_STANDARD.md - READ IT
-  BEFORE BUILDING ANY SLIDE. Headlines: Mark OT fonts (Mark OT Book theme,
-  MarkOT body, MarkOTBold); navy 18249C, red ED0C06 RATIONED to
-  over-budget numbers/callout circles/cumulative line only, grey 5F5F5F,
-  E0E0E0, coral F76D69, periwinkle 747BC3 (the "Draft for discussion"
-  flag), lilac C6CAF6 table fills, F2F2F2/E3E3E3 panels. 13.33x7.5.
-  Content-slide archetype: action title full width at x0.48 y0.47 w12.36,
-  32pt, a FULL SENTENCE carrying the so-what and the number; left content
-  ~69% (x0.41-0.48, w8.7-9.2); "Insight & Assumptions" rail right ~25%
-  (x9.6, w3.3); navy kicker line above each table saying what it is;
-  numbered footnotes 8pt bottom left by the logo. Tables: navy header,
-  white bold, banded body, ALWAYS a labelled total row, brackets for
-  negatives, red for over, TBC where unknown. Charts native and editable,
-  never pictures - waterfall for bridging, combo columns+red cumulative
-  line with a dashed year divider and direct labels. Speaker notes = the
-  full spoken narrative, conclusion first. Sentence case everywhere.
-  "charged to"/"recharged to" are HIS words and are fine - the old ban on
-  charge/charged is void, his finalised deck uses it throughout.
+- SLIDE STANDARD (Lee 18/08, supersedes every earlier template ruling).
+  THE STANDARD IS HIS METHOD, NOT THE PAINT - he corrected me on this:
+  "the font etc is specific for this client so not so much the standard -
+  it's the way that it flows, the language, how i design things from the
+  perspective of where things are on the page, how it reads left to right,
+  how the story flows, the so what." Fonts/brand colours are a per-client
+  skin, swapped every time. Full standard: docs/DECK_STANDARD.md - READ IT
+  BEFORE BUILDING ANY SLIDE. Worked example kept untouched at
+  reference/Ampol_FY27_Budget_Update_FINAL.pptx.
+  The method: (1) SO-WHAT IN THE TITLE - a full sentence with the number
+  AND its consequence/condition ("tracking 320k over ... WITH vacancy and
+  offshore controls available to bring TDD back within budget"); titles
+  read alone must give the whole argument; bad news stated plainly with
+  the response attached. (2) STORY FLOW - answer first (exec summary = the
+  whole case in three NUMBERED columns), then what changed, proof it works,
+  where we stand, where we are heading, then the levers; each slide answers
+  the question the previous one raises; never a slide because data existed.
+  (3) PAGE READS LEFT TO RIGHT - EVIDENCE LEFT (~70%: tables, charts),
+  MEANING RIGHT (~25%: "Insight & Assumptions" rail); assumptions never
+  hidden, they get their own named column; left-to-right also = before to
+  after (From left, To right); TOP TO BOTTOM = broad to specific (gross
+  table above, lights-on beneath; what above, when beneath). (4) LAYERS -
+  title, then a kicker line above every table giving what it is + units +
+  basis, then the numbers, then numbered footnotes, then speaker notes as
+  the full spoken narrative conclusion-first; a reader can stop at any
+  layer and be correct. (5) NUMBERS always paired with what they are
+  measured against ("$54.2m vs a budget of $53.8m", "24% to 16%"); every
+  table resolves with a labelled total row; brackets for negatives; red
+  only for over; TBC where genuinely unknown, never a dash or a plug;
+  numbered callouts link a cell to its insight bullet. (6) DENSE BUT
+  LAYERED - substance not decoration. (7) Charts native and editable,
+  never pictures - waterfall to bridge, columns+cumulative line for
+  phasing, direct labels over legends, zero baselines. (8) Sentence case
+  everywhere. "charged to"/"recharged to" are HIS words and are fine - the
+  old ban on charge/charged is void, his finalised deck uses it throughout.
 - Flip-flop analysis (Lee 10/08): roles GMs put on Hold (priced zero) that
   now carry hire months in the vacancy sheet - show FTE and dollar impact
   of the flip-flopping; not in the numbers yet, narrative only. Updated
