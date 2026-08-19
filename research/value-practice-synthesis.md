@@ -7,7 +7,7 @@
 3. Clients tell us where they stand in six sentences, and each sentence carries its own buyer, its own date this year, and its own small first purchase.
 4. When someone needs a business case to get money approved, we build a value case instead, and it keeps running long after the approval, inside the timetable they already have to hit.
 5. When a programme is running with nothing to show, or when nobody trusts what it is reporting any more, we rebaseline what is left and hand the funder an honest recommendation rather than another status update.
-6. When a platform a client already owns is not paying off, we show them what is locked inside it before anyone is allowed to talk about buying something new.
+6. When a client has already invested in a platform that is under utilised or has locked benefits, we show them how much more they could be getting out of that investment before anyone talks about buying something new.
 7. When a board is asking what the AI spend actually bought, or a deal has just been signed, the same discipline answers both, wearing the vocabulary each buyer already uses.
 8. Every assessment we sell and every value case we build is deliberately assembled from the same four parts, so whichever door a client walks through, they finish one room closer to a standing Value Realisation Office.
 9. The Value Realisation Office is the flagship we are building towards, wired into the platforms we already build on instead of into a programme's own account of itself, and sized for the clients the big offices have priced out.
