@@ -1,40 +1,49 @@
-# RAW: Defining value research (agent output, 2026-08-19)
-(Full agent output retained in task file; this is the working summary.)
+# RAW: Defining Value Research (Agent Output, 2026-08-19)
+The full agent output is retained in the task file; this is the working summary.
 
-## LANDSCAPE
-- McKinsey: economic profit (NOPAT less capital charge); value = cash flows above cost of capital. Financial, long run.
-- BCG: TSR decomposed into growth, margin, multiple. Financial plus investor strategy.
-- Bain: customer value signature (Elements of Value 30 elements; NPS); Results Delivery = value is landing the change; Full Potential.
-- Deloitte/Monitor: Enterprise Value Map (revenue growth, operating margin, asset efficiency cascades); "Value Architecture" = quantified North Star decomposed into value tree + OKRs (Umbrex sourced, secondhand).
-- EY Long Term Value: customer, people, societal, financial; financial framed as the outcome the other three drive.
-- Accenture 360 Value: financial, client, talent, inclusion & diversity, experience, sustainability. Most symmetric.
-- PwC: TWO unreconciled practices: TIMM (monetise everything incl. externalities) and Strategy& value creation (classic value bridge). Even one firm hasn't settled it.
-- KPMG: enterprise value uplift; five levers; own Nov 2025 report admits value creation is "a concept often discussed, yet rarely defined with precision" (usable admission).
-- Partners in Performance: execution value; performance based fees (value = what you'll take a contingent fee against). NOTE: "wired for value" phrase NOT FOUND anywhere; it was speculation in our earlier brief; drop it.
-- SLALOM OWN LANGUAGE (gold): "Delivery isn't your win. Value is." / "value realization is a leadership habit of translating strategy into measurable outcomes you can see in production" / warns scaling without proving value "quietly increases cost, complexity, and risk". Slalom runs a gated Business Value Framework + AI Value Calculator.
-- Disciplines: PMI BRM (benefits = value created for sponsor/beneficiary; measurable improvement); Jenner Managing Benefits: value = satisfaction of needs (benefits) relative to resources used (money, people, time); cashable vs non cashable benefits; UK Green Book: social/public value; value for money = "balanced judgement... not just monetised impacts"; lower BCR can still be VfM (the anti monetise everything charter); Mark Moore public value strategic triangle; Ward & Daniel Cranfield: benefits come from stopping things, doing things better, doing new things; Benefits Dependency Network separates means (IT) / ways (business change) / ends (benefits); value engineering (Miles, GE 1947): value = function over cost; EVA (Stern Stewart); Friedman vs Freeman; WEF stakeholder capitalism metrics (Big 4 co signed); OKR outcomes vs outputs.
-- Vendors: SAP value engineering (business cases from value driven strategy); ServiceNow Now Value (Envision Create Validate Champion); Salesforce BVS (reconstructed from job ads); Gartner Business Value Model (metrics mathematically linked to financial statements), value streams, Run Grow Transform.
-- "Value case" vs "business case" distinction independently corroborated (PHII, Jabian): business case = financial justification; value case = broader, tangible + intangible, long term.
-- Academic: 2024 J. Business Ethics review (288 articles): five distinct approaches to social value alone; no consensus exists. Usable line: this isn't settled even in the literature.
+## The landscape
 
-## RECURRING DIMENSIONS
-Financial (universal, the only one everyone names) | customer/experience | people | operational/execution | risk | strategic/positional | societal/public.
-Only benefits realisation + public sector treat non financial value as structurally equal rather than an add on.
+- McKinsey defines value as economic profit, meaning net operating profit after tax less a charge for the capital employed, so value is the cash flow generated above the cost of that capital; this is a financial definition, and a long run one.
+- BCG decomposes value into total shareholder return, which breaks down into growth, margin, and the valuation multiple; this is a financial definition combined with investor strategy.
+- Bain works from a customer value signature, using its Elements of Value framework of 30 elements alongside Net Promoter Score, and its Results Delivery offering treats value as actually landing the change; Bain also uses a concept it calls Full Potential.
+- Deloitte, through Monitor, uses an Enterprise Value Map in which revenue growth, operating margin, and asset efficiency cascade down through the business, and Deloitte's own term "Value Architecture" refers to a quantified North Star broken down into a value tree and OKRs; this came from Umbrex, so treat it as secondhand.
+- EY's Long Term Value framework covers customer, people, societal, and financial value, and it frames the financial result as the outcome that the other three drive.
+- Accenture's 360 Value framework covers financial, client, talent, inclusion and diversity, experience, and sustainability value, and of all the frameworks it is the most symmetric one.
+- PwC actually runs two practices that have not been reconciled with each other: one is TIMM, which puts a monetary value on everything including externalities, and the other is Strategy&'s value creation approach, which uses a classic value bridge. Even inside one firm, the definition of value has not been settled.
+- KPMG frames value as an enterprise value uplift achieved through five levers, and KPMG's own November 2025 report admits that value creation is "a concept often discussed, yet rarely defined with precision," which is a usable admission to quote back to a client.
+- Partners in Performance defines value in execution terms, tied to performance based fees, so in their language value is whatever they are willing to take a contingent fee against. Note that the phrase "wired for value" could not be found anywhere in the research; it was speculation in an earlier brief, so it should be dropped.
+- Slalom's own existing language is worth keeping and reusing: "Delivery isn't your win. Value is." Slalom also already says that "value realization is a leadership habit of translating strategy into measurable outcomes you can see in production," and it warns that scaling without proving value "quietly increases cost, complexity, and risk." Slalom also runs a gated Business Value Framework and an AI Value Calculator.
+- Several established disciplines already treat value this way. PMI's Benefits Realization Management defines a benefit as the value created for a sponsor or beneficiary, and it insists that the improvement has to be measurable. Jenner's Managing Benefits defines value as the satisfaction of needs, meaning the benefits, relative to the resources used to get them, meaning the money, people, and time spent, and it separates benefits into cashable and non cashable. The UK Green Book frames value in social and public terms, and defines value for money as "balanced judgement... not just monetised impacts," which means a lower benefit cost ratio can still count as value for money; this is effectively the charter against monetising everything. Mark Moore's public value strategic triangle sits in the same tradition. Ward and Daniel's work at Cranfield holds that benefits come from stopping things, doing things better, and doing new things, and their Benefits Dependency Network separates the means, which is the technology, from the ways, which is the business change, from the ends, which are the benefits themselves. Value engineering, which Miles developed at GE in 1947, defines value as function divided by cost. Economic Value Added, from Stern Stewart, is another established measure. The Friedman versus Freeman debate is the classic argument between shareholder primacy and stakeholder theory. The World Economic Forum's stakeholder capitalism metrics, co-signed by the Big Four accounting firms, are another reference point. Finally, the OKR discipline draws its own distinction between outcomes and outputs.
+- Vendors have their own value practices too. SAP's value engineering group builds business cases from a value driven strategy. ServiceNow calls its approach Now Value, which moves through the stages Envision, Create, Validate, and Champion. Salesforce has a Business Value Services function, which was reconstructed from its job postings since it isn't publicly documented. Gartner has its own Business Value Model, which links metrics mathematically back to the financial statements, and Gartner also uses the ideas of value streams and the Run, Grow, Transform categorisation of investment.
+- The distinction between a "value case" and a "business case" is independently corroborated by both PHII and Jabian: a business case is a financial justification, while a value case is broader, covering both tangible and intangible benefit over the long term.
+- On the academic side, a 2024 review in the Journal of Business Ethics covering 288 articles found five distinct approaches to social value alone, and concluded that no consensus exists. That gives us a usable line for clients: this isn't settled even in the academic literature.
 
-## MECHANICS EVERY USABLE DEFINITION SHARES
-Measurable; baselined; owned (a named beneficiary, not the project team); time bound (checked after go live on a schedule); tied to strategy; outcomes not outputs.
+## Recurring dimensions
 
-## THE REAL FORKS (decisions, not research)
-a) Shareholder first vs stakeholder inclusive.
-b) Monetise everything into one number (PwC TIMM) vs scorecard in native units (Green Book balanced judgement; Jenner cashable/non cashable). Decide per client.
-c) Value OF the technology (vendor frame) vs value TO the business (strategy frame). Cranfield BDN is the structural fix: means/ways/ends.
-d) Value as ratio (benefit over resources; Jenner, Miles) vs value as delta (surplus above cost of capital; McKinsey). Boards are used to one or the other.
+The dimensions of value that keep recurring across all of these frameworks are financial, which is the one every single framework names, along with customer or experience, people, operational or execution, risk, strategic or positional, and societal or public value. Only the benefits realisation discipline and the public sector treat non financial value as structurally equal to financial value, rather than treating it as an afterthought.
 
-## DEFINITION OPTIONS IN LEE'S VOICE (agent drafted, review)
-1 Outcome first: "Value is what's actually different in the business after the investment is live; not what the technology can do, not what it cost to build, but what changed in the way the business performs because you did it. If you can't point to something that's measurably better six months after go live, you haven't created value yet, you've just finished a project."
-2 Ratio: "Value is simply what you get back compared to what you put in. You put in money, time and people; value is the benefit the business gets back for that, measured in whatever terms actually matter to the business. If you can't say what came back, you can only say what was spent."
-3 Strategy tied: "Value is the extent to which an investment moves the business towards something it already said mattered; a strategic priority, not a technology outcome. A system can go live perfectly, on time and on budget, and still create no value if nobody can point to the business priority it was supposed to move."
-4 Ownership: "Value only counts if someone in the business owns it. Someone on the client side has to put their name against the number, agree when we'll check it, and agree what happens if it doesn't show up. Otherwise value is a number in a slide nobody's responsible for."
+## Mechanics every usable definition shares
 
-## HOW THE FIRMS WRITE (tells to avoid)
-Answer first pyramid cadence; verbs turned into trademarked nouns (Results Delivery, Now Value, 360 Value); authority by big numbers; third person impersonal ("organizations that..."); rhyming four step framework names; hedge free certainty the content doesn't earn; one CEO quote humanising an impersonal report. To not sound like them: use you and we, speak in sentences you'd say out loud, don't capitalise a framework, let honest uncertainty stay visible, describe what happens in the room.
+Every usable definition of value shares the same handful of mechanics. It has to be measurable. It has to be baselined. It has to be owned by a named beneficiary in the business rather than by the project team. It has to be time bound, meaning it gets checked after go live on a fixed schedule. It has to be tied to strategy. And it has to describe outcomes rather than outputs.
+
+## The real forks
+
+These are genuinely open decisions for Lee to make; the research alone cannot settle them.
+
+a) The first fork is whether to define value as shareholder first, or as inclusive of all stakeholders.
+b) The second fork is whether to monetise everything into a single number, the way PwC's TIMM approach does, or to use a scorecard that keeps each measure in its native units, the way the Green Book's balanced judgement and Jenner's cashable versus non cashable split both do; this should be decided per client.
+c) The third fork is the value of the technology itself, which is the vendor's frame, against the value to the business, which is the strategy frame. The Cranfield Benefits Dependency Network is the structural fix for this, because it separates means, ways, and ends.
+d) The fourth fork is whether to define value as a ratio, meaning benefit over resources as Jenner and Miles do, or as a delta, meaning the surplus above the cost of capital as McKinsey does; most boards are already used to thinking in one of these two terms.
+
+## Definition options in Lee's voice
+
+These were agent drafted and need Lee's review before any of them get used; the research can surface the options, but which one to run with is genuinely his call to make.
+
+1. **Outcome first.** "Value is what's actually different in the business after the investment goes live. It shows up in how the business performs because the work was done, which is a different question from what the technology is capable of or what it cost to build. If you can't point to something that's measurably better six months after go live, then all that has really happened is that a project got finished, and the business is not yet any better off for it."
+2. **Ratio.** "Value is simply what you get back compared to what you put in. You put in money, time and people, and value is the benefit the business gets back in return, measured in whatever terms actually matter to the business. If nobody can say what came back, then all anyone can really point to is what was spent, and a record of spending on its own is not evidence that value was created."
+3. **Strategy tied.** "Value is the extent to which an investment moves the business towards something it already said mattered, meaning a strategic priority that existed before the investment was even proposed, rather than simply a technology outcome the project team defined for itself. A system can go live perfectly, on time and on budget, and still create no value if nobody can point to the business priority it was supposed to move."
+4. **Ownership.** "Value only counts if someone in the business owns it. Someone on the client side has to put their name against the number, agree when we'll check it, and agree what happens if it doesn't show up. Otherwise, value is just a number on a slide that nobody is actually responsible for."
+
+## How the firms write, and the tells to avoid
+
+The tells that mark writing as coming from a big firm, which Lee wants to avoid, include an answer first pyramid style of writing, verbs that get turned into trademarked nouns such as Results Delivery, Now Value, and 360 Value, an appeal to authority through big numbers, a third person impersonal voice such as "organizations that...", framework names that rhyme or come in a tidy four step structure, a hedge free certainty that the content hasn't actually earned, and a single CEO quote dropped in to humanise an otherwise impersonal report. The way to avoid sounding like that is to use "you" and "we", to write sentences the way you would actually say them out loud, to never capitalise a framework name as if it were a trademark, to let honest uncertainty stay visible on the page instead of hiding it, and to describe what actually happens in the room rather than writing in the abstract.
