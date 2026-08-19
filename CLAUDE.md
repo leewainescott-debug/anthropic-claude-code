@@ -40,4 +40,4 @@ Lee runs a value practice within strategy at Slalom. This repo holds his working
 - Business cases become value cases: baselined, owned, tracked beyond implementation; framed on strategic priorities, not technology outcomes.
 - The platform offering is strategy led, not cost led: the client already owns the platform; we help unlock capabilities in it that drive better outcomes for the business as a whole. It is not a migration assessment and it is not always vendor funded.
 - AI value work is simply helping clients realise value from AI. Part of the conversation, never the whole conversation.
-- Value is defined in the client's own measures, never money only. A deep research based definition is in progress; do not improvise one.
+- Value is defined in the client's own measures, never money only, and this rule extends to every discussion: buyers own outcomes not numbers, verification belongs to whoever the organisation trusts to referee that measure (finance for dollars, operational data for speed and reliability, clinical or safety governance for outcomes), and any framing that quietly collapses value back to money is wrong by default.
