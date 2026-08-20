@@ -1,19 +1,19 @@
 # The deck storyline
 
-Nine slides. The hierarchy is explicit and runs the whole deck. The question: what business outcome is this investment truly driving, and what must change for that outcome to be realised? The problem: clients invest to improve business performance but manage the investment around delivery rather than whether the intended outcomes occur. The answer: Value Realisation closes the gap by defining the outcomes, managing what must change and proving what the investment delivered. The method, used as one structure throughout: define the outcome, manage what must change, prove the value. The underlying logic chain is business outcome, then required changes, then evidence and intervention, then realised value; value is the improvement in the outcome rather than a separate step after it, and measurement is designed from the start.
+Eleven slides, built inside the Slalom toolkit's own layouts, and every slide uses the visual form its message needs rather than a text column. The titles read top to bottom as the argument.
 
-The anchor question recurs through the deck: what business outcome is this investment truly driving, what must change to achieve it, and how will we prove it occurred? That question is the client conversation. Define, manage and prove is the practice.
+| # | Form | Title |
+| --- | --- | --- |
+| 1 | Photo cover | Value Realisation. Turning technology investment into measurable business outcomes. |
+| 2 | Ring diagram, four callouts | Value is an evidenced change in business performance. |
+| 3 | Five chevrons | The spine links investment to business outcome. |
+| 4 | Photo right, worked example | Throughput is activity, not proof of value. |
+| 5 | Native bar chart | Most organisations cannot prove what the investment changed. |
+| 6 | Four numbered stages | The proof is missing because governance stops at go live. |
+| 7 | Three columns with icons | Value Realisation is one discipline: define, measure, realise. |
+| 8 | Ring diagram, hub and four offers | Four offers, one entry: the ten day Value Case Review. |
+| 9 | Four text columns | The offers stay consistent across client contexts. |
+| 10 | Navy statement, four numbered questions | The conversation moves from scope to outcome. |
+| 11 | Photo close | Land it through work already in motion. |
 
-| Slide | Kicker | Header | What the slide carries |
-| --- | --- | --- | --- |
-| 1 | SLALOM AUSTRALIA | Value Realisation | Turning technology investment into measurable business outcomes. |
-| 2 | WHY THIS MATTERS | Clients manage technology investments around delivery, while the outcomes they invested for go unmanaged. | The hierarchy made explicit as four rows: the question, the problem, the answer, the method. |
-| 3 | WHAT VALUE MEANS | Value is measurable improvement in a business outcome. | Every investment starts by defining what must materially improve, for whom, by how much, by when and who owns it, with baseline, target and value drivers; one worked example end to end; ROI as one expression of the improvement, with the outcome first. |
-| 4 | WHERE CLIENTS FALL SHORT | Funding, delivery and value run as three disconnected conversations. | The business case secures funding, project measures manage delivery, value is tested after go live; activity, adoption, throughput and time saved get treated as value before the business outcome has changed; two evidence figures in support. |
-| 5 | WHAT VALUE REALISATION IS | Value Realisation keeps the intended outcomes at the centre of how an investment is shaped, delivered and managed. | The logic chain, business outcome to required changes to evidence and intervention to realised value; it is not benefits reporting added at the end; the anchor question. |
-| 6 | HOW WE HELP CLIENTS REALISE VALUE | We define the outcome, manage what must change and prove the value. | Define: what must improve, by how much, by when, who owns it, baseline, target and value drivers. Manage: the capabilities, processes, behaviours and operating conditions required, leading indicators tracked, intervention when off track. Prove: did the outcome improve, was it attributable, were quality, cost and risk protected, has the result been accepted and embedded. |
-| 7 | HOW WE CHANGE THE CONVERSATION | Value becomes the first question in the investment conversation and stays the priority through to business as usual. | The anchor question as the centrepiece, asked at three moments: before investment it shapes the case, during delivery governance answers it with evidence, after go live the business answers it as its own scorecard. |
-| 8 | WHAT WE OFFER | We help clients define value before investing, manage it during delivery and recover it from what is already live. | Three offers mapped to the method and the life of an investment; this strengthens the work Slalom already performs. |
-| 9 | HOW WE TAKE IT TO MARKET | Start with one live investment, prove it with a focused Value Review, then expand on the evidence. | Entry where the client cannot confidently explain the intended outcome or whether it is being realised; the Value Review returns the outcome defined and baselined, an independent view of realisation and the next decision; expansion follows the evidence; closing line, that question is the client conversation, define, manage and prove is the practice. |
-
-The appendix, held for later versions of the deck: the six evidence tests, the six gates from forecast to booked value, the throughput and quality evidence, the value dimensions, the offer detail, the executive role map, the measurement architecture, the governance cadence, the commercial model, the first year plan, the stat bank with confidence flags, the glossary.
+The chart carries only verified figures: 42 per cent deliver full project benefits, Wellingtone 2026; 33 per cent of Salesforce AI initiatives meet ROI targets, IBM IBV 2025 to 2026; 14 per cent of CFOs can concretely measure AI ROI, Gartner 2026, reported as 11 to 14 per cent; 11 per cent fully delivered, the footnoted inverse of PwC's 89 per cent. Slides that describe the practice's own method say so, as opposed to implying research backing. Every slide carries a source line and full citations sit in the speaker notes. The spec passed a three way review for voice, storyline and factual accuracy before the build.
