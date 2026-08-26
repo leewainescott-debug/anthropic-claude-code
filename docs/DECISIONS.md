@@ -2830,3 +2830,42 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   expanding one line per destination with share and logic. Mock rendered
   on real numbers and sent for Lee's layout call. Phase B holds until his
   answer.
+
+## D174 - 26/08: Phase B running on "run all phases"; evidence conventions adjudicated
+- Lee's "Can you run all phases please. Just loop around until every ask
+  is covered" lifts the D173 hold; the mock's list layout proceeds as the
+  vendor view unless he redirects. Open decisions ride as priced
+  questions, never blockers.
+- Conventions adjudicated for every rule file (binding on Phase C):
+  1. Every placement justified by a numbered rule naming the column or
+     columns and the value that decide it; no fixed hierarchy of rule
+     types; zero exceptions per rule (a rule with exceptions is wrong or
+     is several rules); every line through exactly one rule or one open
+     entry with the missing fact named.
+  2. Evidence within one CO document proves an item (one document, one
+     accounting event); amount matching across documents is a Phase B
+     join, never an item key.
+  3. Pooled corporate centre APPLH_INFOTECH: the row follows the PRODUCT
+     named in the row, witnessed by the 2026 Budget tab or the 784 typed
+     mappings. Proven by the Dragos identity (164,595.77 gross less the
+     two recharge rows leaves 67,100.01 carrying Cyber, tying budget
+     67,100). A row naming both a product and a transfer counterparty
+     follows the product; the counterparty is recorded, never mapped
+     (S5-03: the AMSCAL reclass credit stays Commercial Fuels / Trading
+     & Shipping while the TDDEINTSIG charge leg carries EG Integration /
+     EGI, both legs listed by document number in both files).
+  4. Everywhere else column C (cost centre) decides; contra legs each
+     follow their own centre so transfers stay visible on both sides.
+  5. Workbook register: neutral and impersonal, no first, second or
+     third person; his 784 cited as "mapping values present in the
+     source file", untouched, never contradicted.
+- Loop state at logging: b1 round 2 verified and accepted (rules 1-5 are
+  exactly his 784 typed rows, 291+106+229+33+125; AmpolFM 180k now a
+  contra-form rule proven inside its twelve documents; the security
+  override deleted per convention 4; open = APPLTDDIST 1,023,626.60 and
+  APPLFIFINANCE 35,107.27 with reasons). b3 clean. b2 regenerating
+  (one evidence phrase recast to the impersonal register + a
+  contra_documents block for the four TDDEINTSIG transfer documents).
+  b4 regenerating on its fix list; the S5-03 hardware-side order (the
+  reclass credit follows the AMSCAL product, not the counterparty)
+  queues behind it.
