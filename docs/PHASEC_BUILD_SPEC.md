@@ -68,8 +68,8 @@ FOREVER (no italics, no AI look), LANGUAGE RULING (banned words).
   for over. Brackets for negatives. TBC where genuinely unknown, never
   a dash or a plug. No dashes as cell filler, no em or en dashes.
 - Banned words enforced everywhere (saving in every form, wave, seat,
-  floor, charge/charged/charging except recharge and Labour Recharge,
-  roster, Category as a label, theirs/their).
+  floor, roster, Category as a label, theirs/their). The charge family
+  is NOT banned (D175: the 18/08 ruling voided that ban).
 - Neutral impersonal register; the 784 cited as mapping values present
   in the source file.
 - Every summary number a formula off the raw tabs. A hardcoded summary
