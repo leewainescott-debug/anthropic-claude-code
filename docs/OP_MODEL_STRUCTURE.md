@@ -37,3 +37,19 @@ Key corrections this chart forces on the non-labour mapping:
 - Data products = Enterprise Data, Data platform.
 - No Lubricants platform exists. No ERP/SAP platform exists. No Way4/cards
   platform exists. Those are open questions for Lee, never inventions.
+
+## Addendum (26/08, verified): Lee's own destination vocabulary
+
+His 2026 Budget tab, columns 51 to 55 (Portfolio, Platform, Platform
+Subarea, Squad, Platform model notes), maps all 516 populated budget lines
+(88.81m FY26) in his own words. Beyond the chart's portfolios his mapping
+also uses, verbatim:
+- COE - Cyber, Risk & Service Operations
+- COE - Strategy, Architecture & Enterprise Data
+- COE - Business Partnering & Transformation
+- TDDLT
+- Cyber (distinct from the COE line above)
+These are legitimate destinations because they are HIS values, extracted to
+scratchpad nonlabour/agents/budget_truth.json. His Platform column
+sometimes carries squad-level wording (e.g. Manufacturing & Group
+Projects); record verbatim and align in integration, never rename.

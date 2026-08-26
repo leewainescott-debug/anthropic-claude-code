@@ -2757,3 +2757,25 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   and platform, reconciliation vs dashboard (sanity), and a "Not 100%
   sure" tab listing every open line with reason and dollars. Nothing
   assumed anywhere; unsure beats guessed, always.
+
+## D170 - 26/08: third ground truth found - his budget tab maps itself
+- The 2026 Budget tab's columns 51-55 are Portfolio / Platform / Platform
+  Subarea / Squad / Platform model notes, filled by Lee on ALL 516
+  populated lines (88.81m of FY26 budget), in new-model words including
+  COE destinations (COE - Cyber, Risk & Service Operations 85 lines,
+  COE - Strategy Architecture & Enterprise Data 42, COE - BP&T 26,
+  TDDLT 16, Cyber 25). Verified directly, extracted verbatim to
+  budget_truth.json. This is the master witness for the corporate block
+  and the COE layer; structure doc addendum records his vocabulary.
+- Reader 4 (corp functions, marketing, sig SW) gated: 181 stems tie to
+  15,241,495.76 exactly, zero off-chart placements. Its decisive finds
+  verified by me directly: SR 101999 proves "HR" lines are HighRadius,
+  not human resources; the marketing centre splits on text (store ops
+  3.75m, retail data 0.67m, loyalty/campaign to Ampol Customer, Airlock
+  to Cyber). Sig programs placed on the dashboard's own program names,
+  all flagged sig funded. HELD FOR ADVERSARIAL PASS, not yet accepted:
+  the claimed -180,000/+180,000 marketing to B2B contra pair (my exact
+  filter could not reproduce it) and the NAMOS/CRPOSSIG reclass netting
+  in HW. Honest flag from the reader: the pricing optimiser pilot credit
+  of -241,521.60 has no debit side in the software ledger (looks
+  capitalised) - flagged, never plugged.
