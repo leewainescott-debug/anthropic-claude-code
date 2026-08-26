@@ -2816,3 +2816,17 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   tabs; his 784 untouched; roll-up rows blank; everything else formulas.
   2026 Budget tab restricted to corporate-scope corroboration only.
   Plan recorded in chat 26/08; supersedes the tab-level sketch.
+
+## D173 - 26/08: Phase A closed at zero findings; Gate A presented
+- Three QA rounds: 18 findings, then 4, then zero. Final state: every one
+  of the 49,910 leaf lines keyed exactly once; software 277 items tying
+  51,288,134.47; hardware 86 items tying 25,468,998.32; one aligned naming
+  standard (canonical names adjudicated after the round-two swap
+  collision); unclear piles honest at 632 and 518 lines, each line
+  proven unprovable from its row and document.
+- Statistics driving the layout: 101 items span more than one centre
+  (Salesforce 13 centres, laptop catalogue 14), so the vendor view mock
+  uses the list layout: one line per single-destination item, split items
+  expanding one line per destination with share and logic. Mock rendered
+  on real numbers and sent for Lee's layout call. Phase B holds until his
+  answer.
