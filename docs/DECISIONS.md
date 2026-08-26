@@ -2984,3 +2984,32 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   AMSCAL apportionment unified under b4's Q7; fact-4 count corrected
   to 38; b4 basis_scope extended to rules 48 and 49. Only placement
   movement: b3 ruled 14,525,927.50 / open 715,568.26.
+
+## D179 - 26/08: round 4 closed by builders; closure pass running
+- Round-4 regenerations all verified blind: b1 issue 5 extends the
+  Azure Energy Solutions family to the full twelve month stream
+  (845,475.50, all twelve pairs re-derived by match, the five added
+  documents reproducing the auditor's 360,535.03 exactly). b2 issue 6
+  recasts rule 15 onto the 784's per-user grammar (Salesforce 306/96,
+  Copilot 66/13, Acrobat 138 split 122/16, every count re-derived),
+  adds the ServiceNow HR (368,328.00) and loyalty recharge (312.00)
+  citations, and cites the Zephyr 11X pair at phaseb_b3 O24. b3 issue
+  5 trims rule 12 to 82 lines / 171,496.78 on facts 1, 2 and 4 (fact 4
+  recounted at 38 lines / 197,604.46), opens O24 for the Zephyr
+  marketing share with the apportionment proven to the cent
+  (10,765.56 + 59,210.58 + 26,913.90 = 96,890.04), mirrors the Fabric
+  family at eleven documents, and clears every stale pointer. b4
+  issue 6 unifies the AMSCAL apportionment under Q7 (13 lines,
+  -116.52), shrinks Q5 to the one overseas recharge line (109.62),
+  and corrects Q7's narrative to leaf legs only (the SW APPLBULKFUEL
+  437.25 row named as the parent roll-up, proven 291.50 + 145.75).
+- Two orchestrator errors caught and fixed this round: the O23 label
+  dictated to b2 (b3 correctly chose O24 to protect the audit trail)
+  and the parent-row citation in b4's Q7 that only the leaf hierarchy
+  check caught.
+- Focused auditor closure pass dispatched: re-derives every round-4
+  change, full coverage, citation-mirror, register and arithmetic
+  checks, regression on all round-3 findings, and the row-258 class
+  question on b2 rules 5, 10, 14, 24 to 27. Zero findings closes
+  Phase B and freezes the four files for the Phase C build. The
+  adversary stands down unless the pass surfaces substance.
