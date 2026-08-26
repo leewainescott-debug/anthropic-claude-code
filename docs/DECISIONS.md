@@ -2806,3 +2806,13 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   credit -241,521.60 with no debit side (Above Store shows negative),
   Atlassian Xray 3,098.90 in two centres, non-Emerald sig devices
   39,073.11.
+
+## D172 - 26/08: detailed execution plan approved ("ok"), Phase A launched
+- The full plan (definitions, baseline, three phases with agent briefs,
+  acceptance tests, loop protocols, gates to Lee) as presented in chat:
+  agents execute, I orchestrate and QA. Vendor-view layout decided by the
+  analysis and mocked on real numbers at Gate A. Blue text marks the three
+  hardcoded columns (Portfolio, Platform, Item) on the recreated SW/HW
+  tabs; his 784 untouched; roll-up rows blank; everything else formulas.
+  2026 Budget tab restricted to corporate-scope corroboration only.
+  Plan recorded in chat 26/08; supersedes the tab-level sketch.
