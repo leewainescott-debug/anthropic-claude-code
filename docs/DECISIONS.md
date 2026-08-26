@@ -2869,3 +2869,27 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   b4 regenerating on its fix list; the S5-03 hardware-side order (the
   reclass credit follows the AMSCAL product, not the counterparty)
   queues behind it.
+
+## D175 - 26/08: QA round 2 rulings (auditor report, 8 findings)
+- Auditor round 2: all 176 rule matches re-derived from their words alone
+  reproduce; the three software blocks partition 51,288,134.47 to the
+  cent; the 784 never contradicted; all 19 contra amounts and 9
+  cross-file citations verify. Eight findings, two ruled here:
+- RULED: charge/charged/charging/charges are NOT banned words. The 18/08
+  slide-standard ruling voided the earlier ban (the finalised deck uses
+  the words throughout) and the Phase B acceptance test keeps its own
+  wording. recharge and Labour Recharge unaffected. Live banned list:
+  saving in every form, wave, seat, floor, roster, Category as a column
+  label, theirs/their for Finance, em and en dashes, dashes as filler.
+- RULED: the contra citation bar is the 34 clean two-leg cross-boundary
+  pairs that move cost between two different destinations (gross
+  806,057.12, Dataiku 370,784.00 the largest); each carries its document
+  number on both sides, in the capturing rule's evidence or a contra
+  listing entry. Same-destination washes and multi-leg splits follow
+  their centre rules line by line and carry no citation requirement.
+- Remaining findings routed to the round-3 fix lists (dispatched only
+  after the adversary lands, one consolidated list per builder): b3
+  budget-tab citations out of scope on eight rules with rule 12
+  (230,707.36) to re-derive or open; seven pronoun recasts; SAS
+  LICENCING spelling; O3 Adobe carve-out; O7/O14 second legs in column
+  terms; b1 rule 8 sig_funded true on APOLLO.
