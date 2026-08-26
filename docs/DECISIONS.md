@@ -2710,3 +2710,11 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   design stays (it is faster and equally correct, proven in python for
   both branches of all six decisions); the final in-engine recalc pass was
   interrupted by Lee mid-run and stands pending his go.
+- GATE CLOSED (after Calc installed): full in-engine recalc of the shipped
+  workbook. My tabs carry zero error values (the twelve flagged "#" cells
+  are the SAP export's literal "#" text, his data verbatim); every flagged
+  error (6,033) sits inside his raw 2026 Budget tab exactly as his source
+  carries them (#REF!/#N/A from the export). Engine-computed Profile grand
+  total 76,757,132.79 exactly, zero check 0, portfolio totals matching the
+  independent python evaluation line for line. Final cached-value copy
+  sent to Lee.
