@@ -3067,3 +3067,36 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   Builders two and three (vendor view and register; totals,
   reconciliation, decisions, read me) follow sequentially on the same
   file, then QA-C loops and the recalc and fidelity gates.
+
+## D182 - 26/08: Phase C built; QA-C running
+- Builder one recreated all five source tabs verbatim: 1,915,894 cells
+  diffed at zero differences, the 784 typed rows proven untouched to
+  the font, blue mapping on every other leaf row, Item/Rule/Open
+  question columns added at AB to AD, two openpyxl serialisation
+  defects (17-digit float precision, empty-string cells) patched with
+  round-trip proof, structure carried (autofilters, freeze panes,
+  merges, conditional formats, defined names, comments, pictures, the
+  veryHidden SAP sheet). Recorded honestly: 14 SAP add-in cells show a
+  name error on machines without the add-in; threaded comments become
+  plain notes.
+- Builder two added By vendor and product (343 items, 546
+  item-destination rows, every figure a live SUMIFS off the line tabs,
+  total tying 76,757,132.79 in python evaluation) and the Mapping
+  register (178 rules and 51 open codes all reproducing the frozen
+  files at zero mismatches; 104 transfer entries). The approved mock's
+  plain-English logic column was restored after my brief wrongly
+  substituted bare references: "How it is decided" now carries the
+  deciding rule's match text verbatim on every destination row.
+- Builder three added Totals (grid plus three 0.00 checks and the
+  significant-item line at 14,772,078.52), Reconciliation (42 centre
+  ties all 0.00, dashboard sanity block verbatim, the 302.1m benchmark
+  with its printed-rounding note), Decisions (32 priced questions at
+  or above 20,000 plus a live aggregate, no dropdowns - a control that
+  drives nothing reads as broken; spec amended), and Read me first as
+  the first visible tab. fullCalcOnLoad set. Cross-engine gate on a
+  copy: all 11,866 formulas computed, zero errors on the built tabs,
+  values identical to python. Existing tabs byte-identical throughout,
+  preserved through two discovered openpyxl style-table defects.
+- QA-C dispatched: independent engine-value gate, rendered-page
+  eyeball of every visible sheet, and a fresh language sweep. Ship
+  follows its zero plus the final orchestrator gate.

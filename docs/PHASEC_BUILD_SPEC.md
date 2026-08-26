@@ -56,8 +56,11 @@ FOREVER (no italics, no AI look), LANGUAGE RULING (banned words).
    journals 4,012.94; Q6 brand centre cloud recharge 90,000.00; software
    opens APPLTDDIST 1,023,626.60, APPLFIFINANCE 35,107.27, b2's
    -147,174.37 over 123 lines, b3's 595,881.25 over 572 lines).
-   Dropdown cells for the ruling where a fair proposal exists, marked
-   PROPOSED, never hardcoded as decided.
+   Candidate treatments stated as text where a frozen file names one;
+   NO dropdown controls (amended at build: in this workbook a picked
+   ruling would drive nothing, because the line mappings are hardcoded
+   blue cells, and a dead control reads as broken; rulings are given in
+   conversation and applied by regeneration).
 
 ## Conventions
 - No italics anywhere. No AI look: plain bold headers, sentence case,
@@ -81,9 +84,14 @@ FOREVER (no italics, no AI look), LANGUAGE RULING (banned words).
   multi-criteria SUMIFS, fall back to one hidden single-key helper
   column per tab (key = portfolio|platform or item) and SUMIF over it.
   Helper columns sit right of the added columns and are labelled.
-- Recalc gate: /root/.claude/skills/synced/xlsx/scripts/recalc.py must
-  return every tie cell at 0.00 and no formula errors. LibreOffice calc
-  must be present (reinstall after container resets).
+- Recalc gate (amended at build): a LibreOffice SAVE corrupts this SAP
+  export's package, so the engine never touches the deliverable. The
+  gate runs on a throwaway copy: LibreOffice recalculates the copy,
+  every tie cell must read exactly 0.00 and the six built tabs must
+  show zero formula errors; the deliverable itself carries
+  fullCalcOnLoad so Excel computes on open. Inherited errors on the
+  SAP tabs (dead references, add-in header cells) are pre-existing and
+  out of scope.
 
 ## Gates
 - C1 raw fidelity: every cell value on both line tabs identical to the
