@@ -2893,3 +2893,40 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   (230,707.36) to re-derive or open; seven pronoun recasts; SAS
   LICENCING spelling; O3 Adobe carve-out; O7/O14 second legs in column
   terms; b1 rule 8 sig_funded true on APOLLO.
+
+## D176 - 26/08: adversary round 2 rulings (9 findings, 7 overturns)
+- The adversarial pass broke the witness under the orchestrator's own
+  S5-03 destination call, and the ruling goes with the adversary: AMSCAL
+  is a monthly apportionment spread across centres inside one CO
+  document, not a product with one destination, so another centre's
+  mapping value witnesses only that centre's share. b2 rule 79 and b4
+  rule 47 demote to open (net -114.70 software, -116.52 hardware);
+  missing fact recorded as whose share the pooled centre's portion is.
+  What stands from S5-03: the transfer counterparty never decides a
+  pooled row.
+- Same consistency test applied: Power BI Fabric (RETAIL) in the pooled
+  centre demotes to open (-69,300.00, candidate = the counterpart legs'
+  Ampol Retail / Retail Data AU under b3 rule 16); the pooled IT
+  SERVICES hardware legs are RULED to TDD / TDD (in-scope budget rows
+  262 and 264 witness the pool's own line); FastTrack Lytton hardware
+  line RULED to Fuel Infrastructure / Manufacturing (in-scope budget
+  row 156, the same witness as the software rule). Witness in scope =
+  ruled; no witness = open; never the counterparty.
+- CRPOSSIG credits: no exception to the contra convention. The
+  marketing operating centre routes by column N text, and text naming
+  the POS programme routes to Ampol Retail / AmPOS on both legs; b3's
+  O22 (-60,476.43) closes the same way. Apollo journals in the
+  significant items centre RULED provable to B2B & Energy Solutions /
+  Energy Solutions (3,903.32) on the cross-tab document pairs and b1
+  rule 8; Q5 shrinks to the honest remainder.
+- Citation bar widened from D175: the adversary's leg-pair definition
+  governs (a multi-leg document can carry a perfect recharge pair).
+  Required: 71 split-pair documents (1,028,533.02 gross, led by the
+  twelve-month Energy Solutions Azure recharge at 845,475.50 and
+  Dataiku 370,784.00) plus 9 open-leg documents (553,294.17), cited in
+  families; 19 same-destination pairs exempt. Single authoritative
+  list: agents/qa_r2_02_pairs.json, reconciled as a superset of the
+  auditor's 34.
+- Round-3 fix lists consolidate both QA reports per builder; totals
+  will move (demotions and promotions) and conservation is verified
+  blind on every regeneration.
