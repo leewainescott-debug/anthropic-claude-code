@@ -1,0 +1,1410 @@
+{
+ "required": [
+  {
+   "document": "5117130089",
+   "amount": 370784.0,
+   "legs": [
+    {
+     "row_id": "S4855",
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "dollars": 370784.0,
+     "n_text": "AS 2025 DATAIKU CHARGE",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "row_id": "S16779",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -370784.0,
+     "n_text": "RECHARGE 2025 DATAIKU TO AS",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 66",
+     "destination": "Enterprise Data / Data"
+    }
+   ]
+  },
+  {
+   "document": "5119661592",
+   "amount": 219692.68,
+   "legs": [
+    {
+     "row_id": "S4723",
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "dollars": 219692.68,
+     "n_text": "SIGMA PLATFORMA/ACT/BUILD/VIEW SUBS-4/27",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "row_id": "S16367",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -219692.68,
+     "n_text": "REPOST SIGMA PLATFORMA/ACT/BUILD/VIEW SUBS-4/27",
+     "file": "phaseb_b2",
+     "rule_or_open": "open B2-O14",
+     "destination": "OPEN"
+    }
+   ]
+  },
+  {
+   "document": "5114997985",
+   "amount": 94534.57,
+   "legs": [
+    {
+     "row_id": "S8593",
+     "tab": "SW",
+     "cc": "APPLAETOTAL",
+     "dollars": 94534.57,
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE (JUN25)",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 7",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    },
+    {
+     "row_id": "S16473",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -94534.57,
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE (JUN25)",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 3",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5115410585",
+   "amount": 74573.88,
+   "legs": [
+    {
+     "row_id": "S8634",
+     "tab": "SW",
+     "cc": "APPLAETOTAL",
+     "dollars": 74573.88,
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE (JUL 25)",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 7",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    },
+    {
+     "row_id": "S16511",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -74573.88,
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE (JUL 25)",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 3",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5117396528",
+   "amount": 28920.0,
+   "legs": [
+    {
+     "row_id": "S5024",
+     "tab": "SW",
+     "cc": "APPLFIFINANCE",
+     "dollars": 28920.0,
+     "n_text": "DATAIKU LICENSE RECHARGE",
+     "file": "phaseb_b1",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "row_id": "S16845",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -28920.0,
+     "n_text": "DATAIKU LICENSE RECHARGE",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 66",
+     "destination": "Enterprise Data / Data"
+    }
+   ]
+  },
+  {
+   "document": "5114992112",
+   "amount": 10765.56,
+   "legs": [
+    {
+     "row_id": "S8591",
+     "tab": "SW",
+     "cc": "APPLAETOTAL",
+     "dollars": 10765.56,
+     "n_text": "ZEPHYR LICENSE 2X",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 7",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    },
+    {
+     "row_id": "S16466",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -10765.56,
+     "n_text": "ZEPHYR LICENSE 2X",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 85",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5118075279",
+   "amount": 2747.0,
+   "legs": [
+    {
+     "row_id": "S12160",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 2747.0,
+     "n_text": "PROJECT PRICING OPTIMISER AZURE RESOURCE COST  (DE",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "row_id": "S16971",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -2747.0,
+     "n_text": "PROJECT PRICING OPTIMISER AZURE RESOURCE COST  (DE",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 3",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5117590972",
+   "amount": 315.06,
+   "legs": [
+    {
+     "row_id": "S4865",
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "dollars": 315.06,
+     "n_text": "THINKCELL FOR CAROL THEN",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "row_id": "S16899",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -315.06,
+     "n_text": "THINKCELL FOR CAROL THEN",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 24",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5115012557",
+   "amount": 306.68,
+   "legs": [
+    {
+     "row_id": "S5665",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE - JULY  25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11572",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE - JULY  25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5116118591",
+   "amount": 306.68,
+   "legs": [
+    {
+     "row_id": "S5692",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE -SEPT  25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11629",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE -SEPT  25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5116668599",
+   "amount": 306.68,
+   "legs": [
+    {
+     "row_id": "S5706",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE -SEPT  25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11651",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE -SEPT  25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5117130187",
+   "amount": 306.68,
+   "legs": [
+    {
+     "row_id": "S5722",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE -NOV  25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11669",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE -NOV  25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5117659136",
+   "amount": 306.68,
+   "legs": [
+    {
+     "row_id": "S5743",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE - DEC  25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11690",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -306.68,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE - DEC  25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5117127630",
+   "amount": 304.63,
+   "legs": [
+    {
+     "row_id": "S6991",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 304.63,
+     "n_text": "DRIVE OFF OCTOBER 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S12099",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -304.63,
+     "n_text": "DRIVE OFF OCTOBER 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 15",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5117658562",
+   "amount": 302.92,
+   "legs": [
+    {
+     "row_id": "S7212",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 302.92,
+     "n_text": "DRIVE OFF OCTOBER 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S12142",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -302.92,
+     "n_text": "DRIVE OFF OCTOBER 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 15",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5116664094",
+   "amount": 298.05,
+   "legs": [
+    {
+     "row_id": "S6769",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 298.05,
+     "n_text": "DRIVE OFF OCTOBER 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S12064",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -298.05,
+     "n_text": "DRIVE OFF OCTOBER 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 15",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5115538909",
+   "amount": 295.85,
+   "legs": [
+    {
+     "row_id": "S6282",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 295.85,
+     "n_text": "DRIVE OFF AUGUST 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11918",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -295.85,
+     "n_text": "DRIVE OFF AUGUST 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 15",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5116113085",
+   "amount": 295.85,
+   "legs": [
+    {
+     "row_id": "S6496",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 295.85,
+     "n_text": "DRIVE OFF SEPTEMBER 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11953",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -295.85,
+     "n_text": "DRIVE OFF SEPTEMBER 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 15",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5115009103",
+   "amount": 293.65,
+   "legs": [
+    {
+     "row_id": "S5849",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 293.65,
+     "n_text": "DRIVE OFF JULY 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11884",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -293.65,
+     "n_text": "DRIVE OFF JULY 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 15",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5117178089",
+   "amount": 126.6,
+   "legs": [
+    {
+     "row_id": "S4710",
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "dollars": 126.6,
+     "n_text": "MICROSOFT POWER AUTOMATE PREMIUM USAGE RECHARGE",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "row_id": "S16236",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -126.6,
+     "n_text": "MICROSOFT POWER AUTOMATE PREMIUM USAGE RECHARGE",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 14",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5117863517",
+   "amount": 47.8,
+   "legs": [
+    {
+     "row_id": "S7221",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 47.8,
+     "n_text": "POWERBI PRO JAKE EDWARDS",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S16941",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -47.8,
+     "n_text": "POWERBI PRO MDEPOPS",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 15",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5118030959",
+   "amount": 47.8,
+   "legs": [
+    {
+     "row_id": "S8967",
+     "tab": "SW",
+     "cc": "APPLAETOTAL",
+     "dollars": 47.8,
+     "n_text": "POWERBI FOR LENICE CHEE",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 7",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    },
+    {
+     "row_id": "S16962",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -47.8,
+     "n_text": "POWERBI FOR LENICE CHEE",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 15",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5119346648",
+   "amount": 44.89,
+   "legs": [
+    {
+     "row_id": "S7880",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 44.89,
+     "n_text": "FLYNN ZWINKLES COPILOT LICENSE (APR/26-MAY/26)",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S17186",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -44.89,
+     "n_text": "FLYNN ZWINKLES COPILOT LICENSE (APR/26-MAY/26)",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 10",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5115011993",
+   "amount": 15.54,
+   "legs": [
+    {
+     "row_id": "S5661",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 15.54,
+     "n_text": "ITCM LICENSES & SUPPORT JULY 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11565",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -15.54,
+     "n_text": "ITCM LICENSES & SUPPORT JULY 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5115548803",
+   "amount": 15.54,
+   "legs": [
+    {
+     "row_id": "S5674",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 15.54,
+     "n_text": "ITCM LICENSES & SUPPORT AUG 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11585",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -15.54,
+     "n_text": "ITCM LICENSES & SUPPORT AUG 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5116117747",
+   "amount": 15.54,
+   "legs": [
+    {
+     "row_id": "S5688",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 15.54,
+     "n_text": "ITCM LICENSES & SUPPORT SEPT 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11623",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -15.54,
+     "n_text": "ITCM LICENSES & SUPPORT SEPT 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5116668299",
+   "amount": 15.54,
+   "legs": [
+    {
+     "row_id": "S5705",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 15.54,
+     "n_text": "ITCM LICENSES & SUPPORT SEPT 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11649",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -15.54,
+     "n_text": "ITCM LICENSES & SUPPORT SEPT 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5117130152",
+   "amount": 15.54,
+   "legs": [
+    {
+     "row_id": "S5717",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 15.54,
+     "n_text": "ITCM LICENSES & SUPPORT NOV 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11662",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -15.54,
+     "n_text": "ITCM LICENSES & SUPPORT NOV 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5117658620",
+   "amount": 15.54,
+   "legs": [
+    {
+     "row_id": "S5739",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 15.54,
+     "n_text": "ITCM LICENSES & SUPPORT DEC 25",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11683",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -15.54,
+     "n_text": "ITCM LICENSES & SUPPORT DEC 25",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5118535448",
+   "amount": 13.17,
+   "legs": [
+    {
+     "row_id": "S5775",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 13.17,
+     "n_text": "ITCM LICENSES & SUPPORT JAN & FEB 26",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11732",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -13.17,
+     "n_text": "ITCM LICENSES & SUPPORT JAN & FEB 26",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119021999",
+   "amount": 6.63,
+   "legs": [
+    {
+     "row_id": "S5786",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 6.63,
+     "n_text": "ITCM LICENSES & SUPPORT MARCH 26",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11757",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -6.63,
+     "n_text": "ITCM LICENSES & SUPPORT MARCH 26",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119483938",
+   "amount": 6.63,
+   "legs": [
+    {
+     "row_id": "S5798",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 6.63,
+     "n_text": "ITCM LICENSES & SUPPORT APRIL 26",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11797",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -6.63,
+     "n_text": "ITCM LICENSES & SUPPORT APRIL 26",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119940145",
+   "amount": 6.63,
+   "legs": [
+    {
+     "row_id": "S5808",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 6.63,
+     "n_text": "ITCM LICENSES & SUPPORT MAY 26",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11823",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -6.63,
+     "n_text": "ITCM LICENSES & SUPPORT MAY 26",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5120411231",
+   "amount": 6.63,
+   "legs": [
+    {
+     "row_id": "S5829",
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "dollars": 6.63,
+     "n_text": "ITCM LICENSES & SUPPORT JUNE 26",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "row_id": "S11852",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -6.63,
+     "n_text": "ITCM LICENSES & SUPPORT JUNE 26",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  }
+ ],
+ "optional_same_destination": [
+  {
+   "document": "5117400920",
+   "amount": 426612.69,
+   "legs": [
+    {
+     "row_id": "S4712",
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "dollars": 426612.69,
+     "n_text": "IMOS RECHARGE INV52449 -2025",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "row_id": "S16245",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -426612.69,
+     "n_text": "IMOS RECHARGE INV52449 -2025",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 78",
+     "destination": "Commercial Fuels / Supply"
+    }
+   ]
+  },
+  {
+   "document": "5114993612",
+   "amount": 59210.58,
+   "legs": [
+    {
+     "row_id": "S11883",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 59210.58,
+     "n_text": "ZEPHYR LICENSE 11X",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "S16472",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -59210.58,
+     "n_text": "ZEPHYR LICENSE 11X",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 85",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5118157109",
+   "amount": 51030.0,
+   "legs": [
+    {
+     "row_id": "S11709",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 51030.0,
+     "n_text": "SAAS KRONOS 07.25 - 06.26",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H32086",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -51030.0,
+     "n_text": "SAAS KRONOS 07.25 - 06.26",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 22",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119483958",
+   "amount": 51030.0,
+   "legs": [
+    {
+     "row_id": "S11805",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 51030.0,
+     "n_text": "SAAS KRONOS 07.25 - 06.26",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H32239",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -51030.0,
+     "n_text": "SAAS KRONOS 07.25 - 06.26",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 22",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119943556",
+   "amount": 51030.0,
+   "legs": [
+    {
+     "row_id": "S11836",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 51030.0,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE UNTIL JUNE 26",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H32279",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -51030.0,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE UNTIL JUNE 26",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 22",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5120413952",
+   "amount": 51030.0,
+   "legs": [
+    {
+     "row_id": "S11860",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 51030.0,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE UNTIL JUNE 26",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H32341",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -51030.0,
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE UNTIL JUNE 26",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 22",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5116660037",
+   "amount": 36562.5,
+   "legs": [
+    {
+     "row_id": "S4706",
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "dollars": 36562.5,
+     "n_text": "ALLEGRO EXTENDED SUPPORT RECHARGE",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "row_id": "S16193",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -36562.5,
+     "n_text": "ALLEGRO EXTENDED SUPPORT RECHARGE",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 77",
+     "destination": "Commercial Fuels / Supply"
+    }
+   ]
+  },
+  {
+   "document": "5120024868",
+   "amount": 13062.0,
+   "legs": [
+    {
+     "row_id": "H44859",
+     "tab": "HW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": 13062.0,
+     "n_text": "CITADEL TEAMS PHONE HANDSETS X24 + WARRA",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 38",
+     "destination": "TDD / TDD"
+    },
+    {
+     "row_id": "S16398",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -13062.0,
+     "n_text": "CITADEL TEAMS PHONE HANDSETS X24 + WARRA",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 30",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5119022331",
+   "amount": 10870.28,
+   "legs": [
+    {
+     "row_id": "S11765",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 10870.28,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H31570",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -10870.28,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119481419",
+   "amount": 5200.0,
+   "legs": [
+    {
+     "row_id": "S11789",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 5200.0,
+     "n_text": "FUEL SUPPLY EMT- TT OPT LEGACY",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H35229",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -5200.0,
+     "n_text": "FUEL SUPPLY EMT- TT OPT LEGACY",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 30",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119943565",
+   "amount": 4716.29,
+   "legs": [
+    {
+     "row_id": "S11837",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 4716.29,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H31636",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -4716.29,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119943566",
+   "amount": 4716.29,
+   "legs": [
+    {
+     "row_id": "H31637",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": 4716.29,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "S11838",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -4716.29,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119943570",
+   "amount": 4716.29,
+   "legs": [
+    {
+     "row_id": "S11839",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 4716.29,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H31638",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -4716.29,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5119483965",
+   "amount": 4094.78,
+   "legs": [
+    {
+     "row_id": "S11806",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 4094.78,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H31606",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -4094.78,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5120414007",
+   "amount": 3769.39,
+   "legs": [
+    {
+     "row_id": "S11862",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 3769.39,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H31664",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -3769.39,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5118536321",
+   "amount": 3161.74,
+   "legs": [
+    {
+     "row_id": "S11737",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 3161.74,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H31529",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": -3161.74,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5120026034",
+   "amount": 2895.0,
+   "legs": [
+    {
+     "row_id": "H44860",
+     "tab": "HW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": 2895.0,
+     "n_text": "CITADEL YEALINK PHONES X6 + 3YRS WARRANT",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 38",
+     "destination": "TDD / TDD"
+    },
+    {
+     "row_id": "S16400",
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "dollars": -2895.0,
+     "n_text": "CITADEL YEALINK PHONES X6 + 3YRS WARRANT",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 30",
+     "destination": "TDD / TDD"
+    }
+   ]
+  },
+  {
+   "document": "5119019650",
+   "amount": 256.35,
+   "legs": [
+    {
+     "row_id": "H31555",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": 256.35,
+     "n_text": "COMPAC ONLINE FEE STRORO REVERSALS",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "S11753",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": -256.35,
+     "n_text": "COMPAC ONLINE FEE FEB REVERSAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  },
+  {
+   "document": "5117659227",
+   "amount": 0.0,
+   "legs": [
+    {
+     "row_id": "S8946",
+     "tab": "SW",
+     "cc": "APPLAETOTAL",
+     "dollars": 0.0,
+     "n_text": "MOVE RETAIL ELEC OPEX DEC25 TO CORRECT COST CENTRE",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 7",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    },
+    {
+     "row_id": "H12875",
+     "tab": "HW",
+     "cc": "APPLAETOTAL",
+     "dollars": 0.0,
+     "n_text": "MOVE RETAIL ELEC OPEX DEC25 TO CORRECT COST CENTRE",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 14",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    }
+   ]
+  },
+  {
+   "document": "5119481423",
+   "amount": 0.0,
+   "legs": [
+    {
+     "row_id": "S11790",
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "dollars": 0.0,
+     "n_text": "COMPAC ONLINE FEE",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "row_id": "H31592",
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "dollars": 0.0,
+     "n_text": "WINDCAVE EFT (NEXT GEN OPT)",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 26",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ]
+  }
+ ]
+}

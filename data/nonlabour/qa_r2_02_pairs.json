@@ -1,0 +1,3763 @@
+{
+ "source": "QA-B1 round 2, finding R2-2, authoritative citation list",
+ "definition": "A cross-block leg pair is two leaf rows of one CO document, in two different blocks, equal and opposite to the cent. Matching runs same column N text first, then variant text. Roll-up parent rows (SW APPLHCORP, APPLBULKFUEL, APPLMARKETING, APPLSIG_ITEMS; HW APPLHCORP, APPLMARKETING) are excluded. A document is required when its number appears nowhere in phaseb_b1 to phaseb_b4.",
+ "required_split": [
+  {
+   "family": "ENERGY SOLUTIONS AZURE RECHARGE",
+   "documents": [
+    "5114997985",
+    "5115410585",
+    "5116803216",
+    "5118333888",
+    "5118807707",
+    "5119697835",
+    "5120185939"
+   ],
+   "gross": 484940.47,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLAETOTAL",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 7",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 3",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5114997985",
+     "rows": [
+      "S8593",
+      "S16473"
+     ],
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE (JUN25)",
+     "dollars": 94534.57
+    },
+    {
+     "document": "5115410585",
+     "rows": [
+      "S8634",
+      "S16511"
+     ],
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE (JUL 25)",
+     "dollars": 74573.88
+    },
+    {
+     "document": "5116803216",
+     "rows": [
+      "S8848",
+      "S16720"
+     ],
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE (OCT 25)",
+     "dollars": 77915.83
+    },
+    {
+     "document": "5118333888",
+     "rows": [
+      "S9015",
+      "S17019"
+     ],
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE JAN/26",
+     "dollars": 63767.51
+    },
+    {
+     "document": "5118807707",
+     "rows": [
+      "S9056",
+      "S17098"
+     ],
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE FEB/26",
+     "dollars": 56212.17
+    },
+    {
+     "document": "5119697835",
+     "rows": [
+      "S9147",
+      "S17267"
+     ],
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE APR/26",
+     "dollars": 57433.32
+    },
+    {
+     "document": "5120185939",
+     "rows": [
+      "S9201",
+      "S17368"
+     ],
+     "n_text": "ENERGY SOLUTIONS AZURE RECHARGE MAY/26",
+     "dollars": 60503.19
+    }
+   ]
+  },
+  {
+   "family": "AS DATAIKU CHARGE",
+   "documents": [
+    "5117130089"
+   ],
+   "gross": 370784.0,
+   "basis": [
+    "auditor qa_r2_01 addition, counterparty text differs"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 66",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117130089",
+     "rows": [
+      "S4855",
+      "S16779"
+     ],
+     "n_text": [
+      "AS 2025 DATAIKU CHARGE",
+      "RECHARGE 2025 DATAIKU TO AS"
+     ],
+     "dollars": 370784
+    }
+   ]
+  },
+  {
+   "family": "RECHG SNOWFLAKE AMPOLCARD REPORTING",
+   "documents": [
+    "5115541269",
+    "5116100297",
+    "5116651898",
+    "5117178041",
+    "5117802615",
+    "5118136920",
+    "5118541508",
+    "5119055080",
+    "5119527309",
+    "5119953937",
+    "5120423768"
+   ],
+   "gross": 129054.43,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5115541269",
+     "rows": [
+      "S6284",
+      "S16564"
+     ],
+     "n_text": "RECHG AUG SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 8508.95
+    },
+    {
+     "document": "5116100297",
+     "rows": [
+      "S6296",
+      "S16614"
+     ],
+     "n_text": "RECHG SEP SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 7829.19
+    },
+    {
+     "document": "5116651898",
+     "rows": [
+      "S6563",
+      "S16673"
+     ],
+     "n_text": "RECHG SEP SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 9118.39
+    },
+    {
+     "document": "5117178041",
+     "rows": [
+      "S7197",
+      "S16808"
+     ],
+     "n_text": "RECHG OCT SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 19230.71
+    },
+    {
+     "document": "5117802615",
+     "rows": [
+      "S7218",
+      "S16914"
+     ],
+     "n_text": "RECHG DEC SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 19583.47
+    },
+    {
+     "document": "5118136920",
+     "rows": [
+      "S7431",
+      "S16999"
+     ],
+     "n_text": "RECHG JAN/26 SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 11123.04
+    },
+    {
+     "document": "5118541508",
+     "rows": [
+      "S7652",
+      "S17080"
+     ],
+     "n_text": "RECHG FEB/26 SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 10062.71
+    },
+    {
+     "document": "5119055080",
+     "rows": [
+      "S7873",
+      "S17157"
+     ],
+     "n_text": "RECHG MAR/26 SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 11350.91
+    },
+    {
+     "document": "5119527309",
+     "rows": [
+      "S8095",
+      "S17228"
+     ],
+     "n_text": "RECHG APR/26 SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 9922.79
+    },
+    {
+     "document": "5119953937",
+     "rows": [
+      "S8313",
+      "S17327"
+     ],
+     "n_text": "RECHG MAY/26 SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 10174.07
+    },
+    {
+     "document": "5120423768",
+     "rows": [
+      "S8569",
+      "S17485"
+     ],
+     "n_text": "RECHG JUN/26 SNOWFLAKE AMPOLCARD REPORTING",
+     "dollars": 12150.2
+    }
+   ]
+  },
+  {
+   "family": "RECHG SNOWFLAKE POS",
+   "documents": [
+    "5114992567",
+    "5115541269",
+    "5116100297",
+    "5116651898",
+    "5117178041",
+    "5117802615",
+    "5118136920",
+    "5118541504",
+    "5119055080",
+    "5119527309",
+    "5119953937",
+    "5120423768"
+   ],
+   "gross": 122800.79,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5114992567",
+     "rows": [
+      "S11881",
+      "S16468"
+     ],
+     "n_text": "RECHG JUL SNOWFLAKE POS",
+     "dollars": 4239.09
+    },
+    {
+     "document": "5115541269",
+     "rows": [
+      "S11920",
+      "S16566"
+     ],
+     "n_text": "RECHG AUG SNOWFLAKE POS",
+     "dollars": 4843.38
+    },
+    {
+     "document": "5116100297",
+     "rows": [
+      "S11939",
+      "S16616"
+     ],
+     "n_text": "RECHG SEP SNOWFLAKE POS",
+     "dollars": 4510.76
+    },
+    {
+     "document": "5116651898",
+     "rows": [
+      "S12050",
+      "S16675"
+     ],
+     "n_text": "RECHG SEP SNOWFLAKE POS",
+     "dollars": 5247.92
+    },
+    {
+     "document": "5117178041",
+     "rows": [
+      "S12111",
+      "S16809"
+     ],
+     "n_text": "RECHG OCT SNOWFLAKE POS",
+     "dollars": 16122.49
+    },
+    {
+     "document": "5117802615",
+     "rows": [
+      "S12150",
+      "S16916"
+     ],
+     "n_text": "RECHG DEC SNOWFLAKE POS",
+     "dollars": 16667.44
+    },
+    {
+     "document": "5118136920",
+     "rows": [
+      "S12174",
+      "S17000"
+     ],
+     "n_text": "RECHG JAN/26 SNOWFLAKE POS",
+     "dollars": 10693.28
+    },
+    {
+     "document": "5118541504",
+     "rows": [
+      "S12207",
+      "S17078"
+     ],
+     "n_text": "RECHG FEB/26 SNOWFLAKE POS",
+     "dollars": 9973.5
+    },
+    {
+     "document": "5119055080",
+     "rows": [
+      "S12934",
+      "S17158"
+     ],
+     "n_text": "RECHG MAR/26 SNOWFLAKE POS",
+     "dollars": 11593.18
+    },
+    {
+     "document": "5119527309",
+     "rows": [
+      "S12962",
+      "S17229"
+     ],
+     "n_text": "RECHG APR/26 SNOWFLAKE POS",
+     "dollars": 11635.15
+    },
+    {
+     "document": "5119953937",
+     "rows": [
+      "S12990",
+      "S17328"
+     ],
+     "n_text": "RECHG MAY/26 SNOWFLAKE POS",
+     "dollars": 12876.64
+    },
+    {
+     "document": "5120423768",
+     "rows": [
+      "S13103",
+      "S17486"
+     ],
+     "n_text": "RECHG JUN/26 SNOWFLAKE POS",
+     "dollars": 14397.96
+    }
+   ]
+  },
+  {
+   "family": "CONTENTSTACK LICENSE",
+   "documents": [
+    "5117595731",
+    "5118078091",
+    "5118497606",
+    "5118999826",
+    "5119457184",
+    "5119891312",
+    "5120327060"
+   ],
+   "gross": 67795.0,
+   "basis": [
+    "variant-text candidate admitted by the same relaxation, pending ruling"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLBRNDCOMS",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 18",
+     "destination": "Ampol Customer / Ampol Digital"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 38",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117595731",
+     "rows": [
+      "S15963",
+      "S16900"
+     ],
+     "n_text": [
+      "CONTENTSTACK LICENSE",
+      "IT SERVICES DEC 2025"
+     ],
+     "dollars": 9685
+    },
+    {
+     "document": "5118078091",
+     "rows": [
+      "S15964",
+      "S16972"
+     ],
+     "n_text": [
+      "CONTENTSTACK LICENSE",
+      "IT SERVICES JAN 2026"
+     ],
+     "dollars": 9685
+    },
+    {
+     "document": "5118497606",
+     "rows": [
+      "S15974",
+      "S17053"
+     ],
+     "n_text": [
+      "CONTENTSTACK LICENSE",
+      "IT SERVICES FEB 2026"
+     ],
+     "dollars": 9685
+    },
+    {
+     "document": "5118999826",
+     "rows": [
+      "S15982",
+      "S17132"
+     ],
+     "n_text": [
+      "CONTENTSTACK LICENSE",
+      "IT SERVICES MAR 2026"
+     ],
+     "dollars": 9685
+    },
+    {
+     "document": "5119457184",
+     "rows": [
+      "S15990",
+      "S17196"
+     ],
+     "n_text": [
+      "CONTENTSTACK LICENSE",
+      "IT SERVICES APR 2026"
+     ],
+     "dollars": 9685
+    },
+    {
+     "document": "5119891312",
+     "rows": [
+      "S16000",
+      "S17308"
+     ],
+     "n_text": [
+      "CONTENTSTACK LICENSE",
+      "IT SERVICES MAY 2026"
+     ],
+     "dollars": 9685
+    },
+    {
+     "document": "5120327060",
+     "rows": [
+      "S16013",
+      "S17440"
+     ],
+     "n_text": [
+      "CONTENTSTACK LICENSE",
+      "IT SERVICES JUN 2026"
+     ],
+     "dollars": 9685
+    }
+   ]
+  },
+  {
+   "family": "WEB HOSTING AZURE CONSUMPTION",
+   "documents": [
+    "5118333890",
+    "5118807713",
+    "5119228583",
+    "5119697836",
+    "5120185944"
+   ],
+   "gross": 59157.25,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLBRNDCOMS",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 18",
+     "destination": "Ampol Customer / Ampol Digital"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 3",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5118333890",
+     "rows": [
+      "S15971",
+      "S17023"
+     ],
+     "n_text": "WEB HOSTING AZURE CONSUMPTION DEC/25",
+     "dollars": 13708.57
+    },
+    {
+     "document": "5118333890",
+     "rows": [
+      "S15972",
+      "S17024"
+     ],
+     "n_text": "WEB HOSTING AZURE CONSUMPTION JAN/26",
+     "dollars": 12540.77
+    },
+    {
+     "document": "5118807713",
+     "rows": [
+      "S15980",
+      "S17102"
+     ],
+     "n_text": "WEB HOSTING AZURE CONSUMPTION FEB/26",
+     "dollars": 9067.62
+    },
+    {
+     "document": "5119228583",
+     "rows": [
+      "S15988",
+      "S17174"
+     ],
+     "n_text": "WEB HOSTING AZURE CONSUMPTION MAR/26",
+     "dollars": 8075.76
+    },
+    {
+     "document": "5119697836",
+     "rows": [
+      "S15998",
+      "S17271"
+     ],
+     "n_text": "WEB HOSTING AZURE CONSUMPTION APR/26",
+     "dollars": 7909.25
+    },
+    {
+     "document": "5120185944",
+     "rows": [
+      "S16006",
+      "S17372"
+     ],
+     "n_text": "WEB HOSTING AZURE CONSUMPTION MAY/26",
+     "dollars": 7855.28
+    }
+   ]
+  },
+  {
+   "family": "POWERBI FABRIC RETAIL",
+   "documents": [
+    "5114990648",
+    "5115751865",
+    "5116582178",
+    "5118333888",
+    "5118807713",
+    "5119697836",
+    "5120185944"
+   ],
+   "gross": 44100.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 15",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5114990648",
+     "rows": [
+      "S11559",
+      "S16462"
+     ],
+     "n_text": "POWERBI FABRIC (RETAIL)",
+     "dollars": 6300
+    },
+    {
+     "document": "5115751865",
+     "rows": [
+      "S11603",
+      "S16577"
+     ],
+     "n_text": "POWERBI FABRIC (RETAIL)",
+     "dollars": 6300
+    },
+    {
+     "document": "5116582178",
+     "rows": [
+      "S11645",
+      "S16667"
+     ],
+     "n_text": "POWERBI FABRIC (RETAIL)",
+     "dollars": 6300
+    },
+    {
+     "document": "5118333888",
+     "rows": [
+      "S12186",
+      "S17020"
+     ],
+     "n_text": "POWERBI FABRIC (RETAIL) JAN/26",
+     "dollars": 6300
+    },
+    {
+     "document": "5118807713",
+     "rows": [
+      "S12912",
+      "S17101"
+     ],
+     "n_text": "POWERBI FABRIC (RETAIL) FEB/26",
+     "dollars": 6300
+    },
+    {
+     "document": "5119697836",
+     "rows": [
+      "S12969",
+      "S17270"
+     ],
+     "n_text": "POWERBI FABRIC (RETAIL) APR/26",
+     "dollars": 6300
+    },
+    {
+     "document": "5120185944",
+     "rows": [
+      "S12998",
+      "S17371"
+     ],
+     "n_text": "POWERBI FABRIC (RETAIL) MAY/26",
+     "dollars": 6300
+    }
+   ]
+  },
+  {
+   "family": "RECHG SNOWFLAKE T S",
+   "documents": [
+    "5114992567",
+    "5115541269",
+    "5116100297",
+    "5116651898",
+    "5117178041",
+    "5117802615",
+    "5118136920",
+    "5118541504",
+    "5119055080",
+    "5119527309",
+    "5119953937",
+    "5120423768"
+   ],
+   "gross": 42696.57,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5114992567",
+     "rows": [
+      "S4731",
+      "S16471"
+     ],
+     "n_text": "RECHG JUL SNOWFLAKE T&S",
+     "dollars": 1137.28
+    },
+    {
+     "document": "5115541269",
+     "rows": [
+      "S4740",
+      "S16568"
+     ],
+     "n_text": "RECHG AUG SNOWFLAKE T&S",
+     "dollars": 1676.41
+    },
+    {
+     "document": "5116100297",
+     "rows": [
+      "S4766",
+      "S16618"
+     ],
+     "n_text": "RECHG SEP SNOWFLAKE T&S",
+     "dollars": 1344.22
+    },
+    {
+     "document": "5116651898",
+     "rows": [
+      "S4846",
+      "S16677"
+     ],
+     "n_text": "RECHG SEP SNOWFLAKE T&S",
+     "dollars": 1418.97
+    },
+    {
+     "document": "5117178041",
+     "rows": [
+      "S4860",
+      "S16811"
+     ],
+     "n_text": "RECHG OCT SNOWFLAKE T&S",
+     "dollars": 4281.2
+    },
+    {
+     "document": "5117802615",
+     "rows": [
+      "S4875",
+      "S16918"
+     ],
+     "n_text": "RECHG DEC SNOWFLAKE T&S",
+     "dollars": 5024.86
+    },
+    {
+     "document": "5118136920",
+     "rows": [
+      "S4880",
+      "S17002"
+     ],
+     "n_text": "RECHG JAN/26 SNOWFLAKE T&S",
+     "dollars": 4042.4
+    },
+    {
+     "document": "5118541504",
+     "rows": [
+      "S4886",
+      "S17079"
+     ],
+     "n_text": "RECHG FEB/26 SNOWFLAKE T&S",
+     "dollars": 2675.14
+    },
+    {
+     "document": "5119055080",
+     "rows": [
+      "S4898",
+      "S17160"
+     ],
+     "n_text": "RECHG MAR/26 SNOWFLAKE T&S",
+     "dollars": 3917.01
+    },
+    {
+     "document": "5119527309",
+     "rows": [
+      "S4908",
+      "S17231"
+     ],
+     "n_text": "RECHG APR/26 SNOWFLAKE T&S",
+     "dollars": 4250.61
+    },
+    {
+     "document": "5119953937",
+     "rows": [
+      "S4919",
+      "S17330"
+     ],
+     "n_text": "RECHG MAY/26 SNOWFLAKE T&S",
+     "dollars": 5186.93
+    },
+    {
+     "document": "5120423768",
+     "rows": [
+      "S4988",
+      "S17488"
+     ],
+     "n_text": "RECHG JUN/26 SNOWFLAKE T&S",
+     "dollars": 7741.54
+    }
+   ]
+  },
+  {
+   "family": "AZURE CONSUMPTION PRICING OPTIMISER",
+   "documents": [
+    "5118333890",
+    "5118807713",
+    "5119228583",
+    "5119697836",
+    "5120185944"
+   ],
+   "gross": 33701.31,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 3",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5118333890",
+     "rows": [
+      "S12187",
+      "S17022"
+     ],
+     "n_text": "AZURE CONSUMPTION (PRICING OPTIMISER)  JAN/26",
+     "dollars": 2854.36
+    },
+    {
+     "document": "5118807713",
+     "rows": [
+      "S12911",
+      "S17100"
+     ],
+     "n_text": "AZURE CONSUMPTION (PRICING OPTIMISER)  FEB/26",
+     "dollars": 2216.91
+    },
+    {
+     "document": "5119228583",
+     "rows": [
+      "S12940",
+      "S17172"
+     ],
+     "n_text": "AZURE CONSUMPTION (PRICING OPTIMISER)  MAR/26",
+     "dollars": 8988
+    },
+    {
+     "document": "5119697836",
+     "rows": [
+      "S12968",
+      "S17269"
+     ],
+     "n_text": "AZURE CONSUMPTION (PRICING OPTIMISER)  APR/26",
+     "dollars": 9257.59
+    },
+    {
+     "document": "5120185944",
+     "rows": [
+      "S12997",
+      "S17370"
+     ],
+     "n_text": "AZURE CONSUMPTION (PRICING OPTIMISER)  MAY/26",
+     "dollars": 10384.45
+    }
+   ]
+  },
+  {
+   "family": "RECHG SNOWFLAKE PRICING",
+   "documents": [
+    "5114992567",
+    "5115541269",
+    "5116100297",
+    "5116651898",
+    "5117178041",
+    "5117802615",
+    "5118136920",
+    "5118541508",
+    "5119055080",
+    "5119527309",
+    "5119953937",
+    "5120423768"
+   ],
+   "gross": 30633.14,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5114992567",
+     "rows": [
+      "S11882",
+      "S16469"
+     ],
+     "n_text": "RECHG JUL SNOWFLAKE PRICING",
+     "dollars": 582.03
+    },
+    {
+     "document": "5115541269",
+     "rows": [
+      "S11921",
+      "S16567"
+     ],
+     "n_text": "RECHG AUG SNOWFLAKE PRICING",
+     "dollars": 585.63
+    },
+    {
+     "document": "5116100297",
+     "rows": [
+      "S11940",
+      "S16617"
+     ],
+     "n_text": "RECHG SEP SNOWFLAKE PRICING",
+     "dollars": 661.58
+    },
+    {
+     "document": "5116651898",
+     "rows": [
+      "S12051",
+      "S16676"
+     ],
+     "n_text": "RECHG SEP SNOWFLAKE PRICING",
+     "dollars": 669.67
+    },
+    {
+     "document": "5117178041",
+     "rows": [
+      "S12112",
+      "S16810"
+     ],
+     "n_text": "RECHG OCT SNOWFLAKE PRICING",
+     "dollars": 2576.1
+    },
+    {
+     "document": "5117802615",
+     "rows": [
+      "S12151",
+      "S16917"
+     ],
+     "n_text": "RECHG DEC SNOWFLAKE PRICING",
+     "dollars": 3107.14
+    },
+    {
+     "document": "5118136920",
+     "rows": [
+      "S12175",
+      "S17001"
+     ],
+     "n_text": "RECHG JAN/26 SNOWFLAKE PRICING",
+     "dollars": 1510.68
+    },
+    {
+     "document": "5118541508",
+     "rows": [
+      "S12208",
+      "S17081"
+     ],
+     "n_text": "RECHG FEB/26 SNOWFLAKE PRICING",
+     "dollars": 1595.44
+    },
+    {
+     "document": "5119055080",
+     "rows": [
+      "S12935",
+      "S17159"
+     ],
+     "n_text": "RECHG MAR/26 SNOWFLAKE PRICING",
+     "dollars": 3504.01
+    },
+    {
+     "document": "5119527309",
+     "rows": [
+      "S12963",
+      "S17230"
+     ],
+     "n_text": "RECHG APR/26 SNOWFLAKE PRICING",
+     "dollars": 4448.66
+    },
+    {
+     "document": "5119953937",
+     "rows": [
+      "S12991",
+      "S17329"
+     ],
+     "n_text": "RECHG MAY/26 SNOWFLAKE PRICING",
+     "dollars": 5367.38
+    },
+    {
+     "document": "5120423768",
+     "rows": [
+      "S13104",
+      "S17487"
+     ],
+     "n_text": "RECHG JUN/26 SNOWFLAKE PRICING",
+     "dollars": 6024.82
+    }
+   ]
+  },
+  {
+   "family": "ZEPHYR LICENSE X",
+   "documents": [
+    "5114992112"
+   ],
+   "gross": 10765.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLAETOTAL",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 7",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 85",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5114992112",
+     "rows": [
+      "S8591",
+      "S16466"
+     ],
+     "n_text": "ZEPHYR LICENSE 2X",
+     "dollars": 10765.56
+    }
+   ]
+  },
+  {
+   "family": "RECHG SNOWFLAKE PLATFORM AMPOLCARD REPORTING",
+   "documents": [
+    "5117178047"
+   ],
+   "gross": 10625.42,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117178047",
+     "rows": [
+      "S7198",
+      "S16813"
+     ],
+     "n_text": "RECHG OCT SNOWFLAKE PLATFORM AMPOLCARD REPORTING",
+     "dollars": 10625.42
+    }
+   ]
+  },
+  {
+   "family": "SNOWFLAKE VARIANCE AMPOLCARD REPORT",
+   "documents": [
+    "5115506554"
+   ],
+   "gross": 9413.24,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5115506554",
+     "rows": [
+      "S6074",
+      "S16546"
+     ],
+     "n_text": "JAN-JUL SNOWFLAKE VARIANCE (AMPOLCARD REPORT)",
+     "dollars": 9413.24
+    }
+   ]
+  },
+  {
+   "family": "RECHG SNOWFLAKE PLATFORMPOS",
+   "documents": [
+    "5117178047"
+   ],
+   "gross": 7846.46,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117178047",
+     "rows": [
+      "S12113",
+      "S16815"
+     ],
+     "n_text": "RECHG OCT SNOWFLAKE PLATFORMPOS",
+     "dollars": 7846.46
+    }
+   ]
+  },
+  {
+   "family": "SNOWFLAKE VARIANCE POS",
+   "documents": [
+    "5115506554"
+   ],
+   "gross": 7715.81,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5115506554",
+     "rows": [
+      "S11903",
+      "S16548"
+     ],
+     "n_text": "JAN-JUL SNOWFLAKE VARIANCE (POS)",
+     "dollars": 7715.81
+    }
+   ]
+  },
+  {
+   "family": "RECHG SNOWFLAKE PROJECT CONNECT",
+   "documents": [
+    "5114992567"
+   ],
+   "gross": 7222.81,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5114992567",
+     "rows": [
+      "S5848",
+      "S16470"
+     ],
+     "n_text": "RECHG JUL SNOWFLAKE PROJECT CONNECT",
+     "dollars": 7222.81
+    }
+   ]
+  },
+  {
+   "family": "SNOWFLAKE VARIANCE T S",
+   "documents": [
+    "5115506554"
+   ],
+   "gross": 3708.99,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5115506554",
+     "rows": [
+      "S4737",
+      "S16549"
+     ],
+     "n_text": "JAN-JUL SNOWFLAKE VARIANCE (T&S)",
+     "dollars": 3708.99
+    }
+   ]
+  },
+  {
+   "family": "ATLASSIAN XRAY TOOL RENEWAL",
+   "documents": [
+    "5120390441"
+   ],
+   "gross": 3098.9,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 19",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120390441",
+     "rows": [
+      "S4926",
+      "S17446"
+     ],
+     "n_text": "ATLASSIAN XRAY TOOL RENEWAL JUN/26-AUG/26",
+     "dollars": 3098.9
+    }
+   ]
+  },
+  {
+   "family": "ATLASSIAN XRAY TOOL RENEWAL SG NZ",
+   "documents": [
+    "5120390441"
+   ],
+   "gross": 3098.9,
+   "basis": [
+    "variant-text candidate admitted by the same relaxation, pending ruling"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 19",
+     "destination": "TDD / TDD"
+    },
+    {
+     "tab": "SW",
+     "cc": "TDDEINTSIG",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 3",
+     "destination": "EG Integration / EGI"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120390441",
+     "rows": [
+      "S17447",
+      "S18762"
+     ],
+     "n_text": [
+      "ATLASSIAN XRAY TOOL RENEWAL SG & NZ JUN/26-AUG/26",
+      "ATLASSIAN XRAY TOOL RENEWAL JUN/26-AUG/26"
+     ],
+     "dollars": -3098.9
+    }
+   ]
+  },
+  {
+   "family": "RECHG SNOWFLAKE PLATFORM T S",
+   "documents": [
+    "5117178047"
+   ],
+   "gross": 3008.93,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117178047",
+     "rows": [
+      "S4861",
+      "S16814"
+     ],
+     "n_text": "RECHG OCT SNOWFLAKE PLATFORM T&S",
+     "dollars": 3008.93
+    }
+   ]
+  },
+  {
+   "family": "PROJECT PRICING OPTIMISER AZURE RESOURCE COST DE",
+   "documents": [
+    "5118075279"
+   ],
+   "gross": 2747.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 3",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5118075279",
+     "rows": [
+      "S12160",
+      "S16971"
+     ],
+     "n_text": "PROJECT PRICING OPTIMISER AZURE RESOURCE COST  (DE",
+     "dollars": 2747
+    }
+   ]
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL CAROL CHO",
+   "documents": [
+    "5117402576"
+   ],
+   "gross": 2143.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 26",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117402576",
+     "rows": [
+      "S7204",
+      "S16856"
+     ],
+     "n_text": "ARTICULATE LIC RENEWAL CAROL CHO",
+     "dollars": 2143.56
+    }
+   ]
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL GREG JOHNSON",
+   "documents": [
+    "5117402576"
+   ],
+   "gross": 2143.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 26",
+     "destination": "TDD / TDD"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLHHR",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 7",
+     "destination": "P&C / P&C"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117402576",
+     "rows": [
+      "S16857",
+      "S18374"
+     ],
+     "n_text": "ARTICULATE LIC RENEWAL GREG JOHNSON",
+     "dollars": -2143.56
+    }
+   ]
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL JANSON STONE",
+   "documents": [
+    "5117402576"
+   ],
+   "gross": 2143.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 26",
+     "destination": "TDD / TDD"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLHHR",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 7",
+     "destination": "P&C / P&C"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117402576",
+     "rows": [
+      "S16858",
+      "S18375"
+     ],
+     "n_text": "ARTICULATE LIC RENEWAL JANSON STONE",
+     "dollars": -2143.56
+    }
+   ]
+  },
+  {
+   "family": "RECHG SNOWFLAKE PLATFORMPRICING",
+   "documents": [
+    "5117178047"
+   ],
+   "gross": 1913.64,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117178047",
+     "rows": [
+      "S12114",
+      "S16816"
+     ],
+     "n_text": "RECHG OCT SNOWFLAKE PLATFORMPRICING",
+     "dollars": 1913.64
+    }
+   ]
+  },
+  {
+   "family": "DRIVE OFF",
+   "documents": [
+    "5115009103",
+    "5115538909",
+    "5116113085",
+    "5116664094",
+    "5117127630",
+    "5117658562"
+   ],
+   "gross": 1790.95,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 15",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5115009103",
+     "rows": [
+      "S5849",
+      "S11884"
+     ],
+     "n_text": "DRIVE OFF JULY 25",
+     "dollars": 293.65
+    },
+    {
+     "document": "5115538909",
+     "rows": [
+      "S6282",
+      "S11918"
+     ],
+     "n_text": "DRIVE OFF AUGUST 25",
+     "dollars": 295.85
+    },
+    {
+     "document": "5116113085",
+     "rows": [
+      "S6496",
+      "S11953"
+     ],
+     "n_text": "DRIVE OFF SEPTEMBER 25",
+     "dollars": 295.85
+    },
+    {
+     "document": "5116664094",
+     "rows": [
+      "S6769",
+      "S12064"
+     ],
+     "n_text": "DRIVE OFF OCTOBER 25",
+     "dollars": 298.05
+    },
+    {
+     "document": "5117127630",
+     "rows": [
+      "S6991",
+      "S12099"
+     ],
+     "n_text": "DRIVE OFF OCTOBER 25",
+     "dollars": 304.63
+    },
+    {
+     "document": "5117658562",
+     "rows": [
+      "S7212",
+      "S12142"
+     ],
+     "n_text": "DRIVE OFF OCTOBER 25",
+     "dollars": 302.92
+    }
+   ]
+  },
+  {
+   "family": "BELLA MACDOUGALL;SALESFORCE",
+   "documents": [
+    "5116112974",
+    "5116663411",
+    "5117092355",
+    "5117452632",
+    "5118140904",
+    "5118535820",
+    "5119018905",
+    "5119483939",
+    "5119935861",
+    "5120442047"
+   ],
+   "gross": 1635.11,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLSUPFPO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 3",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLHHR",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 7",
+     "destination": "P&C / P&C"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5116112974",
+     "rows": [
+      "S4525",
+      "S18281"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE SEP 2025",
+     "dollars": 168.39
+    },
+    {
+     "document": "5116663411",
+     "rows": [
+      "S4555",
+      "S18338"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE OCT 2025",
+     "dollars": 163.67
+    },
+    {
+     "document": "5117092355",
+     "rows": [
+      "S4573",
+      "S18362"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE NOV 2025",
+     "dollars": 165.21
+    },
+    {
+     "document": "5117452632",
+     "rows": [
+      "S4591",
+      "S18376"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE DEC 2025",
+     "dollars": 165.21
+    },
+    {
+     "document": "5118140904",
+     "rows": [
+      "S4609",
+      "S18408"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE JAN 2026",
+     "dollars": 165.73
+    },
+    {
+     "document": "5118535820",
+     "rows": [
+      "S4626",
+      "S18428"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE FEB 2026",
+     "dollars": 163.16
+    },
+    {
+     "document": "5119018905",
+     "rows": [
+      "S4643",
+      "S18450"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE MAR 2026",
+     "dollars": 163.16
+    },
+    {
+     "document": "5119483939",
+     "rows": [
+      "S4661",
+      "S18471"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE APR 2026",
+     "dollars": 161.65
+    },
+    {
+     "document": "5119935861",
+     "rows": [
+      "S4680",
+      "S18483"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE MAY 2026",
+     "dollars": 161.16
+    },
+    {
+     "document": "5120442047",
+     "rows": [
+      "S4701",
+      "S18543"
+     ],
+     "n_text": "BELLA MACDOUGALL;SALESFORCE JUN 2026",
+     "dollars": 157.77
+    }
+   ]
+  },
+  {
+   "family": "DELOITTE KRONOS HOSTING SERVICE",
+   "documents": [
+    "5115012557",
+    "5116118591",
+    "5116668599",
+    "5117130187",
+    "5117659136"
+   ],
+   "gross": 1533.4,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5115012557",
+     "rows": [
+      "S5665",
+      "S11572"
+     ],
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE - JULY  25",
+     "dollars": 306.68
+    },
+    {
+     "document": "5116118591",
+     "rows": [
+      "S5692",
+      "S11629"
+     ],
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE -SEPT  25",
+     "dollars": 306.68
+    },
+    {
+     "document": "5116668599",
+     "rows": [
+      "S5706",
+      "S11651"
+     ],
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE -SEPT  25",
+     "dollars": 306.68
+    },
+    {
+     "document": "5117130187",
+     "rows": [
+      "S5722",
+      "S11669"
+     ],
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE -NOV  25",
+     "dollars": 306.68
+    },
+    {
+     "document": "5117659136",
+     "rows": [
+      "S5743",
+      "S11690"
+     ],
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE - DEC  25",
+     "dollars": 306.68
+    }
+   ]
+  },
+  {
+   "family": "SNOWFLAKE VARIANCE PRICING",
+   "documents": [
+    "5115506554"
+   ],
+   "gross": 1304.41,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 16",
+     "destination": "Ampol Retail / Retail Data AU"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 65",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5115506554",
+     "rows": [
+      "S11904",
+      "S16550"
+     ],
+     "n_text": "SNOWFLAKE VARIANCE (JAN-JUL, PRICING)",
+     "dollars": 1304.41
+    }
+   ]
+  },
+  {
+   "family": "THINKCELL FOR CAROL THEN",
+   "documents": [
+    "5117590972"
+   ],
+   "gross": 315.06,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 24",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117590972",
+     "rows": [
+      "S4865",
+      "S16899"
+     ],
+     "n_text": "THINKCELL FOR CAROL THEN",
+     "dollars": 315.06
+    }
+   ]
+  },
+  {
+   "family": "COPILOT LICENSE FOR LYIEW",
+   "documents": [
+    "5120406644"
+   ],
+   "gross": 315.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 10",
+     "destination": "TDD / TDD"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLHHR",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 7",
+     "destination": "P&C / P&C"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120406644",
+     "rows": [
+      "S17467",
+      "S18530"
+     ],
+     "n_text": "COPILOT LICENSE FOR LYIEW1 (JUN26-DEC26)",
+     "dollars": 315
+    }
+   ]
+  },
+  {
+   "family": "ITCM LICENSES SUPPORT",
+   "documents": [
+    "5115011993",
+    "5115548803",
+    "5116117747",
+    "5116668299",
+    "5117130152",
+    "5117658620",
+    "5118535448",
+    "5119021999",
+    "5119483938",
+    "5119940145",
+    "5120411231"
+   ],
+   "gross": 132.93,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5115011993",
+     "rows": [
+      "S5661",
+      "S11565"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT JULY 25",
+     "dollars": 15.54
+    },
+    {
+     "document": "5115548803",
+     "rows": [
+      "S5674",
+      "S11585"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT AUG 25",
+     "dollars": 15.54
+    },
+    {
+     "document": "5116117747",
+     "rows": [
+      "S5688",
+      "S11623"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT SEPT 25",
+     "dollars": 15.54
+    },
+    {
+     "document": "5116668299",
+     "rows": [
+      "S5705",
+      "S11649"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT SEPT 25",
+     "dollars": 15.54
+    },
+    {
+     "document": "5117130152",
+     "rows": [
+      "S5717",
+      "S11662"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT NOV 25",
+     "dollars": 15.54
+    },
+    {
+     "document": "5117658620",
+     "rows": [
+      "S5739",
+      "S11683"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT DEC 25",
+     "dollars": 15.54
+    },
+    {
+     "document": "5118535448",
+     "rows": [
+      "S5775",
+      "S11732"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT JAN & FEB 26",
+     "dollars": 13.17
+    },
+    {
+     "document": "5119021999",
+     "rows": [
+      "S5786",
+      "S11757"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT MARCH 26",
+     "dollars": 6.63
+    },
+    {
+     "document": "5119483938",
+     "rows": [
+      "S5798",
+      "S11797"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT APRIL 26",
+     "dollars": 6.63
+    },
+    {
+     "document": "5119940145",
+     "rows": [
+      "S5808",
+      "S11823"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT MAY 26",
+     "dollars": 6.63
+    },
+    {
+     "document": "5120411231",
+     "rows": [
+      "S5829",
+      "S11852"
+     ],
+     "n_text": "ITCM LICENSES & SUPPORT JUNE 26",
+     "dollars": 6.63
+    }
+   ]
+  },
+  {
+   "family": "MICROSOFT POWER AUTOMATE PREMIUM USAGE RECHARGE",
+   "documents": [
+    "5117178089"
+   ],
+   "gross": 126.6,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 14",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117178089",
+     "rows": [
+      "S4710",
+      "S16236"
+     ],
+     "n_text": "MICROSOFT POWER AUTOMATE PREMIUM USAGE RECHARGE",
+     "dollars": 126.6
+    }
+   ]
+  },
+  {
+   "family": "POWERBI FOR LENICE CHEE",
+   "documents": [
+    "5118030959"
+   ],
+   "gross": 47.8,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLAETOTAL",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 7",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 15",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5118030959",
+     "rows": [
+      "S8967",
+      "S16962"
+     ],
+     "n_text": "POWERBI FOR LENICE CHEE",
+     "dollars": 47.8
+    }
+   ]
+  },
+  {
+   "family": "POWERBI PRO JAKE EDWARDS",
+   "documents": [
+    "5117863517"
+   ],
+   "gross": 47.8,
+   "basis": [
+    "auditor qa_r2_01 addition, counterparty text differs"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 15",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117863517",
+     "rows": [
+      "S7221",
+      "S16941"
+     ],
+     "n_text": [
+      "POWERBI PRO JAKE EDWARDS",
+      "POWERBI PRO MDEPOPS"
+     ],
+     "dollars": 47.8
+    }
+   ]
+  },
+  {
+   "family": "FLYNN ZWINKLES COPILOT LICENSE",
+   "documents": [
+    "5119346648"
+   ],
+   "gross": 44.89,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 10",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5119346648",
+     "rows": [
+      "S7880",
+      "S17186"
+     ],
+     "n_text": "FLYNN ZWINKLES COPILOT LICENSE (APR/26-MAY/26)",
+     "dollars": 44.89
+    }
+   ]
+  },
+  {
+   "family": "SNAGIT JEGA PONNAMBALAM",
+   "documents": [
+    "5118029102"
+   ],
+   "gross": 20.47,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 25",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5118029102",
+     "rows": [
+      "S7225",
+      "S16961"
+     ],
+     "n_text": "SNAGIT JEGA PONNAMBALAM",
+     "dollars": 20.47
+    }
+   ]
+  }
+ ],
+ "required_open_leg": [
+  {
+   "family": "D CUST INSIGHTS T",
+   "documents": [
+    "5120293918"
+   ],
+   "gross": 346064.28,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLBRNDCOMS",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 17",
+     "destination": "Ampol Customer / Ampol Loyalty & Martech"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "open B2-O3",
+     "destination": "OPEN"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120293918",
+     "rows": [
+      "S16007",
+      "S17425"
+     ],
+     "n_text": "D365 CUST INSIGHTS T2  (JUN/26-MAY/27)",
+     "dollars": 278539.8
+    },
+    {
+     "document": "5120293918",
+     "rows": [
+      "S16008",
+      "S17426"
+     ],
+     "n_text": "D365 CUST INSIGHTS T3  (JUN/26-MAY/27)",
+     "dollars": 67524.48
+    }
+   ]
+  },
+  {
+   "family": "SIGMA PLATFORMA ACT BUILD VIEW SUBS",
+   "documents": [
+    "5119661592"
+   ],
+   "gross": 219692.68,
+   "basis": [
+    "auditor qa_r2_01 addition, counterparty text differs"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "open B2-O14",
+     "destination": "OPEN"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5119661592",
+     "rows": [
+      "S4723",
+      "S16367"
+     ],
+     "n_text": [
+      "SIGMA PLATFORMA/ACT/BUILD/VIEW SUBS-4/27",
+      "REPOST SIGMA PLATFORMA/ACT/BUILD/VIEW SUBS-4/27"
+     ],
+     "dollars": 219692.68
+    }
+   ]
+  },
+  {
+   "family": "D BUSINESS CENTRAL ESSENTIAL",
+   "documents": [
+    "5120292499"
+   ],
+   "gross": 122312.16,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "open B2-O3",
+     "destination": "OPEN"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120292499",
+     "rows": [
+      "S8322",
+      "S17407"
+     ],
+     "n_text": "D365 BUSINESS CENTRAL ESSENTIAL (JUN/26-MAY/27)",
+     "dollars": 122312.16
+    }
+   ]
+  },
+  {
+   "family": "DATAIKU LICENSE RECHARGE",
+   "documents": [
+    "5117396528"
+   ],
+   "gross": 28920.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLFIFINANCE",
+     "file": "phaseb_b1",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 66",
+     "destination": "Enterprise Data / Data"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117396528",
+     "rows": [
+      "S5024",
+      "S16845"
+     ],
+     "n_text": "DATAIKU LICENSE RECHARGE",
+     "dollars": 28920
+    }
+   ]
+  },
+  {
+   "family": "RECHG % OCR SETUP FEE AND OCR ANNUAL HOSTING FEE",
+   "documents": [
+    "5116128028"
+   ],
+   "gross": 15000.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "open O13",
+     "destination": "OPEN"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5116128028",
+     "rows": [
+      "S5695",
+      "S11643"
+     ],
+     "n_text": "RECHG 50% OCR SETUP FEE AND OCR ANNUAL HOSTING FEE",
+     "dollars": -15000
+    }
+   ]
+  },
+  {
+   "family": "AUTOCAD RENEWAL GSUTCH LRUDDOC AEFTAXI",
+   "documents": [
+    "5120297339"
+   ],
+   "gross": 13105.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 27",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120297339",
+     "rows": [
+      "S13008",
+      "S17434"
+     ],
+     "n_text": "AUTOCAD RENEWAL GSUTCH, LRUDDOC, AEFTAXI",
+     "dollars": 13105
+    }
+   ]
+  },
+  {
+   "family": "D CUST INSIGHTS ATTACH",
+   "documents": [
+    "5120294329"
+   ],
+   "gross": 8440.62,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLBRNDCOMS",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 17",
+     "destination": "Ampol Customer / Ampol Loyalty & Martech"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "open B2-O3",
+     "destination": "OPEN"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120294329",
+     "rows": [
+      "S16009",
+      "S17430"
+     ],
+     "n_text": "D365 CUST INSIGHTS ATTACH (JUN/26-MAY/27)",
+     "dollars": 8440.62
+    }
+   ]
+  },
+  {
+   "family": "D CUST SVC",
+   "documents": [
+    "5120294329"
+   ],
+   "gross": 5317.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLBRNDCOMS",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 17",
+     "destination": "Ampol Customer / Ampol Loyalty & Martech"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "open B2-O3",
+     "destination": "OPEN"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120294329",
+     "rows": [
+      "S16010",
+      "S17431"
+     ],
+     "n_text": "D365 CUST SVC (JUN/26-MAY/27)",
+     "dollars": 5317.56
+    }
+   ]
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL CLAIRE AYNSLEY",
+   "documents": [
+    "5117402525"
+   ],
+   "gross": 2143.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLTDDIST",
+     "file": "phaseb_b1",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 26",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117402525",
+     "rows": [
+      "S5372",
+      "S16853"
+     ],
+     "n_text": "ARTICULATE LIC RENEWAL CLAIRE AYNSLEY",
+     "dollars": 2143.56
+    }
+   ]
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL DIVYA RAMESH",
+   "documents": [
+    "5117402525"
+   ],
+   "gross": 2143.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLTDDIST",
+     "file": "phaseb_b1",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 26",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117402525",
+     "rows": [
+      "S5373",
+      "S16854"
+     ],
+     "n_text": "ARTICULATE LIC RENEWAL DIVYA RAMESH",
+     "dollars": 2143.56
+    }
+   ]
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL GERARD TEN HEGGELER",
+   "documents": [
+    "5117402525"
+   ],
+   "gross": 2143.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLTDDIST",
+     "file": "phaseb_b1",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 26",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117402525",
+     "rows": [
+      "S5374",
+      "S16855"
+     ],
+     "n_text": "ARTICULATE LIC RENEWAL GERARD TEN HEGGELER",
+     "dollars": 2143.56
+    }
+   ]
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL HOANG ANH MACDONALD",
+   "documents": [
+    "5117401363"
+   ],
+   "gross": 2143.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 26",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117401363",
+     "rows": [
+      "S12120",
+      "S16847"
+     ],
+     "n_text": "ARTICULATE LIC RENEWAL HOANG-ANH MACDONALD",
+     "dollars": 2143.56
+    }
+   ]
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL JAMIE MULDER",
+   "documents": [
+    "5117401363"
+   ],
+   "gross": 2143.56,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 26",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117401363",
+     "rows": [
+      "S12121",
+      "S16848"
+     ],
+     "n_text": "ARTICULATE LIC RENEWAL JAMIE MULDER",
+     "dollars": 2143.56
+    }
+   ]
+  },
+  {
+   "family": "RECHG % GREEN ID AND DVS SET UP FEE",
+   "documents": [
+    "5116128028"
+   ],
+   "gross": 1750.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "open O13",
+     "destination": "OPEN"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5116128028",
+     "rows": [
+      "S5694",
+      "S11642"
+     ],
+     "n_text": "RECHG 50% GREEN ID AND DVS SET UP FEE",
+     "dollars": -1750
+    }
+   ]
+  },
+  {
+   "family": "D BUSINESS CENTRAL TEAM MEMBERS",
+   "documents": [
+    "5120292499"
+   ],
+   "gross": 1336.5,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLB2B",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 6",
+     "destination": "B2B & Energy Solutions / B2B"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "open B2-O3",
+     "destination": "OPEN"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120292499",
+     "rows": [
+      "S8323",
+      "S17408"
+     ],
+     "n_text": "D365 BUSINESS CENTRAL TEAM MEMBERS  (JUN/26-MAY/27",
+     "dollars": 1336.5
+    }
+   ]
+  },
+  {
+   "family": "CAMTASIA ALEX KELLY CAITLIN HOGUE BRENDAN COLLI",
+   "documents": [
+    "5118029102"
+   ],
+   "gross": 309.78,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 25",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5118029102",
+     "rows": [
+      "S12158",
+      "S16959"
+     ],
+     "n_text": "CAMTASIA ALEX KELLY, CAITLIN HOGUE & BRENDAN COLLI",
+     "dollars": 309.78
+    }
+   ]
+  },
+  {
+   "family": "SNAGIT CLAIRE AYNSLEY",
+   "documents": [
+    "5118029102"
+   ],
+   "gross": 20.47,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLTDDIST",
+     "file": "phaseb_b1",
+     "rule_or_open": "open",
+     "destination": "OPEN"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 25",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5118029102",
+     "rows": [
+      "S5407",
+      "S16960"
+     ],
+     "n_text": "SNAGIT CLAIRE AYNSLEY",
+     "dollars": 20.47
+    }
+   ]
+  }
+ ],
+ "exempt_same_destination": [
+  {
+   "family": "IMOS RECHARGE INV",
+   "documents": [
+    "5117400920"
+   ],
+   "gross": 426612.69,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 78",
+     "destination": "Commercial Fuels / Supply"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117400920",
+     "rows": [
+      "S4712",
+      "S16245"
+     ],
+     "n_text": "IMOS RECHARGE INV52449 -2025",
+     "dollars": 426612.69
+    }
+   ]
+  },
+  {
+   "family": "SAAS KRONOS",
+   "documents": [
+    "5118157109",
+    "5119483958"
+   ],
+   "gross": 102060.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 22",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5118157109",
+     "rows": [
+      "S11709",
+      "H32086"
+     ],
+     "n_text": "SAAS KRONOS 07.25 - 06.26",
+     "dollars": 51030
+    },
+    {
+     "document": "5119483958",
+     "rows": [
+      "S11805",
+      "H32239"
+     ],
+     "n_text": "SAAS KRONOS 07.25 - 06.26",
+     "dollars": 51030
+    }
+   ]
+  },
+  {
+   "family": "DELOITTE KRONOS HOSTING SERVICE UNTIL",
+   "documents": [
+    "5119943556",
+    "5120413952"
+   ],
+   "gross": 102060.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 13",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 22",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5119943556",
+     "rows": [
+      "S11836",
+      "H32279"
+     ],
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE UNTIL JUNE 26",
+     "dollars": 51030
+    },
+    {
+     "document": "5120413952",
+     "rows": [
+      "S11860",
+      "H32341"
+     ],
+     "n_text": "DELOITTE KRONOS HOSTING SERVICE UNTIL JUNE 26",
+     "dollars": 51030
+    }
+   ]
+  },
+  {
+   "family": "ZEPHYR LICENSE X",
+   "documents": [
+    "5114993612"
+   ],
+   "gross": 59210.58,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 12",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 85",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5114993612",
+     "rows": [
+      "S11883",
+      "S16472"
+     ],
+     "n_text": "ZEPHYR LICENSE 11X",
+     "dollars": 59210.58
+    }
+   ]
+  },
+  {
+   "family": "ALLEGRO EXTENDED SUPPORT RECHARGE",
+   "documents": [
+    "5116660037"
+   ],
+   "gross": 36562.5,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLCCO",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 1",
+     "destination": "Commercial Fuels / Supply"
+    },
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 77",
+     "destination": "Commercial Fuels / Supply"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5116660037",
+     "rows": [
+      "S4706",
+      "S16193"
+     ],
+     "n_text": "ALLEGRO EXTENDED SUPPORT RECHARGE",
+     "dollars": 36562.5
+    }
+   ]
+  },
+  {
+   "family": "COMPAC ONLINE FEE",
+   "documents": [
+    "5118536321",
+    "5119022331",
+    "5119483965",
+    "5119943565",
+    "5119943566",
+    "5119943570",
+    "5120414007"
+   ],
+   "gross": 36045.06,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5118536321",
+     "rows": [
+      "S11737",
+      "H31529"
+     ],
+     "n_text": "COMPAC ONLINE FEE",
+     "dollars": 3161.74
+    },
+    {
+     "document": "5119022331",
+     "rows": [
+      "S11765",
+      "H31570"
+     ],
+     "n_text": "COMPAC ONLINE FEE",
+     "dollars": 10870.28
+    },
+    {
+     "document": "5119483965",
+     "rows": [
+      "S11806",
+      "H31606"
+     ],
+     "n_text": "COMPAC ONLINE FEE",
+     "dollars": 4094.78
+    },
+    {
+     "document": "5119943565",
+     "rows": [
+      "S11837",
+      "H31636"
+     ],
+     "n_text": "COMPAC ONLINE FEE",
+     "dollars": 4716.29
+    },
+    {
+     "document": "5119943566",
+     "rows": [
+      "S11838",
+      "H31637"
+     ],
+     "n_text": "COMPAC ONLINE FEE",
+     "dollars": -4716.29
+    },
+    {
+     "document": "5119943570",
+     "rows": [
+      "S11839",
+      "H31638"
+     ],
+     "n_text": "COMPAC ONLINE FEE",
+     "dollars": 4716.29
+    },
+    {
+     "document": "5120414007",
+     "rows": [
+      "S11862",
+      "H31664"
+     ],
+     "n_text": "COMPAC ONLINE FEE",
+     "dollars": 3769.39
+    }
+   ]
+  },
+  {
+   "family": "CITADEL TEAMS PHONE HANDSETS X + WARRA",
+   "documents": [
+    "5120024868"
+   ],
+   "gross": 13062.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 30",
+     "destination": "TDD / TDD"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 38",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120024868",
+     "rows": [
+      "S16398",
+      "H44859"
+     ],
+     "n_text": "CITADEL TEAMS PHONE HANDSETS X24 + WARRA",
+     "dollars": -13062
+    }
+   ]
+  },
+  {
+   "family": "FUEL SUPPLY EMT TT OPT LEGACY",
+   "documents": [
+    "5119481419"
+   ],
+   "gross": 5200.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 30",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5119481419",
+     "rows": [
+      "S11789",
+      "H35229"
+     ],
+     "n_text": "FUEL SUPPLY EMT- TT OPT LEGACY",
+     "dollars": 5200
+    }
+   ]
+  },
+  {
+   "family": "CITADEL YEALINK PHONES X + YRS WARRANT",
+   "documents": [
+    "5120026034"
+   ],
+   "gross": 2895.0,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b2",
+     "rule_or_open": "rule 30",
+     "destination": "TDD / TDD"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLH_INFOTECH",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 38",
+     "destination": "TDD / TDD"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5120026034",
+     "rows": [
+      "S16400",
+      "H44860"
+     ],
+     "n_text": "CITADEL YEALINK PHONES X6 + 3YRS WARRANT",
+     "dollars": -2895
+    }
+   ]
+  },
+  {
+   "family": "COMPACT OPT INV ROUS HEAD TS",
+   "documents": [
+    "5119460660",
+    "5119659533"
+   ],
+   "gross": 1252.67,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5119460660",
+     "rows": [
+      "S11787",
+      "H31587"
+     ],
+     "n_text": "COMPACT OPT 2026 INV ROUS HEAD TS JAN 26",
+     "dollars": 556.53
+    },
+    {
+     "document": "5119460660",
+     "rows": [
+      "S11788",
+      "H31588"
+     ],
+     "n_text": "COMPACT OPT 2026 INV ROUS HEAD TS MAR 26",
+     "dollars": 336.59
+    },
+    {
+     "document": "5119659533",
+     "rows": [
+      "S11810",
+      "H31609"
+     ],
+     "n_text": "COMPACT OPT 2026 INV ROUS HEAD TS APR 26",
+     "dollars": 359.55
+    }
+   ]
+  },
+  {
+   "family": "COMPACT OPT INV AMPOL COLLIE",
+   "documents": [
+    "5119460660",
+    "5119659533"
+   ],
+   "gross": 345.44,
+   "basis": [
+    "ruled leg-pair sweep"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5119460660",
+     "rows": [
+      "S11783",
+      "H31584"
+     ],
+     "n_text": "COMPACT OPT 2026 INV AMPOL COLLIE FEB 26",
+     "dollars": 89.79
+    },
+    {
+     "document": "5119460660",
+     "rows": [
+      "S11784",
+      "H31585"
+     ],
+     "n_text": "COMPACT OPT 2026 INV AMPOL COLLIE JAN 26",
+     "dollars": 89.37
+    },
+    {
+     "document": "5119460660",
+     "rows": [
+      "S11785",
+      "H31586"
+     ],
+     "n_text": "COMPACT OPT 2026 INV AMPOL COLLIE MAR 26",
+     "dollars": 87.9
+    },
+    {
+     "document": "5119659533",
+     "rows": [
+      "S11809",
+      "H31608"
+     ],
+     "n_text": "COMPACT OPT 2026 INV AMPOL COLLIE APR 26",
+     "dollars": 78.38
+    }
+   ]
+  },
+  {
+   "family": "COMPAC ONLINE FEE REVERSAL",
+   "documents": [
+    "5119019650"
+   ],
+   "gross": 256.35,
+   "basis": [
+    "variant-text candidate admitted by the same relaxation, pending ruling"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 29",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5119019650",
+     "rows": [
+      "S11753",
+      "H31555"
+     ],
+     "n_text": [
+      "COMPAC ONLINE FEE FEB REVERSAL",
+      "COMPAC ONLINE FEE STRORO REVERSALS"
+     ],
+     "dollars": -256.35
+    }
+   ]
+  },
+  {
+   "family": "MOVE RETAIL ELEC OPEX TO CORRECT COST CENTRE",
+   "documents": [
+    "5117659227"
+   ],
+   "gross": 0.0,
+   "basis": [
+    "nil-value leg pair, exempt; carried to reconcile the auditor list"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLAETOTAL",
+     "file": "phaseb_b1",
+     "rule_or_open": "rule 7",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLAETOTAL",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 14",
+     "destination": "B2B & Energy Solutions / Energy Solutions"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5117659227",
+     "rows": [
+      "S8946",
+      "H12875"
+     ],
+     "n_text": "MOVE RETAIL ELEC OPEX DEC25 TO CORRECT COST CENTRE",
+     "dollars": 0
+    }
+   ]
+  },
+  {
+   "family": "COMPAC ONLINE FEE",
+   "documents": [
+    "5119481423"
+   ],
+   "gross": 0.0,
+   "basis": [
+    "nil-value leg pair, exempt; carried to reconcile the auditor list"
+   ],
+   "legs_pattern": [
+    {
+     "tab": "SW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b3",
+     "rule_or_open": "rule 10",
+     "destination": "Ampol Retail / Store Operations"
+    },
+    {
+     "tab": "HW",
+     "cc": "APPLMTOTAL",
+     "file": "phaseb_b4",
+     "rule_or_open": "rule 26",
+     "destination": "Ampol Retail / Store Operations"
+    }
+   ],
+   "rows": [
+    {
+     "document": "5119481423",
+     "rows": [
+      "S11790",
+      "H31592"
+     ],
+     "n_text": [
+      "COMPAC ONLINE FEE",
+      "WINDCAVE EFT (NEXT GEN OPT)"
+     ],
+     "dollars": 0
+    }
+   ]
+  }
+ ],
+ "reconciliation": {
+  "against": "agents/qa_r2_01_pairs.json",
+  "auditor_required": 34,
+  "auditor_required_inside_my_required_lists": 34,
+  "auditor_required_missing": [],
+  "auditor_optional_same_destination": 20,
+  "auditor_optional_inside_my_exempt_list": 20,
+  "auditor_optional_missing": [],
+  "note": "All 34 of the auditor's required pairs appear inside required_split or required_open_leg. Three did not fall out of the round-two sweep as first run, because that run matched a leg only to a counterparty carrying identical column N text: 5117130089 (\"AS 2025 DATAIKU CHARGE\" against \"RECHARGE 2025 DATAIKU TO AS\"), 5117863517 (\"POWERBI PRO JAKE EDWARDS\" against \"POWERBI PRO MDEPOPS\") and 5119661592 (\"SIGMA PLATFORMA/ACT/BUILD/VIEW SUBS-4/27\" against its REPOST leg). All three are included here and carry basis \"auditor qa_r2_01 addition\". The auditor's twenty optional same-destination documents all appear in exempt_same_destination, two of them (5117659227 and 5119481423) only after nil-value leg pairs were carried in, which the round-two sweep skipped."
+ },
+ "movement_from_round_two": {
+  "required_split": {
+   "ruled": {
+    "documents": 71,
+    "gross": 1028533.02
+   },
+   "pairing_correction": {
+    "documents": 1,
+    "gross": 315.0,
+    "detail": "CO document 5120406644 carries three legs: S17467 in the pooled centre at +315.00 for LYIEW1, and S18529 and S18530 in APPLHHR at -315.00 each for DMCINTY and LYIEW1. The round-two sweep matched S17467 to S18529 and read the pair as variant text. Matching identical column N first pairs S17467 with S18530, so the document is a same-text split pair and belongs in the required list."
+   },
+   "auditor_additions": {
+    "documents": 2,
+    "gross": 370831.8
+   },
+   "variant_text_candidates_pending_ruling": {
+    "documents": 8,
+    "gross": 70893.9,
+    "detail": "Seven monthly documents pairing \"CONTENTSTACK LICENSE\" in APPLBRNDCOMS against \"IT SERVICES <month>\" in the pooled centre, 67,795.00, and CO document 5120390441 pairing the Atlassian Xray renewal across the pooled centre and TDDEINTSIG, 3,098.90. 5120390441 is already inside the ruled set on a second pair, so the union adds seven documents, not eight."
+   },
+   "total": {
+    "documents": 81,
+    "gross": 1470573.72
+   }
+  },
+  "required_open_leg": {
+   "ruled": {
+    "documents": 9,
+    "gross": 553294.17
+   },
+   "auditor_additions": {
+    "documents": 1,
+    "gross": 219692.68
+   },
+   "total": {
+    "documents": 10,
+    "gross": 772986.85
+   }
+  },
+  "exempt_same_destination": {
+   "ruled": {
+    "documents": 19,
+    "gross": 785305.94
+   },
+   "nil_value_pairs": {
+    "documents": 2,
+    "gross": 256.35
+   },
+   "total": {
+    "documents": 20,
+    "gross": 785562.29
+   }
+  },
+  "distinct_documents_across_both_required_lists": 90,
+  "note": "CO document 5118029102 carries both a split pair and an open-leg pair, so it appears in both required lists; 81 plus 10 less that one document is 90."
+ },
+ "totals": {
+  "required_split": {
+   "families": 37,
+   "documents": 81,
+   "gross": 1470573.72
+  },
+  "required_open_leg": {
+   "families": 17,
+   "documents": 10,
+   "gross": 772986.85
+  },
+  "exempt_same_destination": {
+   "families": 14,
+   "documents": 22,
+   "gross": 785562.29
+  }
+ }
+}

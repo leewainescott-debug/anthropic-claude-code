@@ -1,0 +1,1558 @@
+{
+ "items": [
+  {
+   "item": "Device catalogue, laptop",
+   "lines": 24801,
+   "total": 5020473.53,
+   "variants": [
+    "560 LAPTOP <serial> <user>",
+    "560 LAPTOP <serial> <user> JAN",
+    "560 LAPTOP <serial> <user> REFUND",
+    "REALLOC 560 LAPTOP <serial> <user>",
+    "560 LAPTOP <serial> <user> FEB REFUND",
+    "560 HIGH PERF LAPTOP <serial> <user>",
+    "560 LAPTOP <serial> <user> APR REFUND",
+    "560 LAPTOP <serial> <user> FEB-APR REFUN",
+    "560 LAPTOP <serial> <user> FEB-MAY REFUND",
+    "560 LAPTOP <serial> <user> JUN CHARGE",
+    "560 LAPTOP <serial> <user> JUN REFUND",
+    "560 LAPTOP <serial> <user> MAY REFUND",
+    "560 LAPTOP <serial> <user> SEP CHARGE",
+    "560 LAPTOP <serial> <user> SEP REFUND",
+    "RECLASS LAPTOP RECHARGE",
+    "560 LAPTOP <serial> ()",
+    "560 LAPTOP <serial> <user> APR CHARGE",
+    "560 LAPTOP <serial> <user> AUG CHARGE",
+    "560 LAPTOP <serial> <user> AUG REFUND",
+    "560 LAPTOP <serial> <user> AUG-SEP REF",
+    "560 LAPTOP <serial> <user> FEB CHARGE",
+    "560 LAPTOP <serial> <user> FEB-MAR REF",
+    "560 LAPTOP <serial> <user> FEB-MAY CHA",
+    "560 LAPTOP <serial> <user> FEB-MAY REF",
+    "560 LAPTOP <serial> <user> JAN CHARGE",
+    "560 LAPTOP <serial> <user> JAN REFUND",
+    "560 LAPTOP <serial> <user> JAN-APR CHA",
+    "560 LAPTOP <serial> <user> MAR CHARGE",
+    "560 LAPTOP <serial> <user> MAR REFUND",
+    "560 LAPTOP <serial> <user> MAY CHARGE"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 1561880.0,
+    "APPLFIREFINING": 1244040.0,
+    "APPLMTOTAL": 753960.0,
+    "APPLHFIN": 447720.0,
+    "APPLAETOTAL": 329281.76,
+    "APPLHHR": 296530.0,
+    "APPLLUBRICANTS": 105590.0,
+    "APPLBRNDCOMS": 90580.0,
+    "APPLSIG_ITEMS": 73510.0,
+    "APPLHLSA": 52460.0,
+    "APPLHALT": 37100.0,
+    "APPLH_INFOTECH": 22831.77,
+    "APPLRCALSTORES": 3790.0,
+    "APPLGENERAL": 1200.0
+   }
+  },
+  {
+   "item": "Blue Yonder",
+   "lines": 91,
+   "total": 4904995.59,
+   "variants": [
+    "JDA SUPPORT <month>",
+    "BLUE YONDER/JDA SUPPORT",
+    "BY SAAS CLOUD AGREEMENT AMORTISATION",
+    "BY SAAS DAS <user> AMORTISATION",
+    "BLUE 411.77ONDER SUPPORT (USED TO BE CALLED JDA SU",
+    "BLUEYONDER MODIFICATION SUPT TO 26/9/26",
+    "STOREBOS CHANGES TO SALES BATCH UPLOAD",
+    "JDA SUPPORT JAN + <month>",
+    "A,POS - CONSULTING FEE",
+    "BY MODIFICATION SUPPORT - SAAS 2025/2026",
+    "BY SAAS CLOUD AGREEMENT 2025/2026",
+    "BY SAAS DAS <user> ENVIRONMENT",
+    "BY SAAS DATA ACCESS SERVICE <user>",
+    "JDA SUPPORT/ BLUE YONDER <month>",
+    "JDA SUPPORT/ BLUE YONDER AUG & SEPT",
+    "JDA SUPPORT/ BLUE YONDER BY SAAS DATA ACCESS SERVI"
+   ],
+   "centres": {
+    "APPLMTOTAL": 4897872.75,
+    "APPLBULKFUEL": 7122.84
+   }
+  },
+  {
+   "item": "AMPOS programme",
+   "lines": 152,
+   "total": 3115691.72,
+   "variants": [
+    "ANTHONY DUMBRELL RECHG <month> <days> AMPOS OPEX",
+    "BALA THIRUVADI RECHG <month> <days> AMPOS OPEX",
+    "BALAJI MURUGAN RECHG <month> <days> AMPOS OPEX",
+    "BRENDAN COLLINS RECHG <month> <days> AMPOS OPEX",
+    "CHETHAN KRISNEGOWDA RECHG <month> <days> AMPOS OPEX",
+    "IRFAN ZAVAHIR RECHG <month> <days> AMPOS OPEX",
+    "MANJIRI JOHARAPURKAR RECHG <month> <days> AMPOS OPEX",
+    "MURRAY MITCHELL RECHG <month> <days> AMPOS OPEX",
+    "ROSS SORBELLO RECHG <month> <days> AMPOS OPEX",
+    "SAO KEAWPRASIT RECHG <month> <days> AMPOS OPEX",
+    "TABITHA RAHARDJO RECHG <month> <days> AMPOS OPEX",
+    "TARA ALEXANDER RECHG <month> <days> AMPOS OPEX",
+    "AVADUTWAR SAI KIRAN RECHG <month> <days> AMPOS OPEX",
+    "DINESH KUMAR CHANDRASEKARAN RECHG <month> <days> AMPOS O",
+    "KARTHICK <serial> RECHG <month> <days> AMPOS OPEX",
+    "MARTY O'SHEA RECHG <month> <days> AMPOS OPEX",
+    "SENDHIL VINAYAGAM RECHG <month> <days> AMPOS OPEX",
+    "VAISH VISWANATHAN RECHG <month> <days> AMPOS OPEX",
+    "HARDIK TRIVEDI RECHG <month> <days> AMPOS OPEX",
+    "RAKSHIT KAUL RECHG <month> <days> AMPOS OPEX",
+    "SAYAN KAR RECHG <month> <days> AMPOS OPEX",
+    "VICTOR BEUK RECHG <month> <days> AMPOS OPEX",
+    "JAVIER AGUIRRE CASTELLANOS RECHG <month> <days> AMPOS OP",
+    "KEVIN NELSON RECHG <month> <days> AMPOS OPEX",
+    "LAUREN TOGONO RECHG <month> <days> AMPOS OPEX",
+    "RECHG <month> Z PPL TO TDD AMPOS OPEX",
+    "SANTIAGO HERNANDEZ AREVALO RECHG <month> <days> AMPOS OP",
+    "ABDUL GHAFFAR RECHG <month> <days> AMPOS OPEX",
+    "AMPOS PROGRAM - EXECUTION OF SOW",
+    "AMPOS PROGRAM - M3 READY FOR UAT",
+    "... and 43 more text forms"
+   ],
+   "centres": {
+    "APPLMTOTAL": 3115691.72
+   }
+  },
+  {
+   "item": "Unclear from the row",
+   "lines": 518,
+   "total": -2877793.37,
+   "variants": [
+    "ALLOCATION FOR PIPELINE CHARGES - <month>",
+    "ACCRUAL FOR PIPELINE CHARGES - <month>",
+    "LHPIPESAL TRANSFER <month>",
+    "<month> DATA",
+    "ACTGEN TRANSFER <month>",
+    "OOLGEN TRANSFER <month>",
+    "<month> AMSCAL RECHARGE",
+    "<month> Y593710 JOURNAL",
+    "REALLOCATION OF <month> OPEX_PRJ TO AMPOL SG",
+    "CALBUY <month>",
+    "REALLOCATION OF <month> OPEX TO AMPOL US",
+    "MOVE ANY EXPENDITURE FOR ES ASSET OPERATIONS <month>",
+    "MOVE ANY EXPENDITURE FOR ES DEPLOYMENT <month>",
+    "MOVE ANY EXPENDITURE FOR ES FINANCE <month>",
+    "MOVE ANY EXPENDITURE FOR ES PROGRAM <month>",
+    "MOVE ANY EXPENDITURE FOR ES TECHNOLOGIES <month>",
+    "MOVE ANY EXPENDITURE FOR ENERGY BUSINESS SOL <month>",
+    "MOVE ANY EXPENDITURE FOR ES ENABLEMENT GM <month>",
+    "MOVE ANY EXPENDITURE FOR EV CHARGING <month>",
+    "MOVE ANY EXPENDITURE FOR GM ENERGY SOLUTIONS <month>",
+    "MOVE ANY EXPENDITURE FOR IT ENERGY SOLUTIONS <month>",
+    "MOVE ANY EXPENDITURE FOR WHOLESALE TRADING <month>",
+    "MOVE ANY EXPENDITURE FOR ENERGY NEXT GEN FUEL <month>",
+    "MOVE ANY EXPENDITURE FOR ES PROCESS & RISK <month>",
+    "<month> AMSCAL",
+    "MOVE APOLLO RETAIL ELEC OPEX <month> TO SI",
+    "REALLOCATE ES <month> FROM 94 AMPENERGY TO ES",
+    "MOVE ANY EXPENDITURE FOR ES LEGAL <month>",
+    "MOVE ANY EXPENDITURE FOR GENERATION <month>",
+    "Y602100 TFR <month> ALKY",
+    "... and 65 more text forms"
+   ],
+   "centres": {
+    "APPLMTOTAL": -2176368.71,
+    "APPLBULKFUEL": -362012.2,
+    "APPLFIREFINING": -316125.56,
+    "APPLHHR": -12958.7,
+    "APPLHFIN": -11278.2,
+    "APPLSIG_ITEMS": 3299.84,
+    "APPLAETOTAL": -2953.32,
+    "APPLH_INFOTECH": 603.48
+   }
+  },
+  {
+   "item": "Diebold Nixdorf",
+   "lines": 17,
+   "total": 2612928.17,
+   "variants": [
+    "NON-PROD ENVIRONMENT 2025 5 X 12 MONTHS",
+    "MILESTONE S1 - START OF DEVELOPMENT CR2",
+    "43000000",
+    "DN - TRAVEL FOR UAT",
+    "END PILOT 1",
+    "EXIT UAT / READY FOR PILOT",
+    "MILESTONE S2 - DELIVERY OF IN-SCOPE CRS",
+    "MILESTONE S3 - READY FOR PILOT"
+   ],
+   "centres": {
+    "APPLMTOTAL": 2612928.17
+   }
+  },
+  {
+   "item": "NAMOS POS programme",
+   "lines": 149,
+   "total": 1896934.13,
+   "variants": [
+    "NAMOS - TRANSFER FROM M.22.037 TO E.25.002",
+    "MURRAY MITCHELL RECHG NOV <days> NAMOS REPLACEMENT",
+    "RECHG YTD <month> Z LABOUR MARKUP TO POS NAM",
+    "ANTHONY DUMBRELL RECHG DEC <days> NAMOS REPLACEMENT",
+    "ANTHONY DUMBRELL RECHG NOV <days> NAMOS REPLACEMENT",
+    "ANTHONY DUMBRELL RECHG OCT <days> NAMOS POS",
+    "BALA THIRUVADI RECHG DEC <days> NAMOS REPLACEMENT",
+    "BALA THIRUVADI RECHG NOV <days> NAMOS REPLACEMENT",
+    "BALAJI MURUGAN RECHG DEC <days> NAMOS REPLACEMENT",
+    "BALAJI MURUGAN RECHG NOV <days> NAMOS REPLACEMENT",
+    "BALAJI MURUGAN RECHG OCT <days> NAMOS POS",
+    "BEENU MURALI RECHG NOV <days> NAMOS REPLACEMENT",
+    "BRENDAN COLLINS RECHG DEC <days> NAMOS REPLACEMENT",
+    "BRENDAN COLLINS RECHG NOV <days> NAMOS REPLACEMENT",
+    "BRENDAN COLLINS RECHG OCT <days> NAMOS POS",
+    "CHETHAN KRISNEGOWDA RECHG DEC <days> NAMOS REPLACEMEN",
+    "CHETHAN KRISNEGOWDA RECHG NOV <days> NAMOS REPLACEMEN",
+    "CHETHAN KRISNEGOWDA RECHG OCT <days> NAMOS POS",
+    "DARSHAN SUVARNA RECHG NOV <days> NAMOS REPLACEMENT",
+    "DARSHAN SUVARNA RECHG OCT <days> NAMOS POS",
+    "DINESH KUMAR CHANDRASEKARAN RECHG DEC <days> NAMOS REP",
+    "DINESH KUMAR CHANDRASEKARAN RECHG NOV <days> NAMOS REP",
+    "DINESH KUMAR CHANDRASEKARAN RECHG OCT <days> NAMOS POS",
+    "IRFAN ZAVAHIR RECHG DEC <days> NAMOS REPLACEMENT",
+    "IRFAN ZAVAHIR RECHG NOV <days> NAMOS REPLACEMENT",
+    "IRFAN ZAVAHIR RECHG OCT <days> NAMOS POS",
+    "JAVIER AGUIRRE RECHG NOV <days> NAMOS REPLACEMENT",
+    "JAVIER AGUIRRE RECHG OCT <days> NAMOS POS",
+    "KARTHICK <serial> RECHG DEC <days> NAMOS REPLACE",
+    "KARTHICK <serial> RECHG NOV <days> NAMOS REPLAC",
+    "... and 115 more text forms"
+   ],
+   "centres": {
+    "APPLMTOTAL": 1896934.13
+   }
+  },
+  {
+   "item": "Planit Test Management Solutions",
+   "lines": 58,
+   "total": 1851660.23,
+   "variants": [
+    "SOW 91 - POS TEST TEAM JAN TO <month>",
+    "SOW-87-TEST LEAD POS UPGRADE <month>",
+    "SOW-80-POS TEST TEAM JULY-25 - SEPT-2025",
+    "SOW 91 - POS TEST TEAM APIL TO <month>",
+    "POS PERFORMANCE TEST <user>",
+    "SOW 75 - POS TEST TEAM APR-25 TO JUN-25",
+    "43000000",
+    "POS REGRESSION TEST AUTOMATION JAN-25",
+    "SOW 96 - TEST AUTOMATION FOR POS UPGRADE",
+    "SOW-64 POS REGRESSION TEST AUTO.DROP-2",
+    "EST ENGINEER VAMSHI MEELA - <month>",
+    "POS UPGRADE TEST MANAGER - G.CHORDIA",
+    "RETAIL TESTER - RAGHAV - JULY-<month>",
+    "SOW 100 - POS UPGRADE REGRESSION TEST",
+    "SOW 70 - POS TEST TEAM JAN-25 TO MAR-25",
+    "TEST AUTOMATION LICENSE RENEWAL"
+   ],
+   "centres": {
+    "APPLMTOTAL": 1851660.23
+   }
+  },
+  {
+   "item": "PwC",
+   "lines": 38,
+   "total": 1588858.59,
+   "variants": [
+    "PWC POS DELIVERY SUPPORT APR TO <month>",
+    "PWC POS DELIVERY SUPPORT JAN TO <month>",
+    "PWC POS DELIVERY SUPPORT NOV - <month>",
+    "43000000",
+    "PWC POS DELIVERY SUPPORT JULY-25",
+    "PWC POS DELIVERY SUPPORT OCTOBER - 25",
+    "PWC POS DELIVERY SUPPORT SEPTEMBER - 25",
+    "PWC POS DELIVERY SUPPORT JUNE-25",
+    "WC POS DELIVERY SUPPORT JAN TO <month>",
+    "PWC POS DELIVERY SUPPORT <month> SHORTFALL",
+    "PWC POS DELIVERY SUPPORT AUGUST - 25"
+   ],
+   "centres": {
+    "APPLMTOTAL": 1588858.59
+   }
+  },
+  {
+   "item": "Store field services support",
+   "lines": 24,
+   "total": 1088672.27,
+   "variants": [
+    "STORE FIELD SERVICES SUPPORT",
+    "STORE FIELD SERVICES SUPPORT <month>",
+    "STORE FIELD SUPPORT <user>"
+   ],
+   "centres": {
+    "APPLMTOTAL": 908685.05,
+    "APPLBULKFUEL": 179987.22
+   }
+  },
+  {
+   "item": "Device catalogue, desktop",
+   "lines": 3610,
+   "total": 773050.55,
+   "variants": [
+    "561 DESKTOP <serial> <user>",
+    "561 DESKTOP <serial> <user> JAN",
+    "561 DESKTOP <serial> (COOLANGATTA AIRPORT FUEL SER",
+    "561 DESKTOP <serial> (NICOLE COOLEY <user>)",
+    "561 DESKTOP <serial> <user> MAR REFUND"
+   ],
+   "centres": {
+    "APPLFIREFINING": 517910.0,
+    "APPLBULKFUEL": 195470.0,
+    "APPLLUBRICANTS": 56385.0,
+    "APPLHHR": 1975.0,
+    "APPLHFIN": 1095.0,
+    "APPLSIG_ITEMS": 215.0,
+    "APPLH_INFOTECH": 0.55
+   }
+  },
+  {
+   "item": "Device catalogue, high performance laptop",
+   "lines": 3668,
+   "total": 768822.07,
+   "variants": [
+    "562 HIGH PERF LAPTOP <serial> <user>",
+    "565 HIGH PERF LAPTOP <serial> <user>",
+    "562 HIGH PERF LAPTOP <serial> <user> J",
+    "562 HIGH PERF LAPTOP <serial> <user> JAN",
+    "562 HIGH PERF LAPTOP <serial> ()",
+    "562 HIGH PERF LAPTOP <serial> <user> JA",
+    "565 HIGH PERF LAPTOP <serial> (BYRON THORNHIL"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 427990.0,
+    "APPLFIREFINING": 288545.0,
+    "APPLMTOTAL": 28690.0,
+    "APPLLUBRICANTS": 5810.0,
+    "APPLBRNDCOMS": 4585.0,
+    "APPLAETOTAL": 4135.0,
+    "APPLHALT": 4115.0,
+    "APPLHFIN": 4045.0,
+    "APPLSIG_ITEMS": 905.0,
+    "APPLH_INFOTECH": 2.07
+   }
+  },
+  {
+   "item": "Deloitte",
+   "lines": 13,
+   "total": 537915.87,
+   "variants": [
+    "837169 _DELOITTE T&T_8006348532",
+    "837169 DELOITTE T&T PTY LTD_8006355927",
+    "837169 DELOITTE T&T PTY LTD_8006479836",
+    "837169 DELOITTE T&T PTY LTD_8006695927",
+    "837169 DELOITTE T&T PTY LTD_8006795332",
+    "837169 DELOITTE T&T PTY LTD_8006809487",
+    "837169 DELOITTE T&T PTY LTD_8007134830",
+    "837169 DELOITTE T&T PTY LTD_8007182691",
+    "837169 DELOITTE T&T PTY LTD_8007521595",
+    "837169 _DELOITTE T&T PTY LTD_8006937917",
+    "DELOITTE TRAVEL EXPENSES_INV_670"
+   ],
+   "centres": {
+    "APPLMTOTAL": 537915.87
+   }
+  },
+  {
+   "item": "Accenture network outsourcing",
+   "lines": 57,
+   "total": 468208.31,
+   "variants": [
+    "ACCENTURE INFRASTR OUTSOURCING - NETWORK <month>",
+    "ACCENTURE INFRASTR OUTSOURCING - NETWORK",
+    "ACCENTURE INFRASTR OUTSOURCING - NETWORK OCTOBER",
+    "ACCENTURE INFRASTR OUTSOURCING - NETWORK SEPTEMBER",
+    "ACCENTURE INFRASTR OUTSOURCING - NETWORK FE PORTIO",
+    "ACCENTURE INFRASTR OUTSOURCING - NETWORK DECEMBER",
+    "ACCENTURE INFRASTR OUTSOURCING - NETWORK JAN + FEB"
+   ],
+   "centres": {
+    "APPLMTOTAL": 352784.18,
+    "APPLBULKFUEL": 115424.13
+   }
+  },
+  {
+   "item": "POS programme sweep journal",
+   "lines": 29,
+   "total": 430000.0,
+   "variants": [
+    "RECLASS MAR TRF TO CRPOSSIG",
+    "RECLASS FEB TRF TO CRPOSSIG",
+    "RECLASS JUNE TRF TO CRPOSSIG",
+    "RECLASS MAY TRF TO CRPOSSIG",
+    "RECLASS NAMOS AUG TRF TO CRPOSSIG",
+    "RECLASS NAMOS DEC TRF TO CRPOSSIG",
+    "RECLASS NAMOS JAN TRF TO CRPOSSIG",
+    "RECLASS NAMOS JUL TRF TO CRPOSSIG",
+    "RECLASS NAMOS JUL TRF TO HSPECIAL",
+    "RECLASS NAMOS NOV TRF TO CRPOSSIG",
+    "RECLASS NAMOS OCT TRF TO CRPOSSIG",
+    "RECLASS NAMOS SEP TRF TO CRPOSSIG"
+   ],
+   "centres": {
+    "APPLSIG_ITEMS": 11869706.94,
+    "APPLMTOTAL": -11439706.94,
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "Gilbarco",
+   "lines": 45,
+   "total": 407532.74,
+   "variants": [
+    "2025 GVR U-GO S&M INVOICE <month>",
+    "GVR - ICR SUPT & MAINT FOR RETAIL <month>",
+    "GVR - ICR INVOICE <month>",
+    "2026 GVR U-GO SERVS & WARRANTY CHG 01/26",
+    "2026 GVR U-GO S&M ACCRUAL JAN & FEB",
+    "OPT <user>",
+    "2025 GVR U-GO BRACKEN RIDGE <user>",
+    "2025 GVR U-GO S&M INVOICE",
+    "2026 GVR U-GO ROCKLEA AD-HOC 03/26",
+    "2026 GVR U-GO S&M ACCRUAL JUNE",
+    "2026 GVR U-GO S&M INVOICE APRIL",
+    "2026 GVR U-GO S&M INVOICE JAN & FEB",
+    "2026 GVR U-GO S&M INVOICE MARCH",
+    "2026 GVR U-GO S&M INVOICE MAY",
+    "2026 GVR U-GO SERVS & WARRANTY CHG 02/26",
+    "2026 GVR U-GO SERVS & WARRANTY CHG 03/26",
+    "2026 GVR U-GO SERVS & WARRANTY CHG 04/26",
+    "2026 GVR U-GO SERVS & WARRANTY CHG 05/26"
+   ],
+   "centres": {
+    "APPLMTOTAL": 406667.24,
+    "APPLBULKFUEL": 865.5
+   }
+  },
+  {
+   "item": "UKG Kronos",
+   "lines": 56,
+   "total": 344036.9,
+   "variants": [
+    "SAAS KRONOS 07.25 - 06.26",
+    "KRONOS SUPPORT",
+    "DELOITTES KRONOS L2/3 SUPP <month>",
+    "KRONOS LEVEL 2/3 SUPPORT",
+    "DELOITTE KRONOS HOSTING SERVICE UNTIL <month>",
+    "DELOITTES KRONOS L2/3 SUPP",
+    "DELOITTES KRONOS L2/3 SUPP <month> (6/25)",
+    "DELOITTES KRONOS L2/3 SUPP <month> (7/25)",
+    "2026 DELOITTE -KRONOS L2 & L3 SUPT 03/26",
+    "2026 DELOITTE -KRONOS L2 & L3 SUPT 04/26",
+    "2026 DELOITTE -KRONOS L2 & L3 SUPT 05/26",
+    "836838 KRONOS AUSTRALIA_ I71600000712",
+    "836838 KRONOS AUSTRALIA_I71600006591",
+    "836838_KRONOS AUSTRALIA_ I71600000712",
+    "DELOITTES KRONOS L2/3 SUPP <month> (10/25)",
+    "DELOITTES KRONOS L2/3 SUPP <month> (11/25)",
+    "DELOITTES KRONOS L2/3 SUPP <month> (8/25)",
+    "DELOITTES KRONOS L2/3 SUPP <month> (9/25)"
+   ],
+   "centres": {
+    "APPLMTOTAL": 343889.96,
+    "APPLBULKFUEL": 146.94
+   }
+  },
+  {
+   "item": "Kronos replacement programme",
+   "lines": 49,
+   "total": 315407.36,
+   "variants": [
+    "AREUM KIM-LEE RECHG <month> <days> KRONOS REPLACEMENT",
+    "MAJDI ABEDI RECHG <month> <days> KRONOS REPLACEMENT",
+    "MILAN PATEL RECHG <month> <days> KRONOS REPLACEMENT",
+    "RIHAN SCHALKWYK RECHG <month> <days> KRONOS REPLACEMENT",
+    "ADJ RECHG JUL KRONOS APPFIGURES SIVA CHARAN REDDY",
+    "AREUM KIM LEE RECHG NOV <days> KRONOS REPLACEMENT",
+    "AREUM KIM LEE RECHG OCT <days> KRONOS REPLACEMENT",
+    "AREUM KIM-LEE RECHG FEB <days> KRONOS REPLACEMENT",
+    "DINESH KUMAR CHANDRASEKARAN RECHG <month> <days> KRONOS",
+    "JAMES BYRNE RECHG OCT <days> KRONOS REPLACEMENT",
+    "KRISHNA KAKARALA RECHG <month> .<days> KRONOS REPLACEMENT",
+    "KRISHNA KAKARALA RECHG <month> <days> KRONOS REPLACEMENT",
+    "MAJDI ABEDI RECHG FEB <days> KRONOS REPLACEMENT",
+    "MAJDI ABEDI RECHG NOV <days> KRONOS REPLACEMENT",
+    "MAJDI ABEDI RECHG OCT <days> KRONOS REPLACEMENT",
+    "MEENA NALLAVULA RECHG DEC <days> KRONOS REPLACEMENT PR",
+    "MILAN PATEL RECHG OCT <days> KRONOS REPLACEMENT",
+    "PRERNA SHARMA RECHG NOV <days> KRONOS REPLACEMENT",
+    "PRERNA SHARMA RECHG OCT <days> KRONOS REPLACEMENT",
+    "RAKSHIT KAUL RECHG DEC <days> KRONOS REPLACEMENT PROJE",
+    "RAKSHIT KAUL RECHG NOV <days> KRONOS REPLACEMENT",
+    "RAKSHIT KAUL RECHG OCT <days> KRONOS REPLACEMENT",
+    "RECHG <month> Z PPL TO TDD KRONOS REPLACEMENT",
+    "RECHG <month> Z REOURCE TO AU TDD KRONOS PRJ",
+    "RECHG AUG KRONOS REPLACEMENT AREUM KIM LEE <days>",
+    "RECHG AUG KRONOS REPLACEMENT DAVID TILLOTSON <days>",
+    "RECHG AUG KRONOS REPLACEMENT KRISHNA KAKARALA <days>",
+    "RECHG AUG KRONOS REPLACEMENT MAJDI ABEDI <days>",
+    "RECHG AUG KRONOS REPLACEMENT PRERNA SHARMA <days>",
+    "RECHG AUG KRONOS REPLACEMENT VANESSA ALLEN <days>",
+    "... and 15 more text forms"
+   ],
+   "centres": {
+    "APPLMTOTAL": 315407.36
+   }
+  },
+  {
+   "item": "Progility",
+   "lines": 39,
+   "total": 221814.9,
+   "variants": [
+    "NSC REPAIR <month>",
+    "NSC REPAIR <month> REPLACED HOUSING",
+    "NSC REPAIR <month> ANTENNA",
+    "NSC REPAIR <month> UPDATES & SERVICE",
+    "QUARTERLY MAINTENANCE SUPPORT 25",
+    "ANTENNA REPAIR <month>",
+    "IN0053429 - QUARTERLY MAINTENANCE",
+    "IN0054535 - QUARTERLY MAINTENANCE",
+    "IN0060321 - REPAIRS <month>",
+    "MAINT ACCRUAL JUNE 2026PROGILITY PTY LTD, PINEW",
+    "NSC REPAIR <month> BATTERY ERROR",
+    "NSC REPAIR <month> HOUSING & WHIP"
+   ],
+   "centres": {
+    "APPLFIREFINING": 221814.9
+   }
+  },
+  {
+   "item": "Cisco maintenance",
+   "lines": 27,
+   "total": 206025.49,
+   "variants": [
+    "CISCO MAINT FEE SCADA <month>",
+    "CISCO MAINTENANCE RENEWAL <month>",
+    "CISCO MAINT RENEWAL FEES FOR SCADA",
+    "CISCO MAINTENANCE RENEWAL <user>",
+    "FUJITSU - CISCO MAINT RENEWAL <31/07/26",
+    "RECHG YEAR-1 SUPPORT COSTS CISCO FTD FIREWALLS",
+    "REPOST CISCO MAINT RENEWAL FEES FOR SCADA"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 171628.93,
+    "APPLBULKFUEL": 34396.56
+   }
+  },
+  {
+   "item": "Device catalogue, colour printing",
+   "lines": 5269,
+   "total": 159771.66,
+   "variants": [
+    "721 COLOUR PRINTING <user>",
+    "721 COLOUR PRINTING <user> FEB",
+    "721 COLOUR PRINTING <user> JUN CHARGE",
+    "721 COLOUR PRINTING <user> JUN REFUND",
+    "721 COLOUR PRINTING <user> JAN-APR CHARGES"
+   ],
+   "centres": {
+    "APPLFIREFINING": 127685.75,
+    "APPLBULKFUEL": 17463.61,
+    "APPLHHR": 3003.63,
+    "APPLHFIN": 2970.58,
+    "APPLMTOTAL": 2326.61,
+    "APPLHLSA": 2207.53,
+    "APPLAETOTAL": 1636.46,
+    "APPLHALT": 1610.15,
+    "APPLBRNDCOMS": 532.19,
+    "APPLSIG_ITEMS": 293.11,
+    "APPLH_INFOTECH": 42.04
+   }
+  },
+  {
+   "item": "Network project",
+   "lines": 2,
+   "total": 152000.0,
+   "variants": [
+    "RECHG OCT NETWORK PROJECT",
+    "RECHG YTD SEP NETWORK PROJECT"
+   ],
+   "centres": {
+    "APPLMTOTAL": 152000.0
+   }
+  },
+  {
+   "item": "Ingenico",
+   "lines": 21,
+   "total": 137725.86,
+   "variants": [
+    "CENTRIQ TMS EXTENDED SUPPORT COST",
+    "CENTRIQ TMS EXTENDED SUPPORT COST <month>",
+    "CENTRIQ TMS EXTENDED SUPPORT COST JAN + FEB",
+    "CENTRIQ TMS EXTENDED SUPPORT COST MAR - JUN",
+    "INGENICO INDOOR PINPAD LIC &SW SUP RETAIL PORTION",
+    "M2 -DELIVERY OF SOFTWARE FOR TESTING",
+    "AMPOS KNOWLEDGE DEVELOPMENT",
+    "INGENICO POS SUPPORT DEC-24",
+    "INGENICO TMS MTHLY SUPT FEES JAN/<month>",
+    "M3 -START OF HYPERCARE",
+    "ON-SITE AMPOS TRAINING - MANILA"
+   ],
+   "centres": {
+    "APPLMTOTAL": 94406.36,
+    "APPLBULKFUEL": 43319.5
+   }
+  },
+  {
+   "item": "Falk IT",
+   "lines": 12,
+   "total": 120060.0,
+   "variants": [
+    "SOE ENV BUILD FOR UAT & PILOT JUL-SEP-25",
+    "SOE ENV BUILD FOR UAT & PILOT OCT-DEC-25",
+    "SOE ENV BUILD FOR UAT & PILOT APR-JUL-25"
+   ],
+   "centres": {
+    "APPLMTOTAL": 120060.0
+   }
+  },
+  {
+   "item": "Indoor pinpads security upgrade",
+   "lines": 20,
+   "total": 94490.0,
+   "variants": [
+    "SAYAN KAR RECHG <month> <days> INDOOR PINPADS SECURITY",
+    "DAVID BROTCHI RECHG <month> <days> INDOOR PINPADS SECU",
+    "GANADHAR CHORDIA RECHG <month> <days> INDOOR PINPADS SE",
+    "RAGHAVENDAR MURALI RECHG <month> <days> INDOOR PINPADS S",
+    "VAISH VISWANATHAN RECHG <month> <days> INDOOR PINPADS SE",
+    "ADRIAN LEUNG RECHG <month> <days> INDOOR PINPADS SECURI",
+    "ADRIAN LEUNG RECHG <month> <days> INDOOR PINPADS SECURIT",
+    "OZ SHAABAN RECHG <month> 4 INDOOR PINPADS SECURITY U",
+    "SAYAN KAR RECHG <month> 6 INDOOR PINPADS SECURITY UP",
+    "SENDHIL VINAYAGAM RECHG <month> 2 INDOOR PINPADS SEC",
+    "SENDHIL VINAYAGAM RECHG <month> <days> INDOOR PINPADS",
+    "VAISH VISWANATHAN RECHG <month> 4 INDOOR PINPADS SEC",
+    "VENKAT KEDHARANATHAN RECHG <month> <days> INDOOR PINP",
+    "VENKAT KEDHARANATHAN RECHG <month> <days> INDOOR PINPAD"
+   ],
+   "centres": {
+    "APPLMTOTAL": 94490.0
+   }
+  },
+  {
+   "item": "Microsoft Azure",
+   "lines": 6,
+   "total": 90000.0,
+   "variants": [
+    "860 AZURE PRD_EXT <user>",
+    "860 AZURE PRD-EXT <user>"
+   ],
+   "centres": {
+    "APPLBRNDCOMS": 90000.0
+   }
+  },
+  {
+   "item": "StoreBOS programme",
+   "lines": 39,
+   "total": 85120.0,
+   "variants": [
+    "JOSEPH MAROUN RECHG AUG <days> STBOS BUSINESS ENABLE",
+    "JOSEPH MAROUN RECHG JUL <days> STBOS BUSINESS ENABLE",
+    "JOSEPH MAROUN RECHG OCT <days> STBOS REMAIN CURRENT",
+    "JOSEPH MAROUN RECHG SEP <days> STBOS BUSINESS ENABLE",
+    "JOSEPH MAROUN RECHG SEP <days> STBOS REMAIN CURRENT",
+    "NAVNEET SINGH RECHG AUG <days> STBOS BUSINESS ENABLE",
+    "NAVNEET SINGH RECHG JUL <days> STBOS BUSINESS ENABLE",
+    "NAVNEET SINGH RECHG OCT <days> STBOS BUSINESS ENABLE",
+    "NAVNEET SINGH RECHG OCT <days> STBOS REMAIN CURRENT",
+    "NAVNEET SINGH RECHG SEP <days> STBOS BUSINESS ENABLE",
+    "NAVNEET SINGH RECHG SEP <days> STBOS REMAIN CURRENT",
+    "RECHG AUG STOREBOS RISK DARSHAN SUVARNA <days>",
+    "RECHG AUG STOREBOS RISK JOSEPH MAROUN <days>",
+    "RECHG AUG STOREBOS RISK KALPANA RAMASAMY <days>",
+    "RECHG AUG STOREBOS RISK SJOERD VAN SLUIJS <days>",
+    "RECHG AUG STOREBOS RISK TRACY-LEE REAPER <days>",
+    "RECHG AUG STOREBOS RISK ZUAN ZHENG <days>",
+    "RECHG JUL STBOS RISK DARSHAN SUVARNA <days>",
+    "RECHG JUL STBOS RISK SAO KEAWPRASIT <days>",
+    "RECHG JUL STBOS RISK SENDHIL VINAYAGAM <days>",
+    "RECHG JUL STBOS RISK SJOERD VAN SLUIJS <days>",
+    "RECHG JUL STBOS RISK TRACY-LEE REAPER <days>",
+    "RECHG JUL STBOS RISK ZUAN ZHENG <days>",
+    "TRACY-LEE REAPER RECHG AUG <days> STBOS BUSINESS ENABL",
+    "TRACY-LEE REAPER RECHG AUG <days> STBOS REMAIN CURRENT",
+    "TRACY-LEE REAPER RECHG JUL <days> STBOS BUSINESS ENABL",
+    "TRACY-LEE REAPER RECHG JUL <days> STBOS REMAIN CURRENT",
+    "TRACY-LEE REAPER RECHG OCT <days> STBOS BUSINESS ENABL",
+    "TRACY-LEE REAPER RECHG OCT <days> STBOS REMAIN CURRENT",
+    "TRACY-LEE REAPER RECHG SEP <days> STBOS BUSINESS ENABL",
+    "... and 9 more text forms"
+   ],
+   "centres": {
+    "APPLMTOTAL": 85120.0
+   }
+  },
+  {
+   "item": "Dell",
+   "lines": 7,
+   "total": 82332.82,
+   "variants": [
+    "2025 DELL - RETAIL LAPTOP REPAIR 9TYMW64",
+    "DELL INV SERVER MAINT RE-CHARGE FUELFACS",
+    "DELL INV SERVER MAINT RE-CHARGE SCADA",
+    "DELL INV SERVER MAINT RE-CHARGES DCS",
+    "DELL SERVER MAINT FOR DCS - ROD COLMAN",
+    "DELL SERVER MAINT FOR SCADA - LING TENG",
+    "DELL SERVER MAINTENANCE 2025-2026"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 70250.0,
+    "APPLH_INFOTECH": 12082.82
+   }
+  },
+  {
+   "item": "Genesys",
+   "lines": 5,
+   "total": 73449.47,
+   "variants": [
+    "GENESYS + MANAGED SERVICES <month>",
+    "GENESYS + MANAGED SERVICE <month>"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 73449.47
+   }
+  },
+  {
+   "item": "Speller International",
+   "lines": 11,
+   "total": 71765.84,
+   "variants": [
+    "840420 SPELLER INTERNATIONAL _18588",
+    "840420 SPELLER INTERNATIONAL_18136",
+    "840420 SPELLER INTERNATIONAL_18666",
+    "840420_SPELLER INTERNATIONAL_17980",
+    "840420 _SPELLER INTERNATIONAL_18380",
+    "840420_SPELLER INTERNATIONAL_17471"
+   ],
+   "centres": {
+    "APPLMTOTAL": 71765.84
+   }
+  },
+  {
+   "item": "Citadel Edge Technology Solutions",
+   "lines": 10,
+   "total": 70986.78,
+   "variants": [
+    "CITADEL ALX LVL 3 TRN ROOM FIX",
+    "CITADEL ALX TRN ROOM REFRESH",
+    "CITADEL AV EDGE SERV SUPT <month>",
+    "CITADEL TECH MANAGED SERVICES <month>",
+    "CITADEL TECH MGE SRVS 1 MTH EXT -31/7/25",
+    "CITADEL TECH MGE SRVS 5 MTH - FF 10/25",
+    "CITADEL TECH MGE SRVS 5 MTH - FF 11/25",
+    "CITADEL TECH MGE SRVS 5 MTH - FF 12/25",
+    "CITADEL TECH MGE SRVS 5 MTH - FF08/09 25",
+    "CITADEL TECH MGE SRVS RENEWAL <month>"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 70986.78
+   }
+  },
+  {
+   "item": "CLX Professionals",
+   "lines": 2,
+   "total": 69600.0,
+   "variants": [
+    "AMPOS PROGRAM -CLX ELEARINING PLATFORM. 5013428959",
+    "AMPOS PROJECT M.22.037"
+   ],
+   "centres": {
+    "APPLMTOTAL": 69600.0
+   }
+  },
+  {
+   "item": "Retail network modelling",
+   "lines": 4,
+   "total": 67760.0,
+   "variants": [
+    "RECHG <month> 50% TO RETAIL NOA",
+    "RECHG <month> 50% NOA <user>"
+   ],
+   "centres": {
+    "APPLMTOTAL": 67760.0
+   }
+  },
+  {
+   "item": "Haverly",
+   "lines": 1,
+   "total": 64716.63,
+   "variants": [
+    "HAVERLY SOFTWARE SERVICES 2025-26"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 64716.63
+   }
+  },
+  {
+   "item": "Telstra",
+   "lines": 66,
+   "total": -64614.56,
+   "variants": [
+    "ALLOCATE <month> TELSTRA COST FROM CUSTON TO COMMGR",
+    "ALLOCATE <month> TELSTRA COST FROM CUSTON TO HRIS",
+    "ALLOCATE <month> TELSTRA COST FROM CUSTON TO RECEIV",
+    "ALLOCATE <month> TELSTRA COST FROM CUSTON TO TSMGR",
+    "TELSTRA <month>",
+    "<month>",
+    "TELSTRA SIMS 0725",
+    "TELSTRAOCT25"
+   ],
+   "centres": {
+    "APPLBULKFUEL": -77186.0,
+    "APPLAETOTAL": 12571.44
+   }
+  },
+  {
+   "item": "IT services monthly recharge",
+   "lines": 178,
+   "total": -59282.51,
+   "variants": [
+    "IT SERVICES <month>",
+    "ANTHONY EVANS IT SERVICES <month>",
+    "JAMES NORFORD IT SERVICES <month>",
+    "MARK WALKER IT SERVICES <month>",
+    "PATRICK GAFFNEY IT SERVICES <month>",
+    "ABBY COUPAR IT SERVICES <month>",
+    "GLENN O'SULLIVAN IT SERVICES <month>",
+    "LAUREN CHAN IT SERVICES <month>",
+    "MARKY LE-GALL IT SERVICES <month>",
+    "MIKE GRAY IT SERVICES <month>",
+    "PAUL FENWICK IT SERVICES <month>",
+    "PAUL MARTIN IT SERVICES <month>",
+    "STUART SYMONS IT SERVICES <month>",
+    "SEAN MANGKUWERDOJO IT SERVICES <month>",
+    "ANDREW DOUGLAS IT SERVICES <month>",
+    "MELISSA LEE IT SERVICES <month>",
+    "LACHLAN FERGUSON IT SERVICES <month>",
+    "CHRIS WARD IT SERVICES <month>",
+    "PETER GRAINGER IT SERVICES <month>",
+    "HCALRECHG APR-<month>",
+    "HCALRECHG JAN-<month>",
+    "HCALRECHG JUL-<month>",
+    "HCALRECHG OCT-<month>",
+    "IT SERVICES <month> DESKTOP HW & SUPPORT",
+    "LUKE LEE IT SERVICES <month>",
+    "MXMULDE IT SERVICES <month>",
+    "NIKI VILLAGOMEZ IT SERVICES <month>"
+   ],
+   "centres": {
+    "APPLBULKFUEL": -43148.23,
+    "APPLHHR": -30727.61,
+    "APPLFIREFINING": 24852.73,
+    "APPLH_INFOTECH": -11700.0,
+    "APPLMTOTAL": 1440.6
+   }
+  },
+  {
+   "item": "Windcave",
+   "lines": 68,
+   "total": 55781.65,
+   "variants": [
+    "WINDCAVE EFT <user>",
+    "WINDCAVE <month>",
+    "WINDCAVE <user> NEXT GEN OPT MSF FEES <month>",
+    "WINDCAVE JULY",
+    "WINDCAVE <user> NEXT GEN OPT MSF <month>",
+    "WINDCAVE EFT",
+    "WINDCAVE PTY LIM WAU 0097079 <month>",
+    "WINDCAVE",
+    "WINDCAVE <user> NEST GEN OP)T MSF <month>",
+    "WINDCAVE <user> NEST GEN OPT MSF FEES <month>",
+    "WINDCAVE <user> NEST GEN OPT MSF REES APR",
+    "WINDCAVE <user> NEST GEN OPT MSF REES MAR",
+    "WINDCAVE <user> NEXT GEN OPT MSF CHARGES 11040",
+    "WINDCAVE <user> NEXT GEN OPT MSF FEES FEB",
+    "WINDCAVE <user> NEXT GEN OPT MSF FEES FOR APR",
+    "WINDCAVE <user> NEXT GEN OPT MSF FEES FOR JUNE",
+    "WINDCAVE <user> NEXT GEN OPT MSF FEES FOR MAR",
+    "WINDCAVE <user> NEXT GEN OPT MSF FEES FOR MAY",
+    "WINDCAVE <user> NEXT GEN OPT MSF FEES MAY",
+    "WINDCAVE <user> NEXT GEN OPT MSF OCT",
+    "WINDCAVE JAN & <month>",
+    "WINDCAVE OCT & NOV",
+    "WINDCAVE PTY LIM WAU 0097079",
+    "WINDCAVE PTY LTD <month>"
+   ],
+   "centres": {
+    "APPLMTOTAL": 54014.57,
+    "APPLBULKFUEL": 1767.08
+   }
+  },
+  {
+   "item": "Anatas",
+   "lines": 3,
+   "total": 53600.0,
+   "variants": [
+    "JASON PASCOE - 3 MONTHS <user>",
+    "ATTURRA INTEGRATION RESOURCES"
+   ],
+   "centres": {
+    "APPLMTOTAL": 53600.0
+   }
+  },
+  {
+   "item": "SAP and Oracle P6 integration",
+   "lines": 20,
+   "total": 41025.0,
+   "variants": [
+    "DINESH KUMAR PANDEY RECHG OCT <days> SAP&ORACLE P6 INT",
+    "KRISHNA KARKALA RECHG OCT <days> SAP&ORACLE P6 INTEG",
+    "REBECCA ESTEPA RECHG OCT <days> SAP&ORACLE P6 INTEGRAT",
+    "RECHG AUG SAP ORACLE P6 BALA THIRUVADI <days>",
+    "RECHG AUG SAP ORACLE P6 KRISHNA KARKALA <days>",
+    "RECHG AUG SAP ORACLE P6 REBECCA ESTEPA <days>",
+    "RECHG AUG SAP ORACLE P6 SENDHIL VINAYAGAM <days>",
+    "RECHG AUG SAP ORACLE P6 VIKRAM CHHAHIRA <days>",
+    "RECHG JUL SAP ORACLEP6 BALA THIRUVADI <days>",
+    "RECHG JUL SAP ORACLEP6 KEVIN NELSON <days>",
+    "RECHG JUL SAP ORACLEP6 KRISHNA KARKALA <days>",
+    "RECHG JUL SAP ORACLEP6 REBECCA ESTEPA <days>",
+    "RECHG JUL SAP ORACLEP6 SENDHIL VINAYAGAM <days>",
+    "RECHG SEP SAP ORACLE P6 INTEGRAT DINESH KUMAR PAND",
+    "RECHG SEP SAP ORACLE P6 INTEGRAT KRISHNA KARKALA 3",
+    "RECHG SEP SAP ORACLE P6 INTEGRAT REBECCA ESTEPA <days>",
+    "RECHG SEP SAP ORACLE P6 INTEGRAT SENDHIL VINAYAGAM",
+    "RECHG SEP SAP ORACLE P6 INTEGRAT VIKRAM CHHAHIRA 2",
+    "SENDHIL VINAYAGAM RECHG OCT <days> SAP&ORACLE P6 INTEG",
+    "VIKRAM CHHAHIRA RECHG OCT <days> SAP&ORACLE P6 INTEG"
+   ],
+   "centres": {
+    "APPLFIREFINING": 41025.0
+   }
+  },
+  {
+   "item": "Site works and repairs",
+   "lines": 4,
+   "total": 39498.49,
+   "variants": [
+    "CALGRAPHICS SITE REFRESH ERIC BROWN INV 02533316",
+    "DENHAM PRICEBOARD REPAIRS INV02822896",
+    "ERIC BROWN BRAND REFRESH INV 02531459",
+    "VENT REPLACEMENT WILLCOCK DR INV02822899"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 39498.49
+   }
+  },
+  {
+   "item": "Device catalogue, high performance desktop",
+   "lines": 181,
+   "total": 36840.0,
+   "variants": [
+    "563 HIGH PERF DESKTOP <serial> <user>",
+    "563 HIGH PERF DESKTOP <serial> <user> JAN-APR"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 30460.0,
+    "APPLAETOTAL": 4640.0,
+    "APPLFIREFINING": 1740.0
+   }
+  },
+  {
+   "item": "AVEVA PI",
+   "lines": 7,
+   "total": 36125.22,
+   "variants": [
+    "AVEVA PI SUPPORT YEAR2 2025 JAN-DEC"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 36125.22
+   }
+  },
+  {
+   "item": "Network switches",
+   "lines": 1,
+   "total": 27792.38,
+   "variants": [
+    "C9200 SWITCHES KURNELL BANKSMEADOW SIJ"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 27792.38
+   }
+  },
+  {
+   "item": "Snowflake",
+   "lines": 1,
+   "total": 27360.72,
+   "variants": [
+    "RECLASS SNOWFLAKE JAN TRF TO CRPOSSIG"
+   ],
+   "centres": {
+    "APPLSIG_ITEMS": 27360.72
+   }
+  },
+  {
+   "item": "Compac",
+   "lines": 65,
+   "total": 26822.42,
+   "variants": [
+    "COMPACT OPT 2026 INV AMPOL COLLIE <month>",
+    "COMPAC ONLINE FEE",
+    "COMPACT OPT 2026 INV ROUS HEAD TS <month>",
+    "<month> COLLIE <user>",
+    "#",
+    "27X ARPL SITES 01/26 COL 12/25 GATEWAY",
+    "27X ARPL SITES 02/26 COL 01/26 GATEWAY",
+    "27X SITES+5X TEST/EC 03/26 COL 02/26 GW",
+    "27X SITES+5X TEST/EC 04/26 COL 03/26 GW",
+    "27X SITES+5X TEST/EC 04/26 COL 04/26 GW",
+    "28X SITES+5X TEST/EC 06/26 COL 05/26 GW",
+    "3 X POS PROCESSOR BOARDS COMPAC INV02822897",
+    "4X TEST/EC 01/26 COL",
+    "5X TEST/EC 02/26 COL 01/26 GATEWAY",
+    "<month> 25X ARPL SITES",
+    "<month> COL TEST HYBRID & MP / EC",
+    "ALBURY NORTH - EXTRACT SMS MESSAGES",
+    "CASINO OPT ISSUE AD-HOC ELECRICAL WORKS",
+    "COMPAC ONLINE FEE STRORO REVERSALS",
+    "COMPAC OPT_INV_00117133",
+    "COMPAC OPT_INV_00117138",
+    "COMPAC OPT_INV_00117139",
+    "COMPAC OPT_INV_00117626",
+    "COMPAC OPT_INV_00117627",
+    "COMPAC OPT_INV_00117630",
+    "COMPAC OPT_INV_00117631",
+    "COMPAC OPT_INV_00118291",
+    "COMPAC OPT_INV_00118292",
+    "COMPAC OPT_INV_00118294",
+    "COMPAC OPT_INV_00118295",
+    "... and 16 more text forms"
+   ],
+   "centres": {
+    "APPLMTOTAL": 21902.42,
+    "APPLBULKFUEL": 4920.0
+   }
+  },
+  {
+   "item": "Starlink",
+   "lines": 8,
+   "total": 24000.0,
+   "variants": [
+    "STARLINK INSTALL AVENEL APPROVED R SOMA",
+    "STARLINK INSTALL BENARABY J CALDWELL",
+    "STARLINK INSTALL COOLGARDIE APPROVED A MARTION",
+    "STARLINK INSTALL DERRIMUT APPROVED R SOMA",
+    "STARLINK INSTALL LAKE MUNMORAH APPROVED H IRELAND",
+    "STARLINK INSTALL ROUS HEAD APPROVED S MALLA",
+    "STARLINK INSTALL TALLAROOK NB APPROVED R SOMA",
+    "STARLINK INSTALL YAMBA APPROVED R SOMA"
+   ],
+   "centres": {
+    "APPLMTOTAL": 24000.0
+   }
+  },
+  {
+   "item": "Device catalogue, CAD workstation",
+   "lines": 56,
+   "total": 17820.0,
+   "variants": [
+    "564 HIGH PERF LAPTOP CAD <serial> <user>",
+    "564 HIGH PERF LAPTOP <serial> <user>"
+   ],
+   "centres": {
+    "APPLFIREFINING": 14520.0,
+    "APPLBULKFUEL": 3300.0
+   }
+  },
+  {
+   "item": "Citadel Edge phone handsets",
+   "lines": 3,
+   "total": 17552.81,
+   "variants": [
+    "CITADEL TEAMS PHONE HANDSETS X24 + WARRA",
+    "CITADEL YEALINK PHONES X3",
+    "CITADEL YEALINK PHONES X6 + 3YRS WARRANT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 17552.81
+   }
+  },
+  {
+   "item": "CCTV and site cameras",
+   "lines": 3,
+   "total": 15080.56,
+   "variants": [
+    "2 MILESIGHTSPEEDDETECTCAMS ON STHSTREET",
+    "LYT CCTV REPAIRS",
+    "WG LABCAMERA REAR STORAGE"
+   ],
+   "centres": {
+    "APPLFIREFINING": 13520.56,
+    "APPLBULKFUEL": 1560.0
+   }
+  },
+  {
+   "item": "WFM Hub",
+   "lines": 2,
+   "total": 13218.75,
+   "variants": [
+    "840797 WFM HUB PTY LTD_INV-0060",
+    "840797 _WFM HUB_INV-0059"
+   ],
+   "centres": {
+    "APPLMTOTAL": 13218.75
+   }
+  },
+  {
+   "item": "Outdoor payment terminals",
+   "lines": 4,
+   "total": 13012.58,
+   "variants": [
+    "NEXTGEN OPT WS2 MAINTENANCE CHARGES",
+    "ONCHAGE INVOICE 05059767 FOR DERWENT BRIDGE OPT",
+    "ONCHAGE INVOICE 05059768 FOR DERWENT BRIDGE OPT IN"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 13012.58,
+    "APPLMTOTAL": 0.0
+   }
+  },
+  {
+   "item": "ServiceNow",
+   "lines": 1,
+   "total": 12625.0,
+   "variants": [
+    "DEVELOPMENT -SERVICENOW - DN JIRA"
+   ],
+   "centres": {
+    "APPLMTOTAL": 12625.0
+   }
+  },
+  {
+   "item": "Silentgrid",
+   "lines": 1,
+   "total": 12000.0,
+   "variants": [
+    "POS PENTEST"
+   ],
+   "centres": {
+    "APPLMTOTAL": 12000.0
+   }
+  },
+  {
+   "item": "EGI hardware recharge",
+   "lines": 1,
+   "total": 11700.0,
+   "variants": [
+    "EGI HARDWARE RECHARGES JAN & <month>"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 11700.0
+   }
+  },
+  {
+   "item": "CTConnections",
+   "lines": 17,
+   "total": 9167.54,
+   "variants": [
+    "POS PROGRAM - UAT TRAVEL"
+   ],
+   "centres": {
+    "APPLMTOTAL": 9167.54
+   }
+  },
+  {
+   "item": "Equifax",
+   "lines": 1,
+   "total": 8921.05,
+   "variants": [
+    "EQUIFAX-ACAPS PROJECT"
+   ],
+   "centres": {
+    "APPLMTOTAL": 8921.05
+   }
+  },
+  {
+   "item": "ACAPS",
+   "lines": 2,
+   "total": 8100.0,
+   "variants": [
+    "RECHG NOV <days> CARD CRED ACAPPS:R. JAMWAL",
+    "RECHG SEP ACAPPS: T WALMSLEY, M CHEN & R. JAMWAL"
+   ],
+   "centres": {
+    "APPLMTOTAL": 8100.0
+   }
+  },
+  {
+   "item": "Site security and access control",
+   "lines": 8,
+   "total": 6927.62,
+   "variants": [
+    "INSTALL SECURITY FENCE",
+    "BOOM GATE REPAIR WIRELESS CONTROL",
+    "COST REALLOCATION MANNS PO 7000247588",
+    "LYT ASSA ABLOY GATE INSPECTION"
+   ],
+   "centres": {
+    "APPLFIREFINING": 6510.28,
+    "APPLBULKFUEL": 417.34
+   }
+  },
+  {
+   "item": "Sapio",
+   "lines": 1,
+   "total": 5760.0,
+   "variants": [
+    "INVOICE FOR ON-SITE TECHNICIAN - TECH SU"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 5760.0
+   }
+  },
+  {
+   "item": "National terminals IT programme",
+   "lines": 6,
+   "total": 5720.0,
+   "variants": [
+    "RECHG SEP STEVEN YONG <days> NTL ITP FRM A/C 800980",
+    "RECHG AUG ANJALI PATRA <days> NTL ITP FRM A/C 800980",
+    "RECHG SEP ANJALI PATRA <days> NTL ITP FRM A/C 800980",
+    "RECHG SEP PREM SHETTY <days> NTL ITP FRM A/C 800980",
+    "RECHG SEP SAA-5632 NTL JULMA <days> FRM A/C 800980"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 5720.0
+   }
+  },
+  {
+   "item": "Ampol Management Services",
+   "lines": 16,
+   "total": 5407.24,
+   "variants": [
+    "IT RELATED EXPENDITURE",
+    "DESKTOP HW & SUPPORT"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 4802.84,
+    "APPLH_INFOTECH": 494.78,
+    "APPLSIG_ITEMS": 109.62
+   }
+  },
+  {
+   "item": "Self-checkout software maintenance",
+   "lines": 18,
+   "total": 4964.82,
+   "variants": [
+    "DIEBOLD SCO SWM FOR <month>",
+    "SCO SOFTWARE MAINTENANCE APR - <month>",
+    "SCO",
+    "SCO SOFTWARE MAINTENANCE JAN, FEB",
+    "SCO SOFTWARE MAINTENANCE JUNE",
+    "SCO SOFTWARE MAINTENANCE MAR, APR",
+    "SCO SOFTWARE MAINTENANCE MAY"
+   ],
+   "centres": {
+    "APPLMTOTAL": 4964.82
+   }
+  },
+  {
+   "item": "Western Sydney Airport",
+   "lines": 3,
+   "total": 4400.0,
+   "variants": [
+    "CK LAU RECHG <month> <days> WSA",
+    "KEVIN NELSON RECHG <month> <days> WESTERN SYDNEY AIRPORT",
+    "PREM SHETTY RECHG <month> <days> WESTERN SYDNEY AIRPOR"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 4400.0
+   }
+  },
+  {
+   "item": "Printers",
+   "lines": 36,
+   "total": 4365.77,
+   "variants": [
+    "BIZHUB C3350I PRINTER <serial>",
+    "BIZHUB C450I PRINTER <serial>",
+    "PRINTER <serial> BAU SERVICE CHARGE"
+   ],
+   "centres": {
+    "APPLFIREFINING": 2255.77,
+    "APPLLUBRICANTS": 1800.0,
+    "APPLBULKFUEL": 310.0
+   }
+  },
+  {
+   "item": "IRR CMMS configuration",
+   "lines": 2,
+   "total": 4297.0,
+   "variants": [
+    "ACCENTURE SAP TEAM RECHG <month> <days> IRR CMMS CO",
+    "MAUDUD CHAUDHURY RECHG <month> <days> IRR CMMS CONFIGUR"
+   ],
+   "centres": {
+    "APPLFIREFINING": 4297.0
+   }
+  },
+  {
+   "item": "Mobile handsets",
+   "lines": 1,
+   "total": 4053.0,
+   "variants": [
+    "ASI - 2X SAMSUNG GALAXY S26 ULTRA 5G 256"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 4053.0
+   }
+  },
+  {
+   "item": "NTT",
+   "lines": 1,
+   "total": 3791.84,
+   "variants": [
+    "NTT - POLY CCX 400 BUS MEDIA PHONE X10"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 3791.84
+   }
+  },
+  {
+   "item": "Evo Power",
+   "lines": 1,
+   "total": 3750.0,
+   "variants": [
+    "PM FOR 5 BESS SITES"
+   ],
+   "centres": {
+    "APPLAETOTAL": 3750.0
+   }
+  },
+  {
+   "item": "Samuel Falk",
+   "lines": 1,
+   "total": 3480.0,
+   "variants": [
+    "STOREBOS RISK REM_SF_INV073442"
+   ],
+   "centres": {
+    "APPLMTOTAL": 3480.0
+   }
+  },
+  {
+   "item": "Practical Peripherals",
+   "lines": 2,
+   "total": 2826.0,
+   "variants": [
+    "ARDWARE & MAINTENANCE AGREEMENT 2026",
+    "LANYARDS FOR SECURITY _ VISITOR"
+   ],
+   "centres": {
+    "APPLFIREFINING": 2826.0
+   }
+  },
+  {
+   "item": "Fujitsu",
+   "lines": 79,
+   "total": 2494.12,
+   "variants": [
+    "FUJ - GOV & MAINT <month>",
+    "FUJ - TNM OPT CHG <month> <user>",
+    "FUJ - TNM NON OPT CHG <month> <user>",
+    "M4 QSR NETWORK PROVISION"
+   ],
+   "centres": {
+    "APPLMTOTAL": 2494.12
+   }
+  },
+  {
+   "item": "Diamond Key Omega",
+   "lines": 12,
+   "total": 2400.0,
+   "variants": [
+    "DIAMOND KEY-OMEGA SUPPORT 2025",
+    "DIAMOND KEY-OMEGA SUPPORT 2026"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 2400.0
+   }
+  },
+  {
+   "item": "Transponder Technologies",
+   "lines": 1,
+   "total": 2359.0,
+   "variants": [
+    "TT PCBASSY T6 CONT+ HOST KUNDA PARK DS"
+   ],
+   "centres": {
+    "APPLMTOTAL": 2359.0
+   }
+  },
+  {
+   "item": "Fast Track Communications",
+   "lines": 1,
+   "total": 1550.05,
+   "variants": [
+    "FASTTRACK QUOTE 8440 LYTTON REFINERY"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 1550.05
+   }
+  },
+  {
+   "item": "Computer accessories and consumables",
+   "lines": 6,
+   "total": 780.46,
+   "variants": [
+    "VERBATIM STORE N GO V3 USB 3.0 FLASH DRI",
+    "#",
+    "APPLE USB-C TO LIGHTNING CABLE - 1.0M",
+    "JABRA EVOLVE2 BUDS USB-C MS",
+    "VERBATIM STORE 'N' GO PINSTRIPE USB 2.0"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 376.88,
+    "APPLMTOTAL": 368.98,
+    "APPLFIREFINING": 34.6
+   }
+  },
+  {
+   "item": "Maply",
+   "lines": 3,
+   "total": 126.89,
+   "variants": [
+    "MAPLY PRO SUBSCRIPTION - MAPLY SOFTWARE FEES",
+    "MAPLY PRO SUBSCRIPTION - SOFTWARE FEE FOR EMPLOYEE",
+    "MAPLY PRO SUBSCRIPTION - SOFTWARE FOR MAPPING STOR"
+   ],
+   "centres": {
+    "APPLMTOTAL": 126.89
+   }
+  },
+  {
+   "item": "Adobe",
+   "lines": 3,
+   "total": 109.05,
+   "variants": [
+    "ADOBE - ADOBE BEFORE UPGRADE TO ENTERPRISE VERSION"
+   ],
+   "centres": {
+    "APPLMTOTAL": 109.05
+   }
+  },
+  {
+   "item": "Emurasoft",
+   "lines": 1,
+   "total": 62.42,
+   "variants": [
+    "2CO.COM EMURASOFT, INC - REQUIRED FOR LARGE TEXT F"
+   ],
+   "centres": {
+    "APPLMTOTAL": 62.42
+   }
+  },
+  {
+   "item": "Kahoot",
+   "lines": 1,
+   "total": 61.18,
+   "variants": [
+    "KAHOOT - KAHOOT SUBSCRIPTION"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 61.18
+   }
+  },
+  {
+   "item": "LALAL.AI",
+   "lines": 1,
+   "total": 56.67,
+   "variants": [
+    "WWW.LALAL.AI - AI VIDEO/AUDIO TOOL FOR RETAIL COMM"
+   ],
+   "centres": {
+    "APPLMTOTAL": 56.67
+   }
+  },
+  {
+   "item": "PAMS",
+   "lines": 1,
+   "total": 55.89,
+   "variants": [
+    "BATTERY KIT - XFD60 CONTROL DISPLAY"
+   ],
+   "centres": {
+    "APPLLUBRICANTS": 55.89
+   }
+  },
+  {
+   "item": "Freight",
+   "lines": 1,
+   "total": 20.0,
+   "variants": [
+    "FREIGHT"
+   ],
+   "centres": {
+    "APPLLUBRICANTS": 20.0
+   }
+  },
+  {
+   "item": "Apple",
+   "lines": 1,
+   "total": 18.09,
+   "variants": [
+    "APPLE.COM/BILL - AUDIT PRO COMPANY IPAD"
+   ],
+   "centres": {
+    "APPLRCALSTORES": 18.09
+   }
+  },
+  {
+   "item": "Accenture retail support",
+   "lines": 4,
+   "total": 0.0,
+   "variants": [
+    "ACCENTURE RETAIL SUPPORT"
+   ],
+   "centres": {
+    "APPLBULKFUEL": 0.0,
+    "APPLMTOTAL": 0.0
+   }
+  },
+  {
+   "item": "Unmanned overnight licence",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "UNMANNED OVERNIGHT - LICENSE FEE"
+   ],
+   "centres": {
+    "APPLMTOTAL": 0.0
+   }
+  },
+  {
+   "item": "POS FuelPay",
+   "lines": 14,
+   "total": 0.0,
+   "variants": [
+    "ALAN PENG RECHG <month> <days> POS FUELPAY",
+    "ANGIE NG RECHG <month> <days> POS FUELPAY",
+    "RISHABH BHATIA RECHG <month> <days> POS FUELPAY",
+    "ROB JADRJEVIC RECHG <month> <days> POS FUELPAY",
+    "SAFIQ MOHAMMED IQBAL RECHG <month> <days> POS FUELPAY",
+    "SWAPNIL PITHWA RECHG <month> <days> POS FUELPAY",
+    "WAHEED MALEK RECHG <month> <days> POS FUELPAY"
+   ],
+   "centres": {
+    "APPLMTOTAL": 0.0
+   }
+  },
+  {
+   "item": "Transponder Technologies OPT",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "FUEL SUPPLY EMT- TT OPT LEGACY"
+   ],
+   "centres": {
+    "APPLMTOTAL": 0.0
+   }
+  }
+ ],
+ "unclear_total": -2877793.37
+}

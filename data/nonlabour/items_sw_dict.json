@@ -1,0 +1,3359 @@
+{
+ "items": [
+  {
+   "item": "Microsoft Azure",
+   "lines": 99,
+   "total": 8996257.91,
+   "variants": [
+    "AZURE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 7979333.58,
+    "APPLAETOTAL": 921318.77,
+    "APPLBRNDCOMS": 59157.25,
+    "APPLMTOTAL": 36448.31
+   }
+  },
+  {
+   "item": "Microsoft EA licences",
+   "lines": 32,
+   "total": 5370658.42,
+   "variants": [
+    "MICROSFT EA",
+    "MICROSOFT EA",
+    "MICROSOFT EAS",
+    "MICROSOFT TRUEUP",
+    "Z ENERGY EAS"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 5370658.42
+   }
+  },
+  {
+   "item": "SAP licences and support",
+   "lines": 44,
+   "total": 1833656.84,
+   "variants": [
+    "CO document",
+    "SAP"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 1150517.64,
+    "APPLHHR": 683139.2,
+    "APPLAETOTAL": 0.0
+   }
+  },
+  {
+   "item": "Salesforce",
+   "lines": 4003,
+   "total": 1560409.04,
+   "variants": [
+    "CO document",
+    "SALESFORCE",
+    "SFDC"
+   ],
+   "centres": {
+    "APPLB2B": 825227.97,
+    "APPLHHR": 500299.15,
+    "APPLHFIN": 58545.66,
+    "APPLSUPFPO": 34818.6,
+    "APPLAETOTAL": 31076.15,
+    "APPLH_INFOTECH": 26615.06,
+    "APPLMTOTAL": 23990.26,
+    "APPLTDDIST": 16206.91,
+    "APPLLUBRICANTS": 15699.75,
+    "APPLSUPPLYOPS": 11096.12,
+    "APPLBRNDCOMS": 8493.56,
+    "APPLFIFINANCE": 4251.76,
+    "APPLCCO": 4088.09
+   }
+  },
+  {
+   "item": "ServiceNow",
+   "lines": 38,
+   "total": 1524697.85,
+   "variants": [
+    "SERVICENOW"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 1340533.85,
+    "PCTECHKCM": 184164.0
+   }
+  },
+  {
+   "item": "AspenTech",
+   "lines": 23,
+   "total": 1440483.68,
+   "variants": [
+    "ASPEN",
+    "ASPENTECH",
+    "DMC3"
+   ],
+   "centres": {
+    "APPLFIREFINING": 844087.56,
+    "APPLSUPPLYOPS": 528191.28,
+    "APPLCCO": 68204.84
+   }
+  },
+  {
+   "item": "Microsoft Unified Support",
+   "lines": 16,
+   "total": 1396239.58,
+   "variants": [
+    "MICROSOFT UNIFIED",
+    "UNIFIED SUPPORT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 1383532.38,
+    "APPLAETOTAL": 12707.2
+   }
+  },
+  {
+   "item": "OpenWay Way4",
+   "lines": 41,
+   "total": 1389698.75,
+   "variants": [
+    "OPENWAY",
+    "OW VO",
+    "WAY4",
+    "vendor: OPENWAY EUROPE SA (USD A/C)"
+   ],
+   "centres": {
+    "APPLB2B": 1351135.76,
+    "APPLGENERAL": 20712.44,
+    "APPLH_INFOTECH": 17850.55
+   }
+  },
+  {
+   "item": "CTRM sig item journal",
+   "lines": 6,
+   "total": 1356742.61,
+   "variants": [
+    "CTRM"
+   ],
+   "centres": {
+    "CTRMSIG": 1356742.61
+   }
+  },
+  {
+   "item": "Netskope",
+   "lines": 35,
+   "total": 1276147.78,
+   "variants": [
+    "NETSKOPE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 1276147.78
+   }
+  },
+  {
+   "item": "Tally Operations",
+   "lines": 62,
+   "total": 1124716.21,
+   "variants": [
+    "TALLY",
+    "vendor: TALLY OPERATIONS PTY LTD"
+   ],
+   "centres": {
+    "APOLLO": 804845.89,
+    "APPLAETOTAL": 319870.32
+   }
+  },
+  {
+   "item": "Techniche AmpolFM",
+   "lines": 48,
+   "total": 978823.1,
+   "variants": [
+    "FMG AMPOLFM",
+    "TECHNICHE",
+    "vendor: TECHNICHE EMEA LIMITED (AUD A/C)"
+   ],
+   "centres": {
+    "APPLMTOTAL": 784657.28,
+    "APPLB2B": 180000.0,
+    "APPLAETOTAL": 14165.82
+   }
+  },
+  {
+   "item": "CrowdStrike",
+   "lines": 35,
+   "total": 928098.69,
+   "variants": [
+    "CROWDSTRIKE",
+    "CWDSTRIKE",
+    "CWDSTRIKEBT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 928098.69
+   }
+  },
+  {
+   "item": "Boomi",
+   "lines": 19,
+   "total": 847392.9,
+   "variants": [
+    "BOOMI"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 847392.9
+   }
+  },
+  {
+   "item": "OneStream",
+   "lines": 20,
+   "total": 625263.85,
+   "variants": [
+    "ONESTREAM"
+   ],
+   "centres": {
+    "APPLHFIN": 442513.85,
+    "APPLGENERAL": 182750.0
+   }
+  },
+  {
+   "item": "HighRadius",
+   "lines": 14,
+   "total": 624104.0,
+   "variants": [
+    "HIGHRADIUS",
+    "vendor: HIGHRADIUS CORPORATION"
+   ],
+   "centres": {
+    "APPLGENERAL": 624104.0
+   }
+  },
+  {
+   "item": "UKG Kronos",
+   "lines": 46,
+   "total": 618813.0,
+   "variants": [
+    "KRONOS",
+    "UKG"
+   ],
+   "centres": {
+    "APPLMTOTAL": 616972.92,
+    "APPLB2B": 1840.08
+   }
+  },
+  {
+   "item": "AutoGuru",
+   "lines": 15,
+   "total": 614653.76,
+   "variants": [
+    "AUTOGURU"
+   ],
+   "centres": {
+    "APPLB2B": 614653.76
+   }
+  },
+  {
+   "item": "Snowflake",
+   "lines": 177,
+   "total": 555802.75,
+   "variants": [
+    "SNOWFLAKE",
+    "SNOWMKT"
+   ],
+   "centres": {
+    "APPLAETOTAL": 357756.64,
+    "APPLH_INFOTECH": -158976.49,
+    "APPLB2B": 156315.9,
+    "APPLMTOTAL": 151292.21,
+    "APPLCCO": 49414.49
+   }
+  },
+  {
+   "item": "Dataiku",
+   "lines": 15,
+   "total": 542041.01,
+   "variants": [
+    "DAITAKU",
+    "DATAIKU"
+   ],
+   "centres": {
+    "APPLCCO": 370784.0,
+    "APPLH_INFOTECH": 142337.01,
+    "APPLFIFINANCE": 28920.0
+   }
+  },
+  {
+   "item": "Jaggaer",
+   "lines": 14,
+   "total": 503645.88,
+   "variants": [
+    "JAGGAER"
+   ],
+   "centres": {
+    "APPLHFIN": 503645.88
+   }
+  },
+  {
+   "item": "SAS",
+   "lines": 16,
+   "total": 498750.01,
+   "variants": [
+    "SAS LICEN"
+   ],
+   "centres": {
+    "APPLMTOTAL": 498750.01
+   }
+  },
+  {
+   "item": "Anaplan",
+   "lines": 28,
+   "total": 476594.4,
+   "variants": [
+    "ANAPLAN"
+   ],
+   "centres": {
+    "APPLCCO": 476594.4
+   }
+  },
+  {
+   "item": "FuelPay",
+   "lines": 40,
+   "total": 466560.0,
+   "variants": [
+    "FUEL PAY",
+    "FUELPAY"
+   ],
+   "centres": {
+    "APPLMTOTAL": 468687.83,
+    "APPLH_INFOTECH": -2496.0,
+    "APPLB2B": 368.17
+   }
+  },
+  {
+   "item": "Scancam",
+   "lines": 31,
+   "total": 457880.0,
+   "variants": [
+    "DRIVE OFF",
+    "SCANCAM"
+   ],
+   "centres": {
+    "APPLMTOTAL": 456089.05,
+    "APPLB2B": 1790.95
+   }
+  },
+  {
+   "item": "Diebold Nixdorf Vynamic FCX POS",
+   "lines": 15,
+   "total": 422531.12,
+   "variants": [
+    "VYNAMIC"
+   ],
+   "centres": {
+    "APPLMTOTAL": 422531.12,
+    "APPLB2B": 0.0
+   }
+  },
+  {
+   "item": "Cisco Meraki",
+   "lines": 44,
+   "total": 415872.36,
+   "variants": [
+    "MERAKI"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 394548.6,
+    "APPLMTOTAL": 20432.45,
+    "APPLB2B": 891.31
+   }
+  },
+  {
+   "item": "Unclear from the row",
+   "lines": 632,
+   "total": -386143.69,
+   "variants": [],
+   "centres": {
+    "APPLCCO": -714852.86,
+    "APOLLO": 428271.98,
+    "APPLAETOTAL": -427340.11,
+    "APPLH_INFOTECH": -411061.61,
+    "APPLFIREFINING": 278886.86,
+    "APPLTDDIST": 253847.73,
+    "APPLRCALSTORES": 164237.02,
+    "APPLMTOTAL": -159359.79,
+    "APPLB2B": 121375.12,
+    "INTEMERSIG": 77250.0,
+    "APPLBRNDCOMS": 35392.5,
+    "CUSTLOYSIG": -35080.5,
+    "TDDEINTSIG": 6414.7,
+    "APPLHHR": -4236.59,
+    "INTEGM": 111.86,
+    "APPLFIFINANCE": 0.0,
+    "APPLHFIN": 0.0,
+    "APPLGENERAL": 0.0
+   }
+  },
+  {
+   "item": "Bitsight",
+   "lines": 14,
+   "total": 385836.4,
+   "variants": [
+    "BITSIGHT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 385836.4
+   }
+  },
+  {
+   "item": "Ortec",
+   "lines": 16,
+   "total": 346536.5,
+   "variants": [
+    "ORTEC"
+   ],
+   "centres": {
+    "APPLTDDIST": 346536.5
+   }
+  },
+  {
+   "item": "Fenwick Software",
+   "lines": 110,
+   "total": 334576.55,
+   "variants": [
+    "FENWICK",
+    "FEWWICK",
+    "vendor: FENWICK SOFTWARE PTY LIMITED"
+   ],
+   "centres": {
+    "APPLB2B": 279885.8,
+    "APPLHFIN": 48222.75,
+    "APPLGENERAL": 6468.0
+   }
+  },
+  {
+   "item": "Microsoft Defender for Cloud",
+   "lines": 1,
+   "total": -331755.36,
+   "variants": [
+    "MICROSOFT DEFENDER"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": -331755.36
+   }
+  },
+  {
+   "item": "Diebold Nixdorf NAMOS",
+   "lines": 30,
+   "total": 320308.8,
+   "variants": [
+    "NAMOS"
+   ],
+   "centres": {
+    "APPLMTOTAL": 317377.08,
+    "APPLB2B": 2931.72
+   }
+  },
+  {
+   "item": "Automation Anywhere",
+   "lines": 31,
+   "total": 312242.02,
+   "variants": [
+    "AUTOMATION ANYWHERE",
+    "RPA AA"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 312242.02
+   }
+  },
+  {
+   "item": "Energy Edge",
+   "lines": 12,
+   "total": 304497.24,
+   "variants": [
+    "ENERGY EDGE",
+    "ENERGYEDGE"
+   ],
+   "centres": {
+    "APPLAETOTAL": 304497.24
+   }
+  },
+  {
+   "item": "Allegro",
+   "lines": 14,
+   "total": 301647.17,
+   "variants": [
+    "ALLEGRO"
+   ],
+   "centres": {
+    "APPLCCO": 172136.46,
+    "APPLSUPPLYOPS": 106073.21,
+    "APPLH_INFOTECH": 23437.5
+   }
+  },
+  {
+   "item": "SAP Cloud Platform Enterprise Agreement",
+   "lines": 7,
+   "total": 291306.0,
+   "variants": [
+    "SAP CPEA"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 291306.0
+   }
+  },
+  {
+   "item": "Storiq",
+   "lines": 12,
+   "total": 286826.4,
+   "variants": [
+    "STORIQ"
+   ],
+   "centres": {
+    "APPLMTOTAL": 286826.4
+   }
+  },
+  {
+   "item": "Contentstack",
+   "lines": 13,
+   "total": 284875.38,
+   "variants": [
+    "CONTENTSTACK"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 168655.38,
+    "APPLBRNDCOMS": 116220.0
+   }
+  },
+  {
+   "item": "Microsoft 365 Copilot",
+   "lines": 563,
+   "total": 278106.5,
+   "variants": [
+    "COPILOT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 111111.61,
+    "APPLFIREFINING": 25200.0,
+    "APPLMTOTAL": 24255.0,
+    "APPLAETOTAL": 22050.0,
+    "APPLCCO": 17955.0,
+    "APPLTDDIST": 17325.0,
+    "APPLHFIN": 11970.0,
+    "APPLBRNDCOMS": 11025.0,
+    "APPLB2B": 9179.89,
+    "APPLHHR": 8820.0,
+    "APPLHLSA": 5985.0,
+    "APPLLUBRICANTS": 4095.0,
+    "APPLHALT": 4095.0,
+    "APPLSUPPLYOPS": 1890.0,
+    "INTEMERSIG": 1575.0,
+    "APPLFIFINANCE": 945.0,
+    "APPLSUPFPO": 315.0,
+    "HEMERALD": 315.0
+   }
+  },
+  {
+   "item": "PDI",
+   "lines": 8,
+   "total": 274847.37,
+   "variants": [
+    "PDI",
+    "vendor: TOUCHSTAR APAC PTY LTD"
+   ],
+   "centres": {
+    "APPLMTOTAL": 274847.37
+   }
+  },
+  {
+   "item": "Bloomberg",
+   "lines": 24,
+   "total": 261805.51,
+   "variants": [
+    "BBG",
+    "BLOOMBERG",
+    "CO document"
+   ],
+   "centres": {
+    "APPLHFIN": 261805.51
+   }
+  },
+  {
+   "item": "Saviynt",
+   "lines": 16,
+   "total": 260928.03,
+   "variants": [
+    "IGA SAV",
+    "SAVIYNT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 216117.78,
+    "APPLHHR": 28996.75,
+    "PCTECHMYHR": 15813.5
+   }
+  },
+  {
+   "item": "Miro",
+   "lines": 14,
+   "total": 255783.08,
+   "variants": [
+    "MIRO",
+    "REALTIMEBOARD"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 255783.08
+   }
+  },
+  {
+   "item": "Adobe Acrobat",
+   "lines": 1152,
+   "total": 245107.69,
+   "variants": [
+    "ACROBAT",
+    "CO document"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 86449.87,
+    "APPLFIREFINING": 57922.0,
+    "APPLTDDIST": 17089.0,
+    "APPLMTOTAL": 15903.0,
+    "APPLHFIN": 15284.94,
+    "APPLCCO": 11124.88,
+    "APPLAETOTAL": 9504.0,
+    "APPLB2B": 9024.0,
+    "APPLHHR": 6917.0,
+    "APPLBRNDCOMS": 2915.0,
+    "APPLLUBRICANTS": 2421.0,
+    "APPLSUPFPO": 2194.0,
+    "APPLHLSA": 2160.0,
+    "APPLSUPPLYOPS": 1920.0,
+    "APPLHALT": 1786.0,
+    "APOLLO": 1665.0,
+    "APPLFIFINANCE": 828.0
+   }
+  },
+  {
+   "item": "Tungsten Automation",
+   "lines": 2,
+   "total": 240396.96,
+   "variants": [
+    "vendor: TUNGSTEN AUTOMATION AUSTRALIA PTY L"
+   ],
+   "centres": {
+    "APPLHFIN": 240396.96
+   }
+  },
+  {
+   "item": "Pricing Optimiser pilot",
+   "lines": 4,
+   "total": -239852.0,
+   "variants": [
+    "PRICING OPTIMISER PILOT",
+    "vendor: INSURGE PARTNERS"
+   ],
+   "centres": {
+    "APPLMTOTAL": -239852.0
+   }
+  },
+  {
+   "item": "AlgoSec",
+   "lines": 12,
+   "total": 234801.96,
+   "variants": [
+    "ALGOSEC"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 234801.96
+   }
+  },
+  {
+   "item": "Adobe",
+   "lines": 41,
+   "total": 234779.07,
+   "variants": [
+    "ADOBE",
+    "CO document"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 188107.94,
+    "APPLMTOTAL": 14133.32,
+    "APPLHFIN": 6827.48,
+    "APPLB2B": 6725.08,
+    "APPLTDDIST": 6041.92,
+    "APPLBRNDCOMS": 4531.44,
+    "APPLFIREFINING": 4243.12,
+    "APPLHHR": 3485.61,
+    "APPLAETOTAL": 683.16
+   }
+  },
+  {
+   "item": "DigiCert",
+   "lines": 12,
+   "total": 229015.74,
+   "variants": [
+    "DIGICERT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 229015.74
+   }
+  },
+  {
+   "item": "IT services monthly recharge",
+   "lines": 18,
+   "total": -227574.48,
+   "variants": [
+    "CO document",
+    "IT SERVICES"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": -224591.02,
+    "APPLHHR": -2808.34,
+    "APPLCCO": -175.12
+   }
+  },
+  {
+   "item": "GreenFlux",
+   "lines": 24,
+   "total": 227483.5,
+   "variants": [
+    "GREENFLUX",
+    "vendor: GREENFLUX ASSETS BV"
+   ],
+   "centres": {
+    "APPLAETOTAL": 227483.5
+   }
+  },
+  {
+   "item": "Sigma Computing",
+   "lines": 3,
+   "total": 219692.68,
+   "variants": [
+    "SIGMA PLATFORM"
+   ],
+   "centres": {
+    "APPLCCO": 219692.68,
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "SAP Signavio",
+   "lines": 15,
+   "total": 219441.19,
+   "variants": [
+    "SIGNAVIO"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 156319.74,
+    "APPLAETOTAL": 63121.45
+   }
+  },
+  {
+   "item": "Atlassian",
+   "lines": 49,
+   "total": 212918.64,
+   "variants": [
+    "ATLASSIAN",
+    "CONFLUEN",
+    "JIRA"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 212918.64
+   }
+  },
+  {
+   "item": "Workday Peakon",
+   "lines": 14,
+   "total": 206610.24,
+   "variants": [
+    "PEAKON",
+    "WORKDAY"
+   ],
+   "centres": {
+    "APPLHHR": 202644.04,
+    "APPLTDDIST": 3966.2
+   }
+  },
+  {
+   "item": "Cornerstone OnDemand",
+   "lines": 18,
+   "total": 204579.42,
+   "variants": [
+    "CORNERSTONE",
+    "CORNTERSTONE",
+    "SABA"
+   ],
+   "centres": {
+    "APPLHHR": 204579.42
+   }
+  },
+  {
+   "item": "KADA",
+   "lines": 6,
+   "total": 203688.33,
+   "variants": [
+    "KADA"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 203688.33
+   }
+  },
+  {
+   "item": "Evotix",
+   "lines": 1,
+   "total": 195862.3,
+   "variants": [
+    "EVOTIX"
+   ],
+   "centres": {
+    "APPLHFIN": 195862.3
+   }
+  },
+  {
+   "item": "Prometheus Group",
+   "lines": 48,
+   "total": 195082.88,
+   "variants": [
+    "LICENSED USER OF NAVIGATOR",
+    "LICENSED USERS OF NAVIGATOR",
+    "NAVIGATOR LICEN",
+    "PROMETHEUS",
+    "vendor: PROMETHEUS GROUP ENTERPRISES, LLC"
+   ],
+   "centres": {
+    "APPLFIREFINING": 195082.88
+   }
+  },
+  {
+   "item": "Adobe Campaign",
+   "lines": 6,
+   "total": 191392.02,
+   "variants": [
+    "ADOBE CAMPAIGN"
+   ],
+   "centres": {
+    "APPLBRNDCOMS": 191392.02
+   }
+  },
+  {
+   "item": "Imperva",
+   "lines": 14,
+   "total": 188511.0,
+   "variants": [
+    "IMPERVA"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 183864.11,
+    "APPLAETOTAL": 4646.89
+   }
+  },
+  {
+   "item": "Check Point",
+   "lines": 14,
+   "total": 187693.23,
+   "variants": [
+    "CHECKPOINT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 187693.23
+   }
+  },
+  {
+   "item": "Noggin",
+   "lines": 15,
+   "total": 182590.04,
+   "variants": [
+    "NOGGIN"
+   ],
+   "centres": {
+    "APPLHFIN": 182590.04
+   }
+  },
+  {
+   "item": "AVEVA",
+   "lines": 5,
+   "total": 173952.19,
+   "variants": [
+    "AVEVA",
+    "vendor: AVEVA SOFTWARE AUSTRALIA PTY LTD"
+   ],
+   "centres": {
+    "APPLFIREFINING": 173952.19,
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "Telstra",
+   "lines": 21,
+   "total": 172050.84,
+   "variants": [
+    "SCHED 5 FEES",
+    "TELSTRA"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 172050.84
+   }
+  },
+  {
+   "item": "FIS Integrity",
+   "lines": 10,
+   "total": 170275.71,
+   "variants": [
+    "INTEGRITY SAAS",
+    "vendor: FIS ASIA PACIFIC INC."
+   ],
+   "centres": {
+    "APPLHFIN": 170275.71
+   }
+  },
+  {
+   "item": "Dragos",
+   "lines": 5,
+   "total": 164595.77,
+   "variants": [
+    "DRAGOS"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 67100.01,
+    "APPLTDDIST": 52627.47,
+    "APPLFIREFINING": 44868.29
+   }
+  },
+  {
+   "item": "Proofpoint",
+   "lines": 23,
+   "total": 156205.83,
+   "variants": [
+    "PROOFPOINT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 156205.83
+   }
+  },
+  {
+   "item": "SAP Concur",
+   "lines": 5,
+   "total": 155343.37,
+   "variants": [
+    "SAP CONCUR",
+    "vendor: CONCUR TECHNOLOGIES, INC."
+   ],
+   "centres": {
+    "APPLHFIN": 155343.37
+   }
+  },
+  {
+   "item": "Companion software",
+   "lines": 12,
+   "total": 153630.85,
+   "variants": [
+    "COMPANION",
+    "CONPANION"
+   ],
+   "centres": {
+    "APPLB2B": 153630.85
+   }
+  },
+  {
+   "item": "DocuSign",
+   "lines": 5,
+   "total": 142997.02,
+   "variants": [
+    "DOCUSIGN"
+   ],
+   "centres": {
+    "APPLB2B": 79781.02,
+    "APPLHHR": 42165.07,
+    "APPLH_INFOTECH": 21050.93
+   }
+  },
+  {
+   "item": "HCL Notes",
+   "lines": 2,
+   "total": 141616.51,
+   "variants": [
+    "BINARY TREE RENEWAL HCL",
+    "HCL NOTES"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 141616.51
+   }
+  },
+  {
+   "item": "Yokogawa",
+   "lines": 3,
+   "total": 137383.0,
+   "variants": [
+    "VISA OM"
+   ],
+   "centres": {
+    "APPLFIREFINING": 137383.0
+   }
+  },
+  {
+   "item": "eBits",
+   "lines": 36,
+   "total": 136247.33,
+   "variants": [
+    "EBITS",
+    "ETABLET",
+    "vendor: EBITS LLP"
+   ],
+   "centres": {
+    "APPLTDDIST": 136247.33
+   }
+  },
+  {
+   "item": "Altus",
+   "lines": 4,
+   "total": 133065.0,
+   "variants": [
+    "ATLUS"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 133065.0
+   }
+  },
+  {
+   "item": "HackerOne",
+   "lines": 4,
+   "total": 123471.51,
+   "variants": [
+    "HACKERONE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 123471.51
+   }
+  },
+  {
+   "item": "Oracle",
+   "lines": 15,
+   "total": 122439.82,
+   "variants": [
+    "ORACLE",
+    "PROJECT PORTFOLIO MANAGEMENT FEE",
+    "vendor: ORACLE CUSTOMER MANAGEMENT SOLUTION"
+   ],
+   "centres": {
+    "APPLAETOTAL": 74380.41,
+    "APPLFIREFINING": 48059.41
+   }
+  },
+  {
+   "item": "Autodesk",
+   "lines": 32,
+   "total": 119750.01,
+   "variants": [
+    "AEC COLLECT",
+    "AUTOCAD",
+    "AUTODESK",
+    "UTOCAD",
+    "VAULT PROF"
+   ],
+   "centres": {
+    "APPLFIREFINING": 54900.0,
+    "APPLAETOTAL": 27373.85,
+    "APPLTDDIST": 24371.16,
+    "APPLMTOTAL": 13105.0,
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "Alation",
+   "lines": 6,
+   "total": 117499.92,
+   "variants": [
+    "ALATION"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 117499.92
+   }
+  },
+  {
+   "item": "Citrix",
+   "lines": 1,
+   "total": 116193.0,
+   "variants": [
+    "CITRIX"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 116193.0
+   }
+  },
+  {
+   "item": "Moody's Analytics",
+   "lines": 24,
+   "total": 115455.85,
+   "variants": [
+    "MOODY"
+   ],
+   "centres": {
+    "APPLAETOTAL": 71817.25,
+    "APPLHFIN": 43638.6
+   }
+  },
+  {
+   "item": "Twilio",
+   "lines": 19,
+   "total": 114057.38,
+   "variants": [
+    "TWILIO"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 114057.38
+   }
+  },
+  {
+   "item": "ELMO",
+   "lines": 1,
+   "total": 112541.0,
+   "variants": [
+    "ELMO"
+   ],
+   "centres": {
+    "APPLHHR": 112541.0
+   }
+  },
+  {
+   "item": "Pinnacle All Assets",
+   "lines": 1,
+   "total": 111409.78,
+   "variants": [
+    "ALL ASSETS ANNUAL"
+   ],
+   "centres": {
+    "APPLFIREFINING": 111409.78
+   }
+  },
+  {
+   "item": "Fortinet",
+   "lines": 1,
+   "total": 108020.39,
+   "variants": [
+    "FORTINET"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 108020.39
+   }
+  },
+  {
+   "item": "Cintellate",
+   "lines": 3,
+   "total": -107996.0,
+   "variants": [
+    "CINTELLATE"
+   ],
+   "centres": {
+    "APPLHFIN": -107996.0
+   }
+  },
+  {
+   "item": "Energy Global",
+   "lines": 5,
+   "total": 107500.0,
+   "variants": [
+    "vendor: ENERGY GLOBAL CO"
+   ],
+   "centres": {
+    "APPLAETOTAL": 107500.0
+   }
+  },
+  {
+   "item": "Transponder Technologies",
+   "lines": 9,
+   "total": 103950.0,
+   "variants": [
+    "DISTRIBUTOR TT COSTS",
+    "TT FUEL"
+   ],
+   "centres": {
+    "APPLB2B": 71100.0,
+    "APPLMTOTAL": 32850.0
+   }
+  },
+  {
+   "item": "SAP Datasphere",
+   "lines": 7,
+   "total": 103300.08,
+   "variants": [
+    "DATASPHERE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 103300.08
+   }
+  },
+  {
+   "item": "Snow Atlas",
+   "lines": 22,
+   "total": 102298.61,
+   "variants": [
+    "SLM ADVANCED FOR SNOW",
+    "SNOW ATLAS",
+    "SNOW LICENSES"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 102298.61
+   }
+  },
+  {
+   "item": "Qlik Talend",
+   "lines": 1,
+   "total": 98890.15,
+   "variants": [
+    "QLIKTECH"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 98890.15
+   }
+  },
+  {
+   "item": "Sitecore",
+   "lines": 5,
+   "total": 97827.9,
+   "variants": [
+    "SITECORE"
+   ],
+   "centres": {
+    "APPLBRNDCOMS": 97827.9
+   }
+  },
+  {
+   "item": "Zephyr",
+   "lines": 7,
+   "total": 96890.04,
+   "variants": [
+    "ZEPHYR"
+   ],
+   "centres": {
+    "APPLMTOTAL": 59210.58,
+    "APPLH_INFOTECH": 26913.9,
+    "APPLAETOTAL": 10765.56
+   }
+  },
+  {
+   "item": "International SOS",
+   "lines": 1,
+   "total": 94125.0,
+   "variants": [
+    "INTERNATIONALSOS"
+   ],
+   "centres": {
+    "APPLHFIN": 94125.0
+   }
+  },
+  {
+   "item": "AvePoint",
+   "lines": 3,
+   "total": 92947.28,
+   "variants": [
+    "AVEPOINT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 92947.28
+   }
+  },
+  {
+   "item": "Haley Group",
+   "lines": 2,
+   "total": 84500.0,
+   "variants": [
+    "HALEY GROUP"
+   ],
+   "centres": {
+    "APPLMTOTAL": 84500.0
+   }
+  },
+  {
+   "item": "Beige Technologies",
+   "lines": 1,
+   "total": 84000.0,
+   "variants": [
+    "vendor: BEIGE TECHNOLOGIES PTY LTD"
+   ],
+   "centres": {
+    "APPLAETOTAL": 84000.0
+   }
+  },
+  {
+   "item": "Synthesia",
+   "lines": 12,
+   "total": 82859.22,
+   "variants": [
+    "SYNTHESIA",
+    "vendor: SYNTHESIA LIMITED"
+   ],
+   "centres": {
+    "APPLTDDIST": 82859.22
+   }
+  },
+  {
+   "item": "Checkmarx",
+   "lines": 1,
+   "total": 82388.0,
+   "variants": [
+    "vendor: CHECKMARX AUSTRALIA PTY LTD"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 82388.0
+   }
+  },
+  {
+   "item": "Phriendly Phishing",
+   "lines": 1,
+   "total": 80730.0,
+   "variants": [
+    "PHRIENDLY PHISHING"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 80730.0
+   }
+  },
+  {
+   "item": "VelocityEHS",
+   "lines": 1,
+   "total": 77700.02,
+   "variants": [
+    "VEHS"
+   ],
+   "centres": {
+    "APPLHFIN": 77700.02
+   }
+  },
+  {
+   "item": "Cumulus Tax",
+   "lines": 2,
+   "total": 77533.0,
+   "variants": [
+    "CUMULUS",
+    "SPARK LICENCE"
+   ],
+   "centres": {
+    "APPLHFIN": 77533.0
+   }
+  },
+  {
+   "item": "PlugShare",
+   "lines": 15,
+   "total": 75302.78,
+   "variants": [
+    "PLUGSHARE",
+    "vendor: PLUGSHARE, LLC"
+   ],
+   "centres": {
+    "APPLAETOTAL": 75302.78
+   }
+  },
+  {
+   "item": "Cohesity NetBackup",
+   "lines": 5,
+   "total": 75205.61,
+   "variants": [
+    "COHESITY",
+    "VERITAS"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 75205.61
+   }
+  },
+  {
+   "item": "Windows 10 Extended Security Updates",
+   "lines": 21,
+   "total": 74506.64,
+   "variants": [
+    "WIN10 ESU"
+   ],
+   "centres": {
+    "APPLMTOTAL": 72641.91,
+    "APPLB2B": 1268.61,
+    "APPLH_INFOTECH": 596.12
+   }
+  },
+  {
+   "item": "BeyondTrust",
+   "lines": 12,
+   "total": 72472.16,
+   "variants": [
+    "BEYOND TRUST"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 72472.16
+   }
+  },
+  {
+   "item": "Transponder Technologies OPT",
+   "lines": 36,
+   "total": 71800.0,
+   "variants": [
+    "OPT DIESEL",
+    "OPT TT",
+    "TT OPT"
+   ],
+   "centres": {
+    "APPLB2B": 35977.68,
+    "APPLMTOTAL": 35822.32
+   }
+  },
+  {
+   "item": "Intergraph PAS",
+   "lines": 1,
+   "total": 67629.0,
+   "variants": [
+    "PAS AUTOMATION"
+   ],
+   "centres": {
+    "APPLFIREFINING": 67629.0
+   }
+  },
+  {
+   "item": "Cisco DNA",
+   "lines": 12,
+   "total": 67258.2,
+   "variants": [
+    "DNA LICEN"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 67258.2
+   }
+  },
+  {
+   "item": "FairSupply",
+   "lines": 3,
+   "total": 65000.0,
+   "variants": [
+    "FAIR SUPPLY",
+    "vendor: FAIRSUPPLY ANALYTICS PTY LIMITED"
+   ],
+   "centres": {
+    "APPLHFIN": 55000.0,
+    "APPLMTOTAL": 10000.0
+   }
+  },
+  {
+   "item": "IBM Cloud Identity",
+   "lines": 1,
+   "total": 63936.34,
+   "variants": [
+    "IBM CLOUD IDENT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 63936.34
+   }
+  },
+  {
+   "item": "Airlock Digital",
+   "lines": 28,
+   "total": 63508.97,
+   "variants": [
+    "AIRLOCK"
+   ],
+   "centres": {
+    "APPLMTOTAL": 62955.35,
+    "APPLB2B": 553.62
+   }
+  },
+  {
+   "item": "Siemens XHQ",
+   "lines": 1,
+   "total": 60447.84,
+   "variants": [
+    "XHQ"
+   ],
+   "centres": {
+    "APPLFIREFINING": 60447.84
+   }
+  },
+  {
+   "item": "Beakon",
+   "lines": 2,
+   "total": 59950.0,
+   "variants": [
+    "BEAKON"
+   ],
+   "centres": {
+    "APPLGENERAL": 59950.0
+   }
+  },
+  {
+   "item": "SolarWinds",
+   "lines": 2,
+   "total": 58123.58,
+   "variants": [
+    "SOLARWINDS"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 58123.58
+   }
+  },
+  {
+   "item": "LinkedIn",
+   "lines": 2,
+   "total": 57150.0,
+   "variants": [
+    "LINKEDIN"
+   ],
+   "centres": {
+    "APPLB2B": 40400.0,
+    "APPLHHR": 16750.0
+   }
+  },
+  {
+   "item": "Baker Hughes",
+   "lines": 9,
+   "total": 54815.77,
+   "variants": [
+    "vendor: BAKER HUGHES DIGITAL SOLUTIONS AUS"
+   ],
+   "centres": {
+    "APPLFIREFINING": 54815.77
+   }
+  },
+  {
+   "item": "Thermo Fisher LIMS",
+   "lines": 2,
+   "total": 53766.15,
+   "variants": [
+    "THERMO"
+   ],
+   "centres": {
+    "APPLFIREFINING": 43503.96,
+    "APPLTDDIST": 10262.19
+   }
+  },
+  {
+   "item": "Nintex",
+   "lines": 1,
+   "total": 53260.0,
+   "variants": [
+    "NINTEX"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 53260.0
+   }
+  },
+  {
+   "item": "Diebold Nixdorf DOMS",
+   "lines": 28,
+   "total": 52671.3,
+   "variants": [
+    "DOMS"
+   ],
+   "centres": {
+    "APPLMTOTAL": 52304.94,
+    "APPLB2B": 366.36
+   }
+  },
+  {
+   "item": "Splunk",
+   "lines": 3,
+   "total": 51642.86,
+   "variants": [
+    "SPLUNK"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 51642.86
+   }
+  },
+  {
+   "item": "Tableau",
+   "lines": 3,
+   "total": 51588.11,
+   "variants": [
+    "TABLEAU"
+   ],
+   "centres": {
+    "APPLBRNDCOMS": 51588.11
+   }
+  },
+  {
+   "item": "Fujitsu ITCM",
+   "lines": 50,
+   "total": 50858.07,
+   "variants": [
+    "FUJ ITCM",
+    "FUJITSU ITCM",
+    "ITCM"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 35258.07,
+    "APPLMTOTAL": 15467.07,
+    "APPLB2B": 132.93
+   }
+  },
+  {
+   "item": "Google Workspace",
+   "lines": 16,
+   "total": 50399.59,
+   "variants": [
+    "GOOGLE GSUITE",
+    "GOOGLE SERVICES",
+    "GOOGLE WORKSPACE"
+   ],
+   "centres": {
+    "APPLAETOTAL": 48181.99,
+    "APPLH_INFOTECH": 2217.6
+   }
+  },
+  {
+   "item": "Foregenix",
+   "lines": 3,
+   "total": 49784.0,
+   "variants": [
+    "FOREGENIX"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 34848.8,
+    "APPLAETOTAL": 14935.2
+   }
+  },
+  {
+   "item": "LaborPro",
+   "lines": 695,
+   "total": 47371.32,
+   "variants": [
+    "LABORPRO"
+   ],
+   "centres": {
+    "APPLMTOTAL": 47371.32
+   }
+  },
+  {
+   "item": "Lacima",
+   "lines": 14,
+   "total": 45825.03,
+   "variants": [
+    "LACIMA"
+   ],
+   "centres": {
+    "APPLAETOTAL": 45825.03,
+    "APPLHFIN": 0.0
+   }
+  },
+  {
+   "item": "Accertify",
+   "lines": 2,
+   "total": 45757.98,
+   "variants": [
+    "ACCERTIFY"
+   ],
+   "centres": {
+    "APPLBRNDCOMS": 45757.98
+   }
+  },
+  {
+   "item": "PIPENET",
+   "lines": 5,
+   "total": 45711.98,
+   "variants": [
+    "PIPENET"
+   ],
+   "centres": {
+    "APPLFIREFINING": 45711.98
+   }
+  },
+  {
+   "item": "Microsoft Dynamics 365",
+   "lines": 32,
+   "total": -43981.27,
+   "variants": [
+    "D365"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": -259516.17,
+    "APPLAETOTAL": 214550.1,
+    "APPLB2B": 984.8
+   }
+  },
+  {
+   "item": "Lupin ChemSafe",
+   "lines": 1,
+   "total": 43327.0,
+   "variants": [
+    "LUPIN"
+   ],
+   "centres": {
+    "APPLHFIN": 43327.0
+   }
+  },
+  {
+   "item": "Fusion5",
+   "lines": 3,
+   "total": 42100.0,
+   "variants": [
+    "F5 MANAGE"
+   ],
+   "centres": {
+    "APPLAETOTAL": 42100.0
+   }
+  },
+  {
+   "item": "Microsoft SCE licences",
+   "lines": 9,
+   "total": 39784.82,
+   "variants": [
+    "EA SCE",
+    "SCE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 39784.82
+   }
+  },
+  {
+   "item": "Flosum",
+   "lines": 13,
+   "total": 36601.55,
+   "variants": [
+    "FLOSUM"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 34639.1,
+    "APPLB2B": 1962.45
+   }
+  },
+  {
+   "item": "Figma",
+   "lines": 1,
+   "total": 36505.05,
+   "variants": [
+    "FIGMA"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 36505.05
+   }
+  },
+  {
+   "item": "Atticus",
+   "lines": 1,
+   "total": 35950.3,
+   "variants": [
+    "ATTICUS"
+   ],
+   "centres": {
+    "APPLHFIN": 35950.3
+   }
+  },
+  {
+   "item": "Compac",
+   "lines": 36,
+   "total": 35936.97,
+   "variants": [
+    "COMPAC",
+    "COMPACT OPT",
+    "vendor: COMPAC SALES PTY LTD"
+   ],
+   "centres": {
+    "APPLMTOTAL": 35936.97
+   }
+  },
+  {
+   "item": "Creative Analytics",
+   "lines": 5,
+   "total": 35830.0,
+   "variants": [
+    "vendor: CREATIVE ANALYTICS PTY LTD"
+   ],
+   "centres": {
+    "APPLAETOTAL": 35830.0
+   }
+  },
+  {
+   "item": "AZZO EnergyX",
+   "lines": 3,
+   "total": 35482.34,
+   "variants": [
+    "ENERGYX",
+    "NERGYX"
+   ],
+   "centres": {
+    "APPLAETOTAL": 35482.34
+   }
+  },
+  {
+   "item": "LaunchDarkly",
+   "lines": 11,
+   "total": 33902.8,
+   "variants": [
+    "LAUNCHDARKLY"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 33902.8
+   }
+  },
+  {
+   "item": "GreenID",
+   "lines": 6,
+   "total": 33500.0,
+   "variants": [
+    "CO document",
+    "GREEN ID"
+   ],
+   "centres": {
+    "APPLB2B": 16750.0,
+    "APPLMTOTAL": 16750.0
+   }
+  },
+  {
+   "item": "Deloitte",
+   "lines": 2,
+   "total": -32680.09,
+   "variants": [
+    "CO document",
+    "DELOITTE"
+   ],
+   "centres": {
+    "APPLHHR": -32680.09
+   }
+  },
+  {
+   "item": "Zenith traffic model",
+   "lines": 1,
+   "total": 32121.0,
+   "variants": [
+    "ZENITH TRAFFIC"
+   ],
+   "centres": {
+    "APPLMTOTAL": 32121.0
+   }
+  },
+  {
+   "item": "Microsoft SQL Server",
+   "lines": 5,
+   "total": 31620.78,
+   "variants": [
+    "MSQL SERVER",
+    "MSSQL SERVER"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 31620.78
+   }
+  },
+  {
+   "item": "Thomson Reuters",
+   "lines": 1,
+   "total": 29978.48,
+   "variants": [
+    "THOMSON REUTERS"
+   ],
+   "centres": {
+    "APPLHLSA": 29978.48
+   }
+  },
+  {
+   "item": "Daisee",
+   "lines": 12,
+   "total": 29799.0,
+   "variants": [
+    "AI SOFTWARE FOR SD IVR",
+    "vendor: DAISEE PTY LTD"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 29799.0
+   }
+  },
+  {
+   "item": "Spinifex IT",
+   "lines": 1,
+   "total": 28191.2,
+   "variants": [
+    "SPINIFEX"
+   ],
+   "centres": {
+    "APPLHHR": 28191.2
+   }
+  },
+  {
+   "item": "Cisco Umbrella",
+   "lines": 1,
+   "total": 27277.35,
+   "variants": [
+    "UMBLRELLA"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 27277.35
+   }
+  },
+  {
+   "item": "SAI360",
+   "lines": 2,
+   "total": 26235.6,
+   "variants": [
+    "OBLIGATIONS MGT MOD",
+    "OBLIGATIONS PERIOD"
+   ],
+   "centres": {
+    "APPLHFIN": 26235.6
+   }
+  },
+  {
+   "item": "Qualys",
+   "lines": 1,
+   "total": 25762.8,
+   "variants": [
+    "QUALYS"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 25762.8
+   }
+  },
+  {
+   "item": "SAP HCM",
+   "lines": 1,
+   "total": 24673.59,
+   "variants": [
+    "SAP HCM"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 24673.59
+   }
+  },
+  {
+   "item": "SmartRecruiters",
+   "lines": 1,
+   "total": 23663.37,
+   "variants": [
+    "SMARTRECRUITERS"
+   ],
+   "centres": {
+    "APPLHHR": 23663.37
+   }
+  },
+  {
+   "item": "Articulate 360",
+   "lines": 28,
+   "total": 23379.26,
+   "variants": [
+    "ARTICUALTE",
+    "ARTICULATE"
+   ],
+   "centres": {
+    "APPLTDDIST": 6430.68,
+    "APPLFIREFINING": 6430.68,
+    "APPLMTOTAL": 4287.12,
+    "APPLHHR": 4287.12,
+    "APPLB2B": 2143.56,
+    "APPLH_INFOTECH": -199.9
+   }
+  },
+  {
+   "item": "PDView",
+   "lines": 1,
+   "total": 23080.0,
+   "variants": [
+    "vendor: PDVIEW PTY LTD"
+   ],
+   "centres": {
+    "APPLAETOTAL": 23080.0
+   }
+  },
+  {
+   "item": "Gallagher",
+   "lines": 2,
+   "total": 22970.38,
+   "variants": [
+    "GALLAGHER"
+   ],
+   "centres": {
+    "APPLGENERAL": 22570.46,
+    "APPLTDDIST": 399.92
+   }
+  },
+  {
+   "item": "CSC domain management",
+   "lines": 13,
+   "total": 22575.36,
+   "variants": [
+    "DOMAIN MANAGEMENT"
+   ],
+   "centres": {
+    "APPLBRNDCOMS": 22575.36
+   }
+  },
+  {
+   "item": "Trellix",
+   "lines": 5,
+   "total": 22327.35,
+   "variants": [
+    "TRELLIX"
+   ],
+   "centres": {
+    "APPLTDDIST": 22327.35
+   }
+  },
+  {
+   "item": "DNV Phast",
+   "lines": 1,
+   "total": 21652.4,
+   "variants": [
+    "PHAST"
+   ],
+   "centres": {
+    "APPLHFIN": 21652.4
+   }
+  },
+  {
+   "item": "Bottomline Transform",
+   "lines": 1,
+   "total": 21416.06,
+   "variants": [
+    "TRANSFORM ANNUAL PO"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 21416.06
+   }
+  },
+  {
+   "item": "Codeware",
+   "lines": 1,
+   "total": 21181.6,
+   "variants": [
+    "vendor: CODEWARE, INC."
+   ],
+   "centres": {
+    "APPLFIREFINING": 21181.6
+   }
+  },
+  {
+   "item": "CGAI",
+   "lines": 4,
+   "total": 20770.5,
+   "variants": [
+    "vendor: CGAI PTY LTD"
+   ],
+   "centres": {
+    "CUSTLOYSIG": 20770.5
+   }
+  },
+  {
+   "item": "Forcepoint",
+   "lines": 1,
+   "total": 20764.96,
+   "variants": [
+    "FORCEPOINT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 20764.96
+   }
+  },
+  {
+   "item": "think-cell",
+   "lines": 59,
+   "total": 20601.16,
+   "variants": [
+    "CO document",
+    "THINKCELL"
+   ],
+   "centres": {
+    "APPLCCO": 8539.22,
+    "APPLHFIN": 4855.47,
+    "APPLMTOTAL": 3786.11,
+    "CTRMSIG": 1195.52,
+    "APPLTDDIST": 792.66,
+    "APPLAETOTAL": 759.78,
+    "APPLHHR": 396.33,
+    "APPLSUPFPO": 151.97,
+    "APPLH_INFOTECH": 124.1
+   }
+  },
+  {
+   "item": "LastPass",
+   "lines": 1,
+   "total": 20189.23,
+   "variants": [
+    "LASTPASS"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 20189.23
+   }
+  },
+  {
+   "item": "Lucid",
+   "lines": 1,
+   "total": 18519.35,
+   "variants": [
+    "LUCID"
+   ],
+   "centres": {
+    "APPLAETOTAL": 18519.35
+   }
+  },
+  {
+   "item": "Refinitiv",
+   "lines": 13,
+   "total": 17625.3,
+   "variants": [
+    "vendor: REFINITIV AUSTRALIA PTY LIMITED"
+   ],
+   "centres": {
+    "APPLHFIN": 17625.3
+   }
+  },
+  {
+   "item": "ASTM Compass",
+   "lines": 1,
+   "total": 17005.31,
+   "variants": [
+    "ASTM"
+   ],
+   "centres": {
+    "APPLFIREFINING": 17005.31
+   }
+  },
+  {
+   "item": "Minitab",
+   "lines": 3,
+   "total": 16627.5,
+   "variants": [
+    "MINITAB",
+    "vendor: MINITAB, LLC"
+   ],
+   "centres": {
+    "APPLFIREFINING": 16627.5
+   }
+  },
+  {
+   "item": "PageProof",
+   "lines": 1,
+   "total": 16480.69,
+   "variants": [
+    "PAGEPROOF"
+   ],
+   "centres": {
+    "APPLMTOTAL": 16480.69
+   }
+  },
+  {
+   "item": "PDF Tools",
+   "lines": 1,
+   "total": 16009.86,
+   "variants": [
+    "PDFTOOLS"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 16009.86
+   }
+  },
+  {
+   "item": "Cisco",
+   "lines": 1,
+   "total": 15674.64,
+   "variants": [
+    "CISCO"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 15674.64
+   }
+  },
+  {
+   "item": "ShareGate",
+   "lines": 1,
+   "total": 14943.52,
+   "variants": [
+    "SHAREGATE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 14943.52
+   }
+  },
+  {
+   "item": "Brandscount",
+   "lines": 1,
+   "total": 14310.0,
+   "variants": [
+    "BRANDSCOUNT"
+   ],
+   "centres": {
+    "CUSTLOYSIG": 14310.0
+   }
+  },
+  {
+   "item": "Curtiss-Wright iPRSM",
+   "lines": 1,
+   "total": 14145.09,
+   "variants": [
+    "IPRSM"
+   ],
+   "centres": {
+    "APPLFIREFINING": 14145.09
+   }
+  },
+  {
+   "item": "Bitrise",
+   "lines": 11,
+   "total": 13125.16,
+   "variants": [
+    "BITRISE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 13125.16
+   }
+  },
+  {
+   "item": "Cisco Firepower",
+   "lines": 1,
+   "total": 12837.16,
+   "variants": [
+    "FIREPOWER"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 12837.16
+   }
+  },
+  {
+   "item": "BrowserStack",
+   "lines": 1,
+   "total": 11829.3,
+   "variants": [
+    "vendor: BROWSERSTACK INC."
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 11829.3
+   }
+  },
+  {
+   "item": "Own Backup for Salesforce",
+   "lines": 2,
+   "total": 11790.82,
+   "variants": [
+    "OWNBACK"
+   ],
+   "centres": {
+    "APPLB2B": 11790.82
+   }
+  },
+  {
+   "item": "Instabug",
+   "lines": 13,
+   "total": 10964.47,
+   "variants": [
+    "INSTABUG"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 10964.47
+   }
+  },
+  {
+   "item": "Clarity",
+   "lines": 23,
+   "total": -10952.16,
+   "variants": [
+    "CLARITY"
+   ],
+   "centres": {
+    "APPLAETOTAL": -15142.16,
+    "APPLCCO": 4190.0
+   }
+  },
+  {
+   "item": "Postman",
+   "lines": 10,
+   "total": 10739.23,
+   "variants": [
+    "POSTMAN"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 10739.23
+   }
+  },
+  {
+   "item": "SampleManager",
+   "lines": 1,
+   "total": 10500.0,
+   "variants": [
+    "SAMPLEMANAGER"
+   ],
+   "centres": {
+    "APPLFIREFINING": 10500.0
+   }
+  },
+  {
+   "item": "DrawingSearcher",
+   "lines": 1,
+   "total": 9932.78,
+   "variants": [
+    "DRAWINGSEARCHER"
+   ],
+   "centres": {
+    "APPLFIREFINING": 9932.78
+   }
+  },
+  {
+   "item": "Google Maps",
+   "lines": 6,
+   "total": 9733.43,
+   "variants": [
+    "GOOGLE MAP"
+   ],
+   "centres": {
+    "APPLBRNDCOMS": 9733.43
+   }
+  },
+  {
+   "item": "Cisco ISE",
+   "lines": 2,
+   "total": 9714.0,
+   "variants": [
+    "ISE ESSENTIALS",
+    "ISE SUBS"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 9560.0,
+    "APPLTDDIST": 154.0
+   }
+  },
+  {
+   "item": "Isograph Reliability Workbench",
+   "lines": 1,
+   "total": 9710.56,
+   "variants": [
+    "RELIABILITY WORKBENCH"
+   ],
+   "centres": {
+    "APPLTDDIST": 9710.56
+   }
+  },
+  {
+   "item": "Acumen",
+   "lines": 1,
+   "total": 9452.0,
+   "variants": [
+    "ACUMEN"
+   ],
+   "centres": {
+    "APPLFIREFINING": 9452.0
+   }
+  },
+  {
+   "item": "Chargebee",
+   "lines": 13,
+   "total": 9359.61,
+   "variants": [
+    "CHARGEBEE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 9359.61
+   }
+  },
+  {
+   "item": "Zeplin",
+   "lines": 2,
+   "total": 9012.79,
+   "variants": [
+    "ZEPLIN"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 9012.79
+   }
+  },
+  {
+   "item": "Cisco Unified Communications Manager",
+   "lines": 1,
+   "total": 8637.44,
+   "variants": [
+    "CUCM"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 8637.44
+   }
+  },
+  {
+   "item": "Ansys",
+   "lines": 2,
+   "total": 8335.0,
+   "variants": [
+    "ANSYS",
+    "vendor: LEAP AUSTRALIA PTY LTD"
+   ],
+   "centres": {
+    "APPLFIREFINING": 8335.0
+   }
+  },
+  {
+   "item": "SecEng",
+   "lines": 1,
+   "total": 8004.0,
+   "variants": [
+    "SECENG"
+   ],
+   "centres": {
+    "APPLMTOTAL": 8004.0
+   }
+  },
+  {
+   "item": "Experian",
+   "lines": 2,
+   "total": 8000.0,
+   "variants": [
+    "EXPERIAN",
+    "vendor: EXPERIAN AUSTRALIA OPERATIONS PTY L"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 8000.0
+   }
+  },
+  {
+   "item": "SendGrid",
+   "lines": 60,
+   "total": 7591.23,
+   "variants": [
+    "SENDGRID"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 7591.23
+   }
+  },
+  {
+   "item": "StartProf",
+   "lines": 1,
+   "total": 7012.0,
+   "variants": [
+    "STARTPROF"
+   ],
+   "centres": {
+    "APPLFIREFINING": 7012.0
+   }
+  },
+  {
+   "item": "Cadgroup",
+   "lines": 2,
+   "total": 6718.52,
+   "variants": [
+    "CADGROUP"
+   ],
+   "centres": {
+    "APPLTDDIST": 4500.0,
+    "APPLFIREFINING": 2218.52
+   }
+  },
+  {
+   "item": "Bentley AutoPIPE",
+   "lines": 1,
+   "total": 6698.0,
+   "variants": [
+    "BENTLEY"
+   ],
+   "centres": {
+    "APPLFIREFINING": 6698.0
+   }
+  },
+  {
+   "item": "PowerWriter",
+   "lines": 1,
+   "total": 6575.41,
+   "variants": [
+    "POWERWRITER"
+   ],
+   "centres": {
+    "APPLB2B": 6575.41
+   }
+  },
+  {
+   "item": "Microsoft Power BI",
+   "lines": 28,
+   "total": 6300.0,
+   "variants": [
+    "POWERBI"
+   ],
+   "centres": {
+    "APPLMTOTAL": 75600.0,
+    "APPLH_INFOTECH": -69395.6,
+    "APPLB2B": 47.8,
+    "APPLAETOTAL": 47.8
+   }
+  },
+  {
+   "item": "Xray",
+   "lines": 5,
+   "total": 6197.8,
+   "variants": [
+    "XRAY TOOL"
+   ],
+   "centres": {
+    "APPLCCO": 3098.9,
+    "TDDEINTSIG": 3098.9,
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "Gilbarco",
+   "lines": 5,
+   "total": 6098.4,
+   "variants": [
+    "GVR",
+    "vendor: GILBARCO AUSTRALIA LIMITED"
+   ],
+   "centres": {
+    "APPLMTOTAL": 6098.4,
+    "APPLB2B": 0.0
+   }
+  },
+  {
+   "item": "EVA Global",
+   "lines": 1,
+   "total": -5761.46,
+   "variants": [
+    "vendor: EVA GLOBAL"
+   ],
+   "centres": {
+    "APPLAETOTAL": -5761.46
+   }
+  },
+  {
+   "item": "CloudWerx",
+   "lines": 1,
+   "total": 5677.28,
+   "variants": [
+    "CLOUDWERX"
+   ],
+   "centres": {
+    "APPLB2B": 5677.28
+   }
+  },
+  {
+   "item": "Microsoft Dynamics 365 Business Central",
+   "lines": 13,
+   "total": 5651.84,
+   "variants": [
+    "BC ERP",
+    "D365 BUSINESS C"
+   ],
+   "centres": {
+    "APPLB2B": 138175.24,
+    "APPLH_INFOTECH": -137387.4,
+    "APPLGENERAL": 4864.0
+   }
+  },
+  {
+   "item": "Computershare",
+   "lines": 3,
+   "total": 5595.0,
+   "variants": [
+    "vendor: COMPUTERSHARE COMMUNICATION SERVICE"
+   ],
+   "centres": {
+    "APPLB2B": 4275.0,
+    "APPLH_INFOTECH": 1320.0
+   }
+  },
+  {
+   "item": "Microsoft Windows Server",
+   "lines": 5,
+   "total": 5040.0,
+   "variants": [
+    "WINDOWS SERVER"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 5040.0
+   }
+  },
+  {
+   "item": "Eigenvector Research",
+   "lines": 1,
+   "total": 4981.65,
+   "variants": [
+    "EIGENVECTOR"
+   ],
+   "centres": {
+    "APPLFIREFINING": 4981.65
+   }
+  },
+  {
+   "item": "Squizify",
+   "lines": 37,
+   "total": 4931.0,
+   "variants": [
+    "COOPER ATKINS",
+    "KWICKSWITCH",
+    "SQUIZIFY"
+   ],
+   "centres": {
+    "APPLMTOTAL": 4512.0,
+    "APPLRCALSTORES": 419.0
+   }
+  },
+  {
+   "item": "Advanced Installer",
+   "lines": 1,
+   "total": 4825.64,
+   "variants": [
+    "ADVANCED INSTALLER"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 4825.64
+   }
+  },
+  {
+   "item": "Reliabix",
+   "lines": 3,
+   "total": 4745.55,
+   "variants": [
+    "I ALERT",
+    "RELIABIX"
+   ],
+   "centres": {
+    "APPLTDDIST": 4745.55
+   }
+  },
+  {
+   "item": "Smart Tech Solutions",
+   "lines": 2,
+   "total": 4718.0,
+   "variants": [
+    "vendor: SMART TECH SOLUTIONS PTY LTD"
+   ],
+   "centres": {
+    "APPLFIREFINING": 4718.0
+   }
+  },
+  {
+   "item": "Bluebeam",
+   "lines": 7,
+   "total": 4589.29,
+   "variants": [
+    "BLUEBEAM"
+   ],
+   "centres": {
+    "APPLFIREFINING": 4589.29
+   }
+  },
+  {
+   "item": "Lumivero",
+   "lines": 1,
+   "total": 4446.76,
+   "variants": [
+    "LUMIVERO"
+   ],
+   "centres": {
+    "APPLSUPFPO": 4446.76
+   }
+  },
+  {
+   "item": "Falk IT",
+   "lines": 1,
+   "total": 4000.0,
+   "variants": [
+    "vendor: FALK IT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 4000.0
+   }
+  },
+  {
+   "item": "Windows 365",
+   "lines": 2,
+   "total": 3967.74,
+   "variants": [
+    "W365"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 3967.74
+   }
+  },
+  {
+   "item": "Fast Track Communications",
+   "lines": 6,
+   "total": 3397.18,
+   "variants": [
+    "FASTTRACK"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 3397.18
+   }
+  },
+  {
+   "item": "Modus Projects",
+   "lines": 1,
+   "total": 3125.0,
+   "variants": [
+    "MODUS"
+   ],
+   "centres": {
+    "APPLAETOTAL": 3125.0
+   }
+  },
+  {
+   "item": "Azure Marketplace",
+   "lines": 3,
+   "total": 2908.15,
+   "variants": [
+    "AZURE MARKETPLACE",
+    "MICROSOFT MARKETPLACE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 2908.15
+   }
+  },
+  {
+   "item": "EVSE Australia",
+   "lines": 5,
+   "total": 2800.0,
+   "variants": [
+    "ASICS EXPLOREN",
+    "EVSE",
+    "LEPPINGTON PLATFORM"
+   ],
+   "centres": {
+    "APPLAETOTAL": 2800.0
+   }
+  },
+  {
+   "item": "JFrog",
+   "lines": 11,
+   "total": 2537.14,
+   "variants": [
+    "JFROG"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 2537.14
+   }
+  },
+  {
+   "item": "Arctera",
+   "lines": 1,
+   "total": 2518.08,
+   "variants": [
+    "ARCTERA"
+   ],
+   "centres": {
+    "APPLFIREFINING": 2518.08
+   }
+  },
+  {
+   "item": "Moz",
+   "lines": 1,
+   "total": 2513.93,
+   "variants": [
+    "MOZSEO"
+   ],
+   "centres": {
+    "APPLBRNDCOMS": 2513.93
+   }
+  },
+  {
+   "item": "TeamViewer",
+   "lines": 1,
+   "total": 2268.0,
+   "variants": [
+    "TEAMVIEWER"
+   ],
+   "centres": {
+    "APPLTDDIST": 2268.0
+   }
+  },
+  {
+   "item": "Ampol Management Services",
+   "lines": 30,
+   "total": 2169.94,
+   "variants": [
+    "vendor: AMPOL MANAGEMENT (USD) SERVICES PTE"
+   ],
+   "centres": {
+    "INTEGM": 1166.2,
+    "APPLB2B": 538.39,
+    "APPLH_INFOTECH": 272.22,
+    "APPLFIFINANCE": 162.51,
+    "TDDEINTSIG": 30.62
+   }
+  },
+  {
+   "item": "Smoodi Boost",
+   "lines": 7,
+   "total": 2043.32,
+   "variants": [
+    "SMOODI"
+   ],
+   "centres": {
+    "APPLRCALSTORES": 2043.32
+   }
+  },
+  {
+   "item": "ClickUp",
+   "lines": 13,
+   "total": 1911.13,
+   "variants": [
+    "CLICKUP"
+   ],
+   "centres": {
+    "APPLMTOTAL": 1911.13
+   }
+  },
+  {
+   "item": "Process Consultants",
+   "lines": 1,
+   "total": 1694.0,
+   "variants": [
+    "PROCESS CONSULTANTS"
+   ],
+   "centres": {
+    "APPLTDDIST": 1694.0
+   }
+  },
+  {
+   "item": "Amazon Web Services",
+   "lines": 38,
+   "total": 1471.52,
+   "variants": [
+    "AMAZON WEB SERVICES",
+    "AWS"
+   ],
+   "centres": {
+    "APPLAETOTAL": 1471.52,
+    "APPLCCO": 0.0,
+    "APOLLO": 0.0
+   }
+  },
+  {
+   "item": "Dell",
+   "lines": 1,
+   "total": 1440.0,
+   "variants": [
+    "DELL PRO"
+   ],
+   "centres": {
+    "APPLTDDIST": 1440.0
+   }
+  },
+  {
+   "item": "AiVOOV",
+   "lines": 1,
+   "total": 1412.15,
+   "variants": [
+    "AIVOOV"
+   ],
+   "centres": {
+    "APPLMTOTAL": 1412.15
+   }
+  },
+  {
+   "item": "GM Vending",
+   "lines": 10,
+   "total": 1086.15,
+   "variants": [
+    "GM POG",
+    "vendor: GM VENDING, S.A."
+   ],
+   "centres": {
+    "APPLMTOTAL": 1086.15
+   }
+  },
+  {
+   "item": "Time and People kiosk licence",
+   "lines": 1,
+   "total": 899.0,
+   "variants": [
+    "LYT KIOSK"
+   ],
+   "centres": {
+    "APPLTDDIST": 899.0
+   }
+  },
+  {
+   "item": "Winnovative",
+   "lines": 1,
+   "total": 893.27,
+   "variants": [
+    "WINNOVATIVE"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 893.27
+   }
+  },
+  {
+   "item": "Red Hat",
+   "lines": 5,
+   "total": 863.78,
+   "variants": [
+    "RED HAT",
+    "REDHAT"
+   ],
+   "centres": {
+    "APPLTDDIST": 863.78
+   }
+  },
+  {
+   "item": "Adobe Creative Cloud",
+   "lines": 1,
+   "total": 862.18,
+   "variants": [
+    "CREATIVE CLOUD"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 862.18
+   }
+  },
+  {
+   "item": "Campaign Monitor",
+   "lines": 14,
+   "total": 832.0,
+   "variants": [
+    "CAMPAIGNMONITOR"
+   ],
+   "centres": {
+    "APPLMTOTAL": 832.0
+   }
+  },
+  {
+   "item": "Rebrandly",
+   "lines": 13,
+   "total": 815.25,
+   "variants": [
+    "REBRANDLY"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 815.25
+   }
+  },
+  {
+   "item": "JB Hi-Fi",
+   "lines": 2,
+   "total": 740.0,
+   "variants": [
+    "JB HI FI"
+   ],
+   "centres": {
+    "APPLMTOTAL": 740.0
+   }
+  },
+  {
+   "item": "Sketch",
+   "lines": 2,
+   "total": 735.41,
+   "variants": [
+    "SKETCH DESIGN"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 735.41
+   }
+  },
+  {
+   "item": "Appfigures",
+   "lines": 13,
+   "total": 592.62,
+   "variants": [
+    "APPFIGURES"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 592.62
+   }
+  },
+  {
+   "item": "Teamstudio",
+   "lines": 1,
+   "total": 578.93,
+   "variants": [
+    "TEAMSTUDIO"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 578.93
+   }
+  },
+  {
+   "item": "Google Cloud",
+   "lines": 14,
+   "total": 563.88,
+   "variants": [
+    "GOOGLE CLOUD"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 563.88
+   }
+  },
+  {
+   "item": "Slido",
+   "lines": 2,
+   "total": 482.04,
+   "variants": [
+    "SLI DO"
+   ],
+   "centres": {
+    "APPLAETOTAL": 241.02,
+    "APPLFIREFINING": 241.02
+   }
+  },
+  {
+   "item": "Scribe",
+   "lines": 1,
+   "total": 435.32,
+   "variants": [
+    "SCRIBE"
+   ],
+   "centres": {
+    "APPLMTOTAL": 435.32
+   }
+  },
+  {
+   "item": "Operis Analysis Kit",
+   "lines": 1,
+   "total": 426.45,
+   "variants": [
+    "OPERISANALYSIS"
+   ],
+   "centres": {
+    "APPLHFIN": 426.45
+   }
+  },
+  {
+   "item": "Apple",
+   "lines": 2,
+   "total": 389.09,
+   "variants": [
+    "APPLE.COM"
+   ],
+   "centres": {
+    "APPLCCO": 253.64,
+    "APPLH_INFOTECH": 135.45
+   }
+  },
+  {
+   "item": "Codecov",
+   "lines": 10,
+   "total": 368.58,
+   "variants": [
+    "CODECOV"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 368.58
+   }
+  },
+  {
+   "item": "Sectigo",
+   "lines": 1,
+   "total": 352.26,
+   "variants": [
+    "SECTIGO"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 352.26
+   }
+  },
+  {
+   "item": "TechSmith Snagit",
+   "lines": 9,
+   "total": 350.72,
+   "variants": [
+    "CAMTASIA",
+    "SNAGIT",
+    "TECHSMITH"
+   ],
+   "centres": {
+    "APPLMTOTAL": 309.78,
+    "APPLTDDIST": 20.47,
+    "APPLB2B": 20.47,
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "Pluralsight",
+   "lines": 1,
+   "total": 325.85,
+   "variants": [
+    "PLURALSIGHT"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 325.85
+   }
+  },
+  {
+   "item": "Arixcel",
+   "lines": 4,
+   "total": 301.61,
+   "variants": [
+    "ARIXCEL"
+   ],
+   "centres": {
+    "APPLHFIN": 301.61
+   }
+  },
+  {
+   "item": "LuckyPenny",
+   "lines": 1,
+   "total": 254.92,
+   "variants": [
+    "LUCKYPENNY"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 254.92
+   }
+  },
+  {
+   "item": "Microsoft Excel LTSC",
+   "lines": 1,
+   "total": 253.87,
+   "variants": [
+    "EXCEL LTSC"
+   ],
+   "centres": {
+    "APPLFIREFINING": 253.87
+   }
+  },
+  {
+   "item": "Canva",
+   "lines": 1,
+   "total": 245.45,
+   "variants": [
+    "CANVA"
+   ],
+   "centres": {
+    "APPLMTOTAL": 245.45
+   }
+  },
+  {
+   "item": "OpenPGP library for .NET",
+   "lines": 1,
+   "total": 215.7,
+   "variants": [
+    "OPENPGP"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 215.7
+   }
+  },
+  {
+   "item": "Vimeo",
+   "lines": 1,
+   "total": 203.94,
+   "variants": [
+    "VIMEO"
+   ],
+   "centres": {
+    "APPLMTOTAL": 203.94
+   }
+  },
+  {
+   "item": "MindManager",
+   "lines": 1,
+   "total": 175.12,
+   "variants": [
+    "MINDMANAGER"
+   ],
+   "centres": {
+    "APPLCCO": 175.12
+   }
+  },
+  {
+   "item": "Microsoft Entra ID",
+   "lines": 1,
+   "total": 80.82,
+   "variants": [
+    "ENTRA ID"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 80.82
+   }
+  },
+  {
+   "item": "Microsoft Teams Phone",
+   "lines": 1,
+   "total": 74.85,
+   "variants": [
+    "TEAMS PHONE STANDARD SUB"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 74.85
+   }
+  },
+  {
+   "item": "Microsoft Power Automate",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "POWER AUTOMATE"
+   ],
+   "centres": {
+    "APPLCCO": 126.6,
+    "APPLH_INFOTECH": -126.6
+   }
+  },
+  {
+   "item": "Veson Nautical IMOS",
+   "lines": 5,
+   "total": 0.0,
+   "variants": [
+    "IMOS",
+    "vendor: VESON NAUTICAL CORPORATION"
+   ],
+   "centres": {
+    "APPLCCO": 0.0,
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "Office Timeline",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "OFFICE TIMELINE"
+   ],
+   "centres": {
+    "APPLCCO": 0.0
+   }
+  },
+  {
+   "item": "Capstone",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "CAPSTONE"
+   ],
+   "centres": {
+    "APPLTDDIST": 0.0
+   }
+  },
+  {
+   "item": "pdfFiller",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "PDFFILLER"
+   ],
+   "centres": {
+    "APPLTDDIST": 0.0
+   }
+  },
+  {
+   "item": "Microsoft Dynamics 365 Customer Service",
+   "lines": 4,
+   "total": 0.0,
+   "variants": [
+    "D365 CUST SVC"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": -99261.12,
+    "APPLAETOTAL": 93943.56,
+    "APPLBRNDCOMS": 5317.56
+   }
+  },
+  {
+   "item": "Microsoft Dynamics 365 Customer Insights",
+   "lines": 25,
+   "total": 0.0,
+   "variants": [
+    "D365 CUST"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": -212637.76,
+    "APPLBRNDCOMS": 181472.76,
+    "APPLAETOTAL": 31165.0
+   }
+  },
+  {
+   "item": "GS1",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "GS1"
+   ],
+   "centres": {
+    "APPLMTOTAL": 0.0
+   }
+  },
+  {
+   "item": "POS programme sweep journal",
+   "lines": 4,
+   "total": 0.0,
+   "variants": [
+    "TRF TO CRPOSSIG"
+   ],
+   "centres": {
+    "APPLMTOTAL": -60476.43,
+    "CRPOSSIG": 60476.43
+   }
+  },
+  {
+   "item": "PowerPro BI",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "POWERPRO BI"
+   ],
+   "centres": {
+    "APPLRCALSTORES": 143.4,
+    "APPLH_INFOTECH": -143.4
+   }
+  },
+  {
+   "item": "Citadel Edge phone handsets",
+   "lines": 4,
+   "total": 0.0,
+   "variants": [
+    "CITADEL"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "SmartBear ReadyAPI",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "READYAPI",
+    "SMARTBEAR"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "GitHub Enterprise",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "GITHUB"
+   ],
+   "centres": {
+    "APPLH_INFOTECH": 0.0
+   }
+  },
+  {
+   "item": "Reward Gateway",
+   "lines": 5,
+   "total": 0.0,
+   "variants": [
+    "REWARD GATEWAY",
+    "RG EMPLOYEE BENEFIT",
+    "RG SERVICE & DISCOUNT"
+   ],
+   "centres": {
+    "APPLHHR": 0.0
+   }
+  },
+  {
+   "item": "SAP SuccessFactors",
+   "lines": 13,
+   "total": 0.0,
+   "variants": [
+    "SUCCESS FACTOR"
+   ],
+   "centres": {
+    "APPLHHR": 0.0
+   }
+  },
+  {
+   "item": "Workplace Express",
+   "lines": 2,
+   "total": 0.0,
+   "variants": [
+    "SPECIALIST NEWS",
+    "WORKPLACE EXPRESS"
+   ],
+   "centres": {
+    "APPLHHR": 0.0
+   }
+  },
+  {
+   "item": "Korn Ferry",
+   "lines": 4,
+   "total": 0.0,
+   "variants": [
+    "KORN FERRY"
+   ],
+   "centres": {
+    "APPLHHR": 0.0
+   }
+  },
+  {
+   "item": "Sapio",
+   "lines": 4,
+   "total": 0.0,
+   "variants": [
+    "CO document",
+    "SAPIO"
+   ],
+   "centres": {
+    "APPLGENERAL": 0.0
+   }
+  }
+ ],
+ "unclear_total": -386143.69
+}

@@ -1,0 +1,785 @@
+{
+ "block": "SW Line Items, leaf rows in cost centres APPLHFIN, APPLHHR, APPLHLSA, APPLHALT, APPLGENERAL, APPLBRNDCOMS, APPLMTOTAL, APPLRCALSTORES, APPLFIREFINING, CTRMSIG, INTEMERSIG, CRPOSSIG, TDDEINTSIG, CUSTLOYSIG, HEMERALD, PCTECHKCM, PCTECHMYHR",
+ "builder": "B3",
+ "basis_scope": "The 2026 Budget tab of the same file covers 35 technology cost centres and its scope on the line item tabs is cost centre APPLH_INFOTECH. Every one of the seventeen cost centres in this block sits outside that scope, so this block cites the tab nowhere. Every destination here rests on column facts in the line item tabs, on the portfolio and platform table in the structure document, and on rule citations into the other three block files.",
+ "block_total": 15241495.76,
+ "block_lines": 3551,
+ "rules": [
+  {
+   "rule": 1,
+   "match": "Column C equals CTRMSIG.",
+   "portfolio": "Commercial Fuels",
+   "platform": "CTRM",
+   "lines": 8,
+   "amount": 1357938.13,
+   "centres": [
+    "CTRMSIG"
+   ],
+   "evidence": "Cost centre CTRMSIG carries column D value 'CTRM SIG ITEM'. The structure places the CTRM project platform under Commercial Fuels and states that sig item programs land on real project platforms. Every line in the centre carries the program in column N, including the monthly 'CTRM SIG ITEM' journals, the recharged thinkcell licence lines and the transfers of CTRM cost to the Singapore and United States entities.",
+   "sig_funded": true
+  },
+  {
+   "rule": 2,
+   "match": "Column C equals CRPOSSIG, or column C equals APPLMTOTAL and column N reads 'RECLASS MAY TRF TO CRPOSSIG' or 'RECLASS JUNE TRF TO CRPOSSIG'.",
+   "portfolio": "Ampol Retail",
+   "platform": "AmPOS",
+   "lines": 4,
+   "amount": 0.0,
+   "centres": [
+    "APPLMTOTAL",
+    "CRPOSSIG"
+   ],
+   "evidence": "Cost centre CRPOSSIG carries column D value 'CONV RETAIL POS SIG ITEM'. The structure places the AmPOS project platform under Ampol Retail and names AmPOS as the point of sale program. The marketing operating centre routes on column N text, and column N naming the point of sale programme routes to AmPOS, which is the same route the sig centre takes. Documents 5119976154 and 5120459154 each carry both legs: the positive in CRPOSSIG, sheet rows 18712 at 46,078.47 and 18713 at 14,397.96, and the negative in APPLMTOTAL, sheet rows 12992 at minus 46,078.47 and 13105 at minus 14,397.96. The four lines net to zero inside the rule and both sides of each transfer stay visible. The Snowflake reclassification on document 5118145663 names its product in column N and stays on rule 16.",
+   "sig_funded": true
+  },
+  {
+   "rule": 3,
+   "match": "Column C equals INTEMERSIG, TDDEINTSIG or HEMERALD.",
+   "portfolio": "EG Integration",
+   "platform": "EGI",
+   "lines": 17,
+   "amount": 88684.22,
+   "centres": [
+    "HEMERALD",
+    "INTEMERSIG",
+    "TDDEINTSIG"
+   ],
+   "evidence": "The three centres carry column D values 'EMERALD INTEGRATION', 'TDD EMERALD INTEGRATION' and 'PROJECT EMERALD'. The old model dashboard names the program 'Emerald-EGI' in its recharge by initiative table, and the structure places the EGI project platform under EG Integration and states that sig item programs land on real project platforms.",
+   "sig_funded": true
+  },
+  {
+   "rule": 4,
+   "match": "Column C equals CUSTLOYSIG.",
+   "portfolio": "Ampol Customer",
+   "platform": "Ampol Loyalty & Martech",
+   "lines": 7,
+   "amount": 0.0,
+   "centres": [
+    "CUSTLOYSIG"
+   ],
+   "evidence": "Cost centre CUSTLOYSIG carries column D value 'CUST STRAT & LOYALTY SIG'. The structure places Ampol Loyalty & Martech under Ampol Customer. The centre nets to zero: the subscription and onboarding lines are offset by the half year reporting sig transfer, whose opposite leg sits in the brand centre and is held open at open item O21.",
+   "sig_funded": true
+  },
+  {
+   "rule": 5,
+   "match": "Column C equals PCTECHKCM or PCTECHMYHR.",
+   "portfolio": "P&C",
+   "platform": "P&C",
+   "lines": 17,
+   "amount": 199977.5,
+   "centres": [
+    "PCTECHKCM",
+    "PCTECHMYHR"
+   ],
+   "evidence": "The two centres carry column D values 'P&C TECH - KNOWLEDGE & CASE MANAGEMENT' and 'P&C TECH - MYHR'. The structure carries P&C as both portfolio and platform. Two documents corroborate from inside the line item tabs: document 5118043472 charges the ServiceNow HR Service Delivery professional fees of 368,328.00 out of the pooled centre APPLH_INFOTECH into PCTECHKCM, and document 5120146901 charges the Saviynt MyHR configuration of 15,813.50 out of the people and culture centre APPLHHR into PCTECHMYHR. Both sig centres are fed from people systems, and rule 7 places the feeding centre on the same destination.",
+   "sig_funded": true
+  },
+  {
+   "rule": 6,
+   "match": "Column C equals APPLHFIN.",
+   "portfolio": "Finance",
+   "platform": "Finance",
+   "lines": 690,
+   "amount": 2683659.2,
+   "centres": [
+    "APPLHFIN"
+   ],
+   "evidence": "Cost centre APPLHFIN carries column D value 'FIN,STRAT,AUDIT,TREAS,GOV AFFAIRS & PROC'. The structure carries Finance as both portfolio and platform. Column N and column K across the centre name the corporate finance product estate and no other: planning and consolidation on ONESTREAM, procurement on JAGGAER, accounts payable automation on TUNGSTEN AUTOMATION, treasury market data on BLOOMBERG, REFINITIV, MOODY'S ANALYTICS, LACIMA and FIS INTEGRITY, expense management on SAP CONCUR, tax on CUMULUS TAX SYSTEMS, and the finance system service requests on FENWICK SOFTWARE. Documents 5120273866, 5120273867 and 5120273872 charge finance service requests between this centre and APPLGENERAL, and rule 19 places the receiving legs on the same destination."
+  },
+  {
+   "rule": 7,
+   "match": "Column C equals APPLHHR.",
+   "portfolio": "P&C",
+   "platform": "P&C",
+   "lines": 311,
+   "amount": 1827150.24,
+   "centres": [
+    "APPLHHR"
+   ],
+   "evidence": "Cost centre APPLHHR carries column D value 'PEOPLE & CULTURE'. The structure carries P&C as both portfolio and platform. Column N and column K across the centre name the people product estate: SAP SUCCESS FACTOR, WORKDAY PEAKON, CORNERSTONE with LINKEDIN LEARNING, SMARTRECRUITERS, KORN FERRY, REWARD GATEWAY, ELMO and SPINIFEX, together with the quarterly HCALRECHG lines. Document 5120146901 charges the Saviynt MyHR configuration of 15,813.50 out of this centre into PCTECHMYHR, which rule 5 places on the same destination."
+  },
+  {
+   "rule": 8,
+   "match": "Column C equals APPLFIREFINING.",
+   "portfolio": "Fuel Infrastructure",
+   "platform": "Manufacturing",
+   "lines": 668,
+   "amount": 2394944.03,
+   "centres": [
+    "APPLFIREFINING"
+   ],
+   "evidence": "Cost centre APPLFIREFINING carries column D value 'F&I REFINING'. The structure states that Fuel Infrastructure is the refinery and manufacturing business portfolio and carries Manufacturing as a platform. Column N and column K across the centre name refinery process products and no other: ASPEN DMC3 and ASPEN ONE ENGINEERING, AVEVA PI, YOKOGAWA, XHQ, THERMO LIMS and SAMPLEMANAGER, PIPENET, STARTPROF, ANSYS and PAS AUTOMATION INTEGRITY. Document 5116578211 charges the Dragos operational technology monitoring of 44,868.29 into this centre out of the pooled centre APPLH_INFOTECH."
+  },
+  {
+   "rule": 9,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N or column K names the point of sale and back office estate: Vynamic, NAMOS, DOMS, FuelPay or Fuel Pay, BO PC, GVR, ICR or Gilbarco.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "lines": 86,
+   "amount": 1372522.27,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "evidence": "These are the products that run the till, the back office and the forecourt controller at a service station site. Document 5118140897 and the reversal 5118530892 apportion one bundle across two cost centres, and in APPLMTOTAL the bundle reads BO PC, DOMS, FUELPAY, NAMOS SUPPORT and VYNAMICS beside OPT (TT) and COMPAC ONLINE FEE on rule 10, KRONOS on rule 13 and DRIVE OFF on rule 15, while the hardware legs of the one document read ACCENTURE RETAIL SUPPORT, STORE FIELD SUPPORT (FUJITSU), OPT (UGO), SCO, WINDCAVE EFT and UNMANNED OVERNIGHT LICENSE FEE. One document is one accounting event, and the event is the service station estate."
+  },
+  {
+   "rule": 10,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N or column K names an outdoor payment terminal supplier or service: COMPAC, TRANSPONDER, TT FUEL, MECKERING, or OPT read as a whole word.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "lines": 63,
+   "amount": 104609.29,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "evidence": "OPT must be read as a whole word. Read as a substring it also takes lines carrying OPTIMISER and OPTIMISED, which belong to rules 14 and 16, and the capture becomes 73 lines and minus 76,484.59, a swing of 181,093.88. Outdoor payment terminals sit on the forecourt of a retail site. Document 5118140897 carries OPT (TT) and COMPAC ONLINE FEE inside the store estate bundle that rule 9 rests on. Eleven further documents pair the COMPAC ONLINE FEE, COMPACT OPT and FUEL SUPPLY EMT TT OPT LEGACY legs of this centre against hardware legs of the same cost centre and the same text, and both sides of every one of those pairs carry the one destination."
+  },
+  {
+   "rule": 11,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N or column K names an in store device or in store equipment licence: Squizify, KwickSwitch, Cooper Atkins, Smoodi or GM Vending.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "lines": 54,
+   "amount": 8060.47,
+   "centres": [
+    "APPLMTOTAL",
+    "APPLRCALSTORES"
+   ],
+   "evidence": "Each line names a site device, a temperature probe, a tablet pack, a beverage machine licence or a planogram update, and several name the individual retail site the device sits at. The charge is verifiable from the site named in column N."
+  },
+  {
+   "rule": 12,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N or column K names a retail endpoint, site network or application control licence: MERAKI, ITCM, WIN10 or AIRLOCK. The ZEPHYR LICENSE 11X line on sheet row 11883 is excluded and held open at O24.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "lines": 82,
+   "amount": 171496.78,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "evidence": "Derived from three facts inside the line item tabs, each decisive with zero exceptions for the lines reached. First, document 5118140897 and the reversal 5118530892 carry AIRLOCK, ITCM and MERAKI VPN in the one apportioned bundle as BO PC, DOMS, FUELPAY, NAMOS SUPPORT and VYNAMICS, which rule 9 places on Ampol Retail and Store Operations, and the hardware legs of the one document read ACCENTURE RETAIL SUPPORT, STORE FIELD SUPPORT (FUJITSU) and OPT (UGO). Second, column N names retail outright on the two anchors, 'FUJ- CISCO RENEWAL FOR RETAIL MERAKI VPN' at 20,801.43 and 'IT RETAIL WIN10 ESU 25/26' at 106,024.20 with the matching prepaid transfer. Third, 38 of the 82 lines pair against legs of identical column N text in cost centre APPLB2B in the one document, which is the centre apportionment and not a product split. The remaining lines are accruals and prepaid transfers carrying the same four product texts in column N. The ZEPHYR LICENSE 11X line that an earlier draft carried here rested on a counterpart leg alone and is held open at O24."
+  },
+  {
+   "rule": 13,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N or column K names a retail workforce or facilities platform: Kronos, UKG, LaborPro, Techniche, Ampol FM or AmpolFM.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "lines": 765,
+   "amount": 1449001.52,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "evidence": "These platforms run site labour scheduling and site facilities maintenance for the retail network. The LaborPro lines are 695 near identical per site subscription amounts on one purchase order, 7000251407, from vendor CONNORS AND ASSOCIATES LLC. The twelve monthly AmpolFM allocation lines are negative because the licence is allocated out to another centre in the same document; the opposite legs sit outside this block and stay visible there."
+  },
+  {
+   "rule": 14,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N or column K names the retail fuel pricing platform: PDI, TouchStar or the phase 2 go live of that implementation.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "lines": 8,
+   "amount": 274847.37,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "evidence": "PDI, supplied by TOUCHSTAR APAC PTY LTD, is the platform that applies fuel prices at the site. The lines are the licence, the phase 2 implementation stages and the externally optimised price module. This is the execution system at the site, distinct from the pricing analytics captured by rule 16."
+  },
+  {
+   "rule": 15,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N or column K names retail loss prevention or in store safety: Scancam, drive off, CCTV, loss prevention or food safety.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "lines": 31,
+   "amount": 549089.05,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "evidence": "Drive off detection, site closed circuit television, loss prevention upgrades and the food safety program all run inside the retail sites. Scancam Operations is the drive off detection supplier named in column K."
+  },
+  {
+   "rule": 16,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N or column K names a retail data or analytics platform: SNOWFLAKE, SNOWMKT, POWERBI, POWER BI, FABRIC, PRICING OPTIMISER, AZURE CONSUMPTION PRICING, vendor INSURGE PARTNERS, or the SAS licence in either spelling the export carries, 'SAS LICENSING' (9 lines, 498,750.03) and 'SAS LICENCING' (7 lines, minus 0.02).",
+   "portfolio": "Ampol Retail",
+   "platform": "Retail Data AU",
+   "lines": 69,
+   "amount": 522238.53,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "evidence": "The centre match is the first condition and every one of the 69 lines sits in APPLMTOTAL. These lines are the retail share of the data estate: the monthly Snowflake recharges for point of sale and pricing data, the Power BI Fabric retail capacity, the SAS licensing amortisation and the pricing optimiser build and its cloud consumption. The structure carries Retail Data AU as a platform under Ampol Retail. This follows the adjudicated convention that the cost centre in column C decides the destination everywhere except the pooled corporate centre APPLH_INFOTECH, and it follows the mapping values present in the source file, where all 14 Snowflake lines in cost centre APPLCCO read Commercial Fuels and Supply rather than the data portfolio. One line, S12177 on document 5118145663, is the negative leg of a Snowflake reclassification whose positive leg sits on the hardware tab; each leg follows the centre that holds it and the pair is listed in the contra documents."
+  },
+  {
+   "rule": 17,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N contains one of the four source spellings exactly as the export carries the spellings: 'ADOBE CAMPAIGN' (6 lines, 191,392.02), 'D365 CUST' (13 lines, 186,790.32, covering D365 CUST INSIGHTS, D365 CUSTOMER INSIGHTS and D365 CUST SVC), 'CAMPAIGNMONITOR' as one word with no space (14 lines, 832.00) and 'PAGEPROOF' (1 line, 16,480.69).",
+   "portfolio": "Ampol Customer",
+   "platform": "Ampol Loyalty & Martech",
+   "lines": 34,
+   "amount": 395495.03,
+   "centres": [
+    "APPLBRNDCOMS",
+    "APPLMTOTAL"
+   ],
+   "evidence": "The four spellings are quoted from column N, not from the product names, so a reviewer searching the stated text finds the lines: 'CAMPAIGN MONITOR' as two words returns nothing in either tab, and the customer data lines split between D365 CUST INSIGHTS and D365 CUSTOMER INSIGHTS, which the stem 'D365 CUST' covers. Adobe Campaign and Dynamics 365 Customer Insights are the campaign execution and customer data products, CampaignMonitor is the campaign email product and PageProof is the campaign artwork approval product. The structure carries Ampol Loyalty & Martech as a platform under Ampol Customer."
+  },
+  {
+   "rule": 18,
+   "match": "Column C equals APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, and column N or column K names a digital channel content or hosting product: Contentstack, Sitecore, web hosting, CSC Corporate Domains, domain management, MozSEO, Google Map or vendor LIVELI PTY LTD.",
+   "portfolio": "Ampol Customer",
+   "platform": "Ampol Digital",
+   "lines": 43,
+   "amount": 308027.87,
+   "centres": [
+    "APPLBRNDCOMS"
+   ],
+   "evidence": "These are the content management, web hosting, domain and site search products behind the public digital channel, all in cost centre APPLBRNDCOMS. Six documents pair the WEB HOSTING AZURE CONSUMPTION legs of this centre, 59,157.25, against equal and opposite legs in the pooled centre APPLH_INFOTECH, so the hosting of the public channel is charged out of the pool and lands on the centre that carries the channel."
+  },
+  {
+   "rule": 19,
+   "match": "Column C equals APPLGENERAL, and column K equals HIGHRADIUS CORPORATION or column N names HIGHRADIUS, HIGH RADIUS or the I2C project.",
+   "portfolio": "Finance",
+   "platform": "Finance",
+   "lines": 18,
+   "amount": 635436.0,
+   "centres": [
+    "APPLGENERAL"
+   ],
+   "evidence": "HighRadius is the receivables product behind the invoice to cash project, on purchase orders 7000248759, 7000248770 and 7000248998. The same project appears on the finance centre lines 'FENWICK SR I2C PROJECT' in cost centre APPLHFIN. Three of these lines are the positive legs of documents 5120273866, 5120273867 and 5120273872, whose negative legs sit in APPLHFIN and map through rule 6, so both legs land on Finance and the transfer stays visible."
+  },
+  {
+   "rule": 20,
+   "match": "Column C equals APPLGENERAL, and column N names ONESTREAM.",
+   "portfolio": "Finance",
+   "platform": "Finance",
+   "lines": 5,
+   "amount": 182750.0,
+   "centres": [
+    "APPLGENERAL"
+   ],
+   "evidence": "OneStream is the financial planning and consolidation product. The implementation and planning lines here carry purchase order 7000242626 and vendor BLACK DIAMOND ADVISORY AU PTY LTD, and the OneStream licence fee itself sits in the finance centre APPLHFIN, which maps through rule 6."
+  }
+ ],
+ "open": [
+  {
+   "open": "O1",
+   "match": "Cost centre APPLHLSA, column D value 'LEGAL & SECRETARIAT'.",
+   "lines": 32,
+   "amount": 38123.48,
+   "centres": [
+    "APPLHLSA"
+   ],
+   "missing_fact": "The structure carries no legal portfolio and no legal platform. Missing fact: the destination for legal and company secretariat software, which the structure does not name."
+  },
+  {
+   "open": "O2",
+   "match": "Cost centre APPLHALT, column D value 'ALT & CEO'.",
+   "lines": 24,
+   "amount": 5881.0,
+   "centres": [
+    "APPLHALT"
+   ],
+   "missing_fact": "The structure carries no executive portfolio and no executive platform. Missing fact: the destination for executive leadership software, which the structure does not name."
+  },
+  {
+   "open": "O3",
+   "match": "Cost centre APPLMTOTAL, APPLBRNDCOMS or APPLRCALSTORES, where column N names a single user desktop licence: Acrobat, Copilot, Adobe other than Adobe Campaign, thinkcell, Articulate, ClickUp, Camtasia, Canva, Vimeo, AutoCAD, AiVOOV, Scribe, Salesforce or PowerPro. Adobe other than Adobe Campaign returns 465 lines and 131,085.98 and ends the overlap with the six ADOBE CAMPAIGN LICENSE lines of 191,392.02 that rule 17 captures.",
+   "lines": 465,
+   "amount": 131085.98,
+   "centres": [
+    "APPLBRNDCOMS",
+    "APPLMTOTAL",
+    "APPLRCALSTORES"
+   ],
+   "missing_fact": "The marketing centres split on the row rather than on a single centre destination, so a single user licence cannot be placed without knowing which team inside the centre it belongs to. Missing fact: whether the licence named in column N belongs to store systems, to retail data, or to loyalty and campaign."
+  },
+  {
+   "open": "O4",
+   "match": "Cost centre APPLMTOTAL, column N 'STORIQ PLATFORM', column K COWCROSS LIMITED, purchase order 7000240879.",
+   "lines": 12,
+   "amount": 286826.4,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "Missing fact: what the Storiq platform does. Twelve monthly lines at a steady amount, no other line in either tab names the product."
+  },
+  {
+   "open": "O5",
+   "match": "Cost centre APPLRCALSTORES, column N 'VDMS AMTSN 6M ... CATCH UP'.",
+   "lines": 3,
+   "amount": 164237.02,
+   "centres": [
+    "APPLRCALSTORES"
+   ],
+   "missing_fact": "Missing fact: what VDMS AMTSN denotes. No vendor, no purchase order, and the term appears nowhere else in either tab."
+  },
+  {
+   "open": "O6",
+   "match": "Cost centre APPLMTOTAL, column N 'FLOOR PLANNING SUBSCPTN JAN26-JAN27 REALLOCATION'.",
+   "lines": 1,
+   "amount": 94720.0,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "Missing fact: the product and the owning team behind the reallocated subscription. No vendor and no purchase order are named."
+  },
+  {
+   "open": "O7",
+   "match": "Cost centre APPLMTOTAL, two lines. Sheet row 11673, column N 'HALEY GROUP ENGINE BUILD', 44,500.00, column K HALEY GROUP AUST on purchase order 7000248413. Sheet row 11693, column N 'HALEY GROUP CONSULTANCY COST TRANSFER', 40,000.00, column K Not assigned.",
+   "lines": 2,
+   "amount": 84500.0,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "Missing fact: what the engine build delivers and which platform it runs on."
+  },
+  {
+   "open": "O8",
+   "match": "Cost centre APPLMTOTAL, column N 'ZENITH TRAFFIC LICENSE', column K VEITCH LISTER CONSULTING PTY LTD, purchase order 7000217839.",
+   "lines": 1,
+   "amount": 32121.0,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "Traffic modelling for site selection has no platform in the structure. The line sits alone in its document, names no product beyond the modelling licence, and no other line in either tab names the vendor or the licence. Missing fact: the destination for site network planning tools."
+  },
+  {
+   "open": "O9",
+   "match": "Cost centre APPLMTOTAL, column N 'SECENG CLOUD LICENSE FEE FOR EGIS', column K SECENG, purchase order 7000248000.",
+   "lines": 1,
+   "amount": 8004.0,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "Missing fact: what EGIS is and whether it is a site system or a corporate security system."
+  },
+  {
+   "open": "O10",
+   "match": "Cost centre APPLMTOTAL, column N 'GS1 ANNUAL SUBSCRIPTION', column K GS1 AUSTRALIA LTD.",
+   "lines": 2,
+   "amount": 0.0,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "Barcode and product identification standards serve merchandising above the store as well as the store itself. Missing fact: whether this sits on Store Operations or Above Store. The charge and its reversal net to zero."
+  },
+  {
+   "open": "O11",
+   "match": "Cost centre APPLMTOTAL, column N 'MOVE TO PREPAID ACCOUNT. REF 5013498113' and 'REF 5013491723'.",
+   "lines": 2,
+   "amount": -454197.69,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "Missing fact: the product behind each prepayment reference. The document text names no product and no vendor, and the other lines of the same document carry the same wording."
+  },
+  {
+   "open": "O12",
+   "match": "Cost centre APPLMTOTAL, column N 'FAIR SUPPLY MODERN SLAVERY RECHG TO MERCH', document 5119871627.",
+   "lines": 1,
+   "amount": 10000.0,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "This is the positive leg of a charge and contra pair whose negative leg sits in APPLHFIN and maps through rule 6. Missing fact: which of the marketing centre's teams carries modern slavery supply chain screening, since it is neither a store system, retail data, nor a loyalty or campaign product."
+  },
+  {
+   "open": "O13",
+   "match": "Cost centre APPLMTOTAL, column N 'RECHG 50% OCR SETUP FEE AND OCR ANNUAL HOSTING FEE' and 'RECHG 50% GREEN ID AND DVS SET UP FEE'.",
+   "lines": 2,
+   "amount": 16750.0,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "Both are half shares of a set up and hosting fee, the other half sitting in the business to business centre. Missing fact: which process the document reading and identity verification services support."
+  },
+  {
+   "open": "O14",
+   "match": "Cost centre APPLMTOTAL, three lines. Sheet row 12072, column N 'INVOICE  38958', 1,595.00, column K ONE TIME VENDOR. Sheet row 12138, column N 'JB HI FI OSBORNE PAR - DOCK FOR TEMPORARY COMPUTER', 106.36. Sheet row 12139, column N 'JB HI FI OSBORNE PAR - COMPUTER PURCHASE FOR EXTRE', 633.64. The export spells JB HI FI without a hyphen.",
+   "lines": 3,
+   "amount": 2335.0,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "Missing fact: the product on the one time vendor invoice, and the platform the purchased computer serves."
+  },
+  {
+   "open": "O15",
+   "match": "Cost centre APPLBRNDCOMS, column N 'PO ACCERTIFY FRAUD DETECTION' and 'ACCERTIFY FRAUD MANAGEMENT'.",
+   "lines": 2,
+   "amount": 45757.98,
+   "centres": [
+    "APPLBRNDCOMS"
+   ],
+   "missing_fact": "Missing fact: which channel Accertify screens. Payment fraud detection could sit on Ampol Digital with the public channel or with the card platform, which the structure does not carry."
+  },
+  {
+   "open": "O16",
+   "match": "Cost centre APPLBRNDCOMS, column N 'TABLEAU LICENSES' and 'TABLEAU LICENCES', column K SFDC AUSTRALIA PTY LTD.",
+   "lines": 3,
+   "amount": 51588.11,
+   "centres": [
+    "APPLBRNDCOMS"
+   ],
+   "missing_fact": "Missing fact: which customer platform owns customer analytics tooling. The structure carries Ampol Digital and Ampol Loyalty & Martech under Ampol Customer, and neither is a data platform."
+  },
+  {
+   "open": "O17",
+   "match": "Cost centre APPLGENERAL, column K OPENWAY EUROPE SA (USD A/C), column N 'VO-033' instalments, purchase order 7000248326.",
+   "lines": 2,
+   "amount": 20712.44,
+   "centres": [
+    "APPLGENERAL"
+   ],
+   "missing_fact": "The structure states that no Way4 or cards platform exists and that this is an open question. Recorded here for ruling. The nearest evidence inside the line item tabs is concentration by centre: of the 1,389,698.75 of OpenWay Way4 spend across both tabs, 1,351,135.76 over 36 lines sits in cost centre APPLB2B, which phaseb_b1 rule 6 places on B2B & Energy Solutions and platform B2B, against the 20,712.44 over two lines held here."
+  },
+  {
+   "open": "O18",
+   "match": "Cost centre APPLGENERAL, column N '2026 GALLAGHER SMA AND SUPPORT' and 'BUILDING SECURITY (SAPIO)', column K SAPIO PTY LTD.",
+   "lines": 3,
+   "amount": 22570.46,
+   "centres": [
+    "APPLGENERAL"
+   ],
+   "missing_fact": "Physical building access control is not cyber security spend and has no platform in the structure. Missing fact: the destination for physical site and building security systems."
+  },
+  {
+   "open": "O19",
+   "match": "Cost centre APPLGENERAL, column K BEAKON PTY LTD and column N 'BEAKON', 'BEAKON - CMMS SETUP FEE' and the matching 'SAAS YE ACCRUAL' pair.",
+   "lines": 4,
+   "amount": 59950.0,
+   "centres": [
+    "APPLGENERAL"
+   ],
+   "missing_fact": "Missing fact: which function owns the maintenance management and contractor safety system. It is charged to the non functional areas centre, which carries no single destination."
+  },
+  {
+   "open": "O20",
+   "match": "Cost centre APPLGENERAL, document 5118859332, column N 'LICENCES YEAR 1 + 5 MTHS', internal order E.26.045 on the positive leg.",
+   "lines": 2,
+   "amount": 0.0,
+   "centres": [
+    "APPLGENERAL"
+   ],
+   "missing_fact": "The two lines of the one document pair as charge and contra and net to zero. Missing fact: the product behind internal order E.26.045, which appears on no other line in either tab."
+  },
+  {
+   "open": "O21",
+   "match": "Cost centre APPLBRNDCOMS, column N 'HY REPORTING SIG TFR', document 5120460000.",
+   "lines": 1,
+   "amount": 35392.5,
+   "centres": [
+    "APPLBRNDCOMS"
+   ],
+   "missing_fact": "This is the positive leg of a charge and contra pair whose negative leg sits in CUSTLOYSIG and maps through rule 4. Missing fact: which marketing product the half year reporting transfer carries."
+  },
+  {
+   "open": "O23",
+   "match": "Cost centre APPLBRNDCOMS, column N 'PREPAY REL OCT 25'.",
+   "lines": 2,
+   "amount": 0.0,
+   "centres": [
+    "APPLBRNDCOMS"
+   ],
+   "missing_fact": "A prepayment release and its reversal, netting to zero. Missing fact: the product behind the October prepayment release, which the document text does not name."
+  },
+  {
+   "open": "O24",
+   "match": "Cost centre APPLMTOTAL, sheet row 11883, column N 'ZEPHYR LICENSE 11X', 59,210.58, document 5114993612.",
+   "lines": 1,
+   "amount": 59210.58,
+   "centres": [
+    "APPLMTOTAL"
+   ],
+   "missing_fact": "The Zephyr licence is an apportionment in the AMSCAL shape: one pooled invoice in APPLH_INFOTECH, sheet row 16460, 'ZEPHYR STANDALONE SAAS SUBS YR1 31/08/25' at 96,890.04, split on separate documents to APPLAETOTAL at 10,765.56 on document 5114992112 and to APPLMTOTAL at 59,210.58 on document 5114993612, leaving a residual of 26,913.90 in the pooled centre; the three parts sum to 96,890.04 to the cent. A counterpart leg in an apportionment states another centre's share, not the platform of this centre's share, so the platform for the marketing operating centre's share is unwitnessed in the file. Missing fact: which platform inside Ampol Retail carries the marketing operating centre's share of the Zephyr licence. Candidate treatments already ruled elsewhere: the pooled residual sits ruled in phaseb_b2 rule 85, and the APPLAETOTAL share follows its centre through phaseb_b1 rule 7."
+  }
+ ],
+ "contra_documents": [
+  {
+   "document": "5120273866, 5120273867, 5120273872",
+   "legs": "APPLGENERAL positive through rule 19, APPLHFIN negative through rule 6",
+   "amount": 6468.0,
+   "note": "Finance system service requests for the receivables project, charged and contra charged between the two centres. Both legs land on Finance and stay visible."
+  },
+  {
+   "document": "5119871627",
+   "legs": "APPLMTOTAL positive held open at O12, APPLHFIN negative through rule 6",
+   "amount": 10000.0,
+   "note": "Modern slavery screening charged from the finance centre to merchandise."
+  },
+  {
+   "document": "5120146901",
+   "legs": "PCTECHMYHR positive through rule 5, APPLHHR negative through rule 7",
+   "amount": 15813.5,
+   "note": "Identity governance configuration for the MyHR program moved from the people centre to the MyHR sig centre. Both legs land on P&C and stay visible."
+  },
+  {
+   "document": "5120460000",
+   "legs": "APPLBRNDCOMS positive held open at O21, CUSTLOYSIG negative through rule 4",
+   "amount": 35392.5,
+   "note": "Half year reporting sig transfer out of the loyalty sig centre."
+  },
+  {
+   "document": "5119976154, 5120459154",
+   "legs": "CRPOSSIG positive through rule 2, APPLMTOTAL negative through rule 2",
+   "amount": 60476.43,
+   "note": "Point of sale sig item transfers out of the marketing operating centre. Both legs of each document are ruled, the positive on sheet rows 18712 and 18713 and the negative on sheet rows 12992 and 13105, and the four lines net to zero inside rule 2."
+  },
+  {
+   "document": "5115015697, 5115538238, 5116113033, 5116909641, 5117126553, 5117656915, 5118103333, 5118569168, 5119017716, 5119481392, 5119939032, 5120410017",
+   "legs": "APPLMTOTAL negative through rule 13, APPLB2B positive outside this block through phaseb_b1 rule 10",
+   "amount": -180000.0,
+   "note": "Twelve monthly allocations of the AmpolFM licence out of the marketing operating centre."
+  },
+  {
+   "document": "5118043472",
+   "legs": "PCTECHKCM positive through rule 5, APPLH_INFOTECH negative outside this block",
+   "amount": 368328.0,
+   "note": "ServiceNow HR Service Delivery professional fees moved to the P&C technology sig centre."
+  },
+  {
+   "document": "5117738696, 5119346017, 5119697837, 5120186566",
+   "legs": "TDDEINTSIG positive through rule 3, APPLH_INFOTECH negative outside this block held open at phaseb_b2 B2-O17 (the AMSCAL document) and through phaseb_b2 rule 4 (the three VM upscale and disk uplift documents)",
+   "amount": 6414.7,
+   "note": "Infrastructure uplift for the Emerald integration moved to the sig centre. Document 5117738696 also carries a hardware pair of minus 116.52 and 116.52, sheet rows 46590 and 52704, outside this block, the first held open at phaseb_b4 rule 51 under question Q7 and the second through phaseb_b4 rule 12, treated the same way."
+  },
+  {
+   "document": "5120370266",
+   "legs": "CUSTLOYSIG positive through rule 4, APPLH_INFOTECH negative outside this block",
+   "amount": 312.0,
+   "note": "Software expense recharge into the loyalty sig centre."
+  },
+  {
+   "document": "5118145663",
+   "legs": "APPLMTOTAL negative through rule 16, APPLSIG_ITEMS positive on the hardware tab through phaseb_b4 rule 8",
+   "amount": -27360.72,
+   "note": "Snowflake reclassification transferred to the point of sale sig item. The negative leg, sheet row 12177 in cost centre APPLMTOTAL, follows its own centre through rule 16 to Ampol Retail and Retail Data AU. The positive leg, sheet row 52575 in cost centre APPLSIG_ITEMS on the hardware tab, follows the program named in the row, CRPOSSIG, to Ampol Retail and AmPOS through phaseb_b4 rule 8. The document spans the two tabs and both legs stay visible."
+  },
+  {
+   "document": "5118859332",
+   "legs": "both legs APPLGENERAL, held open at O20",
+   "amount": 0.0,
+   "note": "Licence charge and its contra within one document, netting to zero, product not named."
+  },
+  {
+   "document": "5119680735",
+   "legs": "both legs PCTECHKCM through rule 5",
+   "amount": 0.0,
+   "note": "Fujitsu ServiceNow monthly charges and the matching contra entries inside the one centre. Four charges of 30,694.00 and four contra entries of the same amount, netting to zero."
+  },
+  {
+   "document": "5118100007",
+   "legs": "both legs PCTECHKCM through rule 5",
+   "amount": -337634.0,
+   "note": "Release of the twelve month accrual of 368,328.00 against the January monthly charge of 30,694.00, both legs in cost centre PCTECHKCM through rule 5. One centre and one destination, so no cost moves between destinations; the two legs are not equal and opposite and the document is listed as an accrual release, not a transfer."
+  },
+  {
+   "family": "D CUST INSIGHTS T",
+   "document": "5120293918",
+   "legs": "APPLBRNDCOMS through rule 17 to Ampol Customer / Ampol Loyalty & Martech, against APPLH_INFOTECH in phaseb_b2 held open at B2-O3",
+   "amount": 346064.28,
+   "note": "Cross block leg pair from the authoritative list, required open leg. 1 document, 2 lines in this block on sheet rows 16007, 16008, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "RECHG SNOWFLAKE POS",
+   "document": "5114992567, 5115541269, 5116100297, 5116651898, 5117178041, 5117802615, 5118136920, 5118541504, 5119055080, 5119527309, 5119953937, 5120423768",
+   "legs": "APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 rule 65 to Enterprise Data / Data",
+   "amount": 122800.79,
+   "note": "Cross block leg pair from the authoritative list, required split. 12 documents, 12 lines in this block on sheet rows 11881, 11920, 11939, 12050, 12111, 12150, 12174, 12207, 12934, 12962, 12990, 13103, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "POWERBI FABRIC RETAIL",
+   "document": "5114990648, 5115751865, 5116582178, 5116803218, 5117334887, 5118073745, 5118333888, 5118807713, 5119228582, 5119697836, 5120185944",
+   "legs": "APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 held open at B2-O18 with no destination",
+   "amount": 69300.0,
+   "note": "Cross block leg pair, 11 documents and 11 lines in this block on sheet rows 11559, 11603, 11645, 11656, 11678, 11695, 11767, 12186, 12912, 12969, 12998, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing. The authoritative list carried seven of these documents; the four added here, 5116803218, 5117334887, 5118073745 and 5119228582 at 6,300.00 each and 25,200.00 together, are genuine pairs that a document level exclusion hid, and the family now mirrors the eleven documents the counterparty side carries at 69,300.00. The counterparty legs carry no destination."
+  },
+  {
+   "family": "ZEPHYR LICENSE 11X",
+   "document": "5114993612",
+   "legs": "APPLMTOTAL held open at O24, against APPLH_INFOTECH in phaseb_b2 rule 85 to Ampol Retail / Store Operations",
+   "amount": 59210.58,
+   "note": "Cross block leg pair, 1 document, 1 line in this block on sheet row 11883, equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing. The two sides no longer share a destination: this side is held open at O24 because a counterpart leg in an apportionment states another centre's share rather than the platform of this centre's share."
+  },
+  {
+   "family": "WEB HOSTING AZURE CONSUMPTION",
+   "document": "5118333890, 5118807713, 5119228583, 5119697836, 5120185944",
+   "legs": "APPLBRNDCOMS through rule 18 to Ampol Customer / Ampol Digital, against APPLH_INFOTECH in phaseb_b2 rule 3 to TDD / TDD",
+   "amount": 59157.25,
+   "note": "Cross block leg pair from the authoritative list, required split. 5 documents, 6 lines in this block on sheet rows 15971, 15972, 15980, 15988, 15998, 16006, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "AZURE CONSUMPTION PRICING OPTIMISER",
+   "document": "5118333890, 5118807713, 5119228583, 5119697836, 5120185944",
+   "legs": "APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 rule 3 to TDD / TDD",
+   "amount": 33701.31,
+   "note": "Cross block leg pair from the authoritative list, required split. 5 documents, 5 lines in this block on sheet rows 12187, 12911, 12940, 12968, 12997, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "RECHG SNOWFLAKE PRICING",
+   "document": "5114992567, 5115541269, 5116100297, 5116651898, 5117178041, 5117802615, 5118136920, 5118541508, 5119055080, 5119527309, 5119953937, 5120423768",
+   "legs": "APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 rule 65 to Enterprise Data / Data",
+   "amount": 30633.14,
+   "note": "Cross block leg pair from the authoritative list, required split. 12 documents, 12 lines in this block on sheet rows 11882, 11921, 11940, 12051, 12112, 12151, 12175, 12208, 12935, 12963, 12991, 13104, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "RECHG % OCR SETUP FEE AND OCR ANNUAL HOSTING FEE",
+   "document": "5116128028",
+   "legs": "APPLMTOTAL through open item O13, not placed, against APPLB2B in phaseb_b1 rule 6 to B2B & Energy Solutions / B2B",
+   "amount": 15000.0,
+   "note": "Cross block leg pair from the authoritative list, required open leg. 1 document, 1 line in this block on sheet row 11643, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "AUTOCAD RENEWAL GSUTCH LRUDDOC AEFTAXI",
+   "document": "5120297339",
+   "legs": "APPLMTOTAL through open item O3, not placed, against APPLH_INFOTECH in phaseb_b2 rule 27 to TDD / TDD",
+   "amount": 13105.0,
+   "note": "Cross block leg pair from the authoritative list, required open leg. 1 document, 1 line in this block on sheet row 13008, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "D CUST INSIGHTS ATTACH",
+   "document": "5120294329",
+   "legs": "APPLBRNDCOMS through rule 17 to Ampol Customer / Ampol Loyalty & Martech, against APPLH_INFOTECH in phaseb_b2 held open at B2-O3",
+   "amount": 8440.62,
+   "note": "Cross block leg pair from the authoritative list, required open leg. 1 document, 1 line in this block on sheet row 16009, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "RECHG SNOWFLAKE PLATFORMPOS",
+   "document": "5117178047",
+   "legs": "APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 rule 65 to Enterprise Data / Data",
+   "amount": 7846.46,
+   "note": "Cross block leg pair from the authoritative list, required split. 1 document, 1 line in this block on sheet row 12113, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "SNOWFLAKE VARIANCE POS",
+   "document": "5115506554",
+   "legs": "APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 rule 65 to Enterprise Data / Data",
+   "amount": 7715.81,
+   "note": "Cross block leg pair from the authoritative list, required split. 1 document, 1 line in this block on sheet row 11903, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "D CUST SVC",
+   "document": "5120294329",
+   "legs": "APPLBRNDCOMS through rule 17 to Ampol Customer / Ampol Loyalty & Martech, against APPLH_INFOTECH in phaseb_b2 held open at B2-O3",
+   "amount": 5317.56,
+   "note": "Cross block leg pair from the authoritative list, required open leg. 1 document, 1 line in this block on sheet row 16010, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "ATLASSIAN XRAY TOOL RENEWAL SG NZ",
+   "document": "5120390441",
+   "legs": "TDDEINTSIG through rule 3 to EG Integration / EGI, against APPLH_INFOTECH in phaseb_b2 rule 19 to TDD / TDD",
+   "amount": 3098.9,
+   "note": "Cross block leg pair from the authoritative list, required split. 1 document, 1 line in this block on sheet row 18762, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "PROJECT PRICING OPTIMISER AZURE RESOURCE COST DE",
+   "document": "5118075279",
+   "legs": "APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 rule 3 to TDD / TDD",
+   "amount": 2747.0,
+   "note": "Cross block leg pair from the authoritative list, required split. 1 document, 1 line in this block on sheet row 12160, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL GREG JOHNSON",
+   "document": "5117402576",
+   "legs": "APPLHHR through rule 7 to P&C / P&C, against APPLH_INFOTECH in phaseb_b2 rule 26 to TDD / TDD",
+   "amount": 2143.56,
+   "note": "Cross block leg pair from the authoritative list, required split. 1 document, 1 line in this block on sheet row 18374, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL JANSON STONE",
+   "document": "5117402576",
+   "legs": "APPLHHR through rule 7 to P&C / P&C, against APPLH_INFOTECH in phaseb_b2 rule 26 to TDD / TDD",
+   "amount": 2143.56,
+   "note": "Cross block leg pair from the authoritative list, required split. 1 document, 1 line in this block on sheet row 18375, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL HOANG ANH MACDONALD",
+   "document": "5117401363",
+   "legs": "APPLMTOTAL through open item O3, not placed, against APPLH_INFOTECH in phaseb_b2 rule 26 to TDD / TDD",
+   "amount": 2143.56,
+   "note": "Cross block leg pair from the authoritative list, required open leg. 1 document, 1 line in this block on sheet row 12120, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "ARTICULATE LIC RENEWAL JAMIE MULDER",
+   "document": "5117401363",
+   "legs": "APPLMTOTAL through open item O3, not placed, against APPLH_INFOTECH in phaseb_b2 rule 26 to TDD / TDD",
+   "amount": 2143.56,
+   "note": "Cross block leg pair from the authoritative list, required open leg. 1 document, 1 line in this block on sheet row 12121, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "RECHG SNOWFLAKE PLATFORMPRICING",
+   "document": "5117178047",
+   "legs": "APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 rule 65 to Enterprise Data / Data",
+   "amount": 1913.64,
+   "note": "Cross block leg pair from the authoritative list, required split. 1 document, 1 line in this block on sheet row 12114, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "DRIVE OFF",
+   "document": "5115009103, 5115538909, 5116113085, 5116664094, 5117127630, 5117658562",
+   "legs": "APPLMTOTAL through rule 15 to Ampol Retail / Store Operations, against APPLB2B in phaseb_b1 rule 6 to B2B & Energy Solutions / B2B",
+   "amount": -1790.95,
+   "note": "Cross block leg pair from the authoritative list, required split. 6 documents, 6 lines in this block on sheet rows 11884, 11918, 11953, 12064, 12099, 12142, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "RECHG % GREEN ID AND DVS SET UP FEE",
+   "document": "5116128028",
+   "legs": "APPLMTOTAL through open item O13, not placed, against APPLB2B in phaseb_b1 rule 6 to B2B & Energy Solutions / B2B",
+   "amount": 1750.0,
+   "note": "Cross block leg pair from the authoritative list, required open leg. 1 document, 1 line in this block on sheet row 11642, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "BELLA MACDOUGALL;SALESFORCE",
+   "document": "5116112974, 5116663411, 5117092355, 5117452632, 5118140904, 5118535820, 5119018905, 5119483939, 5119935861, 5120442047",
+   "legs": "APPLHHR through rule 7 to P&C / P&C, against APPLSUPFPO in phaseb_b1 rule 3 to Commercial Fuels / Supply",
+   "amount": -1635.11,
+   "note": "Cross block leg pair from the authoritative list, required split. 10 documents, 10 lines in this block on sheet rows 18281, 18338, 18362, 18376, 18408, 18428, 18450, 18471, 18483, 18543, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "DELOITTE KRONOS HOSTING SERVICE",
+   "document": "5115012557, 5116118591, 5116668599, 5117130187, 5117659136",
+   "legs": "APPLMTOTAL through rule 13 to Ampol Retail / Store Operations, against APPLB2B in phaseb_b1 rule 6 to B2B & Energy Solutions / B2B",
+   "amount": -1533.4,
+   "note": "Cross block leg pair from the authoritative list, required split. 5 documents, 5 lines in this block on sheet rows 11572, 11629, 11651, 11669, 11690, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "SNOWFLAKE VARIANCE PRICING",
+   "document": "5115506554",
+   "legs": "APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 rule 65 to Enterprise Data / Data",
+   "amount": 1304.41,
+   "note": "Cross block leg pair from the authoritative list, required split. 1 document, 1 line in this block on sheet row 11904, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "COPILOT LICENSE FOR LYIEW",
+   "document": "5120406644",
+   "legs": "APPLHHR through rule 7 to P&C / P&C, against APPLH_INFOTECH in phaseb_b2 rule 10 to TDD / TDD",
+   "amount": -315.0,
+   "note": "Cross block leg pair from the authoritative list, required split. 1 document, 1 line in this block on sheet row 18530, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "CAMTASIA ALEX KELLY CAITLIN HOGUE BRENDAN COLLI",
+   "document": "5118029102",
+   "legs": "APPLMTOTAL through open item O3, not placed, against APPLH_INFOTECH in phaseb_b2 rule 25 to TDD / TDD",
+   "amount": 309.78,
+   "note": "Cross block leg pair from the authoritative list, required open leg. 1 document, 1 line in this block on sheet row 12158, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  },
+  {
+   "family": "ITCM LICENSES SUPPORT",
+   "document": "5115011993, 5115548803, 5116117747, 5116668299, 5117130152, 5117658620, 5118535448, 5119021999, 5119483938, 5119940145, 5120411231",
+   "legs": "APPLMTOTAL through rule 12 to Ampol Retail / Store Operations, against APPLB2B in phaseb_b1 rule 6 to B2B & Energy Solutions / B2B",
+   "amount": -132.93,
+   "note": "Cross block leg pair from the authoritative list, required split. 11 documents, 11 lines in this block on sheet rows 11565, 11585, 11623, 11649, 11662, 11683, 11732, 11757, 11797, 11823, 11852, each leg equal and opposite to the counterparty leg to the cent and re-derived from the raw workbook before citing."
+  }
+ ],
+ "notes": [
+  "Every one of the 3,551 lines maps through exactly one numbered rule or one open item. No line is captured twice: the rule matches were tested against every line and produced no collision.",
+  "Mapping values present in the source file, column A and column B, are absent from all seventeen cost centres in this block, so no rule here can contradict a mapping value. Those values were still used as the pattern: in the centres that carry those rows, individual licence lines follow the cost centre to the business portfolio rather than to a product owner, and a data platform recharge stays on the business centre. Rules 6, 7, 8 and 16 follow that pattern.",
+  "The marketing group, cost centres APPLMTOTAL, APPLBRNDCOMS and APPLRCALSTORES, carries no single centre destination. It splits on the row through rules 9 to 18, which is why an individual licence line inside those centres is held open at O3 rather than placed.",
+  "The security lines in this block stay with the holding cost centre, and the adjudication upheld that reading. The convention settled is that the cost centre in column C decides the destination everywhere except the pooled corporate centre APPLH_INFOTECH, and that naming a security product does not by itself place a line on Cyber. The decisive proof is a dollar identity on Dragos: the invoice in APPLH_INFOTECH is 164,595.77, document 5116578210 recharges 52,627.47 and 44,868.29 out, and the residual of 67,100.01 is the amount phaseb_b2 rule 52 carries on Cyber. The 44,868.29 receiving leg is the 'DRAGOS OT MONITORING' line in cost centre APPLFIREFINING and stays on rule 8, and the three CyberCX Saviynt configuration lines in APPLHHR at 44,810.25 gross stay on rule 7 for the same reason.",
+  "Cost centre APPLGENERAL, column D value 'NON FUNCTIONAL AREAS', carries no single destination and is split on the row: rules 19 and 20 place the receivables and planning products on Finance, and the remainder sits at open items O17, O18, O19 and O20.",
+  "Destinations are taken only from the portfolio and platform table in the structure document, spelled as that table spells each one. No other source places a line in this block."
+ ],
+ "ruled_total": 14525927.5,
+ "ruled_lines": 2980,
+ "open_total": 715568.26,
+ "open_lines": 571,
+ "ruled_plus_open": 15241495.76,
+ "ruled_plus_open_lines": 3551,
+ "stem_sum": 15241495.76
+}

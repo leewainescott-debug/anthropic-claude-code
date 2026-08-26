@@ -1,0 +1,1071 @@
+{
+ "round": 2,
+ "rederived": [
+  {
+   "rule": "b1:1",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b1:2",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b1:3",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b1:4",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b1:5",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b1:6",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b1:7",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 752 lines and 2,903,834.95, the leaf total of cost centre APPLAETOTAL to the cent, on the bare centre match. Round one finding resolved."
+  },
+  {
+   "rule": "b1:8",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b1:10",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 12 lines and 180,000.00. Each of the twelve documents carries four legs, of which APPLBULKFUEL and APPLMARKETING are the SW parent rows duplicating their children, so the leaf legs are APPLB2B +15,000.00 and APPLMTOTAL -15,000.00. Every APPLB2B line whose column N names AmpolFM falls inside the twelve documents, so rule 6's exclusion and rule 10's document match select the same set and 2,902 plus 12 equals the 2,914 leaf lines of the centre."
+  },
+  {
+   "rule": "b2:1",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:2",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:3",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 53 lines and 8,416,609.30. The restated match now excludes UNIFIED SUPPORT, which resolves the round one boundary against rule 9; S17380 and S17427 sit in rule 9 as its text claims."
+  },
+  {
+   "rule": "b2:4",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:5",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:6",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:7",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:8",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:9",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 16 lines and 961,872.01, witnessed by 2026 Budget tab rows 253 and 254."
+  },
+  {
+   "rule": "b2:10",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:11",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:12",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:13",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:14",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:15",
+   "verdict": "OVERTURNED",
+   "evidence": "OVERTURNED on evidence. 15 lines, -69,539.00, of which 11 lines and -69,300.00 read \"POWERBI FABRIC (RETAIL)\". The rule's own evidence states that no separate Power BI line exists on the 2026 Budget tab and substitutes rows 256 to 258, which name Microsoft 365 licensing, not Power BI. No Power BI or Fabric row exists among the 784 mapping values present in the source file either. The inference that Fabric rides on the enterprise agreement is not supported inside the documents: CO document 5115751865 carries three legs only, APPLMTOTAL +6,300.00, APPLH_INFOTECH -6,300.00 and APPLBRNDCOMS +15,000.00, with no Microsoft EA leg; documents 5116582178 and 5114990648 carry no EA leg either. Meanwhile b3 rule 16 names Power BI and Fabric as a retail data platform and places the counterpart leg of the same documents, under identical column N text, on Ampol Retail / Retail Data AU. Under adjudication a the pooled row has no witness, so it cannot be placed."
+  },
+  {
+   "rule": "b2:16",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:17",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:18",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:19",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:20",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:21",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:22",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:23",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:24",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:25",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:26",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:27",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:28",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:29",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:30",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:31",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:32",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:33",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:34",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:35",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:36",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:37",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:38",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 24 lines and -288,995.12 on within document evidence (document 5117025076 carries the credit beside its two Adobe charges) and 2026 Budget tab rows 262 and 264."
+  },
+  {
+   "rule": "b2:39",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:40",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:41",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:42",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:43",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:44",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:45",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:46",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:47",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:48",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:49",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:50",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:51",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:52",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:53",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:54",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:55",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:56",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 1 line and 63,936.34. The match now quotes the source spelling IBM CLOUD IDENTUTY on sheet row 16087. Round one finding resolved."
+  },
+  {
+   "rule": "b2:57",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:58",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:59",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:60",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 9 lines and 19,983.34. The match now separates the secure remote access product from the X20 remote users licence, and 2026 Budget tab rows 78 and 267 witness the two destinations separately. Round one finding resolved."
+  },
+  {
+   "rule": "b2:61",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:62",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:63",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:64",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:65",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:66",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:67",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:68",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:69",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:70",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:71",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:72",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:73",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:74",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:75",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:76",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:77",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:78",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:79",
+   "verdict": "OVERTURNED",
+   "evidence": "OVERTURNED on evidence. AMSCAL is not a product with one destination but a monthly apportionment posted to several centres inside one CO document. On document 5117177796 column N reads \"NOV 25 AMSCAL\" on every leg and the leaf legs are INTEGM 291.50, carrying the mapping values Commercial Fuels / Trading & Shipping, APPLB2B 145.75, placed B2B & Energy Solutions / B2B by b1 rule 6, APPLBULKFUEL 444.19 on the hardware tab, open under b4 rule 44, and APPLH_INFOTECH 145.75 software and 148.06 hardware. Four leaf centres, one product, one document, three destinations already in the workbook. The 23 INTEGM mapping values therefore witness the INTEGM share, not the pooled centre's share, so adjudication a has no product witness to act on. The 11 lines also net to exactly -114.70, which is the 80 per cent reclass to TDDEINTSIG on document 5117738696, because every monthly accrual reverses; what is sent to Trading & Shipping is not AMSCAL consumption but the transfer of the technology centre's November AMSCAL to the Emerald integration programme."
+  },
+  {
+   "rule": "b2:80",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:81",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:82",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 2 lines and 36,837.35. The match is now stated on column C and column N (\"UMBLRELLA LICENSE JUL25\", \"ISE SUBS RENEWAL\"), and the evidence records why column K is not used: hardware sheet row 44861 carries OUTCOMEX in the same cost centre and goes to TDD / TDD. Round one finding resolved."
+  },
+  {
+   "rule": "b2:83",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:84",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:85",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:86",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 2 lines and 34,848.80. The column K condition is dropped and the evidence records that sheet row 16319 carries Not assigned. Round one finding resolved."
+  },
+  {
+   "rule": "b2:87",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:88",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:89",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:90",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:91",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:92",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:93",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:94",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:95",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:96",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:97",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:98",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:99",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b2:100",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:1",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:2",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:3",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:4",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:5",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:6",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:7",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:8",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:9",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:10",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:11",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:12",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:13",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:14",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:15",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:16",
+   "verdict": "OVERTURNED",
+   "evidence": "OVERTURNED as written. The rule counts 69 lines and 522,238.53; its stated product list returns 62 lines and 522,238.55. The seven lines missing are spelled \"SAS LICENCING\" in column N, not \"SAS licensing\" as the rule states: six reading \"PO 7000241483. SAS LICENCING CREDITS-OCT-MAR2026\" and one reading \"MOVE TO PREPAID.SAS LICENCING CREDITS-OCT-MAR2026\", netting -0.02. This is the defect class corrected at b3 rule 17 in this issue and left standing here."
+  },
+  {
+   "rule": "b3:17",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:18",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:19",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b3:20",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:1",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 37,575 lines and 6,776,597.81. The match now reads \"after any leading space, opens with\" and the eight REALLOC lines move to the new rule 9 at 0.00, which is the whole of the round one difference; rules 14, 43, 45 and 46 now re-derive to their published figures exactly. Round one finding resolved."
+  },
+  {
+   "rule": "b4:2",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:3",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:4",
+   "verdict": "OVERTURNED",
+   "evidence": "OVERTURNED for the two lines it holds open in the pooled cost centre. H46884 \"IT SERVICES JAN 2026\" and H46885 \"IT SERVICES FEB 2026\", -11,700.00, cost centre APPLH_INFOTECH, are held open under question Q1, while the identical wording in the identical cost centre on the software tab, 15 lines reading \"IT SERVICES <month> <year>\" totalling -286,187.12, is ruled TDD / TDD by b2 rule 38 on strong evidence: document 5117025076 carries the \"IT SERVICES NOV 2025\" credit beside the two \"ADOBE LICENSE 12 MONTHS\" charges of the same document, and 2026 Budget tab rows 262 and 264 map the Atlassian and Adobe user chargebacks to TDD / TDD. The remaining 175 lines of the rule sit in consuming centres and the open is sound for them."
+  },
+  {
+   "rule": "b4:5",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED as correctly held open under question Q2. See prepaid_verdict."
+  },
+  {
+   "rule": "b4:6",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:7",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:8",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 28 lines and 457,360.72 on destination and dollars. It captures both legs of each transfer, the twelve APPLMTOTAL credit legs at -11,439,997.43 and the fourteen APPLSIG_ITEMS debit legs at 11,897,358.15, which is the correct economic answer because rule 7's 11,349,211.57 charge on internal order E.25.002 and this credit are two legs of the one programme. The departure from adjudication c, under which a credit leg follows its own centre's rule rather than the counterparty named in the row, is disclosed at note 10 but is not authorised by c, and the software tab does not follow it: see the finding on b3 O22."
+  },
+  {
+   "rule": "b4:9",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:10",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:11",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:12",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 2 lines and 11,816.52 as published, but its second leg inherits the AMSCAL problem: H52704 is the significant items leg of document 5117738696, whose pooled counterparty is the overturned b4 rule 47."
+  },
+  {
+   "rule": "b4:13",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:14",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:15",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:16",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:17",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:18",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:19",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:20",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:21",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:22",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:23",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 40 lines and 88,600.00 on Ampol Retail / Store Operations. The move off Above Store is sound: every captured line sits in APPLMTOTAL and column N names the store back office system and its three internal orders."
+  },
+  {
+   "rule": "b4:24",
+   "verdict": "CONFIRMED",
+   "evidence": "CONFIRMED at 78 lines and 0.00 and rule 25 at 1 line and 2,494.12; the restructure moves the whole of the old pair's 2,494.12 onto the single line whose column N names QSR and leaves the Fujitsu accrual and reversal families netting nil, so no dollar rests on the platform reading."
+  },
+  {
+   "rule": "b4:25",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:26",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:27",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:28",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:29",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:30",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:31",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:32",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:33",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:34",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:35",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:36",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:37",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:38",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:39",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:40",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:41",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:42",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:43",
+   "verdict": "OVERTURNED",
+   "evidence": "OVERTURNED as written. A residual rule in the pooled cost centre cannot satisfy adjudication a, which requires the row to follow the product named in the row on the witness of the 2026 Budget tab or the mapping values. Its nine lines name no product on seven of them: five read \"IT RELATED EXPENDITURE\" from AMPOL MANAGEMENT (USD) at 494.78 and two read \"PREPAY REL OCT 25\" netting 0.00. The evidence cites OP_MODEL_STRUCTURE.md, which adjudication a does not admit as a witness. One captured line contradicts another block outright: H44865, \"FASTTRACK QUOTE 8440 LYTTON REFINERY\", vendor FAST TRACK COMMUNICATIONS, 1,550.05, cost centre APPLH_INFOTECH, is sent to TDD / TDD, while b2 rule 34 sends the four \"FASTTRACK LYT\" and \"FASTTRACK LYTTON\" lines from the same vendor at the same site in the same pooled cost centre to Fuel Infrastructure / Manufacturing on the witness of 2026 Budget tab row 156, \"Lytton UPS Maintenance\"."
+  },
+  {
+   "rule": "b4:44",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:45",
+   "verdict": "CONFIRMED",
+   "evidence": "Re-derived blind from the raw leaf rows of budget.xlsx: the stated match returns the stated line count and the stated dollars to the cent, every line maps through exactly one rule or open entry, the destination is spelled as OP_MODEL_STRUCTURE.md or its addendum spells it, it contradicts none of the 784 mapping values present in the source file, and its witness is one adjudications a to e admit for the block it sits in."
+  },
+  {
+   "rule": "b4:46",
+   "verdict": "OVERTURNED",
+   "evidence": "OVERTURNED in reverse: the open is provable. Five of the ten lines sit on CO documents that also carry a leaf leg in cost centre APOLLO on the software tab under identical column N text: 5115112544 (H52584 3,473.32 against S18674 27,919.66), 5115594698 (H52610 460.00 against S18678 25,485.73), 5116132102 (H52633 230.00 against S18684 25,196.05), 5116703330 (H52657 230.00 against S18696 25,509.23) and 5117177943 (H52683 230.00 against S18699 24,414.35). Two more, H52721 and H52722, name APOLLO in column N. b1 rule 8 places cost centre APOLLO on B2B & Energy Solutions / Energy Solutions, and adjudication b routes the significant items centre by the programme named in the row. Provable: 3,903.32 of the 4,012.94, on the rule form column C equals APPLSIG_ITEMS and column N names APOLLO or RETAIL ELEC OPEX TO SI. The AMSCAL pair at plus and minus 115.42 and the single \"IT RELATED EXPENDITURE\" line of 109.62 stay open."
+  },
+  {
+   "rule": "b4:47",
+   "verdict": "OVERTURNED",
+   "evidence": "OVERTURNED on evidence, for the same reason as b2 rule 79 and on the same apportionment. 11 lines netting -116.52, which is exactly the hardware leg of the 80 per cent reclass on CO document 5117738696. The witness cited, the 23 INTEGM AMSCAL rows, is a centre fact about INTEGM's share of a multi centre apportionment, not a destination for the product. Both AMSCAL rules should be open, with the missing fact stated as whose share the pooled centre's AMSCAL portion is."
+  }
+ ],
+ "findings": [
+  {
+   "id": "R2-1",
+   "severity": "material",
+   "rules": [
+    "b2:79",
+    "b4:47",
+    "b4:12"
+   ],
+   "lines": 22,
+   "dollars": -231.22,
+   "finding": "The pooled centre's AMSCAL rows are placed on a witness that does not carry. AMSCAL is a monthly apportionment posted to several centres inside one CO document, not a product with one destination.",
+   "proof": "CO document 5117177796, column N \"NOV 25 AMSCAL\" on every leg. Leaf legs: INTEGM 291.50 (mapping values Commercial Fuels / Trading & Shipping), APPLB2B 145.75 (B2B & Energy Solutions / B2B, b1 rule 6), APPLBULKFUEL 444.19 hardware (open, b4 rule 44), APPLH_INFOTECH 145.75 software and 148.06 hardware. Both pooled sets net to exactly the 80 per cent reclass on document 5117738696, -114.70 software and -116.52 hardware, because every monthly accrual reverses.",
+   "remedy": "Hold both pooled AMSCAL rules open. Missing fact: whose share the pooled centre's portion of the AMSCAL apportionment is."
+  },
+  {
+   "id": "R2-2",
+   "severity": "material",
+   "rules": [
+    "adjudication c, all four files"
+   ],
+   "lines": 194,
+   "dollars": 2367133.13,
+   "finding": "99 CO documents that pair a leaf leg in one block against an equal and opposite leaf leg in another block under identical column N text carry no document number on either side, neither in a capturing rule's evidence nor in a contra_documents entry.",
+   "proof": "194 such cross-block pairs exist; 153 of them land on two different destinations. Unrecorded: 71 documents carrying a split pair, 1,028,533.02 gross; 19 carrying a same-destination pair, 785,305.94; 9 carrying a pair with an open leg, 553,294.17. Largest stream: the Energy Solutions Azure recharge, twelve monthly pairs, 845,475.50 gross, B2B & Energy Solutions / Energy Solutions against TDD / TDD; b1 rule 7 is a bare centre rule carrying no document numbers, b2 rule 3 names Energy Solutions in its match but no documents, and the five of its twelve documents that appear anywhere (5115751862, 5116582177, 5117334887, 5118073745, 5119228582) appear only because they also carry a Sentinel pair listed for another reason. Largest single document: 5117130089, APPLCCO \"AS 2025 DATAIKU CHARGE\" +370,784.00 to Commercial Fuels / Supply against APPLH_INFOTECH \"RECHARGE 2025 DATAIKU TO AS\" -370,784.00 to Enterprise Data / Data. Others include the Snowflake POS, AmpolCard reporting, T&S and pricing recharges, web hosting Azure consumption, the pricing optimiser Azure consumption, and Zephyr on document 5114992112.",
+   "remedy": "Record each cross-block pair's document number on both sides. The destinations themselves survive: every stream tested follows the recharge convention that note 3 states and the Sentinel pair establishes."
+  },
+  {
+   "id": "R2-3",
+   "severity": "material",
+   "rules": [
+    "b2:15"
+   ],
+   "lines": 15,
+   "dollars": -69539.0,
+   "finding": "Power BI and Fabric are placed on TDD / TDD in the pooled centre with no witness, against the workbook's own reading of the same column N text.",
+   "proof": "The rule's evidence concedes that no separate Power BI line exists on the 2026 Budget tab and cites rows 256 to 258, which name Microsoft 365 licensing. No Power BI or Fabric row appears among the 784 mapping values. Documents 5114990648, 5115751865 and 5116582178 carry no Microsoft EA leg, so the enterprise agreement inference has no within document support. b3 rule 16 names Power BI and Fabric and places the counterpart legs, identical column N text on the same documents, on Ampol Retail / Retail Data AU.",
+   "remedy": "Hold the 11 \"POWERBI FABRIC (RETAIL)\" lines, -69,300.00, open, or follow the counterpart leg to Ampol Retail / Retail Data AU. Missing fact: which platform owns the retail Fabric capacity."
+  },
+  {
+   "id": "R2-4",
+   "severity": "cross-file contradiction",
+   "rules": [
+    "b4:43",
+    "b2:34"
+   ],
+   "lines": 1,
+   "dollars": 1550.05,
+   "finding": "FastTrack Communications work at the Lytton refinery lands on two destinations from the same pooled cost centre.",
+   "proof": "All seven FastTrack lines sit in APPLH_INFOTECH. b2 rule 34 sends the four \"FASTTRACK LYT\" and \"FASTTRACK LYTTON\" lines to Fuel Infrastructure / Manufacturing on 2026 Budget tab row 156 \"Lytton UPS Maintenance\". b4 rule 43 sends H44865 \"FASTTRACK QUOTE 8440 LYTTON REFINERY\", 1,550.05, to TDD / TDD through a residual rule that names no product and cites OP_MODEL_STRUCTURE.md, which adjudication a does not admit as a witness.",
+   "remedy": "Name the Lytton line out of the residual and route it as b2 rule 34 routes the same site's work, or state why the hardware line differs."
+  },
+  {
+   "id": "R2-5",
+   "severity": "cross-file contradiction",
+   "rules": [
+    "b4:4",
+    "b2:38"
+   ],
+   "lines": 2,
+   "dollars": -11700.0,
+   "finding": "The same recharge wording in the same pooled cost centre is ruled on the software tab and held open on the hardware tab.",
+   "proof": "APPLH_INFOTECH software: 15 lines reading \"IT SERVICES <month> <year>\", -286,187.12, ruled TDD / TDD by b2 rule 38 on document 5117025076 and 2026 Budget tab rows 262 and 264. APPLH_INFOTECH hardware: H46884 \"IT SERVICES JAN 2026\" and H46885 \"IT SERVICES FEB 2026\", -11,700.00, open under question Q1.",
+   "remedy": "Route the two hardware lines as b2 rule 38 routes the series, or reopen the software series with it."
+  },
+  {
+   "id": "R2-6",
+   "severity": "cross-file contradiction",
+   "rules": [
+    "b4:8",
+    "b3:O22"
+   ],
+   "lines": 2,
+   "dollars": -60476.43,
+   "finding": "The credit leg of a CRPOSSIG transfer is ruled on the hardware tab and held open on the software tab, and the hardware treatment departs from adjudication c without c authorising it.",
+   "proof": "b4 rule 8 captures all 28 \"TRF TO CRPOSSIG\" hardware lines, including the twelve APPLMTOTAL credit legs at -11,439,997.43, and sends them to Ampol Retail / AmPOS; note 10 discloses that it captures both sides. On the software tab S12992 and S13105, \"RECLASS MAY TRF TO CRPOSSIG\" and \"RECLASS JUNE TRF TO CRPOSSIG\" in APPLMTOTAL, -60,476.43, are open at O22 while their CRPOSSIG counterparts are ruled to AmPOS by b3 rule 2. The hardware netting is economically right, since rule 7's charge on internal order E.25.002 and this credit are two legs of one programme, but adjudication c says each leg follows its own centre's rule.",
+   "remedy": "Either state the programme exception to c in the workbook and close O22 the same way, or move the hardware credit legs to their own centre's rule. 11.44m of credit rests on which is chosen."
+  },
+  {
+   "id": "R2-7",
+   "severity": "open provable in reverse",
+   "rules": [
+    "b4:46",
+    "b4 Q5"
+   ],
+   "lines": 7,
+   "dollars": 3903.32,
+   "finding": "The Project Apollo journals held open in the significant items centre are provable from the documents.",
+   "proof": "Five lines sit on CO documents that also carry a leaf leg in cost centre APOLLO on the software tab under identical column N text: 5115112544, 5115594698, 5116132102, 5116703330 and 5117177943. Two more name APOLLO in column N. b1 rule 8 places cost centre APOLLO on B2B & Energy Solutions / Energy Solutions, and adjudication b routes the significant items centre by the programme named in the row.",
+   "remedy": "Write the rule as column C equals APPLSIG_ITEMS and column N names APOLLO or RETAIL ELEC OPEX TO SI, destination B2B & Energy Solutions / Energy Solutions, 3,903.32. Leave the AMSCAL pair and the single IT RELATED EXPENDITURE line open."
+  },
+  {
+   "id": "R2-8",
+   "severity": "incomplete remediation of round one finding 7",
+   "rules": [
+    "b3:16"
+   ],
+   "lines": 7,
+   "dollars": -0.02,
+   "finding": "A rule states a product spelling the source file does not carry, the same defect corrected at b3 rule 17 in this issue.",
+   "proof": "The rule counts 69 lines and 522,238.53; its stated products return 62 lines. The seven missing read \"SAS LICENCING\", six as \"PO 7000241483. SAS LICENCING CREDITS-OCT-MAR2026\" and one as \"MOVE TO PREPAID.SAS LICENCING CREDITS-OCT-MAR2026\".",
+   "remedy": "Quote both spellings in the match, as rules 26, 41, 49, 56 and 66 quote theirs."
+  },
+  {
+   "id": "R2-9",
+   "severity": "incoherent open",
+   "rules": [
+    "b4 Q6",
+    "b3:18"
+   ],
+   "lines": 6,
+   "dollars": 90000.0,
+   "finding": "An open question states that its block carries no centre rule for the centre, without recording that the other block has already placed the adjacent cloud spend in that same centre.",
+   "proof": "b4 Q6 holds six lines coded \"860 AZURE PRD-EXT\" in APPLBRNDCOMS open. b3 rule 18 places the same centre's six \"WEB HOSTING AZURE CONSUMPTION\" lines, the same brand web cloud estate, on Ampol Customer / Ampol Digital. Each of the six Q6 documents (5114997988, 5115410588, 5115751865, 5116582178, 5116803218, 5117334888) carries exactly one leg in that centre, so no counterparty proves it either way.",
+   "remedy": "The open stands; it must name the b3 rule 18 treatment as the candidate and the conflict."
+  }
+ ],
+ "attacks_run": [
+  "Every rule in all four files re-derived blind from budget.xlsx: b1 9 of 9, b2 100 of 100, b3 20 of 20, b4 47 of 47 in first-match number order. All 176 return the published line count and dollars to the cent except b3 rule 16, which is finding R2-8.",
+  "Leaf population rebuilt independently: SW 10,138 lines 51,288,134.47 and HW 39,772 lines 25,468,998.32, with the four SW and two HW roll-up parents excluded.",
+  "Every changed rule named in the round two brief attacked on its evidence: b1 rules 6, 7, 9 deleted, 10 and the superseded block; b2 rules 3, 9, 40, 56, 60, 79, 82, 86, the new contra_documents block and note 3; b3 contra listing at 13 entries and the Fujitsu accrual release; b4 rules 1, 8, 9, 12, 23, 24, 25, 35, 39, 42, 43, 47 and the renumbering of the old 42 to 45.",
+  "Thirty biggest rules by absolute dollars across all four files re-derived and their destinations attacked individually.",
+  "Every RULED destination in every block checked against the four permitted witnesses: the 784 mapping values, the 2026 Budget tab within the scope adjudication d allows, within-document evidence, and OP_MODEL_STRUCTURE.md spelling.",
+  "b4 destination_totals recomputed from the raw rows: all twelve destinations tie exactly on lines and dollars.",
+  "b2 line_map completeness: 1,430 lines, none absent, none foreign, every rule and every open entry aggregating to its published figures, ruled 25,457,022.50 plus open -147,174.37 equal to the block total.",
+  "Every open entry attacked in reverse for provability: b1 two reasons, b2 sixteen, b3 twenty three, b4 six questions. One is provable, finding R2-7. b1's APPLTDDIST open correctly records that the structure settles the portfolio and only the platform is missing.",
+  "Cross-file sweep: 468 CO documents carry leaf legs in more than one block; narrowed to 194 genuine charge and contra pairs on identical column N text; 153 land on two destinations; 99 documents recorded nowhere, finding R2-2. Started from the four contra listings then swept the whole file.",
+  "The 784 mapping values present in the source file tested against every block's destination: zero contradictions.",
+  "sig_funded flags tested against the funding evidence on the captured lines: coherent. b4 rule 11 flagged true carries \"NAMOS - TRANSFER FROM M.22.037 TO E.25.002\", the significant item order; b4 rules 13 and 47 flagged false carry only a person recharge order and a camera product name.",
+  "Prepaid journals and the Sentinel journals re-tested from scratch against the current files.",
+  "Each round one finding regression checked individually against the current files."
+ ],
+ "regression_round1": [
+  {
+   "finding": "b1 rule 9 security lines to Cyber",
+   "status": "RESOLVED",
+   "check": "Rule 9 is deleted and recorded in a superseded block. S8574 sits in rule 7, which now returns 752 lines and 2,903,834.95, the exact leaf total of APPLAETOTAL. The six APPLTDDIST lines at 74,954.82 are back in the open pile: open moves from 1,163,779.05 to 1,058,733.87, which is 1,163,779.05 plus 74,954.82 less the 180,000.00 that new rule 10 takes out, and ruled moves to 9,678,056.71. Scope still 10,736,790.58."
+  },
+  {
+   "finding": "b1 rule 7 carve-out unnecessary",
+   "status": "RESOLVED",
+   "check": "Match is now the bare centre, re-derived at 752 and 2,903,834.95."
+  },
+  {
+   "finding": "b2 rule 86 column K condition false on S16319",
+   "status": "RESOLVED",
+   "check": "Match restated on column C and column N; 2 lines and 34,848.80 re-derived; the evidence records that row 16319 carries Not assigned."
+  },
+  {
+   "finding": "b2 rule 56 captured zero lines",
+   "status": "RESOLVED",
+   "check": "Match now quotes IBM CLOUD IDENTUTY; 1 line and 63,936.34 re-derived."
+  },
+  {
+   "finding": "b2 rule 82 vendor match collides with b4",
+   "status": "RESOLVED",
+   "check": "Match now on column C and the two column N texts; 2 lines and 36,837.35 re-derived; the evidence names hardware sheet row 44861 as the reason."
+  },
+  {
+   "finding": "b4 rule 1 match wrong on 8 REALLOC lines",
+   "status": "RESOLVED",
+   "check": "Rule 1 is 37,575 and 6,776,597.81, new rule 9 carries the eight at 0.00, and rules 14, 43, 45 and 46 now re-derive to their published figures, closing the 480.00, 480.00 and -960.00 drift."
+  },
+  {
+   "finding": "b3 rule 17 stated spellings absent from the source",
+   "status": "RESOLVED, class recurs",
+   "check": "Rule 17 re-derives at 34 and 395,495.03 on the source spellings. The same defect stands at rule 16: finding R2-8."
+  }
+ ],
+ "security_ruling": {
+  "convention": "Unchanged from round one and still holding on the current files: the cost centre in column C decides, with cost centre APPLH_INFOTECH, TECHNOLOGY DIGITAL & DATA in column D, the one pooled exception where the product named in the row decides on the witness of the 2026 Budget tab or the mapping values present in the source file. Naming a security product does not by itself place a line on Cyber.",
+  "evidence": "Re-tested from scratch. The Dragos identity still holds to the cent: invoice S16184 164,595.77 in the pooled centre, document 5116578210 recharging 52,627.47 and 44,868.29 out, receiving legs S5054 in APPLTDDIST and S9330 in APPLFIREFINING, residual 67,100.01 against 2026 Budget tab row 59 at 67,100. b1 rule 9 is gone and both receiving legs now follow their centres. b2 rule 52 still returns 3 lines and 67,100.01 to Cyber. Foregenix stays on Ampol Retail / Store Operations on rows 321 and 322, the Cisco DNS and store endpoint security line on row 319, the Cisco firewall licence and Veritas Net Backup on rows 231 and 232 at the COE, and Beyond Trust splits two ways on rows 78 and 267. No line among the 784 mapping values names a security product, so none is contradicted.",
+  "rule_changes": [
+   "None. Every change the ruling called for in round one is in the current files and re-derives."
+  ]
+ },
+ "prepaid_verdict": {
+  "decision": "open",
+  "reasoning": "Unchanged and re-tested on the current files. b4 rule 5 still holds both lines open under question Q2 at -2,196,046.41, and b3 O11 holds the two software legs of the same CO document 5116660265 open at -454,197.69, so the four legs of the one journal are now treated alike across the two tabs, which is an improvement. The reasoning stands: the journal names no product, column K is Not assigned, references 5013501007, 5013501085, 5013498113 and 5013491723 appear on no other line of either tab, the 430 lines at APPLMTOTAL and cost element 801430 split three ways so centre and element cannot stand in for the missing product, the eleven twelfths arithmetic that ties H31372 to the 2,302,616.00 Blue Yonder cloud agreement and H31371 to the 93,071.00 data access service fails on the same document's other two legs, and Blue Yonder is named on no line of the 2026 Budget tab. Missing fact unchanged: which invoices those four prepaid references release."
+ },
+ "sentinel_verdict": {
+  "rule": "b2:1 and b2:2",
+  "decision": "CONFIRMED",
+  "reasoning": "Re-tested from scratch on the current files and unchanged: 9 lines and 207,878.47 on cost element 801425 to Cyber, 13 lines and -207,878.47 on 801482 to TDD. Nine CO documents each carry one charge and one equal and opposite contra under identical column N text, with four further nil legs. Both destinations are witnessed by Lee's own hand in two different cost centres: 2026 Budget tab row 54, HITSEC, \"MS Sentinel ()Azure charge)\", 150,000, Cyber; and row 226, ITETDEL, Microsoft, -300,000, \"Cyber Sentinel recharge\", TDD / TDD, sitting beside rows 224 and 225, the FE and Z Energy recharges. The contra lands where the cost it relieves sits: all 55 Microsoft Azure consumption invoices are on cost element 801482 in the same centre and b2 rule 3 charges that pool to TDD. b2 applies the same test the other way at rule 59, where both legs of the Beyond Trust reclass on document 5120024965 name one product with no other pool involved and both go to TDD on the witness of row 267."
+ },
+ "finding_count": 9
+}

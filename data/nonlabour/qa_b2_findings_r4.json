@@ -1,0 +1,263 @@
+{
+ "audit": "Phase B acceptance audit, round 4, focused verification pass on phaseb_b1.json issue 5, phaseb_b2.json issue 6, phaseb_b3.json issue 5 and phaseb_b4.json issue 6.",
+ "method": "budget.xlsx was re-extracted for this round. Leaf rows only, software parents APPLHCORP, APPLBULKFUEL, APPLMARKETING and APPLSIG_ITEMS excluded, hardware parents APPLHCORP and APPLMARKETING excluded. Row identifiers are sheet row numbers, prefixed S for the SW Line Items tab and H for the HW Line Items tab.",
+ "matchers_skipped": "None. Although instruction 5 permits skipping matchers unchanged since round two, every rule and open matcher in all four files was re-implemented and re-run from its match words this round: 9 phaseb_b1 rules, 99 phaseb_b2 rules, 20 phaseb_b3 rules with 23 open matchers, and 50 phaseb_b4 rules. The partitions moved in three of the four blocks, so nothing was taken on trust.",
+ "checks": {
+  "1_round_4_changes_re_derived": {
+   "result": "PASS",
+   "phaseb_b1": {
+    "azure_family_extended": "PASS on the raw figures. The ENERGY SOLUTIONS AZURE RECHARGE contra entry now names twelve documents at 845,475.50. All twelve exist in the workbook as clean two leg pairs on identical column N text, each netting to zero to the cent, and the twelve magnitudes sum to 845,475.50: 5114997985 94,534.57, 5115410585 74,573.88, 5115751862 86,137.51, 5116582177 78,518.14, 5116803216 77,915.83, 5117334887 70,049.50, 5118073745 65,528.00, 5118333888 63,767.51, 5118807707 56,212.17, 5119228582 60,301.88, 5119697835 57,433.32 and 5120185939 60,503.19. The stream is complete: no thirteenth document carries that column N text.",
+    "rules_and_coverage": "All 9 rules reproduce exactly. line_map plus open covers 5,157 identifiers with no duplicate and no gap, and every one of the 667 open dollar values equals column AA on its row."
+   },
+   "phaseb_b2": {
+    "rule_15_recast": "PASS. The match returns exactly the three per-user lines it names, S16476, S16941 and S16962, at -95.60. The evidence now leads with the 784 mapping values and row 258 is gone from the rule entirely.",
+    "citations_added": "PASS. 5118043472 is cited at -368,328.00 pointing at phaseb_b3 rule 5; 5120370266 at -312.00 pointing at phaseb_b3 rule 4; 5114993612 at -59,210.58 pointing at phaseb_b3 O24. All three counterparty holders were tested and hold the cited rows.",
+    "totals_frozen": "PASS. ruled 25,526,580.60 over 1,284 and open -216,732.47 over 146, together 25,309,848.13 over 1,430, unchanged from issue 5.",
+    "rules_and_coverage": "All 99 rules reproduce exactly, zero pairwise overlap, and the 19 open entries reproduce from their stated sheet rows. line_map agrees row for row."
+   },
+   "phaseb_b3": {
+    "rule_12_trimmed": "PASS. The match, MERAKI, ITCM, WIN10 or AIRLOCK in the three marketing centres less sheet row 11883, returns exactly 82 lines and 171,496.78. Fact 1 verified: documents 5118140897 and its reversal 5118530892 each carry 22 software legs holding AIRLOCK, ITCM and MERAKI VPN in the one apportioned bundle alongside BO PC, DOMS, FUELPAY and the rest. Fact 2 verified: the two anchors are S11606 'FUJ- CISCO RENEWAL FOR RETAIL MERAKI VPN' at 20,801.43 and S11607 'IT RETAIL WIN10 ESU 25/26' at 106,024.20, with the matching prepaid transfer S11630 at -106,024.20.",
+    "fact_4_count": "PASS. Exactly 38 of the 82 lines pair against a leg of identical column N text in cost centre APPLB2B within the one document, 197,604.46. The corrected count is right.",
+    "zephyr_o24": "PASS. O24 holds one line, S11883, 'ZEPHYR LICENSE 11X', 59,210.58, document 5114993612. The apportionment arithmetic verifies to the cent: the pooled invoice S16460 'ZEPHYR STANDALONE SAAS SUBS YR1 31/08/25' is 96,890.04, the APPLAETOTAL share is 10,765.56 on document 5114992112, the APPLMTOTAL share is 59,210.58 on document 5114993612, the pooled centre's net Zephyr residual is 26,913.90, and 10,765.56 plus 59,210.58 plus 26,913.90 equals 96,890.04.",
+    "fabric_family_mirrored": "PASS. The family now names all eleven documents at 69,300.00 and points at phaseb_b2 open B2-O18 with no destination, matching the counterparty side exactly.",
+    "stale_pointers": "PASS. No reference to phaseb_b2 rule 79 or phaseb_b4 rule 47 survives in any file.",
+    "totals": "PASS. ruled 14,525,927.50 over 2,980 and open 715,568.26 over 571, together 15,241,495.76 over 3,551.",
+    "rules_and_coverage": "All 20 rules and all 23 open matchers reproduce exactly, zero overlap, nil residual."
+   },
+   "phaseb_b4": {
+    "rule_51_unified": "PASS. The match, AMSCAL in APPLH_INFOTECH or APPLSIG_ITEMS less the line rule 12 takes, returns exactly 13 lines at -116.52, and the composition matches question Q7's note: eleven in the pooled technology centre, being five monthly charge and reversal pairs that cancel (NOV 148.06, DEC 28.86, JAN 84.32, FEB 144.50, MAR 92.52, each against its reversal) plus H46590 at -116.52, and two in the corporate significant items centre, H52703 at 115.42 against H52719 at -115.42.",
+    "rule_46": "PASS. One line, H52718 'IT RELATED EXPENDITURE' at 109.62.",
+    "q7_apportionment_sentence": "PASS, and the leaf discipline is now correct. On CO document 5117177796 the software tab carries leaf legs INTEGM 291.50, APPLB2B 145.75 and APPLH_INFOTECH 145.75, and the APPLBULKFUEL row at 437.25 is a parent roll-up that equals 291.50 plus 145.75 exactly, so it is a duplicate and not a share; the hardware tab carries APPLBULKFUEL 444.19, where that centre is a leaf, and APPLH_INFOTECH 148.06. The sentence names exactly these and no parent as a share. The two APPLHCORP rows on the same document, 145.75 software and 148.06 hardware, are also parents and are correctly not cited. The twenty three INTEGM AMSCAL rows all carry Commercial Fuels / Trading & Shipping in the mapping values, as the sentence states.",
+    "contra_note_and_basis_scope": "PASS. The contra note now reads held open at question Q7 through rule 51 and carries no retired rule. basis_scope now names rules 37, 38, 41, 48 and 49, which is the complete set of rules citing the tab.",
+    "rules_and_coverage": "All 50 rules reproduce exactly. The 50 effective predicates are mutually disjoint, cover all 39,772 lines with nil residual, and three randomised application orders reproduce every rule's claim."
+   },
+   "finding_count": 0,
+   "findings": []
+  },
+  "2_exactly_once_and_totals": {
+   "result": "PASS",
+   "computed": {
+    "block_scopes_disjoint_on_cost_centres": true,
+    "b1": {
+     "lines": 5157,
+     "total": 10736790.58
+    },
+    "b2": {
+     "lines": 1430,
+     "total": 25309848.13
+    },
+    "b3": {
+     "lines": 3551,
+     "total": 15241495.76
+    },
+    "b4": {
+     "lines": 39772,
+     "total": 25468998.32
+    },
+    "software_partition": "10,736,790.58 plus 25,309,848.13 plus 15,241,495.76 equals 51,288,134.47 over 10,138 lines, to the cent",
+    "hardware": "25,468,998.32 over 39,772 leaf rows",
+    "grand_total": 76757132.79
+   },
+   "line_level": "Every leaf line of both tabs resolves to exactly one rule or one open entry, with no duplicate and no gap in any block.",
+   "finding_count": 0,
+   "findings": []
+  },
+  "4_citation_completeness_both_sides": {
+   "result": "PASS ON COVERAGE, ONE FAMILY DOES NOT MIRROR",
+   "independent_sweep": "The workbook was swept directly, without reference to the pair file, for every CO document carrying two leaf legs in different blocks that are equal and opposite to the cent. 208 such pairs exist: 184 move cost between two different destinations and 24 land both legs on the same destination.",
+   "coverage": "Of the 184 cost moving pairs, 177 carry their document number in both files that hold a leg. The seven that do not are the CONTENTSTACK LICENSE stream, 5117595731, 5118078091, 5118497606, 5118999826, 5119457184, 5119891312 and 5120327060, 9,685.00 each and 67,795.00 together, phaseb_b3 rule 18 at Ampol Customer / Ampol Digital against phaseb_b2 rule 38 at TDD / TDD. That family was ruled out of the required list in round three, so it carries no citation requirement and is recorded here only so the position is not lost. The 24 same destination pairs, 726,351.71, are exempt under the round two ruling.",
+   "family_mirroring": "Six families are named in more than one file and all six carry identical document sets. The failure is in a family that phaseb_b2 does not name, finding R4-01.",
+   "finding_count": 1,
+   "findings": [
+    {
+     "id": "R4-01",
+     "severity": "MEDIUM",
+     "files": [
+      "phaseb_b1.json",
+      "phaseb_b2.json"
+     ],
+     "dollars_at_stake": 360535.03,
+     "statement": "The ENERGY SOLUTIONS AZURE RECHARGE family does not mirror between the two sides. phaseb_b1's contra entry was extended this issue to the full twelve document stream at 845,475.50. phaseb_b2's contra entry for the same family still names seven documents at -484,940.47 and its note still opens 'Family ENERGY SOLUTIONS AZURE RECHARGE. Seven monthly documents'. This is the same defect the adversary raised at R3-5 for the Power BI Fabric family, which phaseb_b3 fixed this issue by moving from seven documents to eleven; the Azure family was fixed on the phaseb_b1 side only.",
+     "missing_documents": [
+      "5115751862",
+      "5116582177",
+      "5117334887",
+      "5118073745",
+      "5119228582"
+     ],
+     "proof": "The five counterparty legs sit in phaseb_b2 rule 3 and are S16574 at -86,137.51, S16665 at -78,518.14, S16834 at -70,049.50, S16968 at -65,528.00 and S17169 at -60,301.88, together -360,535.03. 484,940.47 plus 360,535.03 equals 845,475.50, the figure phaseb_b1 now carries. The five document numbers do appear elsewhere in phaseb_b2, but for other transactions: four inside rule 2's Sentinel evidence, which lists the 801425 charge and 801482 contra documents, and three inside open B2-O18's Power BI Fabric list. None of those mentions is the Azure recharge pair.",
+     "consequence": "phaseb_b1's note asserts that the phaseb_b2 side records all twelve numbers and that the entry now mirrors it. That is true of the bare numbers and false of the family: a reader following the Azure family from the phaseb_b2 side sees seven months and 484,940.47 against twelve months and 845,475.50 on the phaseb_b1 side.",
+     "remedy": "Extend the phaseb_b2 entry to the same twelve documents and -845,475.50, and change 'Seven monthly documents' to twelve. No line placement changes and no total moves; all twelve legs are already captured by rule 3."
+    }
+   ]
+  },
+  "6_register": {
+   "result": "PASS",
+   "banned_list_applied": "The ruled live list: saving in every form, wave, seat, floor, roster, Category as a column label, theirs or their used of Finance, em and en dashes, dashes as cell filler. The charge family is not banned.",
+   "computed": "2,028 content strings scanned across match, evidence, name, note, notes, open entries, open questions and contra entries, with the loop record fields excluded and quoted source text excluded. Zero em or en dashes, zero dashes as filler, zero banned words, zero person pronouns of any person. A second pass over the complete raw JSON of all four files returns zero pronoun hits, so the result does not depend on the field selection or the quoted text exclusion.",
+   "finding_count": 0,
+   "findings": []
+  },
+  "7_arithmetic": {
+   "result": "PASS",
+   "computed": [
+    "phaseb_b1: rules sum to 9,678,056.71 over 4,490 and line_map holds 4,490 entries; open sums to 1,058,733.87 over 667; together the stated scope of 10,736,790.58.",
+    "phaseb_b2: rules 25,526,580.60 over 1,284 and open -216,732.47 over 146, together 25,309,848.13 over 1,430. The by_destination table reproduces line for line and cent for cent from the rules, with nothing missing in either direction.",
+    "phaseb_b3: rules 14,525,927.50 over 2,980 and open 715,568.26 over 571, together 15,241,495.76 over 3,551, matching block_total, ruled_plus_open and stem_sum.",
+    "phaseb_b4: ruled 20,827,010.34 over 1,563 and open 4,641,987.98 over 38,209, together 25,468,998.32 over 39,772. The destination_totals table reproduces exactly and its own totals come to 1,563 and 20,827,010.34.",
+    "phaseb_b4 open questions: all seven equal the sum of the rules they name and together give 38,209 lines and 4,641,987.98. Q7 now reads 13 lines and -116.52 against rule 51, and Q5 3 lines becomes 1 line and 109.62 against rule 46.",
+    "contra entries: all 104 across the four files reproduce their amounts from the raw rows, including the seven phaseb_b2 entries that state a product share of a multi pair document, each verified against the legs matching the product the entry names."
+   ],
+   "finding_count": 0,
+   "findings": []
+  },
+  "3_budget_tab_row_258": {
+   "result": "SIX OF SEVEN RULES STRETCH THE ROW",
+   "what_row_258_is": "2026 Budget tab row 258, cost centre ITEUS IT End User Services, cost element 801482, line item 'Software Licences -Microsoft true up', -200,000, vendor Microsoft, detail column 'Project & Visio recharge to users', mapped TDD / TDD with subarea Workplace & Enterprise Tooling.",
+   "empirical_test": "No line in cost centre APPLH_INFOTECH names Microsoft Project or Visio in column N. The only column N values in the block containing the word PROJECT are the two ACAPPS project lines at B2-O9, one Snowflake project recharge and the pricing optimiser project line; none is the Microsoft Project licence. No Visio line exists anywhere on the software tab. None of the seven rules captures a Project or Visio licence line, so by the stated test every citation of row 258 is applied to other products.",
+   "grading": [
+    {
+     "rule": 5,
+     "lines": 32,
+     "dollars": 5370658.42,
+     "verdict": "SOUND",
+     "reason": "Rule 5 captures MICROSOFT EA, MICROSFT EA, MICROSOFT EAS and MICROSOFT TRUEUP, including '2026 MICROSOFT EAS TRUEUP'. Row 258 sits on the same budget line item as row 257, 'Software Licences -Microsoft true up', which rule 5 cites first alongside row 256. Row 258 is named only as the recharge of that same line item, so the clause is redundant rather than load bearing. Strike it and rows 256 and 257 still carry the rule."
+    },
+    {
+     "rule": 10,
+     "lines": 25,
+     "dollars": 111111.61,
+     "verdict": "STRETCH, not load bearing",
+     "reason": "Copilot is a Microsoft 365 add-on. The evidence cites rows 256 to 258 as a block; row 256, Microsoft 365 licensing at 3,660,000, is the witness that carries, and row 258 adds only the recharge form for a different product."
+    },
+    {
+     "rule": 14,
+     "lines": 1,
+     "dollars": -126.6,
+     "verdict": "STRETCH, not load bearing",
+     "reason": "Power Automate is a Microsoft product in the same ITEUS block but is not the true-up line row 258 names. Row 256 carries it."
+    },
+    {
+     "rule": 24,
+     "lines": 4,
+     "dollars": 16373.63,
+     "verdict": "STRETCH",
+     "reason": "Think-Cell is not a Microsoft product. Row 258 is used as a shape witness for central purchase recharged to named users, the same move rule 15 made before it was rewritten. Row 264, the Adobe per-user chargeback, is cited alongside and is the better witness for that shape."
+    },
+    {
+     "rule": 25,
+     "lines": 6,
+     "dollars": 0.0,
+     "verdict": "STRETCH",
+     "reason": "Snagit, Camtasia and TechSmith are not Microsoft products. Same shape argument, same row 264 alongside."
+    },
+    {
+     "rule": 26,
+     "lines": 15,
+     "dollars": -199.9,
+     "verdict": "STRETCH",
+     "reason": "Articulate is not a Microsoft product. Same shape argument, same row 264 alongside."
+    },
+    {
+     "rule": 27,
+     "lines": 17,
+     "dollars": -0.0,
+     "verdict": "STRETCH",
+     "reason": "Autodesk and AutoCAD are not Microsoft products. Same shape argument, same row 264 alongside."
+    }
+   ],
+   "totals": {
+    "stretched_rules": 6,
+    "stretched_lines": 68,
+    "stretched_dollars": 127158.74,
+    "sound_rules": 1,
+    "sound_lines": 32,
+    "sound_dollars": 5370658.42
+   },
+   "materiality": "No destination moves. All seven rules land on TDD / TDD and each carries a witness that survives the removal of the row 258 clause: rules 5, 10 and 14 on row 256 or 257, the Microsoft licensing and true-up lines in the same cost centre; rules 24 to 27 on row 264, a genuine non-Microsoft per-user chargeback, and on the 784 mapping-values grammar that rule 15 now uses, under which a per-user licence line follows the centre that holds it with zero exceptions and APPLH_INFOTECH reads TECHNOLOGY DIGITAL & DATA.",
+   "finding_count": 1,
+   "findings": [
+    {
+     "id": "R4-02",
+     "severity": "LOW",
+     "file": "phaseb_b2.json",
+     "rules": [
+      10,
+      14,
+      24,
+      25,
+      26,
+      27
+     ],
+     "lines": 68,
+     "dollars_at_stake": 127158.74,
+     "statement": "Six rules cite 2026 Budget tab row 258 for products the row does not name. Row 258 is the Project and Visio per-user recharge on the Microsoft true-up line item; rules 10 and 14 apply it to Copilot and Power Automate, and rules 24, 25, 26 and 27 apply it to Think-Cell, TechSmith, Articulate and Autodesk. Rule 5 is the one citation that stands, because row 258 sits on the same budget line item that rule 5's own MICROSOFT TRUEUP lines occupy.",
+     "proof": "Row 258's detail column reads 'Project & Visio recharge to users'. Column N in cost centre APPLH_INFOTECH names no Microsoft Project or Visio licence on any of the 1,430 lines, and none of the 68 lines these six rules capture is a Project or Visio licence.",
+     "materiality": "No placement changes. The row 258 clause is not load bearing in any of the six: rules 10 and 14 also cite row 256, and rules 24 to 27 also cite row 264 and stand on the 784 mapping-values class witness. The finding is that the row is being read past what it says, which is the reading the adversary broke at rule 15.",
+     "remedy": "Strike the row 258 clause from rules 10, 14, 24, 25, 26 and 27, leaving row 256 in rules 10 and 14 and row 264 with the mapping-values grammar in rules 24 to 27. Keep it in rule 5. No numbers change."
+    }
+   ]
+  },
+  "5_regression": {
+   "result": "ALL TEN CONFIRMED RESOLVED",
+   "auditor_round_three": [
+    {
+     "id": "R3-01",
+     "status": "RESOLVED",
+     "evidence": "All eleven cost moving pairs are now cited on both sides. The five Energy Solutions Azure documents are cited in phaseb_b1's extended family; the four Power BI Fabric documents in phaseb_b3's family, now eleven documents; 5118043472 and 5120370266 in new phaseb_b2 entries. The independent sweep this round finds no uncited cost moving pair outside the CONTENTSTACK stream that the round three ruling excluded. The related mirroring gap on the phaseb_b2 Azure entry is a separate finding, R4-01."
+    },
+    {
+     "id": "R3-02",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b3's Fabric entry now reads 'against APPLH_INFOTECH in phaseb_b2 held open at B2-O18 with no destination'. The withdrawn TDD / TDD destination and the rule 15 pointer are gone."
+    },
+    {
+     "id": "R3-03",
+     "status": "RESOLVED",
+     "evidence": "No reference to phaseb_b2 rule 79 or phaseb_b4 rule 47 survives anywhere in the four files, and neither number appears in a live rules list."
+    },
+    {
+     "id": "R3-04",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b4 basis_scope now reads rules 37, 38, 41, 48 and 49, which is exactly the set of rules citing the tab, and adds the sheet rows those two new rules cite."
+    }
+   ],
+   "adversary_round_three": [
+    {
+     "id": "R3-1",
+     "status": "RESOLVED",
+     "evidence": "Rule 12 is 82 lines and 171,496.78 and sheet row 11883 is open at O24, with the Zephyr apportionment arithmetic stated and verified to the cent."
+    },
+    {
+     "id": "R3-2",
+     "status": "RESOLVED",
+     "evidence": "The fact now states 38 and the test as written returns exactly 38 lines and 197,604.46. Note on the unimplemented half of that remedy: the evidence does not separate the 11 equal and opposite legs, -132.93, from the 27 same-signed co-allocations, 197,737.39, which the adversary suggested. Recorded as an observation, not a finding, because the defect as stated, a count the test does not return, is fixed and no placement depends on the split."
+    },
+    {
+     "id": "R3-3",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b2 rule 15's evidence now leads with the 784 mapping-values class witness, citing the Salesforce, Copilot and Acrobat centre splits and the 14 Snowflake and 1 Dataiku rows in APPLCCO, and row 258 is gone from the rule."
+    },
+    {
+     "id": "R3-4",
+     "status": "RESOLVED",
+     "evidence": "Same evidence as R3-02 and R3-03 above; all three entries repointed."
+    },
+    {
+     "id": "R3-5",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b3's Fabric family now carries all eleven documents at 69,300.00, mirroring open B2-O18 exactly."
+    },
+    {
+     "id": "R3-6",
+     "status": "RESOLVED",
+     "evidence": "Rule 51 is unified at 13 lines under question Q7 and now carries the two corporate significant items AMSCAL lines H52703 and H52719 alongside the eleven pooled lines, exactly the first branch of the remedy. Rule 46 falls to one line, 109.62, under Q5, so no share of the AMSCAL apportionment is left under a differently named question."
+    }
+   ],
+   "finding_count": 0,
+   "findings": []
+  }
+ },
+ "finding_count": 2,
+ "phase_b_status": "Not closed. Two findings stand: R4-01, a family that does not mirror, and R4-02, six rules reading past what a cited budget row says. Neither moves a line, a destination or a total; both are edits to text. With those two applied, every check in this suite passes and the four files are ready to freeze."
+}

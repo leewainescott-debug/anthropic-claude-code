@@ -1,0 +1,1956 @@
+{
+ "block": "HW Line Items, all leaf cost centres (roll-up parents APPLHCORP and APPLMARKETING excluded)",
+ "builder": "Phase B, B4",
+ "revision": "Fifth issue. Changes from the fourth issue, all adjudicated, none of which moves a total. One, the AMSCAL apportionment is unified under one question: rule 51 gains a second limb for the two significant items lines that name no programme, the December 2025 recharge and its reversal, so rule 51 reads 13 lines and -116.52 under question Q7 and rule 46 reads 1 line and 109.62 under question Q5, both still open. The one AMSCAL row in that centre that does name a programme stays with rule 12. Two, the contra note for CO document 5117738696 points at the current treatment of the software pair: the pooled centre leg held open at phaseb_b2 B2-O17 and the TDDEINTSIG charge leg ruled through phaseb_b3 rule 3. Three, basis_scope lists rules 37, 38, 41, 48 and 49 as the rules that cite the 2026 Budget tab, the two added in the fourth issue included, at sheet rows 156, 262 and 264. Ruled stays 20,827,010.34 over 1,563 lines and open stays 4,641,987.98 over 38,209 lines; the block stays 25,468,998.32 over 39,772 lines. Fourth issue changes, kept: rule 47 retired and its eleven pooled AMSCAL lines opened at Q7; rules 48, 49 and 50 added; rule 4 restated to leave the pooled centre legs to rule 49; rule 8 stating the centre text convention; question Q6 naming its candidate; the contra listing and the citations block.",
+ "tab": "HW Line Items, data rows 15 to 52928",
+ "block_lines": 39772,
+ "block_total": 25468998.32,
+ "ruled_lines": 1563,
+ "ruled_total": 20827010.34,
+ "open_lines": 38209,
+ "open_total": 4641987.98,
+ "ruled_plus_open": 25468998.32,
+ "ties_block_total": true,
+ "method": "Rules are numbered and tested in number order; the first rule whose match is true captures the line, and no line is tested against a later rule, so every line maps through exactly one rule. Each rule states the match in column terms, the destination taken only from the operating model structure, and the lines and dollars it captures. Every rule was re-derived from the words of its match alone, in a second implementation, and returns the lines and dollars it claims, zero exceptions. Rules whose destination is not decided by the source carry an open question instead of a portfolio and platform. The grammar follows the adjudicated convention: the cost centre in column C decides, except in APPLH_INFOTECH, which pools technology spend for every portfolio and where the product named in column N decides; a line that recharges a product out of that centre into a named centre takes the destination of the centre that receives it. Inside a cost centre that spans several businesses and names none, the bulk fuels code, the product or system named in the line decides, and lines naming none are open. Rule 47 is appended after rule 46 and is named out of rule 43 in that rule's own match, so the stated matches partition the block in any order of application. Columns used: C cost centre, D cost centre name, E cost element, I auxiliary account assignment (internal order), K vendor, L purchase order, N document text.",
+ "basis_scope": "The 2026 Budget tab of the same file covers 35 technology cost centres and its scope on the line item tabs is cost centre APPLH_INFOTECH. It is cited only on rules whose lines sit in that centre, rules 37, 38, 41, 48 and 49, and there as corroboration after the column fact, at sheet rows 156, 262 and 264 for the two rules added in the fourth issue. Question Q1 quotes the tab to show a conflict between two conventions inside the file, not to place a line.",
+ "destination_totals": {
+  "Ampol Retail / AmPOS": {
+   "lines": 504,
+   "dollars": 11874975.96
+  },
+  "Ampol Retail / Store Operations": {
+   "lines": 599,
+   "dollars": 8032829.88
+  },
+  "TDD / TDD": {
+   "lines": 99,
+   "dollars": 903285.13
+  },
+  "Ampol Retail / Network/QSR": {
+   "lines": 13,
+   "dollars": 94254.12
+  },
+  "B2B & Energy Solutions / Energy Solutions": {
+   "lines": 206,
+   "dollars": 17271.44
+  },
+  "EG Integration / EGI": {
+   "lines": 2,
+   "dollars": 11816.52
+  },
+  "B2B & Energy Solutions / B2B": {
+   "lines": 2,
+   "dollars": 75.89
+  },
+  "Finance / Finance": {
+   "lines": 2,
+   "dollars": -11278.2
+  },
+  "Fuel Infrastructure / Manufacturing": {
+   "lines": 105,
+   "dollars": -24547.17
+  },
+  "Commercial Fuels / Supply": {
+   "lines": 18,
+   "dollars": -27986.92
+  },
+  "P&C / P&C": {
+   "lines": 13,
+   "dollars": -43686.31
+  }
+ },
+ "rules": [
+  {
+   "rule": 1,
+   "name": "Device catalogue billing",
+   "status": "OPEN",
+   "match": "Column E = 801450 and column N, after any leading space, opens with a device catalogue code (560, 561, 562, 563, 564, 565 or 721) followed by the device name (LAPTOP, DESKTOP, HIGH PERF LAPTOP, HIGH PERF LAPTOP CAD, HIGH PERF DESKTOP, COLOUR PRINTING).",
+   "open_question": "Q1",
+   "lines": 37575,
+   "dollars": 6776597.81,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLBULKFUEL": 2236563.61,
+    "APPLFIREFINING": 2194440.75,
+    "APPLMTOTAL": 784976.61,
+    "APPLHFIN": 455830.58,
+    "APPLAETOTAL": 339213.22,
+    "APPLHHR": 301508.63,
+    "APPLLUBRICANTS": 167785.0,
+    "APPLBRNDCOMS": 95697.19,
+    "APPLSIG_ITEMS": 75883.11,
+    "APPLHLSA": 54667.53,
+    "APPLHALT": 42825.15,
+    "APPLH_INFOTECH": 22216.43,
+    "APPLRCALSTORES": 3790.0,
+    "APPLGENERAL": 1200.0
+   },
+   "evidence": "Every captured line carries one billing form: catalogue code, device type, asset serial and user identifier, for example \"560 LAPTOP AU-0F364WG24103GT\" and \"721 COLOUR PRINTING\", each followed by the user identifier. All 37,575 lines sit on cost element 801450 Desktop HW & Support and the form appears in fourteen leaf cost centres. Eight further lines carry the same catalogue code inside a reallocation text and are captured by rule 9. Destination is held open under question Q1.",
+   "example_line_ids": [
+    "H17",
+    "H18",
+    "H19",
+    "H20",
+    "H21"
+   ]
+  },
+  {
+   "rule": 2,
+   "name": "Laptop recharge reclassification",
+   "status": "OPEN",
+   "match": "Column N = RECLASS LAPTOP RECHARGE.",
+   "open_question": "Q1",
+   "lines": 2,
+   "dollars": 180.0,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": 180.0
+   },
+   "evidence": "Two lines in the technology cost centre reclassify laptop recharge and name no other product. Same monthly recharge billing as rule 1, so the destination is held open under question Q1.",
+   "example_line_ids": [
+    "H47523",
+    "H47524"
+   ]
+  },
+  {
+   "rule": 3,
+   "name": "Printer asset service billing",
+   "status": "OPEN",
+   "match": "Column N names a printer asset, either BIZHUB or PRINTER followed by an asset number.",
+   "open_question": "Q1",
+   "lines": 36,
+   "dollars": 4365.77,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLFIREFINING": 2255.77,
+    "APPLLUBRICANTS": 1800.0,
+    "APPLBULKFUEL": 310.0
+   },
+   "evidence": "Monthly service billing for named printer assets, for example \"BIZHUB C3350I PRINTER SA93E041203456\" and \"PRINTER SAA2M041015751 BAU SERVICE CHARGE\", posted to the consuming cost centre on cost element 801450. Same monthly recharge billing as rule 1, so the destination is held open under question Q1.",
+   "example_line_ids": [
+    "H78",
+    "H79",
+    "H137",
+    "H138",
+    "H199"
+   ]
+  },
+  {
+   "rule": 4,
+   "name": "Technology service recharge",
+   "status": "OPEN",
+   "match": "Column N contains IT SERVICES with a month, on lines outside cost centre APPLH_INFOTECH, or column N contains DESKTOP HW & SUPPORT, or column N contains MOVE TDD DESKTOP COSTS.",
+   "open_question": "Q1",
+   "lines": 175,
+   "dollars": -16675.01,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLBULKFUEL": -42968.34,
+    "APPLFIREFINING": 24852.73,
+    "APPLMTOTAL": 1440.6,
+    "APPLH_INFOTECH": 720.0,
+    "APPLSIG_ITEMS": -720.0
+   },
+   "evidence": "Monthly technology service recharge posted per person or per centre on cost element 801450 Desktop HW & Support, for example \"IT SERVICES JAN 2026\" and \"IT SERVICES JAN 2026 DESKTOP HW & SUPPORT\", in the centres that consume the service. Same monthly recharge billing as rule 1, so the destination is held open under question Q1. The two credit legs of the same billing inside the pooled technology cost centre are captured by rule 49, where that centre routes by the product named in the row.",
+   "example_line_ids": [
+    "H2716",
+    "H2717",
+    "H2718",
+    "H2719",
+    "H3586"
+   ]
+  },
+  {
+   "rule": 5,
+   "name": "Prepaid account journals",
+   "status": "OPEN",
+   "match": "Column N contains MOVE TO PREPAID ACCOUNT.",
+   "open_question": "Q2",
+   "lines": 2,
+   "dollars": -2196046.41,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": -2196046.41
+   },
+   "evidence": "Two journals in one CO document, 5116660265, quoting references 5013501007 and 5013501085. Neither reference appears on any other line of either tab, and the lines carry no vendor, no purchase order and no internal order. Destination is held open under question Q2.",
+   "example_line_ids": [
+    "H31371",
+    "H31372"
+   ]
+  },
+  {
+   "rule": 6,
+   "name": "Indoor pinpad security upgrade",
+   "status": "RULED",
+   "match": "Column I = E.26.015, or column N contains INDOOR PINPAD.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 22,
+   "dollars": 94490.0,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 94490.0
+   },
+   "evidence": "Cost centre APPLMTOTAL is named MARKETING - OPERATING in column D, the retail operating centre, so the centre decides the portfolio. Internal order E.26.015 sits only in that centre and every line on it names the indoor pinpad security upgrade; three reversal lines carry the same wording on internal order E.25.002 and are captured with the charges those lines reverse. Column N names indoor pinpads, the payment terminals inside the store, which places the line on the store estate.",
+   "example_line_ids": [
+    "H32132",
+    "H32133",
+    "H32143",
+    "H32144",
+    "H32145"
+   ]
+  },
+  {
+   "rule": 7,
+   "name": "POS replacement programme, internal order",
+   "status": "RULED",
+   "match": "Column I = E.25.002, on lines rule 6 does not capture.",
+   "portfolio": "Ampol Retail",
+   "platform": "AmPOS",
+   "sig_funded": true,
+   "lines": 470,
+   "dollars": 11349211.57,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 11349211.57
+   },
+   "evidence": "Internal order E.25.002 sits only in the marketing operating centre and carries the POS replacement programme: vendor milestones (\"AMPOS PROGRAM - M3 READY FOR UAT\", \"MILESTONE S2 - DELIVERY OF IN-SCOPE CRS\"), programme test teams, delivery support and programme labour recharges. The journals in rule 8 transfer this order to the significant item CRPOSSIG, whose cost centre name in the same export is CONV RETAIL POS, so the spend is significant item funded.",
+   "example_line_ids": [
+    "H31666",
+    "H31667",
+    "H31668",
+    "H31669",
+    "H31687"
+   ]
+  },
+  {
+   "rule": 8,
+   "name": "POS significant item transfers",
+   "status": "RULED",
+   "match": "Column N contains TRF TO CRPOSSIG.",
+   "portfolio": "Ampol Retail",
+   "platform": "AmPOS",
+   "sig_funded": true,
+   "lines": 28,
+   "dollars": 457360.72,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLSIG_ITEMS": 11897358.15,
+    "APPLMTOTAL": -11439997.43,
+    "APPLH_INFOTECH": 0.0
+   },
+   "evidence": "Monthly transfer journals, for example \"RECLASS NAMOS NOV TRF TO CRPOSSIG\", posted as a pair inside one CO document: a credit in the marketing operating centre and a debit of the same amount in the corporate significant items centre. CRPOSSIG is the significant item cost centre named CONV RETAIL POS in the same export. Both sides of each pair are captured here. CO document 5118145663, \"RECLASS SNOWFLAKE JAN TRF TO CRPOSSIG\", 27,360.72, is captured by this rule with the rest: the cost centre decides, so the leg on this tab follows the rule of the centre that holds it, and the leg of the same document on the SW tab sits in the same portfolio under the rule of its own centre. The convention behind both legs of every pair here is the centre own text rule and not an exception to the contra convention: the marketing operating centre routes by the text in column N, and text naming the POS programme routes to Ampol Retail / AmPOS, so both legs reach the same destination because the same text decides each one.",
+   "example_line_ids": [
+    "H31723",
+    "H31804",
+    "H31862",
+    "H31938",
+    "H31983"
+   ]
+  },
+  {
+   "rule": 9,
+   "name": "Laptop reallocation pairs",
+   "status": "OPEN",
+   "match": "Column N contains REALLOC followed by a device catalogue code and the device name.",
+   "open_question": "Q1",
+   "lines": 8,
+   "dollars": 0.0,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLSIG_ITEMS": -960.0,
+    "APPLAETOTAL": 480.0,
+    "APPLH_INFOTECH": 480.0
+   },
+   "evidence": "Four charge and contra pairs, eight lines netting 0.00, reallocating device catalogue billing between the corporate significant items centre and three other centres, for example \"REALLOC 560 LAPTOP\" followed by an asset serial and a user identifier at 240.00 in APPLAETOTAL against -240.00 in APPLSIG_ITEMS. The billing reallocated is the billing of rule 1, so the destination is held open under question Q1.",
+   "example_line_ids": [
+    "H13179",
+    "H13180",
+    "H47184",
+    "H47185",
+    "H52782"
+   ]
+  },
+  {
+   "rule": 10,
+   "name": "POS transfer to HSPECIAL",
+   "status": "RULED",
+   "match": "Column N contains NAMOS and TRF TO HSPECIAL.",
+   "portfolio": "Ampol Retail",
+   "platform": "AmPOS",
+   "sig_funded": true,
+   "lines": 2,
+   "dollars": 0.0,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 290.49,
+    "APPLSIG_ITEMS": -290.49
+   },
+   "evidence": "One CO document, 5114998379, carrying the pair \"RECLASS NAMOS JUL TRF TO HSPECIAL\": a debit in the marketing operating centre and a credit of the same amount in the corporate significant items centre. Column N names the POS system NAMOS.",
+   "example_line_ids": [
+    "H31715",
+    "H52567"
+   ]
+  },
+  {
+   "rule": 11,
+   "name": "POS programme named outside the internal order",
+   "status": "RULED",
+   "match": "Column N names AMPOS, NAMOS or A,POS, on lines rules 7 to 10 do not capture.",
+   "portfolio": "Ampol Retail",
+   "platform": "AmPOS",
+   "sig_funded": true,
+   "lines": 4,
+   "dollars": 68403.67,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 68403.67
+   },
+   "evidence": "Four lines naming the POS programme without carrying its internal order: \"IT AMPOS RECHARGE FROM Z\", \"AMPOS PROGRAM -CLX ELEARINING PLATFORM\" and a transfer of the programme between internal orders, \"NAMOS - TRANSFER FROM M.22.037 TO E.25.002\". The dashboard lists AMPOS under Ampol Strategic Programs (Significant Items Opex).",
+   "example_line_ids": [
+    "H31712",
+    "H31713",
+    "H31803",
+    "H32136"
+   ]
+  },
+  {
+   "rule": 12,
+   "name": "EG Integration recharges",
+   "status": "RULED",
+   "match": "Column N contains EGI as a word, or column C = APPLSIG_ITEMS and column N contains TDDEINTSIG.",
+   "portfolio": "EG Integration",
+   "platform": "EGI",
+   "sig_funded": true,
+   "lines": 2,
+   "dollars": 11816.52,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": 11700.0,
+    "APPLSIG_ITEMS": 116.52
+   },
+   "evidence": "Two lines: \"EGI HARDWARE RECHARGES JAN & FEB 2026\", 11,700.00, in the technology cost centre, and the significant items leg of CO document 5117738696, \"RECLASS - NOV 25 AMSCAL - 80% TO TDDEINTSIG\", 116.52. The second line sits in cost centre APPLSIG_ITEMS, which routes by the program named in the row, and the program named is TDDEINTSIG, the significant item cost centre named TDD EMERALD INTEGRATION in the same export. The pooled technology leg of that document is not captured here: a row in the pooled centre follows the product named in the row, so it is captured by rule 51 and held open under question Q7, and TDDEINTSIG is recorded as the transfer counterparty in the contra document listing rather than mapped.",
+   "example_line_ids": [
+    "H46886",
+    "H52704"
+   ]
+  },
+  {
+   "rule": 13,
+   "name": "Refinery cost centre",
+   "status": "RULED",
+   "match": "Column C = APPLFIREFINING, on lines rules 1 to 4 do not capture.",
+   "portfolio": "Fuel Infrastructure",
+   "platform": "Manufacturing",
+   "sig_funded": false,
+   "lines": 104,
+   "dollars": -26097.22,
+   "cost_elements": [
+    "801430",
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLFIREFINING": -26097.22
+   },
+   "evidence": "Cost centre APPLFIREFINING is named F&I REFINING in column D. Captured lines are refinery hardware and site works: radio, antenna and network site repairs, site cameras and boom gates, hardware and maintenance agreements, refinery unit transfer journals (\"Y602100 TFR SEP25 ALKY\", \"Y602100 TFR JUN26 FCCU\"), and the refinery project systems integration order E.25.016. The structure document places Manufacturing in the Fuel Infrastructure portfolio, and mapping values present in the source file place a leaf centre that names one business in that business.",
+   "example_line_ids": [
+    "H13808",
+    "H13809",
+    "H13810",
+    "H13811",
+    "H13812"
+   ]
+  },
+  {
+   "rule": 14,
+   "name": "Ampol Energy cost centre",
+   "status": "RULED",
+   "match": "Column C = APPLAETOTAL, on lines rules 1 and 9 do not capture.",
+   "portfolio": "B2B & Energy Solutions",
+   "platform": "Energy Solutions",
+   "sig_funded": false,
+   "lines": 199,
+   "dollars": 13368.12,
+   "cost_elements": [
+    "801430",
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLAETOTAL": 13368.12
+   },
+   "evidence": "Cost centre APPLAETOTAL is named AMPOL ENERGY TOTAL in column D. Captured lines are moves inside the energy solutions business, for example \"MOVE ANY EXPENDITURE FOR ES ASSET OPERATIONS MAR26\" and \"REALLOCATE ES JUN26 FROM 94 AMPENERGY TO ES\", battery storage project management and site SIM charges.",
+   "example_line_ids": [
+    "H11906",
+    "H11907",
+    "H11908",
+    "H11909",
+    "H11910"
+   ]
+  },
+  {
+   "rule": 15,
+   "name": "People and Culture cost centre",
+   "status": "RULED",
+   "match": "Column C = APPLHHR, on lines rule 1 does not capture.",
+   "portfolio": "P&C",
+   "platform": "P&C",
+   "sig_funded": false,
+   "lines": 13,
+   "dollars": -43686.31,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLHHR": -43686.31
+   },
+   "evidence": "Cost centre APPLHHR is named PEOPLE & CULTURE in column D. Captured lines are the quarterly HCALRECHG recharge journals, which name no product, so the centre is the only tell.",
+   "example_line_ids": [
+    "H51448",
+    "H51449",
+    "H51450",
+    "H51451",
+    "H51814"
+   ]
+  },
+  {
+   "rule": 16,
+   "name": "Finance cost centre",
+   "status": "RULED",
+   "match": "Column C = APPLHFIN, on lines rule 1 does not capture.",
+   "portfolio": "Finance",
+   "platform": "Finance",
+   "sig_funded": false,
+   "lines": 2,
+   "dollars": -11278.2,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLHFIN": -11278.2
+   },
+   "evidence": "Cost centre APPLHFIN is named FIN,STRAT,AUDIT,TREAS,GOV AFFAIRS & PROC in column D. Two lines, one with no document text and one carrying a prepayment document number only, so the centre is the only tell.",
+   "example_line_ids": [
+    "H48730",
+    "H48731"
+   ]
+  },
+  {
+   "rule": 17,
+   "name": "Lubricants cost centre",
+   "status": "RULED",
+   "match": "Column C = APPLLUBRICANTS, on lines rules 1 and 3 do not capture.",
+   "portfolio": "B2B & Energy Solutions",
+   "platform": "B2B",
+   "sig_funded": false,
+   "lines": 2,
+   "dollars": 75.89,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLLUBRICANTS": 75.89
+   },
+   "evidence": "Cost centre APPLLUBRICANTS is named LUBRICANTS in column D. Mapping values present in the source file place all 125 APPLLUBRICANTS rows on the SW tab in B2B & Energy Solutions / B2B. Captured lines are a control display battery kit and its freight.",
+   "example_line_ids": [
+    "H15",
+    "H16"
+   ]
+  },
+  {
+   "rule": 18,
+   "name": "Company store cost centre",
+   "status": "RULED",
+   "match": "Column C = APPLRCALSTORES, on lines rule 1 does not capture.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 1,
+   "dollars": 18.09,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLRCALSTORES": 18.09
+   },
+   "evidence": "Cost centre APPLRCALSTORES is named MARKETING - CALSTORES in column D, the company operated stores. One line, an audit application subscription for a company store tablet.",
+   "example_line_ids": [
+    "H35818"
+   ]
+  },
+  {
+   "rule": 19,
+   "name": "Terminal and pipeline control systems",
+   "status": "RULED",
+   "match": "Column N names SCADA, DCS or FUELFACS.",
+   "portfolio": "Commercial Fuels",
+   "platform": "Supply",
+   "sig_funded": false,
+   "lines": 18,
+   "dollars": -27986.92,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": -132633.48,
+    "APPLBULKFUEL": 104646.56
+   },
+   "evidence": "Server and network maintenance for the operational control systems, for example \"DELL SERVER MAINT FOR SCADA\", \"CISCO MAINT RENEWAL FEES FOR SCADA\" and \"DELL INV SERVER MAINT RE-CHARGES DCS\". These systems run terminals and pipelines, which the structure document places in Commercial Fuels / Supply. The charges in the bulk fuels centre and the matching credits in the technology centre are both captured, so each pair nets in one place.",
+   "example_line_ids": [
+    "H795",
+    "H800",
+    "H811",
+    "H822",
+    "H833"
+   ]
+  },
+  {
+   "rule": 20,
+   "name": "Blue Yonder retail planning",
+   "status": "RULED",
+   "match": "Column K names BLUE YONDER, or column N names BLUE YONDER, JDA as a word, BY SAAS or BY MODIFICATION, on lines rule 7 does not capture.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 87,
+   "dollars": 4890531.59,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 4883408.75,
+    "APPLBULKFUEL": 7122.84
+   },
+   "evidence": "Cost centre APPLMTOTAL is named MARKETING - OPERATING in column D, the retail operating centre, and the centre decides the portfolio; 4,883,408.75 of the 4,890,531.59 sits there and the remaining 7,122.84 sits in the bulk fuels centre, where the product named in the row decides because that code spans several businesses. Column K reads BLUE YONDER, INC. and BLUE YONDER AUSTRALIA PTY LTD on the invoice lines, and column N names the same platform on the accrual and reversal lines: \"BY SAAS CLOUD AGREEMENT 2025/2026\", \"JDA SUPPORT SEPT24-SEPT25\", \"BLUEYONDER MODIFICATION SUPT TO 26/9/26\". The platform runs store ordering and replenishment, which is the store estate. The twelve monthly amortisation lines are captured here; the two prepaid account journals are held open under question Q2.",
+   "example_line_ids": [
+    "H858",
+    "H873",
+    "H878",
+    "H879",
+    "H880"
+   ]
+  },
+  {
+   "rule": 21,
+   "name": "Workforce management replacement, internal order",
+   "status": "RULED",
+   "match": "Column I = E.24.022.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 78,
+   "dollars": 955147.72,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 955147.72
+   },
+   "evidence": "Internal order E.24.022 sits only in the marketing operating centre, the retail operating centre in column D, and carries the workforce management replacement: vendor invoices from the workforce management vendors and programme labour recharges naming KRONOS REPLACEMENT. Workforce management runs store labour, which is the store estate.",
+   "example_line_ids": [
+    "H31671",
+    "H31672",
+    "H31673",
+    "H31674",
+    "H31675"
+   ]
+  },
+  {
+   "rule": 22,
+   "name": "Workforce management named",
+   "status": "RULED",
+   "match": "Column N or column K names KRONOS, on lines rule 21 does not capture.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 53,
+   "dollars": 327197.0,
+   "cost_elements": [
+    "801430",
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 327050.06,
+    "APPLBULKFUEL": 146.94
+   },
+   "evidence": "Workforce management support, hosting and software as a service lines, for example \"SAAS KRONOS 07.25 - 06.26\" and \"DELOITTES KRONOS L2/3 SUPP\". Cost centre APPLMTOTAL, the retail operating centre in column D, holds 327,050.06 of the 327,197.00 and decides the portfolio; the remaining 146.94 sits in the bulk fuels centre, where the product named in the row decides. Workforce management runs store labour, which is the store estate.",
+   "example_line_ids": [
+    "H780",
+    "H805",
+    "H820",
+    "H831",
+    "H842"
+   ]
+  },
+  {
+   "rule": 23,
+   "name": "Store back office system",
+   "status": "RULED",
+   "match": "Column N contains STOREBOS or STBOS, or column I is E.24.024, E.25.045 or E.25.046, on lines rule 7 does not capture.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 40,
+   "dollars": 88600.0,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 88600.0
+   },
+   "evidence": "Cost centre APPLMTOTAL, named MARKETING - OPERATING in column D, holds every captured line and decides the portfolio. Column N names the store back office system and its three internal orders, STBOS RISK, STBOS REMAIN CURRENT and STBOS BUSINESS ENABLE. A store back office system runs inside the store, so the platform is the store estate.",
+   "example_line_ids": [
+    "H31676",
+    "H31677",
+    "H31678",
+    "H31679",
+    "H31680"
+   ]
+  },
+  {
+   "rule": 24,
+   "name": "Retail estate charges from the field services vendor",
+   "status": "RULED",
+   "match": "Column N opens with FUJ - and names GOV & MAINT or TNM.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 78,
+   "dollars": 0.0,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 0.0
+   },
+   "evidence": "Seventy eight lines in the marketing operating centre, the retail operating centre in column D, which decides the portfolio. The lines are accrual and reversal pairs from the retail field services vendor for estate governance and maintenance and for terminal and non terminal site charges, for example \"FUJ - GOV & MAINT JUL 2025\" and \"FUJ - TNM NON OPT CHG JUL 2025\". The two families net to 0.00 across the twelve months, so no dollar rests on the platform reading, and the estate named is the store estate.",
+   "example_line_ids": [
+    "H31250",
+    "H31251",
+    "H31252",
+    "H31264",
+    "H31265"
+   ]
+  },
+  {
+   "rule": 25,
+   "name": "Quick service restaurant network provision",
+   "status": "RULED",
+   "match": "Column N contains QSR.",
+   "portfolio": "Ampol Retail",
+   "platform": "Network/QSR",
+   "sig_funded": false,
+   "lines": 1,
+   "dollars": 2494.12,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 2494.12
+   },
+   "evidence": "One line, \"M4 QSR NETWORK PROVISION\", 2,494.12, in the marketing operating centre. Column N names the quick service restaurant network, which the structure document carries as the Network/QSR platform inside Ampol Retail.",
+   "example_line_ids": [
+    "H31287"
+   ]
+  },
+  {
+   "rule": 26,
+   "name": "Payment gateway fees",
+   "status": "RULED",
+   "match": "Column N or column K names WINDCAVE.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 68,
+   "dollars": 55781.65,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 54014.57,
+    "APPLBULKFUEL": 1767.08
+   },
+   "evidence": "Electronic funds transfer and merchant service fees for forecourt payment, for example \"WINDCAVE EFT (NEXT GEN OPT)\" and \"WINDCAVE (COMPAC) NEXT GEN OPT MSF FEES FOR APR\". Column N names the outdoor payment terminals the fees are raised on, which is store forecourt equipment; 54,014.57 sits in the marketing operating centre, which decides the portfolio, and 1,767.08 in the bulk fuels centre, where the equipment named in the row decides.",
+   "example_line_ids": [
+    "H781",
+    "H782",
+    "H783",
+    "H806",
+    "H821"
+   ]
+  },
+  {
+   "rule": 27,
+   "name": "POS vendor support",
+   "status": "RULED",
+   "match": "Column K names INGENICO, or column N names INGENICO or CENTRIQ TMS, on lines rules 6 and 7 do not capture.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 13,
+   "dollars": 77700.0,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLBULKFUEL": 43319.5,
+    "APPLMTOTAL": 34380.5
+   },
+   "evidence": "POS support, terminal management system support and POS training. Column N names point of sale support and the terminal management system, both store equipment; 34,380.50 sits in the marketing operating centre, which decides the portfolio, and 43,319.50 in the bulk fuels centre, where the equipment named in the row decides.",
+   "example_line_ids": [
+    "H929",
+    "H930",
+    "H931",
+    "H933",
+    "H32082"
+   ]
+  },
+  {
+   "rule": 28,
+   "name": "Forecourt dispenser vendor",
+   "status": "RULED",
+   "match": "Column K names GILBARCO, or column N names GVR or U-GO.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 43,
+   "dollars": 407532.74,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 406667.24,
+    "APPLBULKFUEL": 865.5
+   },
+   "evidence": "Forecourt dispenser and in car reader service, maintenance and warranty charges, for example \"2025 GVR U-GO S&M INVOICE JUL 25\" and \"GVR - ICR SUPT & MAINT FOR RETAIL JULY 25\". Column N names retail forecourt equipment, and 406,667.24 of the 407,532.74 sits in the marketing operating centre, which decides the portfolio.",
+   "example_line_ids": [
+    "H776",
+    "H801",
+    "H812",
+    "H827",
+    "H31248"
+   ]
+  },
+  {
+   "rule": 29,
+   "name": "Outdoor payment terminal vendor",
+   "status": "RULED",
+   "match": "Column K names COMPAC, or column N names COMPAC, on lines rule 26 does not capture.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 65,
+   "dollars": 26822.42,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 21902.42,
+    "APPLBULKFUEL": 4920.0
+   },
+   "evidence": "Outdoor payment terminal invoices, gateway and online fees by site, for example \"COMPAC OPT_INV_00117630\" and \"27X SITES+5X TEST/EC 04/26 COL 03/26 GW\". Column N names outdoor payment terminals at retail sites, which is store forecourt equipment; 21,902.42 sits in the marketing operating centre, which decides the portfolio, and 4,920.00 in the bulk fuels centre, where the equipment named in the row decides.",
+   "example_line_ids": [
+    "H774",
+    "H31236",
+    "H31255",
+    "H31256",
+    "H31257"
+   ]
+  },
+  {
+   "rule": 30,
+   "name": "Outdoor payment terminals, other suppliers",
+   "status": "RULED",
+   "match": "Column K names TRANSPONDER, or column N contains OPT as a word, on lines rules 24, 26 and 29 do not capture.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 9,
+   "dollars": 15371.58,
+   "cost_elements": [
+    "801430",
+    "801440",
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLBULKFUEL": 13012.58,
+    "APPLMTOTAL": 2359.0
+   },
+   "evidence": "Outdoor payment terminal hardware and on charges, for example \"ONCHAGE INVOICE 3009 FOR DERWENT BRIDGE OPT\", \"TT PCBASSY T6 CONT+ HOST KUNDA PARK DS\" and \"NEXTGEN OPT WS2 MAINTENANCE CHARGES\". Column N names the terminal and the site it stands on, which is store forecourt equipment.",
+   "example_line_ids": [
+    "H793",
+    "H794",
+    "H31292",
+    "H31471",
+    "H31508"
+   ]
+  },
+  {
+   "rule": 31,
+   "name": "Self checkout maintenance",
+   "status": "RULED",
+   "match": "Column N contains SCO as a word.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 18,
+   "dollars": 4964.82,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 4964.82
+   },
+   "evidence": "Self checkout software maintenance lines, for example \"SCO SOFTWARE MAINTENANCE APR - DEC 25\", in the marketing operating centre, which decides the portfolio. Self checkout stands inside the store, so the platform is the store estate.",
+   "example_line_ids": [
+    "H31271",
+    "H31310",
+    "H31339",
+    "H31387",
+    "H31415"
+   ]
+  },
+  {
+   "rule": 32,
+   "name": "Store field services",
+   "status": "RULED",
+   "match": "Column N contains STORE FIELD.",
+   "portfolio": "Ampol Retail",
+   "platform": "Store Operations",
+   "sig_funded": false,
+   "lines": 24,
+   "dollars": 1088672.27,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 908685.05,
+    "APPLBULKFUEL": 179987.22
+   },
+   "evidence": "Field service support to stores, for example \"STORE FIELD SERVICES SUPPORT JULY 25\". Column N names the store estate the service supports; 908,685.05 sits in the marketing operating centre, which decides the portfolio, and 179,987.22 in the bulk fuels centre, where the service named in the row decides.",
+   "example_line_ids": [
+    "H779",
+    "H804",
+    "H815",
+    "H841",
+    "H849"
+   ]
+  },
+  {
+   "rule": 33,
+   "name": "Retail site satellite connectivity",
+   "status": "RULED",
+   "match": "Column N contains STARLINK.",
+   "portfolio": "Ampol Retail",
+   "platform": "Network/QSR",
+   "sig_funded": false,
+   "lines": 8,
+   "dollars": 24000.0,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 24000.0
+   },
+   "evidence": "Satellite installations at named retail sites, for example \"STARLINK INSTALL LAKE MUNMORAH\" and \"STARLINK INSTALL BENARABY\", in the marketing operating centre. Column N names site connectivity, which the structure document carries as the Network/QSR platform inside Ampol Retail.",
+   "example_line_ids": [
+    "H31253",
+    "H31288",
+    "H31289",
+    "H31325",
+    "H31365"
+   ]
+  },
+  {
+   "rule": 34,
+   "name": "Retail network modelling",
+   "status": "RULED",
+   "match": "Column N contains RETAIL NOA or RETAIL NETWORK MODELLING.",
+   "portfolio": "Ampol Retail",
+   "platform": "Network/QSR",
+   "sig_funded": false,
+   "lines": 4,
+   "dollars": 67760.0,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 67760.0
+   },
+   "evidence": "Recharges of retail network modelling work, for example \"RECHG JAN26 50% NOA (RETAIL NETWORK MODELLING)\". Column N names the retail network, which the structure document carries as the Network/QSR platform inside Ampol Retail.",
+   "example_line_ids": [
+    "H32080",
+    "H32131",
+    "H32178",
+    "H32230"
+   ]
+  },
+  {
+   "rule": 35,
+   "name": "Card credit assessment",
+   "status": "OPEN",
+   "match": "Column N contains ACAPS or ACAPPS.",
+   "open_question": "Q4",
+   "lines": 3,
+   "dollars": 17021.05,
+   "cost_elements": [
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 17021.05
+   },
+   "evidence": "Three lines in the marketing operating centre naming a card credit assessment platform, \"EQUIFAX-ACAPS PROJECT\", \"RECHG SEP ACAPPS\" and \"RECHG NOV 2D CARD CRED ACAPPS\". Destination is held open under question Q4.",
+   "example_line_ids": [
+    "H31939",
+    "H31985",
+    "H32085"
+   ]
+  },
+  {
+   "rule": 36,
+   "name": "Network outsourcing",
+   "status": "RULED",
+   "match": "Column N contains ACCENTURE INFRASTR OUTSOURCING.",
+   "portfolio": "TDD",
+   "platform": "TDD",
+   "sig_funded": false,
+   "lines": 57,
+   "dollars": 468208.31,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 352784.18,
+    "APPLBULKFUEL": 115424.13
+   },
+   "evidence": "Monthly network infrastructure outsourcing charges and the matching accrual reversals, for example \"ACCENTURE INFRASTR OUTSOURCING - NETWORK JULY\". Column N names network infrastructure outsourcing, and the structure document places network and infrastructure in the TDD platform, which the portfolio TDD holds.",
+   "example_line_ids": [
+    "H777",
+    "H778",
+    "H802",
+    "H803",
+    "H813"
+   ]
+  },
+  {
+   "rule": 37,
+   "name": "Network maintenance",
+   "status": "RULED",
+   "match": "Column N contains CISCO, on lines rule 19 does not capture.",
+   "portfolio": "TDD",
+   "platform": "TDD",
+   "sig_funded": false,
+   "lines": 14,
+   "dollars": 209152.41,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": 209152.41
+   },
+   "evidence": "Network maintenance renewals and firewall support, for example \"FUJITSU - CISCO MAINT RENEWAL\" and \"CISCO MAINTENANCE RENEWAL (JUL 25 TO JUN 26)\". Every captured line sits in cost centre APPLH_INFOTECH, named TECHNOLOGY DIGITAL & DATA in column D, the centre that pools technology spend, so the product named in column N decides. The structure document places network and infrastructure in the TDD platform. Corroborated by the 2026 Budget tab, which is in scope for this centre and carries Cisco Network Maintenance Amortised on TDD / TDD.",
+   "example_line_ids": [
+    "H44830",
+    "H44831",
+    "H44833",
+    "H44834",
+    "H44835"
+   ]
+  },
+  {
+   "rule": 38,
+   "name": "Audio visual and meeting room estate",
+   "status": "RULED",
+   "match": "Column K or column N names CITADEL.",
+   "portfolio": "TDD",
+   "platform": "TDD",
+   "sig_funded": false,
+   "lines": 13,
+   "dollars": 88539.59,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": 88539.59
+   },
+   "evidence": "Audio visual managed services, training room refresh and meeting room equipment, every line in cost centre APPLH_INFOTECH, the centre that pools technology spend, so the product named in column N decides. The structure document places workplace tooling in the TDD platform. Corroborated by the 2026 Budget tab, which is in scope for this centre and carries this vendor as audio visual equipment support, hardware and software, on TDD / TDD.",
+   "example_line_ids": [
+    "H44827",
+    "H44828",
+    "H44829",
+    "H44836",
+    "H44837"
+   ]
+  },
+  {
+   "rule": 39,
+   "name": "Cloud environment recharge into the brand centre",
+   "status": "OPEN",
+   "match": "Column N contains AZURE.",
+   "open_question": "Q6",
+   "lines": 6,
+   "dollars": 90000.0,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLBRNDCOMS": 90000.0
+   },
+   "evidence": "Six lines in cost centre APPLBRNDCOMS, named Brand, Foundation & Cust Strat in column D, carrying the monthly recharge of the external production cloud environment, coded \"860 AZURE PRD-EXT\". Destination is held open under question Q6.",
+   "example_line_ids": [
+    "H44378",
+    "H44379",
+    "H44380",
+    "H44381",
+    "H44382"
+   ]
+  },
+  {
+   "rule": 40,
+   "name": "Server estate maintenance",
+   "status": "RULED",
+   "match": "Column K names DELL, or column N contains DELL as a word, on lines rule 19 does not capture.",
+   "portfolio": "TDD",
+   "platform": "TDD",
+   "sig_funded": false,
+   "lines": 2,
+   "dollars": 107192.82,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": 107192.82
+   },
+   "evidence": "Server maintenance for the enterprise estate, \"DELL SERVER MAINTENANCE 2025-2026\", and one retail laptop repair, both in cost centre APPLH_INFOTECH, the centre that pools technology spend, so the product named decides. The structure document places data centre and infrastructure in the TDD platform.",
+   "example_line_ids": [
+    "H44838",
+    "H44845"
+   ]
+  },
+  {
+   "rule": 41,
+   "name": "Telephony handsets",
+   "status": "RULED",
+   "match": "Column N names PHONE, PHONES, HANDSET, YEALINK, SAMSUNG GALAXY or POLY CCX, on lines rule 38 does not capture.",
+   "portfolio": "TDD",
+   "platform": "TDD",
+   "sig_funded": false,
+   "lines": 2,
+   "dollars": 7844.84,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": 7844.84
+   },
+   "evidence": "Desk and mobile handsets bought through cost centre APPLH_INFOTECH, the centre that pools technology spend, so the product named in column N decides. The structure document places workplace tooling in the TDD platform. Corroborated by the 2026 Budget tab, which is in scope for this centre and carries handsets, landlines and the mobile fleet on TDD / TDD.",
+   "example_line_ids": [
+    "H44855",
+    "H44862"
+   ]
+  },
+  {
+   "rule": 42,
+   "name": "Site network switches",
+   "status": "RULED",
+   "match": "Column C = APPLH_INFOTECH and column N contains C9200 SWITCHES.",
+   "portfolio": "TDD",
+   "platform": "TDD",
+   "sig_funded": false,
+   "lines": 1,
+   "dollars": 27792.38,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": 27792.38
+   },
+   "evidence": "One line, \"C9200 SWITCHES KURNELL BANKSMEADOW SIJ\", 27,792.38, on internal order E.26.012 in cost centre APPLH_INFOTECH. The match is made on column C and column N of this tab, so it stands without reading column K, where the vendor code also appears on the software tab. Column N names network switches and the structure document places network and infrastructure in the TDD platform.",
+   "example_line_ids": [
+    "H44861"
+   ]
+  },
+  {
+   "rule": 43,
+   "name": "Technology cost centre, remaining lines",
+   "status": "RULED",
+   "match": "Column C = APPLH_INFOTECH, on lines rules 1 to 42 and rules 48, 49 and 51 do not capture.",
+   "portfolio": "TDD",
+   "platform": "TDD",
+   "sig_funded": false,
+   "lines": 8,
+   "dollars": 6254.78,
+   "cost_elements": [
+    "801430",
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": 6254.78
+   },
+   "evidence": "Cost centre APPLH_INFOTECH is named TECHNOLOGY DIGITAL & DATA in column D and pools technology spend for every portfolio, so each line follows the product named in column N. Remaining lines are on site technical support, an overseas management services recharge and prepayment release journals, all technology services the centre runs. The structure document places network, infrastructure and workplace tooling in the TDD platform. Three families are named out of this residual, each following the product the row itself names: the refinery communications quote to rule 48, the technology service recharge credits to rule 49, and the eleven AMSCAL apportionment rows to rule 51, which holds that family open.",
+   "example_line_ids": [
+    "H44839",
+    "H44840",
+    "H44849",
+    "H46297",
+    "H46862"
+   ]
+  },
+  {
+   "rule": 44,
+   "name": "Bulk fuels centre, remaining lines",
+   "status": "OPEN",
+   "match": "Column C = APPLBULKFUEL, on lines rules 1 to 43 do not capture.",
+   "open_question": "Q3",
+   "lines": 367,
+   "dollars": -205850.04,
+   "cost_elements": [
+    "801430",
+    "801440",
+    "801445",
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLBULKFUEL": -205850.04
+   },
+   "evidence": "Allocation and recharge journals, site works and shared system support carrying no product, vendor or internal order that names one of the businesses inside the bulk fuels code. Destination is held open under question Q3.",
+   "example_line_ids": [
+    "H773",
+    "H775",
+    "H784",
+    "H785",
+    "H786"
+   ]
+  },
+  {
+   "rule": 45,
+   "name": "Marketing operating centre, remaining lines",
+   "status": "OPEN",
+   "match": "Column C = APPLMTOTAL, on lines rules 1 to 43 do not capture.",
+   "open_question": "Q4",
+   "lines": 21,
+   "dollars": 172401.71,
+   "cost_elements": [
+    "801430",
+    "801440"
+   ],
+   "cost_centres": {
+    "APPLMTOTAL": 172401.71
+   },
+   "evidence": "Recharges, prepayment document numbers and small subscriptions carrying no product or programme that decides between the retail store estate and the customer and loyalty estate. Destination is held open under question Q4.",
+   "example_line_ids": [
+    "H31242",
+    "H31319",
+    "H31355",
+    "H31468",
+    "H31505"
+   ]
+  },
+  {
+   "rule": 46,
+   "name": "Corporate significant items centre, remaining lines",
+   "status": "OPEN",
+   "match": "Column C = APPLSIG_ITEMS, on lines rules 1 to 43 and rules 50 and 51 do not capture.",
+   "open_question": "Q5",
+   "lines": 1,
+   "dollars": 109.62,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLSIG_ITEMS": 109.62
+   },
+   "evidence": "One line, an overseas management services recharge reading \"IT RELATED EXPENDITURE\", 109.62, from vendor AMPOL MANAGEMENT (USD) SERVICES PTE. No programme, product or vendor named in the row reaches a portfolio, and this centre routes by the programme named. Destination is held open under question Q5.",
+   "example_line_ids": [
+    "H52718"
+   ]
+  },
+  {
+   "rule": 48,
+   "name": "Refinery site communications",
+   "status": "RULED",
+   "match": "Column C = APPLH_INFOTECH and column N contains FASTTRACK and LYTTON.",
+   "portfolio": "Fuel Infrastructure",
+   "platform": "Manufacturing",
+   "sig_funded": false,
+   "lines": 1,
+   "dollars": 1550.05,
+   "cost_elements": [
+    "801430"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": 1550.05
+   },
+   "evidence": "One line, \"FASTTRACK QUOTE 8440 LYTTON REFINERY\", 1,550.05, CO document 5120386420. The pooled technology cost centre routes by the product named in the row, and the row names communications work at the Lytton refinery. The 2026 Budget tab, which is in scope for this cost centre, carries \"Lytton UPS Maintenance\" at sheet row 156, cost centre ITCOREOP, cost element 801430, 10,812, on Fuel Infrastructure / Manufacturing & Group Projects; the same witness carries the software lines of the same vendor and site under phaseb_b2 rule 34. The destination is spelled as the structure document spells it.",
+   "example_line_ids": [
+    "H44865"
+   ]
+  },
+  {
+   "rule": 49,
+   "name": "Technology service recharge, pooled centre legs",
+   "status": "RULED",
+   "match": "Column C = APPLH_INFOTECH and column N reads IT SERVICES with a month.",
+   "portfolio": "TDD",
+   "platform": "TDD",
+   "sig_funded": false,
+   "lines": 2,
+   "dollars": -11700.0,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": -11700.0
+   },
+   "evidence": "Two credit legs raised inside the pooled technology cost centre, \"IT SERVICES JAN 2026\" and \"IT SERVICES FEB 2026\", -5,850.00 each, CO documents 5118338247 and 5118338250. The pooled centre routes by the product named in the row, and the row names the end user technology service the centre itself runs. The 2026 Budget tab, in scope for this cost centre, carries the end user services chargeback credits at sheet rows 262 and 264, cost centre ITEUS, cost element 801482, -68,478.80 and -128,000, both on TDD / TDD; the same witness carries the software series under phaseb_b2 rule 38. The consuming centres' legs of the same billing stay under question Q1 through rule 4.",
+   "example_line_ids": [
+    "H46884",
+    "H46885"
+   ]
+  },
+  {
+   "rule": 50,
+   "name": "Project Apollo journals in the significant items centre",
+   "status": "RULED",
+   "match": "Column C = APPLSIG_ITEMS and column N names APOLLO or RETAIL ELEC OPEX TO SI, on lines rule 4 does not capture.",
+   "portfolio": "B2B & Energy Solutions",
+   "platform": "Energy Solutions",
+   "sig_funded": true,
+   "lines": 7,
+   "dollars": 3903.32,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLSIG_ITEMS": 3903.32
+   },
+   "evidence": "Seven journals moving retail electricity operating expenditure and final pay to significant items. Five sit on CO documents that also carry a leaf leg in cost centre APOLLO on the SW tab under identical column N text: 5115112544, 5115594698, 5116132102, 5116703330 and 5117177943, for example sheet row 18674 against hardware row 52584. Cost centre APOLLO is placed on B2B & Energy Solutions / Energy Solutions by phaseb_b1 rule 8, and this centre routes by the programme named in the row, which is Project Apollo on the remaining two lines. The desktop cost correction that also names Apollo stays with the device billing under rule 4.",
+   "example_line_ids": [
+    "H52584",
+    "H52610",
+    "H52633",
+    "H52657",
+    "H52683"
+   ]
+  },
+  {
+   "rule": 51,
+   "name": "AMSCAL apportionment",
+   "status": "OPEN",
+   "match": "Column C = APPLH_INFOTECH and column N names AMSCAL, or column C = APPLSIG_ITEMS and column N names AMSCAL, on lines rule 12 does not capture.",
+   "open_question": "Q7",
+   "lines": 13,
+   "dollars": -116.52,
+   "cost_elements": [
+    "801450"
+   ],
+   "cost_centres": {
+    "APPLH_INFOTECH": -116.52,
+    "APPLSIG_ITEMS": 0.0
+   },
+   "evidence": "Thirteen lines carrying a share of the AMSCAL apportionment. Eleven sit in the pooled technology cost centre: five monthly charge and reversal pairs naming the AMSCAL recharge, and the pooled leg of CO document 5117738696, \"RECLASS - NOV 25 AMSCAL - 80% TO TDDEINTSIG\", -116.52. Two sit in the corporate significant items centre, a December 2025 recharge of 115.42 and its reversal of -115.42, naming no programme. The one AMSCAL row in that centre that does name a programme, the TDDEINTSIG leg of document 5117738696, stays with rule 12. Every share of one apportionment that this block cannot settle is held together here, under question Q7.",
+   "example_line_ids": [
+    "H46296",
+    "H46588",
+    "H46589",
+    "H46590",
+    "H46866"
+   ]
+  }
+ ],
+ "open_questions": [
+  {
+   "open": "Q1",
+   "name": "Technology recharge billing: consuming centres against a single central home",
+   "question": "Does the monthly technology recharge billing land in the portfolio of the consuming cost centre, or stay with the single central technology home that raises it?",
+   "rules": [
+    1,
+    2,
+    3,
+    4,
+    9
+   ],
+   "lines": 37796,
+   "dollars": 6764468.57,
+   "missing_fact": "The ruling on where recharged technology consumption sits in the operating model. Two mapping conventions in the source file conflict and neither is marked as superseded.",
+   "conflicting_conventions": [
+    "Single central home: the 2026 Budget tab maps cost centre IT_C, IT Recharge Costs, cost elements 800990, 800993 and 800994, minus 7,385,988, to TDD / TDD with subarea Workplace & Enterprise Tooling and the file's own note \"Mainly recharge of equipment\"; the same tab maps the device fleet itself (cost centre HITBU, cost element 802070, laptops 1,620,000, desktops 180,000, printers 144,000, personal computer refresh 54,000) to TDD / TDD.",
+    "Consuming centre: the same tab maps cost centre ITSDM_C, IT Recharge Costs SDM, cost element 800993 Corp Oncharge Retail, minus 1,237,800, to Ampol Retail / Network/QSR, and the 784 mapping values present on the SW tab carry the portfolio of the cost centre that holds the spend."
+   ],
+   "note_on_the_citation": "The 2026 Budget tab is quoted here to show the conflict between two conventions inside the source file, not to place a line. No line in this question is placed on a destination.",
+   "effect": "Under the first convention the whole amount stays in TDD / TDD. Under the second it splits across the fourteen consuming leaf cost centres shown in the rules.",
+   "cost_centres": {
+    "APPLFIREFINING": 2221549.25,
+    "APPLBULKFUEL": 2193905.27,
+    "APPLMTOTAL": 786417.21,
+    "APPLHFIN": 455830.58,
+    "APPLAETOTAL": 339693.22,
+    "APPLHHR": 301508.63,
+    "APPLLUBRICANTS": 169585.0,
+    "APPLBRNDCOMS": 95697.19,
+    "APPLSIG_ITEMS": 74203.11,
+    "APPLHLSA": 54667.53,
+    "APPLHALT": 42825.15,
+    "APPLH_INFOTECH": 23596.43,
+    "APPLRCALSTORES": 3790.0,
+    "APPLGENERAL": 1200.0
+   }
+  },
+  {
+   "open": "Q2",
+   "name": "Blue Yonder prepaid account journals",
+   "question": "Which invoices do the prepaid references release?",
+   "rules": [
+    5
+   ],
+   "lines": 2,
+   "dollars": -2196046.41,
+   "missing_fact": "Which invoices the prepaid references 5013501007, 5013501085, 5013498113 and 5013491723 release.",
+   "reasoning": "Stays an open question. The arithmetic is real and exact: H31372 at -2,110,731.33 is eleven twelfths of H31369, \"BY SAAS CLOUD AGREEMENT 2025/2026\", 2,302,616.00, and H31371 at -85,315.08 is eleven twelfths of H31368, \"BY SAAS DAS (REPLICATION DB) ENVIRONMENT\", 93,071.00; both invoices are the only lines in either tab carrying those amounts, both sit in the same cost centre APPLMTOTAL, the same cost element 801430 and the same month as the journal, and each has a monthly stream at exactly one twelfth, 191,884.67 and 7,755.92, running from the following month on shared CO documents. It still fails the acceptance test, on four checkable grounds. One, the journal names no product: column N reads only \"MOVE TO PREPAID ACCOUNT.REF 5013501085\" and column K is Not assigned, so the charged business unit cannot verify the charge from the named columns. Two, the reference numbers 5013501007 and 5013501085 appear on no other line of either tab, so a reviewer following the only identifier the journal carries reaches nothing. Three, the cost centre and cost element cannot stand in for the missing product name, because the 430 lines at APPLMTOTAL and 801430 split three ways under the block's own rules, 6,250,739.60 to Ampol Retail / Store Operations, 78,626.43 to Ampol Retail / Network/QSR and 352,784.18 to TDD / TDD. Four, the eleven twelfths relationship is not a convention operating in this file: the same CO document 5116660265 carries two further legs formed identically, S11648 at -67,008.00 and S12062 at -387,189.69, and neither has any counterparty at twelve elevenths, one eleventh or one twelfth anywhere in either tab, so the arithmetic succeeds on two of the four legs of the one document it is drawn from. Every other prepaid journal in the file names its product in column N (PREPAY CORNTERSTONE RENEWAL, SALESFORCE JAN-DEC 26 PREPAY, MOVE D365 LICENSE (JUN26-MAY27) TO PREPAYMENTS, DIEBOLD FUELPAY FILLING SAAS JAN - JUNE 26 PREPAID); these four are the only ones that do not. Blue Yonder is named on no line of the 2026 Budget tab, so there is no corroboration there either. Written as a rule it would place -2,196,046.41 on a business unit that cannot check it, on an inference the file itself does not repeat.",
+   "source_of_reasoning": "Adversarial verification, prepaid_verdict in qa_b1_findings.json, recorded verbatim.",
+   "note_on_the_quoted_split": "The three way split quoted in ground three was computed against the first issue of this file. In this issue the same 430 lines at APPLMTOTAL and cost element 801430 split 6,302,871.91 to Ampol Retail / Store Operations, 26,494.12 to Ampol Retail / Network/QSR and 352,784.18 to TDD / TDD, with 368.98 open under Q4 and the two journals themselves open here. The ground holds: the centre and the cost element still split three ways.",
+   "cost_centres": {
+    "APPLMTOTAL": -2196046.41
+   }
+  },
+  {
+   "open": "Q3",
+   "name": "Bulk fuels leaf cost centre: split key",
+   "question": "What split key applies to the bulk fuels leaf cost centre?",
+   "rules": [
+    44
+   ],
+   "lines": 367,
+   "dollars": -205850.04,
+   "missing_fact": "On the SW tab the same code is a parent whose children are B2B, Chief Commercial Officer, Supply Operations, Fuel Pricing & Optimisation, Distribution, F&I Finance and EGM International, so the code does not name one portfolio. On the HW tab there are no children and every posting sits on the parent code. These lines carry no product, vendor or internal order that names one of those businesses, so a split key is needed.",
+   "note": "Bulk fuels lines that do name a product or system are ruled by rules 19 to 43 and are not in this question.",
+   "cost_centres": {
+    "APPLBULKFUEL": -205850.04
+   },
+   "groups": [
+    {
+     "group": "Site security works tied to one purchase order",
+     "lines": 5,
+     "dollars": 0.0,
+     "missing_fact": "The contra quotes purchase order 7000247588, the value in column L on the charge lines, so the five lines tie to one purchase order and net to zero; the portfolio inside the bulk fuels code is not named."
+    },
+    {
+     "group": "Operating expenditure reallocated to overseas entities",
+     "lines": 26,
+     "dollars": -377063.42,
+     "missing_fact": "Cost moved to Ampol Singapore and Ampol US, entities the structure document does not carry; whether the relief belongs to an Australian portfolio is not stated."
+    },
+    {
+     "group": "Monthly data charges and the CALBUY recharge that offsets the charges",
+     "lines": 37,
+     "dollars": 26650.26,
+     "missing_fact": "The monthly data charge and its CALBUY recharge are equal and opposite within the centre; neither line names the business that consumes the data service."
+    },
+    {
+     "group": "Contact centre platform and managed services",
+     "lines": 5,
+     "dollars": 73449.47,
+     "missing_fact": "The contact centre platform serves several fuels businesses; the line does not name which."
+    },
+    {
+     "group": "Telecommunications cost allocated between teams",
+     "lines": 60,
+     "dollars": -77186.0,
+     "missing_fact": "Allocations between teams inside the bulk fuels code, named only by team abbreviation, which the export does not map to a portfolio."
+    },
+    {
+     "group": "Refinery and supply planning software",
+     "lines": 1,
+     "dollars": 64716.63,
+     "missing_fact": "Planning software used by supply and trading planners; the line does not name which business bears it."
+    },
+    {
+     "group": "Process data historian support",
+     "lines": 7,
+     "dollars": 36125.22,
+     "missing_fact": "The historian serves terminals, pipelines and distribution; the line does not name which."
+    },
+    {
+     "group": "Site works, price boards, vents and site refresh",
+     "lines": 4,
+     "dollars": 39498.49,
+     "missing_fact": "Works at named sites; the export does not carry a site to business mapping."
+    },
+    {
+     "group": "Terminal automation support",
+     "lines": 12,
+     "dollars": 2400.0,
+     "missing_fact": "Terminal automation support; the business inside the bulk fuels code is not named."
+    },
+    {
+     "group": "Site security and access control",
+     "lines": 2,
+     "dollars": 1977.34,
+     "missing_fact": "Camera and gate works at a site abbreviated in column N; the export does not carry a site to business mapping."
+    },
+    {
+     "group": "Airport and national terminal recharges",
+     "lines": 15,
+     "dollars": 13375.0,
+     "missing_fact": "Recharges for airport and national terminal work; aviation and terminals sit in different portfolios and the line does not name which."
+    },
+    {
+     "group": "Pipeline, generation and terminal transfer journals",
+     "lines": 140,
+     "dollars": 1279.78,
+     "missing_fact": "Transfer journals between pipeline and generation codes, almost all zero value; no product or business is named."
+    },
+    {
+     "group": "Hub charges, AMSCAL recharges and cost centre reclassifications",
+     "lines": 39,
+     "dollars": -16133.82,
+     "missing_fact": "Internal recharge journals named by code only."
+    },
+    {
+     "group": "Technology expenditure from the overseas management services entity",
+     "lines": 9,
+     "dollars": 4622.95,
+     "missing_fact": "Vendor AMPOL MANAGEMENT (USD) SERVICES PTE with the text \"IT RELATED EXPENDITURE\"; no product or business is named."
+    },
+    {
+     "group": "Software subscriptions and computer consumables",
+     "lines": 3,
+     "dollars": 438.06,
+     "missing_fact": "Low value subscriptions and accessories; the business inside the bulk fuels code is not named."
+    },
+    {
+     "group": "Zero value accrual labels",
+     "lines": 2,
+     "dollars": 0.0,
+     "missing_fact": "Accrual labels carrying no amount."
+    }
+   ]
+  },
+  {
+   "open": "Q4",
+   "name": "Marketing operating centre residual",
+   "question": "Where do the remaining marketing operating centre lines sit?",
+   "rules": [
+    35,
+    45
+   ],
+   "lines": 24,
+   "dollars": 189422.76,
+   "missing_fact": "The centre is shared between the retail store estate and the customer and loyalty estate, and these lines name no product or programme that decides between the two; the marketing split ruling is pending.",
+   "cost_centres": {
+    "APPLMTOTAL": 189422.76
+   },
+   "groups": [
+    {
+     "group": "Card credit assessment platform",
+     "lines": 3,
+     "dollars": 17021.05,
+     "missing_fact": "Column N names a card credit assessment platform in the retail marketing operating centre. The reading that placed these three lines on B2B & Energy Solutions / B2B rested on the 2026 Budget tab, which does not contain this cost centre, so the placement falls; the centre itself is under the pending marketing split and no column fact decides between the card business and the retail business."
+    },
+    {
+     "group": "Network project recharges",
+     "lines": 2,
+     "dollars": 152000.0,
+     "missing_fact": "The text names a network project but not which network estate, so the line does not decide between the retail site network and the enterprise network."
+    },
+    {
+     "group": "Recharge stated as a split between card and retail head office",
+     "lines": 1,
+     "dollars": 11350.0,
+     "missing_fact": "The text states a 50/50 split between card and retail head office; the export carries the whole amount on one line and the model takes one destination per line."
+    },
+    {
+     "group": "Prepayment document numbers with no product",
+     "lines": 2,
+     "dollars": 4771.67,
+     "missing_fact": "The text is a prepayment document number only; no product, vendor or internal order is carried."
+    },
+    {
+     "group": "Retail software as a service, no system named",
+     "lines": 1,
+     "dollars": 3556.03,
+     "missing_fact": "The text names retail but no system, so the platform inside Ampol Retail is not decided."
+    },
+    {
+     "group": "Small subscriptions and computer consumables",
+     "lines": 11,
+     "dollars": 724.01,
+     "missing_fact": "Low value subscriptions and accessories bought in a centre shared between the retail store estate and the customer and loyalty estate."
+    },
+    {
+     "group": "Zero value accrual labels",
+     "lines": 4,
+     "dollars": 0.0,
+     "missing_fact": "Accrual labels carrying no amount."
+    }
+   ]
+  },
+  {
+   "open": "Q5",
+   "name": "Corporate significant items centre residual",
+   "question": "Where does the one remaining corporate significant items line sit?",
+   "rules": [
+    46
+   ],
+   "lines": 1,
+   "dollars": 109.62,
+   "missing_fact": "One line, 109.62, an overseas management services recharge reading \"IT RELATED EXPENDITURE\" from vendor AMPOL MANAGEMENT (USD) SERVICES PTE. This centre routes by the programme named in the row, and the row names no programme, no product and no portfolio.",
+   "note": "The Project Apollo journals this question carried in earlier issues are ruled through rule 50, on the witness of the APOLLO cost centre legs of the same CO documents on the SW tab, and the two AMSCAL lines it carried move to question Q7, where every unsettled share of that apportionment is held together.",
+   "cost_centres": {
+    "APPLSIG_ITEMS": 109.62
+   },
+   "groups": [
+    {
+     "group": "Technology expenditure from the overseas management services entity",
+     "lines": 1,
+     "dollars": 109.62,
+     "missing_fact": "Vendor AMPOL MANAGEMENT (USD) SERVICES PTE with the text \"IT RELATED EXPENDITURE\", 109.62; no product or programme is named, and this centre routes by the programme named."
+    }
+   ]
+  },
+  {
+   "open": "Q6",
+   "name": "Cloud environment recharge into the brand and communications centre",
+   "question": "Where does the monthly cloud environment recharge into the brand and communications centre sit?",
+   "rules": [
+    39
+   ],
+   "lines": 6,
+   "dollars": 90000.0,
+   "missing_fact": "Six lines, 90,000.00, coded \"860 AZURE PRD-EXT\" in cost centre APPLBRNDCOMS, named Brand, Foundation & Cust Strat in column D. Every other line that centre holds is device catalogue billing under question Q1, so this block carries no centre rule for it, and the placement of that centre is one of the rulings still open. The reading that placed the recharge on the central cloud platform rested on the 2026 Budget tab, which does not contain this cost centre.",
+   "candidate": "Ampol Customer / Ampol Digital, the destination phaseb_b3 rule 18 gives the six WEB HOSTING AZURE CONSUMPTION lines this same cost centre carries on the SW tab. Naming the candidate is not placing the lines: the two families are billed under different texts and the reading that would carry the candidate across rests on a tab that does not contain this cost centre, so the six lines stay open until the centre is ruled.",
+   "note": "The same shape as question Q1, a central service recharged monthly into a consuming centre, and the same ruling may settle both.",
+   "cost_centres": {
+    "APPLBRNDCOMS": 90000.0
+   }
+  },
+  {
+   "open": "Q7",
+   "name": "AMSCAL apportionment, the shares this block carries",
+   "question": "Whose share is each portion of the AMSCAL apportionment that this block carries?",
+   "rules": [
+    51
+   ],
+   "lines": 13,
+   "dollars": -116.52,
+   "missing_fact": "Whose share each portion of the AMSCAL apportionment that this block carries is. AMSCAL is a monthly apportionment spread across several cost centres inside one CO document: 5117177796 carries leaf legs INTEGM 291.50, APPLB2B 145.75 and APPLH_INFOTECH 145.75 on the SW tab, where the APPLBULKFUEL row at 437.25 is the parent roll-up duplicating the INTEGM and APPLB2B legs and not a share, together with APPLBULKFUEL 444.19 and APPLH_INFOTECH 148.06 on the HW tab, where APPLBULKFUEL is a leaf, all under the text \"NOV 25 AMSCAL\". The mapping values present in the source file cover the INTEGM share alone, twenty three rows carrying Commercial Fuels / Trading & Shipping, so that witness settles the INTEGM share and not the shares posted to the pooled technology centre or to the corporate significant items centre.",
+   "note": "Thirteen lines, netting -116.52. Eleven sit in the pooled technology cost centre: five monthly charge and reversal pairs, which cancel, and the pooled leg of CO document 5117738696 at -116.52, whose counterparty is the integration significant item program. Two sit in the corporate significant items centre, a December 2025 recharge of 115.42 against its reversal of -115.42, which also cancel. The bulk fuels AMSCAL rows stay inside question Q3, the centre question that already holds that centre. No AMSCAL apportionment share in this block is placed.",
+   "cost_centres": {
+    "APPLH_INFOTECH": -116.52,
+    "APPLSIG_ITEMS": 0.0
+   }
+  }
+ ],
+ "contra_documents": [
+  {
+   "document": "5117738696",
+   "legs": "APPLH_INFOTECH negative held open at question Q7 through rule 51, APPLSIG_ITEMS positive through rule 12",
+   "amount": -116.52,
+   "note": "Eighty per cent of the November 2025 AMSCAL charge moved from the pooled technology centre to the integration significant item program, on sheet row 46590 against sheet row 52704. Column N names both the product and the transfer counterparty. The pooled leg follows the product, and the product is one share of a monthly apportionment whose owner is not settled, so that leg is held open at question Q7; the significant items leg follows the program named in that centre and is ruled to EG Integration / EGI under rule 12. The counterparty is recorded here rather than mapped and both legs stay visible. The same document carries a software pair of -114.70 and 114.70 on sheet rows 16910 and 18754, which sits outside this block: the pooled centre leg is held open at phaseb_b2 B2-O17 and the TDDEINTSIG charge leg is ruled through phaseb_b3 rule 3, the same treatment applied on both tabs."
+  },
+  {
+   "document": "5115112544, 5115594698, 5116132102, 5116703330, 5117177943",
+   "legs": "APPLSIG_ITEMS positive through rule 50, APOLLO positive outside this block through phaseb_b1 rule 8",
+   "amount": 4623.32,
+   "note": "Five monthly journals moving retail electricity operating expenditure to significant items. Each document carries a leaf leg in cost centre APOLLO on the SW tab under identical column N text, for example sheet row 18674 against hardware row 52584, and phaseb_b1 rule 8 places that centre on B2B & Energy Solutions / Energy Solutions, which is where rule 50 places the legs in this block. The legs are not equal and opposite: each tab carries its own share of the same journal, so both stay visible and neither cancels the other."
+  }
+ ],
+ "notes": [
+  "Every destination is spelled as the structure document spells it. Where the 2026 Budget tab words the same destination differently, Finance / AU Finance and Fuel Infrastructure / Manufacturing & Group Projects, the difference is wording only and is left for alignment at integration.",
+  "No rule contradicts the mapping values present in the source file. The only leaf centre in this block that carries such values is APPLLUBRICANTS, where all 125 rows on the SW tab read B2B & Energy Solutions / B2B; rule 17 places that centre on the same pair.",
+  "Leaf total ties the export's own result row: 39,772 lines, 25,468,998.32. Ruled 20,834,690.50 over 1,565 lines plus open 4,634,307.82 over 38,207 lines re-adds to 25,468,998.32 to the cent.",
+  "Cost centre APPLSIG_ITEMS is a leaf on this tab, unlike the SW tab where it is a parent. Of its 11,975,400.23, the amount of 11,897,067.66 on cost element 801440 is the POS programme transferred to the significant item CRPOSSIG, whose cost centre name in the same export is CONV RETAIL POS, and 74,923.11 is device catalogue billing; it is not a device fleet.",
+  "The POS programme appears three times over: gross charges on internal order E.25.002 in the marketing operating centre (rule 7, 11,349,211.57), the monthly transfer out of that centre and into the significant items centre (rule 8, both sides, 457,360.72 net because two transfer documents carry no marketing side), and lines naming the programme outside the order (rule 11, 68,403.67). The four AmPOS rules together place 11,874,975.96 on Ampol Retail / AmPOS, all flagged significant item funded.",
+  "Document 5118145663, the Snowflake transfer to CRPOSSIG, is captured by rule 8 with the other transfers. The cost centre decides, so the leg on this tab takes the rule of the centre that holds it, and the leg of the same document on the SW tab sits in the same portfolio under the rule of its own centre. The product named remains visible in column N for any later platform ruling.",
+  "Product families are billed into the bulk fuels cost centre as well as into the centre that owns each family: Blue Yonder support 7,122.84, store field services 179,987.22, POS vendor support 43,319.50, forecourt dispenser service 865.50, outdoor payment terminals 17,932.58, payment gateway fees 1,767.08 and workforce management support 146.94, all ruled to Ampol Retail, and network outsourcing 115,424.13 ruled to TDD. The bulk fuels code names no single business, so the product named in the line decides those lines; every bulk fuels line that names no product is open under question Q3.",
+  "Platform placements inside Ampol Retail rest on what column N names: point of sale, back office, forecourt dispensers, payment terminals, self checkout and store field services are the store estate; site connectivity and the quick service restaurant network are the site network; the POS replacement programme is the project platform. Rule 23 moved from Above Store to Store Operations in this issue because the store back office system runs inside the store and the reading that placed it above the store rested on a tab that does not contain this cost centre.",
+  "Lines from vendor AMPOL MANAGEMENT (USD) SERVICES PTE carrying the text \"IT RELATED EXPENDITURE\" follow the cost centre that holds each line, so the lines land in three places: technology centre 494.78 ruled to TDD / TDD, bulk fuels 4,622.95 open under Q3, significant items 109.62 open under Q5.",
+  "Rule 19 captures both sides of the operational technology recharges, the charge in the bulk fuels centre and the matching credit in the technology centre, so the pair nets in Commercial Fuels / Supply at minus 27,986.92 rather than resting in two portfolios.",
+  "Three rules capture both sides of a pair posted inside one CO document, so each pair rests in one place: rule 8 (POS transfers, credit in the marketing centre and debit in the significant items centre), rule 10 (the transfer to HSPECIAL) and rule 19 (operational technology recharges). Rule 9 captures four such pairs and holds the eight lines open. One pair is split by design and is listed in contra_documents: CO document 5117738696, where the significant items leg is ruled and the pooled technology leg is held open, each following what its own centre routes by.",
+  "The device catalogue is billed on cost element 801450 in exactly fourteen leaf cost centres: APPLBULKFUEL 2,236,563.61, APPLFIREFINING 2,194,440.75, APPLMTOTAL 784,976.61, APPLHFIN 455,830.58, APPLAETOTAL 339,213.22, APPLHHR 301,508.63, APPLLUBRICANTS 167,785.00, APPLBRNDCOMS 95,697.19, APPLSIG_ITEMS 75,883.11, APPLHLSA 54,667.53, APPLHALT 42,825.15, APPLH_INFOTECH 22,216.43, APPLRCALSTORES 3,790.00, APPLGENERAL 1,200.00. Rule 9 adds the eight reallocation lines on top of those figures, 480.00 in APPLAETOTAL, 480.00 in APPLH_INFOTECH and minus 960.00 in APPLSIG_ITEMS.",
+  "Three leaf cost centres resolve entirely into open question Q1 because every line each one holds is device catalogue billing: APPLHLSA 54,667.53, APPLHALT 42,825.15 and APPLGENERAL 1,200.00. APPLRCALSTORES resolves the same way apart from one tablet subscription of 18.09.",
+  "Significant item spend sitting in open entries, for any integration step that carries the flag: cost centre APPLSIG_ITEMS holds 75,883.11 under rule 1, minus 720.00 under rule 4, minus 960.00 under rule 9 and 109.62 under rule 46. Rule 50 carries the significant item flag on the 3,903.32 it rules.",
+  "Cost element 801445 Network-SecurID Card carries only seven lines, 1,977.34, all in the bulk fuels centre; the SecurID label does not describe the lines and the document text is site security work.",
+  "Raw rows are untouched: no row was reshaped, no value edited, and every line keeps its export row number as its identifier (H15 is HW row 15)."
+ ],
+ "citations": {
+  "source": "agents/qa_r2_02_pairs.json, the authoritative cross block leg pair list",
+  "required_families_with_a_leg_in_this_block": 0,
+  "finding": "Neither required_split nor required_open_leg carries a leg in this block: every family on those two lists pairs two rows of the SW tab. The CONTENTSTACK family is ruled out and the ATLASSIAN XRAY family, ruled in, pairs SW rows on both legs. Nothing on the required lists asks a document number of this block.",
+  "families_carrying_a_leg_in_this_block": [
+   {
+    "family": "SAAS KRONOS",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5118157109",
+     "5119483958"
+    ],
+    "gross": 102060.0,
+    "counterpart_leg": "phaseb_b3 rule 13, APPLMTOTAL on the SW tab, Ampol Retail / Store Operations",
+    "rows_in_this_block": [
+     {
+      "row": "H32086",
+      "document": "5118157109",
+      "document_matches_raw": true,
+      "text": "SAAS KRONOS 07.25 - 06.26",
+      "dollars": -51030.0,
+      "this_block_rule": 22,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H32239",
+      "document": "5119483958",
+      "document_matches_raw": true,
+      "text": "SAAS KRONOS 07.25 - 06.26",
+      "dollars": -51030.0,
+      "this_block_rule": 22,
+      "destination": "Ampol Retail / Store Operations"
+     }
+    ]
+   },
+   {
+    "family": "DELOITTE KRONOS HOSTING SERVICE UNTIL",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5119943556",
+     "5120413952"
+    ],
+    "gross": 102060.0,
+    "counterpart_leg": "phaseb_b3 rule 13, APPLMTOTAL on the SW tab, Ampol Retail / Store Operations",
+    "rows_in_this_block": [
+     {
+      "row": "H32279",
+      "document": "5119943556",
+      "document_matches_raw": true,
+      "text": "DELOITTE KRONOS HOSTING SERVICE UNTIL JUNE 26",
+      "dollars": -51030.0,
+      "this_block_rule": 22,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H32341",
+      "document": "5120413952",
+      "document_matches_raw": true,
+      "text": "DELOITTE KRONOS HOSTING SERVICE UNTIL JUNE 26",
+      "dollars": -51030.0,
+      "this_block_rule": 22,
+      "destination": "Ampol Retail / Store Operations"
+     }
+    ]
+   },
+   {
+    "family": "COMPAC ONLINE FEE",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5118536321",
+     "5119022331",
+     "5119483965",
+     "5119943565",
+     "5119943566",
+     "5119943570",
+     "5120414007"
+    ],
+    "gross": 36045.06,
+    "counterpart_leg": "phaseb_b3 rule 10, APPLMTOTAL on the SW tab, Ampol Retail / Store Operations",
+    "rows_in_this_block": [
+     {
+      "row": "H31529",
+      "document": "5118536321",
+      "document_matches_raw": true,
+      "text": "COMPAC ONLINE FEE",
+      "dollars": -3161.74,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31570",
+      "document": "5119022331",
+      "document_matches_raw": true,
+      "text": "COMPAC ONLINE FEE",
+      "dollars": -10870.28,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31606",
+      "document": "5119483965",
+      "document_matches_raw": true,
+      "text": "COMPAC ONLINE FEE",
+      "dollars": -4094.78,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31636",
+      "document": "5119943565",
+      "document_matches_raw": true,
+      "text": "COMPAC ONLINE FEE",
+      "dollars": -4716.29,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31637",
+      "document": "5119943566",
+      "document_matches_raw": true,
+      "text": "COMPAC ONLINE FEE",
+      "dollars": 4716.29,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31638",
+      "document": "5119943570",
+      "document_matches_raw": true,
+      "text": "COMPAC ONLINE FEE",
+      "dollars": -4716.29,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31664",
+      "document": "5120414007",
+      "document_matches_raw": true,
+      "text": "COMPAC ONLINE FEE",
+      "dollars": -3769.39,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     }
+    ]
+   },
+   {
+    "family": "CITADEL TEAMS PHONE HANDSETS X + WARRA",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5120024868"
+    ],
+    "gross": 13062.0,
+    "counterpart_leg": "phaseb_b2 rule 30, APPLH_INFOTECH on the SW tab, TDD / TDD",
+    "rows_in_this_block": [
+     {
+      "row": "H44859",
+      "document": "5120024868",
+      "document_matches_raw": true,
+      "text": "CITADEL TEAMS PHONE HANDSETS X24 + WARRA",
+      "dollars": 13062.0,
+      "this_block_rule": 38,
+      "destination": "TDD / TDD"
+     }
+    ]
+   },
+   {
+    "family": "FUEL SUPPLY EMT TT OPT LEGACY",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5119481419"
+    ],
+    "gross": 5200.0,
+    "counterpart_leg": "phaseb_b3 rule 10, APPLMTOTAL on the SW tab, Ampol Retail / Store Operations",
+    "rows_in_this_block": [
+     {
+      "row": "H35229",
+      "document": "5119481419",
+      "document_matches_raw": true,
+      "text": "FUEL SUPPLY EMT- TT OPT LEGACY",
+      "dollars": -5200.0,
+      "this_block_rule": 30,
+      "destination": "Ampol Retail / Store Operations"
+     }
+    ]
+   },
+   {
+    "family": "CITADEL YEALINK PHONES X + YRS WARRANT",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5120026034"
+    ],
+    "gross": 2895.0,
+    "counterpart_leg": "phaseb_b2 rule 30, APPLH_INFOTECH on the SW tab, TDD / TDD",
+    "rows_in_this_block": [
+     {
+      "row": "H44860",
+      "document": "5120026034",
+      "document_matches_raw": true,
+      "text": "CITADEL YEALINK PHONES X6 + 3YRS WARRANT",
+      "dollars": 2895.0,
+      "this_block_rule": 38,
+      "destination": "TDD / TDD"
+     }
+    ]
+   },
+   {
+    "family": "COMPACT OPT INV ROUS HEAD TS",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5119460660",
+     "5119659533"
+    ],
+    "gross": 1252.67,
+    "counterpart_leg": "phaseb_b3 rule 10, APPLMTOTAL on the SW tab, Ampol Retail / Store Operations",
+    "rows_in_this_block": [
+     {
+      "row": "H31587",
+      "document": "5119460660",
+      "document_matches_raw": true,
+      "text": "COMPACT OPT 2026 INV ROUS HEAD TS JAN 26",
+      "dollars": -556.53,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31588",
+      "document": "5119460660",
+      "document_matches_raw": true,
+      "text": "COMPACT OPT 2026 INV ROUS HEAD TS MAR 26",
+      "dollars": -336.59,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31609",
+      "document": "5119659533",
+      "document_matches_raw": true,
+      "text": "COMPACT OPT 2026 INV ROUS HEAD TS APR 26",
+      "dollars": -359.55,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     }
+    ]
+   },
+   {
+    "family": "COMPACT OPT INV AMPOL COLLIE",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5119460660",
+     "5119659533"
+    ],
+    "gross": 345.44,
+    "counterpart_leg": "phaseb_b3 rule 10, APPLMTOTAL on the SW tab, Ampol Retail / Store Operations",
+    "rows_in_this_block": [
+     {
+      "row": "H31584",
+      "document": "5119460660",
+      "document_matches_raw": true,
+      "text": "COMPACT OPT 2026 INV AMPOL COLLIE FEB 26",
+      "dollars": -89.79,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31585",
+      "document": "5119460660",
+      "document_matches_raw": true,
+      "text": "COMPACT OPT 2026 INV AMPOL COLLIE JAN 26",
+      "dollars": -89.37,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31586",
+      "document": "5119460660",
+      "document_matches_raw": true,
+      "text": "COMPACT OPT 2026 INV AMPOL COLLIE MAR 26",
+      "dollars": -87.9,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     },
+     {
+      "row": "H31608",
+      "document": "5119659533",
+      "document_matches_raw": true,
+      "text": "COMPACT OPT 2026 INV AMPOL COLLIE APR 26",
+      "dollars": -78.38,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     }
+    ]
+   },
+   {
+    "family": "COMPAC ONLINE FEE REVERSAL",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5119019650"
+    ],
+    "gross": 256.35,
+    "counterpart_leg": "phaseb_b3 rule 10, APPLMTOTAL on the SW tab, Ampol Retail / Store Operations",
+    "rows_in_this_block": [
+     {
+      "row": "H31555",
+      "document": "5119019650",
+      "document_matches_raw": true,
+      "text": "COMPAC ONLINE FEE STRORO REVERSALS",
+      "dollars": 256.35,
+      "this_block_rule": 29,
+      "destination": "Ampol Retail / Store Operations"
+     }
+    ]
+   },
+   {
+    "family": "MOVE RETAIL ELEC OPEX TO CORRECT COST CENTRE",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5117659227"
+    ],
+    "gross": 0.0,
+    "counterpart_leg": "phaseb_b1 rule 7, APPLAETOTAL on the SW tab, B2B & Energy Solutions / Energy Solutions",
+    "rows_in_this_block": [
+     {
+      "row": "H12875",
+      "document": "5117659227",
+      "document_matches_raw": true,
+      "text": "MOVE RETAIL ELEC OPEX DEC25 TO CORRECT COST CENTRE",
+      "dollars": 0.0,
+      "this_block_rule": 14,
+      "destination": "B2B & Energy Solutions / Energy Solutions"
+     }
+    ]
+   },
+   {
+    "family": "COMPAC ONLINE FEE",
+    "requirement": "exempt_same_destination",
+    "documents": [
+     "5119481423"
+    ],
+    "gross": 0.0,
+    "counterpart_leg": "phaseb_b3 rule 10, APPLMTOTAL on the SW tab, Ampol Retail / Store Operations",
+    "rows_in_this_block": [
+     {
+      "row": "H31592",
+      "document": "5119481423",
+      "document_matches_raw": true,
+      "text": "WINDCAVE EFT (NEXT GEN OPT)",
+      "dollars": 0.0,
+      "this_block_rule": 26,
+      "destination": "Ampol Retail / Store Operations"
+     }
+    ]
+   }
+  ],
+  "method": "Every row listed was read back from the raw HW tab: the document number on the row, the text in column N, the amount in column AA and the rule of this block that captures it. document_matches_raw is the check that the pair list document number is the document number the raw row carries.",
+  "note": "Each family listed sits in exempt_same_destination, where both legs reach the same destination, so no split is required. The document numbers are recorded on this block side for traceability."
+ }
+}

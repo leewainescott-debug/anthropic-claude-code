@@ -1,0 +1,287 @@
+{
+ "audit": "Phase B acceptance audit, round 3, on the regenerated phaseb_b1.json (third issue), phaseb_b2.json (fourth issue), phaseb_b3.json (fourth issue) and phaseb_b4.json (fourth issue). Re-run from scratch, no credit carried from earlier rounds.",
+ "method": "budget.xlsx was re-extracted for this round. Leaf rows only, software parents APPLHCORP, APPLBULKFUEL, APPLMARKETING and APPLSIG_ITEMS excluded, hardware parents APPLHCORP and APPLMARKETING excluded. Every rule match and every open matcher was re-implemented from its match words alone, with no reference to the claimed line lists. Row identifiers are sheet row numbers, prefixed S for the SW Line Items tab and H for the HW Line Items tab.",
+ "control_totals_recomputed": {
+  "sw_leaf_rows": 10138,
+  "sw_leaf_total": 51288134.47,
+  "hw_leaf_rows": 39772,
+  "hw_leaf_total": 25468998.32,
+  "combined": 76757132.79
+ },
+ "checks": {
+  "1_match_re_derivation": {
+   "result": "PASS",
+   "statements_tested": 200,
+   "statements_reproducing_exactly": 200,
+   "detail": {
+    "phaseb_b1": "9 rules, all exact. Rule 10 returns exactly the 12 lines and 180,000.00 on column G in the twelve stated documents with column C equal to APPLB2B, and rules 6 and 10 are exact complements over the 2,914 lines of APPLB2B. line_map plus open covers 5,157 identifiers with no duplicate and no gap, and every one of the 667 open dollar values equals column AA on its row.",
+    "phaseb_b2": "99 live rules, all exact, zero pairwise overlap between any two stated matches. 19 open entries, all reproducing their lines and dollars from their stated sheet rows, and line_map agrees with every rule and every open entry row for row. Rule 15 as rewritten, POWERBI and not FABRIC, returns exactly 3 lines and -95.60.",
+    "phaseb_b3": "20 rules and 22 open matchers, all exact, zero overlap, residual nil. Rule 2 as rewritten returns 4 lines and 0.00, taking in S12992 and S13105. Rule 16 with both SAS spellings returns 69 lines and 522,238.53. Rule 17 with the four source spellings returns 34 lines and 395,495.03. O3 with Adobe other than Adobe Campaign returns 465 lines and 131,085.98. O7 and O14 now name every leg by sheet row and both reproduce.",
+    "phaseb_b4": "50 rules, all exact. The method claims the stated matches partition the block in any order; that was tested by building each rule's effective predicate as its match less the earlier rules its own words name. The 50 effective predicates are mutually disjoint, cover all 39,772 lines with nil residual, and three randomised application orders reproduce every rule's claim. Rule 4 as rewritten returns 175 lines and -16,675.01, rule 43 returns 8 and 6,254.78, rule 46 returns 3 and 109.62, and the new rules 48, 49, 50 and 51 return 1 and 1,550.05, 2 and -11,700.00, 7 and 3,903.32, and 11 and -116.52."
+   },
+   "retired_rules": "phaseb_b2 rule 79 is absent from the rules list and the eleven AMSCAL lines in APPLH_INFOTECH, -114.70, are captured by no live rule: all eleven sit at open B2-O17 and the set is identical to the eleven lines whose column N names AMSCAL. phaseb_b4 rule 47 is absent and the eleven AMSCAL lines in the pooled hardware centre, -116.52, sit at rule 51, open under question Q7.",
+   "largest_fifteen": "The 15 largest ruled rules by absolute value across the four files, phaseb_b4 rules 7 and 20, phaseb_b2 rules 3, 5, 100 and 61, phaseb_b1 rules 6, 7 and 8, and phaseb_b3 rules 6, 8, 7, 13, 9 and 1, each reduce to a one line filter on the named columns that returns the claimed lines and dollars.",
+   "finding_count": 0,
+   "findings": [],
+   "statements_counted": "9 phaseb_b1 rules, 99 phaseb_b2 live rules, 20 phaseb_b3 rules, 22 phaseb_b3 open matchers and 50 phaseb_b4 rules. phaseb_b2's 19 open entries and phaseb_b1's 667 open entries carry explicit row lists rather than match words and were verified against those rows instead."
+  },
+  "2_exactly_once_and_totals": {
+   "result": "PASS",
+   "computed": {
+    "block_scopes_disjoint_on_cost_centres": true,
+    "b1": {
+     "lines": 5157,
+     "total": 10736790.58,
+     "ruled_lines": 4490,
+     "ruled": 9678056.71,
+     "open_lines": 667,
+     "open": 1058733.87
+    },
+    "b2": {
+     "lines": 1430,
+     "total": 25309848.13,
+     "ruled_lines": 1284,
+     "ruled": 25526580.6,
+     "open_lines": 146,
+     "open": -216732.47
+    },
+    "b3": {
+     "lines": 3551,
+     "total": 15241495.76,
+     "ruled_lines": 2981,
+     "ruled": 14585138.08,
+     "open_lines": 570,
+     "open": 656357.68
+    },
+    "b4": {
+     "lines": 39772,
+     "total": 25468998.32,
+     "ruled_lines": 1563,
+     "ruled": 20827010.34,
+     "open_lines": 38209,
+     "open": 4641987.98
+    },
+    "software_partition": "10,736,790.58 plus 25,309,848.13 plus 15,241,495.76 equals 51,288,134.47 over 10,138 lines, to the cent",
+    "hardware": "25,468,998.32 over 39,772 leaf rows",
+    "grand_total": 76757132.79
+   },
+   "line_level": "Every leaf line of both tabs resolves to exactly one rule or one open entry, with no duplicate and no gap in any block.",
+   "finding_count": 0,
+   "findings": []
+  },
+  "3_vocabulary_and_source_mapping_values": {
+   "result": "PASS",
+   "destinations": "20 distinct destinations. Every portfolio and platform is spelled exactly as in docs/OP_MODEL_STRUCTURE.md or its addendum, every pairing is one the structure allows, and the single COE destination carries an empty platform. Commercial Fuels / Trading & Shipping has left the phaseb_b4 destination totals with the retirement of rule 47, and the table now holds 11 entries.",
+   "source_mapping_values": {
+    "rows": 784,
+    "dollars": 1405941.09,
+    "contradictions": 0,
+    "overwritten": 0,
+    "captured_by": "APPLCCO 291 rows at Commercial Fuels / Supply through phaseb_b1 rule 1, APPLSUPFPO 229 through rule 3, APPLLUBRICANTS 125 at B2B & Energy Solutions / B2B through rule 5, APPLSUPPLYOPS 106 through rule 2 and INTEGM 33 at Commercial Fuels / Trading & Shipping through rule 4."
+   },
+   "significant_item_flags": "phaseb_b1 rule 8 now carries sig_funded true on cost centre APOLLO, closing round two finding R2-08. phaseb_b3 carries the flag on rules 1 to 5 and phaseb_b4 on rules 7, 8, 10, 11, 12 and 50. Every phaseb_b4 rule that captures APPLSIG_ITEMS lines and is ruled carries the flag; the four that hold such lines open, rules 1, 4, 9 and 46, carry no destination and so no flag.",
+   "finding_count": 0,
+   "findings": []
+  },
+  "4_citation_completeness_and_contra_symmetry": {
+   "result": "FAIL ON THREE ITEMS",
+   "pair_file_families": {
+    "tested": 53,
+    "note": "required_split 37 families less CONTENTSTACK, plus required_open_leg 17 families. ATLASSIAN XRAY appears as two families in required_split and both were tested.",
+    "cited_on_both_sides": 53,
+    "result": "PASS. Every document of every required family appears in both files named in its legs pattern."
+   },
+   "amounts": {
+    "pair_file": "PASS. All 180 leg pair entries across the three pair file sections reproduce from the raw workbook: every pair nets to zero to the cent, every dollars field equals the first listed leg's column AA value, every family gross equals the sum of its entries, and the three section totals of 1,470,573.72, 772,986.85 and 785,562.29 tie. Nine entries carry a negative dollars value because the first listed leg is the credit; the magnitudes are correct.",
+    "contra_entries": "PASS. All 100 contra entries across the four files reproduce their amounts from the raw rows: 59 against the pair file family gross, 11 against the sheet rows the entry names, 23 against the entry's own block legs on the named documents, and the remaining 7 phaseb_b2 entries against the block legs matching the product the entry names, including -484,940.47 over 7 Energy Solutions Azure legs, -59,157.25 over 6 web hosting legs, -156,315.90 over 14 Snowflake cards legs, -172,214.25 over 28 Snowflake point of sale and pricing legs, -49,414.49 over 14 Snowflake trading and shipping legs, -13,105.00 on sheet row 17434 and -69,300.00 over the 11 Power BI Fabric legs."
+   },
+   "cross_file_rule_citations": "100 contra entries were parsed for cross file references and each referenced holder tested against the rows it is said to hold. Ninety seven are correct. Three are wrong and are findings R3-02 and R3-03.",
+   "finding_count": 3,
+   "findings": [
+    {
+     "id": "R3-01",
+     "severity": "MEDIUM",
+     "files": [
+      "phaseb_b1.json",
+      "phaseb_b2.json",
+      "phaseb_b3.json"
+     ],
+     "dollars_at_stake": 754375.03,
+     "statement": "An independent sweep of the raw workbook finds 208 cross block leg pairs. Setting aside the 25 same destination pairs the round two ruling exempts and the 7 CONTENTSTACK pairs ruled out, 11 pairs that move cost between two different destinations carry their document number on one side only. Gross 754,375.03. None of the 11 appears on either required list in qa_r2_02_pairs.json, so citing every family on those lists, which the files do, does not close the gap.",
+     "composition": [
+      "Energy Solutions Azure recharge, 5 documents, 360,535.03, cited in phaseb_b2 rule 3 and absent from phaseb_b1 rule 7: 5115751862 (S8678 against S16574, 86,137.51), 5116582177 (S8792 against S16665, 78,518.14), 5117334887 (S8917 against S16834, 70,049.50), 5118073745 (S8971 against S16968, 65,528.00) and 5119228582 (S9094 against S17169, 60,301.88).",
+      "Power BI Fabric retail, 4 documents, 25,200.00, cited in phaseb_b2 open B2-O18 and absent from phaseb_b3 rule 16: 5116803218 (S11656 against S16723), 5117334887 (S11678 against S16835), 5118073745 (S11695 against S16969) and 5119228582 (S11767 against S17170), each 6,300.00.",
+      "5118043472, ServiceNow HR Service Delivery professional fees, 368,328.00, S18736 in PCTECHKCM through phaseb_b3 rule 5 against S16963 in APPLH_INFOTECH through phaseb_b2 rule 61; cited in phaseb_b3, absent from phaseb_b2.",
+      "5120370266, software expenses recharge, 312.00, S18727 in CUSTLOYSIG through phaseb_b3 rule 4 against S17443 in APPLH_INFOTECH through phaseb_b2 rule 38; cited in phaseb_b3, absent from phaseb_b2."
+     ],
+     "root_cause": "qa_r2_02_pairs.json defines a document as required only when its number appears nowhere in phaseb_b1 to phaseb_b4. Four documents, 5116803218, 5117334887, 5118073745 and 5119228582, carry several unrelated leg pairs each and already appeared in phaseb_b2 for one of them, so the exclusion dropped their other pairs from the required lists before the families were built. The test that matters is the family, not the document number.",
+     "remedy": "Cite the 5 Energy Solutions documents in phaseb_b1 rule 7 or a contra entry, the 4 Power BI Fabric documents in phaseb_b3, and documents 5118043472 and 5120370266 in phaseb_b2. Change the pair file's exclusion test from document level to family level."
+    },
+    {
+     "id": "R3-02",
+     "severity": "MEDIUM",
+     "file": "phaseb_b3.json",
+     "dollars_at_stake": 44100.0,
+     "statement": "The POWERBI FABRIC RETAIL contra entry states that the counterparty legs sit in phaseb_b2 rule 15 at TDD / TDD. They do not. The seven counterparty legs, S16462, S16577, S16667, S17020, S17101, S17270 and S17371, are all held at phaseb_b2 open B2-O18, which carries no destination. phaseb_b2 rule 15 was narrowed this issue to POWERBI and not FABRIC and holds only three lines, S16476, S16941 and S16962, at -95.60.",
+     "proof": "The entry's legs field reads: APPLMTOTAL through rule 16 to Ampol Retail / Retail Data AU, against APPLH_INFOTECH in phaseb_b2 rule 15 to TDD / TDD. phaseb_b2's own contra entry on the same family reads: APPLH_INFOTECH negative held open at B2-O18 on eleven legs. The two files describe the same pairs and disagree on both the holder and the destination.",
+     "remedy": "Restate as: against APPLH_INFOTECH in phaseb_b2 held open at B2-O18."
+    },
+    {
+     "id": "R3-03",
+     "severity": "MEDIUM",
+     "files": [
+      "phaseb_b3.json",
+      "phaseb_b4.json"
+     ],
+     "dollars_at_stake": 6531.22,
+     "statement": "Three cross file citations point at rules retired this issue. phaseb_b3's contra entry on documents 5117738696, 5119346017, 5119697837 and 5120186566 names phaseb_b2 rule 79 for the AMSCAL credit leg, and its note names phaseb_b4 rules 47 and 12 for the hardware pair. Rule 79 is retired and S16910 is now at phaseb_b2 open B2-O17; rule 47 is retired and H46590 is now at phaseb_b4 rule 51, open under question Q7. phaseb_b4's contra entry on document 5117738696 has a correct legs field but its note also names phaseb_b2 rule 79 for the software pair.",
+     "proof": "phaseb_b2's rules list carries no rule 79 and its retired_rules block records the retirement; the eleven AMSCAL lines are at B2-O17. phaseb_b4's rules list carries no rule 47; H46590 is captured by rule 51 whose status is OPEN with open_question Q7.",
+     "remedy": "Replace rule 79 with open B2-O17 and rule 47 with rule 51, open Q7, in both entries."
+    }
+   ]
+  },
+  "5_budget_tab_citation_scope": {
+   "result": "PASS ON SCOPE, ONE STALE STATEMENT",
+   "computed": {
+    "phaseb_b1": "zero mentions.",
+    "phaseb_b2": "102 mentions. Every line in the block sits in cost centre APPLH_INFOTECH, verified against the raw workbook, so every citation is inside the pooled centre.",
+    "phaseb_b3": "exactly one mention, inside basis_scope, which states that all seventeen cost centres in the block sit outside the tab's scope and that the block cites the tab nowhere. No rule, open entry, note or contra entry cites it. Round two finding R2-02 is closed.",
+    "phaseb_b4": "12 mentions. Five sit in rules, 37, 38, 41, 48 and 49, and the cost_centres field of each holds APPLH_INFOTECH alone. Five sit in open questions Q1, Q2, Q4 and Q6, which place no line. Two sit in loop record fields. Zero citations outside the pooled centre."
+   },
+   "finding_count": 1,
+   "findings": [
+    {
+     "id": "R3-04",
+     "severity": "LOW",
+     "file": "phaseb_b4.json",
+     "field": "basis_scope",
+     "dollars_at_stake": 13250.05,
+     "statement": "basis_scope states that the 2026 Budget tab is cited only on rules 37, 38 and 41. Two rules added this issue also cite it: rule 48, the Lytton refinery communications line at 1,550.05, whose evidence reads that the tab is in scope for this cost centre and carries Lytton UPS Maintenance at sheet row 156, and rule 49, the two pooled technology service recharge legs at -11,700.00, whose evidence reads that the tab is in scope for this cost centre and carries the end user services chargeback credit. The substantive rule holds, because both rules' lines sit in APPLH_INFOTECH, so this is a stale sentence rather than a scope breach.",
+     "note": "Recorded although basis_scope is a loop record field, because the sentence is a factual statement about the file that a reader would rely on. Dismiss if the loop record exemption is meant to cover accuracy as well as register.",
+     "remedy": "Read: rules 37, 38, 41, 48 and 49."
+    }
+   ]
+  },
+  "6_register": {
+   "result": "PASS",
+   "banned_list_applied": "The ruled live list: saving in every form, wave, seat, floor, roster, Category as a column label, theirs or their used of Finance, em and en dashes, dashes as cell filler. The charge family is not banned, per the round two ruling.",
+   "computed": "2,017 content strings scanned across match, evidence, name, note, notes, open entries, open questions and contra entries, with the loop record fields superseded, builder, revision, basis_scope, method, citations and retired_rules excluded. Zero em or en dashes. Zero dashes as filler. Zero banned words outside quoted source text. Zero first, second or third person pronouns in prose. A second pass over the complete raw JSON of all four files, not only the selected fields, returns zero pronoun hits of any person, so the result does not depend on the field selection or on the quoted text exclusion. Round two finding R2-04, seven third person pronouns, is closed.",
+   "finding_count": 0,
+   "findings": []
+  },
+  "7_arithmetic": {
+   "result": "PASS",
+   "computed": [
+    "phaseb_b1: rules sum to 9,678,056.71 over 4,490 lines and line_map holds 4,490 entries; open sums to 1,058,733.87 over 667; together the stated scope of 10,736,790.58.",
+    "phaseb_b2: rules sum to 25,526,580.60 over 1,284 and open to -216,732.47 over 146, together 25,309,848.13 over 1,430.",
+    "phaseb_b3: rules sum to 14,585,138.08 over 2,981 and open to 656,357.68 over 570, together 15,241,495.76 over 3,551, matching block_total, ruled_plus_open and stem_sum.",
+    "phaseb_b4: ruled rules sum to 20,827,010.34 over 1,563 and open rules to 4,641,987.98 over 38,209, together 25,468,998.32 over 39,772. The destination_totals table of 11 entries reproduces exactly from the ruled rules and its own totals come to 1,563 lines and 20,827,010.34.",
+    "phaseb_b4 open questions: each of the seven equals the sum of the rules it names. Q1 rules 1, 2, 3, 4 and 9 give 37,796 and 6,764,468.57; Q2 rule 5 gives 2 and -2,196,046.41; Q3 rule 44 gives 367 and -205,850.04; Q4 rules 35 and 45 give 24 and 189,422.76; Q5 rule 46 gives 3 and 109.62; Q6 rule 39 gives 6 and 90,000.00; Q7 rule 51 gives 11 and -116.52. The seven sum to 38,209 lines and 4,641,987.98. Every OPEN rule names a question that exists and every question names rules that exist."
+   ],
+   "finding_count": 0,
+   "findings": []
+  },
+  "8_regression": {
+   "result": "16 OF 17 RESOLVED, 1 PARTIALLY RESOLVED",
+   "auditor_round_two_findings": [
+    {
+     "id": "R2-01",
+     "status": "RESOLVED",
+     "evidence": "All 34 required pairs in qa_r2_01_pairs.json now carry their document number in both files named in their legs. Superseded in scope by finding R3-01, which is a different set of 11 pairs that no required list carried."
+    },
+    {
+     "id": "R2-02",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b3 now cites the 2026 Budget tab nowhere except in basis_scope, which records that the whole block sits outside the tab's scope. Rule 12's evidence no longer rests on budget tab rows."
+    },
+    {
+     "id": "R2-03",
+     "status": "CLOSED BY RULING",
+     "evidence": "The charge family is not banned. The register scan applies the ruled list and returns zero banned words."
+    },
+    {
+     "id": "R2-04",
+     "status": "RESOLVED",
+     "evidence": "Zero person pronouns in prose across all four files, down from seven."
+    },
+    {
+     "id": "R2-05",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b3 rule 16 now names both spellings with counts, 'SAS LICENSING' 9 lines 498,750.03 and 'SAS LICENCING' 7 lines minus 0.02, and returns 69 lines and 522,238.53."
+    },
+    {
+     "id": "R2-06",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b3 O3 now reads Adobe other than Adobe Campaign and returns 465 lines and 131,085.98 with no overlap on rule 17's six ADOBE CAMPAIGN lines."
+    },
+    {
+     "id": "R2-07",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b3 O7 names sheet rows 11673 and 11693 with their column N values and dollars, and O14 names sheet rows 12072, 12138 and 12139 and records that the export spells JB HI FI without a hyphen. Both reproduce."
+    },
+    {
+     "id": "R2-08",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b1 rule 8 now carries sig_funded true."
+    }
+   ],
+   "adversary_round_two_findings": [
+    {
+     "id": "R2-1",
+     "status": "RESOLVED",
+     "evidence": "Both pooled AMSCAL sets are open, as the remedy asked. The eleven software lines sit at phaseb_b2 open B2-O17 and the eleven hardware lines at phaseb_b4 rule 51 under question Q7, and both files record the retirement of rules 79 and 47. Document 5117177796 verifies as described: S4346 INTEGM 291.50 through phaseb_b1 rule 4, S7196 APPLB2B 145.75 through rule 6, H5317 APPLBULKFUEL 444.19 open under Q3, S16807 at B2-O17 and H46296 at rule 51."
+    },
+    {
+     "id": "R2-2",
+     "status": "PARTIALLY RESOLVED",
+     "evidence": "The great majority of cross block pairs are now cited on both sides. Eleven cost moving pairs, 754,375.03, remain cited on one side only, including five of the twelve Energy Solutions Azure recharge months the finding named. Carried forward as R3-01."
+    },
+    {
+     "id": "R2-3",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b2 rule 15 was narrowed to POWERBI and not FABRIC, 3 lines and -95.60, and the eleven POWERBI FABRIC (RETAIL) lines, -69,300.00, are open at B2-O18, which records the missing fact and names Ampol Retail / Retail Data AU as the candidate."
+    },
+    {
+     "id": "R2-4",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b4 rule 48 captures H44865, FASTTRACK QUOTE 8440 LYTTON REFINERY, 1,550.05, at Fuel Infrastructure / Manufacturing, matching phaseb_b2 rule 34's treatment of the same site."
+    },
+    {
+     "id": "R2-5",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b4 rule 49 captures H46884 and H46885, IT SERVICES JAN 2026 and FEB 2026, -11,700.00, at TDD / TDD, matching phaseb_b2 rule 38. Rule 4 was narrowed to lines outside APPLH_INFOTECH and now returns 175 lines and -16,675.01."
+    },
+    {
+     "id": "R2-6",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b3 rule 2 now captures S12992 and S13105 at Ampol Retail / AmPOS and open item O22 is gone, so both tabs treat the CRPOSSIG transfer the same way."
+    },
+    {
+     "id": "R2-7",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b4 rule 50 is written exactly as the remedy asked, column C equals APPLSIG_ITEMS and column N names APOLLO or RETAIL ELEC OPEX TO SI, 7 lines and 3,903.32 at B2B & Energy Solutions / Energy Solutions. Rule 46 now holds only the three lines the remedy said to leave open: H52703 and H52719, the DEC 25 AMSCAL RECHARGE pair, and H52718, IT RELATED EXPENDITURE."
+    },
+    {
+     "id": "R2-8",
+     "status": "RESOLVED",
+     "evidence": "Same as R2-05 above."
+    },
+    {
+     "id": "R2-9",
+     "status": "RESOLVED",
+     "evidence": "phaseb_b4 question Q6 now carries a candidate field naming Ampol Customer / Ampol Digital, the destination phaseb_b3 rule 18 gives the six WEB HOSTING AZURE CONSUMPTION lines in the same cost centre, and states why naming the candidate is not placing the lines."
+    }
+   ],
+   "finding_count": 0,
+   "findings": []
+  },
+  "round_3_specific_reconciliation": {
+   "item": "POWERBI FABRIC document count, phaseb_b2 B2-O18 lists 11, qa_r2_02_pairs.json lists 7, phaseb_b3 lists 7.",
+   "result": "phaseb_b2 is right at 11. The pair file and phaseb_b3 are four documents short.",
+   "computed": "The raw workbook holds 11 credit lines of -6,300.00 in APPLH_INFOTECH, sheet rows 16462, 16577, 16667, 16723, 16835, 16969, 17020, 17101, 17170, 17270 and 17371, and 12 charge lines of 6,300.00 in APPLMTOTAL. Eleven documents carry both legs, so B2-O18's eleven, -69,300.00, is complete on the credit side and its list of documents is exact. The pair file family and the phaseb_b3 contra entry both list 7 documents and 44,100.00 and omit 5116803218, 5117334887, 5118073745 and 5119228582, 25,200.00, for the reason given in R3-01: those four numbers already appeared in phaseb_b2 for an unrelated pair, so the pair file's document level exclusion dropped them.",
+   "twelfth_charge_line": "The twelfth APPLMTOTAL charge line, S11580 on document 5115501647, has no Power BI Fabric counterparty. That document raises one combined credit in the pooled centre, S16541 IT SERVICES AUG 2025 at -35,550.58, covering the Fabric charge together with ITCM licences, a Contentstack licence and a Sitecore licence. It is a one to many document, not a leg pair, which is why neither B2-O18 nor the pair file carries it. No finding.",
+   "consequence": "phaseb_b3's entry understates the family by 25,200.00 and, separately, names the wrong holder for the counterparty legs, which is finding R3-02."
+  }
+ },
+ "finding_count": 4
+}

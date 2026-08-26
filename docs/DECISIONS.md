@@ -3013,3 +3013,34 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   question on b2 rules 5, 10, 14, 24 to 27. Zero findings closes
   Phase B and freezes the four files for the Phase C build. The
   adversary stands down unless the pass surfaces substance.
+
+## D180 - 26/08: PHASE B CLOSED at zero findings; rule files frozen
+- The closure pass's two text edits landed and verified: b2's Azure
+  Energy Solutions family mirrors the twelve document stream at
+  845,475.50 with every pair re-derived, and budget row 258 survives
+  only on rule 5 where it is redundant but sound (rules 10 and 14 now
+  cite row 256, the Microsoft 365 line that carries Copilot and Power
+  Automate; rules 24 to 27 stand on row 264 and the 784 per-user
+  grammar).
+- Frozen final state, all verified blind and by both QA agents across
+  four rounds:
+  b1: 9 rules, ruled 9,678,056.71 / 4,490 lines, open 1,058,733.87 /
+  667 (APPLTDDIST 1,023,626.60 and APPLFIFINANCE 35,107.27), 33
+  contra families. Rules 1 to 5 are exactly the 784 typed rows.
+  b2: 99 live rules (79 retired), ruled 25,526,580.60 / 1,284, open
+  -216,732.47 / 146 across 19 opens, 28 contra families.
+  b3: 20 rules, ruled 14,525,927.50 / 2,980, open 715,568.26 / 571
+  across 23 opens, 41 contra entries.
+  b4: 50 rules (47 retired), ruled 20,827,010.34 / 1,563, open
+  4,641,987.98 / 38,209 under questions Q1 to Q7, led by the device
+  recharge question at 6,764,468.57 and prepaid at -2,196,046.41.
+- The software blocks partition 51,288,134.47 to the cent; hardware
+  ties 25,468,998.32; grand total 76,757,132.79 over 49,910 leaf
+  lines, every line through exactly one rule or one priced open.
+  208 cross-block document pairs swept, 184 cost-moving, 177 cited on
+  both sides (the seven Contentstack documents excluded by ruling).
+  Register clean across 2,028 content strings.
+- The four rule files, the five QA reports, both pair lists, the
+  budget truth and the item dictionaries are committed to
+  data/nonlabour/ as the frozen audit trail. Phase C builds from
+  these and only these.
