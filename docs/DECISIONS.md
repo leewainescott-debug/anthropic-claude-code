@@ -2779,3 +2779,30 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   in HW. Honest flag from the reader: the pricing optimiser pilot credit
   of -241,521.60 has no debit side in the software ledger (looks
   capitalised) - flagged, never plugged.
+
+## D171 - 26/08: evidence-based mapping SHIPPED
+- Full pipeline complete per docs/NONLABOUR_ORCHESTRATION.md: six readers,
+  deep pass, adversary, consistency auditor, integration builder, my own
+  independent audits at every gate. Every leaf row of both tabs read and
+  placed or honestly opened: 49,910 lines, 76,757,132.79 to the cent.
+- Final classes: Placed 55,437,919.22 (72.2%), Sig funded 13,678,926.28
+  (17.8%, flagged recharging to programs, AmPOS the giant at 11.90m),
+  Open 7,640,287.29 (10.0%) in named families with reasons and dollars.
+- Deliverable built by ZIP surgery on his upload: his five tabs
+  BYTE-IDENTICAL (SHA-256 proven, only the three registration parts
+  changed, enumerated), four added value-only tabs: Mapping (per line
+  with basis and source), Totals (ties, check 0.0), Reconciliation
+  (per-centre ties + dashboard sanity controls with the windows note),
+  Not 100pc sure (7,640,287.29 by reason).
+- Adjudications applied: Foregenix and HackerOne flipped to his budget
+  words; the 180k marketing credit kept with its own centre so the
+  transfer shows; POS reclass split per the adversary's proven numbers;
+  Emerald-order devices to EG Integration | EGI.
+- Decisions and anomalies for Lee (mapped-but-flagged or open): device
+  catalogue 6.87m consuming-portfolios vs TDD (his two hands conflict),
+  Blue Yonder platform (2.69m net), Bulk Fuels HW roll-up split key
+  (2.48m), Distribution platform word (0.86m), retail head-office devices
+  (0.78m), per-user licence journals (0.36m), the pricing optimiser
+  credit -241,521.60 with no debit side (Above Store shows negative),
+  Atlassian Xray 3,098.90 in two centres, non-Emerald sig devices
+  39,073.11.
