@@ -3044,3 +3044,26 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   budget truth and the item dictionaries are committed to
   data/nonlabour/ as the frozen audit trail. Phase C builds from
   these and only these.
+
+## D181 - 26/08: Phase C launched; the consolidated line dataset
+- b3 and b4 dumped their per-line maps (b3: all 43 buckets tying the
+  frozen file to the cent, md5-proven untouched; b4: 39,772 rows each
+  matching exactly one of the 50 predicates - the matches partition the
+  block with no test-order dependence). The merge built
+  lines_final.jsonl: 49,910 lines, grand total 76,757,132.79 exact.
+- Headline: ruled 10,317 lines / 70,557,575.15 (91.9 percent of
+  dollars); open 39,593 lines / 6,199,557.64 net across the priced
+  questions; significant-item funded 606 lines / 14,772,078.52.
+  Largest destinations: TDD 17.89m, Store Operations 12.56m, AmPOS
+  11.87m (sig funded), Finance 5.24m, B2B 4.17m, Energy Solutions
+  4.16m, Cyber 3.49m, Manufacturing 2.37m, P&C 1.98m, the platform-less
+  COE - Cyber, Risk & Service Operations 1.66m (his own budget-tab
+  convention: all 153 of his COE budget lines carry an empty platform,
+  mirrored exactly).
+- Dataset and line maps committed to data/nonlabour/. Phase C builder
+  one dispatched: recreate all five source tabs verbatim (hidden SAP
+  sheet included), blue mapping columns A/B plus Item, Rule and Open
+  question at AB to AD, the 784 protected untouched, parents blank.
+  Builders two and three (vendor view and register; totals,
+  reconciliation, decisions, read me) follow sequentially on the same
+  file, then QA-C loops and the recalc and fidelity gates.
