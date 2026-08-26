@@ -2742,3 +2742,18 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   sig; ALL of HW; dashboard control totals from all 35 pages. Shared brief
   at scratchpad nonlabour/AGENT_BRIEF.md sets the evidence rules and the
   tie-to-the-cent requirement per block.
+
+## D169 - 26/08: mapping deliverable spec finalised by Lee
+- Dashboard is a BUDGET view of FY26; the spreadsheet is ACTUALS over the
+  export's periods 007.2025 to 006.2026. They will never tie to the cent;
+  the reconciliation compares at sanity level and says so on its face.
+- EVERY LINE READ ON ITS OWN LOGIC. The ground-truth grammar (his 784
+  rows: the cost centre decides, products do not override) sets each
+  centre's default, but each line's own text and vendor can overrule it,
+  and the logic is recorded PER LINE so any row can be audited. No broad
+  implication, no blanket smears.
+- DELIVERABLE SHAPE (final): his five tabs byte-for-byte untouched, plus
+  additional tabs only: per-line mapping with logic, totals by portfolio
+  and platform, reconciliation vs dashboard (sanity), and a "Not 100%
+  sure" tab listing every open line with reason and dollars. Nothing
+  assumed anywhere; unsure beats guessed, always.
