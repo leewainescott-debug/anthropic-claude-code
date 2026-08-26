@@ -2718,3 +2718,27 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   total 76,757,132.79 exactly, zero check 0, portfolio totals matching the
   independent python evaluation line for line. Final cached-value copy
   sent to Lee.
+
+## D168 - 26/08: non-labour mapping RESET on Lee's rulings (v2 scrapped)
+- Lee rejected the v2 build and the approach behind it. His rulings, all
+  permanent for this work:
+  1. THE DELIVERABLE IS HIS FILE with the mapping ON the raw tabs in his
+     own pattern: SW columns A/B (Portfolio, Platform) completed, the same
+     two columns on HW. His 784 already-mapped SW rows are GROUND TRUTH,
+     never overwritten. No apparatus of extra tabs, no creative spin. At
+     most one proof tab reconciling to the dashboard.
+  2. EVIDENCE ONLY, ZERO ASSUMPTIONS. Keyword tells are not evidence. Every
+     row and every letter read, placements carry quoted evidence, OPEN with
+     a reason beats a guess. Multi-agent end-to-end reads (his explicit
+     instruction: Sonnet and Opus agents), verified, reconciled against the
+     dashboard PDF's per-area totals which are the control totals.
+  3. Portfolio and platform ONLY. No GM names, no squads.
+  4. The old model barely moves: old areas map near one-to-one to new
+     portfolios; the work is the platform call within each, on evidence.
+- The operating model structure chart he supplied is captured in
+  docs/OP_MODEL_STRUCTURE.md - the ONLY allowed values.
+- Six agents launched: ground-truth grammar from his 784 rows; SW fuels
+  block; SW corporate IT block (25.31m); SW corp functions, marketing and
+  sig; ALL of HW; dashboard control totals from all 35 pages. Shared brief
+  at scratchpad nonlabour/AGENT_BRIEF.md sets the evidence rules and the
+  tie-to-the-cent requirement per block.
