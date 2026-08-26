@@ -2957,3 +2957,30 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   b3 rule 12's four-fact basis (its third fact uses a counterpart
   leg's destination, the shape the AMSCAL ruling rejected) and b2 rule
   15's class witness stretching budget row 258 to Power BI Pro.
+
+## D178 - 26/08: QA round 3 verdicts; round 4 (hygiene) dispatched
+- Adversary round 3: all 178 rules re-derive blind to the cent; both
+  flagged judgment calls resolved with proof. b3 rule 12: facts 1, 2
+  and 4 decisive for 82 of 83 lines (171,496.78) with zero exceptions;
+  the one line only the counterpart-fact reached, ZEPHYR LICENSE 11X
+  59,210.58, is an apportionment in the AMSCAL shape (pooled invoice
+  96,890.04 split across centres with a residual) and demotes to open
+  O23. b2 rule 15: placement CONFIRMED on a stronger in-file witness -
+  the 784's own grammar that a per-user licence follows its holding
+  centre with zero exceptions (Salesforce 306/96, Copilot 66/13,
+  Acrobat 122/16; the 14 Snowflake and 1 Dataiku rows typed in APPLCCO
+  kill the data-product rival); budget row 258 dropped from the
+  evidence.
+- Auditor round 3: matchers, coverage, partition, vocabulary, the 784
+  and the register all fully clean (2,017 content strings, zero person
+  pronouns, zero dashes, zero banned words). Fabric reconciled: b2's
+  eleven documents are exact; the twelfth marketing charge line rides
+  a one-to-many document and is correctly uncited.
+- Round-4 hygiene dispatched: eleven one-side-only citations completed
+  (five Azure ES months to b1, four Fabric documents to b3, ServiceNow
+  HR 368,328.00 and the loyalty recharge 312.00 to b2 - all hidden by
+  the pair file's document-level exclusion); three stale retired-rule
+  pointers refreshed; the Fabric counterparty corrected to B2-O18; the
+  AMSCAL apportionment unified under b4's Q7; fact-4 count corrected
+  to 38; b4 basis_scope extended to rules 48 and 49. Only placement
+  movement: b3 ruled 14,525,927.50 / open 715,568.26.
