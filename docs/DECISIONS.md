@@ -3100,3 +3100,23 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - QA-C dispatched: independent engine-value gate, rendered-page
   eyeball of every visible sheet, and a fresh language sweep. Ship
   follows its zero plus the final orchestrator gate.
+
+## D183 - 26/08: SHIPPED - the evidence-based mapping workbook v2
+- deliverables/TDD_NonLabour_Mapping.xlsx (7,891,345 bytes, 11 tabs)
+  replaces the rejected v1. QA-C closed at zero after the one print
+  finding was fixed and proven (Read me first prints complete, one
+  page wide).
+- Final gates all green: engine recalculation on a copy computed all
+  11,866 formulas with every check cell exactly 0.00; all 229 register
+  rows and all 49,910 leaf rows tie the frozen rule files inside the
+  engine; the five source tabs byte-identical through the whole build
+  chain; exactly 9,354 blue software mappings + 784 untouched typed
+  rows + 39,772 blue hardware mappings; software 51,288,134.47,
+  hardware 25,468,998.32, together 76,757,132.79 to the cent.
+- Headline: ruled 70,557,575.15 over 10,317 lines (91.9 percent of
+  dollars); open 6,199,557.64 over 39,593 lines, every open priced on
+  the Decisions tab (32 questions at or above 20,000 plus a 68,850.08
+  tail); significant item funded 14,772,078.52.
+- Task closed pending Lee's rulings on the open questions; each ruling
+  regenerates the affected rules and the workbook through the same
+  loop.
