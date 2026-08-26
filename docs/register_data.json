@@ -207,6 +207,14 @@
    "BUILT",
    "Extracted from his upload 18/08: 8 slides read, rendered and measured; theme, palette, fonts and shape geometry taken from the XML, not eyeballed.",
    "as a note, this is what i finalised. save as memory for language, slide structure, formatting and for reference of all my slides going forward."
+  ],
+  [
+   "DEC-38",
+   "Non-labour mapping build",
+   "Green-lit build of the non-labour mapping workbook: 49,910 AU HW/SW leaf lines placed by portfolio and platform, six open calls as live dropdowns (proposals loaded, marked), profile with labour beside non-labour and a zero check, reconciliation bridge to roughly 302 with named TBC blocks, raw tabs verbatim. Leaf total 76,757,132.79 proven; profile holds it under every decision branch.",
+   "BUILT",
+   "Profile engine verified independently in python for both branches of all six decisions; Enterprise Data nets to zero on current tells and is flagged, not plugged.",
+   "sweet build"
   ]
  ],
  "build": [

@@ -2671,3 +2671,42 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   also written to /root/.claude/CLAUDE.md so it applies at user level, with
   the honest caveat that this container's home directory is ephemeral - the
   repo copy is the durable one.
+
+## D167 - 18/08: non-labour mapping workbook built ("sweet build")
+- Lee green-lit the build off the D166-era analysis playback. Built
+  deliverables/TDD_NonLabour_Mapping.xlsx via
+  scripts/build_nonlabour_mapping.py. Nothing decided for him: the six
+  open calls are live dropdowns on a Decisions tab, loaded with my
+  proposals and marked PROPOSED (EUC devices central vs follow, Marketing
+  digital to Ampol Customer vs Retail, CCO, Brand & Comms, Distribution,
+  GENERAL). The Profile moves live off block subtotals; the ledger's Final
+  columns show the landing under the current proposals and get refreshed
+  when his rulings land (per-line formulas were the honest casualty:
+  LibreOffice could not recalc 100k cross-sheet IFs inside any sane gate,
+  so the decisions drive aggregate blocks that move whole groups, proven
+  identical).
+- Contents: 1 Start here, 2 Decisions, 3 Ledger (49,910 leaf lines, one
+  per SAP document line, Line ID = raw tab row, class + basis + decision
+  group + landing), 4 Profile (portfolio x platform, labour AU beside
+  non-labour, zero check), 5 Reconciliation (the bridge to roughly 302,
+  TBC for the blocks not in this file: network, outside services,
+  depreciation, capex, all of Z/NZ), then his three raw tabs verbatim.
+- Verified: leaf ledger re-adds to 76,757,132.79 exactly (SW 51,288,134.47
+  + HW 25,468,998.32); the Profile formulas evaluated independently in
+  python tie the ledger portfolio for portfolio under the default
+  decisions AND hold the same grand total with every decision flipped
+  (money moves between portfolios, the total never drifts). Class mix as
+  built: Direct 18.4, Programs 14.9, Rule 15.7, Decision 16.1, Open 11.6.
+- FINDING flagged to Lee: Enterprise Data nets to about zero (-0.001m) on
+  current product tells, credits offsetting charges; its real non-labour
+  spend hides inside Cloud and the 11.6m Open lines. Exactly the
+  empty-portfolio risk he raised; resolves through the digging list, never
+  by plugging.
+- CORRECTION (same day, after the tooling hunt): the recalc "timeouts" that
+  drove the block-table redesign were largely NOT file size - this fresh
+  container was missing libreoffice-calc entirely (as it was missing
+  impress on 18/08), so the checker could not open ANY spreadsheet, even a
+  two-cell test file. Proven, then installed and verified. The block-table
+  design stays (it is faster and equally correct, proven in python for
+  both branches of all six decisions); the final in-engine recalc pass was
+  interrupted by Lee mid-run and stands pending his go.

@@ -176,3 +176,18 @@
   Role Mapping in full. Never claim a data tab is in a file unless it is
   actually there - the v3 dashboard build shipped a front-page note saying
   the mapping was included when the tab had been dropped; caught by Lee.
+- Non-labour mapping (Lee 18/08, "sweet build" after the analysis
+  playback): deliverables/TDD_NonLabour_Mapping.xlsx via
+  scripts/build_nonlabour_mapping.py. AU HW/SW SAP export has a
+  cost-centre HIERARCHY (parents AND children exported - solve before
+  summing; leaf truth = SW 51,288,134.47 + HW 25,468,998.32 =
+  76,757,132.79 over 49,910 lines). Six open calls live as dropdowns on
+  the Decisions tab (EUC central/follow, Marketing digital, CCO, Brand,
+  Distribution, GENERAL), proposals loaded and marked PROPOSED - his to
+  set, never hardcode. Profile moves off block subtotals (LibreOffice
+  cannot gate 100k cross-sheet IFs; ledger Final columns are static under
+  current proposals, refresh after rulings). The ~302m = Ampol opex 189.1
+  + capex 48.1 + Z opex 64.8 per the FY26 dashboard. Not in the AU file:
+  network, outside services, depreciation, capex, all of Z/NZ. Enterprise
+  Data nets ~zero on current tells (flagged, never plugged). Full analysis
+  docs/NONLABOUR_MAPPING_ANALYSIS.md.
