@@ -2930,3 +2930,30 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Round-3 fix lists consolidate both QA reports per builder; totals
   will move (demotions and promotions) and conservation is verified
   blind on every regeneration.
+
+## D177 - 26/08: round-3 regenerations verified; QA round 3 running
+- All four builders regenerated on the D175/D176 rulings and every file
+  verified blind against the raw workbook before QA: b1 (issue 3) sig
+  flag, two recasts, 32 family contra entries tying the pair list to
+  the cent, totals untouched. b2 (issue 4) rule 79 retired to open
+  B2-O17; rule 15 re-derived to three per-user Power BI lines with
+  B2-O18 (Fabric, eleven documents, -69,300.00) and B2-O19 (PowerPro
+  BI, -143.40, a declared same-class extra, accepted) opened; ruled
+  25,526,580.60 / open -216,732.47, conservation exact. b3 (issue 4)
+  rule 12 STANDS on four in-file facts replacing the budget rows; O22
+  closed into rule 2 (four lines netting 0.00); budget citations
+  stripped from seven rules with basis_scope added (exactly one tab
+  mention remains, inside basis_scope); both SAS spellings; O3/O7/O14
+  restated; 27 citation families; ruled 14,585,138.08 / open
+  656,357.68. b4 (issue 4) rule 47 retired, AMSCAL open at Q7
+  (-116.52); rules 48 FastTrack Lytton (1,550.05 Fuel Infrastructure /
+  Manufacturing), 49 pooled IT SERVICES (-11,700.00 TDD / TDD), 50
+  Apollo (3,903.32 B2B & Energy Solutions / Energy Solutions, sig
+  funded) added; Q5 shrunk to 109.62; ruled 20,827,010.34 / open
+  4,641,987.98; zero required citation families carry a hardware leg
+  (all pair software rows), recorded in a citations metadata block.
+- QA round 3 fired on both agents, full suites from scratch, with two
+  judgment calls flagged for hardest attack rather than pre-endorsed:
+  b3 rule 12's four-fact basis (its third fact uses a counterpart
+  leg's destination, the shape the AMSCAL ruling rejected) and b2 rule
+  15's class witness stretching budget row 258 to Power BI Pro.
