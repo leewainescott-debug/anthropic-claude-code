@@ -3169,3 +3169,16 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   spend. Build dispatched to an Opus agent with the full brief and the
   verified target figures; a Sonnet checker follows; Fable gates and
   ships.
+
+## D186 - 27/08: dashboard corrections ruled (supersedes D184 split)
+- Lights on = support PLUS overhead (one line, absorbing own leadership
+  and allocated shares); no separate overhead column. Labour cost total
+  = the 99m number: each line's own people cost, allocations
+  redistributing inside it exactly as 3.8 does (98.98 = 54.20 charged
+  to lights on + 19.83 funded outside + 24.94 initiatives). Sig items =
+  funded outside per 3.8; Initiatives = the remainder (3.8's left to
+  recharge). Each portfolio gets its OWN TAB: a summary dashboard block
+  on top, then the roles in the 2.x format broken down by squad with
+  subtotals. Dashboard design must be researched (CFO pack, FP&A,
+  MBB-handover patterns), not flat tables; QA covers design as well as
+  numbers. Loop runs to done before returning to Lee.
