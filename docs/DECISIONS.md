@@ -3182,3 +3182,15 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   subtotals. Dashboard design must be researched (CFO pack, FP&A,
   MBB-handover patterns), not flat tables; QA covers design as well as
   numbers. Loop runs to done before returning to Lee.
+
+## D187 - 27/08: dashboard workbook SHIPPED (agent-built, twice QA'd)
+- Rebuilt to the researched design and D186 definitions: TDD corporate
+  dashboard (KPI band, 19-line table with data bars, bridge and
+  composition charts), 13 portfolio tabs (KPI band + squad chart + the
+  2.x-format role listing by squad), Platforms and Squads views,
+  Assumptions, Role data (549 rows, the nine Customer pool roles split
+  at the model's own 38.03/61.97 ratio so every line ties 3.8 exactly),
+  REVIEW and all 2.x tabs carried bit-exact. Corporate identity ties:
+  98.98 = 54.20 charged + 19.83 sig + 24.94 initiatives, 3.70 over the
+  50.5 budget. Two QA rounds (numbers, rules, design) to a ship
+  verdict; label-collision and column-width fixes proven by render.
