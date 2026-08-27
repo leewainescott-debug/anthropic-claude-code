@@ -3144,3 +3144,28 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   back to the old file and break, and value copies cannot be traced).
   Mock first: the Ampol Retail page on real numbers for his layout
   call before every portfolio, platform and squad page is run.
+
+## D185 - 27/08: dashboard redesign ruled; agent-led build, Fable gates only
+- Lee rejected the page design twice and re-ruled the shape with a
+  sketch: this is an EXCEL DASHBOARD, not a slide. No "of which"
+  phrasing, no explainer writing anywhere (no kickers, no rail, no
+  callouts, no footnote prose), his column words verbatim: Labour cost
+  total, Lights on labour cost, Overhead labour cost, Sig items labour
+  cost, Initiatives labour cost. One Dashboard tab, four stacked flat
+  tables: FIRST the TDD corporate lights on view (every line's
+  contribution to TDD in one shot against the lights on budget), then
+  Portfolios, then Platforms, then Squads. The 2.x tabs ARE carried
+  through (values with their formatting); REVIEW carried verbatim
+  INCLUDING his formatting (the draft restyled it, a raw data breach).
+  The Inputs tab confused him; replaced by one terse Assumptions tab
+  holding every typed input in blue and the convention list.
+- COE lines typed at line level from the model's 3.5 (no per-role COE
+  apparatus); the two Customer portfolios and the two-COE tabs split by
+  REVIEW's portfolio column, verified against 3.5 to the cent; platform
+  values carried verbatim from REVIEW including NA and (All Retail).
+- OPERATING INSTRUCTION (Lee): minimise Fable token use on this task.
+  Agents build (Sonnet by default, Opus where genuinely needed), Fable
+  only plans, orchestrates and QAs as the final gate with minimal
+  spend. Build dispatched to an Opus agent with the full brief and the
+  verified target figures; a Sonnet checker follows; Fable gates and
+  ships.
