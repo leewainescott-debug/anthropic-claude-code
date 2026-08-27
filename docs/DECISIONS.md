@@ -3213,3 +3213,21 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Three QA rounds to a ship verdict; the last header nit fixed with a
   diff proof (104 style changes exactly, zero value or formula
   changes). Agents built and checked throughout; Fable gated.
+
+## D189 - 27/08: dashboard rebuilt to Lee's reference standard, shipped
+- Lee rejected the table layout with ten reference dashboards (Qlik,
+  Salesforce, Power BI, CFI Excel model packs) and two rules: no
+  freezing anywhere, platforms above squads showing which squads sit in
+  which platform. Rebuilt as a card-grid BI page: navy title band with
+  a metadata strip, five large KPI numbers, doughnut composition,
+  ranked cost bar, charged vs budget comparison, full width detail
+  table with over/(under) percent chips, and a visible checks strip at
+  0.00. Portfolio tabs: KPI band, his assumption sentence, squad
+  composition and lights on vs initiatives panels, then ONE nested
+  table, platform rows bold with their squads indented, dollars,
+  lights on %, roles and FTE, then the role listing. No freeze panes
+  or protection on any built tab; his six en dash job titles carried
+  verbatim per the raw data rule.
+- Five build/QA rounds total this arc; final round: all 19 lines tie
+  3.8 exactly, nested mapping proven 12 for 12 against Role data,
+  REVIEW and 2.x zero mismatches, three inherited #N/A only.
