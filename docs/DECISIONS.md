@@ -3120,3 +3120,27 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Task closed pending Lee's rulings on the open questions; each ruling
   regenerates the affected rules and the workbook through the same
   loop.
+
+## D184 - 27/08: FY27 portfolio summary workbook ruled and started
+- Lee's ask: a new workbook off the 0608 FINAL model (which carries the
+  cyber split applied) with a 2.x style resource summary per portfolio,
+  a cost block per portfolio of total cost, lights on, overhead and
+  significant items, the same for every platform and squad (those two
+  levels carry no overhead or significant items lines), a note stating
+  the lights-on percentage assumption, and an assumptions tab
+  consolidating everything. Slides later off the same numbers.
+- RULED (his answers): cost basis = AFTER LEVERS, the model's headline.
+  Split definition approved: lights on = the support share of squad
+  cost; overhead = the portfolio's own leadership roles plus its share
+  of the GM, business partner and domain architect pots; significant
+  items = the directly funded programs; the remainder is change.
+  Lights on plus overhead then equals what 3.8 charges to lights on.
+  EGI gets its OWN page (fully funded outside, zero TDD cost).
+- Approach agreed: REVIEW carried verbatim as the backbone plus a
+  typed inputs tab (support percentages, sig funding, overhead rates,
+  each labelled with its model source); the 2.x style views REBUILT
+  with live formulas off a role-level working grid traced by Role ID
+  (the 2.x tabs are never copied across, since their formulas link
+  back to the old file and break, and value copies cannot be traced).
+  Mock first: the Ampol Retail page on real numbers for his layout
+  call before every portfolio, platform and squad page is run.
