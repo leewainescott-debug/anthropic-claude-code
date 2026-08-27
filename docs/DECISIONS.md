@@ -3194,3 +3194,22 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   98.98 = 54.20 charged + 19.83 sig + 24.94 initiatives, 3.70 over the
   50.5 budget. Two QA rounds (numbers, rules, design) to a ship
   verdict; label-collision and column-width fixes proven by render.
+
+## D188 - 27/08: dashboard reshipped on Lee's review (bottom-up split)
+- His corrections applied: protection removed everywhere; data bars cut
+  from the corporate table and listings (kept on Platforms and Squads,
+  which he called fine); the main view is four clean dollar columns
+  (total, lights on, sig items, initiatives) with the budget story in
+  its own block to the side; initiatives is real resource cost, bottom
+  up, never a residual and never negative (TDD Cyber +0.17, was -0.63
+  under the residual definition; corporate 98.98 = 49.10 + 19.83 +
+  30.04 on the own-resource basis, with the charged 54.20 vs 50.50
+  budget, 3.70 over, in the side block tying 3.8 exactly); each
+  portfolio tab spells out squad AND platform tables with dollars and
+  lights on % (squad % = the typed assumption, blue) and carries his
+  assumption sentence live: "Assumes X% of total labour cost is
+  charged to the TDD portfolio as a lights on cost; the rest of labour
+  is funded by the business unit via opex or capex."
+- Three QA rounds to a ship verdict; the last header nit fixed with a
+  diff proof (104 style changes exactly, zero value or formula
+  changes). Agents built and checked throughout; Fable gated.
