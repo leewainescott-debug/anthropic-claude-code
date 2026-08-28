@@ -337,14 +337,6 @@
    "DONE",
    "Delivered with the compliance summary and cull list.",
    ""
-  ],
-  [
-   "BLD-26",
-   "FY27 dashboard rebuild",
-   "Revert to the original dashboard on the new model; portfolio tabs get the overheads KPI band and typed sentence per the markup, the platform grouped squad chart, platform cost chart and FTE chart, and the Squad cost block; Lever mix and Cost per FTE added as new tabs.",
-   "HIGH",
-   "Ruled 28/08 on the option pack; build running through the agent loop with recalc, checks and renders before it ships.",
-   "let's revert to the original dashboard... add option 7 as additive... option 4 bar chart should be added as additive to the portfolio tabs"
   ]
  ],
  "done": [
@@ -697,6 +689,11 @@
    "Wave Q package",
    "Deck v2 final (22 slides, exec summary up front, all sweeps zero) + TDD_FY26_Forecast v4 (landing 53.72, ten checks). The FY26 relief-basis defect found and fixed in the loop.",
    "Shipped 10/08 pm after three agent rounds and two QA gates."
+  ],
+  [
+   "FY27 dashboard rebuild",
+   "Rebuilt 28/08 on the new model per the option pack rulings: overheads KPI band and typed line on all 13 portfolio tabs, platform grouped squad chart, platform cost chart and FTE chart, Squad cost block, Lever mix and Cost per FTE tabs added after Squads. Corporate and every carried tab identical to the previous ship.",
+   "SHIPPED 28/08: recalc three inherited #N/A only, checker zero findings, 15 tabs rendered and read; anchors 98.98 / 54.20 / 50.5 (3.70 over) / 53.8 (0.40 over) / 537.8 all tie."
   ]
  ]
 }
