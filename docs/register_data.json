@@ -223,6 +223,30 @@
    "BUILT",
    "Six readers, deep pass, adversary, consistency auditor, integration builder; independent audits at every gate; all sums tie to 76,757,132.79 to the cent.",
    "i need perfection, no assumptions, not one assumption to be made"
+  ],
+  [
+   "DEC-40",
+   "FY27 dashboard",
+   "Enterprise Data has a 0.50m group tagged sig items with no funding against it; it sits in the portfolio's own cost and shows as still to fund in the Squad cost block. Confirm that is right or name the funding.",
+   "MEDIUM",
+   "Flagged 28/08 with the option pack; carried into the rebuilt portfolio tab, never plugged.",
+   ""
+  ],
+  [
+   "DEC-41",
+   "FY27 cost model",
+   "The column Q fix left three stale spots in the model: the written bridges (3.5 rows 30 to 32, 3.8 rows 34 to 38) are out by the 8.80 allocated overheads, and the 3.8 title cell still carries 99.36/54.43. The in-model fix prompt is drafted on request.",
+   "LOW",
+   "Knock-ons of the column Q change, verified 28/08; the model computes right, only the words and the title are stale.",
+   ""
+  ],
+  [
+   "DEC-42",
+   "Role mapping hygiene",
+   "REVIEW carries platform NA on 75 rows (14.30m), no platform on 20 rows (3.75m), and AMPOS and AmPOS as two spellings. Kept visible as their own rows on the Cost per FTE tab per the raw data rule. Clean them in the model, or keep as is?",
+   "LOW",
+   "Surfaced by the cost per FTE view 28/08; nothing merged or plugged.",
+   ""
   ]
  ],
  "build": [
@@ -313,6 +337,14 @@
    "DONE",
    "Delivered with the compliance summary and cull list.",
    ""
+  ],
+  [
+   "BLD-26",
+   "FY27 dashboard rebuild",
+   "Revert to the original dashboard on the new model; portfolio tabs get the overheads KPI band and typed sentence per the markup, the platform grouped squad chart, platform cost chart and FTE chart, and the Squad cost block; Lever mix and Cost per FTE added as new tabs.",
+   "HIGH",
+   "Ruled 28/08 on the option pack; build running through the agent loop with recalc, checks and renders before it ships.",
+   "let's revert to the original dashboard... add option 7 as additive... option 4 bar chart should be added as additive to the portfolio tabs"
   ]
  ],
  "done": [

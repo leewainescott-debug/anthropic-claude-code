@@ -3255,3 +3255,40 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   the own-cost 33.75 (never negative, as shipped) or the model's
   left-to-recharge 24.94 (negative on TDD Cyber). They differ by
   exactly the 8.80 allocated pot.
+
+## D191 - 28/08: option pack outcome - revert to the original dashboard, two tabs added
+- Ten option mocks shared on model_v2 numbers (his column Q fix verified
+  applied exactly; REVIEW and all sixteen 2.x proven unchanged). Lee:
+  "none of those options provided give me anything new or anything
+  better. the corporate face is better as it was before. as with the
+  other tabs." Corporate view, Platforms, Squads, Assumptions, Role
+  data stay as shipped. Option 7 (lever mix and sig funding coverage)
+  and option 10 (cost per FTE and lever mix) added as ADDITIVE tabs,
+  option 10 explicitly "additive and not replacing the main dashboard".
+  Option 10 keeps the NA platform row (74.8 FTE) and the no-platform
+  row (20 roles) visible as raw values.
+- The D190 open question is resolved by Lee's own model edit:
+  initiatives carries the new column Q basis (33.745836303, never
+  negative on any line).
+
+## D192 - 28/08: portfolio tabs must show that portfolios pay for overheads (his markup)
+- KPI band per his Enterprise Data markup, his labels and order: Labour
+  cost total | TDD Overheads | Total {line} Labour Cost | Lights on
+  labour cost | Sig items | Initiatives | Over/(under) with a
+  "{lights on} vs {allocation}, {pct}%" caption | Lights on % | Total
+  FTE. Identity on every line: total plus overheads = lights on plus
+  sig plus initiatives (lights on already contains the overheads).
+- Under the band, a TYPED sentence, never a formula (his box: "Do not
+  make this a formula"): "Lights on {X}m is {Y}m own labour charged to
+  lights on plus {Z}m allocated overheads, {P}% of labour cost total."
+- Option 4's platform-grouped squad bar chart added to every portfolio
+  tab right of the support vs initiatives chart, plus a platform cost
+  chart and an FTE chart (his note: "FTE Graph or chart"; "group squads
+  into platforms... highlight the platform cost as well as the squad
+  cost").
+- The squad working block included on portfolio tabs, titled "Squad
+  cost" - "inside the line is confusing language" (phrase banned).
+- REVIEW confirmed in the file at his request: 541x52 checked cell by
+  cell against model_v2, every value identical, three #N/A preserved;
+  the model's helper-formula columns are stored as the values they
+  compute (the workbook does not carry the model's Lists tab).

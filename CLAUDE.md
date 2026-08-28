@@ -191,3 +191,28 @@
   network, outside services, depreciation, capex, all of Z/NZ. Enterprise
   Data nets ~zero on current tells (flagged, never plugged). Full analysis
   docs/NONLABOUR_MAPPING_ANALYSIS.md.
+- FY27 portfolio dashboard (Lee 28/08, D191/D192): the workbook is
+  deliverables/TDD_FY27_Portfolio_Summaries.xlsx. Ten option mocks were
+  tested with him; ruling: the ORIGINAL dashboard design stands ("nothing
+  new or better"), option 7 (Lever mix) and option 10 (Cost per FTE) are
+  ADDITIVE tabs only. Portfolio tabs must show portfolios pay for
+  overheads: KPI band per his Enterprise Data markup (Labour cost total |
+  TDD Overheads | Total {line} Labour Cost | Lights on | Sig items |
+  Initiatives | Over/(under) | Lights on % | Total FTE) plus a typed
+  sentence NEVER a formula: "Lights on Xm is Ym own labour charged to
+  lights on plus Zm allocated overheads, P% of labour cost total."
+  Platform-grouped squad chart, platform cost chart and FTE chart on
+  every portfolio tab; squad working block titled "Squad cost" ("inside
+  the line" BANNED as confusing). Proven numbers basis: total
+  98.979587216 = own lights 45.401019872 + sig 19.832731041 +
+  initiatives 33.745836303 (his model's new 3.5 col Q = C-D-L+F+G+H,
+  never negative, TDD Cyber 0.17); lights on 54.203504558 = own +
+  allocated overheads 8.802484686 (BP 2.3135484 + DA 1.388936286 + GM
+  5.1, each divided by 11); vs 50.5 allocation 3.70 over, vs 53.8 budget
+  0.40 over; FTE 537.8 (473.8 doers), levers Filled 351.5 / Hire 66.0 /
+  Offshore 83.8 / Hold 36.5. REVIEW carried verbatim (helper-formula
+  columns stored as computed values, three #N/A kept). Open with Lee:
+  Enterprise Data 0.50 sig-tagged no-funding group; his model's stale
+  bridges (3.5 r30-32, 3.8 r34-38, off by 8.80) and stale 3.8 B2 title;
+  REVIEW platform hygiene (NA 75 rows, blank 20, AMPOS/AmPOS spellings)
+  kept visible as raw.
