@@ -3292,3 +3292,36 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   cell against model_v2, every value identical, three #N/A preserved;
   the model's helper-formula columns are stored as the values they
   compute (the workbook does not carry the model's Lists tab).
+
+## D193 - 28/08: Lee fixed 3.5 himself; total people cost is 104.08
+- After the plain English walkthrough, Lee corrected his own 3.5: added a
+  GM cost row of 5.10 (the 8 GMs have no role in REVIEW, so the column
+  had been 5.10 short of real total people cost), and stopped the two
+  COE pots being counted as a recharge. Column totals now: total people
+  cost 104.079587216, sig items funded 19.832731041, support cost
+  31.306278794, BP allocation 2.3135484, domain architect 1.388936286,
+  GM allocation 5.1, other overheads 14.094741078, overheads charged to
+  TDD 22.897225764, charged to TDD 54.203504558, recharged to the
+  business 30.043351617.
+- The identity that now holds and governs every artefact:
+  104.079587216 = 19.832731041 sig + 54.203504558 lights on
+  + 30.043351617 recharged to the business.
+- SUPERSEDES the earlier "total labour is the 99m" ruling: he changed it
+  himself. 98.979587216 remains only as the role mapping total (FTE
+  537.8 and cost per FTE stay on that basis, since the GM cost carries
+  no role rows); wherever both appear they must be labelled apart.
+- The double count identified and removed: COE Business Partnering's
+  2.3135484 and COE Strategy Architecture's 1.388936286 residuals were
+  the BP and domain architect pots, already charged out through the
+  allocation columns. Both recharge figures are now zero;
+  33.745836303 less 3.702484686 = 30.043351617.
+- LANGUAGE: "own labour" banned as a reference (it mashed his support
+  cost and other overheads columns into one invented label and caused
+  the confusion). Use his 3.5 column names. "Initiatives" is presented
+  as "Initiatives (BU Funded)".
+- Dashboard changes ruled: corporate pie shows three slices only
+  (Initiatives (BU Funded), Sig items, TDD Lights on); the third graph
+  gets a key for its red, light blue and dark blue; to the right of the
+  pie a breakdown of the 54.20 into overheads 22.90 and squad support
+  cost 31.31; and a further breakdown of what the overheads are made of
+  (tech managers, heads of technology, delivery managers).
