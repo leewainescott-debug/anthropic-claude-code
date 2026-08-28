@@ -3231,3 +3231,27 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Five build/QA rounds total this arc; final round: all 19 lines tie
   3.8 exactly, nested mapping proven 12 for 12 against Role data,
   REVIEW and 2.x zero mismatches, three inherited #N/A only.
+
+## D190 - 28/08: lights on aligned to 54.2 everywhere; reconciliation proven
+- Lee caught the two-basis defect (lights on 49.1 vs 54.2) and ruled
+  everything aligns to 54.2, the amount TDD pays to support the
+  business, with accurate numbers independently checked. The bridge,
+  derived by one agent and re-derived from the model by a second:
+  allocated overheads total 8.802485 = business partner pool 2.313548
+  (inside the 98.98, it IS the COE Business Partnering people, equal
+  to that line's recharge residual) + domain architect pool 1.388936
+  (inside, COE Strategy Architecture) + GM pot 5.1 (OUTSIDE the 98.98;
+  the model's own note: the 8 GMs have no role in REVIEW and sit above
+  the role mapping), each divided by 11. Two identities now hold on
+  every line: total = sig + own charged + initiatives; lights on = own
+  charged + allocated = 54.203504558 at TDD vs 50.5, 3.703504558 over.
+  TDD Cyber resolves positive (0.17 initiatives; its 1.47 lights on =
+  0.67 own + 0.80 allocated); the model's own left-to-recharge bridge
+  (24.943352, negative on TDD Cyber) is preserved as 33.745836 less
+  8.802485. Squad-level views renamed Support labour cost / Support %
+  so "lights on" names exactly one figure. Blue = typed only
+  (Assumptions); the 41 linked cells recoloured black.
+- OPEN QUESTION for Lee: which residual carries the name Initiatives -
+  the own-cost 33.75 (never negative, as shipped) or the model's
+  left-to-recharge 24.94 (negative on TDD Cyber). They differ by
+  exactly the 8.80 allocated pot.
