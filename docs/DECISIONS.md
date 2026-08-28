@@ -3325,3 +3325,19 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   pie a breakdown of the 54.20 into overheads 22.90 and squad support
   cost 31.31; and a further breakdown of what the overheads are made of
   (tech managers, heads of technology, delivery managers).
+- SHIPPED 28/08: dashboard rebased to the 104.08 identity. His 12 row 8
+  sentences carried verbatim from his upload (EGI's is ours, on his
+  pattern, flagged). Corporate pie is three slices; the budget chart
+  carries a key; the 54.20 breaks into support 31.31 and overheads
+  22.90; the 22.90 breaks into BP 2.31, domain architect 1.39, GM 5.10
+  and other overheads 14.09; the 14.09 splits by role type to the cent,
+  technology managers 6.09, heads of technology 4.72, delivery managers
+  3.28. Gates: ten checks at 0.00, exactly 3 inherited #N/A, zero novel
+  chart constructs against the last file that opened, "own labour" gone
+  from the whole workbook.
+- FOUND while splitting the overheads, for Lee: his 3.5 overhead table
+  at rows 54 to 58 totals 13.82 not 14.09, because its 2.2 Customer cell
+  references have moved (G54 points at H124/H125, G58 at an empty
+  H130:H133); the S column rows it feeds from are right, so only that
+  summary table is wrong. Also '2.1 Ampol Retail'!H109 is a typed 0.01
+  where a SUM belongs; it changes nothing here.
