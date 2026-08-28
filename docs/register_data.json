@@ -693,7 +693,7 @@
   [
    "FY27 dashboard rebuild",
    "Rebuilt 28/08 on the new model per the option pack rulings: overheads KPI band and typed line on all 13 portfolio tabs, platform grouped squad chart, platform cost chart and FTE chart, Squad cost block, Lever mix and Cost per FTE tabs added after Squads. Corporate and every carried tab identical to the previous ship.",
-   "SHIPPED 28/08: recalc three inherited #N/A only, checker zero findings, 15 tabs rendered and read; anchors 98.98 / 54.20 / 50.5 (3.70 over) / 53.8 (0.40 over) / 537.8 all tie."
+   "SHIPPED 28/08, re-shipped same day: Excel refused the first file. Root cause: the recalculation step saves the workbook through LibreOffice, which rewrote the grouped chart's two-column axis into a form Excel rejects. Grouped chart rebuilt as one coloured series per platform on a single squad axis; a permanent Excel-openability gate now checks every build against the last file that opened. All gates green: recalc three inherited #N/A only, checker zero findings, anchors 98.98 / 54.20 / 50.5 / 53.8 / 537.8 tie."
   ]
  ]
 }
