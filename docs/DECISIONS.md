@@ -3341,3 +3341,20 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   H130:H133); the S column rows it feeds from are right, so only that
   summary table is wrong. Also '2.1 Ampol Retail'!H109 is a typed 0.01
   where a SUM belongs; it changes nothing here.
+
+## D194 - 28/08: HoT cost budgets engagement opened (recharging and ownership)
+- New workstream on two files: TDD_AU_Consolidated_2027_budget_v4.xlsx
+  (15 tabs; HW 46,922 / SW 12,872 / NW 30,865 / TDD 71,187 line rows;
+  his own keyword mapping engine in Mapping v2, Portfolio Mapping, CE
+  Hierarchy, HW Review, Mapping Audit; a Questions tab; the finance
+  budget cut on 2026 Budget AU TDD Corp carrying #REF! errors) and his
+  FY26 Enterprise Technology Spend Dashboard pdf.
+- End goal ruled: a total cost budget per head of technology, labour
+  plus non labour. TDD owns TDD costs. All costs must net.
+- Full instruction register: docs/HOT_BUDGET_INSTRUCTIONS.md (I1 to
+  I16), owned by the instructions agent at every gate.
+- Workflow ruled by Lee: Fable plans and orchestrates, agents are
+  Sonnet or Fable. Wave 1 launched: quant forensics on the budget file
+  (Fable), operating model and HoT roster off the pdf and the FY27 role
+  extract (Sonnet), practice research on cost ownership models
+  (Sonnet). Design, QA and challenge waves follow on their facts.

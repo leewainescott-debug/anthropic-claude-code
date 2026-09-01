@@ -216,3 +216,15 @@
   bridges (3.5 r30-32, 3.8 r34-38, off by 8.80) and stale 3.8 B2 title;
   REVIEW platform hygiene (NA 75 rows, blank 20, AMPOS/AmPOS spellings)
   kept visible as raw.
+- HoT cost budgets engagement (Lee 28/08, D194): assign a total cost
+  budget to each head of technology, labour plus non labour, off
+  TDD_AU_Consolidated_2027_budget_v4.xlsx (four transaction towers HW/
+  SW/NW/TDD plus his own mapping engine tabs) and the FY26 spend
+  dashboard pdf. TDD owns TDD costs; all costs must net; the central
+  question is how a HoT is responsible for costs the business pays
+  vendors directly. Instruction register docs/HOT_BUDGET_INSTRUCTIONS.md
+  (I1 to I16) audited at every gate. Workflow: Fable orchestrates,
+  agents Sonnet or Fable. Known traps carried from the v1 file: SAP
+  cost centre hierarchy (parents and children both exported, leaf level
+  first), case sensitive matching (RETAIL/Retail). Scratchpad:
+  hotbudget/ (budget_v4.xlsx, labour_dashboard_2026.pdf, findings_*).
