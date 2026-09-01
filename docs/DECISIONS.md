@@ -3473,3 +3473,32 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   typed toggles ready for his ruling.
 - The dropped head of technology and delivery manager reconciliation
   thread (about 1.85m) is reopened and will be closed by named role.
+
+## D199 - 28/08: v2 checkpoint 1 issued (the one interim contact under I25)
+- Certificate: scripts/sap_integrity_check.py (reusable, no hand tuning)
+  PASSES both files: v4 raw 223.10m against leaf 134,571,225.44
+  (mechanisms: APPLBULKFUEL twins in HW/SW/NW; six TDD parent groups
+  equal to their children); v1 76,757,132.79 reproduced with the same
+  excluded groups the original build hardcoded. docs/CERTIFICATE_budget_v4.md.
+- Labour boundary by named role: of the 26,080,471.99 contractors,
+  555,484.19 is PROVEN double counted (seven CXC timesheet names and
+  Digizoo's Jordan Askwith match FY27 model roles, all in 2.2 Customer);
+  1,998,530.26 (Preacta 1,108,820.26, Digizoo residual 889,710.00) likely
+  but unprovable from the two files; the rest genuinely outsourced.
+  Scenario B base 96,177,161.62. Contingent exclusion confirmed right
+  (same vendors and names recur). Personnel 849,363.43 excluded as
+  labour type but priced NOWHERE in the labour model: needs a home.
+- Head of technology and delivery manager gaps closed to the cent by
+  name: 1,294,838.20 = Head of Service Operations & Assurance
+  400,671.40 + Head of Transformation 367,900.00 + Head of Architecture
+  334,972.95 + Head of Cyber Strategy & Technology 191,293.85; 551,620.50
+  = Delivery Excellence Manager and Delivery Assurance Manager
+  275,810.25 each. Purely definitional.
+- Platform pools two-scenario table (platform_pool_scenarios.md): pool
+  Microsoft net 19,337,946.48 and SAP 5,344,596.73 by labour cost share
+  or FTE share across 16 receiving lines; TDD Group Functions 34.63m to
+  17.72m / 17.90m, Finance 8.72m to 4.28m / 4.27m; totals unchanged to
+  the cent under every scenario.
+- Build defaults while Lee rules: the proven 555,484.19 double count is
+  removed (fact, not judgement); the unprovable 1,998,530.26, the pool
+  treatment and the personnel home are typed toggles driving the face.
