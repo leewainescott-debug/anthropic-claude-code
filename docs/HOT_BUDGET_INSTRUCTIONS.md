@@ -63,3 +63,17 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
 - I20. Z and capex come in later; take the data as it is today.
 - I21. Build authorised; come back only when done, and the plan must
   cover everything asked.
+
+## Rulings added 28/08 (after the retrospective: "fix everything, do some detailed planning, ensure agents run")
+- I22. On every SAP sourced file, a structural integrity check runs
+  first and alone, tying leaf level truth to every control total before
+  any lane trusts a sum.
+- I23. Mapping rules are written twice, independently, and diffed; the
+  confidence grade comes from agreement, never from the author.
+- I24. Technology QA runs before the build, cost QA after it, the
+  instructions audit last; QA findings are claims to verify, never
+  figures to build on.
+- I25. Interim contact exception to I21: any single judgement above five
+  percent of the total base earns one short question the moment it is
+  found; nothing smaller interrupts.
+- Plan of record: docs/HOT_BUDGET_PLAN_V2.md.

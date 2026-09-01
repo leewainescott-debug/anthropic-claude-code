@@ -3459,3 +3459,17 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   and SA&D 1,610.15, held unsplit).
 - CFO design lane parked with the allocation-approach question per
   D196; fires when Lee reopens ownership and allocation.
+
+## D198 - 28/08: retrospective adopted; version 2 plan and standing rules
+- Lee: "okay great, fix everything then - do some detailed planning.
+  ensure agents run." The retrospective (mine plus an independent cold
+  review) is adopted in full. Plan of record docs/HOT_BUDGET_PLAN_V2.md;
+  new standing instructions I22 to I25 in the register; universal
+  lessons written into docs/LEE_STANDARDS.md section 10.
+- The interim contact exception is taken as approved with the five
+  percent threshold: checkpoint 1 will carry the two largest judgements
+  (contractors 26,080,471.99; the enterprise platform pools 29,819,543.07)
+  as two scenario tables; the build continues on the data as it is with
+  typed toggles ready for his ruling.
+- The dropped head of technology and delivery manager reconciliation
+  thread (about 1.85m) is reopened and will be closed by named role.

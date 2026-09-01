@@ -120,3 +120,24 @@ the essentials:
 - **Own mistakes plainly**, fix them, and move on. No long apologies.
 - Flag a conflict between an old rule and new evidence rather than silently
   switching.
+
+## 10. Lessons written into the standard (28/08)
+
+- **Never coin a label.** Use the client's own column names and words for
+  every figure. An invented label is jargon by definition and it caused
+  the longest confusion loop of the engagement.
+- **Never quote a number computed in my head.** Every figure said to him
+  comes from a script run, and never from rounded display figures.
+- **Keep his roster names.** When he names lanes or roles, keep them;
+  propose merges as a question, never as a decision.
+- **When a new ruling seems to reverse a standing one, ask one plain
+  question** rather than assume the reversal.
+- **SAP exports: integrity check first.** Overlapping cost centre groups
+  and parent plus child rows have now appeared in two shapes across two
+  files. Leaf level truth tied to the cent before anything sums.
+- **QA findings are claims, not figures.** Verify before building on them.
+- **Gate on a light copy, recalculate the full file once.** The expensive
+  gate runs at the end, not inside the build loop.
+- **Mock the additions to a working design, not alternatives to it.**
+- **Every agent writes its pipeline to disk first**, and every brief is
+  self contained, so an evicted agent can be replaced without restarting.
