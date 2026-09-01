@@ -223,8 +223,13 @@
   dashboard pdf. TDD owns TDD costs; all costs must net; the central
   question is how a HoT is responsible for costs the business pays
   vendors directly. Instruction register docs/HOT_BUDGET_INSTRUCTIONS.md
-  (I1 to I16) audited at every gate. Workflow: Fable orchestrates,
-  agents Sonnet or Fable. Known traps carried from the v1 file: SAP
+  (I1 to I16) audited at every gate. Workflow: Fable orchestrates and can NEVER be an agent;
+  agents Sonnet mostly, Opus where needed; quant and cost distinct
+  lanes. RULED 28/08: HoT question parked, EVERY portfolio gets its
+  total cost base (labour + non-labour); basis = FY26 window Jul25 to
+  Jun26 carried unchanged to FY27; Z and capex later; missing platform
+  mapping resolved from SAP transaction detail; build authorised,
+  report only when done. Known traps carried from the v1 file: SAP
   cost centre hierarchy (parents and children both exported, leaf level
   first), case sensitive matching (RETAIL/Retail). Scratchpad:
   hotbudget/ (budget_v4.xlsx, labour_dashboard_2026.pdf, findings_*).

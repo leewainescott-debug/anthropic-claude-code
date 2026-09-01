@@ -8,8 +8,9 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
 ## The ask
 - I1. MBB thought partner at the table: a technology and recharging
   specialist and a cost specialist.
-- I2. Agentic workflow: Fable plans and orchestrates; the agents are
-  Sonnet or Fable.
+- I2. Agentic workflow: Fable plans and orchestrates and can NEVER be
+  an agent (ruled 28/08). Agents are Sonnet mostly, Opus where
+  genuinely needed. Quant and cost stay distinct lanes.
 - I3. Agent roster he named: quant, CFO, cost, research, instructions,
   cost QA, technology QA, operating model, MBB thought partner; my own
   suggested additions welcome, duplicates to be called out.
@@ -49,3 +50,16 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
   deliverable without his permission; every ruling logged the turn it
   is made; accurate numbers independently checked, never agreement for
   agreement's sake.
+
+## Rulings added 28/08 (second instruction set)
+- I17. The cost bases build off the FY26 period in the file (July 2025
+  to June 2026) and carry the same costs to FY27; FY27 is assumed the
+  same as FY26.
+- I18. Where platform or portfolio mapping is missing, use the SAP
+  transaction detail on the line (vendor, application, text, cost
+  centre) to place it.
+- I19. The head of technology question is parked. Every portfolio gets
+  its total cost base, labour plus non-labour.
+- I20. Z and capex come in later; take the data as it is today.
+- I21. Build authorised; come back only when done, and the plan must
+  cover everything asked.

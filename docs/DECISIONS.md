@@ -3399,3 +3399,24 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   licence and demand governance, showback, chargeback; 57% of mature
   programmes stay showback, 18% pure chargeback; central IT typically
   controls ~a quarter of SaaS spend.
+
+## D196 - 28/08: portfolio cost bases ruled; Fable never an agent
+- FABLE CAN NEVER BE AN AGENT. Permanent. Fable plans, orchestrates and
+  gates only; agents are Sonnet mostly, Opus where genuinely needed.
+  (Supersedes the misread of "sonnet or fable" in D194.)
+- Quant is not to be folded into cost: quant and cost stay distinct
+  lanes in every roster.
+- Basis ruled: the cost bases build off the FY26 window in the file
+  (July 2025 to June 2026) and carry unchanged to FY27; FY27 is assumed
+  the same as FY26.
+- Missing platform mappings are resolvable from the SAP transaction
+  detail itself ("just a double click on the transaction"): use vendor,
+  application, text and cost centre on the line to place it; honest
+  unmapped bucket where even that fails.
+- The head of technology question is parked; it does not matter for
+  now. The deliverable is EVERY PORTFOLIO with its total cost base,
+  labour plus non-labour.
+- Z and capex come in later. Take the data as it is today.
+- Build authorised: "get to work and come up with something and only
+  come back once done." No interim playbacks; next contact is the
+  finished, verified deliverable.
