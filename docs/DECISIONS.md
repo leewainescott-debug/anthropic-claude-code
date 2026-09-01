@@ -3358,3 +3358,44 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   (Fable), operating model and HoT roster off the pdf and the FY27 role
   extract (Sonnet), practice research on cost ownership models
   (Sonnet). Design, QA and challenge waves follow on their facts.
+
+## D195 - 28/08: HoT engagement wave 1 facts landed (all three lanes, triangulated)
+- Budget file truth (leaf level, proven to the cent against the SAP
+  total rows, window Jul 2025 to Jun 2026): HW 13,153,224.79 / SW
+  22,115,008.29 / NW 3,585,662.27 / TDD 95,717,330.09, total
+  134,571,225.44. Straight sums overstate by 88,527,211.98 (overlapping
+  cost centre groups: APPLBULKFUEL twins in HW/SW/NW, six TDD parent
+  groups equal to their children).
+- Three piles: TDD paid and retained 95.72m net (124.49m gross before
+  outward credits); TDD recharged out ~28.8m (labour 20.54m via 800980
+  with receivers only in free text, CSA 7.03m to Z Energy and AMS,
+  1.20m to Retail); business paid direct 38.85m (32.46m straight to
+  vendors, 6.39m arriving via recharge, largest Ampol Retail HW 4.16m).
+- NOT NETTED: only 138 of 1,311 flagged documents net in file (accrual
+  cycles); structural flows are one legged (800980 credits have no
+  debit leg in the file, CSA counterlegs sit with Z Energy); gross is
+  about 2.9x net.
+- Salesforce answered: BUs pay it directly (SFDC invoices 1.59m landing
+  B2B 1.04m and P&C 0.50m), then ~275 users at 163.16 spread monthly
+  across nine BU portfolios inside the SW tab; TDD retains no material
+  licence cost and no TDD to BU recharge of the licence exists.
+- Operating model: 11 literal Head of Technology roles, 3.42m, 8 filled
+  3 vacant; 10 of 16 portfolios covered; the five pure COEs have none.
+  The FY26 dashboard carries no org data at all; ownership sits with
+  8-9 Finance GM cost centre groups; NO crosswalk exists to the 16
+  portfolios in either file. Dashboard page 11 TDD budget 87.69m ties
+  the budget tab's recomputed 87,694,898.06 (independent lanes).
+- File wounds flagged not fixed: 6,012 #REF! cells kill the budget
+  tab's 2022 to 2026 history; his Summary misses 700.00 of network and
+  3.52m of TDD rows typed to portfolios; HW Review and Mapping Audit
+  dollars computed pre dedup (include the 2.46m double count), audit
+  verdict column empty; dashboard Retail tile does not tie its own
+  detail page; dashboard 87.69 vs Finance lights on 78.90 gap 8.79
+  unresolved.
+- The files cannot answer: BU labour, recharge leg pairing, BU outside
+  services, capex, sig items, Z/NZ detail, headcount denominators.
+- Research (sourced): accountability comes from owning the number and
+  the decisions, not the payment; archetypes TCO accountability,
+  licence and demand governance, showback, chargeback; 57% of mature
+  programmes stay showback, 18% pure chargeback; central IT typically
+  controls ~a quarter of SaaS spend.
