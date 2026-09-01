@@ -247,6 +247,30 @@
    "LOW",
    "Surfaced by the cost per FTE view 28/08; nothing merged or plugged.",
    ""
+  ],
+  [
+   "DEC-43",
+   "Portfolio cost bases",
+   "Enterprise platforms, one decision for both: the Microsoft estate (24,474,946.34 gross, 19,337,946.48 net of the Z recovery) sits in TDD Group Functions and SAP ERP (5,344,596.73) sits in Finance because those lines pay the vendor. Pool and allocate them across portfolios, or leave them with the paying line?",
+   "HIGH",
+   "Live rows on the workbook's Non-labour detail tab; the same logic must answer both.",
+   ""
+  ],
+  [
+   "DEC-44",
+   "Portfolio cost bases",
+   "Two splits offered from your own budget tab, not applied: cyber cost centre HITSEC 69.1% TDD Cyber (4,111,767.81) / 30.9% COE Cyber (1,838,692.12); Data Analytics and AI 40.2% Enterprise Data (409,619.62) / 59.8% COE SA&D (608,878.16). Apply, or leave held?",
+   "MEDIUM",
+   "Ratios are your budget tab's own; one word applies them.",
+   ""
+  ],
+  [
+   "DEC-45",
+   "Portfolio cost bases",
+   "Depreciation 5,813,179.65 sits inside the FY26 actuals base while capex is ruled out for now; and 800254 contractors 26,080,471.99 are ruled non-labour on your own hierarchy pending how the labour model defines them. Confirm both treatments.",
+   "MEDIUM",
+   "Both stated on the face and in the findings, nothing plugged.",
+   ""
   ]
  ],
  "build": [
@@ -694,6 +718,11 @@
    "FY27 dashboard rebuild",
    "Rebuilt 28/08 on the new model per the option pack rulings: overheads KPI band and typed line on all 13 portfolio tabs, platform grouped squad chart, platform cost chart and FTE chart, Squad cost block, Lever mix and Cost per FTE tabs added after Squads. Corporate and every carried tab identical to the previous ship.",
    "SHIPPED 28/08, re-shipped same day: Excel refused the first file. Root cause: the recalculation step saves the workbook through LibreOffice, which rewrote the grouped chart's two-column axis into a form Excel rejects. Grouped chart rebuilt as one coloured series per platform on a single squad axis; a permanent Excel-openability gate now checks every build against the last file that opened. All gates green: recalc three inherited #N/A only, checker zero findings, anchors 98.98 / 54.20 / 50.5 / 53.8 / 537.8 tie."
+  ],
+  [
+   "Portfolio cost bases",
+   "Every model line's FY27 cost base, labour 104.08m plus non-labour 96.73m = 200.81m, off the FY26 transaction actuals mapped at 100% coverage with 24 documented rules; all four QA lanes to zero findings; seven raw tabs carried verbatim.",
+   "SHIPPED 28/08: checker all pass, recalc clean (42 inherited SAP cells only), 19 checks at 0.00, Excel openability gate clean, renders read."
   ]
  ]
 }

@@ -3420,3 +3420,42 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Build authorised: "get to work and come up with something and only
   come back once done." No interim playbacks; next contact is the
   finished, verified deliverable.
+
+## D197 - 28/08: portfolio cost bases SHIPPED (deliverables/TDD_Portfolio_Cost_Base.xlsx)
+- Every line of the model carries its FY27 cost base: labour 104.079587216
+  (the proven identity) plus non-labour 96,732,645.81 (FY26 actuals Jul25
+  to Jun26 carried unchanged per I17) = 200.81m. TDD paid non-labour
+  57,878,750.46, business paid 38,853,895.35. Largest bases: TDD Group
+  Functions 42.74 (carries the enterprise Microsoft estate), Ampol
+  Retail 31.31, Energy Solutions & B2B 16.01.
+- Built by the ruled workflow (Sonnet/Opus agents, Fable orchestrating
+  only): quant mapped all 103,575 leaf rows (100% coverage: 40.17% his
+  own Portfolio Mapping tab, 3.07% typed rows, 56.76% via 24 documented
+  transaction rules, nothing unmapped); labour lane off the proven
+  model; technology QA caught a real Z Energy leak (73,749.25 moved)
+  and two open items the file itself answers (Ingenico to Ampol Retail;
+  800993 proven two-sided and left as booked); cost QA independently
+  re-derived every figure and caught one formula bug (the enterprise
+  net figure) plus two typed cells, all fixed; instructions audit
+  closed six gaps into the workbook (netting statement, the
+  responsibility answer, the Salesforce worked example, the
+  hand-summing warning, the full I1 to I21 check table, pointers to
+  the external findings). Final gates: checker ALL PASS, recalc exactly
+  the 42 inherited SAP #NAME? cells and 19 checks at 0.00, seven raw
+  tabs carried verbatim and tied to the cent, Excel openability gate
+  clean.
+- OPEN FOR LEE (carried as live rows in the workbook): the paired
+  enterprise platform decision (Microsoft estate 24,474,946.34 gross /
+  19,337,946.48 net of the Z recovery, and SAP ERP 5,344,596.73
+  currently lifting Finance: pool and allocate, or leave with the
+  paying line, one answer for both); the proposed HITSEC split (69.1%
+  TDD Cyber 4,111,767.81 / 30.9% COE Cyber 1,838,692.12, his own
+  budget tab's ratio, offered not applied); the proposed Data
+  Analytics and AI split (40.2% Enterprise Data / 59.8% COE SA&D);
+  depreciation 5,813,179.65 inside the base against the capex-later
+  ruling; 800254 contractors 26,080,471.99 ruled non-labour on his own
+  hierarchy pending the labour model definition; the two COE rows his
+  labour model splits but his budget mapping does not (BP&T 2,688,605.92
+  and SA&D 1,610.15, held unsplit).
+- CFO design lane parked with the allocation-approach question per
+  D196; fires when Lee reopens ownership and allocation.
