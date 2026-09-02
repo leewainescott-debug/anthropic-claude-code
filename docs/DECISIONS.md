@@ -3728,3 +3728,41 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   cost centres) lands on Ampol Customer; Z Customer, Z Retail and EGI
   show zero non-labour with the absence stated. hot_cost_base.json kept
   on disk, not built into a tab.
+
+## D209 - 02/09: version 3 shipped (portfolio tabs, corporate view, architecture map)
+- 31 tabs: Read me, TDD corporate (the v2 face restored), Architecture
+  map of the cost, thirteen portfolio tabs in the labour dashboard's set
+  and order in the Enterprise Data pattern, Assumptions (toggles T1 to
+  T4), Non-labour detail, Labour by portfolio, Mapping rules, Assignments
+  (row level with cost type, vendor, application, paying and using line),
+  Certificate, Checks, Ownership proposals (to decide after the map),
+  seven raw client tabs verbatim. Total cost base 201.11m = labour
+  104.08m + non-labour 97,026,525.05 at the default toggle position;
+  thirteen tabs' non-labour 94,329,662.43 plus the four COE lines
+  14,066,505.07, the GM line 0, personnel 849,363.43 and intercompany
+  (12,219,005.88) = the base.
+- Architecture map: 470 applications; 89 paid by more than one line
+  (53,455,346.42), 272 by one line (30,953,605.01), 109 with no vendor
+  paid (12,939,473.62); Salesforce one row: paying lines Energy Solutions
+  & B2B 1,038,404.39, P&C 501,836.10, Ampol Customer 51,588.11,
+  Commercial Fuels 33,552.38 (cost centre ITSUPSYS), twelve using lines.
+  No owner or status on any story page (D207).
+- Gates: checker 140 PASS / 0 FAIL (includes Excel openability and the
+  carried-tab verification); recalc gate on a copy 5,185 formulas, only
+  the 42 inherited SAP #NAME? cells, 49 Checks cells at 0.00, Certificate
+  raw 223,098,437.42 / leaf 134,571,225.44 / overstatement 88,527,211.98;
+  cost QA (S9) all seven groups PASS from primary sources; instructions
+  audit (S8) 26 of 28 MET, I7 ownership half and I14 deferred by Lee's
+  own rulings; the five text fixes and the map count formulas applied
+  and re-gated; one final rebuild for the Read me register kicker (I28).
+- Incident for the record: headless LibreOffice hung before opening the
+  file, repeatedly, from stale profile and IPC state; a container restart
+  plus killing stale processes cleared it. Lesson: a "light" copy that
+  carries the 103,575-row Assignments tab is not light (its recalc runs
+  as long as the full file); the next design pre-aggregates on a working
+  tab so faces read a compact table.
+- OPEN FOR LEE (all live in the workbook): ownership of the 89 multi-line
+  applications, to be ruled from the map (Salesforce included); T1
+  contractors judgement 1,998,530.26; T3 enterprise platform pools
+  24,682,543.21; T4 data split 608,648.65; T2 personnel home; Service
+  Ops node 11,812,219.97; BP&T split; depreciation 5,813,179.65.

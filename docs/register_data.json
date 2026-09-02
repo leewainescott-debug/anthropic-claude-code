@@ -287,6 +287,38 @@
    "LOW",
    "Version 2 workbook, Assumptions tab T2.",
    ""
+  ],
+  [
+   "DEC-46",
+   "Portfolio cost bases v3",
+   "Ownership of the 89 applications paid by more than one line (53,455,346.42), Salesforce among them (four paying lines, twelve using). The Architecture map shows who pays what; the ownership call is yours from that map, application by application or by a rule.",
+   "HIGH",
+   "Map on the workbook's third tab; proposals held on a back tab until you rule.",
+   ""
+  ],
+  [
+   "DEC-47",
+   "Portfolio cost bases v3",
+   "Toggle T1: the 1,998,530.26 of contractor spend likely priced in the labour model but unprovable by name. Default: stays non-labour.",
+   "MEDIUM",
+   "Assumptions tab, blue cell, both positions shown.",
+   ""
+  ],
+  [
+   "DEC-48",
+   "Portfolio cost bases v3",
+   "Toggle T3: pool the Microsoft estate (19,337,946.48 net) and SAP ERP (5,344,596.73) across the sixteen receiving lines by labour share or FTE share, or leave them with the paying lines. Default: with the payers.",
+   "HIGH",
+   "Assumptions tab; TDD Group Functions and Finance move most.",
+   ""
+  ],
+  [
+   "DEC-49",
+   "Portfolio cost bases v3",
+   "Toggle T4: the Data, Analytics and AI split, 608,648.65 to the COE strategy, architecture and data row on your FY26 budget tab's own two amounts (a different period, proposal only). Default: whole pot in Enterprise Data. Toggle T2: personnel costs 849,363.43 sit in the base as their own line. Confirm both.",
+   "MEDIUM",
+   "Assumptions tab.",
+   ""
   ]
  ],
  "build": [
@@ -744,6 +776,11 @@
    "Portfolio cost bases, version 2",
    "Rebuilt on the retrospective plan: integrity certificate first, two blind mappings diffed and graded, technology QA before build, four rulings as typed toggles driving the face by formula, labour boundary proven by name, head of technology thread closed. 201.11m = labour 104.08m + non-labour 97.03m.",
    "SHIPPED 02/09: 122 checker gates, 44 checks at 0.00, cost QA seven groups pass, instructions audit none unmet, Excel openability gate, seven raw tabs verbatim and re-tied."
+  ],
+  [
+   "Portfolio cost bases v3",
+   "TDD corporate view, architecture map of the cost, thirteen portfolio tabs in the labour dashboard pattern, toggles T1 to T4, certificate, ownership proposals held on a back tab; 201.11m = labour 104.08m + non-labour 97.03m.",
+   "SHIPPED 02/09: checker 140/140, recalc gate exact on a copy (42 inherited SAP cells only), cost QA all pass from primary sources, instructions audit 26/28 met (two deferred by Lee's rulings)."
   ]
  ]
 }
