@@ -3502,3 +3502,25 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Build defaults while Lee rules: the proven 555,484.19 double count is
   removed (fact, not judgement); the unprovable 1,998,530.26, the pool
   treatment and the personnel home are typed toggles driving the face.
+
+## D200 - 02/09: v2 mapping proven by two blind mappings; build in progress
+- Mapping B (from the FY26 budget tab bridge, blind to A) tied the same
+  96,732,645.81 with zero unmapped; diffed row by row against A: EXACT
+  97,699 rows / 90,710,026.01, AGREED 3,175 / 34,575,862.49, RESOLVED
+  2,549 / 9,283,412.25, PROPOSED 152 / 1,924.69. Resolutions by stated
+  rule: HITSEC 5,950,459.93 whole to 2.15 TDD Cyber on row-level budget
+  tab evidence (the v1 cyber bucket and the 69/31 proposal are
+  superseded); HITBU element 804563 482,970.00 to Finance; Ingenico to
+  Ampol Retail; Z and AMS recovery (12,219,005.88) reconciled row by row.
+- Labour boundary applied: CXC 233,584.19 (45 named timesheet rows) and
+  Digizoo 321,900.00 (vendor level, no row boundary lands on it) out as
+  proven double count; personnel 849,363.43 back in as its own line;
+  Preacta and Digizoo residual 1,998,530.26 flagged for toggle T1.
+  Default non-labour 97,026,525.05; labour-type 37,544,700.39.
+- Technology QA (full population, raw rows) found no numeric error; six
+  register corrections applied with no dollars moved (register now 12
+  items, Data Analytics and AI split restored as toggle T4).
+- Build v2 running: toggles T1 contractors, T2 personnel, T3 platform
+  pools (labour share or FTE share), T4 DAA split, all typed blue inputs
+  driving the face by formula; certificate on the page; light-copy
+  gating, full recalc once, Excel openability gate.
