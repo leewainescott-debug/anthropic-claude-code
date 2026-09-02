@@ -46,7 +46,7 @@ On the TDD tab, six cost centre groups are parent nodes. Each one's total is exa
 | APPLHTDDFSC | 2,249 | 6,086,818.44 | ITTS, ITMB2B, ITSUPSYS, APPLHTDDEDEL, APPLHTDDCPQA |
 | APPLHTDDSA | 1,821 | 5,547,699.74 | TDDSA, APPLHTDDDAA |
 | APPLHITMGT | 882 | 1,665,209.39 | HTDDOPEX, HITMA, ITSTRAT |
-| total dropped | 15,350 | 77,912,148.43 | (the six rows above) |
+| total dropped | 14,350 | 77,912,148.43 | (the six rows above) |
 
 One of the six, APPLHTDDFSC, turns out on closer check to be a clean copy of its five listed groups in full (94.2% of its own rows are byte for byte the same as rows kept under exactly those five), so it reads as the same Bulk Fuels style duplicate as HW, SW and NW, not only as a rollup. The other five hold together only as an exact sum, without that row for row copy evidence, which is the parent and children pattern in its clean form.
 
