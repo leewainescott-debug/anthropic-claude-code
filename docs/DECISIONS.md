@@ -3645,3 +3645,14 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   before the full build.
 - Headline finding to carry: the five COEs, EGI and the GM line carry
   no head of technology; roughly 30m of cost has nobody's name on it.
+- CORRECTION 02/09 (roll-up lane, hot_cost_base.json): cost with no
+  head of technology is 46,197,115.06, not "roughly 30m" (the COE labour
+  lines, Cyber and Service Ops non-labour, EGI and the GM line). The 11
+  heads carry 160,242,940.89; Customer splits Andy Stewart 3,639,747.63
+  / Shona Paul 7,460,193.07 with 6,035,698.98 not split (the two heads'
+  own roles, the technology managers, unnamed platforms); held lines
+  personnel 849,363.43 and intercompany (12,219,005.88). Foots to
+  201,106,112.48. Ownership lane: 7 of 470 applications match a squad
+  by name (8.7% of gross); 40.3% evidenced owner, 47.6% proposed, 12.0%
+  none; Salesforce a two-way call (B2B on money, Loyalty & Martech on
+  skills); Azure 9,099,412.51 under the vacant TDD Group Functions head.
