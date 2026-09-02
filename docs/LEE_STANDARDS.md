@@ -146,3 +146,7 @@ the essentials:
   writing to Lee. Every check, probe, script or file read that produces a
   finding is an agent's job (Sonnet by default, Opus where a wrong
   judgement is expensive), never Fable's. Re-ruled 02/09.
+- **In Excel the story is the tab structure and the numbers, in his
+  dashboard pattern.** Never a so-what sentence page, never an insight
+  rail, never a story summary tab. The slide method belongs to slides.
+  Re-learned 02/09 after repeating the 28/08 mistake.

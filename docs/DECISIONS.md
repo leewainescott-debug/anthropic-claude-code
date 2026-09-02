@@ -3705,3 +3705,26 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   across all lines, and the paying and using counts. A derived paying
   line column joins Assignments so both matrices are formulas.
 - Builder redirected mid-build; design spec to carry a change note.
+
+## D208 - 02/09: portfolio tabs are the product; no HoT tab, no summary page
+- Lee: "u dont need to explicitly state the HoT - it's just creating
+  tabs for each of the portfolios is what im expecting, similarly to how
+  we created it for everything else we've done - do like the ent data
+  screenshot makes sense the other screenshots are just extra noise."
+- Owned: the Summary page was the slide method in Excel again (already
+  rejected 28/08: "you've applied ppt rules to an excel"); the head of
+  technology page over-stated what he asked for. Dropped both.
+- v3 structure ruled: Read me (plain, tab map) -> TDD corporate (the v2
+  face restored, dashboard form) -> Architecture map of the cost ->
+  thirteen portfolio tabs mirroring the labour dashboard's set and order
+  (Ampol Retail, Z Retail, Ampol Customer, Z Customer, Commercial Fuels,
+  Energy Solutions & B2B, Infrastructure, P&C, Finance, TDD Group
+  Functions, Enterprise Data, TDD Cyber, EGI), each in the Enterprise
+  Data mock's pattern with the portfolio name only in the title band ->
+  working tabs (Assumptions, Non-labour detail, Labour by portfolio,
+  Mapping rules, Assignments, Certificate, Checks, Ownership proposals
+  to decide after the map) -> the seven raw tabs. 31 tabs. COE lines and
+  the GM line are rows on TDD corporate only. Customer non-labour (AU
+  cost centres) lands on Ampol Customer; Z Customer, Z Retail and EGI
+  show zero non-labour with the absence stated. hot_cost_base.json kept
+  on disk, not built into a tab.

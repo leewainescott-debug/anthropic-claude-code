@@ -86,3 +86,7 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
   application, how much, and how many lines pay and use it. Ownership is
   decided by Lee after he has seen the map, never proposed on a story
   page before it (ruled 02/09).
+- I28. The product is a tab per portfolio in the labour dashboard's
+  pattern (the Enterprise Data page is the template), plus the corporate
+  view and the architecture map. No head of technology tab or naming, no
+  summary or story page (ruled 02/09).
