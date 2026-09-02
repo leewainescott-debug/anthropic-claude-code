@@ -3656,3 +3656,32 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   by name (8.7% of gross); 40.3% evidenced owner, 47.6% proposed, 12.0%
   none; Salesforce a two-way call (B2B on money, Loyalty & Martech on
   skills); Azure 9,099,412.51 under the vacant TDD Group Functions head.
+
+## D206 - 02/09: four v3 mock pages sent for markup; full build running in parallel
+- Mocks on real numbers (163 checks, 0 issues): Summary (so-what: 201.11m
+  cost base, 46.20m on lines with no head of technology, 6.04m of
+  Customer splitting to neither head, a quarter of the base with
+  nobody's name), Head of technology cost bases (11 heads 160.24m; nine
+  one-portfolio heads 149.14m; Customer 17.14m split Shona Paul 7.46 /
+  Andy Stewart 3.64 / not split 6.04; no-head 46.20m; held (11.37m)),
+  Applications and owners (470 applications; 40% evidenced, 48%
+  proposed, 12% no owner on 163.12m gross; Salesforce pinned, NO OWNER,
+  two candidates), Enterprise Data tab (James Holgate; 7.78m).
+- Corrections surfaced by the mock lane: Review Required is 30.55m, 31%
+  of the non-labour base (the 64.52m figure spanned the whole ledger
+  including labour rows); "TDD recharges out" on the non-labour base is
+  a credit of (6.15m) (the 20.54m labour recharge sits inside the labour
+  boundary, the 7.03m CSA in the intercompany line); the base foots to
+  201,106,112.28 (20 cents from the roll-up's 201,106,112.48, both
+  201.11 at $m; flagged).
+- Pre-build QA (S7) passed both data products; five small corrections
+  folded into the builder's step 0.
+- Choices put to Lee with the mocks: (1) Salesforce owner, B2B on the
+  money or Loyalty & Martech on the skills, as the rule for every R4
+  item; (2) whether the nearest heads (Rajini Onteddu Reddy for Service
+  Ops 12.71m, James Byrne for Cyber 4.66m, Sarsha Tanner for
+  Transformation 2.88m) count as heads of technology for budget
+  purposes, which would cut the no-head 46.20m to about 25.95m; (3) the
+  three vacant posts carry 52.27m (42.26 + 6.67 + 3.34), a finding.
+- Full 38-tab build launched (Opus) with the mocks as the reference;
+  Lee's markup will be applied as a fix round to the portfolio template.
