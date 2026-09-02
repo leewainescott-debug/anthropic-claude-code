@@ -3557,3 +3557,36 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   (evidence leans Finance); BP&T 2,553,616.23 split key reported not
   applied; ITBUSOL 1,924.69; HITMA 443,722.48 presentation; depreciation
   5,813,179.65 inside the base; the two COE rows held unsplit.
+
+## D202 - 02/09: v2 shipped; Lee: the views are missing (portfolio tabs, application ownership)
+- v2 shipped (201.11m = 104.08 labour + 97.03 non-labour; toggles T1 to
+  T4; certificate on the page; 122 gates; cost QA corrected the data
+  split to the budget tab's own amounts, 608,648.65).
+- Lee, verbatim: "what i still don't see is the individual portfolio
+  tabs. i also am unsure how you've got to the individual tabs and what
+  each mean. What i'd like to have a view of is who owns what
+  application etc like salesforce - where does the cost sit, how is it
+  broken out; how do we break things out? like for each of sw, hw, nw,
+  tdd who owns the architecture; where does the cost sit; where is the
+  mapping for this. like who would own the salesforce platform as an
+  example. I feel as though you answered some of my questions but
+  didn't think through everything."
+- Owned: the cost bases shipped as rows on one face, not a tab per
+  portfolio; the application ownership question (I7, I11, I12) was met
+  literally (a Salesforce block, a rules tab) not as a working view; the
+  assignments spine carried no vendor, application or cost type column.
+- v3 scope: (1) a tab per portfolio in the approved labour dashboard
+  pattern (D192), non-labour broken out by tower, cost type, application
+  and vendor, paying cost centre, TDD paid vs BU paid; (2) an
+  applications and owners view: per application, where the cost sits,
+  who pays, who consumes, who runs it in the labour model, proposed
+  owner by stated rule with status; (3) per-tower ownership summaries
+  for SW, HW, NW, TDD; (4) a plain tab map on Read me. Application
+  ownership lane launched (Opus) to build the spine and proposals; two
+  mock tabs on real numbers go to Lee for markup before the full build.
+- Salesforce as the data stands: the business pays it (B2B 1,038,404.39
+  and P&C 501,836.10 of 1,591,828.60 invoices), per-user journals of
+  about 275 users at 163.16 spread it across nine portfolios, TDD holds
+  only developer labour; no role title says Salesforce, the matching
+  skills sit in the Customer portfolio's Loyalty & Martech squads (Z
+  2.23m, Ampol 1.19m); the owner is not in the data, it is a rule.
