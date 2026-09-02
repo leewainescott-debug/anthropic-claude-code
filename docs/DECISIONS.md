@@ -3590,3 +3590,18 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   only developer labour; no role title says Salesforce, the matching
   skills sit in the Customer portfolio's Loyalty & Martech squads (Z
   2.23m, Ampol 1.19m); the owner is not in the data, it is a rule.
+
+## D203 - 02/09: Fable is master planner and orchestrator only, re-ruled
+- Lee: "again, you need agents that aren't fable for this - you are
+  master planner & orchestrator in all of this." All lanes since D196
+  are Sonnet or Opus; the slip was Fable running small analysis probes
+  itself. Standard sharpened: no probe, check or file read that produces
+  a finding is done by Fable; briefs, reports, render gates and the
+  messages to Lee only.
+- v3 roster with models: application ownership spine and proposals
+  (Opus, running); mock builder for the two new tab types (Opus, the
+  cb2 pipeline); design check of the mocks against the D192 portfolio
+  tab pattern (Sonnet); full build of the portfolio tabs, applications
+  and per tower owner tabs (Opus); technology QA before build on the
+  ownership proposals (Sonnet); cost QA after build (Sonnet);
+  instructions audit (Sonnet). Fable gates renders and ships.

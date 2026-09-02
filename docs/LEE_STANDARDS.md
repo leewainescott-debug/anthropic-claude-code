@@ -141,3 +141,8 @@ the essentials:
 - **Mock the additions to a working design, not alternatives to it.**
 - **Every agent writes its pipeline to disk first**, and every brief is
   self contained, so an evicted agent can be replaced without restarting.
+- **Fable never analyses, not even a quick probe.** Fable is the master
+  planner and orchestrator: briefs, reading reports, gating renders,
+  writing to Lee. Every check, probe, script or file read that produces a
+  finding is an agent's job (Sonnet by default, Opus where a wrong
+  judgement is expensive), never Fable's. Re-ruled 02/09.
