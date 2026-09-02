@@ -3766,3 +3766,10 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   contractors judgement 1,998,530.26; T3 enterprise platform pools
   24,682,543.21; T4 data split 608,648.65; T2 personnel home; Service
   Ops node 11,812,219.97; BP&T split; depreciation 5,813,179.65.
+- SHIP NOTE 02/09: the workbook in deliverables/ is the fully gated build
+  (md5 aa52c442ce309e36da7e12e2fc786fd2; checker 140/140; recalc gate
+  exact). A final cosmetic rebuild to change the Read me register kicker
+  from "I1 to I27" to "I1 to I28" was lost to a second container restart
+  mid-pipeline; the table itself runs to I28 and every figure is
+  unaffected. The kicker text is corrected in the build script and lands
+  with the next rebuild.
