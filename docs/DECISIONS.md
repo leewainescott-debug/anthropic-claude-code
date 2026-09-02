@@ -3623,3 +3623,25 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   the SA&D internal split) stay labelled proposals from a different
   period, defaulted off, never applied figures. Passed to the running
   ownership lane and to the design lane.
+
+## D205 - 02/09: the end goal is each HoT's total cost base; the file must tell the story
+- Lee: "remember that the end goal is to provide each HoT with a total
+  cost base across labour and non-labour. I'm not confident that we can
+  provide that view based on what you've produced. also, the file is
+  complex to follow and doesn't tell the story i asked you to tell."
+- Owned: "the HoT q doesn't matter" (D196) was read as drop it, not as
+  build the cost bases then roll them up; the roll-up was never built.
+  v2 is proof-first (certificate, assumptions, checks up front) and does
+  not read in his method (answer first, each page answers the last).
+- v3 re-planned: tab order Summary (the answer: every HoT's total cost
+  base, the three piles, who owns what, decisions) -> Head of technology
+  cost bases (rules H1 one HoT per portfolio, H2 Customer split by
+  platform between its two HoTs with a not-split line, H3 no-head lines
+  shown so it foots to 201.11m, H4 held lines) -> Applications and
+  owners -> a tab per portfolio with the HoT named -> working tabs at
+  the back -> raw tabs. Read me = the story in ten lines plus the tab
+  map. Roll-up lane (Sonnet) and the reshaped design lane running;
+  ownership lane (Opus) running; three mock pages to Lee for markup
+  before the full build.
+- Headline finding to carry: the five COEs, EGI and the GM line carry
+  no head of technology; roughly 30m of cost has nobody's name on it.
