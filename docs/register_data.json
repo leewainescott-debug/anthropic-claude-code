@@ -259,9 +259,9 @@
   [
    "DEC-44",
    "Portfolio cost bases",
-   "Two splits offered from your own budget tab, not applied: cyber cost centre HITSEC 69.1% TDD Cyber (4,111,767.81) / 30.9% COE Cyber (1,838,692.12); Data Analytics and AI 40.2% Enterprise Data (409,619.62) / 59.8% COE SA&D (608,878.16). Apply, or leave held?",
+   "Cyber: RESOLVED by row-level evidence, the HITSEC non-labour 5,950,459.93 sits with TDD Cyber on your own budget tab (no split needed). Data, Analytics and AI: toggle T4 on the Assumptions tab, default whole to Enterprise Data; on = 608,648.65 to the COE SA&D row on your budget tab's own amounts (2,114,965.94 / 3,140,841.50). Apply or leave?",
    "MEDIUM",
-   "Ratios are your budget tab's own; one word applies them.",
+   "Version 2 workbook, Assumptions tab; one cell flips it.",
    ""
   ],
   [
@@ -270,6 +270,22 @@
    "Depreciation 5,813,179.65 sits inside the FY26 actuals base while capex is ruled out for now; and 800254 contractors 26,080,471.99 are ruled non-labour on your own hierarchy pending how the labour model defines them. Confirm both treatments.",
    "MEDIUM",
    "Both stated on the face and in the findings, nothing plugged.",
+   ""
+  ],
+  [
+   "DEC-46",
+   "Portfolio cost bases",
+   "Contractors: 555,484.19 is proven people already priced in the labour model and is out. The next 1,998,530.26 (Preacta 1,108,820.26, Digizoo residual 889,710.00) is likely the same but unprovable from the two files. Toggle T1, default leaves it in as non-labour. Treat as labour, or leave?",
+   "HIGH",
+   "Version 2 workbook, Assumptions tab T1; labour_boundary.md carries the names and evidence.",
+   ""
+  ],
+  [
+   "DEC-47",
+   "Portfolio cost bases",
+   "Personnel costs 849,363.43 (recruitment, travel, training) are priced nowhere in the labour model, so they now sit in the non-labour base as their own line (toggle T2, default in). Keep them there, or move them somewhere else?",
+   "LOW",
+   "Version 2 workbook, Assumptions tab T2.",
    ""
   ]
  ],
@@ -723,6 +739,11 @@
    "Portfolio cost bases",
    "Every model line's FY27 cost base, labour 104.08m plus non-labour 96.73m = 200.81m, off the FY26 transaction actuals mapped at 100% coverage with 24 documented rules; all four QA lanes to zero findings; seven raw tabs carried verbatim.",
    "SHIPPED 28/08: checker all pass, recalc clean (42 inherited SAP cells only), 19 checks at 0.00, Excel openability gate clean, renders read."
+  ],
+  [
+   "Portfolio cost bases, version 2",
+   "Rebuilt on the retrospective plan: integrity certificate first, two blind mappings diffed and graded, technology QA before build, four rulings as typed toggles driving the face by formula, labour boundary proven by name, head of technology thread closed. 201.11m = labour 104.08m + non-labour 97.03m.",
+   "SHIPPED 02/09: 122 checker gates, 44 checks at 0.00, cost QA seven groups pass, instructions audit none unmet, Excel openability gate, seven raw tabs verbatim and re-tied."
   ]
  ]
 }

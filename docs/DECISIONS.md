@@ -3524,3 +3524,36 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   pools (labour share or FTE share), T4 DAA split, all typed blue inputs
   driving the face by formula; certificate on the page; light-copy
   gating, full recalc once, Excel openability gate.
+
+## D201 - 02/09: portfolio cost bases VERSION 2 SHIPPED (deliverables/TDD_Portfolio_Cost_Base.xlsx)
+- Face at the default position: labour 104.08m + non-labour 97.03m
+  (97,026,525.05) = 201.11m total cost base; TDD paid non-labour 58.17m,
+  business paid 38.85m; FTE 537.8. Largest bases: TDD Group Functions
+  42.26, Ampol Retail 31.32, Energy Solutions & B2B 16.01, Infrastructure
+  13.24, COE Service Ops 12.71, Ampol Customer 12.52, Finance 12.23.
+- Movements from version 1 (200.81m): HITSEC 5,950,459.93 resolved to
+  TDD Cyber on row-level budget tab evidence; HITBU depreciation element
+  482,970.00 to Finance; CXC 233,584.19 and Digizoo 321,900.00 proven
+  double count out; personnel 849,363.43 returned as its own line.
+- Four typed toggles on the Assumptions tab drive every face by formula:
+  T1 contractor judgement (1,998,530.26, default in as non-labour); T2
+  personnel (default in); T3 enterprise platform pools 24,682,543.21
+  (Microsoft net 19,337,946.48 + SAP 5,344,596.73; default with the
+  payers; labour share or FTE share); T4 Data Analytics and AI split
+  (default whole to Enterprise Data; on = 608,648.65 to the COE SA&D row
+  on the budget tab's own amounts 2,114,965.94 / 3,140,841.50, the
+  earlier 608,878.16 from a rounded percent replaced).
+- Method proven: certificate first (scripts/sap_integrity_check.py);
+  two blind mappings diffed, 97.4 percent of rows EXACT or AGREED,
+  twelve register items; technology QA before build (full population,
+  no numeric error); cost QA after build (seven groups PASS, one basis
+  correction applied); instructions audit 21 of 25 MET, four PARTLY
+  (data limits and sequencing), none NOT MET; 122 checker gates, 44
+  Checks cells at 0.00, Excel openability gate, seven raw tabs carried
+  verbatim and re-tied, no hashed cell on any built tab.
+- Still open with Lee, all on the Non-labour detail decisions table:
+  T1, T3, T4 rulings; APPLHITINFOP 11,812,219.97 whole to COE Service
+  Ops against the budget tab's 60 percent; APPLHITBSCORP to Finance
+  (evidence leans Finance); BP&T 2,553,616.23 split key reported not
+  applied; ITBUSOL 1,924.69; HITMA 443,722.48 presentation; depreciation
+  5,813,179.65 inside the base; the two COE rows held unsplit.
