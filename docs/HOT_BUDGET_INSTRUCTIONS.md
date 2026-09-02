@@ -82,3 +82,7 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
   FY27). The budget tab and the FY26 dashboard are from a different
   period: a map of structure at most, never a source of dollars, ratios
   or counts (ruled 02/09).
+- I27. The architecture map of the cost comes first: who pays for each
+  application, how much, and how many lines pay and use it. Ownership is
+  decided by Lee after he has seen the map, never proposed on a story
+  page before it (ruled 02/09).

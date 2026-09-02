@@ -3685,3 +3685,23 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   three vacant posts carry 52.27m (42.26 + 6.67 + 3.34), a finding.
 - Full 38-tab build launched (Opus) with the mocks as the reference;
   Lee's markup will be applied as a fix round to the portfolio template.
+
+## D207 - 02/09: architecture map of the cost first; ownership decided after
+- Lee: "it's not salesforce first, but i want an architecture map of the
+  cost to determine who owns it eg salesforce is an example that has 3
+  bu's using it - then we determine who owns it after we see the arch
+  map of who pays for what and how much it costs."
+- Ruled: the story page is an architecture map, application by
+  application: the lines that pay across the columns in dollars, total,
+  TDD paid, business paid, count of lines paying, count of lines using
+  (consumption where it differs from payment), tower; a using-lines
+  block beside it. No proposed owner and no status on any story page;
+  Salesforce is one row, not pinned. The R1 to R4 ownership proposals
+  move to a working tab at the back, "Ownership proposals, to decide
+  after the map". The Summary's third block becomes the map headline
+  (top applications by cost with paying and using counts; applications
+  paid by more than one line, count and dollars, against single-line
+  ones). Portfolio tabs show each application's own amount, its total
+  across all lines, and the paying and using counts. A derived paying
+  line column joins Assignments so both matrices are formulas.
+- Builder redirected mid-build; design spec to carry a change note.
