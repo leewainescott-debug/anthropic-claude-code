@@ -3605,3 +3605,21 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   and per tower owner tabs (Opus); technology QA before build on the
   ownership proposals (Sonnet); cost QA after build (Sonnet);
   instructions audit (Sonnet). Fable gates renders and ships.
+
+## D204 - 02/09: costs from the four transaction tabs only; budget tab and dashboard are reference, never dollars
+- Lee: "the budget tab is actually from a diff period and so is the tdd
+  dashboard. I want to determine costs based off of the nw, sw, tdd
+  line items and hw tabs because those are the transactions - so we'd
+  assume the cost going into the next fy would remain pretty stable."
+- Confirmed already true of the cost base: 97,026,525.05 of non-labour
+  is the leaf rows of HW, SW, NW and TDD Line Items (Jul 2025 to Jun
+  2026), carried unchanged to FY27; no budget tab or dashboard dollar is
+  in it.
+- Ruled from here: the 2026 Budget AU TDD Corp tab and the FY26
+  dashboard may serve only as a MAP of which cost centre belongs to
+  which portfolio or platform (structure), never as a source of dollars,
+  ratios applied to costs, or user counts. Ratios derived from them (the
+  Data, Analytics and AI 40/60 split, the Service Ops 60/40 question,
+  the SA&D internal split) stay labelled proposals from a different
+  period, defaulted off, never applied figures. Passed to the running
+  ownership lane and to the design lane.

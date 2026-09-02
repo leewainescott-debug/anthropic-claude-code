@@ -77,3 +77,8 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
   percent of the total base earns one short question the moment it is
   found; nothing smaller interrupts.
 - Plan of record: docs/HOT_BUDGET_PLAN_V2.md.
+- I26. Costs are determined only from the HW, SW, NW and TDD Line Items
+  tabs (the transactions, July 2025 to June 2026, assumed stable into
+  FY27). The budget tab and the FY26 dashboard are from a different
+  period: a map of structure at most, never a source of dollars, ratios
+  or counts (ruled 02/09).
