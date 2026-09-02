@@ -233,3 +233,11 @@
   cost centre hierarchy (parents and children both exported, leaf level
   first), case sensitive matching (RETAIL/Retail). Scratchpad:
   hotbudget/ (budget_v4.xlsx, labour_dashboard_2026.pdf, findings_*).
+- RULED 02/09 (D204, I26): costs come ONLY from the four transaction tabs
+  (HW/SW/NW/TDD Line Items, Jul25 to Jun26, assumed stable into FY27).
+  The budget tab and the FY26 dashboard are a different period: a map of
+  structure at most, never a source of dollars, ratios or counts. v3 in
+  progress (D202/D203): a tab per portfolio in the D192 pattern, an
+  applications and owners view (rules R1 to R4, status EVIDENCE /
+  PROPOSED / NO OWNER), per tower ownership summaries. Fable orchestrates
+  only, never probes; agents Sonnet or Opus, never Fable.
