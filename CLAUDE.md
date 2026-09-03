@@ -282,4 +282,9 @@
   one pass), defaults DEC-50 to DEC-53. GO GIVEN 03/09 (D211, I39): the
   COEs and TDDLT have no platforms (no platform table there); Lee fills
   the Retail and Customer platforms himself via the typed Platform column
-  and the worklist. Pipeline scratchpad hotbudget/cb4.
+  and the worklist. Pipeline scratchpad hotbudget/cb4. D212: non-labour
+  follows his Hierarchy column (his Summary tab's logic) = 92,117,406.02,
+  not the 97.58m quoted (mixed classifications); the 42.45m TDD sheet
+  rows outside the tech view are a reconciliation block, not cost base;
+  total cost base 196,196,993.24; map 346 names from his file (470 was
+  padded with our fallback labels); labour from the model 98,979,587.22.

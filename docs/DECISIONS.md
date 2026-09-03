@@ -3859,3 +3859,49 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   Ampol Customer. Logged as I39. Build running: data (Sonnet), build
   (Opus), QA (Sonnet), in sequence, one pass; pipeline scratchpad
   hotbudget/cb4.
+
+## D212 - 03/09: version 4 data step; the non-labour definition follows his Hierarchy column
+
+- Data step (Sonnet, pipeline scratchpad hotbudget/cb4/data4.py): leaf
+  certificate exact; his Summary grid rows 7 to 41, columns C to N, 253
+  cells, reproduced to the cent; his rows 42 and 43 are raw SUMIFs over
+  the whole TDD sheet (parents included), his own formula, not a gap in
+  ours.
+- Two corrections in the run. (1) The first cut classified labour by
+  Cost Type and landed at 76,078,157.63 non-labour. Ruled by me: the
+  cut follows his own Summary tab's logic, the Hierarchy column on the
+  TDD sheet. Non-labour = every HW, SW and NW leaf row plus TDD sheet
+  rows whose Hierarchy is Software, Hardware, Network, Outside Services
+  or Other = 92,117,406.02 (his grid 92,097,777.60 plus the 19,628.42
+  of No portfolio rows). The 97,582,004.31 quoted to Lee on 03/09 mixed
+  his two classifications (it added 5,464,598.29 of TDD sheet rows that
+  his Hierarchy puts outside the tech view); superseded, to be disclosed
+  at ship. The TDD sheet rows outside the tech view, 42,453,819.42
+  (Staff Internal Labour 55,950,363.91; Depreciation 5,813,179.65;
+  Contingent Labour 1,583,718.38; Personnel Costs 849,363.43; Non Labour
+  Recharge (1,197,939.86); Staff Labour Recharge (20,544,866.09)), are
+  shown on TDD corporate as a reconciliation block to the leaf
+  certificate 134,571,225.44 and are not added to the cost base (labour
+  comes from the model). Total cost base 196,196,993.24 = labour
+  104,079,587.22 + non-labour 92,117,406.02. (2) roles_extract.json was
+  494,819.45 short (the cyber uplift); labour now read from the model
+  through model_data2.py: 549 role rows, 98,979,587.22 and 537.8 FTE
+  exact.
+- Application count, the truth from his file: 187 application names
+  plus 158 vendor fallback names, 346 rows on the map, 30 reach 80%.
+  The earlier 470 held 121 fallback labels of our own; 165 of its names
+  still appear; 5,206 rows (31,082,494.86) now read Review Required and
+  1,631 rows ((6,556,835.97)) read N/A in his application columns. No
+  name added beyond his file; his "at least 50 more" cannot be met from
+  his mapping as it stands, to be said plainly at ship.
+- Bridges: 19 model lines, 16 to his 14 portfolios; EGI, Z Retail and
+  Z Customer have no home on his Summary tab and sit as their own labour
+  rows on TDD corporate. 39 labour platform names, 12 prefilled, 27
+  blank; his Cyber, Future Fuels and Above the Store have no labour
+  counterpart. Unmapped at platform (non COE): 138 name rows, 14.72m.
+- Source oddities for Lee's eye (reported, not fixed): Hierarchy Other
+  nets (7,129,026.46), mostly Intercompany Recharge; Staff Labour
+  Recharge nets (20,544,866.09), mostly generic Recharge under a Staff
+  row; SW carries two identical Overall Result columns (AE and AF).
+- Build (Opus) launched on the patched brief; QA brief written
+  (scratchpad hotbudget/cb4/QA_BRIEF.md).
