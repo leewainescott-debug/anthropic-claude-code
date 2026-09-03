@@ -445,9 +445,9 @@
   [
    "BLD-26",
    "Portfolio cost bases v4",
-   "GO 03/09: his review of v3 taken (I29 to I38); new mapping file reviewed by two agents (no dollar moved, mapping changed; his Summary tab ties at leaf level; 30.4% unmapped at platform); plan docs/HOT_BUDGET_PLAN_V4.md; three agents in sequence, one pass.",
-   "RUNNING",
-   "Data, build, QA in sequence.",
+   "SHIPPED 03/09: version 4, 29 tabs; his Summary grid to the cent; QA nine gates PASS twice; map 346 names, 56 to 80%; 159 platforms pre-filled.",
+   "DONE",
+   "Delivered with renders and the report.",
    ""
   ]
  ],
@@ -821,6 +821,11 @@
    "Portfolio cost bases v3",
    "TDD corporate view, architecture map of the cost, thirteen portfolio tabs in the labour dashboard pattern, toggles T1 to T4, certificate, ownership proposals held on a back tab; 201.11m = labour 104.08m + non-labour 97.03m.",
    "SHIPPED 02/09: checker 140/140, recalc gate exact on a copy (42 inherited SAP cells only), cost QA all pass from primary sources, instructions audit 26/28 met (two deferred by Lee's rulings)."
+  ],
+  [
+   "Portfolio cost bases v4",
+   "His words, his Summary grid by formula with labour beside it, fourteen portfolio tabs with platform tables and top 25, two maps with typed Platform and Owner, Worklist, Bridges; 196.20m = labour 104.08m + non-labour 92.12m.",
+   "SHIPPED 03/09: QA nine gates PASS, full recalc PASS, raw tabs verbatim, zero banned words, zero typed names."
   ]
  ]
 }

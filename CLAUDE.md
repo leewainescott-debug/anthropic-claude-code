@@ -288,3 +288,14 @@
   rows outside the tech view are a reconciliation block, not cost base;
   total cost base 196,196,993.24; map 346 names from his file (470 was
   padded with our fallback labels); labour from the model 98,979,587.22.
+- SHIPPED 03/09 (D213): deliverables/TDD_Portfolio_Cost_Base.xlsx v4, 29
+  tabs (Read me, TDD corporate, Map 80 percent, Map full, fourteen
+  portfolio tabs, Worklist, Bridges, Data, Checks, seven raw). Basis
+  196,196,993.24 = labour 104,079,587.22 + non-labour 92,117,406.02 (his
+  Hierarchy column; 22 pairs tie his Summary row 41 to the cent;
+  42,453,819.42 outside his tech view as a reconciliation block). Map
+  346 names, 56 to 80% before credits; 159 platforms pre-filled under
+  the strict rule. Pipeline scratchpad hotbudget/cb4 (data4, build4,
+  check4_qa, render4, ship4). Open with Lee: his platform typing on Map
+  full for Retail and Customer, the labour platform bridge (27 blank),
+  Owner column, ownership of multi-portfolio names.

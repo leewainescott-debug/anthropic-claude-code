@@ -3905,3 +3905,47 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   row; SW carries two identical Overall Result columns (AE and AF).
 - Build (Opus) launched on the patched brief; QA brief written
   (scratchpad hotbudget/cb4/QA_BRIEF.md).
+
+## D213 - 03/09: version 4 shipped (his words, his Summary grid, platform view, maps, worklist, bridges)
+
+- deliverables/TDD_Portfolio_Cost_Base.xlsx = version 4 (md5 f4be0ffaf7831f08cc83be6a74e5b0ed,
+  15,006,549 bytes), 29 tabs: Read me, TDD corporate, Map 80 percent, Map
+  full, fourteen portfolio tabs in his Summary order, Worklist, Bridges,
+  Data, Checks, then his seven raw tabs verbatim (162,366 rows hashed).
+- Numbers: non-labour 92,117,406.02 by his Hierarchy column (his grid
+  92,097,777.60 plus No portfolio 19,628.42), paid by TDD 53,263,510.67
+  and by BU 38,853,895.35; labour 104,079,587.22 from the model
+  (98,979,587.22 plus general management 5,100,000); total cost base
+  196,196,993.24. The 22 portfolio and platform pairs reproduce his
+  Summary row 41 to the cent; the 42,453,819.42 of TDD sheet rows
+  outside his tech view sit as a reconciliation block to the leaf
+  certificate 134,571,225.44. Map: 346 names from his file, 56
+  reach 80% of cost before credits; credits and recharges shown as their
+  own row on every ranked table; 159 platforms pre-filled on Map
+  full under the strict rule (every row of the name on one platform, no
+  blank row), the rest his to type; Worklist 149 rows of no-platform
+  cost for the non COE portfolios; Bridges 19 lines (16 matched) and 39
+  labour platform names (12 matched).
+- Gates: independent QA (Sonnet) nine gates PASS plus leak test, negative
+  tail, labour per line against the model's 3.8 column C, full package
+  recalc PASS (a stale soffice process and lock file were the earlier
+  failure); builder scans zero banned words, zero italics, zero typed
+  names in column B of any face table; openability gates clean. One
+  residual: Fuel Infrastructure total cost base shows 13,284,449.71
+  where the exact half cent rounds to .72 (double precision summation),
+  invisible at whole dollars.
+- Workflow: data (Sonnet, one rerun for the labour cut and the labour
+  source), build (Opus, one fix round of nine items from the renders,
+  then a Sonnet builder after Opus was refused by the API twice: the
+  strict pre-fill rule and the top 25 platform rule, under which a name
+  shows a platform only when every row of it in that portfolio carries
+  that one platform, 66 rows moved to Not yet mapped, no dollar moved),
+  QA (Sonnet, four passes). Five agent runs in sequence; Fable planned,
+  briefed, read the renders and gated.
+- Disclosed to Lee at ship: the 92.12m against the 97.58m quoted; the
+  map has 346 names because his file's N/A and Review Required
+  conventions removed names the earlier map padded with our own labels
+  (31,082,494.86 of rows read Review Required); his Cyber, Future Fuels
+  and Above the Store platforms have no labour counterpart; the labour
+  model's platform list carries its own duplicates (AMPOS and AmPOS, EGI
+  twice, Leadership twice) kept as they are.
