@@ -223,7 +223,7 @@
   dashboard pdf. TDD owns TDD costs; all costs must net; the central
   question is how a HoT is responsible for costs the business pays
   vendors directly. Instruction register docs/HOT_BUDGET_INSTRUCTIONS.md
-  (I1 to I16) audited at every gate. Workflow: Fable orchestrates and can NEVER be an agent;
+  (I1 to I28) audited at every gate. Workflow: Fable orchestrates and can NEVER be an agent;
   agents Sonnet mostly, Opus where needed; quant and cost distinct
   lanes. RULED 28/08: HoT question parked, EVERY portfolio gets its
   total cost base (labour + non-labour); basis = FY26 window Jul25 to
@@ -236,8 +236,29 @@
 - RULED 02/09 (D204, I26): costs come ONLY from the four transaction tabs
   (HW/SW/NW/TDD Line Items, Jul25 to Jun26, assumed stable into FY27).
   The budget tab and the FY26 dashboard are a different period: a map of
-  structure at most, never a source of dollars, ratios or counts. v3 in
-  progress (D202/D203): a tab per portfolio in the D192 pattern, an
-  applications and owners view (rules R1 to R4, status EVIDENCE /
-  PROPOSED / NO OWNER), per tower ownership summaries. Fable orchestrates
-  only, never probes; agents Sonnet or Opus, never Fable.
+  structure at most, never a source of dollars, ratios or counts. Fable
+  orchestrates only, never probes; agents Sonnet or Opus, never Fable.
+- RULED 02/09 (D207, I27): the ARCHITECTURE MAP of the cost comes first,
+  who pays for each application and how much, and ownership is decided
+  AFTER reading it, never proposed on a front page (Salesforce is one row
+  among 470, not the lead). RULED 02/09 (D208, I28): the product is a tab
+  per PORTFOLIO in the labour dashboard pattern (his Enterprise Data
+  screenshot); no HoT tab, no summary or so-what page, no findings names
+  on client pages. SHIPPED 02/09 (D209): deliverables/
+  TDD_Portfolio_Cost_Base.xlsx v3, 31 tabs (Read me, TDD corporate,
+  Architecture map of the cost, thirteen portfolio tabs, working tabs,
+  seven raw tabs verbatim). Basis: total 201.11m = labour 104.08 (his
+  fixed 3.5) + non-labour 97.03 from the four transaction tabs at leaf
+  level (raw 223.10m, leaf 134.57m, overstatement 88.53m from parent and
+  child cost centres both exported); TDD pays 58.17m net, business
+  direct 38.85m. Toggles on Assumptions, typed blue, default to the data
+  as is: T1 contractors 2.00m, T2 personnel 0.85m, T3 platform pools
+  24.68m (Microsoft 19.34 + SAP 5.34), T4 DAA split 0.61m. Map: 470
+  applications, 89 multi-payer 53.46m (the ownership calls live here),
+  272 single-payer 30.95m, 109 no vendor 12.94m. Open with Lee:
+  ownership of the 89, the four toggles, and the Read me register kicker
+  still reads "I1 to I27" (table runs to I28; corrected in the build,
+  lands with the next rebuild). Pipeline: scratchpad hotbudget/cb3
+  (build3, faces3, data3, check3 140 checks, gate3 recalc on a copy,
+  render3). Next design must pre-aggregate: the faces scan the
+  103,575-row Assignments tab and recalc slowly.
