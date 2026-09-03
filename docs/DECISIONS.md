@@ -3847,3 +3847,15 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   and Owner columns; one Bridges tab for his inputs; one line of text
   per table. Workflow: three agents in sequence (data, build, QA), one
   recalc on a copy, one pass; about four hours.
+
+## D211 - 03/09: version 4 go; COEs carry no platforms
+
+- Lee: "fine as i'll work through putting the platform for the retail and
+  customer side. the coes don've have platforms." The four defaults
+  (DEC-50 to DEC-53) stand as proposed. Ruling: COE tabs (and TDDLT)
+  carry no platform table and no Not yet mapped row; their non-labour is
+  shown by application and vendor only. The typed Platform column on the
+  full map and the worklist exist for him to finish Ampol Retail and
+  Ampol Customer. Logged as I39. Build running: data (Sonnet), build
+  (Opus), QA (Sonnet), in sequence, one pass; pipeline scratchpad
+  hotbudget/cb4.

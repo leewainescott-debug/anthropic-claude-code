@@ -279,4 +279,7 @@
   TDDLT and TDD); 29.67m of 97.58m (30.4%) has no platform; Ampol Retail
   10.15m no application, 84% of it has a vendor; top 25 clears 80%
   everywhere. Plan docs/HOT_BUDGET_PLAN_V4.md (three agents in sequence,
-  one pass), defaults DEC-50 to DEC-53, AWAITING HIS GO.
+  one pass), defaults DEC-50 to DEC-53. GO GIVEN 03/09 (D211, I39): the
+  COEs and TDDLT have no platforms (no platform table there); Lee fills
+  the Retail and Customer platforms himself via the typed Platform column
+  and the worklist. Pipeline scratchpad hotbudget/cb4.

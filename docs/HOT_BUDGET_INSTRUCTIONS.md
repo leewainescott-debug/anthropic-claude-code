@@ -133,3 +133,8 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
 - I38. The workflow must be time and token efficient: the fewest agents
   that do the job, in sequence, one pass, data pre-aggregated so the
   faces read a compact table; the version 3 run took too long (03/09).
+- I39. Version 4 go given 03/09. The COEs have no platforms: no platform
+  table and no Not yet mapped row on the COE tabs (and TDDLT). Lee fills
+  the platform for the Retail and Customer side himself in the file, so
+  the typed Platform column and the worklist serve those two portfolios
+  first (ruled 03/09).
