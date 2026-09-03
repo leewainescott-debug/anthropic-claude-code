@@ -319,6 +319,38 @@
    "MEDIUM",
    "Assumptions tab.",
    ""
+  ],
+  [
+   "DEC-50",
+   "Portfolio cost bases v4",
+   "Tab set: one tab per portfolio in your 0725_0626 Summary tab's list (14, TDDLT included), labour joined through a typed bridge from the labour model's lines to your portfolios. Default: the obvious matches pre-filled (2.11 to Cyber, 2.15 and 2.16 to COE Cyber, Risk and Service Operations). Confirm.",
+   "HIGH",
+   "Bridges tab.",
+   ""
+  ],
+  [
+   "DEC-51",
+   "Portfolio cost bases v4",
+   "Non-labour base = your cost types on the four sheets, 97,582,004.31, every row on the portfolio its row carries; the four toggles are dropped. Confirm.",
+   "HIGH",
+   "TDD corporate.",
+   ""
+  ],
+  [
+   "DEC-52",
+   "Portfolio cost bases v4",
+   "Recoveries: your file books Z Energy and AMS recoveries to TDDLT (7,031,826.47) and TDD (5,213,306.79). Default: follow your file. Confirm.",
+   "MEDIUM",
+   "TDDLT and TDD tabs.",
+   ""
+  ],
+  [
+   "DEC-53",
+   "Portfolio cost bases v4",
+   "Platform names = the 15 on your Summary grid plus a Not yet mapped row; you assign applications to platforms on the map (typed, blue) and the cost follows by formula. Confirm the list, or add platforms.",
+   "HIGH",
+   "Bridges tab and the maps.",
+   ""
   ]
  ],
  "build": [
@@ -408,6 +440,14 @@
    "SHIPPED 10/08 pm: deck 22 slides / 14 native charts, formatting normalised to slides 2-4, story order, 16-fix round + full-transcript instruction audit (107 instructions, six gaps closed); FY26 workbook v4 on the corrected what-TDD-pays basis, ten checks pass. Deck and workbook reconcile to the cent.",
    "DONE",
    "Delivered with the compliance summary and cull list.",
+   ""
+  ],
+  [
+   "BLD-26",
+   "Portfolio cost bases v4",
+   "PLANNED 03/09: his review of v3 taken (I29 to I38); new mapping file reviewed by two agents (no dollar moved, mapping changed; his Summary tab ties at leaf level; 30.4% unmapped at platform); plan docs/HOT_BUDGET_PLAN_V4.md; three agents in sequence, one pass.",
+   "PLANNED",
+   "Awaiting Lee's go.",
    ""
   ]
  ],

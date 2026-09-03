@@ -3773,3 +3773,77 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   mid-pipeline; the table itself runs to I28 and every figure is
   unaffected. The kicker text is corrected in the build script and lands
   with the next rebuild.
+
+## D210 - 03/09: Lee's review of version 3; new mapping file; version 4 planned
+
+- Lee's feedback on v3 (his words): "line items" and "tower" wording does
+  not make sense; his words are portfolios and platforms; does the
+  mapping align to the '0725_0626 Summary' tab; what is still unmapped at
+  platform level; every portfolio needs TDD pays against BU pays in the
+  Summary tab's shape; top 20 applications or vendors or 80% of cost
+  (16m unclassified in Ampol Retail not acceptable); at least 50 more
+  applications on the map; names in column B not formula driven so it
+  looks AI built; document very wordy with AI words; "N lines pay it, N
+  lines use it" means nothing; he must be able to assign applications
+  to platforms and then ownership and cost; a rolled up map to 80% of
+  cost plus a full map; middle charts unclear; bring the labour view in;
+  the workflow must be time and token efficient. Logged as I29 to I38.
+- New source: TDD_Consolidated_0725_0626_Actuals.xlsx (scratchpad copy
+  actuals_0725_0626.xlsx, read only). Two review agents ran in
+  parallel (Sonnet: changes and vocabulary; Opus: reconciliation).
+- FOUND, changes: no dollar moved; every transaction row on the four
+  sheets is identical to budget_v4 (integrity check PASS, same 88.53m
+  parent and child overstatement). The mapping on the rows changed:
+  TDD Line Items now carry Portfolio and Platform (TDD 32,788,131.08 on
+  41,713 rows; COE Cyber, Risk and Service Operations 21,011,023.77 on
+  1,790 rows; Strategy, Architecture and Enterprise Data 5.55m);
+  software Cost Type split from one "Software" value into Subscription,
+  Prepayment, Support, Maintenance, Cloud and Hosting (19m plus moved);
+  Vendor and Application now read "N/A" where the cost type can never
+  carry one (about 21,000 rows, 108.9m; "Review Required" no longer the
+  only unmapped flag); Mapping v2 gained the software rule blocks (71 to
+  83 columns); sheets Questions, Platform Model and Portfolio Mapping
+  removed (no platform list exists anywhere now; his Summary grid names
+  15 platforms); CE Hierarchy plus one row (801445 SecurID). Vocabulary
+  table in scratchpad hotbudget/v4/review_changes.md.
+- FOUND, alignment: his Summary tab reproduces cell for cell from the
+  four sheets; it sums at leaf level (parent cost centres carry a blank
+  key so no row matches them; no double count; his C66 gap of 4.93 is
+  493 leaf rows with a blank portfolio). His grid 92,097,777.60 (BU
+  38,834,271.86, TDD 53,263,505.74) against our v3 97,026,525.05 (BU
+  38,853,895.35, TDD 58,172,629.70); every portfolio difference
+  explained to the cent. Causes: 5,484,226.71 of non-labour whose
+  Portfolio:Platform pair is not one of his 22 rows (off his grid); one
+  COE Cyber, Risk and Service Operations line of 14,417,532.66 where v3
+  split three ways off the labour model (his separate "Cyber" row
+  1,501,072.04 equals our 2.11); recoveries booked to TDDLT
+  (7,031,826.47) and TDD (5,213,306.79) where v3 held one bucket
+  (12,219,005.88); Enterprise Data 1,018,497.78 booked by him to the
+  Strategy, Architecture and Enterprise Data COE; v3's Customer
+  adjustment 555,484.19 outside the rows. No case split remains in the
+  new file (RETAIL/Retail trap gone).
+- FOUND, platform coverage: 29,668,067.83 of 97,582,004.31 (30.4%) has
+  no platform: COE Cyber, Risk and Service Operations 14,631,690.92
+  (0%), Ampol Retail 13,689,333.30 (22.5% mapped; the BU paid rows are
+  blank), COE BP&T 2,723,200.92, COE Strategy, Architecture and Data
+  1,105,686.67, Ampol Customer 1,032,210.99, TDDLT (3,533,678.46); the
+  other eight portfolios 100%. Labour roles carry 67 squad names, his
+  file 15 platform names, six match: a squad to platform bridge is
+  needed for labour by platform.
+- FOUND, Ampol Retail: 10,152,999.71 (51.9%) has no application name;
+  8,529,700.90 of it (84%) carries a vendor (Blue Yonder 2,719,970.92,
+  Diebold Nixdorf 2,614,748.15, PwC 1,863,858.59, Ingenico
+  1,725,661.11, Planit 1,710,424.65); 1,623,298.81 (8.3%) has neither.
+  Top 20 reaches 80% in 13 of 14 portfolios; Ampol Retail needs 21
+  (top 20 = 79.8%); top 25 clears every portfolio.
+- PLAN v4 (docs/HOT_BUDGET_PLAN_V4.md), awaiting Lee's go. Defaults
+  proposed: tabs = the 14 portfolios of his Summary tab with labour
+  joined through a typed bridge (model line to his portfolio);
+  non-labour base = his cost types, 97,582,004.31, every row on the
+  portfolio its row carries (the 5.48m off his grid included, platform
+  shown as not on his list); toggles T1 to T4 dropped; recoveries as
+  his file books them; top 25 rows per tab; platform names = his 15
+  plus "Not yet mapped"; two maps (80% and full) with typed Platform
+  and Owner columns; one Bridges tab for his inputs; one line of text
+  per table. Workflow: three agents in sequence (data, build, QA), one
+  recalc on a copy, one pass; about four hours.

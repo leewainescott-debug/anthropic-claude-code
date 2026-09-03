@@ -90,3 +90,46 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
   pattern (the Enterprise Data page is the template), plus the corporate
   view and the architecture map. No head of technology tab or naming, no
   summary or story page (ruled 02/09).
+
+## Rulings added 03/09 (Lee's review of version 3 and the new mapping file)
+- I29. His words only, everywhere in the file and in chat: no "tower"
+  (the four SAP sheets are Software, Hardware, Network and TDD, as his
+  Summary tab labels them), no "line" for a portfolio, no "lines pay it
+  / lines use it". Who pays is "BU" and "TDD", his Summary tab's own
+  headings. Portfolio, Platform, Application, Vendor, Cost Type are his
+  column names and stay as they are (03/09).
+- I30. The non-labour view aligns to his '0725_0626 Summary' tab: the
+  same grid (Portfolio by Platform; Software, Hardware, Network; BU paid
+  against TDD paid), and every portfolio tab shows what TDD pays and
+  what the business pays in that shape (03/09).
+- I31. Every portfolio shows its non-labour broken down by platform,
+  with the remainder that has no platform shown as its own row, never
+  hidden or forced. A worklist of the unmapped items, largest first,
+  sits in the file so the platform mapping can be finished. He assigns
+  applications to platforms in the file and the cost follows the
+  assignment by formula (03/09).
+- I32. Every portfolio tab shows its top 20 applications or vendors, or
+  whatever number reaches 80% of the cost base. Where the application is
+  blank the vendor is used. Leaving about 16m unclassified in Ampol
+  Retail is not acceptable (03/09).
+- I33. Names in column B of every tab come by formula from the working
+  table, never typed, so the tabs read as built in Excel by a person
+  (03/09).
+- I34. Two architecture maps: one rolled up to about 80% of cost, one
+  full end to end. Both carry a Platform column and an Owner column for
+  him to type. He asked for at least 50 more applications on the map;
+  the map takes every application his file names and the count is
+  reported at build (03/09).
+- I35. Far fewer words. No AI-sounding words. One line above a table at
+  most, no essays, no explainer rails. Charts only where their meaning
+  is obvious from the title, in his words (03/09).
+- I36. The source for non-labour is his latest mapping file,
+  TDD_Consolidated_0725_0626_Actuals.xlsx (scratchpad copy
+  actuals_0725_0626.xlsx). Every mapping change in it is carried; the
+  transaction dollars are unchanged from budget_v4 (03/09).
+- I37. The labour view joins the same tabs: labour by portfolio and,
+  once the squad to platform bridge is typed, labour by platform beside
+  the non-labour (03/09).
+- I38. The workflow must be time and token efficient: the fewest agents
+  that do the job, in sequence, one pass, data pre-aggregated so the
+  faces read a compact table; the version 3 run took too long (03/09).

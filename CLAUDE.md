@@ -262,3 +262,21 @@
   (build3, faces3, data3, check3 140 checks, gate3 recalc on a copy,
   render3). Next design must pre-aggregate: the faces scan the
   103,575-row Assignments tab and recalc slowly.
+- v3 REVIEWED by Lee 03/09 (D210, I29 to I38): HIS WORDS ONLY ("tower",
+  "line" for a portfolio, "lines pay it / use it" BANNED; the four sheets
+  are Software, Hardware, Network, TDD; who pays = BU / TDD, his Summary
+  headings); align to his '0725_0626 Summary' grid (Portfolio by
+  Platform, BU paid against TDD paid); platform breakdown per portfolio
+  with the unmapped remainder visible and a worklist; top 20 applications
+  or vendors or 80% (vendor fallback); names in column B by formula; two
+  maps (80% and full) with typed Platform and Owner columns; far fewer
+  words; labour joined; time and token efficient workflow. New source =
+  actuals_0725_0626.xlsx: no dollar moved, mapping changed (TDD rows now
+  carry Portfolio and Platform, software Cost Type split, Vendor "N/A"
+  convention). Findings: his Summary reproduces cell for cell and sums at
+  leaf level; his grid 92.10m vs our 97.03m explained to the cent (5.48m
+  off his grid, one COE Cyber Risk and Service Ops line, recoveries to
+  TDDLT and TDD); 29.67m of 97.58m (30.4%) has no platform; Ampol Retail
+  10.15m no application, 84% of it has a vendor; top 25 clears 80%
+  everywhere. Plan docs/HOT_BUDGET_PLAN_V4.md (three agents in sequence,
+  one pass), defaults DEC-50 to DEC-53, AWAITING HIS GO.
