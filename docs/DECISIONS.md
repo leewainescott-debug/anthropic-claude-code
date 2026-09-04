@@ -4092,3 +4092,32 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   who owns) with D's lever block and E's budget by quarter beneath, and
   the corporate tab as E with B's shared applications and D's bridge;
   his pick rules.
+
+## D219 - 04/09: the five lenses rejected; his v3 tab is the look; his list only
+
+- Lee, on the round two pack: "none work. look aesthetically, this is
+  the closest [his version 3 Energy Solutions & B2B tab: light page,
+  navy family, $m AUD, tiles, three charts up top] - but still not
+  there. wtf are all the colours for? also like with the labour
+  dashboard i told you the key things we needed to see. i've told you
+  the key things i need to see with the non labour. so then why are you
+  creating random things? send more screenshots and then playback in
+  plain english what i want to see - don't go off creating your own
+  interpretation or own view. it's fairly simple. and you're honestly
+  lost."
+- RULED: the look is version 3's (light page, one navy family, $m,
+  tiles with a basis line, the labour dashboard's band and charts); no
+  other colours; the content is HIS LIST and nothing else: the labour
+  side as the labour dashboard shows it; total cost base = total labour
+  cost + non-labour; non-labour broken down as the 0725_0626 Summary
+  tab does (per platform Software, Hardware, Network each TDD or BU
+  paid, outside services, other); what TDD pays against what the
+  business pays; the platform breakdown with what is still unmapped so
+  the mapping can be finished; top 20 applications or vendors or 80% of
+  the cost base; how cost is distributed to other portfolios and
+  platforms; charts at the top and more of them, all labels, white text
+  inside navy bars; detail below. No lenses, scenarios, proposed
+  classes, run against change, levers or budget phasing unless he asks.
+- One Opus agent mocks the faithful design (Ampol Retail, B2B & Energy
+  Solutions, TDD corporate) in scratchpad hotbudget/mock7; screenshots
+  first, then the playback of his list in plain English.

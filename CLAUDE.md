@@ -325,3 +325,13 @@
   Recommendation put: portfolio tab = B with D's lever block and E's
   quarters beneath; corporate = E with B's shared applications and D's
   bridge. AWAITING HIS PICK; nothing built.
+- LENSES REJECTED 04/09 (D219): "none work"; his v3 tab (light page, one
+  navy family, $m, tiles, charts up top) is "aesthetically the closest";
+  "wtf are all the colours for?"; "don't go off creating your own
+  interpretation or own view". RULED: v3 look, navy family only, white
+  labels inside navy bars, HIS LIST ONLY (labour as the labour
+  dashboard; total cost base = total labour cost + non-labour; Summary
+  tab shape per platform; TDD against business paid; platform breakdown
+  with unmapped remainder; top 20 or 80%; cost shared with other
+  portfolios and platforms; charts on top, detail below). Faithful mock
+  in scratchpad hotbudget/mock7, then playback.

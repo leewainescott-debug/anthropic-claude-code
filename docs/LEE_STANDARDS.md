@@ -154,3 +154,7 @@ the essentials:
   different evidence, never one layout in five coats. Brief designers on
   the question and the data, not the geometry; run them in parallel;
   judge for genuine difference before anything reaches Lee.
+- When Lee has given a list of what he needs to see, the options are
+  about arrangement and look, never about content: build his list, in
+  his approved look, and play it back in his words. Never substitute an
+  interpretation for the list (04/09).
