@@ -168,3 +168,9 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
   corporate tab ("5 portfolio examples and 5 tdd examples!") as screenshots on real numbers, then a playback of what
   the dashboard provides and what the work is trying to achieve, before
   anything is built. Screenshots of everything before any build.
+- I47. Version 5 go given 04/09 ("build that out and we can start to
+  iterate"): the faithful mock (D220) built across every tab, formula
+  driven as version 4, the labour dashboard content joined per
+  portfolio, his v3 look with the navy family only and white labels
+  inside navy bars, $m; screenshots of every tab before it ships; then
+  iteration with him.

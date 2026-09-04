@@ -4145,3 +4145,19 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   platform not on his list; COEs and TDDLT carry no platforms.
 - Build fixes noted for after his go: ranked bar charts largest first
   at the top; the corporate by portfolio chart the same.
+
+## D221 - 04/09: version 5 go ("build that out and we can start to iterate")
+
+- Build = the D220 mock on every tab: Read me, TDD corporate, Map 80
+  percent, Map full, the 14 portfolio tabs of his Summary list (COE
+  tabs and TDDLT without platform tables or charts, D211), Worklist,
+  Bridges, Data, Checks, the seven raw tabs verbatim. Faces by formula
+  over the Data tab (names included); $m on faces, dollars underneath;
+  the labour dashboard's band, typed sentence and squad block per
+  portfolio from deliverables/TDD_FY27_Portfolio_Summaries.xlsx, two
+  labour lines summed where his portfolio merges them (COE Cyber, Risk
+  & Service Operations = TDD Cyber + COE Service Ops); EGI, Z Retail
+  and Z Customer as labour rows on TDD corporate until he asks for tabs.
+- Workflow as version 4: data (Sonnet), build (Opus), QA (Sonnet), one
+  fix loop; pipeline scratchpad hotbudget/cb5; screenshots of every tab
+  before it ships. Logged as I47.

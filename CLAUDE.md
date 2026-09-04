@@ -338,3 +338,7 @@
 - FAITHFUL MOCK SENT 04/09 (D220): scratchpad hotbudget/mock7, his list
   in his v3 look; Ampol Retail 31.36m = 12.54m + 18.82m; AWAITING HIS
   GO; nothing built.
+- GO 04/09 (D221, I47): version 5 = the D220 mock on every tab, formula
+  driven as v4, labour dashboard joined per portfolio, navy family only,
+  $m; pipeline scratchpad hotbudget/cb5; screenshots of every tab before
+  ship; then iterate with him.
