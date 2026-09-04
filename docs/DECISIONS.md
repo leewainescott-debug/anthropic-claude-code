@@ -4215,3 +4215,18 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   negative base, brackets not a minus sign, a chart margin). Fix round
   2 with the builder, then the full build and QA's final confirmation,
   then the screenshots of every tab to Lee (I48).
+
+## D225 - 04/09: version 5 gated; screenshots of every face tab sent for approval
+
+- Final QA on md5 0b298dc3797211789d1d25cd53a2c70e (15,317,014 bytes):
+  all gates PASS; the typed platform propagation proven again on a
+  copy; every portfolio and COE row on the corporate grid equals its own
+  tab; the three overhead pots as their own rows; TDDLT percentages on
+  cost before credits, brackets everywhere; 283 tiles and totals tie to
+  expected5 with no difference; 114 of 115 Checks nil (the one cent in
+  his own figures). One nit queued (cb5/FIX_ROUND_3.md): the pot rows
+  carry the COE's name in the Portfolio column, so a sum by name would
+  net them; give them a distinct label next round.
+- 45 face pages sent (Read me, TDD corporate, the maps, fourteen
+  portfolio tabs, Worklist, Bridges, Checks); the Data tab's 16 pages
+  held back as rows. AWAITING HIS APPROVAL (I48); ship5.py runs on it.

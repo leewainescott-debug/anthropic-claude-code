@@ -354,3 +354,6 @@
   the COMBINED VIEW (labour and non-labour together) ELEVATED in the
   next round. Full build, QA, screenshots of every tab, his approval,
   then ship.
+- 04/09 (D225): v5 gated (md5 0b298dc3...), 45 face pages sent, AWAITING
+  HIS APPROVAL before ship5.py; fast path build5.py fast (24 s) for
+  every iteration change; FIX_ROUND_3.md holds the queued nit.
