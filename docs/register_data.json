@@ -453,9 +453,9 @@
   [
    "BLD-27",
    "Portfolio cost bases v5",
-   "GO 04/09: the faithful mock built across every tab (version 5), formula driven, labour dashboard joined; screenshots of every tab before ship.",
-   "RUNNING",
-   "Data, build, QA in sequence.",
+   "SHIPPED 04/09: version 5, the approved design on every tab, labour dashboard joined, formula driven; screenshots of every tab sent.",
+   "DONE",
+   "Iteration with Lee.",
    ""
   ]
  ],
@@ -834,6 +834,11 @@
    "Portfolio cost bases v4",
    "His words, his Summary grid by formula with labour beside it, fourteen portfolio tabs with platform tables and top 25, two maps with typed Platform and Owner, Worklist, Bridges; 196.20m = labour 104.08m + non-labour 92.12m.",
    "SHIPPED 03/09: QA nine gates PASS, full recalc PASS, raw tabs verbatim, zero banned words, zero typed names."
+  ],
+  [
+   "Portfolio cost bases v5",
+   "His list in his v3 look on every tab: labour dashboard band, sentence and squad block per portfolio; Summary shape per platform; TDD against business; top 20; shared; still to map; maps with typed Platform and Owner; 196.20m = 104.08m + 92.12m.",
+   "SHIPPED 04/09: independent QA on md5 0b298dc3797211789d1d25cd53a2c70e: every gate PASS; 283 tiles and totals tie to the cent; typed platform propagation proven on a copy; every portfolio and COE row on the corporate grid equals its own tab; 114 of 115 Checks nil (the one cent in his own figures); seven raw tabs verbatim by hash; full package recalc clean; Excel-opens checks clean."
   ]
  ]
 }

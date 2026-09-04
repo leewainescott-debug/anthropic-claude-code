@@ -4230,3 +4230,26 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - 45 face pages sent (Read me, TDD corporate, the maps, fourteen
   portfolio tabs, Worklist, Bridges, Checks); the Data tab's 16 pages
   held back as rows. AWAITING HIS APPROVAL (I48); ship5.py runs on it.
+
+## D222 - 04/09: version 5 shipped (the approved design on every tab; iteration starts)
+
+- deliverables/TDD_Portfolio_Cost_Base.xlsx = version 5 (md5 0b298dc3797211789d1d25cd53a2c70e,
+  15,317,014 bytes). The D220 mock on every tab: his v3 look, navy family
+  only, $m; the labour dashboard's band, typed sentence and squad block
+  joined per portfolio; six charts on top of every business portfolio
+  tab (platform paid by TDD against the business; platform by Software,
+  Hardware, Network, Outside services, Other; TDD against business
+  ring; top 20 names; labour ring; squad cost by platform), four on the
+  COE tabs and TDDLT (no platforms, his ruling); then the Summary shape
+  table with labour and total cost base, the top 20 table with % of
+  non-labour, shared with other portfolios, still to map with a typed
+  Platform column, the squad cost block. TDD corporate with his grid
+  and the Hierarchy block. Map 80 percent, Map full (typed Platform and
+  Owner), Worklist, Bridges (Above Store to Above the Store prefilled as
+  a spelling variant), Data, Checks, seven raw tabs verbatim.
+- Basis unchanged: labour 104,079,587.22, non-labour 92,117,406.02,
+  total cost base 196,196,993.24; Ampol Retail 31,355,306 = 12,536,589
+  + 18,818,717.
+- Gates: independent QA on md5 0b298dc3797211789d1d25cd53a2c70e: every gate PASS; 283 tiles and totals tie to the cent; typed platform propagation proven on a copy; every portfolio and COE row on the corporate grid equals its own tab; 114 of 115 Checks nil (the one cent in his own figures); seven raw tabs verbatim by hash; full package recalc clean; Excel-opens checks clean.
+- Screenshots of every tab sent with the file; iteration with Lee
+  starts from here.

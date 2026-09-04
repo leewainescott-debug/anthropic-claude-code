@@ -357,3 +357,10 @@
 - 04/09 (D225): v5 gated (md5 0b298dc3...), 45 face pages sent, AWAITING
   HIS APPROVAL before ship5.py; fast path build5.py fast (24 s) for
   every iteration change; FIX_ROUND_3.md holds the queued nit.
+- SHIPPED 04/09 (D222): deliverables/TDD_Portfolio_Cost_Base.xlsx v5 =
+  the D220 design on every tab (his v3 look, navy family, $m, labour
+  dashboard joined, six charts on top, Summary shape, top 20, shared,
+  still to map, maps, worklist, bridges). Pipeline scratchpad
+  hotbudget/cb5 (data5, build5, check5_qa, ship5). ITERATION with Lee
+  starts here: every change he asks for goes through build5.py and a
+  screenshot of the changed tab.
