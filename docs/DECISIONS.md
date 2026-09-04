@@ -4121,3 +4121,27 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - One Opus agent mocks the faithful design (Ampol Retail, B2B & Energy
   Solutions, TDD corporate) in scratchpad hotbudget/mock7; screenshots
   first, then the playback of his list in plain English.
+
+## D220 - 04/09: the faithful mock sent (his list, his v3 look); awaiting his go
+
+- Scratchpad hotbudget/mock7 (mock7.py, mocks.xlsx, renders): Ampol
+  Retail, B2B & Energy Solutions, TDD corporate, two pages each. Light
+  page, navy family only, $m AUD, the labour dashboard's band and
+  sentence copied, non-labour tiles and a v3 style sentence, six charts
+  on top (platform paid by TDD against the business; platform by
+  Software, Hardware, Network, Outside services, Other; TDD against
+  business ring; top 20 names; labour ring; squad cost by platform),
+  then the Summary shape table with labour and total cost base, the top
+  20 table with % of non-labour, shared with other portfolios, still to
+  map with a typed Platform column, the squad cost block. Corporate:
+  the band, total cost base by portfolio, TDD against business, by
+  Software to Other, top 20 across TDD, labour ring, lights on against
+  budget by portfolio, then his grid. Figures: Ampol Retail 31.36m =
+  12.54m + 18.82m; B2B & Energy Solutions 16.81m = 6.69m + 10.12m; TDD
+  196.20m = 104.08m + 92.12m.
+- Limits stated: 5.26m of Ampol Retail labour (sig items roles,
+  overhead roles, allocated overheads) has no platform in the labour
+  dashboard and sits in Not yet mapped; "(All Retail)" is a labour
+  platform not on his list; COEs and TDDLT carry no platforms.
+- Build fixes noted for after his go: ranked bar charts largest first
+  at the top; the corporate by portfolio chart the same.

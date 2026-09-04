@@ -335,3 +335,6 @@
   with unmapped remainder; top 20 or 80%; cost shared with other
   portfolios and platforms; charts on top, detail below). Faithful mock
   in scratchpad hotbudget/mock7, then playback.
+- FAITHFUL MOCK SENT 04/09 (D220): scratchpad hotbudget/mock7, his list
+  in his v3 look; Ampol Retail 31.36m = 12.54m + 18.82m; AWAITING HIS
+  GO; nothing built.
