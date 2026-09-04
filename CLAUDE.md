@@ -342,3 +342,6 @@
   driven as v4, labour dashboard joined per portfolio, navy family only,
   $m; pipeline scratchpad hotbudget/cb5; screenshots of every tab before
   ship; then iterate with him.
+- I48 (04/09): NOTHING SHIPS BEFORE LEE APPROVES THE SCREENSHOTS. Order:
+  build, QA, screenshots of every tab to him, his approval, then the
+  file to him and into the repo.

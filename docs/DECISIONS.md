@@ -4161,3 +4161,5 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - Workflow as version 4: data (Sonnet), build (Opus), QA (Sonnet), one
   fix loop; pipeline scratchpad hotbudget/cb5; screenshots of every tab
   before it ships. Logged as I47.
+- 04/09, I48: version 5 ships only after Lee approves the screenshots of
+  every tab; ship5.py runs after his approval, never before.

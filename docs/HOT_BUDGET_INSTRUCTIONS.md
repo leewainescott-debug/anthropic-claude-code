@@ -174,3 +174,7 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
   portfolio, his v3 look with the navy family only and white labels
   inside navy bars, $m; screenshots of every tab before it ships; then
   iteration with him.
+- I48. Nothing ships before Lee approves the screenshots: build, QA, a
+  screenshot of every tab to him, his approval, then the file to him and
+  into the repo (04/09, "there's no point rendering if you ship before I
+  approve").
