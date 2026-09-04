@@ -4163,3 +4163,17 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   before it ships. Logged as I47.
 - 04/09, I48: version 5 ships only after Lee approves the screenshots of
   every tab; ship5.py runs after his approval, never before.
+
+## D223 - 04/09: iteration mode on two tabs; the whole-workbook cycle only at the end
+
+- Lee: "no way it's 90 mins away ... I need this to be back and forth
+  iterations." RULED (my call, in his direction): iterate on Ampol
+  Retail and TDD corporate only; every change comes back as a
+  screenshot in about 15 minutes through a fast path in build5.py
+  (rebuild the named tabs into the light copy, recalc, render those
+  two); the full build, QA and 59 renders run once, when the two tabs
+  are approved. The two tabs as built were sent to him at once so the
+  iteration starts before QA finishes; fix round 1 (typed platform
+  moves the cost as in version 4; corporate grid labour columns match
+  the portfolio tabs; COE tiles from the dashboard's corporate block;
+  chart label floor) is with the builder on the fast path.

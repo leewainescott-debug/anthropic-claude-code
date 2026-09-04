@@ -345,3 +345,8 @@
 - I48 (04/09): NOTHING SHIPS BEFORE LEE APPROVES THE SCREENSHOTS. Order:
   build, QA, screenshots of every tab to him, his approval, then the
   file to him and into the repo.
+- ITERATION MODE 04/09 (D223): iterate on Ampol Retail and TDD corporate
+  only, each change back as a screenshot in about 15 minutes via the
+  build5.py fast path; the full 29-tab build, QA and renders run once at
+  the end, after his approval of the two tabs. Never quote a 90 minute
+  cycle for a change.

@@ -158,3 +158,7 @@ the essentials:
   about arrangement and look, never about content: build his list, in
   his approved look, and play it back in his words. Never substitute an
   interpretation for the list (04/09).
+- Iteration cadence (04/09): design iteration happens on one or two tabs
+  with a screenshot back in minutes; the whole-workbook cycle (all tabs,
+  full QA, all renders) runs once, after he approves the pattern. Never
+  make him wait a full cycle to see a change.
