@@ -4198,3 +4198,20 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   (Data!Grid platform static). All folded into fix round 1 as items 5
   to 8; the builder proves the propagation on a copy before the full
   build.
+- 04/09, version 5 QA re-check after fix round 1 (md5 08794808...,
+  15,317,815 bytes): typed platform propagation PROVEN on a copy (Kronos
+  to Store Operations moves 1.28m from Not yet mapped to Store
+  Operations, the table total holds, the corporate grid and the two
+  read-backs move with it); Still to map and Worklist read Map full's
+  typed column; 21 TBC tiles, all where the labour dashboard truly has
+  nothing; TDDLT chart legible. Two defects to fix round 2: the two COE
+  portfolios that provide overhead pots read short of their own tabs
+  on the corporate grid because the pot was netted on their own row
+  (ruled: the pots sit as three negative rows "Overheads charged to
+  portfolios" at the foot of the grid, every row equal to its tab, the
+  column still nets to nil and labour foots to 104.08); the two
+  corporate charts still crowd (taller, 7 point labels, 6 percent of
+  longest bar floor). Plus three TDDLT tidy items (percentages on a
+  negative base, brackets not a minus sign, a chart margin). Fix round
+  2 with the builder, then the full build and QA's final confirmation,
+  then the screenshots of every tab to Lee (I48).
