@@ -350,3 +350,7 @@
   build5.py fast path; the full 29-tab build, QA and renders run once at
   the end, after his approval of the two tabs. Never quote a 90 minute
   cycle for a change.
+- 04/09 (D224): the v5 two-tab pattern accepted "for now"; he will want
+  the COMBINED VIEW (labour and non-labour together) ELEVATED in the
+  next round. Full build, QA, screenshots of every tab, his approval,
+  then ship.

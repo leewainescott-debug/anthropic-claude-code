@@ -4177,3 +4177,14 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   moves the cost as in version 4; corporate grid labour columns match
   the portfolio tabs; COE tiles from the dashboard's corporate block;
   chart label floor) is with the builder on the fast path.
+
+## D224 - 04/09: the two tabs accepted as the pattern "for now"; the combined view to be elevated
+
+- Lee, on the version 5 Ampol Retail and TDD corporate pages: "okay
+  this is fine for now, but will need to elevate it once we get into
+  the combined view". Proceeding: fix round 1 on the fast path, then
+  the full build on the pattern, QA once, screenshots of every tab for
+  his approval, then the file (I48). OPEN for the next round: what
+  "elevate the combined view" means to him (the labour and non-labour
+  view together, more depth); to be asked when the tabs are approved,
+  not now.
