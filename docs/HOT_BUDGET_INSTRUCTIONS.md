@@ -138,3 +138,33 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
   the platform for the Retail and Customer side himself in the file, so
   the typed Platform column and the worklist serve those two portfolios
   first (ruled 03/09).
+
+## Rulings added 04/09 (Lee's review of version 4: "the dashboards have digressed")
+- I40. Charts and graphs at the top of every tab, and more of them. An
+  exec reads the dashboard view up top, charts and graphs, then the
+  detail below. The dashboard has to be advanced; his five reference
+  images (dark finance dashboards with KPI tiles, donuts, bars, trend
+  lines; the Xero profit and loss dashboard) set the bar.
+- I41. Every chart and graph carries all its labels, and the writing on
+  them is white text.
+- I42. The Share and Cumulative columns do not make sense and go. The
+  80% idea is shown another way or not at all.
+- I43. Labour comes in the way the labour dashboard shows it: labour
+  cost total, TDD overheads, total labour cost, lights on, sig items,
+  initiatives, over/(under) the allocation, lights on %, FTE, squad cost
+  by platform and lever. Platform costs for labour without the overheads
+  is not the true narrative. Total cost base = total labour cost
+  (overheads included) + non-labour; otherwise the model is half baked
+  and the heads of technology do not know what their labour and non-
+  labour cost is made of.
+- I44. Every portfolio tab breaks its non-labour down the way the
+  0725_0626 Summary tab does: for each platform, Software, Hardware and
+  Network, each split into TDD paid and BU paid, plus the other columns
+  on that tab. Collapsing this to TDD paid against BU paid totals was a
+  digression to the old model.
+- I45. Removing explainer text never meant removing depth of insight.
+  The portfolio tabs must carry more insight and depth, not less.
+- I46. Process: five options for the portfolio tab and then the TDD
+  corporate tab as screenshots on real numbers, then a playback of what
+  the dashboard provides and what the work is trying to achieve, before
+  anything is built. Screenshots of everything before any build.

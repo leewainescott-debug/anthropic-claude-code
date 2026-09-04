@@ -3949,3 +3949,33 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   and Above the Store platforms have no labour counterpart; the labour
   model's platform list carries its own duplicates (AMPOS and AmPOS, EGI
   twice, Leadership twice) kept as they are.
+
+## D214 - 04/09: version 4 rejected on depth and layout; options before any build
+
+- Lee: the dashboards have digressed; charts and graphs at the top and
+  more of them; exec view up top, detail below; advanced dashboard; all
+  labels on charts, white text; Share and Cumulative make no sense; the
+  total cost base does not make sense without the overheads that make up
+  the labour side, the labour dashboard content must come in or the
+  model is half baked; every portfolio tab must break non-labour down
+  the way the Summary tab does (per platform: Software, Hardware,
+  Network, each TDD or BU paid, plus the other columns); the portfolio
+  tabs are bland, depth of insight went backwards when only explainer
+  text was to go; five options for the portfolio tab and then the TDD
+  corporate tab, a playback of what the dashboard provides and what the
+  work is trying to achieve, screenshots of everything before anything
+  is built. Logged as I40 to I46.
+- What went wrong (owned): I optimised version 4 for fewer words and a
+  fast run and stripped depth with the words; I left the labour
+  dashboard's content out (overheads, lights on, sig items, initiatives,
+  FTE, levers, squads by platform) and joined only the labour cost
+  total; I put his grid shape on TDD corporate only and collapsed the
+  portfolio tabs to TDD paid against BU paid; I placed tables above
+  charts. The v3 to v4 brief said "far fewer words", never "less
+  insight".
+- Next: one Opus agent mocks five portfolio tab options and two TDD
+  corporate options on Ampol Retail's real numbers (non-labour from cb4,
+  labour from the FY27 labour dashboard basis, monthly from the
+  transaction sheets), native charts on a dark band with white text and
+  every label, rendered to PNG; Fable reviews, sends the screenshots with
+  the playback and the purpose statement; nothing built until he picks.

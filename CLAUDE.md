@@ -299,3 +299,15 @@
   check4_qa, render4, ship4). Open with Lee: his platform typing on Map
   full for Retail and Customer, the labour platform bridge (27 blank),
   Owner column, ownership of multi-portfolio names.
+- v4 REJECTED by Lee 04/09 (D214, I40 to I46): charts and graphs at the
+  TOP of every tab and more of them, exec view up top then detail; all
+  chart labels, WHITE text; Share and Cumulative columns gone; the
+  labour dashboard content comes in (overheads, lights on, sig items,
+  initiatives, over/(under), lights on %, FTE, squads by platform and
+  lever), total cost base = total labour cost + non-labour; every
+  portfolio tab in the Summary tab's shape (per platform
+  Software/Hardware/Network each TDD or BU paid); removing explainers
+  never meant less insight. Process: five portfolio options and two
+  corporate options as screenshots on real numbers, playback and purpose
+  statement, NOTHING BUILT before he picks. Mocks pipeline scratchpad
+  hotbudget/mock5.
