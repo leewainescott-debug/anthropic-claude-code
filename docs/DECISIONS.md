@@ -3979,3 +3979,6 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   transaction sheets), native charts on a dark band with white text and
   every label, rendered to PNG; Fable reviews, sends the screenshots with
   the playback and the purpose statement; nothing built until he picks.
+- 04/09 later: "5 portfolio examples and 5 tdd examples!" Five corporate
+  options, not two; the mock run extended (Platform view, Xero style,
+  Dark full page added to Exec dashboard and Bridge and ranking).

@@ -164,7 +164,7 @@ yet started. Nothing ships while an item sits unmet without Lee's say so.
   digression to the old model.
 - I45. Removing explainer text never meant removing depth of insight.
   The portfolio tabs must carry more insight and depth, not less.
-- I46. Process: five options for the portfolio tab and then the TDD
-  corporate tab as screenshots on real numbers, then a playback of what
+- I46. Process: five options for the portfolio tab and five for the TDD
+  corporate tab ("5 portfolio examples and 5 tdd examples!") as screenshots on real numbers, then a playback of what
   the dashboard provides and what the work is trying to achieve, before
   anything is built. Screenshots of everything before any build.
