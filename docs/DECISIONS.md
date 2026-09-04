@@ -3982,3 +3982,37 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
 - 04/09 later: "5 portfolio examples and 5 tdd examples!" Five corporate
   options, not two; the mock run extended (Platform view, Xero style,
   Dark full page added to Exec dashboard and Bridge and ranking).
+
+## D215 - 04/09: ten option mocks sent (five portfolio, five corporate); awaiting his pick
+
+- Mocks built by one Opus agent (scratchpad hotbudget/mock5/mock5.py,
+  mocks.xlsx, renders, options.md) on Ampol Retail's real numbers:
+  total labour cost 12,536,589 (labour cost total 11,736,363 plus TDD
+  overheads 800,226, as the labour dashboard reads it), non-labour
+  18,818,717, total cost base 31,355,306; corporate 196,196,993. Monthly
+  non-labour from the transaction sheets ties to the cent (Ampol Retail
+  and TDD). Twenty build checks pass; Ampol Retail reads the same on all
+  ten tabs.
+- Every option: tiles, then a dark band of charts with white text and
+  labels, then the detail: the labour band exactly as the labour
+  dashboard (his row 8 sentence carried), the platform table in his
+  Summary tab's shape (Software, Hardware, Network, Outside services,
+  Other, each BU or TDD paid), squad cost by platform, top 25 names,
+  cost types by his names. No Share or Cumulative columns.
+- Portfolio options: 1 Exec strip (six charts); 2 Labour left, non-labour
+  right; 3 Xero style (monthly wide, then breakdowns, then donuts);
+  4 Dark full page (eight charts, dark tables); 5 Bridge first (labour
+  cost total to total cost base). Corporate options: 1 Exec dashboard;
+  2 Bridge and ranking (lights on against allocation by line); 3
+  Platform view (his 15 platforms by total cost base, composition of
+  each portfolio); 4 Xero style; 5 Dark full page.
+- Rules set in the mocks: a data label is drawn where the value is at
+  least 3% of its bar or ring, the rest read from the table; over in
+  salmon on navy; credits drawn left of zero, never in a donut; unbridged
+  labour under his names (EGI, Z Retail, Z Customer, General
+  management). Tidy-up round of twelve items applied after Fable's
+  review of the renders before anything reached Lee.
+- Known limits stated: LibreOffice cannot draw a second axis, so the Xero
+  style tabs carry non-labour to date as its own line chart; two charts
+  in the four by two grids sit at 11.5 cm; labour by platform is mostly
+  Not yet mapped until the bridge is typed.
