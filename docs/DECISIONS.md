@@ -4069,3 +4069,26 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   workbook's own, without "($m)". Fix messages sent to the five
   designers in parallel; re-render; then the ten pages to Lee with the
   question each answers.
+
+## D218 - 04/09: round two pack sent, five lenses, twenty two pages; awaiting his pick
+
+- After the fix round every lens re-rendered clean (Fable's review notes
+  scratchpad hotbudget/mock6/fable_review_notes.md). Sent as 22 PNGs.
+  Judge's ranking for usefulness to a head of technology: D what can
+  move, B who pays and who should own it, C run against change, E the
+  FY27 budget, A where the money goes; rule compliance C, A, E, D, B
+  before the fix round, all corrected after it.
+- Facts the lenses surfaced, worth Lee's eye: Ampol Retail's whole
+  no-platform 13,689,333 sits in one cost centre, APPLMARKETING, which
+  books 41,624,347 and credits 27,935,014 back; filling the 36.5 FTE on
+  Hold adds 7,431,489 across TDD; 15 roles on the Offshore lever are
+  still priced at full onshore cost while five Ampol Retail roles are
+  priced at 30 percent, below the 40 percent rule; run is 68.0 percent
+  of run plus change across TDD (59.8 percent at Ampol Retail); the
+  head of technology at Ampol Retail owns 17,665,972 of a 31,355,306
+  FY27 budget, the business pays 13,689,333 direct; 117 of 346 names
+  are paid by more than one portfolio, 56,525,482.
+- Recommendation put to Lee: build the portfolio tab as B (who pays and
+  who owns) with D's lever block and E's budget by quarter beneath, and
+  the corporate tab as E with B's shared applications and D's bridge;
+  his pick rules.

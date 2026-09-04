@@ -319,3 +319,9 @@
   who should own it, C run against change, D what can move, E the FY27
   budget. Each lens = an Ampol Retail page and a corporate page on real
   numbers. Nothing built before his pick.
+- ROUND TWO SENT 04/09 (D218): 22 pages, five lenses judged and fixed;
+  judge's usefulness ranking D what can move, B who pays and who owns, C
+  run against change, E FY27 budget, A where the money goes.
+  Recommendation put: portfolio tab = B with D's lever block and E's
+  quarters beneath; corporate = E with B's shared applications and D's
+  bridge. AWAITING HIS PICK; nothing built.
