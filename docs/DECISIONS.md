@@ -4046,3 +4046,26 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   different questions answered, never one layout in five coats; brief
   designers on the question and the evidence, not the geometry; run
   the designers in parallel and judge them.
+
+## D217 - 04/09: the five lenses judged; one fix round each before Lee sees them
+
+- Judge (Sonnet, scratchpad hotbudget/mock6/judge_report.md): all five
+  tie to the totals; none could be mistaken for another; ranking for
+  usefulness to a head of technology D (what can move), B (who pays and
+  who owns), C (run against change), E (FY27 budget), A (where the money
+  goes). One three way duplicate chart (cost base by platform split by
+  payer in A, B and E): kept in B, replaced in A (platform by cost type)
+  and E (budget by quarter stacked by platform). Systemic defect on
+  every corporate "by portfolio" chart: label collisions and truncated
+  COE names; ruled: horizontal bars at least 16 cm tall, 8 point
+  labels, the 3 percent label rule, short COE names in full. B lacked
+  the labour band and the full corporate Summary table; E lacked the
+  corporate Summary table and mislabelled a pre overhead column; A
+  carried "Level 1 to 4" method language; C coined "Not in a squad"
+  (his words: Management and overheads TDD pays) and its run cost per
+  FTE reads high where the business pays direct (changed to run cost
+  paid by TDD per FTE); D's proposed tiles unlabelled and "estate" not
+  his word. Labour band headers standardised on the labour dashboard
+  workbook's own, without "($m)". Fix messages sent to the five
+  designers in parallel; re-render; then the ten pages to Lee with the
+  question each answers.
