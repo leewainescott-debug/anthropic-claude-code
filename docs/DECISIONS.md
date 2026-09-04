@@ -4188,3 +4188,13 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   "elevate the combined view" means to him (the labour and non-labour
   view together, more depth); to be asked when the tabs are approved,
   not now.
+- 04/09, version 5 QA on the first build (scratchpad hotbudget/cb5/
+  qa5_report.md): structure, words, faces read Data, recalc (220 of 244
+  tiles tie, the 24 TBC tiles aside), openability, raw tabs verbatim,
+  full recalc all PASS; FAIL on typed cells (the Still to map Platform
+  column empty; the Worklist read-back pointed at a blank column) and
+  on look (TDDLT ring broken on a negative; corporate lights on chart
+  crowded in the COE rows); the typed platform did not propagate
+  (Data!Grid platform static). All folded into fix round 1 as items 5
+  to 8; the builder proves the propagation on a copy before the full
+  build.
