@@ -4016,3 +4016,33 @@ v6 protection, v7 gate). Gate: 12 groups, 113 checks, green twice on the shipped
   style tabs carry non-labour to date as its own line chart; two charts
   in the four by two grids sit at 11.5 cm; labour by platform is mostly
   Not yet mapped until the bridge is typed.
+
+## D216 - 04/09: the ten mocks rejected as one layout in five coats; five lenses to five designers
+
+- Lee: "your options are just based on the exact screenshot of one of
+  the images - surely you're more creative than that? Actually think
+  through what I'm asking you to do. I thought we have a whole
+  workforce of agents? I'm unsure whether you're actually thinking."
+- Owned: the round one brief dictated five layouts of the same six
+  charts. Options must answer different questions with different
+  evidence, not rearrange the same charts.
+- Second round: five lenses, each to its own Opus designer in parallel,
+  each producing an Ampol Retail page and a TDD corporate page on real
+  numbers, then a judge agent scores them against his rules and for
+  genuine difference. Shared brief scratchpad hotbudget/mock6/
+  LENS_BRIEF.md. Lenses: A where the money goes (decomposition, heat
+  map, concentration, bridge); B who pays and who should own it (TDD
+  against BU, shared applications across portfolios, recharges,
+  unmapped, ownership decisions with a typed Owner column); C run
+  against change (lights on plus run cost types against initiatives,
+  sig items and change cost types; by platform, by month, per FTE;
+  the cost type split typed and marked proposed); D what can move
+  (levers, offshore scenario at 40 percent, hold roles, contingent and
+  professional services by vendor, vendor concentration, subscription
+  exposure, bridge to an FY27 scenario); E the FY27 budget (FY26 by
+  month carried into FY27 quarters, labour model on top, allocation
+  against cost base, own against recharged against BU paid).
+- Standing lesson for docs/LEE_STANDARDS.md: an option pack is a set of
+  different questions answered, never one layout in five coats; brief
+  designers on the question and the evidence, not the geometry; run
+  the designers in parallel and judge them.

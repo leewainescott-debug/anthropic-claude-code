@@ -150,3 +150,7 @@ the essentials:
   dashboard pattern.** Never a so-what sentence page, never an insight
   rail, never a story summary tab. The slide method belongs to slides.
   Re-learned 02/09 after repeating the 28/08 mistake.
+- Option packs (04/09): an option is a different question answered with
+  different evidence, never one layout in five coats. Brief designers on
+  the question and the data, not the geometry; run them in parallel;
+  judge for genuine difference before anything reaches Lee.

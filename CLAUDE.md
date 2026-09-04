@@ -311,3 +311,11 @@
   corporate options as screenshots on real numbers, playback and purpose
   statement, NOTHING BUILT before he picks. Mocks pipeline scratchpad
   hotbudget/mock5.
+- ROUND TWO 04/09 (D216): the ten mocks rejected as "the exact
+  screenshot of one of the images"; options must answer DIFFERENT
+  QUESTIONS with different evidence, never one layout in five coats.
+  Five lenses to five Opus designers in parallel plus a judge
+  (scratchpad hotbudget/mock6): A where the money goes, B who pays and
+  who should own it, C run against change, D what can move, E the FY27
+  budget. Each lens = an Ampol Retail page and a corporate page on real
+  numbers. Nothing built before his pick.
